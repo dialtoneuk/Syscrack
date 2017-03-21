@@ -1,0 +1,22 @@
+{
+    "filesystem_root": "{$_SERVER['DOCUMENT_ROOT']}",
+    "filesystem_seperator": "\/",
+    "developer_page": "developer",
+    "developer_disabled": false,
+    "user_default_group": "guest",
+    "user_allow_registrations": true,
+    "error_log_location": "conf\/errorlog.json",
+    "error_display_page": true,
+    "error_logging": true,
+    "ajax_use_get": false,
+    "logger_max_errors": "32",
+    "controller_url_length": 4048,
+    "controller_namespace": "Framework\\Views\\Pages\\",
+    "controller_index_root": "",
+    "controller_index_page": "index",
+    "controller_page_folder": "src\/Views\/Pages\/",
+    "database_driver": "mysql",
+    "database_charset": "utf8",
+    "database_collation": "utf8_unicode_ci",
+    "database_prefix": ""
+}
