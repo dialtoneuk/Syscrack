@@ -3,7 +3,7 @@ require_once 'vendor/autoload.php';
 
 /**
 
-    Framework 4 (v4.0.1 16/03/2017)
+    Framework 4 (v4.1.0 21/03/2017)
 
     - Written by Lewis Lancaster.
 
