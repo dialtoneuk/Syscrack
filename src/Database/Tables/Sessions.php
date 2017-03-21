@@ -86,6 +86,24 @@ class Sessions extends Table
 		$this->getTable()->where( $array )->delete();
 	}
 
+    /**
+     * Updates the session
+     *
+     * @param $sessionid
+     *
+     * @param $array
+     */
+
+	public function updateSession( $sessionid, $array )
+    {
+
+        $array = array(
+            'sessionid' => $sessionid
+        );
+
+        $this->getTable()->where( $array )->update( $array );
+    }
+
 	/**
 	 * Inserts the session
 	 *

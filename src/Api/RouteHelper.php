@@ -1,15 +1,15 @@
 <?php
-namespace Framework\Ajax;
+namespace Framework\Api;
 
 /**
  * Lewis Lancaster 2016
  *
  * Class RouteHelper
  *
- * @package Framework\Ajax
+ * @package Framework\Api
  */
 
-use Framework\Exceptions\AjaxException;
+use Framework\Exceptions\ApiException;
 
 class RouteHelper
 {
@@ -45,7 +45,7 @@ class RouteHelper
         if( isset( $this->routes[ $name ] ) )
         {
 
-            throw new AjaxException("Route already defined");
+            throw new ApiException("Route already defined");
         }
 
         $data = array(
@@ -56,7 +56,7 @@ class RouteHelper
         if( $this->checkSyntax( $data ) == false )
         {
 
-            throw new AjaxException("The data given is invalid, check parameters");
+            throw new ApiException("The data given is invalid, check parameters");
         }
 
         $this->routes[ $name ] = $data;
@@ -76,13 +76,13 @@ class RouteHelper
         if( isset( $this->routes[ $name ] ) == false )
         {
 
-            throw new AjaxException("Route is not defined");
+            throw new ApiException("Route is not defined");
         }
 
         if( $this->checkSyntax( $data ) == false )
         {
 
-            throw new AjaxException("The data given is invalid, check data");
+            throw new ApiException("The data given is invalid, check data");
         }
 
         $this->routes[ $name ] = $data;
@@ -100,7 +100,7 @@ class RouteHelper
         if( isset( $this->routes[ $name ] ) == false )
         {
 
-            throw new AjaxException("Route is not defined");
+            throw new ApiException("Route is not defined");
         }
 
         unset( $this->routes[ $name ] );

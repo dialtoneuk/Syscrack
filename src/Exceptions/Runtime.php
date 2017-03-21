@@ -34,12 +34,12 @@ class DatabaseException extends RuntimeException{};
 class ViewException extends RuntimeException{};
 
 /**
- * Class AjaxExeption
+ * Class ApiExeption
  *
  * @package Framework\Exceptions
  */
 
-class AjaxException extends RuntimeException
+class ApiException extends RuntimeException
 {
 
 	public function getArray()

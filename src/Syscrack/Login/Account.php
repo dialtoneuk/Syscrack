@@ -63,12 +63,6 @@ class Account
 
 		$userid = $this->user->findByUsername( $username );
 
-		if( empty( $userid ) )
-		{
-
-			throw new LoginException('Unknown error occured');
-		}
-
 		if( $this->checkPassword( $userid, $password, $this->user->getSalt( $userid ) ) == false )
 		{
 
@@ -83,6 +77,20 @@ class Account
 
 		return true;
 	}
+
+    /**
+     * Gets the users ID from their username
+     *
+     * @param $username
+     *
+     * @return mixed
+     */
+
+	public function getUserID( $username )
+    {
+
+        return $this->user->findByUsername( $username )['userid'];
+    }
 
 	/**
 	 * Checks to see if a password is valid

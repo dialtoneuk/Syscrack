@@ -1,15 +1,15 @@
 <?php
-namespace Framework\Ajax\Types;
+namespace Framework\Api\Types;
 
 /**
  * Lewis Lancaster 2016
  *
  * Class Success
  *
- * @package Framework\Ajax\Types
+ * @package Framework\Api\Types
  */
 
-use Framework\Ajax\Structures\Types;
+use Framework\Api\Structures\Types;
 
 class Success implements Types
 {

@@ -1,16 +1,16 @@
 <?php
-namespace Framework\Ajax;
+namespace Framework\Api;
 
 /**
  * Lewis Lancaster 2016
  *
  * Class Controller
  *
- * @package Framework\Ajax
+ * @package Framework\Api
  */
 
-use Framework\Ajax\Structures\Route;
-use Framework\Exceptions\AjaxException;
+use Framework\Api\Structures\Route;
+use Framework\Exceptions\ApiException;
 
 class Controller
 {
@@ -33,7 +33,7 @@ class Controller
         if( $this->classExists( $class ) === false )
         {
 
-            throw new AjaxException("Class does not exist");
+            throw new ApiException("Class does not exist");
         }
 
         $instance = $this->createClass( $class );
@@ -41,19 +41,19 @@ class Controller
         if( $instance instanceof Route === false )
         {
 
-            throw new AjaxException("Instance is not as expected");
+            throw new ApiException("Instance is not as expected");
         }
 
         if( $this->containsRoute( $instance, $route ) === false )
         {
 
-            throw new AjaxException("Method does not exist");
+            throw new ApiException("Method does not exist");
         }
 
         if( $this->compareData( $instance, $route, $data ) === false )
         {
 
-            throw new AjaxException("Data is incorrect");
+            throw new ApiException("Data is incorrect");
         }
 
         $data = $this->createData( $instance, $route, $data );
@@ -61,7 +61,7 @@ class Controller
         if( $this->compareAuthenticator( $instance, $data ) === false )
         {
 
-            throw new AjaxException("Authenticator failed test");
+            throw new ApiException("Authenticator failed test");
         }
 
         return $this->getResult( $instance, $route, $data );
@@ -87,7 +87,7 @@ class Controller
         if( $method === null )
         {
 
-            throw new AjaxException("Method returned null");
+            throw new ApiException("Method returned null");
         }
 
         return call_user_func_array( array( $instance, $method ), $data );
@@ -186,7 +186,7 @@ class Controller
             if( isset( $data[ $value ] ) == false )
             {
 
-                throw new AjaxException();
+                throw new ApiException();
             }
 
             $array[ $value ] = $data[ $value ];
@@ -340,7 +340,7 @@ class Controller
         if( empty( $array ) )
         {
 
-            throw new AjaxException();
+            throw new ApiException();
         }
 
         return $array[ $route ][ "requirements" ];
@@ -381,12 +381,12 @@ class Controller
     private function createClass( $class )
     {
 
-        $path = "Framework\\Ajax\\Routes\\{$class}";
+        $path = "Framework\\Api\\Routes\\{$class}";
 
         if( class_exists( $path ) === false )
         {
 
-            throw new AjaxException("Class does not exist");
+            throw new ApiException("Class does not exist");
         }
 
         return new $path;
@@ -403,12 +403,12 @@ class Controller
     private function classExists( $class )
     {
 
-        if( class_exists("Framework\\Ajax\\Routes\\{$class}") == false )
+        if( class_exists("Framework\\Api\\Routes\\{$class}") == false )
         {
 
             $class = ucfirst( $class );
 
-            if( class_exists("Framework\\Ajax\\Routes\\{$class}") == false )
+            if( class_exists("Framework\\Api\\Routes\\{$class}") == false )
             {
 
                 return false;

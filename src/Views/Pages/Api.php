@@ -4,18 +4,18 @@ namespace Framework\Views\Pages;
 /**
  * Lewis Lancaster 2016
  *
- * Class Ajax
+ * Class Api
  *
  * @package Framework\Views\Pages
  */
 
 use Framework\Application\Container;
 use Framework\Views\Structures\Page;
-use Framework\Ajax\Manager;
+use Framework\Api\Manager;
 use Exception;
 use Flight;
 
-class Ajax implements Page
+class Api implements Page
 {
 
     /**
@@ -25,7 +25,7 @@ class Ajax implements Page
     protected $manager;
 
     /**
-     * Ajax constructor.
+     * Api constructor.
      */
 
     public function __construct()
@@ -35,7 +35,7 @@ class Ajax implements Page
     }
 
     /**
-     * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+     * The mapping
      *
      * @return array
      */
@@ -45,7 +45,7 @@ class Ajax implements Page
 
         return array(
             [
-                '/ajax/@class/@method/', 'process'
+                '/api/@class/@method/', 'process'
             ]
         );
     }
@@ -57,7 +57,6 @@ class Ajax implements Page
     public function process( $class, $method )
     {
 
-        //Inits
         $this->manager->initialize();
 
         try

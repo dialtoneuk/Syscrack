@@ -61,7 +61,6 @@
                     <a href="/">
                         Return To Index
                     </a>
-                    /
                     <?php
                         if( $_GET )
                         {
@@ -73,6 +72,7 @@
                                 {
 
                                     ?>
+                                    /
                                     <a href="<?=$_GET['redirect']?>">
                                         Go Back
                                     </a>

@@ -1,12 +1,12 @@
 <?php
-namespace Framework\Ajax\Structures;
+namespace Framework\Api\Structures;
 
 /**
  * Lewis Lancaster 2016
  *
  * Interface Types
  *
- * @package Framework\Ajax\Structures
+ * @package Framework\Api\Structures
  */
 
 interface Types

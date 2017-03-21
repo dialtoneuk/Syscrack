@@ -1,16 +1,16 @@
 <?php
-namespace Framework\Ajax;
+namespace Framework\Api;
 
 /**
  * Lewis Lancaster 2016
  *
  * Class Manager
  *
- * @package Framework\Ajax
+ * @package Framework\Api
  */
 
 use Framework\Application\Settings;
-use Framework\Exceptions\AjaxException;
+use Framework\Exceptions\ApiException;
 use Flight;
 
 class Manager
@@ -52,7 +52,7 @@ class Manager
 
             $result = $this->controller->route($class, $method, $this->createData() );
         }
-        catch( AjaxException $error )
+        catch( ApiException $error )
         {
 
              Flight::json( $error->getArray(), 400 );
@@ -61,7 +61,7 @@ class Manager
         if( $result === null )
         {
 
-            throw new AjaxException("Result ended up being null");
+            throw new ApiException("Result ended up being null");
         }
 
         if( is_array( $result->getResult() ) == false )
@@ -116,7 +116,7 @@ class Manager
         if( empty( $data ) == true )
         {
 
-            if( Settings::getSetting('ajax_use_get') )
+            if( Settings::getSetting('api_use_get') )
             {
 
                 if( empty( $_GET ) )
