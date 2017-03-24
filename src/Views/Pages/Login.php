@@ -92,11 +92,21 @@ class Login implements Page
 
         $login = new Account();
 
-        if( $login->login( $username, $password ) == false )
+        try
         {
 
-            $this->redirectError('Information is incorrect');
+            if( $login->login( $username, $password ) == false )
+            {
+
+                $this->redirectError('Failed to login');
+            }
         }
+        catch( \Exception $error )
+        {
+
+            $this->redirectError( $error->getMessage() );
+        }
+
 
         Container::getObject('session')->insertSession( $login->getUserID( $username ) );
 

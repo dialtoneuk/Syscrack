@@ -146,10 +146,10 @@ class Verification
 	public function addRequest( $userid, $email )
 	{
 		
-		if( $this->isVerified( $userid ) == true )
+		if( $this->isVerified( $userid ) == false )
 		{
 			
-			throw new SyscrackException();
+			throw new SyscrackException('User is already has verification request');
 		}
 		
 		$token = $this->generateToken();
@@ -157,13 +157,13 @@ class Verification
 		if( empty( $token ) )
 		{
 
-			throw new SyscrackException();
+			throw new SyscrackException('Verification token is empty');
 		}
 
 		if( $this->isEmail( $email ) == false )
 		{
 
-			throw new SyscrackException();
+			throw new SyscrackException('Email does not exist');
 		}
 
 		$array = array(
@@ -173,12 +173,6 @@ class Verification
 		);
 
 		$this->database->insertRequest( $array );
-
-		if( $this->isVerified( $userid ) == true )
-		{
-
-			throw new SyscrackException();
-		}
 
 		return $token;
 	}

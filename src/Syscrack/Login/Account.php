@@ -61,7 +61,8 @@ class Account
 			throw new LoginException('Username does not exist');
 		}
 
-		$userid = (string)$this->user->findByUsername( $username );
+		$userid = $this->user->findByUsername( $username );
+
 
 		if( $this->checkPassword( $userid, $password, $this->user->getSalt( $userid ) ) == false )
 		{
@@ -115,7 +116,7 @@ class Account
 
 		$accountpassword = $this->user->getPassword( $userid );
 
-		if( Hashes::sha1( $password, $salt ) !== $accountpassword )
+		if( Hashes::sha1( $salt, $password ) !== $accountpassword )
 		{
 
 			return false;

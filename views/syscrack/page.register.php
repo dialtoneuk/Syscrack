@@ -20,6 +20,14 @@ if( $session->isLoggedIn() )
     ?>
     <body>
         <div class="container">
+
+            <?php
+
+                if( isset( $_GET['error'] ) )
+                    Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
+                elseif( isset( $_GET['success'] ) )
+                    Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
+            ?>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="page-header">

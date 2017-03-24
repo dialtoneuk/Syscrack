@@ -2,64 +2,64 @@
     {
         "message": "Application has begun loading",
         "type": "notice",
-        "time": 1490349663,
+        "time": 1490361621,
         "date": "24-03-17",
-        "microtime": 1490349663.845351
+        "microtime": 1490361621.767697
     },
     {
         "message": "Controller Ran",
         "type": "notice",
-        "time": 1490349663,
+        "time": 1490361621,
         "date": "24-03-17",
-        "microtime": 1490349663.849136
+        "microtime": 1490361621.7727
     },
     {
         "message": "Middleware Requested",
         "type": "notice",
-        "time": 1490349663,
+        "time": 1490361621,
         "date": "24-03-17",
-        "microtime": 1490349663.8497
+        "microtime": 1490361621.773595
     },
     {
         "message": "Database Connection Created",
         "type": "notice",
-        "time": 1490349663,
+        "time": 1490361621,
         "date": "24-03-17",
-        "microtime": 1490349663.857162
+        "microtime": 1490361621.783429
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1490349663,
+        "time": 1490361621,
         "date": "24-03-17",
-        "microtime": 1490349663.869894
+        "microtime": 1490361621.798356
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1490349663,
+        "time": 1490361621,
         "date": "24-03-17",
-        "microtime": 1490349663.870634
+        "microtime": 1490361621.799133
     },
     {
         "message": "Page Created",
         "type": "notice",
-        "time": 1490349663,
+        "time": 1490361621,
         "date": "24-03-17",
-        "microtime": 1490349663.87065
+        "microtime": 1490361621.799149
     },
     {
         "message": "Added application to global container",
         "type": "notice",
-        "time": 1490349663,
+        "time": 1490361621,
         "date": "24-03-17",
-        "microtime": 1490349663.870654
+        "microtime": 1490361621.799153
     },
     {
         "message": "Saving active log",
         "type": "notice",
-        "time": 1490349663,
+        "time": 1490361621,
         "date": "24-03-17",
-        "microtime": 1490349663.879769
+        "microtime": 1490361621.810286
     }
 ]

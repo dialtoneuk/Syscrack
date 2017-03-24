@@ -70,6 +70,18 @@ class Sessions extends Table
 		return ( $result->isEmpty() ) ? null : $result[0];
 	}
 
+    /**
+     * Returns all the sessions
+     *
+     * @return \Illuminate\Support\Collection
+     */
+
+	public function getAllSessions()
+    {
+
+        return $this->getTable()->get();
+    }
+
 	/**
 	 * Trashes a session
 	 *

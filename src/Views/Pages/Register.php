@@ -68,16 +68,16 @@ class Register implements Page
     public function process()
     {
 
-        if( Settings::getSetting('user_allow_registrations') )
-        {
-
-            $this->redirectError('Registration is currently disabled, sorry...');
-        }
-
         if( PostHelper::hasPostData() == false )
         {
 
             $this->redirectError('Blank Form');
+        }
+
+        if( Settings::getSetting('user_allow_registrations') == false )
+        {
+
+            $this->redirectError('Registration is currently disabled, sorry...');
         }
 
         if( PostHelper::checkForRequirements(['username','password','email']) == false )
@@ -102,12 +102,15 @@ class Register implements Page
             $this->redirectError('Your password is too small, it needs to be longer than ' . Settings::getSetting('registration_password_length') . ' characters');
         }
 
-        $result = @$register->register( $username, $password, $email );
-
-        if( $result == false )
+        try
         {
 
-            $this->redirectError('Either your Username is taken, or your email is already used');
+            $result = $register->register( $username, $password, $email );
+        }
+        catch( \Exception $error )
+        {
+
+            $this->redirectError( $error->getMessage() );
         }
 
         Flight::redirect('/verify/?token=' . $result );
@@ -122,6 +125,6 @@ class Register implements Page
     private function redirectError( $error )
     {
 
-        Flight::redirect('/login/?error=' . $error );
+        Flight::redirect('/register/?error=' . $error );
     }
 }

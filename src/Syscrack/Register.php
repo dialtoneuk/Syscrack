@@ -66,7 +66,7 @@ class Register
         if( empty( $data ) )
         {
 
-            throw new SyscrackException();
+            throw new SyscrackException('Failed to prepare array');
         }
 
         $userid = $this->database->insertUser( $data );
@@ -99,7 +99,7 @@ class Register
     public function isEmailUnused( $email )
     {
 
-        if( $this->database->getByEmail( $email ) != null )
+        if( $this->database->getByEmail( $email ) == null )
         {
 
             return false;
