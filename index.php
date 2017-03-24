@@ -40,6 +40,12 @@ Flight::after('start', function( &$params, &$output )
     }
 });
 
+Flight::before('route', function( &$params, &$output )
+{
+
+    Application\Utilities\Log::log('Adding route to Flight Framework');
+});
+
 try
 {
 

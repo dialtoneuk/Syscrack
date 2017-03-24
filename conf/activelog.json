@@ -2,50 +2,64 @@
     {
         "message": "Application has begun loading",
         "type": "notice",
-        "time": 1490348838,
+        "time": 1490349663,
         "date": "24-03-17",
-        "microtime": 1490348838.305324
+        "microtime": 1490349663.845351
     },
     {
         "message": "Controller Ran",
         "type": "notice",
-        "time": 1490348838,
+        "time": 1490349663,
         "date": "24-03-17",
-        "microtime": 1490348838.308704
+        "microtime": 1490349663.849136
     },
     {
         "message": "Middleware Requested",
         "type": "notice",
-        "time": 1490348838,
+        "time": 1490349663,
         "date": "24-03-17",
-        "microtime": 1490348838.309241
+        "microtime": 1490349663.8497
     },
     {
         "message": "Database Connection Created",
         "type": "notice",
-        "time": 1490348838,
+        "time": 1490349663,
         "date": "24-03-17",
-        "microtime": 1490348838.322031
+        "microtime": 1490349663.857162
+    },
+    {
+        "message": "Adding route to Flight Framework",
+        "type": "notice",
+        "time": 1490349663,
+        "date": "24-03-17",
+        "microtime": 1490349663.869894
+    },
+    {
+        "message": "Adding route to Flight Framework",
+        "type": "notice",
+        "time": 1490349663,
+        "date": "24-03-17",
+        "microtime": 1490349663.870634
     },
     {
         "message": "Page Created",
         "type": "notice",
-        "time": 1490348838,
+        "time": 1490349663,
         "date": "24-03-17",
-        "microtime": 1490348838.336826
+        "microtime": 1490349663.87065
     },
     {
         "message": "Added application to global container",
         "type": "notice",
-        "time": 1490348838,
+        "time": 1490349663,
         "date": "24-03-17",
-        "microtime": 1490348838.336832
+        "microtime": 1490349663.870654
     },
     {
         "message": "Saving active log",
         "type": "notice",
-        "time": 1490348838,
+        "time": 1490349663,
         "date": "24-03-17",
-        "microtime": 1490348838.345981
+        "microtime": 1490349663.879769
     }
 ]

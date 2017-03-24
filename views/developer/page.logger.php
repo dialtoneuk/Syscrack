@@ -163,7 +163,7 @@
                                 Refresh
                             </button>
                             <p class="small" style="padding-top: 2.5%;">
-                                Took <?=microtime( true ) - reset( $active_log )['microtime']; ?> seconds to complete from
+                                Took <?=end( $active_log )['microtime'] - $active_log[0]['microtime']; ?> seconds to complete from
                                 first log.
                             </p>
                             <?php

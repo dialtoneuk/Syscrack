@@ -9,7 +9,7 @@
     "error_display_page": true,
     "error_logging": true,
     "active_log_location": "conf\/activelog.json",
-    "active_log_enabled": false,
+    "active_log_enabled": true,
     "active_log_showdeveloper": false,
     "api_use_get": true,
     "api_default_method": "endpoint",
