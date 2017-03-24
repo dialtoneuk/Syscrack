@@ -76,6 +76,19 @@ class Verification
 		return $array;
 	}
 
+    /**
+     * Gets the users first token
+     *
+     * @param $userid
+     *
+     * @return mixed
+     */
+
+	public function getToken( $userid )
+    {
+
+        return reset( $this->database->getUserRequests( $userid ) )['token'];
+    }
 	/**
 	 * Resets the request
 	 *

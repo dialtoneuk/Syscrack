@@ -9,6 +9,8 @@
     "error_display_page": true,
     "error_logging": true,
     "api_use_get": true,
+    "api_default_method":"endpoint",
+    "api_method_length":32,
     "logger_max_errors": "32",
     "controller_url_length": 4048,
     "controller_namespace": "Framework\\Views\\Pages\\",
@@ -19,5 +21,7 @@
     "database_charset": "utf8",
     "database_collation": "utf8_unicode_ci",
     "database_prefix": "",
-    "session_update_lastaction": true
+    "session_update_lastaction": true,
+    "middlewares_enabled": true,
+    "registration_password_length":8
 }

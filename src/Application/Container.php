@@ -68,7 +68,7 @@ class Container
 	 *
 	 * @param $index
 	 *
-	 * @return Application|mixed|\stdClass
+	 * @return Application|mixed|\stdClass|Session
 	 */
 
 	public static function getObject( $index )

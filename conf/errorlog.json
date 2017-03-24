@@ -311,5 +311,89 @@
         },
         "timestamp": 1490138993,
         "ip": "192.168.1.69"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/api\/login\/account\/?username=Haskell&password=test",
+            "line": 117,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\PostHelper.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Pages\\Api.php(52): Framework\\Application\\Utilities\\PostHelper::checkForRequirements(Array)\n#1 C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php(65): Framework\\Views\\Pages\\Api->__construct()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(151): Framework\\Application\\Utilities\\Factory->createClass('Framework\\\\Views...')\n#3 C:\\xampp\\htdocs\\src\\Views\\Controller.php(91): Framework\\Views\\Controller->createPage('api')\n#4 C:\\xampp\\htdocs\\src\\Application.php(111): Framework\\Views\\Controller->run()\n#5 C:\\xampp\\htdocs\\index.php(31): Framework\\Application->runController()\n#6 {main}"
+        },
+        "timestamp": 1490311753,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/api\/login\/account\/?username=Haskell",
+            "line": 117,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\PostHelper.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Pages\\Api.php(52): Framework\\Application\\Utilities\\PostHelper::checkForRequirements(Array)\n#1 C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php(65): Framework\\Views\\Pages\\Api->__construct()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(151): Framework\\Application\\Utilities\\Factory->createClass('Framework\\\\Views...')\n#3 C:\\xampp\\htdocs\\src\\Views\\Controller.php(91): Framework\\Views\\Controller->createPage('api')\n#4 C:\\xampp\\htdocs\\src\\Application.php(111): Framework\\Views\\Controller->run()\n#5 C:\\xampp\\htdocs\\index.php(31): Framework\\Application->runController()\n#6 {main}"
+        },
+        "timestamp": 1490311775,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/developer\/pageviewer\/",
+            "line": 117,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\PostHelper.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Pages\\Api.php(52): Framework\\Application\\Utilities\\PostHelper::checkForRequirements(Array)\n#1 C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php(65): Framework\\Views\\Pages\\Api->__construct()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Utilities\\Factory->createClass('Framework\\\\Views...')\n#3 C:\\xampp\\htdocs\\views\\developer\\page.pageviewer.php(121): Framework\\Views\\Controller->getPageClass('Api')\n#4 C:\\xampp\\htdocs\\views\\developer\\page.pageviewer.php(52): PageViewer->getMapping('Api')\n#5 C:\\xampp\\htdocs\\views\\developer\\page.pageviewer.php(194): PageViewer->getPages()\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\template\\View.php(125): include('C:\\\\xampp\\\\htdocs...')\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(444): flight\\template\\View->render('developer\/page....', NULL)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): flight\\Engine->_render('developer\/page....')\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(64): flight\\core\\Dispatcher->run('render', Array)\n#12 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): flight\\Engine->__call('render', Array)\n#13 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(76): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#14 C:\\xampp\\htdocs\\src\\Views\\Pages\\Developer.php(170): Flight::__callStatic('render', Array)\n#15 C:\\xampp\\htdocs\\src\\Views\\Pages\\Developer.php(96): Framework\\Views\\Pages\\Developer->renderPageFile('page.pageviewer')\n#16 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): Framework\\Views\\Pages\\Developer->pageViewer()\n#17 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#18 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(311): flight\\core\\Dispatcher::execute(Array, Array)\n#19 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#20 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#21 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#22 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(64): flight\\core\\Dispatcher->run('start', Array)\n#23 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#24 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(76): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#25 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#26 C:\\xampp\\htdocs\\index.php(45): Framework\\Application->runFlight()\n#27 {main}"
+        },
+        "timestamp": 1490311916,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/login\/",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\views\\syscrack\\page.login.php(3): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\template\\View.php(125): include('C:\\\\xampp\\\\htdocs...')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(444): flight\\template\\View->render('syscrack\/page.l...', NULL)\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): flight\\Engine->_render('syscrack\/page.l...')\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(64): flight\\core\\Dispatcher->run('render', Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): flight\\Engine->__call('render', Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(76): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 C:\\xampp\\htdocs\\src\\Views\\Pages\\Login.php(41): Flight::__callStatic('render', Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): Framework\\Views\\Pages\\Login->page()\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#12 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(311): flight\\core\\Dispatcher::execute(Array, Array)\n#13 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#14 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#15 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#16 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(64): flight\\core\\Dispatcher->run('start', Array)\n#17 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#18 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(76): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#19 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#20 C:\\xampp\\htdocs\\index.php(45): Framework\\Application->runFlight()\n#21 {main}"
+        },
+        "timestamp": 1490337429,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ip' in 'field list' (SQL: insert into `Sessions` (`sessionid`, `userid`, `useragent`, `ip`, `lastaction`) values (rlkt1oc51iee7va2mkdrs4kako, , Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/56.0.2924.87 Safari\/537.36, 192.168.1.187, 1490338355.276))",
+        "type": "error",
+        "details": {
+            "url": "\/login\/",
+            "line": 713,
+            "file": "C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php",
+            "trace": "#0 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(669): Illuminate\\Database\\Connection->runQueryCallback('insert into `Se...', Array, Object(Closure))\n#1 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(442): Illuminate\\Database\\Connection->run('insert into `Se...', Array, Object(Closure))\n#2 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(398): Illuminate\\Database\\Connection->statement('insert into `Se...', Array)\n#3 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Query\\Builder.php(2039): Illuminate\\Database\\Connection->insert('insert into `Se...', Array)\n#4 C:\\xampp\\htdocs\\src\\Database\\Tables\\Sessions.php(116): Illuminate\\Database\\Query\\Builder->insert(Array)\n#5 C:\\xampp\\htdocs\\src\\Application\\Session.php(137): Framework\\Database\\Tables\\Sessions->insertSession(Array)\n#6 C:\\xampp\\htdocs\\src\\Views\\Pages\\Login.php(98): Framework\\Application\\Session->insertSession(NULL)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): Framework\\Views\\Pages\\Login->process()\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(311): flight\\core\\Dispatcher::execute(Array, Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#12 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#13 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(64): flight\\core\\Dispatcher->run('start', Array)\n#14 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#15 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(76): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#16 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#17 C:\\xampp\\htdocs\\index.php(45): Framework\\Application->runFlight()\n#18 {main}"
+        },
+        "timestamp": 1490338355,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'userid' cannot be null (SQL: insert into `Sessions` (`sessionid`, `userid`, `useragent`, `ipaddress`, `lastaction`) values (rlkt1oc51iee7va2mkdrs4kako, , Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/56.0.2924.87 Safari\/537.36, 192.168.1.187, 1490338423.6953))",
+        "type": "error",
+        "details": {
+            "url": "\/login\/",
+            "line": 713,
+            "file": "C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php",
+            "trace": "#0 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(669): Illuminate\\Database\\Connection->runQueryCallback('insert into `Se...', Array, Object(Closure))\n#1 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(442): Illuminate\\Database\\Connection->run('insert into `Se...', Array, Object(Closure))\n#2 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(398): Illuminate\\Database\\Connection->statement('insert into `Se...', Array)\n#3 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Query\\Builder.php(2039): Illuminate\\Database\\Connection->insert('insert into `Se...', Array)\n#4 C:\\xampp\\htdocs\\src\\Database\\Tables\\Sessions.php(116): Illuminate\\Database\\Query\\Builder->insert(Array)\n#5 C:\\xampp\\htdocs\\src\\Application\\Session.php(137): Framework\\Database\\Tables\\Sessions->insertSession(Array)\n#6 C:\\xampp\\htdocs\\src\\Views\\Pages\\Login.php(98): Framework\\Application\\Session->insertSession(NULL)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): Framework\\Views\\Pages\\Login->process()\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(311): flight\\core\\Dispatcher::execute(Array, Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#12 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#13 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(64): flight\\core\\Dispatcher->run('start', Array)\n#14 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#15 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(76): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#16 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#17 C:\\xampp\\htdocs\\index.php(45): Framework\\Application->runFlight()\n#18 {main}"
+        },
+        "timestamp": 1490338423,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'userid' cannot be null (SQL: insert into `Sessions` (`sessionid`, `userid`, `useragent`, `ipaddress`, `lastaction`) values (rlkt1oc51iee7va2mkdrs4kako, , Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/56.0.2924.87 Safari\/537.36, 192.168.1.187, 1490338757.8607))",
+        "type": "error",
+        "details": {
+            "url": "\/login\/",
+            "line": 713,
+            "file": "C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php",
+            "trace": "#0 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(669): Illuminate\\Database\\Connection->runQueryCallback('insert into `Se...', Array, Object(Closure))\n#1 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(442): Illuminate\\Database\\Connection->run('insert into `Se...', Array, Object(Closure))\n#2 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(398): Illuminate\\Database\\Connection->statement('insert into `Se...', Array)\n#3 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Query\\Builder.php(2039): Illuminate\\Database\\Connection->insert('insert into `Se...', Array)\n#4 C:\\xampp\\htdocs\\src\\Database\\Tables\\Sessions.php(116): Illuminate\\Database\\Query\\Builder->insert(Array)\n#5 C:\\xampp\\htdocs\\src\\Application\\Session.php(137): Framework\\Database\\Tables\\Sessions->insertSession(Array)\n#6 C:\\xampp\\htdocs\\src\\Views\\Pages\\Login.php(98): Framework\\Application\\Session->insertSession(NULL)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): Framework\\Views\\Pages\\Login->process()\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(311): flight\\core\\Dispatcher::execute(Array, Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#12 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#13 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(64): flight\\core\\Dispatcher->run('start', Array)\n#14 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#15 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(76): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#16 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#17 C:\\xampp\\htdocs\\index.php(45): Framework\\Application->runFlight()\n#18 {main}"
+        },
+        "timestamp": 1490338757,
+        "ip": "192.168.1.187"
     }
 ]

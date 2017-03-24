@@ -118,7 +118,7 @@ class User
 	 *
 	 * @param $userid
 	 *
-	 * @return \___PHPSTORM_HELPERS\static
+	 * @return string
 	 */
 
 	public function getUsername( $userid )

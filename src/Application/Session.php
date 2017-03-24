@@ -28,13 +28,6 @@ class Session
     {
 
         $this->database = new Database();
-
-        if( $this->isLoggedIn() )
-        {
-
-            if( Settings::getSetting('session_update_lastaction') )
-                $this->updateLastAction();
-        }
     }
 
     /**
@@ -62,7 +55,7 @@ class Session
     /**
      * Gets the session user
      *
-     * @return mixed
+     * @return string
      */
 
     public function getSessionUser()
@@ -80,7 +73,7 @@ class Session
     public function getSessionAddress()
     {
 
-        return $this->getDatabaseSession()['ip'];
+        return $this->getDatabaseSession()['ipaddress'];
     }
 
     /**
@@ -108,6 +101,16 @@ class Session
     }
 
     /**
+     * Cleans up a users sessions
+     */
+
+    public function cleanupSession( $userid )
+    {
+
+        $this->database->trashUserSessions( $userid );
+    }
+
+    /**
      * Inserts a new session into the database
      *
      * @param $userid
@@ -120,7 +123,7 @@ class Session
             'sessionid'     => session_id(),
             'userid'        => $userid,
             'useragent'     => $_SERVER['HTTP_USER_AGENT'],
-            'ip'            => gethostbyname( gethostname() ),
+            'ipaddress'     => gethostbyname( gethostname() ),
             'lastaction'    => microtime( true )
         );
 

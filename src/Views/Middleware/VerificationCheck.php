@@ -11,7 +11,7 @@ namespace Framework\Views\Middleware;
 
 use Framework\Views\Structures\Middleware;
 use Framework\Syscrack\Verification;
-use Framework\Session\Capsule as Session;
+use Framework\Application\Session;
 use Flight;
 
 class VerificationCheck implements Middleware
@@ -50,15 +50,13 @@ class VerificationCheck implements Middleware
     public function onRequest()
     {
 
-        if( $this->session->isValid() == false )
+        if( $this->session->isLoggedIn() == false )
         {
 
-            //We return true because the session is invalid and there for this is a 'guest user'. So we simply let the
-            //user past.
             return true;
         }
 
-        $userid = $this->session->getSessionOwner();
+        $userid = $this->session->getSessionUser();
 
         if( $this->verification->isVerified( $userid ) == false )
         {

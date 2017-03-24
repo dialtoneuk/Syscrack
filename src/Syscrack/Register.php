@@ -35,7 +35,7 @@ class Register
     }
 
     /**
-     * Registers a new user
+     * Registers a new user and returns a verification token
      *
      * @param $username
      *
@@ -43,7 +43,7 @@ class Register
      *
      * @param $email
      *
-     * @return int
+     * @return mixed
      */
 
     public function register( $username, $password, $email )
@@ -69,7 +69,23 @@ class Register
             throw new SyscrackException();
         }
 
-        return $this->database->insertUser( $data );
+        $userid = $this->database->insertUser( $data );
+
+        if( empty( $userid ) )
+        {
+
+            throw new SyscrackException('Internal error');
+        }
+
+        $verification = new Verification();
+
+        if( $verification->hasVerificationRequest( $userid ) )
+        {
+
+            return $verification->getToken( $userid );
+        }
+
+        return $verification->addRequest( $userid, $email );
     }
 
     /**
@@ -142,7 +158,7 @@ class Register
             'email'     => $email,
             'password'  => $password,
             'salt'      => $salt,
-            'group'     => Settings::getSetting('default_group')
+            'group'     => Settings::getSetting('user_default_group')
         );
 
         return $array;

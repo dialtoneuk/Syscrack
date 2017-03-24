@@ -2,17 +2,19 @@
 namespace Framework\Views\Pages;
 
 /**
- * Lewis Lancaster 2016
+ * Lewis Lancaster 2017
  *
  * Class Api
  *
  * @package Framework\Views\Pages
  */
 
-use Framework\Application\Container;
+use Framework\Application\Api\Controller;
+use Framework\Application\Api\Manager;
+use Framework\Application\Settings;
+use Framework\Application\Utilities\PostHelper;
+use Framework\Exceptions\ViewException;
 use Framework\Views\Structures\Page;
-use Framework\Api\Manager;
-use Exception;
 use Flight;
 
 class Api implements Page
@@ -25,6 +27,18 @@ class Api implements Page
     protected $manager;
 
     /**
+     * @var Controller
+     */
+
+    protected $controller;
+
+    /**
+     * @var mixed|string
+     */
+
+    public $apikey = "";
+
+    /**
      * Api constructor.
      */
 
@@ -32,10 +46,29 @@ class Api implements Page
     {
 
         $this->manager = new Manager();
+
+        $this->controller = new Controller();
+
+        if( PostHelper::checkForRequirements( ['apikey'] ) == false )
+        {
+
+            Flight::notFound();
+        }
+        else
+        {
+
+            $this->apikey = PostHelper::getPostData('apikey');
+
+            if( $this->manager->hasApiKey( $this->apikey ) == false )
+            {
+
+                Flight::redirect('/', 401);
+            }
+        }
     }
 
     /**
-     * The mapping
+     * The views mapping
      *
      * @return array
      */
@@ -45,38 +78,57 @@ class Api implements Page
 
         return array(
             [
-                '/api/@class/@method/', 'process'
+                '/api/@endpoint/(@method)/', 'process'
             ]
         );
     }
 
     /**
-     * Default page
+     * Processes the API request
+     *
+     * @param $endpoint
+     *
+     * @param null $method
      */
 
-    public function process( $class, $method )
+    public function process( $endpoint, $method=null )
     {
 
-        $this->manager->initialize();
+        $result = null;
 
         try
         {
 
-            $this->manager->processRequest( $class, $method );
+            if( $method == null )
+            {
+
+                $result = $this->controller->processEndpoint( $endpoint, Settings::getSetting('api_default_method') );
+            }
+            else
+            {
+
+                $result = $this->controller->processEndpoint( $endpoint, $method );
+            }
         }
-        catch( Exception $error )
+        catch( \Exception $error )
         {
 
-            Container::getObject('application')->getErrorHandler()->handleError( $error );
-
-            Flight::json([
+            Flight::json(array(
                 'error' => true,
-                'stack' => [
-                    'message'   => $error->getMessage(),
-                    'file'      => $error->getFile(),
-                    'line'      => $error->getLine()
+                'info' => [
+                    'message' => $error->getMessage(),
+                    'line'  => $error->getLine(),
+                    'file'  => $error->getFile()
                 ]
-            ]);
+            ));
         }
+
+        if( is_array( $result ) == false )
+        {
+
+            throw new ViewException();
+        }
+
+        Flight::json( $result );
     }
 }

@@ -41,7 +41,18 @@ class Controller
             throw new ViewException('URL has exceeded the maximum length');
         }
 
-        $page = $this->getPage( $url )[0];
+        $page = $this->getPage( $url );
+
+        if( empty( $page ) )
+        {
+
+            $page = Settings::getSetting('controller_index_page');
+        }
+        else
+        {
+
+            $page = $page[0];
+        }
 
         if( $this->isIndex( $page ))
         {
@@ -65,6 +76,16 @@ class Controller
         {
 
             $page = $this->removeURLKey( $page );
+        }
+
+        if( $this->middlewares->hasMiddlewares() )
+        {
+
+            if( Settings::getSetting('middlewares_enabled') )
+            {
+
+                $this->middlewares->processMiddlewares();
+            }
         }
 
         $this->createPage( $page );

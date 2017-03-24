@@ -89,7 +89,7 @@ class Account
 	public function getUserID( $username )
     {
 
-        return $this->user->findByUsername( $username )['userid'];
+        return $this->user->findByUsername( $username );
     }
 
 	/**
