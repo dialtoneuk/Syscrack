@@ -4,14 +4,14 @@ namespace Framework\Syscrack\Game\Softwares;
 /**
  * Lewis Lancaster 2017
  *
- * Class Cracker
+ * Class Nmap
  *
  * @package Framework\Syscrack\Game\Softwares
  */
 
 use Framework\Syscrack\Game\Structures\Software;
 
-class Firewall implements Software
+class Nmap implements Software
 {
 
     /**
@@ -24,9 +24,9 @@ class Firewall implements Software
     {
 
         return array(
-            'uniquename'    => 'firewall',
-            'extension'     => '.fwall',
-            'type'          => 'firewall',
+            'uniquename'    => 'nmap',
+            'extension'     => '.nmap',
+            'type'          => 'tool',
             'installable'   => true
         );
     }

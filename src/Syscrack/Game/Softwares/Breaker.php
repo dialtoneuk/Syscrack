@@ -4,14 +4,14 @@ namespace Framework\Syscrack\Game\Softwares;
 /**
  * Lewis Lancaster 2017
  *
- * Class Cracker
+ * Class Breaker
  *
  * @package Framework\Syscrack\Game\Softwares
  */
 
 use Framework\Syscrack\Game\Structures\Software;
 
-class Firewall implements Software
+class Breaker implements Software
 {
 
     /**
@@ -24,10 +24,10 @@ class Firewall implements Software
     {
 
         return array(
-            'uniquename'    => 'firewall',
-            'extension'     => '.fwall',
-            'type'          => 'firewall',
-            'installable'   => true
+            'uniquename'    => 'breaker',
+            'extension'     => '.brk',
+            'type'          => 'breaker',
+            'installable'   => false
         );
     }
 

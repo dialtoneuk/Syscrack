@@ -26,7 +26,8 @@ class Hasher implements Software
         return array(
             'uniquename'    => 'hasher',
             'extension'     => '.hash',
-            'type'          => 'hasher'
+            'type'          => 'hasher',
+            'installable'   => true
         );
     }
 
@@ -42,7 +43,7 @@ class Hasher implements Software
         //What to do when the virus is installed
     }
 
-    public function onCollect($softwareid, $userid, $computerid)
+    public function onCollect( $softwareid, $userid, $computeri, $timeran )
     {
 
         // TODO: Implement onCollect() method.

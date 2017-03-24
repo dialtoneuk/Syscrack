@@ -4,14 +4,14 @@ namespace Framework\Syscrack\Game\Softwares;
 /**
  * Lewis Lancaster 2017
  *
- * Class Cracker
+ * Class Honeypot
  *
  * @package Framework\Syscrack\Game\Softwares
  */
 
 use Framework\Syscrack\Game\Structures\Software;
 
-class Firewall implements Software
+class Honeypot implements Software
 {
 
     /**
@@ -24,10 +24,10 @@ class Firewall implements Software
     {
 
         return array(
-            'uniquename'    => 'firewall',
-            'extension'     => '.fwall',
-            'type'          => 'firewall',
-            'installable'   => true
+            'uniquename'    => 'honeypot',
+            'extension'     => '.honeypot',
+            'type'          => 'honeypot',
+            'installable'   => false
         );
     }
 

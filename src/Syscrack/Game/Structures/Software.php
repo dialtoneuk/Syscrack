@@ -57,10 +57,12 @@ interface Software
      *
      * @param $computerid
      *
+     * @param $timeran
+     *
      * @return mixed
      */
 
-    public function onCollect( $softwareid, $userid, $computerid );
+    public function onCollect( $softwareid, $userid, $computerid, $timeran );
 
     /**
      * Gets the default size in megabytes of the software

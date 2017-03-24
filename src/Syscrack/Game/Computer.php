@@ -9,6 +9,7 @@ namespace Framework\Syscrack\Game;
  * @package Framework\Syscrack\Game
  */
 
+use Framework\Application\Settings;
 use Framework\Database\Tables\Computers;
 
 class Computer
@@ -118,5 +119,79 @@ class Computer
     {
 
         return $this->database->getComputersByUser( $userid );
+    }
+
+    /**
+     * Gets the computers type
+     *
+     * @param $computerid
+     *
+     * @return mixed
+     */
+
+    public function getComputerType( $computerid )
+    {
+
+        return $this->database->getComputer( $computerid )->type;
+    }
+
+    /**
+     * Returns true if the computer is a bank
+     *
+     * @param $computerid
+     *
+     * @return bool
+     */
+
+    public function isBank( $computerid )
+    {
+
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_bank_type') )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if the computer is an NPCs
+     *
+     * @param $computerid
+     *
+     * @return bool
+     */
+
+    public function isNPC( $computerid )
+    {
+
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_npc_type') )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if the computer is a VPC
+     *
+     * @param $computerid
+     *
+     * @return bool
+     */
+
+    public function isVPC( $computerid )
+    {
+
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_vpc_type') )
+        {
+
+            return false;
+        }
+
+        return true;
     }
 }

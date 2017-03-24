@@ -4,14 +4,14 @@ namespace Framework\Syscrack\Game\Softwares;
 /**
  * Lewis Lancaster 2017
  *
- * Class Cracker
+ * Class VDDoS
  *
  * @package Framework\Syscrack\Game\Softwares
  */
 
 use Framework\Syscrack\Game\Structures\Software;
 
-class Firewall implements Software
+class VDDoS implements Software
 {
 
     /**
@@ -24,10 +24,10 @@ class Firewall implements Software
     {
 
         return array(
-            'uniquename'    => 'firewall',
-            'extension'     => '.fwall',
-            'type'          => 'firewall',
-            'installable'   => true
+            'uniquename'    => 'vddos',
+            'extension'     => '.vddos',
+            'type'          => 'ddos',
+            'installable'   => false
         );
     }
 
@@ -37,20 +37,34 @@ class Firewall implements Software
         //What to do when a virus 'is executed'
     }
 
-    public function onInstalled( $softwareid, $userid, $computerid )
+    public function onInstalled( $software, $userid, $computerid )
     {
 
         //What to do when the virus is installed
     }
 
-    public function onCollect( $softwareid, $userid, $computerid, $timeran )
+    /**
+     * Only executed if the type is a virus.
+     *
+     * @param $softwareid
+     *
+     * @param $userid
+     *
+     * @param $computerid
+     *
+     * @param $timeran
+     *
+     * @return mixed
+     */
+
+    public function onCollect($softwareid, $userid, $computerid, $timeran)
     {
 
-        // TODO: Implement onCollect() method.
+        return $timeran;
     }
 
     /**
-     * Default size of 10.0
+     * Default size of 16.0
      *
      * @return float
      */
@@ -58,11 +72,11 @@ class Firewall implements Software
     public function getDefaultSize()
     {
 
-        return 10.0;
+        return 16.0;
     }
 
     /**
-     * Default level of 1.0
+     * Default level of 2.2
      *
      * @return float
      */
@@ -70,6 +84,6 @@ class Firewall implements Software
     public function getDefaultLevel()
     {
 
-        return 1.0;
+        return 2.2;
     }
 }

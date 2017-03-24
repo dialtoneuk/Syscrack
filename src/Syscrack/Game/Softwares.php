@@ -205,18 +205,6 @@ class Softwares
     }
 
     /**
-     * Gets the softwares name
-     *
-     * @param $software
-     */
-
-    public function getSoftwareName( $software )
-    {
-
-        return $this->getSoftwareClass( $software )->configuration()['name'];
-    }
-
-    /**
      * Gets the software extension
      *
      * @param $software
@@ -240,6 +228,20 @@ class Softwares
     {
 
         return $this->getSoftwareClass( $software )->configuration()['unqiuename'];
+    }
+
+    /**
+     * Returns wether the software is installable or not
+     *
+     * @param $software
+     *
+     * @return mixed
+     */
+
+    public function getSoftwareInstallable( $software )
+    {
+
+        return $this->getSoftwareClass( $software )->configuration()['installable'];
     }
 
     /**

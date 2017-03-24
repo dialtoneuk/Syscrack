@@ -26,7 +26,8 @@ class VSpam implements Software
         return array(
             'uniquename'    => 'vspam',
             'extension'     => '.vspam',
-            'type'          => 'virus'
+            'type'          => 'virus',
+            'installable'   => true
         );
     }
 
@@ -42,7 +43,7 @@ class VSpam implements Software
         //What to do when the virus is installed
     }
 
-    public function onCollect($softwareid, $userid, $computerid)
+    public function onCollect($softwareid, $userid, $computerid, $timeran)
     {
 
         // TODO: Implement onCollect() method.

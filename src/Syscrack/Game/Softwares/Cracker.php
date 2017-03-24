@@ -26,7 +26,8 @@ class Cracker implements Software
         return array(
             'uniquename'    => 'cracker',
             'extension'     => '.crc',
-            'type'          => 'cracker'
+            'type'          => 'cracker',
+            'installable'   => true
         );
     }
 
@@ -42,7 +43,7 @@ class Cracker implements Software
         //What to do when the virus is installed
     }
 
-    public function onCollect($softwareid, $userid, $computerid)
+    public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
         // TODO: Implement onCollect() method.
