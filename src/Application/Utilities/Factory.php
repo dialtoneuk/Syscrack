@@ -10,6 +10,7 @@ namespace Framework\Application\Utilities;
  */
 
 use Framework\Exceptions\ViewException;
+use Framework\Syscrack\Game\Structures\Software;
 use ReflectionClass;
 
 class Factory
@@ -95,6 +96,26 @@ class Factory
         return false;
     }
 
+    /**
+     * Returns true if the factory has this kind of class
+     *
+     * @param $name
+     *
+     * @return bool
+     */
+
+    public function hasClass( $name )
+    {
+
+        if( $this->findClass( $name ) == null )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
 	/**
 	 * Finds a class by its name
 	 *
@@ -117,7 +138,7 @@ class Factory
 				throw new ViewException();
 			}
 			
-			if( $reflection->getShortName() == $name )
+			if( strtolower( $reflection->getShortName() ) == strtolower( $name ) )
 			{
 				
 				return $class;
@@ -126,6 +147,18 @@ class Factory
 		
 		return null;
 	}
+
+    /**
+     * Gets all of the classes
+     *
+     * @return array|\stdClass|Software
+     */
+
+	public function getAllClasses()
+    {
+
+        return $this->classes;
+    }
 
 	/**
 	 * Returns the path of this class
