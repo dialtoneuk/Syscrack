@@ -31,7 +31,7 @@ class Verifications extends Table
 
 		$result = $this->getTable()->where( $array )->get();
 
-		return ( empty( $result ) ) ? null : reset( $result );
+		return ( $result->isEmpty() ) ? null : $result[0];
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Verifications extends Table
 
 		$result = $this->getTable()->where( $array )->get();
 
-		return ( empty( $result ) ) ? null : reset( $result );
+		return ( $result->isEmpty() ) ? null : $result[0];
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Verifications extends Table
 
 		$result = $this->getTable()->where( $array )->get();
 
-		return ( empty( $result ) ) ? null : $result;
+		return ( $result->isEmpty() ) ? null : $result;
 	}
 
 	/**

@@ -31,7 +31,7 @@ class Sessions extends Table
 
 		$result = $this->getTable()->where( $array )->get();
 
-		return ( empty( $result ) ) ? null : reset( $result );
+		return ( $result->isEmpty() ) ? null : $result[0];
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Sessions extends Table
 	 *
 	 * @param $useragent
 	 *
-	 * @return array|null|static[]
+	 * @return array|null|\stdclass
 	 */
 
 	public function getByUserAgent( $useragent )
@@ -67,7 +67,7 @@ class Sessions extends Table
 
 		$result = $this->getTable()->where( $array )->get();
 
-		return ( empty( $result ) ) ? null : $result;
+		return ( $result->isEmpty() ) ? null : $result[0];
 	}
 
 	/**
@@ -94,14 +94,14 @@ class Sessions extends Table
      * @param $array
      */
 
-	public function updateSession( $sessionid, $array )
+	public function updateSession( $sessionid, $values )
     {
 
         $array = array(
             'sessionid' => $sessionid
         );
 
-        $this->getTable()->where( $array )->update( $array );
+        $this->getTable()->where( $array )->update( $values );
     }
 
 	/**

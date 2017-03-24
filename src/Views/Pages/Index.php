@@ -11,6 +11,7 @@ namespace Framework\Views\Pages;
 
 use Framework\Application\Container;
 use Framework\Application\Session;
+use Framework\Application\Utilities\Log;
 use Framework\Exceptions\ViewException;
 use Framework\Views\Structures\Page;
 use Flight;

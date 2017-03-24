@@ -90,7 +90,7 @@ class User
 			throw new SyscrackException();
 		}
 
-		return $result['userid'];
+		return $result->userid;
 	}
 
 	/**
@@ -98,7 +98,7 @@ class User
 	 *
 	 * @param $userid
 	 *
-	 * @return array|null|static[]
+	 * @return array|null|\stdClass
 	 */
 
 	public function getUser( $userid )
@@ -130,7 +130,7 @@ class User
 			throw new SyscrackException();
 		}
 
-		return $this->getUser( $userid )['username'];
+		return $this->getUser( $userid )->username;
 	}
 
 	/**
@@ -150,7 +150,7 @@ class User
 			throw new SyscrackException();
 		}
 
-		return $this->getUser( $userid )['password'];
+		return $this->getUser( $userid )->password;
 	}
 
 	/**
@@ -170,7 +170,7 @@ class User
 			throw new SyscrackException();
 		}
 
-		return $this->getUser( $userid )['email'];
+		return $this->getUser( $userid )->email;
 	}
 
 	/**
@@ -190,7 +190,7 @@ class User
 			throw new SyscrackException();
 		}
 
-		return $this->getUser( $userid )['salt'];
+		return $this->getUser( $userid )->salt;
 	}
 
 	/**
@@ -288,7 +288,7 @@ class User
 			throw new SyscrackException();
 		}
 
-		if( $this->getUser( $userid )['group'] != 'admin' )
+		if( $this->getUser( $userid )->group == 'admin' )
 		{
 
 			return false;

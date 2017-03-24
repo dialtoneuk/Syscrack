@@ -56,7 +56,7 @@ class Verification
 		if( $single == true )
 		{
 
-			return reset( $emails )['email'];
+			return $emails[0]->email;
 		}
 
 		$array = array();
@@ -64,7 +64,7 @@ class Verification
 		foreach( $emails as $email )
 		{
 
-			$array[] = $email['email'];
+			$array[] = $email->email;
 		}
 
 		if( empty( $array ) )
@@ -87,7 +87,7 @@ class Verification
 	public function getToken( $userid )
     {
 
-        return reset( $this->database->getUserRequests( $userid ) )['token'];
+        return $this->database->getUserRequests( $userid )[0]->token;
     }
 	/**
 	 * Resets the request
@@ -200,7 +200,7 @@ class Verification
 			throw new SyscrackException();
 		}
 
-		$userid = $this->database->getToken( $token )['userid'];
+		$userid = $this->database->getToken( $token )->userid;
 		
 		if( $this->isVerified( $userid ) == true )
 		{

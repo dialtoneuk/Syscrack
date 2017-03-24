@@ -9,6 +9,7 @@ namespace Framework\Views\Middleware;
  * @package Framework\Views\Middleware
  */
 
+use Framework\Application\Utilities\Log;
 use Framework\Views\Structures\Middleware;
 use Framework\Syscrack\Verification;
 use Framework\Application\Session;
@@ -29,17 +30,6 @@ class VerificationCheck implements Middleware
 
     protected $verification;
 
-    /**
-     * VerificationCheck constructor.
-     */
-
-    public function __construct()
-    {
-
-        $this->session = new Session();
-
-        $this->verification = new Verification();
-    }
 
     /**
      * Checks if the user has verified their email
@@ -49,6 +39,12 @@ class VerificationCheck implements Middleware
 
     public function onRequest()
     {
+
+        Log::log('Middleware Requested');
+
+        $this->session = new Session();
+
+        $this->verification = new Verification();
 
         if( $this->session->isLoggedIn() == false )
         {

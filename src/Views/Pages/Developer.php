@@ -20,6 +20,8 @@ class Developer implements Page
     {
 
         Log::log('Developer Page initialized');
+
+        Log::$disabled = true;
     }
 
     /**
@@ -34,6 +36,8 @@ class Developer implements Page
 
 	public function mapping()
 	{
+
+        Log::log('Mapping Pulled');
 
 		return array(
             [

@@ -8,9 +8,12 @@
     "error_log_location": "conf\/errorlog.json",
     "error_display_page": true,
     "error_logging": true,
+    "active_log_location": "conf\/activelog.json",
+    "active_log_enabled": false,
+    "active_log_showdeveloper": false,
     "api_use_get": true,
-    "api_default_method":"endpoint",
-    "api_method_length":32,
+    "api_default_method": "endpoint",
+    "api_method_length": 32,
     "logger_max_errors": "32",
     "controller_url_length": 4048,
     "controller_namespace": "Framework\\Views\\Pages\\",
@@ -23,5 +26,10 @@
     "database_prefix": "",
     "session_update_lastaction": true,
     "middlewares_enabled": true,
-    "registration_password_length":8
+    "registration_password_length": 8,
+    "facebook_enabled": true,
+    "facebook_app_id": "",
+    "facebook_app_secret": "",
+    "facebook_app_version": "v2.8",
+    "facebook_redirect_url": "http:\/\/{$_SERVER[HTTP_HOST]}{$_SERVER[REQUEST_URI]}"
 }

@@ -11,7 +11,7 @@ namespace Framework\Database;
 
 use Framework\Exceptions\DatabaseException;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use PDO;
+use Framework\Application\Utilities\Log;
 
 class Manager
 {
@@ -60,6 +60,8 @@ class Manager
 		}
 
 		$this->createConnection();
+
+        Log::log('Database Connection Created');
 	}
 
 	/**
@@ -71,16 +73,12 @@ class Manager
 
 		self::$capsule->addConnection( self::$connection );
 
-		self::$capsule->setFetchMode( PDO::FETCH_ASSOC );
-
-		self::$capsule->setAsGlobal();
+        self::$capsule->setAsGlobal();
 	}
 
-	/**
-	 * Gets our capsule
-	 *
-	 * @return Capsule
-	 */
+    /**
+     * @return Capsule
+     */
 
 	public static function getCapsule()
 	{

@@ -9,6 +9,7 @@ namespace Framework\Application\Utilities;
  * @package Framework\Application
  */
 
+use Framework\Application\Settings;
 use Framework\Exceptions\ApplicationException;
 
 class Log
@@ -21,6 +22,12 @@ class Log
      */
 
     protected static $active_log = [];
+
+    /**
+     * @var bool
+     */
+
+    public static $disabled = false;
 
     /**
      * Logs the message
@@ -40,6 +47,28 @@ class Log
         }
 
         self::addToActiveLog( [ 'message' => $message, 'type' => $type ] );
+    }
+
+    /**
+     * Saves the log to file
+     */
+
+    public static function saveLogToFile()
+    {
+
+        FileSystem::writeJson( Settings::getSetting('active_log_location'), self::getActiveLog() );
+    }
+
+    /**
+     * Reads the active log file
+     *
+     * @return mixed
+     */
+
+    public static function readActiveLog()
+    {
+
+        return FileSystem::readJson( Settings::getSetting('active_log_location') );
     }
 
     /**

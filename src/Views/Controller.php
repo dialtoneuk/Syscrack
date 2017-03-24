@@ -10,6 +10,7 @@ namespace Framework\Views;
  */
 
 use Framework\Application\Settings;
+use Framework\Application\Utilities\Log;
 use Framework\Exceptions\ViewException;
 use Framework\Application\Utilities\Factory;
 use Framework\Views\Structures\Page;
@@ -81,7 +82,7 @@ class Controller
         if( $this->middlewares->hasMiddlewares() )
         {
 
-            if( Settings::getSetting('middlewares_enabled') )
+            if( Settings::getSetting('middlewares_enabled') && Settings::getSetting('developer_page') !== $page )
             {
 
                 $this->middlewares->processMiddlewares();
@@ -89,6 +90,8 @@ class Controller
         }
 
         $this->createPage( $page );
+
+        Log::log('Page Created');
     }
 
     /**

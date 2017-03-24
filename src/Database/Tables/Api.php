@@ -31,15 +31,15 @@ class Api extends Table
 
         $result = $this->getTable()->where( $array )->get();
 
-        return ( empty( $result ) ) ? null : reset( $result );
+        return ( $result->isEmpty() ) ? null : $result[0];
     }
 
     /**
-     * Gets all the API by a user
+     * Gets all the API by this user
      *
      * @param $userid
      *
-     * @return array|null|static[]
+     * @return \Illuminate\Support\Collection|null
      */
 
     public function getApiByUser( $userid )
@@ -51,7 +51,7 @@ class Api extends Table
 
         $result = $this->getTable()->where( $array )->get();
 
-        return ( empty( $result ) ) ? null : $result;
+        return ( $result->isEmpty() ) ? null : $result;
     }
 
     /**
@@ -71,6 +71,6 @@ class Api extends Table
 
         $result = $this->getTable()->where( $array )->get();
 
-        return ( empty( $result ) ) ? null : reset( $result );
+        return ( $result->isEmpty() ) ? null : $result[0];
     }
 }

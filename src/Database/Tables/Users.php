@@ -31,7 +31,7 @@ class Users extends Table
 
 		$result = $this->getTable()->where( $array )->get();
 
-		return ( empty( $result ) ) ? null : reset( $result );
+		return ( $result->isEmpty() ) ? null : $result[0];
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Users extends Table
 
 		$result = $this->getTable()->where( $array )->get();
 
-		return ( empty( $result ) ) ? null : reset( $result );
+        return ( $result->isEmpty() ) ? null : $result[0];
 	}
 
     /**
@@ -71,7 +71,7 @@ class Users extends Table
 
         $result = $this->getTable()->where( $array )->get();
 
-        return ( empty( $result ) ) ? null : reset( $result );
+        return ( $result->isEmpty() ) ? null : $result[0];
     }
 
 	/**
@@ -96,6 +96,8 @@ class Users extends Table
      * Inserts a new user
      *
      * @param $array
+     *
+     * @return int
      */
 
 	public function insertUser( $array )

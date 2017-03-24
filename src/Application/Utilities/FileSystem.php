@@ -43,6 +43,40 @@ class FileSystem
 		return $file;
 	}
 
+    /**
+     * Reads Json
+     *
+     * @param $file
+     *
+     * @return mixed
+     */
+
+	public static function readJson( $file )
+    {
+
+        if( self::fileExists( $file ) == false )
+        {
+
+            return null;
+        }
+
+        return json_decode( self::read( $file ), true );
+    }
+
+    /**
+     * Writes Json
+     *
+     * @param $file
+     *
+     * @param array $array
+     */
+
+    public static function writeJson( $file, array $array )
+    {
+
+        self::write( $file, json_encode( $array, JSON_PRETTY_PRINT ) );
+    }
+
 	/**
 	 * Writes a file
 	 *

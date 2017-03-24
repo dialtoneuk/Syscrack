@@ -4,6 +4,8 @@
     use Framework\Application\Utilities\PostHelper;
 
     $error_handler = \Framework\Application\Container::getObject('application')->getErrorHandler();
+
+    Log::log('Page beginning to Render');
 ?>
 <html lang="en">
 
@@ -124,7 +126,22 @@
 
                         <?php
 
-                        $active_log = Log::getActiveLog();
+                        Log::log('Outputting Log');
+
+                        if( Log::$disabled )
+                        {
+
+                            $active_log = Log::readActiveLog();
+                        }
+                        else
+                        {
+
+                            if( \Framework\Application\Settings::getSetting('active_log_showdeveloper') )
+                            {
+
+                                $active_log = Log::getActiveLog();
+                            }
+                        }
 
                         if( empty( $active_log ) )
                         {
@@ -142,8 +159,11 @@
 <?= json_encode( $active_log, JSON_PRETTY_PRINT )?>
                                 </pre>
                             </div>
-                            <p class="small">
-                                Took <?php echo microtime( true ) - reset( $active_log )['microtime']; ?> seconds to complete from
+                            <button class="btn btn-lg btn-primary btn-block" onclick="window.location.reload()">
+                                Refresh
+                            </button>
+                            <p class="small" style="padding-top: 2.5%;">
+                                Took <?=microtime( true ) - reset( $active_log )['microtime']; ?> seconds to complete from
                                 first log.
                             </p>
                             <?php
@@ -155,6 +175,8 @@
 
             <?php
 
+
+
                 Flight::render('developer/templates/template.footer', array( 'breadcrumb' => true ));
             ?>
         </div>
@@ -162,7 +184,6 @@
 </html>
 
 <?php
-
 if( $_POST )
     if( PostHelper::checkForRequirements(['action'] ) )
     {

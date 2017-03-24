@@ -61,7 +61,7 @@ class Session
     public function getSessionUser()
     {
 
-        return $this->getDatabaseSession()['userid'];
+        return $this->getDatabaseSession()->userid;
     }
 
     /**
@@ -73,7 +73,7 @@ class Session
     public function getSessionAddress()
     {
 
-        return $this->getDatabaseSession()['ipaddress'];
+        return $this->getDatabaseSession()->ipaddress;
     }
 
     /**
@@ -85,7 +85,7 @@ class Session
     public function getSessionUserAgent()
     {
 
-        return $this->getDatabaseSession()['useragent'];
+        return $this->getDatabaseSession()->useragent;
     }
 
     /**
@@ -97,7 +97,7 @@ class Session
     public function getSessionLastAction()
     {
 
-        return $this->getDatabaseSession()['lastaction'];
+        return $this->getDatabaseSession()->lastaction;
     }
 
     /**

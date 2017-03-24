@@ -46,6 +46,9 @@ class Login implements Page
             ],
             [
                 'POST /login/', 'process'
+            ],
+            [
+                'POST /login/facebook/', 'facebook'
             ]
         );
     }
@@ -98,6 +101,12 @@ class Login implements Page
         Container::getObject('session')->insertSession( $login->getUserID( $username ) );
 
         Flight::redirect('/game/');
+    }
+
+    public function facebook()
+    {
+
+
     }
 
     /**

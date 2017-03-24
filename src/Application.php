@@ -11,6 +11,7 @@ namespace Framework;
 
 use Framework\Application\ErrorHandler;
 use Framework\Application\Loader;
+use Framework\Application\Utilities\Log;
 use Framework\Exceptions\ApplicationException;
 use Framework\Views\Controller;
 use Framework\Application\Container;

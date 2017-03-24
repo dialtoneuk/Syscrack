@@ -20,6 +20,26 @@ Application\Utilities\Log::log('Application has begun loading');
 
 $application = new Application( false );
 
+/**
+ * Saves our log file
+ */
+
+Flight::after('start', function( &$params, &$output )
+{
+
+    if( Application\Utilities\Log::$disabled == false )
+    {
+
+        if( Application\Settings::getSetting('active_log_enabled') )
+        {
+
+            Application\Utilities\Log::log('Saving active log');
+
+            Application\Utilities\Log::saveLogToFile();
+        }
+    }
+});
+
 try
 {
 
@@ -41,7 +61,6 @@ try
      * Set the application to be global
      */
 
-    Application\Utilities\Log::log('Flight Ran');
     $application->runFlight();
 }
 catch( Exception $error )

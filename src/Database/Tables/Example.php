@@ -31,6 +31,6 @@ class Example extends Table
 
 		$result = $this->getTable()->where( $array )->get();
 
-		return ( empty( $result ) ) ? null : $result;
+		return ( $result->isEmpty() ) ? null : $result[0];
 	}
 }

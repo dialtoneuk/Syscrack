@@ -1,0 +1,51 @@
+[
+    {
+        "message": "Application has begun loading",
+        "type": "notice",
+        "time": 1490348838,
+        "date": "24-03-17",
+        "microtime": 1490348838.305324
+    },
+    {
+        "message": "Controller Ran",
+        "type": "notice",
+        "time": 1490348838,
+        "date": "24-03-17",
+        "microtime": 1490348838.308704
+    },
+    {
+        "message": "Middleware Requested",
+        "type": "notice",
+        "time": 1490348838,
+        "date": "24-03-17",
+        "microtime": 1490348838.309241
+    },
+    {
+        "message": "Database Connection Created",
+        "type": "notice",
+        "time": 1490348838,
+        "date": "24-03-17",
+        "microtime": 1490348838.322031
+    },
+    {
+        "message": "Page Created",
+        "type": "notice",
+        "time": 1490348838,
+        "date": "24-03-17",
+        "microtime": 1490348838.336826
+    },
+    {
+        "message": "Added application to global container",
+        "type": "notice",
+        "time": 1490348838,
+        "date": "24-03-17",
+        "microtime": 1490348838.336832
+    },
+    {
+        "message": "Saving active log",
+        "type": "notice",
+        "time": 1490348838,
+        "date": "24-03-17",
+        "microtime": 1490348838.345981
+    }
+]
