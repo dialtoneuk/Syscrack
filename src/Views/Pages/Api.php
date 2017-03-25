@@ -49,20 +49,24 @@ class Api implements Page
 
         $this->controller = new Controller();
 
-        if( PostHelper::checkForRequirements( ['apikey'] ) == false )
+        if( PostHelper::hasPostData() )
         {
 
-            Flight::notFound();
-        }
-        else
-        {
-
-            $this->apikey = PostHelper::getPostData('apikey');
-
-            if( $this->manager->hasApiKey( $this->apikey ) == false )
+            if( PostHelper::checkForRequirements( ['apikey'] ) == false )
             {
 
-                Flight::redirect('/', 401);
+                Flight::notFound();
+            }
+            else
+            {
+
+                $this->apikey = PostHelper::getPostData('apikey');
+
+                if( $this->manager->hasApiKey( $this->apikey ) == false )
+                {
+
+                    Flight::redirect('/', 401);
+                }
             }
         }
     }

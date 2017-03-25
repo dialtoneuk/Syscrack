@@ -20,8 +20,6 @@ class Developer implements Page
     {
 
         Log::log('Developer Page initialized');
-
-        Log::$disabled = true;
     }
 
     /**
@@ -106,6 +104,8 @@ class Developer implements Page
 
     public function logger()
     {
+
+        Log::$disabled = true;
 
         $this->renderPageFile('page.logger');
     }

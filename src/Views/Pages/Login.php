@@ -14,6 +14,7 @@ use Framework\Views\Structures\Page;
 use Framework\Application\Container;
 use Framework\Application\Session;
 use Framework\Syscrack\Login\Account;
+use Framework\Application\Settings;
 use Flight;
 
 class Login implements Page
@@ -26,9 +27,19 @@ class Login implements Page
     public function __construct()
     {
 
-        session_start();
+        if( session_status() !== PHP_SESSION_ACTIVE )
+        {
+
+            session_start();
+        }
 
         Container::setObject( 'session',  new Session() );
+
+        if( Container::getObject('session')->isLoggedIn() )
+        {
+
+            Flight::redirect( '/'. Settings::getSetting('controller_index_page') );
+        }
     }
 
     /**

@@ -3,13 +3,34 @@
     <?php
         if( isset( $breadcrumb ) )
         {
-            ?>
 
-                <ol class="breadcrumb">
-                    <li><a href="/">Home</a></li>
-                </ol>
-            <?php
+            $url = $_SERVER['REQUEST_URI'];
 
+            $paths = explode('/', $url);
+
+            $built = '/';
+
+            echo '<ol class="breadcrumb">';
+
+            echo '<li><a href="/' . \Framework\Application\Settings::getSetting('controller_index_page') . '">Home</a></li>';
+
+            foreach( $paths as $path )
+            {
+
+                if( empty( $path ) || $path == \Framework\Application\Settings::getSetting('controller_index_page') )
+                {
+
+                    continue;
+                }
+
+                ?>
+                    <li><a class="text-capitalize" href="<?=$built . $path ?>"><?=$path?></a></li>
+                <?php
+
+                $built = $built . $built;
+            }
+
+            echo '</ol>';
         }
     ?>
 

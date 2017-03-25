@@ -207,7 +207,7 @@ if( $_POST )
 
             $class->process( $array );
         }
-        catch( Exception $error )
+        catch( RuntimeException $error )
         {
 
             Flight::redirect('/developer/databasemigrator?error=' . $error->getMessage() );

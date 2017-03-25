@@ -2,64 +2,113 @@
     {
         "message": "Application has begun loading",
         "type": "notice",
-        "time": 1490361621,
-        "date": "24-03-17",
-        "microtime": 1490361621.767697
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.133548
     },
     {
         "message": "Controller Ran",
         "type": "notice",
-        "time": 1490361621,
-        "date": "24-03-17",
-        "microtime": 1490361621.7727
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.138002
     },
     {
-        "message": "Middleware Requested",
+        "message": "Developer Page initialized",
         "type": "notice",
-        "time": 1490361621,
-        "date": "24-03-17",
-        "microtime": 1490361621.773595
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.138936
     },
     {
-        "message": "Database Connection Created",
+        "message": "Mapping Pulled",
         "type": "notice",
-        "time": 1490361621,
-        "date": "24-03-17",
-        "microtime": 1490361621.783429
-    },
-    {
-        "message": "Adding route to Flight Framework",
-        "type": "notice",
-        "time": 1490361621,
-        "date": "24-03-17",
-        "microtime": 1490361621.798356
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.138945
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1490361621,
-        "date": "24-03-17",
-        "microtime": 1490361621.799133
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.138967
+    },
+    {
+        "message": "Adding route to Flight Framework",
+        "type": "notice",
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.139799
+    },
+    {
+        "message": "Adding route to Flight Framework",
+        "type": "notice",
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.139818
+    },
+    {
+        "message": "Adding route to Flight Framework",
+        "type": "notice",
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.139828
+    },
+    {
+        "message": "Adding route to Flight Framework",
+        "type": "notice",
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.139838
+    },
+    {
+        "message": "Adding route to Flight Framework",
+        "type": "notice",
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.139847
+    },
+    {
+        "message": "Adding route to Flight Framework",
+        "type": "notice",
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.139856
+    },
+    {
+        "message": "Adding route to Flight Framework",
+        "type": "notice",
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.139864
+    },
+    {
+        "message": "Adding route to Flight Framework",
+        "type": "notice",
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.139873
     },
     {
         "message": "Page Created",
         "type": "notice",
-        "time": 1490361621,
-        "date": "24-03-17",
-        "microtime": 1490361621.799149
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.13988
     },
     {
         "message": "Added application to global container",
         "type": "notice",
-        "time": 1490361621,
-        "date": "24-03-17",
-        "microtime": 1490361621.799153
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.139884
     },
     {
         "message": "Saving active log",
         "type": "notice",
-        "time": 1490361621,
-        "date": "24-03-17",
-        "microtime": 1490361621.810286
+        "time": 1490481931,
+        "date": "25-03-17",
+        "microtime": 1490481931.15994
     }
 ]

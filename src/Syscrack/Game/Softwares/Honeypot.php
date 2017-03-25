@@ -25,7 +25,7 @@ class Honeypot implements Software
 
         return array(
             'uniquename'    => 'honeypot',
-            'extension'     => '.honeypot',
+            'extension'     => '.hpot',
             'type'          => 'honeypot',
             'installable'   => false
         );
@@ -34,19 +34,19 @@ class Honeypot implements Software
     public function onExecuted( $softwareid, $userid, $computerid )
     {
 
-        //What to do when a virus 'is executed'
+
     }
 
     public function onInstalled( $softwareid, $userid, $computerid )
     {
 
-        //What to do when the virus is installed
+
     }
 
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
-        // TODO: Implement onCollect() method.
+
     }
 
     /**

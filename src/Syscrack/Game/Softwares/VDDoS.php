@@ -27,40 +27,26 @@ class VDDoS implements Software
             'uniquename'    => 'vddos',
             'extension'     => '.vddos',
             'type'          => 'ddos',
-            'installable'   => false
+            'installable'   => true
         );
     }
 
     public function onExecuted( $softwareid, $userid, $computerid )
     {
 
-        //What to do when a virus 'is executed'
+
     }
 
-    public function onInstalled( $software, $userid, $computerid )
+    public function onInstalled( $softwareid, $userid, $computerid )
     {
 
-        //What to do when the virus is installed
+
     }
 
-    /**
-     * Only executed if the type is a virus.
-     *
-     * @param $softwareid
-     *
-     * @param $userid
-     *
-     * @param $computerid
-     *
-     * @param $timeran
-     *
-     * @return mixed
-     */
-
-    public function onCollect($softwareid, $userid, $computerid, $timeran)
+    public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
-        return $timeran;
+
     }
 
     /**

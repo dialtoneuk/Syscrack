@@ -273,7 +273,7 @@ class Softwares
     }
 
     /**
-     * Calls a method inside the software class
+     * Executes a method inside the given software class
      *
      * @param $software
      *
@@ -281,27 +281,27 @@ class Softwares
      *
      * @param array $parameters
      *
-     * @return mixed
+     * @return mixed|null
      */
 
-    public function classSoftwareMethod( $software, $method='onExecuted', array $parameters )
+    public function executeSoftwareMethod( $software, $method='onExecute', array $parameters )
     {
 
         $software = $this->getSoftwareClass( $software );
 
-        if( $software instanceof Structure == false )
+        if( $this->isCallable( $software, $method ) == false )
         {
 
-            throw new SyscrackException();
+            return null;
         }
 
         if( empty( $parameters ) == false )
         {
 
-            return call_user_func_array( array( $software, $method), $parameters );
+            return call_user_func_array( array( $software, $method ), $parameters );
         }
 
-        return $software->{ $method };
+        return $software->{ $method }();
     }
 
     /**
@@ -325,6 +325,38 @@ class Softwares
     }
 
     /**
+     * Returns true if the method is callable
+     *
+     * @param $software
+     *
+     * @param $method
+     *
+     * @return bool
+     */
+
+    private function isCallable( Structure $software, string $method )
+    {
+
+        $requirements = Settings::getSetting('syscrack_software_allowedmethods');
+
+        if( isset( $requirements[ $method ] ) )
+        {
+
+            throw new SyscrackException('Method is not in the allowed callable methods');
+        }
+
+        $software = new \ReflectionClass( $software );
+
+        if( $software->getMethod( $method )->isPublic() == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Loads all the software classes into the factory
      */
 
@@ -339,5 +371,4 @@ class Softwares
             $this->factory->createClass( $software );
         }
     }
-
 }

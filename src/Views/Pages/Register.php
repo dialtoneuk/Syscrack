@@ -27,9 +27,19 @@ class Register implements Page
     public function __construct()
     {
 
-        session_start();
+        if( session_status() !== PHP_SESSION_ACTIVE )
+        {
+
+            session_start();
+        }
 
         Container::setObject( 'session',  new Session() );
+
+        if( Container::getObject('session')->isLoggedIn() )
+        {
+
+            Flight::redirect( '/'. Settings::getSetting('controller_index_page') );
+        }
     }
 
     /**

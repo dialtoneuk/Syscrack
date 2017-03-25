@@ -11,12 +11,13 @@ namespace Framework\Views\Pages;
 
 use Framework\Application\Container;
 use Framework\Application\Session;
+use Framework\Application\Settings;
 use Framework\Application\Utilities\Log;
 use Framework\Exceptions\ViewException;
 use Framework\Views\Structures\Page;
 use Flight;
 
-class Index implements Page
+class Game implements Page
 {
 
     /**
@@ -26,13 +27,15 @@ class Index implements Page
     public function __construct()
     {
 
-        if( session_status() !== PHP_SESSION_ACTIVE )
+        session_start();
+
+        Container::setObject('session',  new Session() );
+
+        if( Container::getObject('session')->isLoggedIn() == false )
         {
 
-            session_start();
+            Flight::redirect( '/'. Settings::getSetting('controller_index_page') );
         }
-
-        Container::setObject( 'session',  new Session() );
     }
 
     /**
@@ -46,10 +49,7 @@ class Index implements Page
 
 		return array(
 			[
-				'/', 'page'
-			],
-			[
-				'/index/', 'page'
+				'/game/', 'page'
 			]
 		);
 	}
@@ -61,6 +61,6 @@ class Index implements Page
 	public function page()
 	{
 
-	    Flight::render('syscrack/page.index');
+	    Flight::render('syscrack/page.game');
 	}
 }

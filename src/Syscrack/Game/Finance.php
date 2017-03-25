@@ -72,6 +72,30 @@ class Finance
     }
 
     /**
+     * Gets the total cash of a user
+     *
+     * @param $userid
+     *
+     * @return int
+     */
+
+    public function getTotalUserCash( $userid )
+    {
+
+        $banks = $this->getUserBankAccounts( $userid );
+
+        $sum = 0;
+
+        foreach( $banks as $bank )
+        {
+
+            $sum += $bank->cash;
+        }
+
+        return $sum;
+    }
+
+    /**
      * Gets all the computers who are banks
      *
      * @return mixed|null
@@ -97,6 +121,12 @@ class Finance
     {
 
         $accounts = $this->banks->getAccountsOnComputer( $computerid );
+
+        if( empty( $accounts ) )
+        {
+
+            return null;
+        }
 
         foreach( $accounts as $account )
         {
@@ -196,12 +226,14 @@ class Finance
             throw new SyscrackException();
         }
 
-        return $this->banks->insertAccount( array(
+        $this->banks->insertAccount( array(
             'computerid'        => $computerid,
             'userid'            => $userid,
             'accountnumber'     => $this->getAccountNumber(),
             'cash'              => Settings::getSetting('syscrack_bank_default_balance')
         ));
+
+        return $this->getAccountNumber();
     }
 
     /**

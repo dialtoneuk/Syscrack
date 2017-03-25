@@ -253,7 +253,7 @@ class Settings
         try
         {
 
-            eval("\$parsed={$match};");
+            eval("\$parsed = {$match};");
         }
         catch( \RuntimeException $error )
         {

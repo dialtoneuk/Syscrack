@@ -46,6 +46,11 @@ Flight::before('route', function( &$params, &$output )
     Application\Utilities\Log::log('Adding route to Flight Framework');
 });
 
+Flight::map('error', function(Exception $error) use ($application){
+
+    $application->getErrorHandler()->handleError( $error );
+});
+
 try
 {
 

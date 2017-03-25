@@ -156,29 +156,13 @@ class AddressDatabase
     public function hasDatabase( $userid )
     {
 
-        if( FileSystem::fileExists(Settings::getSetting('syscrack_addressdatabase_location') . $userid .
-            Settings::getSetting('syscrack_addressdatabase_extension')) == false )
+        if( FileSystem::fileExists( $this->getFile( $userid ) ) == false )
         {
 
             return false;
         }
 
         return true;
-    }
-
-    /**
-     * Creates the address database
-     *
-     * @param $userid
-     *
-     * @param array|null $data
-     */
-
-    public function createDatabase( $userid, array $data=null )
-    {
-
-        FileSystem::writeJson(Settings::getSetting('syscrack_addressdatabase_location') . $userid .
-            Settings::getSetting('syscrack_addressdatabase_extension'), $data);
     }
 
     /**
@@ -192,8 +176,7 @@ class AddressDatabase
     public function saveDatabase( $userid, $data )
     {
 
-        FileSystem::writeJson(Settings::getSetting('syscrack_addressdatabase_location') . $userid .
-            Settings::getSetting('syscrack_addressdatabase_extension'), $data);
+        FileSystem::writeJson( $this->getFile( $userid ), $data );
     }
 
     /**
@@ -207,7 +190,21 @@ class AddressDatabase
     private function readDatabase( $userid )
     {
 
-        return FileSystem::readJson( Settings::getSetting('syscrack_addressdatabase_location') . $userid .
-            Settings::getSetting('syscrack_addressdatabase_extension') );
+        return FileSystem::readJson( $this->getFile( $userid ) );
+    }
+
+    /**
+     * Gets the file path
+     *
+     * @param $userid
+     *
+     * @return string
+     */
+
+    private function getFile( $userid )
+    {
+
+        return Settings::getSetting('syscrack_addressdatabase_location') . $userid .
+            Settings::getSetting('syscrack_filedatabase_extension');
     }
 }
