@@ -31,19 +31,19 @@ class VSpam implements Structure
         );
     }
 
-    public function onExecuted( $Structureid, $userid, $computerid )
+    public function onExecuted( $softwareid, $userid, $computerid )
     {
 
 
     }
 
-    public function onInstalled( $Structureid, $userid, $computerid )
+    public function onInstalled( $softwareid, $userid, $computerid )
     {
 
 
     }
 
-    public function onCollect( $Structureid, $userid, $computerid, $timeran )
+    public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
 
