@@ -100,6 +100,30 @@ class Softwares
     }
 
     /**
+     * Deletes the software
+     *
+     * @param $softwareid
+     */
+
+    public function deleteSoftware( $softwareid )
+    {
+
+        $this->database->deleteSoftware( $softwareid );
+    }
+
+    /**
+     * Deletes all the software related to a computer id
+     *
+     * @param $computerid
+     */
+
+    public function deleteSoftwaresByComputer( $computerid )
+    {
+
+        $this->database->deleteSoftwareByComputer( $computerid );
+    }
+
+    /**
      * Creates a new piece of software
      *
      * @param $software
@@ -111,7 +135,7 @@ class Softwares
      * @return int
      */
 
-    public function createSoftware( $software, string $softwarename, int $userid, int $computerid )
+    public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software' )
     {
 
         if( $this->hasSoftware( $software ) == false )
@@ -146,6 +170,22 @@ class Softwares
     }
 
     /**
+     * Installs a software
+     *
+     * @param $softwareid
+     */
+
+    public function installSoftware( $softwareid )
+    {
+
+        $array = array(
+            'installed' => true
+        );
+
+        $this->database->updateSoftware( $softwareid, $array );
+    }
+
+    /**
      * Finds a software by its unqiue name
      *
      * @param $uniquename
@@ -176,6 +216,28 @@ class Softwares
         }
 
         return null;
+    }
+
+    /**
+     * Returns true if this software is installable
+     *
+     * @param $software
+     *
+     * @return bool
+     */
+
+    public function canInstall( $software )
+    {
+
+        $class = $this->factory->findClass( $software );
+
+        if( $class->configuration()['installable'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -138,6 +138,38 @@ class Softwares extends Table
     }
 
     /**
+     * Deletes the softwares by the computer
+     *
+     * @param $computerid
+     */
+
+    public function deleteSoftwareByComputer( $computerid )
+    {
+
+        $array = array(
+            'computerid' => $computerid
+        );
+
+        $this->getTable()->where( $array )->delete();
+    }
+
+    /**
+     * Deletes a software
+     *
+     * @param $softwareid
+     */
+
+    public function deleteSoftware( $softwareid )
+    {
+
+        $array = array(
+            'softwareid' => $softwareid
+        );
+
+        $this->getTable()->where( $array )->delete();
+    }
+
+    /**
      * Inserts a software
      *
      * @param $array

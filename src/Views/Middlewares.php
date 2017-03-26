@@ -12,6 +12,7 @@ namespace Framework\Views;
 use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
 use Framework\Exceptions\ApplicationException;
+use Framework\Exceptions\SyscrackException;
 use Framework\Views\Structures\Middleware;
 
 class Middlewares

@@ -26,8 +26,6 @@ class Controller
 	public function __construct()
     {
 
-        $this->middlewares = new Middlewares();
-
         $this->factory = new Factory( Settings::getSetting('controller_namespace') );
     }
 
@@ -79,19 +77,15 @@ class Controller
             $page = $this->removeURLKey( $page );
         }
 
-        if( $this->middlewares->hasMiddlewares() )
-        {
-
-            if( Settings::getSetting('middlewares_enabled') && Settings::getSetting('developer_page') !== $page )
-            {
-
-                $this->middlewares->processMiddlewares();
-            }
-        }
+        Log::log('Page Created');
 
         $this->createPage( $page );
 
-        Log::log('Page Created');
+        if(  Settings::getSetting('middlewares_enabled') && Settings::getSetting('developer_page') !== $page )
+        {
+
+            $this->processMiddlewares();
+        }
     }
 
     /**
@@ -112,6 +106,22 @@ class Controller
         }
 
         return $this->factory->createClass( $page );
+    }
+
+    /**
+     * Processes the middlewares
+     */
+
+    private function processMiddlewares()
+    {
+
+        $middlewares = new Middlewares();
+
+        if( $middlewares->hasMiddlewares() )
+        {
+
+            $middlewares->processMiddlewares();
+        }
     }
 
     /**

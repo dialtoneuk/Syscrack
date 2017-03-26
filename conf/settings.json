@@ -52,5 +52,6 @@
     "syscrack_bitcoin_country":"USD",
     "syscrack_default_bank":1,
     "syscrack_bank_accountnumber_length":8,
-    "syscrack_currency":"£"
+    "syscrack_currency":"£",
+    "syscrack_master_user":1
 }

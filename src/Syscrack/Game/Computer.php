@@ -11,6 +11,7 @@ namespace Framework\Syscrack\Game;
 
 use Framework\Application\Settings;
 use Framework\Database\Tables\Computers;
+use Framework\Exceptions\SyscrackException;
 
 class Computer
 {
@@ -52,6 +53,56 @@ class Computer
     }
 
     /**
+     * Changes a computers IP address
+     *
+     * @param $computerid
+     *
+     * @param $address
+     */
+
+    public function changeIPAddress( $computerid, $address )
+    {
+
+        $array = array(
+            'ipaddress' => $address
+        );
+
+        $this->database->updateComputer( $computerid, $array );
+    }
+
+    /**
+     * Formats a computer to the default software
+     *
+     * @param $computerid
+     */
+
+    public function format( $computerid )
+    {
+
+        $array = array(
+            'softwares' => json_encode( Settings::getSetting('syscrack_default_software') )
+        );
+
+        $this->database->updateComputer( $computerid, $array );
+    }
+
+    /**
+     * Resets the hardware of a computer to the default hardware
+     *
+     * @param $computerid
+     */
+
+    public function resetHardware( $computerid )
+    {
+
+        $array = array(
+            'hardware' => json_encode( Settings::getSetting('syscrack_default_hardware') )
+        );
+
+        $this->database->updateComputer( $computerid, $array );
+    }
+
+    /**
      * Gets the computer at the id
      *
      * @param $computerid
@@ -77,6 +128,96 @@ class Computer
     {
 
         return json_decode( $this->database->getComputer( $computerid )->software, true );
+    }
+
+    /**
+     * Adds a software to the computers software list
+     *
+     * @param $computerid
+     *
+     * @param array $array
+     */
+
+    public function addSoftware( $computerid, array $array )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->software, true );
+
+        if( empty( $softwares ) )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwares[] = $array;
+
+        $this->database->updateComputer( $computerid, json_encode( $softwares ) );
+    }
+
+    /**
+     * Returns true if the software is installed
+     *
+     * @param $computerid
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function inInstalled( $computerid, $softwareid )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->software, true );
+
+        if( empty( $softwares ) )
+        {
+
+            throw new SyscrackException();
+        }
+
+        foreach( $softwares as $key=>$software )
+        {
+
+            if( $software['softwareid'] == $softwareid )
+            {
+
+                return $software['installed'];
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * removes a software from the computers list
+     *
+     * @param $computerid
+     *
+     * @param $softwareid
+     */
+
+    public function removeSoftware( $computerid, $softwareid )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->software, true );
+
+        if( empty( $softwares ) )
+        {
+
+            throw new SyscrackException();
+        }
+
+        foreach( $softwares as $key=>$software )
+        {
+
+            if( $software['softwareid'] == $softwareid )
+            {
+
+                unset( $softwares[ $key ] );
+            }
+        }
+
+        $this->database->updateComputer( $computerid, json_encode( $softwares ) );
     }
 
     /**
@@ -133,6 +274,130 @@ class Computer
     {
 
         return $this->database->getComputer( $computerid )->type;
+    }
+
+    /**
+     * Gets all the installed software on a computer
+     *
+     * @param $computerid
+     *
+     * @return array
+     */
+
+    public function getInstalledSoftware( $computerid )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+
+        $result = array();
+
+        foreach( $softwares as $key=>$value )
+        {
+
+            if( $value['installed'] == true )
+            {
+
+                $result[] = $value['softwareid'];
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Gets the install cracker on the machine
+     *
+     * @param $computerid
+     *
+     * @return null
+     */
+
+    public function getCracker( $computerid )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['type'] == Settings::getSetting('syscrack_cracker_type') )
+            {
+
+                if( $software['installed'] == false )
+                {
+
+                    continue;
+                }
+
+                return $software['softwareid'];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the firewall
+     *
+     * @param $computerid
+     *
+     * @return null
+     */
+
+    public function getFirewall( $computerid )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['type'] == Settings::getSetting('syscrack_hasher_type') )
+            {
+
+                if( $software['installed'] == false )
+                {
+
+                    continue;
+                }
+
+                return $software['softwareid'];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the hasher
+     *
+     * @param $computerid
+     *
+     * @return null
+     */
+
+    public function getHasher( $computerid )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['type'] == Settings::getSetting('syscrack_hasher_type') )
+            {
+
+                if( $software['installed'] == false )
+                {
+
+                    continue;
+                }
+
+                return $software['softwareid'];
+            }
+        }
+
+        return null;
     }
 
     /**

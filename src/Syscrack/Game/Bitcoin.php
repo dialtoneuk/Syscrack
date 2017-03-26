@@ -9,9 +9,9 @@ namespace Framework\Syscrack\Game;
  * @package Framework\Syscrack\Game
  */
 
+use Unirest\Request;
 use Framework\Application\Utilities\Hashes;
 use Framework\Exceptions\SyscrackException;
-use Unirest\Request;
 use Framework\Application\Settings;
 use Framework\Database\Tables\Bitcoin as Database;
 use Framework\Database\Tables\Computers;
@@ -189,7 +189,7 @@ class Bitcoin
      * @param $bitcoins
      */
 
-    public function transfar( $wallet, $receiver, $bitcoins )
+    public function transfer( $wallet, $receiver, $bitcoins )
     {
 
         $user = $this->database->findBitcoinWallet( $wallet );

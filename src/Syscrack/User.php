@@ -288,7 +288,7 @@ class User
 			throw new SyscrackException();
 		}
 
-		if( $this->getUser( $userid )->group == 'admin' )
+		if( $this->getUser( $userid )->group !== 'admin' )
 		{
 
 			return false;

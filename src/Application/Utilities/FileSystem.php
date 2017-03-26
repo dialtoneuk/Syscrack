@@ -170,7 +170,15 @@ class FileSystem
 	public static function find( string $path, $patterns=null )
 	{
 
-        return glob( self::stitchPattern( $path, $patterns ) );
+        $return = glob( self::stitchPattern( $path, $patterns ) );
+
+        foreach( $return as $key=>$value )
+        {
+
+            $return[ $key ] =  self::removeFileExtension( $value );
+        }
+
+        return $return;
 	}
 
 	/**

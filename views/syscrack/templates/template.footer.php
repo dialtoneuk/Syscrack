@@ -17,6 +17,12 @@
             foreach( $paths as $path )
             {
 
+                if( empty( explode('?', $path ) ) == false )
+                {
+
+                    $path = explode('?', $path)[0];
+                }
+
                 if( empty( $path ) || $path == \Framework\Application\Settings::getSetting('controller_index_page') )
                 {
 

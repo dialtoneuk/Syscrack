@@ -95,5 +95,1265 @@
         },
         "timestamp": 1490460157,
         "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485802,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485803,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485808,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485809,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485809,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485809,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485809,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485809,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485809,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485809,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485809,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485809,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 80,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middleware\\VerificationCheck.php(46): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(100): Framework\\Views\\Middleware\\VerificationCheck->onRequest()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(88): Framework\\Views\\Middlewares->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490485809,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486044,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/index",
+            "line": 63,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Middlewares.php(92): Framework\\Application\\Utilities\\Factory->createClass('1VerificationCh...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(123): Framework\\Views\\Middlewares->processMiddlewares()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(87): Framework\\Views\\Controller->processMiddlewares()\n#3 C:\\xampp\\htdocs\\src\\Application.php(112): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(62): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1490486045,
+        "ip": "192.168.1.187"
     }
 ]
