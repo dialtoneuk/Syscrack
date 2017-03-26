@@ -9,13 +9,13 @@ namespace Framework\Syscrack\Game\Softwares;
  * @package Framework\Syscrack\Game\Softwares
  */
 
-use Framework\Syscrack\Game\Structures\Software;
+use Framework\Syscrack\Game\Structures\Software as Structure;
 
-class Cracker implements Software
+class Cracker implements Structure
 {
 
     /**
-     * The configuration of this software
+     * The configuration of this Structure
      *
      * @return array
      */
@@ -31,19 +31,19 @@ class Cracker implements Software
         );
     }
 
-    public function onExecuted( $softwareid, $userid, $computerid )
+    public function onExecuted( $Structureid, $userid, $computerid )
     {
 
 
     }
 
-    public function onInstalled( $softwareid, $userid, $computerid )
+    public function onInstalled( $Structureid, $userid, $computerid )
     {
 
 
     }
 
-    public function onCollect( $softwareid, $userid, $computerid, $timeran )
+    public function onCollect( $Structureid, $userid, $computerid, $timeran )
     {
 
 

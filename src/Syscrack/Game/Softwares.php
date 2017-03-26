@@ -15,6 +15,7 @@ use Framework\Application\Utilities\Factory;
 use Framework\Exceptions\SyscrackException;
 use Framework\Database\Tables\Softwares as Database;
 use Framework\Syscrack\Game\Structures\Software as Structure;
+use Illuminate\Support\Facades\File;
 
 class Softwares
 {
@@ -425,12 +426,12 @@ class Softwares
     private function loadSoftwares()
     {
 
-        $softwares = FileSystem::find( Settings::getSetting('syscrack_software_location') );
+        $softwares = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_software_location') );
 
         foreach( $softwares as $software )
         {
 
-            $this->factory->createClass( $software );
+            $this->factory->createClass( FileSystem::getFileName( $software ) );
         }
     }
 }

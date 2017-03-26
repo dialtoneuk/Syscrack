@@ -127,31 +127,33 @@ class Computer
     public function getComputerSoftware( $computerid )
     {
 
-        return json_decode( $this->database->getComputer( $computerid )->software, true );
+        return json_decode( $this->database->getComputer( $computerid )->softwares, true );
     }
 
     /**
-     * Adds a software to the computers software list
+     * Adds software to the computers file system
      *
      * @param $computerid
      *
-     * @param array $array
+     * @param $softwareid
+     *
+     * @param $type
      */
 
-    public function addSoftware( $computerid, array $array )
+    public function addSoftware( $computerid, $softwareid, $type, $softwarename='My Software' )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->software, true );
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
 
-        if( empty( $softwares ) )
-        {
+        $softwares[] = array(
+            'softwareid'        => $softwareid,
+            'softwarename'      => $softwarename,
+            'type'              => $type,
+            'installed'         => false,
+            'timeinstalled'     => time()
+        );
 
-            throw new SyscrackException();
-        }
-
-        $softwares[] = $array;
-
-        $this->database->updateComputer( $computerid, json_encode( $softwares ) );
+        $this->database->updateComputer( $computerid, array('softwares' => json_encode( $softwares ) ) );
     }
 
     /**
@@ -217,7 +219,7 @@ class Computer
             }
         }
 
-        $this->database->updateComputer( $computerid, json_encode( $softwares ) );
+        $this->database->updateComputer( $computerid, array('softwares' => json_encode( $softwares ) ) );
     }
 
     /**
@@ -231,7 +233,7 @@ class Computer
     public function getComputerHardware( $computerid )
     {
 
-        return json_decode( $this->database->getComputer( $computerid )->hardware, true );
+        return json_decode( $this->database->getComputer( $computerid )->hardwares, true );
     }
 
     /**

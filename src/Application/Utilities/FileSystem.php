@@ -170,7 +170,7 @@ class FileSystem
 	public static function find( string $path, $patterns=null )
 	{
 
-        $return = glob( self::stitchPattern( $path, $patterns ) );
+        $return = glob( self::getFilePath( self::stitchPattern( $path, '*.php') ) );
 
         foreach( $return as $key=>$value )
         {

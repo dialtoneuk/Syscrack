@@ -41,6 +41,18 @@ class Session
     }
 
     /**
+     * Gets the time of which the user hsa done the last action
+     *
+     * @return mixed
+     */
+
+    public function getLastAction()
+    {
+
+        return $this->database->getSession( session_id() )->lastaction;
+    }
+
+    /**
      * Gets the database session
      *
      * @return mixed

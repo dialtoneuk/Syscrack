@@ -60,7 +60,7 @@ class Factory
 		if( $class == $this->namespace )
 		{
 
-			throw new ViewException();
+			throw new ViewException('No Class Given');
 		}
 
 		$pageclass = new $class;
@@ -68,7 +68,7 @@ class Factory
 		if( empty( $pageclass) )
 		{
 
-			throw new ViewException();
+			throw new ViewException('Class is Empty');
 		}
 
 		$this->classes[] = $pageclass;

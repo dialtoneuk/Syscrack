@@ -5,6 +5,7 @@
     "developer_disabled": false,
     "user_default_group": "guest",
     "user_allow_registrations": true,
+    "user_require_betakey":true,
     "error_log_location": "conf\/errorlog.json",
     "error_display_page": true,
     "error_logging": true,
@@ -24,6 +25,7 @@
     "database_charset": "utf8",
     "database_collation": "utf8_unicode_ci",
     "database_prefix": "",
+    "session_timeout":"{60 * 60 * 2}",
     "session_update_lastaction": true,
     "middlewares_enabled": true,
     "registration_password_length": 8,
@@ -53,5 +55,6 @@
     "syscrack_default_bank":1,
     "syscrack_bank_accountnumber_length":8,
     "syscrack_currency":"£",
-    "syscrack_master_user":1
+    "syscrack_master_user":1,
+    "syscrack_npc_filepath":"syscrack\/npc\/"
 }

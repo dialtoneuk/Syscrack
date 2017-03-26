@@ -12,6 +12,7 @@ namespace Framework\Syscrack\Game\Utility;
 use Framework\Application\Container;
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\User;
 
@@ -62,6 +63,142 @@ class PageHelper
     {
 
         return $this->session->getSessionAddress();
+    }
+
+    /**
+     * Gets computers software
+     *
+     * @return array
+     */
+
+    public function getComputerSoftware()
+    {
+
+        $computer = new Computer();
+
+        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $computer->getComputerSoftware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+    }
+
+    /**
+     * Gets the computers hardware
+     *
+     * @return array
+     */
+
+    public function getComputerHardware()
+    {
+
+        $computer = new Computer();
+
+        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $computer->getComputerHardware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+    }
+
+    /**
+     * Gets the users installed hasher
+     *
+     * @return null
+     */
+
+    public function getInstalledHasher()
+    {
+
+        $computer = new Computer();
+
+        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwares = $computer->getComputerSoftware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['type'] == Settings::getSetting('syscrack_hasher_type') )
+            {
+
+                return $software;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the users installed firewall
+     *
+     * @return null
+     */
+
+    public function getInstalledFirewall()
+    {
+
+        $computer = new Computer();
+
+        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwares = $computer->getComputerSoftware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['type'] == Settings::getSetting('syscrack_firewall_type') )
+            {
+
+                return $software;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the users installed cracker
+     *
+     * @return null
+     */
+
+    public function getInstalledCracker()
+    {
+
+        $computer = new Computer();
+
+        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwares = $computer->getComputerSoftware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['type'] == Settings::getSetting('syscrack_cracker_type') )
+            {
+
+                return $software;
+            }
+        }
+
+        return null;
     }
 
     /**
