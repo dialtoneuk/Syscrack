@@ -158,30 +158,6 @@ class FileSystem
 	}
 
 	/**
-	 * Finds a set of files
-	 *
-	 * @param $path
-	 *
-	 * @param null $patterns
-	 *
-	 * @return array
-	 */
-
-	public static function find( string $path, $patterns=null )
-	{
-
-        $return = glob( self::getFilePath( self::stitchPattern( $path, '*.php') ) );
-
-        foreach( $return as $key=>$value )
-        {
-
-            $return[ $key ] =  self::removeFileExtension( $value );
-        }
-
-        return $return;
-	}
-
-	/**
 	 * Appends a files
 	 *
 	 * @param $file
@@ -246,23 +222,16 @@ class FileSystem
 	 * @param $file
 	 */
 
-	public static function createDirectory( $file )
+	public static function createDirectory( $file, $access=0755 )
 	{
 
-		if( is_file( $file ) )
-		{
+	    if( substr( $file, -1 ) == '/' )
+        {
 
-			$file = self::getDirectories( $file );
-		}
+            $file = substr( $file, 0, -1);
+        }
 
-
-		if( file_exists( self::getFilePath( $file ) ) == false )
-		{
-
-			throw new ApplicationException();
-		}
-
-		mkdir( self::getFilePath( $file ) );
+        mkdir( self::getFilePath( $file ), $access, true);
 	}
 
 	/**

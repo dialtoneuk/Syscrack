@@ -388,6 +388,34 @@ class Softwares
     }
 
     /**
+     * Returns true if this software is installed
+     *
+     * @param $softwareid
+     *
+     * @param $computerid
+     *
+     * @return bool
+     */
+
+    public function isInstalled( $softwareid, $computerid )
+    {
+
+        if( $this->getDatabaseSoftware( $softwareid )->$computerid !== $computerid )
+        {
+
+            return false;
+        }
+
+        if( $this->getDatabaseSoftware( $softwareid )->installed == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Returns true if the method is callable
      *
      * @param $software

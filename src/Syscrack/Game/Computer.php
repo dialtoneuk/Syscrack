@@ -131,6 +131,36 @@ class Computer
     }
 
     /**
+     * Creates a new computer
+     *
+     * @param $userid
+     *
+     * @param $type
+     *
+     * @param $ipaddress
+     *
+     * @param array $softwares
+     *
+     * @param array $hardwares
+     *
+     * @return int
+     */
+
+    public function createComputer( $userid, $type, $ipaddress, $softwares = [], $hardwares = [] )
+    {
+
+        $array = array(
+            'userid'    => $userid,
+            'type'      => $type,
+            'ipaddress' => $ipaddress,
+            'softwares' => json_encode( $softwares ),
+            'hardwares' => json_encode( $hardwares)
+        );
+
+        return $this->database->insertComputer( $array );
+    }
+
+    /**
      * Adds software to the computers file system
      *
      * @param $computerid
@@ -400,6 +430,40 @@ class Computer
         }
 
         return null;
+    }
+
+    /**
+     * Returns true if this software is installed
+     *
+     * @param $computerid
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function isInstalled( $computerid, $softwareid )
+    {
+
+        $softwares = $this->getComputerSoftware( $computerid );
+
+        if( empty( $softwares ) )
+        {
+
+            return false;
+        }
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['softwareid'] == $softwareid )
+            {
+
+                return $software['installed'];
+            }
+        }
+
+        return false;
     }
 
     /**

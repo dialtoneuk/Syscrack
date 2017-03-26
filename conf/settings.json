@@ -40,6 +40,9 @@
     "syscrack_virus_type":"virus",
     "syscrack_npc_type":"npc",
     "syscrack_vpc_type":"vpc",
+    "syscrack_cracker_type":"cracker",
+    "syscrack_hasher_type":"hasher",
+    "syscrack_firewall_type":"firewall",
     "syscrack_software_namespace":"Framework\\Syscrack\\Game\\Softwares\\",
     "syscrack_software_location":"src\/Syscrack\/Game\/Softwares\/",
     "syscrack_addressdatabase_location":"syscrack\/addressdatabase\/",
@@ -56,5 +59,11 @@
     "syscrack_bank_accountnumber_length":8,
     "syscrack_currency":"£",
     "syscrack_master_user":1,
-    "syscrack_npc_filepath":"syscrack\/npc\/"
+    "syscrack_npc_filepath":"syscrack\/npc\/",
+    "syscrack_npc_page_location":"syscrack\/npc\/",
+    "syscrack_log_current":"current",
+    "syscrack_log_location":"syscrack\/logs\/",
+    "syscrack_startup_on_verification":true,
+    "syscrack_lowest_iprange":10,
+    "syscrack_whois_computer":1
 }

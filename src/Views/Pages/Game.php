@@ -13,6 +13,7 @@ use Framework\Application\Container;
 use Framework\Application\Session;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Log;
+use Framework\Application\Utilities\PostHelper;
 use Framework\Exceptions\ViewException;
 use Framework\Views\Structures\Page;
 use Flight;
@@ -50,7 +51,14 @@ class Game implements Page
 		return array(
 			[
 				'/game/', 'page'
-			]
+			],
+            [
+                '/game/internet/', 'defaultinternet'
+            ],
+            [
+                '/game/internet/@ipaddress', 'internet'
+            ],
+
 		);
 	}
 
@@ -63,4 +71,56 @@ class Game implements Page
 
 	    Flight::render('syscrack/page.game');
 	}
+
+    /**
+     * Renders the internet page when given an ip address
+     *
+     * @param $ipaddress
+     */
+
+	public function internet( $ipaddress )
+    {
+
+        if( filter_var( $ipaddress, FILTER_VALIDATE_IP ) == false )
+        {
+
+            Flight::redirect('/game/internet?error=Please enter an IP address');
+
+            exit;
+        }
+
+        Flight::render('syscrack/page.game.internet', array( 'ipaddress' => $ipaddress ));
+    }
+
+    /**
+     * Renders the whois
+     */
+
+    public function defaultinternet()
+    {
+
+        if( PostHelper::hasPostData() )
+        {
+
+            if( PostHelper::checkForRequirements(['ipaddress']) )
+            {
+
+                $ipaddress = PostHelper::getPostData('ipaddress');
+
+                if( filter_var( $ipaddress, FILTER_VALIDATE_IP ) == false )
+                {
+
+                    Flight::redirect('/game/internet?error=Please enter an IP address');
+
+                    exit;
+                }
+
+                Flight::redirect('/game/internet/' . $ipaddress );
+
+                exit;
+            }
+        }
+
+        Flight::render('syscrack/page.game.internet');
+    }
 }

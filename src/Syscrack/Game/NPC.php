@@ -109,28 +109,6 @@ class NPC
     }
 
     /**
-     * Gets the default NPC webpage
-     *
-     * @param $computerid
-     *
-     * @return mixed
-     */
-
-    public function getNPCWebpage( $computerid )
-    {
-
-        $default = $this->getDefaultState( $computerid );
-
-        if( empty( $default ) )
-        {
-
-            throw new SyscrackException();
-        }
-
-        return $default['webpage'];
-    }
-
-    /**
      * Gets the default NPC hardware
      *
      * @param $computerid
@@ -197,6 +175,50 @@ class NPC
     }
 
     /**
+     * Gets the NPC page to render
+     *
+     * @param $computerid
+     *
+     * @return mixed
+     */
+
+    public function getNPCPage( $computerid )
+    {
+
+        $default = $this->getDefaultState( $computerid );
+
+        if( empty( $default ) )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $default['page'];
+    }
+
+    /**
+     * Returns true if the NPC has a page to render
+     *
+     * @param $computerid
+     *
+     * @return bool
+     */
+
+    public function hasPage( $computerid )
+    {
+
+        $default = $this->getDefaultState( $computerid );
+
+        if( isset( $default['page'] ) == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Returns true if the NPC is a puzzle NPC
      *
      * @param $computerid
@@ -250,6 +272,18 @@ class NPC
         }
 
         return true;
+    }
+
+    /**
+     * Helper function to render the NPC page
+     *
+     * @param $computerid
+     */
+
+    public function renderNPCPage( $computerid )
+    {
+
+        \Flight::render( Settings::getSetting('syscrack_npc_page_location') . $this->getNPCPage( $computerid ) );
     }
 
     /**

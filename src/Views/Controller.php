@@ -19,15 +19,31 @@ use Flight;
 class Controller
 {
 
+    /**
+     * @var array
+     */
+
     protected $middlewares;
 
+    /**
+     * @var Factory
+     */
+
     protected $factory;
+
+    /**
+     * Controller constructor.
+     */
 
 	public function __construct()
     {
 
         $this->factory = new Factory( Settings::getSetting('controller_namespace') );
     }
+
+    /**
+     * Runs the controller
+     */
 
     public function run()
     {

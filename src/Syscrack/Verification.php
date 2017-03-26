@@ -89,6 +89,29 @@ class Verification
 
         return $this->database->getUserRequests( $userid )[0]->token;
     }
+
+    /**
+     * Gets the user behind a token
+     *
+     * @param $token
+     *
+     * @return mixed
+     */
+
+    public function getTokenUser( $token )
+    {
+
+        $result = $this->database->getToken( $token );
+
+        if( $result == null )
+        {
+
+            return null;
+        }
+
+        return $result->userid;
+    }
+
 	/**
 	 * Resets the request
 	 *
@@ -191,7 +214,7 @@ class Verification
 		if( $this->database->getToken( $token ) == null )
 		{
 
-			throw new SyscrackException();
+			throw new SyscrackException('token is invalid');
 		}
 
 		$userid = $this->database->getToken( $token )->userid;
@@ -282,6 +305,6 @@ class Verification
 	private function generateToken()
 	{
 
-		return Hashes::randomBytes();
+		return md5( Hashes::randomBytes() );
 	}
 }

@@ -14,6 +14,7 @@ use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
+use Framework\Syscrack\Game\Softwares;
 use Framework\Syscrack\User;
 
 class PageHelper
@@ -103,6 +104,26 @@ class PageHelper
         }
 
         return $computer->getComputerHardware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+    }
+
+    /**
+     * Gets a computers type
+     *
+     * @return mixed
+     */
+
+    public function getComputerType( $computerid )
+    {
+
+        $computer = new Computer();
+
+        if( $computer->getComputer( $computerid ) == null )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $computer->getComputer( $computerid )->type;
     }
 
     /**
@@ -199,6 +220,28 @@ class PageHelper
         }
 
         return null;
+    }
+
+    /**
+     * Gets a perticular softwares level
+     *
+     * @param $softwareid
+     *
+     * @return mixed
+     */
+
+    public function getSoftwareLevel( $softwareid )
+    {
+
+        $softwares = new Softwares();
+
+        if( $softwares->softwareExists( $softwareid ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $softwares->getDatabaseSoftware( $softwareid )->level;
     }
 
     /**

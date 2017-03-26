@@ -8,7 +8,7 @@
 
             $paths = explode('/', $url);
 
-            $built = '/';
+            $built = '';
 
             echo '<ol class="breadcrumb">';
 
@@ -30,10 +30,10 @@
                 }
 
                 ?>
-                    <li><a class="text-capitalize" href="<?=$built . $path ?>"><?=$path?></a></li>
+                    <li><a class="text-capitalize" href="<?= '/' . $built . $path?>"><?=$path?></a></li>
                 <?php
 
-                $built = $built . $built;
+                $built = $built . $path . '/';
             }
 
             echo '</ol>';

@@ -9,6 +9,7 @@ namespace Framework\Syscrack\Game;
  * @package Framework\Syscrack\Game
  */
 
+use Framework\Application\Container;
 use Framework\Application\Utilities\Hashes;
 use Framework\Database\Tables\Computers;
 use Framework\Exceptions\SyscrackException;
@@ -52,6 +53,19 @@ class Internet
         return true;
     }
 
+    /**
+     * Gets the computers by their IP address
+     *
+     * @param $ipaddress
+     *
+     * @return mixed|null
+     */
+
+    public function getComputer( $ipaddress )
+    {
+
+        return $this->computers->getComputerByIPAddress( $ipaddress );
+    }
     /**
      * Gets the computers password
      *
@@ -106,6 +120,78 @@ class Internet
         $this->computers->updateComputer( $computerid, $array );
 
         return $address;
+    }
+
+    /**
+     * Returns true if the user has a current connection
+     *
+     * @return bool
+     */
+
+    public function hasCurrentConnection()
+    {
+
+        if( isset( $_SESSION['connected_ipaddress'] ) == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the current connected address of the computer
+     *
+     * @return null
+     */
+
+    public function getCurrentConnectedAddress()
+    {
+
+        if( Container::hasObject('session') == false )
+        {
+
+            return null;
+        }
+
+        $session = Container::getObject('session');
+
+        if( $session->isLoggedIn() == false )
+        {
+
+            return null;
+        }
+
+        return $_SESSION['connected_ipaddress'];
+    }
+
+    /**
+     * Sets the current connected address of the user
+     *
+     * @param $ipaddress
+     *
+     * @return null
+     */
+
+    public function setCurrentConnectedAddress( $ipaddress )
+    {
+
+        if( Container::hasObject('session') == false )
+        {
+
+            return null;
+        }
+
+        $session = Container::getObject('session');
+
+        if( $session->isLoggedIn() == false )
+        {
+
+            return null;
+        }
+
+        $_SESSION['connected_ipaddress'] = $ipaddress;
     }
 
     /**
