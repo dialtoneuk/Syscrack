@@ -137,6 +137,12 @@ class Internet
             return false;
         }
 
+        if( empty( $_SESSION['connected_ipaddress'] ) || $_SESSION['connected_ipaddress'] == null )
+        {
+
+            return false;
+        }
+
         return true;
     }
 

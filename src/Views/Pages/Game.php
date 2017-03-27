@@ -4,7 +4,7 @@ namespace Framework\Views\Pages;
 /**
  * Lewis Lancaster 2016
  *
- * Class Index
+ * Class Error
  *
  * @package Framework\Views\Pages
  */
@@ -12,115 +12,289 @@ namespace Framework\Views\Pages;
 use Framework\Application\Container;
 use Framework\Application\Session;
 use Framework\Application\Settings;
-use Framework\Application\Utilities\Log;
 use Framework\Application\Utilities\PostHelper;
-use Framework\Exceptions\ViewException;
+use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\AddressDatabase;
+use Framework\Syscrack\Game\Log;
+use Framework\Syscrack\Game\Structures\Process;
 use Framework\Views\Structures\Page;
+use Framework\Syscrack\Game\Internet;
+use Framework\Syscrack\Game\Computer;
+use Framework\Syscrack\Game\Processes;
 use Flight;
 
 class Game implements Page
 {
 
     /**
-     * Index constructor.
+     * @var Internet
+     */
+
+    protected $internet;
+
+    /**
+     * @var Computer
+     */
+
+    protected $computer;
+
+    /**
+     * @var Processes
+     */
+
+    protected $processes;
+
+    /**
+     * Game constructor.
      */
 
     public function __construct()
     {
 
-        session_start();
+        $this->internet = new Internet();
 
-        Container::setObject('session',  new Session() );
+        $this->computer = new Computer();
 
-        if( Container::getObject('session')->isLoggedIn() == false )
+        $this->processes = new Processes();
+
+        if( session_status() !== PHP_SESSION_ACTIVE )
         {
 
-            Flight::redirect( '/'. Settings::getSetting('controller_index_page') );
+            session_start();
+        }
+
+        if( Container::hasObject('session') == false )
+        {
+
+            Container::setObject('session', new Session() );
         }
     }
 
     /**
-	 * The index page has a special algorithm which allows it to access the root. Only the index can do this.
-	 *
-	 * @return array
-	 */
-
-	public function mapping()
-	{
-
-		return array(
-			[
-				'/game/', 'page'
-			],
-            [
-                '/game/internet/', 'defaultinternet'
-            ],
-            [
-                '/game/internet/@ipaddress', 'internet'
-            ],
-
-		);
-	}
-
-	/**
-	 * Default page
-	 */
-
-	public function page()
-	{
-
-	    Flight::render('syscrack/page.game');
-	}
-
-    /**
-     * Renders the internet page when given an ip address
+     * The index page has a special algorithm which allows it to access the root. Only the index can do this.
      *
-     * @param $ipaddress
+     * @return array
      */
 
-	public function internet( $ipaddress )
+    public function mapping()
     {
 
-        if( filter_var( $ipaddress, FILTER_VALIDATE_IP ) == false )
-        {
-
-            Flight::redirect('/game/internet?error=Please enter an IP address');
-
-            exit;
-        }
-
-        Flight::render('syscrack/page.game.internet', array( 'ipaddress' => $ipaddress ));
+        return array(
+            [
+                '/game/internet/', 'internet'
+            ],
+            [
+                '/game/internet/@ipaddress', 'viewAddress'
+            ],
+            [
+                '/game/internet/@ipaddress/@process', 'process'
+            ]
+        );
     }
 
     /**
-     * Renders the whois
+     * Default page
      */
 
-    public function defaultinternet()
+    public function internet()
     {
 
         if( PostHelper::hasPostData() )
         {
 
-            if( PostHelper::checkForRequirements(['ipaddress']) )
+            if( $this->validAddress() == false )
             {
 
-                $ipaddress = PostHelper::getPostData('ipaddress');
+                $this->redirectError('404 Not Found');
+            }
 
-                if( filter_var( $ipaddress, FILTER_VALIDATE_IP ) == false )
+            $this->getRender('page.game.internet', array( 'ipaddress' => PostHelper::getPostData('ipaddress') ) );
+        }
+        else
+        {
+
+            $this->getRender('page.game.internet', array( 'ipaddress' => $this->internet->getComputerAddress( Settings::getSetting('syscrack_whois_computer') ) ) );
+        }
+    }
+
+    /**
+     * Processes a game action
+     *
+     * @param $ipaddress
+     *
+     * @param $process
+     */
+
+    public function process( $ipaddress, $process )
+    {
+
+        if( $this->validAddress( $ipaddress ) == false )
+        {
+
+            $this->redirectError('404 Not Found');
+        }
+        else
+        {
+
+            if( $this->processes->hasProcessClass( $process ) == false )
+            {
+
+                $this->redirectError('Action not found', $ipaddress );
+            }
+
+            $class = $this->processes->findProcessClass( $process );
+
+            if( $class instanceof Process == false )
+            {
+
+                throw new SyscrackException();
+            }
+
+            $completiontime = $class->getCompletionTime( $this->computer->getCurrentUserComputer(), $ipaddress, $process );
+
+            if( $completiontime == null )
+            {
+
+                $result = $class->onCreation( time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                    'ipaddress' => $ipaddress
+                ));
+
+                if( $result = false )
                 {
 
-                    Flight::redirect('/game/internet?error=Please enter an IP address');
+                    $this->redirectError('Unable to create process', $ipaddress );
+                }
+                else
+                {
 
-                    exit;
+                    $class->onCompletion( time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                        'ipaddress' => $ipaddress
+                    ));
+                }
+            }
+            else
+            {
+
+                $processid = $this->processes->createProcess( $completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                    'ipaddress' => $ipaddress
+                ));
+
+                if( $processid == false )
+                {
+
+                    $this->redirectError('Unable to create process', $ipaddress );
                 }
 
-                Flight::redirect('/game/internet/' . $ipaddress );
-
-                exit;
+                Flight::redirect('/processes/' . $processid );
             }
         }
+    }
 
-        Flight::render('syscrack/page.game.internet');
+    /**
+     * Views a specific address
+     *
+     * @param $ipaddress
+     */
+
+    public function viewAddress( $ipaddress )
+    {
+
+        if( $this->validAddress( $ipaddress ) == false )
+        {
+
+            $this->redirectError('404 Not Found');
+        }
+
+        $this->getRender('page.game.internet', array( 'ipaddress' => $ipaddress ) );
+    }
+
+    /**
+     * Redirects the user to an error page
+     *
+     * @param string $message
+     *
+     * @param string $ipaddress
+     */
+
+    private function redirectError( $message='', $ipaddress='' )
+    {
+
+        if( $ipaddress !== '' )
+        {
+
+            Flight::redirect('/game/internet/' . $ipaddress . "?error=" . $message ); exit;
+        }
+
+        Flight::redirect('/game/internet/?error=' . $message ); exit;
+    }
+
+    /**
+     * Redirects the user to a success page
+     *
+     * @param string $ipaddress
+     */
+
+    private function redirectSuccess( $ipaddress='' )
+    {
+
+        if( $ipaddress !== '' )
+        {
+
+            Flight::redirect('/game/internet/' . $ipaddress . "?success" ); exit;
+        }
+
+        Flight::redirect('/game/internet/?success'); exit;
+    }
+
+    /**
+     * Renders a page
+     *
+     * @param $file
+     *
+     * @param array|null $array
+     */
+
+    private function getRender( $file, array $array = null  )
+    {
+
+        Flight::render( Settings::getSetting('syscrack_view_location') . $file, $array);
+    }
+
+    /**
+     * returns true if the IP address is valid
+     *
+     * @param null $ipaddress
+     *
+     * @return bool
+     */
+
+    private function validAddress( $ipaddress=null )
+    {
+
+        if( $ipaddress == null )
+        {
+
+            if( PostHelper::checkForRequirements(['ipaddress'] ) == false )
+            {
+
+                return false;
+            }
+
+            $ipaddress = PostHelper::getPostData('ipaddress');
+        }
+
+        if( filter_var( $ipaddress, FILTER_VALIDATE_IP ) == false )
+        {
+
+            return false;
+        }
+
+        if( $this->internet->ipExists( $ipaddress ) == false )
+        {
+
+            return false;
+        }
+
+        return true;
     }
 }

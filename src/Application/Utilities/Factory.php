@@ -55,15 +55,15 @@ class Factory
 	public function createClass( $class )
 	{
 
-		$class = $this->getClass( $class );
+		$classnamespace = $this->getClass( $class );
 
-		if( $class == $this->namespace )
+		if( $classnamespace == $this->namespace )
 		{
 
 			throw new ViewException('No Class Given');
 		}
 
-		$pageclass = new $class;
+		$pageclass = new $classnamespace;
 
 		if( empty( $pageclass) )
 		{
@@ -71,7 +71,7 @@ class Factory
 			throw new ViewException('Class is Empty');
 		}
 
-		$this->classes[] = $pageclass;
+		$this->classes[ $class ] = $pageclass;
 
 		return $pageclass;
 	}

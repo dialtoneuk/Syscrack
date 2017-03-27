@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Syscrack\Game\Utility;
+namespace Framework\Syscrack\Game\Utilities;
 
 /**
  * Lewis Lancaster 2017

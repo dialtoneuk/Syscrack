@@ -171,27 +171,58 @@ class Softwares
     }
 
     /**
+     * Gets the software name from the software ID
+     *
+     * @param $softwareid
+     *
+     * @return int|null|string
+     */
+
+    public function getSoftwareNameFromSoftwareID( $softwareid )
+    {
+
+        return $this->getNameFromClass( $this->findSoftwareByUniqueName( $this->getDatabaseSoftware( $softwareid )->uniquename ) );
+    }
+
+    /**
      * Installs a software
      *
      * @param $softwareid
      */
 
-    public function installSoftware( $softwareid )
+    public function installSoftware( $softwareid, $userid )
     {
 
         $array = array(
-            'installed' => true
+            'installed' => true,
+            'userid'    => $userid
         );
 
         $this->database->updateSoftware( $softwareid, $array );
     }
 
     /**
-     * Finds a software by its unqiue name
+     * Uninstalls a software
+     *
+     * @param $softwareid
+     */
+
+    public function uninstallSoftware( $softwareid )
+    {
+
+        $array = array(
+            'installed' => false
+        );
+
+        $this->database->updateSoftware( $softwareid, $array );
+    }
+
+    /**
+     * Finds a software class by its unique name
      *
      * @param $uniquename
      *
-     * @return null
+     * @return Structure
      */
 
     public function findSoftwareByUniqueName( $uniquename )
@@ -199,7 +230,7 @@ class Softwares
 
         $classes = $this->factory->getAllClasses();
 
-        foreach( $classes as $class )
+        foreach( $classes as $key=>$class )
         {
 
             if( $class instanceof Structure == false )
@@ -220,19 +251,53 @@ class Softwares
     }
 
     /**
+     * Returns the name of the software from class
+     *
+     * @param $softwareclass
+     *
+     * @return int|null|string
+     */
+
+    public function getNameFromClass( $softwareclass )
+    {
+
+        $factory = $this->factory->getAllClasses();
+
+        foreach( $factory as $key=>$value )
+        {
+
+            if( $value == $softwareclass )
+            {
+
+                return $key;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Returns true if this software is installable
      *
-     * @param $software
+     * @param $softwareid
      *
      * @return bool
      */
 
-    public function canInstall( $software )
+    public function canInstall( $softwareid )
     {
 
-        $class = $this->factory->findClass( $software );
+        $software = $this->database->getSoftware( $softwareid );
 
-        if( $class->configuration()['installable'] == false )
+        if( $software == null )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+
+        if( $softwareclass->configuration()['installable'] == false )
         {
 
             return false;

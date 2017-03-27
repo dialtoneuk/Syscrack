@@ -8,7 +8,7 @@
         $session->updateLastAction();
     }
 
-    $pagehelper = new \Framework\Syscrack\Game\Utility\PageHelper();
+    $pagehelper = new \Framework\Syscrack\Game\Utilities\PageHelper();
 ?>
 <html>
 
@@ -29,25 +29,19 @@
                         Hello <?=$pagehelper->getUsername()?>!
                     </h1>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Debug Information</div>
-                        <div class="panel-body">
-                            <p>
-                                You currently have <strong><?=$pagehelper->getCash()?></strong>.
-                            </p>
+                    <?php
 
-                            <div class="well">
-                                <?=json_encode( $pagehelper->getComputerSoftware(), JSON_PRETTY_PRINT )?>
-                            </div>
-                        </div>
-                    </div>
+                        Flight::render( 'syscrack/templates/template.debug', array( 'pagehelper' => $pagehelper ) );
+                    ?>
                 </div>
                 <div class="col-lg-6">
                     <h1 class="page-header">
                         Other Information
                     </h1>
 
-
+                    <p>
+                        The sky is blue.
+                    </p>
                 </div>
             </div>
 

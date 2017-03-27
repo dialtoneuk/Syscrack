@@ -187,40 +187,6 @@ class Computer
     }
 
     /**
-     * Returns true if the software is installed
-     *
-     * @param $computerid
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
-
-    public function inInstalled( $computerid, $softwareid )
-    {
-
-        $softwares = json_decode( $this->database->getComputer( $computerid )->software, true );
-
-        if( empty( $softwares ) )
-        {
-
-            throw new SyscrackException();
-        }
-
-        foreach( $softwares as $key=>$software )
-        {
-
-            if( $software['softwareid'] == $softwareid )
-            {
-
-                return $software['installed'];
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * removes a software from the computers list
      *
      * @param $computerid
@@ -231,7 +197,7 @@ class Computer
     public function removeSoftware( $computerid, $softwareid )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->software, true );
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
 
         if( empty( $softwares ) )
         {
@@ -246,6 +212,70 @@ class Computer
             {
 
                 unset( $softwares[ $key ] );
+            }
+        }
+
+        $this->database->updateComputer( $computerid, array('softwares' => json_encode( $softwares ) ) );
+    }
+
+    /**
+     * Installs a software on the computer side software list
+     *
+     * @param $computerid
+     *
+     * @param $softwareid
+     */
+
+    public function installSoftware( $computerid, $softwareid )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+
+        if( empty( $softwares ) )
+        {
+
+            throw new SyscrackException();
+        }
+
+        foreach( $softwares as $key=>$software )
+        {
+
+            if( $software['softwareid'] == $softwareid )
+            {
+
+                $softwares[ $key ]['installed'] = true;
+            }
+        }
+
+        $this->database->updateComputer( $computerid, array('softwares' => json_encode( $softwares ) ) );
+    }
+
+    /**
+     * Uninstalls a software
+     *
+     * @param $computerid
+     *
+     * @param $softwareid
+     */
+
+    public function uninstallSoftware( $computerid, $softwareid )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+
+        if( empty( $softwares ) )
+        {
+
+            throw new SyscrackException();
+        }
+
+        foreach( $softwares as $key=>$software )
+        {
+
+            if( $software['softwareid'] == $softwareid )
+            {
+
+                $softwares[ $key ]['installed'] = false;
             }
         }
 
@@ -430,6 +460,84 @@ class Computer
         }
 
         return null;
+    }
+
+    /**
+     * Gets the current connected user commputer
+     *
+     * @param $computerid
+     */
+
+    public function setCurrentUserComputer( $computerid )
+    {
+
+        $_SESSION['current_computer'] = $computerid;
+    }
+
+    /**
+     * Gets the current connected user computer
+     *
+     * @return mixed
+     */
+
+    public function getCurrentUserComputer()
+    {
+
+        return $_SESSION['current_computer'];
+    }
+
+    /**
+     * Returns true if we have a current connected computer
+     *
+     * @return bool
+     */
+
+    public function hasCurrentComputer()
+    {
+
+        if( isset( $_SESSION['current_computer'] ) == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if the user has this type of software installed
+     *
+     * @param $computerid
+     *
+     * @param $type
+     *
+     * @param bool $checkinstall
+     *
+     * @return bool
+     */
+
+    public function hasType( $computerid, $type, $checkinstall=true )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['type'] == $type )
+            {
+
+                if( $software['installed'] == false )
+                {
+
+                    continue;
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

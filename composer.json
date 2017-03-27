@@ -1,0 +1,28 @@
+{
+  "name": "dialtoneuk/framework4",
+  "description": "Framework 4 is a fast, easy to use, visual framework",
+  "minimum-stability": "alpha",
+  "license": "apache",
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "src/"
+    },
+    "files":[
+      "src/Exceptions/Runtime.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Lewis Lancaster",
+      "email": "hackerman@zyon.io"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "illuminate/container": "^5.1",
+    "illuminate/database": "^5.1",
+    "mikecao/flight": "^1.2",
+    "facebook/graph-sdk": "*",
+    "mashape/unirest-php": "3.*"
+  }
+}

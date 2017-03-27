@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Syscrack\Game\Utility;
+namespace Framework\Syscrack\Game\Utilities;
 
 /**
  * Lewis Lancaster 2017
@@ -12,6 +12,7 @@ namespace Framework\Syscrack\Game\Utility;
 use Framework\Application\Container;
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Softwares;
@@ -40,6 +41,54 @@ class PageHelper
         }
 
         $this->session = Container::getObject('session');
+    }
+
+    /**
+     * Returns true if we are currently connected
+     *
+     * @param $ipaddress
+     *
+     * @return bool
+     */
+
+    public function isCurrentlyConnected( $ipaddress )
+    {
+
+        if( isset( $_SESSION['connected_ipaddress' ] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $_SESSION['connected_ipaddress'] == $ipaddress )
+        {
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if we have already hacked this computer
+     *
+     * @param $ipaddress
+     *
+     * @return bool
+     */
+
+    public function alreadyHacked( $ipaddress )
+    {
+
+        $addressdatabase = new AddressDatabase( $this->session->getSessionUser() );
+
+        if( $addressdatabase->getComputerByIPAddress( $ipaddress ) == false )
+        {
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -83,7 +132,7 @@ class PageHelper
             throw new SyscrackException();
         }
 
-        return $computer->getComputerSoftware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+        return $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
     }
 
     /**
@@ -103,7 +152,7 @@ class PageHelper
             throw new SyscrackException();
         }
 
-        return $computer->getComputerHardware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+        return $computer->getComputerHardware( $computer->getCurrentUserComputer() );
     }
 
     /**
@@ -143,7 +192,7 @@ class PageHelper
             throw new SyscrackException();
         }
 
-        $softwares = $computer->getComputerSoftware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+        $softwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
 
         foreach( $softwares as $software )
         {
@@ -151,7 +200,11 @@ class PageHelper
             if( $software['type'] == Settings::getSetting('syscrack_hasher_type') )
             {
 
-                return $software;
+                if( $software['installed'] == true )
+                {
+
+                    return $software;
+                }
             }
         }
 
@@ -175,7 +228,7 @@ class PageHelper
             throw new SyscrackException();
         }
 
-        $softwares = $computer->getComputerSoftware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+        $softwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
 
         foreach( $softwares as $software )
         {
@@ -183,7 +236,11 @@ class PageHelper
             if( $software['type'] == Settings::getSetting('syscrack_firewall_type') )
             {
 
-                return $software;
+                if( $software['installed'] == true )
+                {
+
+                    return $software;
+                }
             }
         }
 
@@ -207,7 +264,7 @@ class PageHelper
             throw new SyscrackException();
         }
 
-        $softwares = $computer->getComputerSoftware( $computer->getUserMainComputer( $this->session->getSessionUser() )->computerid );
+        $softwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
 
         foreach( $softwares as $software )
         {
@@ -215,7 +272,11 @@ class PageHelper
             if( $software['type'] == Settings::getSetting('syscrack_cracker_type') )
             {
 
-                return $software;
+                if( $software['installed'] == true )
+                {
+
+                    return $software;
+                }
             }
         }
 

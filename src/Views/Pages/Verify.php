@@ -11,7 +11,7 @@ namespace Framework\Views\Pages;
 
 use Framework\Application\Settings;
 use Framework\Application\Utilities\PostHelper;
-use Framework\Syscrack\Game\Utility\Startup;
+use Framework\Syscrack\Game\Utilities\Startup;
 use Framework\Views\Structures\Page;
 use Framework\Syscrack\Verification;
 use Flight;

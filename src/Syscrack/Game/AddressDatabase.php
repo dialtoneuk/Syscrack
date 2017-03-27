@@ -19,7 +19,7 @@ class AddressDatabase
      * @var mixed
      */
 
-    protected $database;
+    public $database;
 
     /**
      * @var null
@@ -94,12 +94,6 @@ class AddressDatabase
     public function addComputer( $computer )
     {
 
-        if( empty( $this->database ) )
-        {
-
-            return;
-        }
-
         $this->database[] = $computer;
     }
 
@@ -166,17 +160,18 @@ class AddressDatabase
     }
 
     /**
-     * Saves the users hacked database
+     * Saves the database
      *
      * @param $userid
-     *
-     * @param $data
      */
 
-    public function saveDatabase( $userid, $data )
+    public function saveDatabase( $userid=null )
     {
 
-        FileSystem::writeJson( $this->getFile( $userid ), $data );
+        if( $userid !=null)
+            FileSystem::writeJson( $this->getFile( $userid ), $this->database );
+        else
+            FileSystem::writeJson( $this->getFile( $this->userid ), $this->database );
     }
 
     /**

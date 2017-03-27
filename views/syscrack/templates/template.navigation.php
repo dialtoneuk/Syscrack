@@ -17,9 +17,15 @@
 
                             $user = new \Framework\Syscrack\User();
                             ?>
-                                <li><a href="/game/">Game</a></li>
+                                <li><a href="/ranking/">Clans</a></li>
                                 <li><a href="/ranking/">Ranking</a></li>
-
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/game/internet/">Internet</a></li>
+                                        <li><a href="/game/">Home</a></li>
+                                    </ul>
+                                </li>
                                 <?php
                                     if( $user->isAdmin( $session->getSessionUser() ) )
                                     {

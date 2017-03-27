@@ -10,6 +10,8 @@ namespace Framework\Views\Pages;
  */
 
 use Framework\Application\Utilities\PostHelper;
+use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\Computer;
 use Framework\Views\Structures\Page;
 use Framework\Application\Container;
 use Framework\Application\Session;
@@ -118,8 +120,9 @@ class Login implements Page
             $this->redirectError( $error->getMessage() );
         }
 
-
         Container::getObject('session')->insertSession( $login->getUserID( $username ) );
+
+        $this->addConnectedComputer( $login->getUserID( $username ) );
 
         Flight::redirect('/game/');
     }
@@ -128,6 +131,26 @@ class Login implements Page
     {
 
 
+    }
+
+    /**
+     * Adds the current connected computer to the session
+     *
+     * @param $userid
+     */
+
+    private function addConnectedComputer( $userid )
+    {
+
+        $computer = new Computer();
+
+        if( $computer->userHasComputers( $userid ) == false )
+        {
+
+            throw new SyscrackException('User has no computer');
+        }
+
+        $computer->setCurrentUserComputer( $computer->getUserMainComputer( $userid )->computerid );
     }
 
     /**
