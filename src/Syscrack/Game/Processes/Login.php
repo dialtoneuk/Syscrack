@@ -90,7 +90,9 @@ class Login implements Process
         else
         {
 
-            $this->logAccess( $computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+            $this->logAccess( $this->internet->getComputer( $data['ipaddress'] )->computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+
+            $this->logLocal( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, $data['ipaddress'] );
 
             $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
 
@@ -128,6 +130,20 @@ class Login implements Process
     {
 
         $this->logToComputer('Logged in as root', $computerid, $ipaddress );
+    }
+
+    /**
+     * Logs to the computer
+     *
+     * @param $computerid
+     *
+     * @param $ipaddress
+     */
+
+    private function logLocal( $computerid, $ipaddress )
+    {
+
+        $this->logToComputer('Logged into <' . $ipaddress . '> as root', $computerid, 'localhost' );
     }
 
     /**

@@ -14,8 +14,6 @@ use Framework\Application\Session;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\PostHelper;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\AddressDatabase;
-use Framework\Syscrack\Game\Log;
 use Framework\Syscrack\Game\Structures\Process;
 use Framework\Views\Structures\Page;
 use Framework\Syscrack\Game\Internet;
@@ -81,6 +79,9 @@ class Game implements Page
 
         return array(
             [
+                '/game/', 'page'
+            ],
+            [
                 '/game/internet/', 'internet'
             ],
             [
@@ -90,6 +91,12 @@ class Game implements Page
                 '/game/internet/@ipaddress/@process', 'process'
             ]
         );
+    }
+
+    public function page()
+    {
+
+        $this->getRender('page.game');
     }
 
     /**
