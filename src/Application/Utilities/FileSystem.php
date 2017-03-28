@@ -71,8 +71,14 @@ class FileSystem
      * @param array $array
      */
 
-    public static function writeJson( $file, array $array )
+    public static function writeJson( $file, $array )
     {
+
+        if( $array == null )
+        {
+
+            $array = [];
+        }
 
         self::write( $file, json_encode( $array, JSON_PRETTY_PRINT ) );
     }

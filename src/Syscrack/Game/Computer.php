@@ -131,6 +131,34 @@ class Computer
     }
 
     /**
+     * Returns true if the computer has this software
+     *
+     * @param $computerid
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function hasSoftware( $computerid, $softwareid )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['softwareid'] == $softwareid )
+            {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Creates a new computer
      *
      * @param $userid

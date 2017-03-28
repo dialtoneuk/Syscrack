@@ -53,8 +53,6 @@ class Game implements Page
 
         $this->computer = new Computer();
 
-        $this->processes = new Processes();
-
         if( session_status() !== PHP_SESSION_ACTIVE )
         {
 
@@ -65,6 +63,14 @@ class Game implements Page
         {
 
             Container::setObject('session', new Session() );
+        }
+
+        if( Container::getObject('session')->isLoggedIn() == false )
+        {
+
+            Flight::redirect( '/' . Settings::getSetting('controller_index_root') );
+
+            exit;
         }
     }
 
@@ -89,6 +95,9 @@ class Game implements Page
             ],
             [
                 '/game/internet/@ipaddress/@process', 'process'
+            ],
+            [
+                '/game/internet/@ipaddress/@process/@softwareid', 'processSoftware'
             ]
         );
     }
@@ -134,6 +143,8 @@ class Game implements Page
 
     public function process( $ipaddress, $process )
     {
+
+        $this->processes = new Processes();
 
         if( $this->validAddress( $ipaddress ) == false )
         {
@@ -184,6 +195,86 @@ class Game implements Page
 
                 $processid = $this->processes->createProcess( $completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
                     'ipaddress' => $ipaddress
+                ));
+
+                if( $processid == false )
+                {
+
+                    $this->redirectError('Unable to create process', $ipaddress );
+                }
+
+                Flight::redirect('/processes/' . $processid );
+            }
+        }
+    }
+
+    /**
+     * Processes a software action
+     *
+     * @param $ipaddress
+     *
+     * @param $process
+     *
+     * @param $softwareid
+     */
+
+    public function processSoftware( $ipaddress, $process, $softwareid )
+    {
+
+        $this->processes = new Processes();
+
+        if( $this->validAddress( $ipaddress ) == false )
+        {
+
+            $this->redirectError('404 Not Found');
+        }
+        else
+        {
+
+            if( $this->processes->hasProcessClass( $process ) == false )
+            {
+
+                $this->redirectError('Action not found', $ipaddress );
+            }
+
+            $class = $this->processes->findProcessClass( $process );
+
+            if( $class instanceof Process == false )
+            {
+
+                throw new SyscrackException();
+            }
+
+            $completiontime = $class->getCompletionTime( $this->computer->getCurrentUserComputer(), $ipaddress, $process );
+
+            if( $completiontime == null )
+            {
+
+                $result = $class->onCreation( time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                    'ipaddress'     => $ipaddress,
+                    'softwareid'    => $softwareid
+                ));
+
+                if( $result = false )
+                {
+
+                    $this->redirectError('Unable to create process', $ipaddress );
+                }
+                else
+                {
+
+                    $class->onCompletion( time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                        'ipaddress' => $ipaddress,
+                        'softwareid'    => $softwareid
+                    ));
+                }
+            }
+            else
+            {
+
+                $processid = $this->processes->createProcess( $completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                    'ipaddress' => $ipaddress,
+                    'softwareid'    => $softwareid
                 ));
 
                 if( $processid == false )

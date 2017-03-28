@@ -154,6 +154,28 @@ class Processes
     }
 
     /**
+     * Returns true if the process can be completed
+     *
+     * @param $processid
+     *
+     * @return bool
+     */
+
+    public function canComplete( $processid )
+    {
+
+        $process = $this->database->getProcess( $processid );
+
+        if( time() - $process->timecompleted < 0 )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Adds a process to the database
      *
      * @param $timecompleted
@@ -201,7 +223,7 @@ class Processes
             throw new SyscrackException();
         }
 
-        $result = $this->callProcessMethod( $this->findProcessClass( $process ), 'onCompletion', array(
+        $result = $this->callProcessMethod( $this->findProcessClass( $process->process ), 'onCompletion', array(
             'timecompleted' => $process->timecompleted,
             'timestarted'   => $process->timestarted,
             'computerid'    => $process->computerid,

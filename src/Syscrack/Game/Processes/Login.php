@@ -54,6 +54,12 @@ class Login implements Process
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
     {
 
+        if( isset( $data['ipaddress'] ) == false )
+        {
+
+            return false;
+        }
+
         return true;
     }
 
@@ -82,10 +88,25 @@ class Login implements Process
             throw new SyscrackException();
         }
 
-        if( $this->internet->getCurrentConnectedAddress() == $data['ipaddress'] )
+        if( $this->internet->hasCurrentConnection() )
         {
 
-            $this->redirectError('You are already logged into this computer');
+            if( $this->internet->getCurrentConnectedAddress() == $data['ipaddress'] )
+            {
+
+                $this->redirectError('You are already logged into this computer');
+            }
+            else
+            {
+
+                $this->logAccess( $this->internet->getComputer( $data['ipaddress'] )->computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+
+                $this->logLocal( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, $data['ipaddress'] );
+
+                $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
+
+                $this->redirectSuccess( $data['ipaddress'] );
+            }
         }
         else
         {
