@@ -18,7 +18,7 @@ use Framework\Syscrack\Game\Structures\Process;
 use Framework\Views\Structures\Page;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Computer;
-use Framework\Syscrack\Game\Processes;
+use Framework\Syscrack\Game\Operations;
 use Flight;
 
 class Game implements Page
@@ -37,7 +37,7 @@ class Game implements Page
     protected $computer;
 
     /**
-     * @var Processes
+     * @var Operations
      */
 
     protected $processes;
@@ -144,7 +144,7 @@ class Game implements Page
     public function process( $ipaddress, $process )
     {
 
-        $this->processes = new Processes();
+        $this->processes = new Operations();
 
         if( $this->validAddress( $ipaddress ) == false )
         {
@@ -221,7 +221,7 @@ class Game implements Page
     public function processSoftware( $ipaddress, $process, $softwareid )
     {
 
-        $this->processes = new Processes();
+        $this->processes = new Operations();
 
         if( $this->validAddress( $ipaddress ) == false )
         {

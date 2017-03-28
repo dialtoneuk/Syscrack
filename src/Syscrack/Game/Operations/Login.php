@@ -1,12 +1,12 @@
 <?php
-namespace Framework\Syscrack\Game\Processes;
+namespace Framework\Syscrack\Game\Operations;
 
 /**
  * Lewis Lancaster 2017
  *
  * Class Login
  *
- * @package Framework\Syscrack\Game\Processes
+ * @package Framework\Syscrack\Game\Operations
  */
 
 use Framework\Exceptions\SyscrackException;

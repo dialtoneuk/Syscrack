@@ -71,6 +71,6 @@
     "syscrack_level_normal": 50,
     "syscrack_uninstallable_types":"{['syscrack_virus_type','syscrack_ddos_type']}",
     "syscrack_view_location":"syscrack\/",
-    "syscrack_processes_location":"src\/Syscrack\/Game\/Processes\/",
-    "syscrack_processes_namespace":"Framework\\Syscrack\\Game\\Processes\\"
+    "syscrack_processes_location":"src\/Syscrack\/Game\/Operations\/",
+    "syscrack_processes_namespace":"Framework\\Syscrack\\Game\\Operations\\"
 }

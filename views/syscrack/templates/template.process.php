@@ -1,11 +1,11 @@
 <?php
 
-use Framework\Syscrack\Game\Processes;
+use Framework\Syscrack\Game\Operations;
 
 if( isset( $processclass ) == false )
 {
 
-    $processclass = new Processes();
+    $processclass = new Operations();
 }
 
 if( isset( $processid ) )

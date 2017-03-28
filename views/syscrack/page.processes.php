@@ -13,7 +13,7 @@
     if( isset( $processclass ) == false )
     {
 
-        $processclass = new \Framework\Syscrack\Game\Processes();
+        $processclass = new \Framework\Syscrack\Game\Operations();
     }
 ?>
 <html>

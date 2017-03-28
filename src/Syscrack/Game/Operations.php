@@ -4,7 +4,7 @@ namespace Framework\Syscrack\Game;
 /**
  * Lewis Lancaster 2017
  *
- * Class Processes
+ * Class Operations
  *
  * @package Framework\Syscrack\Game
  */
@@ -16,7 +16,7 @@ use Framework\Database\Tables\Processes as Database;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Process;
 
-class Processes
+class Operations
 {
 
     /**

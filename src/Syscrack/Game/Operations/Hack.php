@@ -1,20 +1,25 @@
 <?php
-namespace Framework\Syscrack\Game\Processes;
+namespace Framework\Syscrack\Game\Operations;
 
 /**
  * Lewis Lancaster 2017
  *
- * Class Logout
+ * Class Hack
  *
- * @package Framework\Syscrack\Game\Processes
+ * @package Framework\Syscrack\Game\Operations
  */
 
+use Framework\Application\Container;
 use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\Softwares;
 use Framework\Syscrack\Game\Structures\Process;
 use Framework\Syscrack\Game\Internet;
+use Framework\Syscrack\Game\Computer;
+use Framework\Syscrack\Game\AddressDatabase;
+use Framework\Syscrack\Game\Utilities\TimeHelper;
 use Flight;
 
-class Logout implements Process
+class Hack implements Process
 {
 
     /**
@@ -24,6 +29,24 @@ class Logout implements Process
     protected $internet;
 
     /**
+     * @var Computer
+     */
+
+    protected $computer;
+
+    /**
+     * @var AddressDatabase;
+     */
+
+    protected $addressdatabase;
+
+    /**
+     * @var Softwares
+     */
+
+    protected $softwares;
+
+    /**
      * Logout constructor.
      */
 
@@ -31,6 +54,10 @@ class Logout implements Process
     {
 
         $this->internet = new Internet();
+
+        $this->computer = new Computer();
+
+        $this->softwares = new Softwares();
     }
 
     /**
@@ -51,6 +78,31 @@ class Logout implements Process
 
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
     {
+
+        if( isset( $data['ipaddress'] ) == false )
+        {
+
+            return false;
+        }
+
+        $this->addressdatabase = new AddressDatabase( Container::getObject('session')->getSessionUser() );
+
+        $usercomputer = $this->computer->getComputer( $this->computer->getCurrentUserComputer() );
+
+        $computer = $this->internet->getComputer( $data['ipaddress'] );
+
+        if( $this->softwares->getDatabaseSoftware( $this->computer->getCracker( $usercomputer->computerid ) )->level
+            < $this->softwares->getDatabaseSoftware( $this->computer->getHasher( $computer->computerid ) )->level )
+        {
+
+            return false;
+        }
+
+        if( $this->addressdatabase->getComputerByIPAddress( $data['ipaddress' ] ) != null )
+        {
+
+            return false;
+        }
 
         return true;
     }
@@ -78,18 +130,17 @@ class Logout implements Process
             throw new SyscrackException();
         }
 
-        if( $this->internet->getCurrentConnectedAddress() !== $data['ipaddress'] )
-        {
+        $this->addressdatabase = new AddressDatabase( Container::getObject('session')->getSessionUser() );
 
-            $this->redirectError('You must be connected to this address in order to logout');
-        }
-        else
-        {
+        $this->addressdatabase->addComputer( array(
+            'computerid'        => $this->internet->getComputer( $data['ipaddress'] )->computerid,
+            'ipaddress'         => $data['ipaddress'],
+            'timehacked'        => time()
+        ));
 
-            $this->internet->setCurrentConnectedAddress( null );
+        $this->addressdatabase->saveDatabase();
 
-            $this->redirectSuccess( $data['ipaddress'] );
-        }
+        Flight::redirect('/game/internet/' . $data['ipaddress'] . '/login');
     }
 
     /**
@@ -107,7 +158,9 @@ class Logout implements Process
     public function getCompletionTime($computerid, $ipaddress, $process)
     {
 
-        return null;
+        $future = new TimeHelper();
+
+        return $future->getSecondsInFuture(10);
     }
 
     /**

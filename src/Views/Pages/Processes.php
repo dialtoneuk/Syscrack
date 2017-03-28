@@ -10,7 +10,7 @@ namespace Framework\Views\Pages;
  */
 
 use Framework\Views\Structures\Page;
-use Framework\Syscrack\Game\Processes as Manager;
+use Framework\Syscrack\Game\Operations;
 use Framework\Syscrack\Game\Computer;
 use Framework\Application\Container;
 use Framework\Application\Session;
@@ -21,10 +21,14 @@ class Processes implements Page
 {
 
     /**
-     * @var Manager
+     * @var Operations
      */
 
-    protected $processes;
+    protected $operations;
+
+    /**
+     * @var Computer
+     */
 
     protected $computer;
 
@@ -55,7 +59,7 @@ class Processes implements Page
             exit;
         }
 
-        $this->processes = new Manager();
+        $this->operations = new Operations();
 
         $this->computer = new Computer();
     }
@@ -101,7 +105,7 @@ class Processes implements Page
     public function viewProcess( $processid )
     {
 
-        if( $this->processes->processExists( $processid ) == false )
+        if( $this->operations->processExists( $processid ) == false )
         {
 
             $this->redirectError('This process does not exist');
@@ -109,7 +113,7 @@ class Processes implements Page
         else
         {
 
-            $process = $this->processes->getProcess( $processid );
+            $process = $this->operations->getProcess( $processid );
 
             if( $process->userid != Container::getObject('session')->getSessionUser() )
             {
@@ -127,16 +131,22 @@ class Processes implements Page
                 else
                 {
 
-                    $this->getRender('page.processes', array( 'processid' => $processid, 'processclass' => $this->processes, 'auto' => true ) );
+                    $this->getRender('page.processes', array( 'processid' => $processid, 'processclass' => $this->operations, 'auto' => true ) );
                 }
             }
         }
     }
 
+    /**
+     * Completes a process
+     *
+     * @param $processid
+     */
+
     public function completeProcess( $processid )
     {
 
-        if( $this->processes->processExists( $processid ) == false )
+        if( $this->operations->processExists( $processid ) == false )
         {
 
             $this->redirectError('This process does not exist');
@@ -144,7 +154,7 @@ class Processes implements Page
         else
         {
 
-            $process = $this->processes->getProcess( $processid );
+            $process = $this->operations->getProcess( $processid );
 
             if( $process->userid != Container::getObject('session')->getSessionUser() )
             {
@@ -162,7 +172,7 @@ class Processes implements Page
                 else
                 {
 
-                    if( $this->processes->canComplete( $processid ) == false )
+                    if( $this->operations->canComplete( $processid ) == false )
                     {
 
                         $this->redirectError('Process has not yet completed');
@@ -170,7 +180,7 @@ class Processes implements Page
                     else
                     {
 
-                        $this->processes->completeProcess( $processid );
+                        $this->operations->completeProcess( $processid );
                     }
                 }
             }

@@ -1,29 +1,21 @@
 <?php
-namespace Framework\Syscrack\Game\Processes;
+namespace Framework\Syscrack\Game\Operations;
 
 /**
  * Lewis Lancaster 2017
  *
- * Class Log
+ * Class Logout
  *
- * @package Framework\Syscrack\Game\Processes
+ * @package Framework\Syscrack\Game\Operations
  */
 
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Process;
-use Framework\Syscrack\Game\Log as LogManager;
 use Framework\Syscrack\Game\Internet;
 use Flight;
-use Framework\Syscrack\Game\Utilities\TimeHelper;
 
-class Log implements Process
+class Logout implements Process
 {
-
-    /**
-     * @var LogManager
-     */
-
-    protected $log;
 
     /**
      * @var Internet
@@ -32,19 +24,17 @@ class Log implements Process
     protected $internet;
 
     /**
-     * Log constructor.
+     * Logout constructor.
      */
 
     public function __construct()
     {
 
-        $this->log = new LogManager();
-
         $this->internet = new Internet();
     }
 
     /**
-     * Called when the process is created
+     * Called when this process request is created
      *
      * @param $timecompleted
      *
@@ -56,35 +46,19 @@ class Log implements Process
      *
      * @param array $data
      *
-     * @return bool
+     * @return mixed
      */
 
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
     {
 
-        if( isset( $data['ipaddress'] ) == false )
-        {
-
-            return false;
-        }
-
-        $computer = $this->internet->getComputer( $data['ipaddress'] );
-
-        if( $this->log->hasLog( $computer->computerid ) == false )
-        {
-
-            return false;
-        }
-
         return true;
     }
 
     /**
-     * Called when a process is completed
+     * Called when this process request is created
      *
      * @param $timecompleted
-     *
-     * @param $timestarted
      *
      * @param $computerid
      *
@@ -104,13 +78,22 @@ class Log implements Process
             throw new SyscrackException();
         }
 
-        $this->log->saveLog( $this->internet->getComputer( $data['ipaddress'] )->computerid, [] );
+        if( $this->internet->getCurrentConnectedAddress() !== $data['ipaddress'] )
+        {
 
-        $this->redirectSuccess( $data['ipaddress'] );
+            $this->redirectError('You must be connected to this address in order to logout');
+        }
+        else
+        {
+
+            $this->internet->setCurrentConnectedAddress( null );
+
+            $this->redirectSuccess( $data['ipaddress'] );
+        }
     }
 
     /**
-     * gets the time in seconds it takes to complete an action
+     * Gets the completion time
      *
      * @param $computerid
      *
@@ -124,9 +107,7 @@ class Log implements Process
     public function getCompletionTime($computerid, $ipaddress, $process)
     {
 
-        $future = new TimeHelper();
-
-        return $future->getSecondsInFuture( 10 );
+        return null;
     }
 
     /**

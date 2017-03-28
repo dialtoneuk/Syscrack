@@ -1,26 +1,29 @@
 <?php
-namespace Framework\Syscrack\Game\Processes;
+namespace Framework\Syscrack\Game\Operations;
 
 /**
  * Lewis Lancaster 2017
  *
- * Class Hack
+ * Class Log
  *
- * @package Framework\Syscrack\Game\Processes
+ * @package Framework\Syscrack\Game\Operations
  */
 
-use Framework\Application\Container;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Softwares;
 use Framework\Syscrack\Game\Structures\Process;
+use Framework\Syscrack\Game\Log as LogManager;
 use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Computer;
-use Framework\Syscrack\Game\AddressDatabase;
 use Flight;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
 
-class Hack implements Process
+class Log implements Process
 {
+
+    /**
+     * @var LogManager
+     */
+
+    protected $log;
 
     /**
      * @var Internet
@@ -28,28 +31,20 @@ class Hack implements Process
 
     protected $internet;
 
-    protected $computer;
-
-    protected $addressdatabase;
-
-    protected $softwares;
-
     /**
-     * Logout constructor.
+     * Log constructor.
      */
 
     public function __construct()
     {
 
+        $this->log = new LogManager();
+
         $this->internet = new Internet();
-
-        $this->computer = new Computer();
-
-        $this->softwares = new Softwares();
     }
 
     /**
-     * Called when this process request is created
+     * Called when the process is created
      *
      * @param $timecompleted
      *
@@ -61,7 +56,7 @@ class Hack implements Process
      *
      * @param array $data
      *
-     * @return mixed
+     * @return bool
      */
 
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
@@ -73,20 +68,9 @@ class Hack implements Process
             return false;
         }
 
-        $this->addressdatabase = new AddressDatabase( Container::getObject('session')->getSessionUser() );
-
-        $usercomputer = $this->computer->getComputer( $this->computer->getCurrentUserComputer() );
-
         $computer = $this->internet->getComputer( $data['ipaddress'] );
 
-        if( $this->softwares->getDatabaseSoftware( $this->computer->getCracker( $usercomputer->computerid ) )->level
-            < $this->softwares->getDatabaseSoftware( $this->computer->getHasher( $computer->computerid ) )->level )
-        {
-
-            return false;
-        }
-
-        if( $this->addressdatabase->getComputerByIPAddress( $data['ipaddress' ] ) != null )
+        if( $this->log->hasLog( $computer->computerid ) == false )
         {
 
             return false;
@@ -96,9 +80,11 @@ class Hack implements Process
     }
 
     /**
-     * Called when this process request is created
+     * Called when a process is completed
      *
      * @param $timecompleted
+     *
+     * @param $timestarted
      *
      * @param $computerid
      *
@@ -118,21 +104,13 @@ class Hack implements Process
             throw new SyscrackException();
         }
 
-        $this->addressdatabase = new AddressDatabase( Container::getObject('session')->getSessionUser() );
+        $this->log->saveLog( $this->internet->getComputer( $data['ipaddress'] )->computerid, [] );
 
-        $this->addressdatabase->addComputer( array(
-            'computerid'        => $this->internet->getComputer( $data['ipaddress'] )->computerid,
-            'ipaddress'         => $data['ipaddress'],
-            'timehacked'        => time()
-        ));
-
-        $this->addressdatabase->saveDatabase();
-
-        Flight::redirect('/game/internet/' . $data['ipaddress'] . '/login');
+        $this->redirectSuccess( $data['ipaddress'] );
     }
 
     /**
-     * Gets the completion time
+     * gets the time in seconds it takes to complete an action
      *
      * @param $computerid
      *
@@ -148,7 +126,7 @@ class Hack implements Process
 
         $future = new TimeHelper();
 
-        return $future->getSecondsInFuture(10);
+        return $future->getSecondsInFuture( 10 );
     }
 
     /**
