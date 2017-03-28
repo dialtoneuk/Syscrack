@@ -14,7 +14,7 @@ use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
 use Framework\Database\Tables\Processes as Database;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Process;
+use Framework\Syscrack\Game\Structures\Operation;
 
 class Operations
 {
@@ -40,7 +40,7 @@ class Operations
     public function __construct( $autoload=true )
     {
 
-        $this->factory = new Factory( Settings::getSetting('syscrack_processes_namespace') );
+        $this->factory = new Factory( Settings::getSetting('syscrack_operations_namespace') );
 
         $this->database = new Database();
 
@@ -318,7 +318,7 @@ class Operations
     /**
      * Calls a method inside the process class
      *
-     * @param Process $process
+     * @param Operation $process
      *
      * @param string $method
      *
@@ -327,10 +327,10 @@ class Operations
      * @return mixed
      */
 
-    private function callProcessMethod( Process $process, $method='onCreation', array $data )
+    private function callProcessMethod(Operation $process, $method='onCreation', array $data )
     {
 
-        if( $process instanceof Process === false )
+        if( $process instanceof Operation === false )
         {
 
             throw new SyscrackException();
@@ -384,7 +384,7 @@ class Operations
     private function getProcessesClasses()
     {
 
-        $files = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_processes_location') );
+        $files = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_operations_location') );
 
         if( empty( $files ) )
         {

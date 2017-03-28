@@ -10,11 +10,11 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Process;
+use Framework\Syscrack\Game\Structures\Operation;
 use Framework\Syscrack\Game\Internet;
 use Flight;
 
-class Logout implements Process
+class Logout implements Operation
 {
 
     /**

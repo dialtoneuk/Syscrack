@@ -14,7 +14,7 @@ use Framework\Application\Session;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\PostHelper;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Process;
+use Framework\Syscrack\Game\Structures\Operation;
 use Framework\Views\Structures\Page;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Computer;
@@ -162,7 +162,7 @@ class Game implements Page
 
             $class = $this->processes->findProcessClass( $process );
 
-            if( $class instanceof Process == false )
+            if( $class instanceof Operation == false )
             {
 
                 throw new SyscrackException();
@@ -239,7 +239,7 @@ class Game implements Page
 
             $class = $this->processes->findProcessClass( $process );
 
-            if( $class instanceof Process == false )
+            if( $class instanceof Operation == false )
             {
 
                 throw new SyscrackException();

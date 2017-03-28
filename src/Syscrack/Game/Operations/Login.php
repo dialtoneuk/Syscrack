@@ -10,13 +10,13 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Process;
+use Framework\Syscrack\Game\Structures\Operation;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Log;
 use Framework\Syscrack\Game\Computer;
 use Flight;
 
-class Login implements Process
+class Login implements Operation
 {
 
     protected $internet;

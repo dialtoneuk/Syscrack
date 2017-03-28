@@ -4,13 +4,13 @@ namespace Framework\Syscrack\Game\Structures;
 /**
  * Lewis Lancaster 2017
  *
- * Interface Process
+ * Interface Operation
  *
  * @package Framework\Syscrack\Game\Structures
  */
 
 
-interface Process
+interface Operation
 {
 
     /**

@@ -10,7 +10,7 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Process;
+use Framework\Syscrack\Game\Structures\Operation;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
 use Framework\Syscrack\Game\Softwares;
 use Framework\Syscrack\Game\Computer;
@@ -18,7 +18,7 @@ use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Log;
 use Flight;
 
-class Install implements Process
+class Install implements Operation
 {
 
     /**

@@ -12,14 +12,14 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Application\Container;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Softwares;
-use Framework\Syscrack\Game\Structures\Process;
+use Framework\Syscrack\Game\Structures\Operation;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
 use Flight;
 
-class Hack implements Process
+class Hack implements Operation
 {
 
     /**
