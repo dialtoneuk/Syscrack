@@ -23,9 +23,14 @@ class Softwares
 
     /**
      * @var Factory
+     *
+     * Since theres an issue with the software forever in a loop loading the software classes, this static variable
+     * holds these classes so we don't reload them
+     *
+     * TODO: rewrite this so this isn't a problem
      */
 
-    protected $factory;
+    protected static $factory;
 
     /**
      * @var Database
@@ -42,29 +47,43 @@ class Softwares
     public function __construct( $autoload=true )
     {
 
-        $this->factory = new Factory( Settings::getSetting('syscrack_software_namespace') );
-
         $this->database = new Database();
 
-        if( $autoload == true )
+        if( self::$factory == null )
         {
 
-            $this->loadSoftwares();
+            self::$factory = new Factory( Settings::getSetting('syscrack_software_namespace') );
+
+            //TODO: Rewrite software class ( right now its bulky )
+            if( $autoload == true )
+            {
+
+                $this->loadSoftwares();
+            }
         }
     }
 
     /**
-     * Gets the software from the database
-     *
-     * @param $softwareid
-     *
-     * @return mixed|null
+     * Loads all the software classes into the factory
      */
 
-    public function getDatabaseSoftware( $softwareid )
+    private function loadSoftwares()
     {
 
-        return $this->database->getSoftware( $softwareid );
+        $softwares = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_software_location') );
+
+        foreach( $softwares as $software )
+        {
+
+
+            if( self::$factory->hasClass( FileSystem::getFileName( $software ) ) )
+            {
+
+                continue;
+            }
+
+            self::$factory->createClass( FileSystem::getFileName( $software ) );
+        }
     }
 
     /**
@@ -99,6 +118,39 @@ class Softwares
     {
 
         return $this->findSoftwareByUniqueName( $this->database->getSoftware( $softwareid )->uniquename );
+    }
+
+    /**
+     * Finds a software class by its unique name
+     *
+     * @param $uniquename
+     *
+     * @return Structure
+     */
+
+    public function findSoftwareByUniqueName( $uniquename )
+    {
+
+        $classes = self::$factory->getAllClasses();
+
+        foreach( $classes as $key=>$class )
+        {
+
+            if( $class instanceof Structure == false )
+            {
+
+                throw new SyscrackException();
+            }
+
+            /** @var Structure $class */
+            if( $class->configuration()['uniquename'] == $uniquename )
+            {
+
+                return $class;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -140,7 +192,7 @@ class Softwares
     public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software' )
     {
 
-        if( $this->hasSoftware( $software ) == false )
+        if( $this->hasSoftwareClass( $software ) == false )
         {
 
             throw new SyscrackException();
@@ -172,6 +224,40 @@ class Softwares
     }
 
     /**
+     * Returns true if we have this software class in our factory
+     *
+     * @param $software
+     *
+     * @return bool
+     */
+
+    public function hasSoftwareClass( $software )
+    {
+
+        if( self::$factory->hasClass( $software ) == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the software class, which is used when processing what a software actually does
+     *
+     * @param $software
+     *
+     * @return Structure
+     */
+
+    public function getSoftwareClass( $software )
+    {
+
+        return self::$factory->findClass( $software );
+    }
+
+    /**
      * Gets the software name from the software ID
      *
      * @param $softwareid
@@ -182,7 +268,47 @@ class Softwares
     public function getSoftwareNameFromSoftwareID( $softwareid )
     {
 
-        return $this->getNameFromClass( $this->findSoftwareByUniqueName( $this->getDatabaseSoftware( $softwareid )->uniquename ) );
+        return $this->getNameFromClass( $this->findSoftwareByUniqueName( $this->getSoftware( $softwareid )->uniquename ) );
+    }
+
+    /**
+     * Returns the name of the software from class
+     *
+     * @param $softwareclass
+     *
+     * @return int|null|string
+     */
+
+    public function getNameFromClass( $softwareclass )
+    {
+
+        $factory = self::$factory->getAllClasses();
+
+        foreach( $factory as $key=>$value )
+        {
+
+            if( $value == $softwareclass )
+            {
+
+                return $key;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the software from the database
+     *
+     * @param $softwareid
+     *
+     * @return mixed|null
+     */
+
+    public function getSoftware( $softwareid )
+    {
+
+        return $this->database->getSoftware( $softwareid );
     }
 
     /**
@@ -230,65 +356,6 @@ class Softwares
         );
 
         $this->database->updateSoftware( $softwareid, $array );
-    }
-
-    /**
-     * Finds a software class by its unique name
-     *
-     * @param $uniquename
-     *
-     * @return Structure
-     */
-
-    public function findSoftwareByUniqueName( $uniquename )
-    {
-
-        $classes = $this->factory->getAllClasses();
-
-        foreach( $classes as $key=>$class )
-        {
-
-            if( $class instanceof Structure == false )
-            {
-
-                throw new SyscrackException();
-            }
-
-            /** @var Structure $class */
-            if( $class->configuration()['uniquename'] == $uniquename )
-            {
-
-                return $class;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns the name of the software from class
-     *
-     * @param $softwareclass
-     *
-     * @return int|null|string
-     */
-
-    public function getNameFromClass( $softwareclass )
-    {
-
-        $factory = $this->factory->getAllClasses();
-
-        foreach( $factory as $key=>$value )
-        {
-
-            if( $value == $softwareclass )
-            {
-
-                return $key;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -397,20 +464,6 @@ class Softwares
         }
 
         return true;
-    }
-
-    /**
-     * Gets the software class, which is used when processing what a software actually does
-     *
-     * @param $software
-     *
-     * @return Structure
-     */
-
-    public function getSoftwareClass( $software )
-    {
-
-        return $this->factory->findClass( $software );
     }
 
     /**
@@ -562,54 +615,6 @@ class Softwares
     }
 
     /**
-     * Returns true if we have this software
-     *
-     * @param $software
-     *
-     * @return bool
-     */
-
-    public function hasSoftware( $software )
-    {
-
-        if( $this->factory->hasClass( $software ) == false )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns true if this software is installed
-     *
-     * @param $softwareid
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
-
-    public function isInstalled( $softwareid, $computerid )
-    {
-
-        if( $this->getDatabaseSoftware( $softwareid )->$computerid !== $computerid )
-        {
-
-            return false;
-        }
-
-        if( $this->getDatabaseSoftware( $softwareid )->installed == false )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Returns true if the method is callable
      *
      * @param $software
@@ -642,18 +647,30 @@ class Softwares
     }
 
     /**
-     * Loads all the software classes into the factory
+     * Returns true if this software is installed
+     *
+     * @param $softwareid
+     *
+     * @param $computerid
+     *
+     * @return bool
      */
 
-    private function loadSoftwares()
+    public function isInstalled( $softwareid, $computerid )
     {
 
-        $softwares = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_software_location') );
-
-        foreach( $softwares as $software )
+        if( $this->getSoftware( $softwareid )->$computerid !== $computerid )
         {
 
-            $this->factory->createClass( FileSystem::getFileName( $software ) );
+            return false;
         }
+
+        if( $this->getSoftware( $softwareid )->installed == false )
+        {
+
+            return false;
+        }
+
+        return true;
     }
 }

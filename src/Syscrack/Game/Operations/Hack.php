@@ -58,7 +58,7 @@ class Hack implements Operation
 
         $this->computer = new Computer();
 
-        $this->softwares = new Softwares();
+        $this->softwares = new Softwares( true );
     }
 
     /**
@@ -110,8 +110,8 @@ class Hack implements Operation
             return false;
         }
 
-        if( $this->softwares->getDatabaseSoftware( $this->computer->getCracker( $usercomputer->computerid ) )->level
-            < $this->softwares->getDatabaseSoftware( $this->computer->getHasher( $computer->computerid ) )->level )
+        if( $this->softwares->getSoftware( $this->computer->getCracker( $usercomputer->computerid ) )->level
+            < $this->softwares->getSoftware( $this->computer->getHasher( $computer->computerid ) )->level )
         {
 
             return false;

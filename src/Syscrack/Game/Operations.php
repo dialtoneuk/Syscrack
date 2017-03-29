@@ -40,7 +40,7 @@ class Operations
     public function __construct( $autoload=true )
     {
 
-        $this->factory = new Factory( Settings::getSetting('syscrack_operations_namespace') );
+        $this->factory = new Factory( "Framework\\Syscrack\\Game\\Operations\\" );
 
         $this->database = new Database();
 
@@ -379,6 +379,12 @@ class Operations
     private function getProcessesClasses()
     {
 
+        if( empty( $this->factory->getAllClasses() ) == false )
+        {
+
+            return null;
+        }
+
         $files = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_operations_location') );
 
         if( empty( $files ) )
@@ -392,8 +398,6 @@ class Operations
 
             $this->factory->createClass( FileSystem::getFileName( $file ) );
         }
-
-        return $this->factory->getAllClasses();
     }
 
 }

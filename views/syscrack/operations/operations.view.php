@@ -28,12 +28,12 @@ if( isset( $softwares ) == false )
 
             <?php
 
-            Flight::render('syscrack/templates/template.navigation');
+                Flight::render('syscrack/templates/template.navigation');
             ?>
             <div class="row">
                 <div class="col-lg-6">
                     <h1 class="page-header">
-                        Viewing File <?=$softwares->getDatabaseSoftware( $softwareid )->softwarename?><?=$softwares->getSoftwareClassFromID( $softwareid )->configuration()['extension']?>
+                        Viewing File <?=$softwares->getSoftware( $softwareid )->softwarename?><?=$softwares->getSoftwareClassFromID( $softwareid )->configuration()['extension']?>
                     </h1>
 
                     <?php
@@ -65,7 +65,7 @@ if( isset( $softwares ) == false )
 
             <?php
 
-            Flight::render('syscrack/templates/template.footer', array('breadcrumb' => true ) );
+                Flight::render('syscrack/templates/template.footer', array('breadcrumb' => true ) );
             ?>
         </div>
     </body>

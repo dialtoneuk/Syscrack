@@ -131,6 +131,26 @@ class Computer
     }
 
     /**
+     * Returns true if the computer exists
+     *
+     * @param $computerid
+     *
+     * @return bool
+     */
+
+    public function computerExists( $computerid )
+    {
+
+        if( $this->database->getComputer( $computerid ) == null )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Returns true if the computer has this software
      *
      * @param $computerid

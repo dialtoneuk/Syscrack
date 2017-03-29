@@ -59,7 +59,7 @@ interface Software
      *
      * @param $timeran
      *
-     * @return mixed
+     * @return float
      */
 
     public function onCollect( $softwareid, $userid, $computerid, $timeran );

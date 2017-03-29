@@ -25,6 +25,10 @@ class View implements Operation
 
     protected $internet;
 
+    /**
+     * @var Softwares
+     */
+
     protected $softwares;
 
     /**
@@ -116,7 +120,7 @@ class View implements Operation
             throw new SyscrackException();
         }
 
-        $this->getRender('page.game.view', array('softwareid' => $data['softwareid'], 'ipaddress' => $data['ipaddress'], 'data' => $this->softwares->getSoftwareData( $data['softwareid'] ) ) );
+        $this->getRender('operations/operations.view', array('softwareid' => $data['softwareid'], 'ipaddress' => $data['ipaddress'], 'data' => $this->softwares->getSoftwareData( $data['softwareid'] ) ) );
     }
 
     /**

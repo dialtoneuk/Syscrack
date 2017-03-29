@@ -184,10 +184,10 @@ class Install implements Operation
 
         $this->computer->installSoftware( $this->internet->getComputer( $data['ipaddress'] )->computerid, $data['softwareid'] );
 
-        $this->logInstall( $this->softwares->getDatabaseSoftware( $data['softwareid'] )->softwarename,
+        $this->logInstall( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
             $this->internet->getComputer( $data['ipaddress'] )->computerid,$this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
 
-        $this->logLocal( $this->softwares->getDatabaseSoftware( $data['softwareid'] )->softwarename,
+        $this->logLocal( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
             $this->computer->getCurrentUserComputer(), $data['ipaddress']);
 
         $this->redirectSuccess( $data['ipaddress'] );

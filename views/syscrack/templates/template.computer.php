@@ -137,7 +137,7 @@
 
                                                 $softwareclass = $softwares->getSoftwareClassFromID( $value['softwareid'] );
 
-                                                $software = $softwares->getDatabaseSoftware( $value['softwareid'] );
+                                                $software = $softwares->getSoftware( $value['softwareid'] );
 
                                                 if( $softwares->softwareExists( $value['softwareid'] ) == false )
                                                 {

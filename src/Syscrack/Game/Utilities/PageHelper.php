@@ -302,7 +302,7 @@ class PageHelper
             throw new SyscrackException();
         }
 
-        return $softwares->getDatabaseSoftware( $softwareid )->level;
+        return $softwares->getSoftware( $softwareid )->level;
     }
 
     /**

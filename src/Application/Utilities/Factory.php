@@ -71,7 +71,7 @@ class Factory
 			throw new ViewException('Class is Empty');
 		}
 
-		$this->classes[ $class ] = $pageclass;
+        $this->classes[ $class ] = $pageclass;
 
 		return $pageclass;
 	}

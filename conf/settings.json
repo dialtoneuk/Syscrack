@@ -72,5 +72,7 @@
     "syscrack_level_normal": 50,
     "syscrack_view_location":"syscrack\/",
     "syscrack_operations_location":"src\/Syscrack\/Game\/Operations\/",
-    "syscrack_operations_namespace":"Framework\\Syscrack\\Game\\Operations\\"
+    "syscrack_operations_namespace":"Framework\\Syscrack\\Game\\Operations\\",
+    "syscrack_vminer_uniquename":"vminer",
+    "syscrack_collector_amount":1000.0
 }
