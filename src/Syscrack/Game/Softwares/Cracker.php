@@ -27,7 +27,8 @@ class Cracker implements Structure
             'uniquename'    => 'cracker',
             'extension'     => '.crc',
             'type'          => 'cracker',
-            'installable'   => true
+            'installable'   => true,
+            'executable'    => false
         );
     }
 

@@ -4,14 +4,14 @@ namespace Framework\Syscrack\Game\Softwares;
 /**
  * Lewis Lancaster 2017
  *
- * Class VMiner
+ * Class Text
  *
  * @package Framework\Syscrack\Game\Softwares
  */
 
 use Framework\Syscrack\Game\Structures\Software as Structure;
 
-class VMiner implements Structure
+class Text implements Structure
 {
 
     /**
@@ -24,10 +24,10 @@ class VMiner implements Structure
     {
 
         return array(
-            'uniquename'    => 'vminer',
-            'extension'     => '.vminer',
-            'type'          => 'virus',
-            'installable'   => true,
+            'uniquename'    => 'text',
+            'extension'     => '.txt',
+            'type'          => 'text',
+            'installable'   => false,
             'executable'    => false
         );
     }
@@ -51,7 +51,7 @@ class VMiner implements Structure
     }
 
     /**
-     * Default size of 10.0
+     * Default size of 16.0
      *
      * @return float
      */
@@ -59,11 +59,11 @@ class VMiner implements Structure
     public function getDefaultSize()
     {
 
-        return 12.0;
+        return 16.0;
     }
 
     /**
-     * Default level of 1.0
+     * Default level of 2.2
      *
      * @return float
      */
@@ -71,6 +71,6 @@ class VMiner implements Structure
     public function getDefaultLevel()
     {
 
-        return 1.5;
+        return 2.2;
     }
 }

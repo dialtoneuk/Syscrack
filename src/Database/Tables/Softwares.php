@@ -55,6 +55,29 @@ class Softwares extends Table
     }
 
     /**
+     * Gets softwares by type and computerid
+     *
+     * @param $type
+     *
+     * @param $computerid
+     *
+     * @return \Illuminate\Support\Collection|null
+     */
+
+    public function getTypeOnComputer( $type, $computerid )
+    {
+
+        $array = array(
+            'type'          => $type,
+            'computerid'    => $computerid
+        );
+
+        $result = $this->getTable()->where( $array )->get();
+
+        return ( $result->isEmpty() ) ? null : $result;
+    }
+
+    /**
      * Gets the installed software
      *
      * @param $computerid

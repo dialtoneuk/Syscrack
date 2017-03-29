@@ -177,7 +177,7 @@ class Game implements Page
                     'ipaddress' => $ipaddress
                 ));
 
-                if( $result = false )
+                if( $result == false )
                 {
 
                     $this->redirectError('Unable to create process', $ipaddress );
@@ -231,6 +231,12 @@ class Game implements Page
         else
         {
 
+            if( $this->internet->hasCurrentConnection() == false || $this->internet->getCurrentConnectedAddress() != $ipaddress )
+            {
+
+                $this->redirectError('You must be connected to this computer to preform actions on its software');
+            }
+
             if( $this->processes->hasProcessClass( $process ) == false )
             {
 
@@ -255,10 +261,10 @@ class Game implements Page
                     'softwareid'    => $softwareid
                 ));
 
-                if( $result = false )
+                if( $result == false )
                 {
 
-                    $this->redirectError('Unable to create process', $ipaddress );
+                    $this->redirectError('Process cannot be completed', $ipaddress );
                 }
                 else
                 {
@@ -280,7 +286,7 @@ class Game implements Page
                 if( $processid == false )
                 {
 
-                    $this->redirectError('Unable to create process', $ipaddress );
+                    $this->redirectError('Process failed to be created', $ipaddress );
                 }
 
                 Flight::redirect('/processes/' . $processid );
@@ -320,10 +326,10 @@ class Game implements Page
         if( $ipaddress !== '' )
         {
 
-            Flight::redirect('/game/internet/' . $ipaddress . "?error=" . $message ); exit;
+            Flight::redirect('/game/internet/' . $ipaddress . "?error=" . $message ); die();
         }
 
-        Flight::redirect('/game/internet/?error=' . $message ); exit;
+        Flight::redirect('/game/internet/?error=' . $message ); die();
     }
 
     /**

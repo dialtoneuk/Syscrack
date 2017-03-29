@@ -27,7 +27,8 @@ class Firewall implements Structure
             'uniquename'    => 'firewall',
             'extension'     => '.fwall',
             'type'          => 'firewall',
-            'installable'   => true
+            'installable'   => true,
+            'executable'    => false
         );
     }
 

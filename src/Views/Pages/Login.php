@@ -120,6 +120,8 @@ class Login implements Page
             $this->redirectError( $error->getMessage() );
         }
 
+        Container::getObject('session')->cleanupSession( $login->getUserID( $username ) );
+
         Container::getObject('session')->insertSession( $login->getUserID( $username ) );
 
         $this->addConnectedComputer( $login->getUserID( $username ) );

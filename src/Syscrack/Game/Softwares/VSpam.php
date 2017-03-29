@@ -27,7 +27,8 @@ class VSpam implements Structure
             'uniquename'    => 'vspam',
             'extension'     => '.vspam',
             'type'          => 'virus',
-            'installable'   => true
+            'installable'   => true,
+            'executable'    => false
         );
     }
 

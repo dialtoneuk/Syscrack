@@ -27,7 +27,8 @@ class VWarez implements Structure
             'uniquename'    => 'vwarez',
             'extension'     => '.vwarez',
             'type'          => 'virus',
-            'installable'   => true
+            'installable'   => true,
+            'executable'    => false
         );
     }
 

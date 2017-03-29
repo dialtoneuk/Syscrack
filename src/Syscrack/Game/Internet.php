@@ -169,6 +169,12 @@ class Internet
             return null;
         }
 
+        if( isset( $_SESSION['connected_ipaddress'] ) == false )
+        {
+
+            return null;
+        }
+
         return $_SESSION['connected_ipaddress'];
     }
 

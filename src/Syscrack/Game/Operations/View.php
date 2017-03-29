@@ -4,26 +4,20 @@ namespace Framework\Syscrack\Game\Operations;
 /**
  * Lewis Lancaster 2017
  *
- * Class Log
+ * Class View
  *
  * @package Framework\Syscrack\Game\Operations
  */
 
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Operation;
-use Framework\Syscrack\Game\Log as LogManager;
 use Framework\Syscrack\Game\Internet;
+use Framework\Syscrack\Game\Softwares;
+use Framework\Application\Settings;
 use Flight;
-use Framework\Syscrack\Game\Utilities\TimeHelper;
 
-class Log implements Operation
+class View implements Operation
 {
-
-    /**
-     * @var LogManager
-     */
-
-    protected $log;
 
     /**
      * @var Internet
@@ -31,20 +25,22 @@ class Log implements Operation
 
     protected $internet;
 
+    protected $softwares;
+
     /**
-     * Log constructor.
+     * Logout constructor.
      */
 
     public function __construct()
     {
 
-        $this->log = new LogManager();
-
         $this->internet = new Internet();
+
+        $this->softwares = new Softwares();
     }
 
     /**
-     * Called when the process is created
+     * Called when this process request is created
      *
      * @param $timecompleted
      *
@@ -56,11 +52,17 @@ class Log implements Operation
      *
      * @param array $data
      *
-     * @return bool
+     * @return mixed
      */
 
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
     {
+
+        if( isset( $data['softwareid'] ) == false )
+        {
+
+            return false;
+        }
 
         if( isset( $data['ipaddress'] ) == false )
         {
@@ -68,9 +70,13 @@ class Log implements Operation
             return false;
         }
 
-        $computer = $this->internet->getComputer( $data['ipaddress'] );
+        if( $this->softwares->softwareExists( $data['softwareid' ] ) == false )
+        {
 
-        if( $this->log->hasLog( $computer->computerid ) == false )
+            return false;
+        }
+
+        if( $this->softwares->hasData( $data['softwareid'] ) == false )
         {
 
             return false;
@@ -80,7 +86,7 @@ class Log implements Operation
     }
 
     /**
-     * Called when a process is completed
+     * Renders the view page
      *
      * @param $timecompleted
      *
@@ -98,19 +104,23 @@ class Log implements Operation
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
+        if( isset( $data['softwareid'] ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
         if( isset( $data['ipaddress'] ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $this->log->saveLog( $this->internet->getComputer( $data['ipaddress'] )->computerid, [] );
-
-        $this->redirectSuccess( $data['ipaddress'] );
+        $this->getRender('page.game.view', array('softwareid' => $data['softwareid'], 'ipaddress' => $data['ipaddress'], 'data' => $this->softwares->getSoftwareData( $data['softwareid'] ) ) );
     }
 
     /**
-     * gets the time in seconds it takes to complete an action
+     * Gets the completion time
      *
      * @param $computerid
      *
@@ -124,9 +134,7 @@ class Log implements Operation
     public function getCompletionTime($computerid, $ipaddress, $process)
     {
 
-        $future = new TimeHelper();
-
-        return $future->getSecondsInFuture( 3 );
+        return null;
     }
 
     /**
@@ -166,4 +174,19 @@ class Log implements Operation
 
         Flight::redirect('/game/internet/?success'); exit;
     }
+
+    /**
+     * Renders a page
+     *
+     * @param $file
+     *
+     * @param array|null $array
+     */
+
+    private function getRender( $file, array $array = null  )
+    {
+
+        Flight::render( Settings::getSetting('syscrack_view_location') . $file, $array);
+    }
+
 }

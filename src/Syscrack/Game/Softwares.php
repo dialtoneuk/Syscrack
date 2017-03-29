@@ -15,6 +15,7 @@ use Framework\Application\Utilities\Factory;
 use Framework\Exceptions\SyscrackException;
 use Framework\Database\Tables\Softwares as Database;
 use Framework\Syscrack\Game\Structures\Software as Structure;
+use Framework\Syscrack\Game\Structures\Software;
 use Illuminate\Support\Facades\File;
 
 class Softwares
@@ -91,7 +92,7 @@ class Softwares
      *
      * @param $softwareid
      *
-     * @return null
+     * @return Software
      */
 
     public function getSoftwareClassFromID( $softwareid )
@@ -182,6 +183,20 @@ class Softwares
     {
 
         return $this->getNameFromClass( $this->findSoftwareByUniqueName( $this->getDatabaseSoftware( $softwareid )->uniquename ) );
+    }
+
+    /**
+     * Gets all of the viruses currently installed on the computer
+     *
+     * @param $computerid
+     *
+     * @return \Illuminate\Support\Collection|null
+     */
+
+    public function getVirusesOnComputer( $computerid )
+    {
+
+        return $this->database->getTypeOnComputer( Settings::getSetting('syscrack_virus_type'), $computerid );
     }
 
     /**
@@ -297,7 +312,85 @@ class Softwares
 
         $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
 
+        if( isset( $softwareclass->configuration()['installable'] ) == false )
+        {
+
+            return false;
+        }
+
         if( $softwareclass->configuration()['installable'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if this software cannot be uninstalled
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function canUninstall( $softwareid )
+    {
+
+        $software = $this->database->getSoftware( $softwareid );
+
+        if( $software == null )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+
+        if( isset( $softwareclass->configuration()['uninstallable'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $softwareclass->configuration()['uninstallable'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if a software is executable
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function canExecute( $softwareid )
+    {
+
+        $software = $this->database->getSoftware( $softwareid );
+
+        if( $software == null )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+
+        if( isset( $softwareclass->configuration()['executable'] ) == false )
+        {
+
+            return true;
+        }
+
+        if( $softwareclass->configuration()['executable'] == false )
         {
 
             return false;
@@ -398,6 +491,42 @@ class Softwares
     {
 
         return $this->getSoftwareClass( $software )->getDefaultLevel();
+    }
+
+    /**
+     * Returns true if this data is set
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function hasData( $softwareid )
+    {
+
+        $software = $this->database->getSoftware( $softwareid );
+
+        if( $software->data == null || empty( $software->data ) )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the software's data
+     *
+     * @param $softwareid
+     *
+     * @return mixed
+     */
+
+    public function getSoftwareData( $softwareid )
+    {
+
+        return json_decode( $this->database->getSoftware( $softwareid )->data, true );
     }
 
     /**

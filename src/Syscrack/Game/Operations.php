@@ -223,7 +223,10 @@ class Operations
             throw new SyscrackException();
         }
 
-        $result = $this->callProcessMethod( $this->findProcessClass( $process->process ), 'onCompletion', array(
+
+        $this->database->trashProcess( $processid );
+
+        $this->callProcessMethod( $this->findProcessClass( $process->process ), 'onCompletion', array(
             'timecompleted' => $process->timecompleted,
             'timestarted'   => $process->timestarted,
             'computerid'    => $process->computerid,
@@ -231,14 +234,6 @@ class Operations
             'process'       => $process->process,
             'data'          => json_decode( $process->data, true )
         ));
-
-        if( $result == false )
-        {
-
-            throw new SyscrackException();
-        }
-
-        $this->database->trashProcess( $processid );
     }
 
     /**

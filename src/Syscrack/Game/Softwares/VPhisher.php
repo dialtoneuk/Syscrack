@@ -27,7 +27,8 @@ class VPhisher implements Structure
             'uniquename'    => 'vphisher',
             'extension'     => '.vphish',
             'type'          => 'virus',
-            'installable'   => true
+            'installable'   => true,
+            'executable'    => false
         );
     }
 

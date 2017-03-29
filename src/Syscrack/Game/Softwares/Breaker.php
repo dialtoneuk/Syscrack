@@ -27,7 +27,8 @@ class Breaker implements Structure
             'uniquename'    => 'breaker',
             'extension'     => '.brk',
             'type'          => 'breaker',
-            'installable'   => false
+            'installable'   => false,
+            'executable'    => false
         );
     }
 

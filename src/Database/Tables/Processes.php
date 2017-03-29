@@ -68,7 +68,6 @@ class Processes extends Table
 
     public function trashProcess( $processid )
     {
-
         $array = array(
             'processid' => $processid
         );

@@ -27,7 +27,8 @@ class Hasher implements Structure
             'uniquename'    => 'hasher',
             'extension'     => '.hash',
             'type'          => 'hasher',
-            'installable'   => true
+            'installable'   => true,
+            'executable'    => false,
         );
     }
 

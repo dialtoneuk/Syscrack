@@ -9,6 +9,8 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
+use Framework\Application\Container;
+use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Operation;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
@@ -17,6 +19,7 @@ use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Log;
 use Flight;
+use Framework\Syscrack\Game\Viruses;
 
 class Install implements Operation
 {
@@ -46,6 +49,12 @@ class Install implements Operation
     protected $log;
 
     /**
+     * @var Viruses
+     */
+
+    protected $viruses;
+
+    /**
      * Install constructor.
      */
 
@@ -59,6 +68,8 @@ class Install implements Operation
         $this->internet = new Internet();
 
         $this->log = new Log();
+
+        $this->viruses = new Viruses();
     }
 
     /**
@@ -109,6 +120,30 @@ class Install implements Operation
             else
             {
 
+                if( $this->softwares->canInstall( $data['softwareid'] ) == false )
+                {
+
+                    return false;
+                }
+                else
+                {
+
+                    if( $this->viruses->isVirus( $data['softwareid'] ) );
+                    {
+
+                        if( $this->viruses->hasVirusesOnComputer( $this->internet->getComputer( $data['ipaddress'] )->computerid, Container::getObject('session')->getSessionUser() ) )
+                        {
+
+                            if( $this->viruses->virusAlreadyInstalled( $this->softwares->getSoftwareClassFromID( $data['softwareid'] )->configuration()['uniquename'],
+                                $this->internet->getComputer( $data['ipaddress'] )->computerid, Container::getObject('session')->getSessionUser() ))
+                            {
+
+                                return false;
+                            }
+                        }
+                    }
+                }
+
                 return true;
             }
         }
@@ -147,12 +182,12 @@ class Install implements Operation
 
         $this->softwares->installSoftware( $data['softwareid'], $userid );
 
-        $this->computer->installSoftware( $this->internet->getComputer( $data['ipaddress'] ), $data['softwareid'] );
+        $this->computer->installSoftware( $this->internet->getComputer( $data['ipaddress'] )->computerid, $data['softwareid'] );
 
         $this->logInstall( $this->softwares->getDatabaseSoftware( $data['softwareid'] )->softwarename,
-            $this->internet->getComputer( $data['ipaddress'] ),$this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+            $this->internet->getComputer( $data['ipaddress'] )->computerid,$this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
 
-        $this->logLocal( $this->softwares->getDatabaseSoftware( $data['softwareid'] )->softwarname,
+        $this->logLocal( $this->softwares->getDatabaseSoftware( $data['softwareid'] )->softwarename,
             $this->computer->getCurrentUserComputer(), $data['ipaddress']);
 
         $this->redirectSuccess( $data['ipaddress'] );

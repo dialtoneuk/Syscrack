@@ -10,6 +10,7 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Application\Container;
+use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Softwares;
 use Framework\Syscrack\Game\Structures\Operation;
@@ -87,18 +88,30 @@ class Hack implements Operation
 
         $this->addressdatabase = new AddressDatabase( Container::getObject('session')->getSessionUser() );
 
-        $usercomputer = $this->computer->getComputer( $this->computer->getCurrentUserComputer() );
-
-        $computer = $this->internet->getComputer( $data['ipaddress'] );
-
-        if( $this->softwares->getDatabaseSoftware( $this->computer->getCracker( $usercomputer->computerid ) )->level
-            < $this->softwares->getDatabaseSoftware( $this->computer->getHasher( $computer->computerid ) )->level )
+        if( $this->addressdatabase->getComputerByIPAddress( $data['ipaddress' ] ) != null )
         {
 
             return false;
         }
 
-        if( $this->addressdatabase->getComputerByIPAddress( $data['ipaddress' ] ) != null )
+        $usercomputer = $this->computer->getComputer( $this->computer->getCurrentUserComputer() );
+
+        $computer = $this->internet->getComputer( $data['ipaddress'] );
+
+        if( $this->computer->hasType($computer->computerid, Settings::getSetting('syscrack_hasher_type'), true ) == false )
+        {
+
+            return true;
+        }
+
+        if( $this->computer->hasType( $usercomputer->computerid, Settings::getSetting('syscrack_cracker_type'), true ) == false )
+        {
+
+            return false;
+        }
+
+        if( $this->softwares->getDatabaseSoftware( $this->computer->getCracker( $usercomputer->computerid ) )->level
+            < $this->softwares->getDatabaseSoftware( $this->computer->getHasher( $computer->computerid ) )->level )
         {
 
             return false;

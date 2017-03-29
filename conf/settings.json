@@ -43,6 +43,7 @@
     "syscrack_cracker_type":"cracker",
     "syscrack_hasher_type":"hasher",
     "syscrack_firewall_type":"firewall",
+    "syscrack_text_type":"text",
     "syscrack_software_namespace":"Framework\\Syscrack\\Game\\Softwares\\",
     "syscrack_software_location":"src\/Syscrack\/Game\/Softwares\/",
     "syscrack_addressdatabase_location":"syscrack\/addressdatabase\/",
@@ -69,7 +70,6 @@
     "syscrack_level_expert":100,
     "syscrack_level_advanced":50,
     "syscrack_level_normal": 50,
-    "syscrack_uninstallable_types":"{['syscrack_virus_type','syscrack_ddos_type']}",
     "syscrack_view_location":"syscrack\/",
     "syscrack_operations_location":"src\/Syscrack\/Game\/Operations\/",
     "syscrack_operations_namespace":"Framework\\Syscrack\\Game\\Operations\\"

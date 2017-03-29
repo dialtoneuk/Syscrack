@@ -93,7 +93,7 @@
                                 ?>
                                     <form method='post' action="/game/internet/<?=$ipaddress?>/log">
                                         <div class="well">
-                                            <textarea id="log" name="log" style="width: 100%; height: 40%; resize: none; font-size: 14px; padding: 2.5%;"><?php $log = $log->getCurrentLog( $connectedcomputer->computerid ); foreach( $log as $key=>$value ){ echo '[' , $value['ipaddress'] . '] ' . strftime("%d-%m-%Y %H:%M:%S", $value['time']) . ' : ' . $value['message'] . "\n";}?></textarea>
+                                            <textarea id="log" name="log" style="width: 100%; height: 40%; resize: none; font-size: 14px; padding: 2.5%;"><?php $log = array_reverse( $log->getCurrentLog( $connectedcomputer->computerid ) ); foreach( $log as $key=>$value ){ echo '[' , $value['ipaddress'] . '] ' . strftime("%d-%m-%Y %H:%M:%S", $value['time']) . ' : ' . $value['message'] . "\n";}?></textarea>
                                         </div>
                                         <button style="width: 100%; margin-top: 2.5%;" class="btn btn-danger" type="submit">
                                             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Clear Log
@@ -167,6 +167,12 @@
                                                                 ?>
                                                                     <span class="glyphicon glyphicon-briefcase"></span>
                                                                 <?php
+                                                            }elseif( $value['type'] == Settings::getSetting('syscrack_text_type') )
+                                                            {
+
+                                                                ?>
+                                                                    <span class="glyphicon glyphicon-paperclip"></span>
+                                                                <?php
                                                             }
                                                         ?>
                                                     </td>
@@ -226,29 +232,43 @@
                                                         <?=$software->size?>MB
                                                     </td>
                                                     <td>
-                                                        <div class="btn-group btn-group-xs" role="group" aria-label="Options">
-                                                            <?php
-                                                                if( $software->installed )
-                                                                {
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                Operations <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a href="/game/internet/<?=$ipaddress?>/download/<?=$value['softwareid']?>">Download</a></li>
 
-                                                                    ?>
+                                                                <?php
+                                                                    if( $software->installed )
+                                                                    {
 
-                                                                        <button type="button" class="btn btn-default" onclick="window.location.href = '/game/internet/<?=$ipaddress?>/uninstall/<?=$value['softwareid']?>'">Uninstall</button>
-                                                                        <button type="button" class="btn btn-default" onclick="window.location.href = '/game/internet/<?=$ipaddress?>/execute/<?=$value['softwareid']?>'">Execute</button>
-                                                                    <?php
+                                                                        ?>
 
-                                                                }
-                                                                else
-                                                                {
+                                                                            <li><a href="/game/internet/<?=$ipaddress?>/uninstall/<?=$value['softwareid']?>">Uninstall</a></li>
+                                                                            <li><a href="/game/internet/<?=$ipaddress?>/execute/<?=$value['softwareid']?>">Execute</a></li>
+                                                                        <?php
+                                                                    }
+                                                                    else
+                                                                    {
 
-                                                                    ?>
+                                                                        ?>
 
-                                                                        <button type="button" class="btn btn-default" onclick="window.location.href = '/game/internet/<?=$ipaddress?>/install/<?=$value['softwareid']?>'">Install</button>
-                                                                    <?php
-                                                                }
-                                                            ?>
-                                                            <button type="button" class="btn btn-default" onclick="window.location.href = '/game/internet/<?=$ipaddress?>/delete/<?=$value['softwareid']?>'">Delete</button>
-                                                            <button type="button" class="btn btn-default" onclick="window.location.href = '/game/internet/<?=$ipaddress?>/download/<?=$value['softwareid']?>'">Download</button>
+                                                                            <li><a href="/game/internet/<?=$ipaddress?>/install/<?=$value['softwareid']?>">Install</a></li>
+                                                                        <?php
+                                                                    }
+
+                                                                    if( $softwares->hasData( $value['softwareid'] ) )
+                                                                    {
+
+                                                                        ?>
+
+                                                                            <li><a href="/game/internet/<?=$ipaddress?>/view/<?=$value['softwareid']?>">View</a></li>
+                                                                        <?php
+                                                                    }
+                                                                ?>
+                                                                <li><a href="/game/internet/<?=$ipaddress?>/delete/<?=$value['softwareid']?>">Delete</a></li>
+                                                            </ul>
                                                         </div>
                                                     </td>
                                                 </tr>
