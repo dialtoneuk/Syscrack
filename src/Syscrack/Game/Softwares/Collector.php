@@ -11,18 +11,54 @@ namespace Framework\Syscrack\Game\Softwares;
  * It is very important that you do not autoload the software classes inside a software class.... this will cause a loop...
  */
 
+use Framework\Application\Settings;
+use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Structures\Software as Structure;
 use Framework\Syscrack\Game\Softwares;
+use Framework\Syscrack\Game\Viruses;
+use Framework\Syscrack\Game\AddressDatabase;
 
 class Collector implements Structure
 {
 
+    /**
+     * @var Softwares
+     */
+
     protected $softwares;
+
+    /**
+     * @var Viruses
+     */
+
+    protected $viruses;
+
+    /**
+     * @var AddressDatabase
+     */
+
+    protected $addressdatabase;
+
+    /**
+     * @var Internet
+     */
+
+    protected $internet;
+
+    /**
+     * Collector constructor.
+     */
 
     public function __construct()
     {
 
         $this->softwares = new Softwares();
+
+        $this->viruses = new Viruses();
+
+        $this->internet = new Internet();
+
+        $this->addressdatabase = new AddressDatabase();
     }
 
     /**
@@ -42,16 +78,116 @@ class Collector implements Structure
         );
     }
 
+    /**
+     * Collects the users viruses
+     *
+     * @param $softwareid
+     *
+     * @param $userid
+     *
+     * @param $computerid
+     *
+     * @return array|bool
+     *
+     * //TOOD: Improve this to instead or returning 'false', returning a sort of class which can display an error
+     */
+
     public function onExecuted( $softwareid, $userid, $computerid )
     {
 
+        if( $this->softwares->getSoftware( $softwareid )->type !== Settings::getSetting('syscrack_collector_type') )
+        {
 
+            return false;
+        }
+
+        $addresses = $this->addressdatabase->getDatabase( $userid );
+
+        if( empty( $addresses ) )
+        {
+
+            return false;
+        }
+
+        $profit = [];
+
+        foreach( $addresses as $address )
+        {
+
+            if( $this->viruses->hasVirusesOnComputer( $this->internet->getComputer( $address['ipaddress'] )->computerid, $userid ) == false )
+            {
+
+                continue;
+            }
+
+            $viruses = $this->viruses->getVirusesOnComputer( $this->internet->getComputer( $address['ipaddress'] )->computerid, $userid );
+
+            foreach( $viruses as $virus )
+            {
+
+                $result = $this->softwares->executeSoftwareMethod( $this->softwares->getSoftware( $virus->softwareid ), 'onCollect', array(
+                    'softwareid'    => $virus->softwareid,
+                    'userid'        => $userid,
+                    'computerid'    => $computerid,
+                    'timeran'       => time() - $viruses->lastmodified
+                ));
+
+                if( $viruses->uniquename == Settings::getSetting('syscrack_vminer_uniquename') )
+                {
+
+                    if( empty( $result ) || $result == null )
+                    {
+
+                        $profit['btc'][] = array(
+                            'profit'    => Settings::getSetting('syscrack_collector_btc_amount'),
+                            'timeran'   => time() - $viruses->lastmodified,
+                            'ipaddress' => $address['ipaddress']
+                        );
+                    }
+                    else
+                    {
+
+                        $profit['btc'][] = array(
+                            'profit'    => $result,
+                            'timeran'   => time() - $viruses->lastmodified,
+                            'ipaddress' => $address['ipaddress']
+                        );
+                    }
+                }
+                else
+                {
+
+                    if( empty( $result ) || $result == null )
+                    {
+
+                        $profit['cash'][] = array(
+                            'profit'    => Settings::getSetting('syscrack_collector_btc_amount'),
+                            'timeran'   => time() - $viruses->lastmodified,
+                            'ipaddress' => $address['ipaddress']
+                        );
+                    }
+                    else
+                    {
+
+                        $profit['cash'][] = array(
+                            'profit'    => $result,
+                            'timeran'   => time() - $viruses->lastmodified,
+                            'ipaddress' => $address['ipaddress']
+                        );
+                    }
+                }
+
+                $this->viruses->updateVirusModified( $virus->softwareid );
+            }
+        }
+
+        return $profit;
     }
 
     public function onInstalled( $softwareid, $userid, $computerid )
     {
 
-
+        return;
     }
 
     public function onCollect( $softwareid, $userid, $computerid, $timeran )

@@ -28,7 +28,8 @@ class VMiner implements Structure
             'extension'     => '.vminer',
             'type'          => 'virus',
             'installable'   => true,
-            'executable'    => false
+            'executable'    => false,
+            'removeable'    => false
         );
     }
 

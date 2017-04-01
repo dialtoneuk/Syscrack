@@ -141,6 +141,36 @@ class Finance
         return null;
     }
 
+    public function setCurrentActiveAccount( $accountnumber )
+    {
+
+        if( session_status() !== PHP_SESSION_ACTIVE )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $_SESSION['activeaccount'] = $accountnumber;
+    }
+
+    public function getCurrentActiveAccount()
+    {
+
+        return $_SESSION['activeaccount'];
+    }
+
+    public function hasCurrentActiveAccount()
+    {
+
+        if( isset( $_SESSION['activeaccount'] ) == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Gets the users bank account
      *

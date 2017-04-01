@@ -4,6 +4,8 @@
     "developer_page": "developer",
     "developer_disabled": false,
     "user_default_group": "guest",
+    "user_group_admin":"admin",
+    "user_group_developer":"developer",
     "user_allow_registrations": true,
     "user_require_betakey":true,
     "error_log_location": "conf\/errorlog.json",
@@ -36,7 +38,8 @@
     "facebook_redirect_url": "http:\/\/{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI]'}",
     "online_timeframe":"{time() + 7200}",
     "syscrack_bank_type":"bank",
-    "syscrack_bitcoin_type":"bank",
+    "syscrack_bitcoin_type":"bitcoin",
+    "syscrack_market_type":"market",
     "syscrack_virus_type":"virus",
     "syscrack_npc_type":"npc",
     "syscrack_vpc_type":"vpc",
@@ -44,6 +47,7 @@
     "syscrack_hasher_type":"hasher",
     "syscrack_firewall_type":"firewall",
     "syscrack_text_type":"text",
+    "syscrack_collector_type":"collector",
     "syscrack_software_namespace":"Framework\\Syscrack\\Game\\Softwares\\",
     "syscrack_software_location":"src\/Syscrack\/Game\/Softwares\/",
     "syscrack_addressdatabase_location":"syscrack\/addressdatabase\/",
@@ -65,7 +69,7 @@
     "syscrack_log_current":"current",
     "syscrack_log_location":"syscrack\/logs\/",
     "syscrack_startup_on_verification":true,
-    "syscrack_lowest_iprange":10,
+    "syscrack_lowest_iprange":192,
     "syscrack_whois_computer":1,
     "syscrack_level_expert":100,
     "syscrack_level_advanced":50,
@@ -74,5 +78,6 @@
     "syscrack_operations_location":"src\/Syscrack\/Game\/Operations\/",
     "syscrack_operations_namespace":"Framework\\Syscrack\\Game\\Operations\\",
     "syscrack_vminer_uniquename":"vminer",
-    "syscrack_collector_amount":1000.0
+    "syscrack_collector_amount":1000.0,
+    "syscrack_collector_btc_amount":0.5
 }

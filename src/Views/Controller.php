@@ -32,6 +32,14 @@ class Controller
     protected $factory;
 
     /**
+     * Public variable of the current page
+     *
+     * @var string
+     */
+
+    public $page;
+
+    /**
      * Controller constructor.
      */
 
@@ -75,6 +83,8 @@ class Controller
             $page = Settings::getSetting('controller_index_page');
         }
 
+        $this->page = $page;
+
         if( Settings::getSetting('developer_disabled') == true )
         {
 
@@ -97,7 +107,7 @@ class Controller
 
         $this->createPage( $page );
 
-        if(  Settings::getSetting('middlewares_enabled') && Settings::getSetting('developer_page') !== $page )
+        if( Settings::getSetting('middlewares_enabled') && Settings::getSetting('developer_page') !== $page )
         {
 
             $this->processMiddlewares();

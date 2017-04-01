@@ -11,6 +11,7 @@ namespace Framework\Views\Pages;
 
 use Framework\Application\Api\Controller;
 use Framework\Application\Api\Manager;
+use Framework\Application\Container;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\PostHelper;
 use Framework\Exceptions\ViewException;
@@ -44,6 +45,12 @@ class Api implements Page
 
     public function __construct()
     {
+
+        if( Container::getObject('application')->getController()->page == Settings::getSetting('developer_page') )
+        {
+
+            return;
+        }
 
         $this->manager = new Manager();
 

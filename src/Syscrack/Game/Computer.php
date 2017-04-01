@@ -7,6 +7,8 @@ namespace Framework\Syscrack\Game;
  * Class Computer
  *
  * @package Framework\Syscrack\Game
+ *
+ * //TODO: On rewrite, is the local list of softwares on the computer needed?
  */
 
 use Framework\Application\Settings;
@@ -495,6 +497,38 @@ class Computer
         {
 
             if( $software['type'] == Settings::getSetting('syscrack_hasher_type') )
+            {
+
+                if( $software['installed'] == false )
+                {
+
+                    continue;
+                }
+
+                return $software['softwareid'];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the collector
+     *
+     * @param $computerid
+     *
+     * @return null
+     */
+
+    public function getCollector( $computerid )
+    {
+
+        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['type'] == Settings::getSetting('syscrack_collector_type') )
             {
 
                 if( $software['installed'] == false )

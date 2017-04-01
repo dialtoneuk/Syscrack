@@ -11,6 +11,7 @@ namespace Framework\Views\Middleware;
 
 use Framework\Application\Container;
 use Framework\Application\Settings;
+use Framework\Exceptions\SyscrackException;
 use Framework\Views\Structures\Middleware;
 
 class SessionTimeout implements Middleware

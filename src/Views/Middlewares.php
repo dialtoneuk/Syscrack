@@ -59,12 +59,6 @@ class Middlewares
     public function loadMiddleware()
     {
 
-        if( $this->hasMiddlewares() == false )
-        {
-
-            return false;
-        }
-
         try
         {
 
@@ -91,7 +85,7 @@ class Middlewares
 
             $middleware = $this->factory->createClass( $middleware );
 
-            if( $middleware instanceof Middleware === false )
+            if( $middleware instanceof Middleware == false )
             {
 
                 throw new ApplicationException();
@@ -188,7 +182,7 @@ class Middlewares
         foreach( $files as $file )
         {
 
-            $array[ $this->factory->namespace ] = FileSystem::getFileName( $file );
+            $array[] = FileSystem::getFileName( $file );
 
         }
 

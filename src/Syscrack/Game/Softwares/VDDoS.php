@@ -28,7 +28,8 @@ class VDDoS implements Structure
             'extension'     => '.vddos',
             'type'          => 'ddos',
             'installable'   => true,
-            'executable'    => false
+            'executable'    => false,
+            'removeable'    => false
         );
     }
 

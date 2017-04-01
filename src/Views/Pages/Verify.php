@@ -14,6 +14,7 @@ use Framework\Application\Utilities\PostHelper;
 use Framework\Syscrack\Game\Utilities\Startup;
 use Framework\Views\Structures\Page;
 use Framework\Syscrack\Verification;
+use Framework\Application\Container;
 use Flight;
 
 class Verify implements Page
@@ -31,6 +32,13 @@ class Verify implements Page
 
     public function __construct()
     {
+
+        if( Container::getObject('application')->getController()->page == Settings::getSetting('developer_page') )
+        {
+
+            return;
+        }
+
 
         $this->verification = new Verification();
     }

@@ -28,7 +28,8 @@ class VWarez implements Structure
             'extension'     => '.vwarez',
             'type'          => 'virus',
             'installable'   => true,
-            'executable'    => false
+            'executable'    => false,
+            'removeable'    => false
         );
     }
 

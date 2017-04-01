@@ -190,6 +190,12 @@ class Install implements Operation
         $this->logLocal( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
             $this->computer->getCurrentUserComputer(), $data['ipaddress']);
 
+        $this->softwares->executeSoftwareMethod( $this->softwares->getSoftwareClassFromID( $data['softwareid'] ), 'onInstall', array(
+            'softwareid'    => $data['softwareid'],
+            'userid'        => $userid,
+            'computerid'    => $this->internet->getComputer( $data['ipaddress'] )->computerid
+        ));
+
         $this->redirectSuccess( $data['ipaddress'] );
     }
 

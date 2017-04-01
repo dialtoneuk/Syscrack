@@ -7,16 +7,17 @@ namespace Framework\Syscrack\Game;
  * Class Softwares
  *
  * @package Framework\Syscrack\Game
+ *
+ * //TODO: On rewrite, try use classes as return variables instead of booleans in order to display more detailed information
  */
 
 use Framework\Application\Settings;
 use Framework\Application\Utilities\FileSystem;
 use Framework\Application\Utilities\Factory;
 use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\Structures\Software;
 use Framework\Database\Tables\Softwares as Database;
 use Framework\Syscrack\Game\Structures\Software as Structure;
-use Framework\Syscrack\Game\Structures\Software;
-use Illuminate\Support\Facades\File;
 
 class Softwares
 {
@@ -218,6 +219,39 @@ class Softwares
             'softwarename'  => $softwarename,
             'lastmodified'  => time(),
             'installed'     => false
+        );
+
+        return $this->database->insertSoftware( $array );
+    }
+
+    /**
+     * Copys a software
+     *
+     * @param $targetid
+     *
+     * @param $computerid
+     *
+     * @param $userid
+     *
+     * @return int
+     */
+
+    public function copySoftware( $targetid, $computerid, $userid )
+    {
+
+        $software = $this->database->getSoftware( $targetid );
+
+        $array = array(
+            'userid'        => $userid,
+            'computerid'    => $computerid,
+            'level'         => $software->level,
+            'size'          => $software->size,
+            'uniquename'    => $software->uniquename,
+            'type'          => $software->type,
+            'softwarename'  => $software->softwarename,
+            'lastmodified'  => time(),
+            'installed'     => $software->installed,
+            'data'          => $software->data
         );
 
         return $this->database->insertSoftware( $array );

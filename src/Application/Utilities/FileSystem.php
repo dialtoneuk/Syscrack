@@ -7,6 +7,8 @@ namespace Framework\Application\Utilities;
  * Class FileSystem
  *
  * @package Framework\Application\Utilities
+ *
+ * //TODO: Handle when I don't enter a file extension and automatically enter it
  */
 
 use Framework\Application\Settings;
@@ -99,7 +101,7 @@ class FileSystem
 	    if( self::directoryExists( $directories ) == false )
         {
 
-            throw new ApplicationException('Directory doesnt exist');
+            throw new ApplicationException( 'Directory does not exist: ' . $directories );
         }
 
         if( is_string( $data ) == false )

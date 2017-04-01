@@ -57,6 +57,42 @@ class Bitcoin
         return $this->database->getUserBitcoinWallet( $userid );
     }
 
+    public function setCurrentActiveWallet( $walletid )
+    {
+
+        if( session_status() !== PHP_SESSION_ACTIVE )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $_SESSION['activewallet'] = $walletid;
+    }
+
+    public function getCurrentActiveWallet()
+    {
+
+        return $_SESSION['activewallet'];
+    }
+
+    public function hasCurrentActiveWallet()
+    {
+
+        if( isset( $_SESSION['activewallet'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $_SESSION['activewallet'] == null )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Gets the bitcoin servers
      *
