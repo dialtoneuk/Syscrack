@@ -32,6 +32,12 @@ class Operations
     protected $database;
 
     /**
+     * @var Hardware
+     */
+
+    protected $hardware;
+
+    /**
      * Processes constructor.
      *
      * @param bool $autoload
@@ -100,15 +106,17 @@ class Operations
     }
 
     /**
-     * Gets all the computers processes
+     * Gets the processes of a computer
      *
      * @param $computerid
+     *
+     * @return \Illuminate\Support\Collection|null
      */
 
     public function getComputerProcesses( $computerid )
     {
 
-        $this->database->getComputerProcesses( $computerid );
+        return $this->database->getComputerProcesses( $computerid );
     }
 
     /**
@@ -371,6 +379,49 @@ class Operations
     }
 
     /**
+     * @param $computerid
+     *
+     * @param $softwareid
+     *
+     * @param float $speedness
+     *
+     * @return float|int|null
+
+
+    public function getCompletionTime( $computerid, $softwareid=null, $speedness=5.0 )
+    {
+
+        $softwares = new Softwares();
+
+        $timehelper = new TimeHelper();
+
+        if( $this->hardware->hasHardwareType( $computerid, Settings::getSetting('syscrack_cpu_type')) == null )
+        {
+
+            return null;
+        }
+
+        if( $softwareid !== null )
+        {
+
+            $software = $softwares->getSoftwareData( $softwareid );
+
+            $cpu = $this->hardware->getCPUSpeed( $computerid );
+
+            $seconds = floor( $timehelper->getSecondsInFuture( sqrt( $cpu / $software->level ) / ( $cpu * Settings::getSetting('syscrack_global_speed' ) * $speedness ) ) );
+
+            if( $seconds <= 0 )
+            {
+
+                return null;
+            }
+
+            return $timehelper->getSecondsInFuture( $seconds );
+        }
+    }
+    */
+
+    /**
      * Gets all the processes
      *
      * @return array|Structures\Software|null|\stdClass
@@ -382,7 +433,7 @@ class Operations
         if( empty( $this->factory->getAllClasses() ) == false )
         {
 
-            return null;
+            throw new SyscrackException();
         }
 
         $files = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_operations_location') );
@@ -390,7 +441,7 @@ class Operations
         if( empty( $files ) )
         {
 
-            return null;
+            throw new SyscrackException();
         }
 
         foreach( $files as $file )

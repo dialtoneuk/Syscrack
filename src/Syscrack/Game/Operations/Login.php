@@ -10,29 +10,20 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Operation;
-use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Log;
-use Framework\Syscrack\Game\Computer;
-use Flight;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\Operation as BaseClass;
 
-class Login implements Operation
+class Login extends BaseClass implements Structure
 {
 
-    protected $internet;
-
-    protected $log;
-
-    protected $computer;
+    /**
+     * Login constructor.
+     */
 
     public function __construct()
     {
 
-        $this->internet = new Internet();
-
-        $this->log = new Log();
-
-        $this->computer = new Computer();
+        parent::__construct();
     }
 
     /**
@@ -54,7 +45,13 @@ class Login implements Operation
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
     {
 
-        if( isset( $data['ipaddress'] ) == false )
+        if( $this->checkData( $data, ['ipaddress'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress == $data['ipaddress'] )
         {
 
             return false;
@@ -82,7 +79,7 @@ class Login implements Operation
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
-        if( isset( $data['ipaddress'] ) == false )
+        if( $this->checkData( $data, ['ipaddress'] ) )
         {
 
             throw new SyscrackException();
@@ -102,6 +99,8 @@ class Login implements Operation
                 $this->logAccess( $this->internet->getComputer( $data['ipaddress'] )->computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
 
                 $this->logLocal( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, $data['ipaddress'] );
+
+
 
                 $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
 
@@ -133,7 +132,7 @@ class Login implements Operation
      * @return null
      */
 
-    public function getCompletionTime($computerid, $ipaddress, $process)
+    public function getCompletionSpeed($computerid, $ipaddress, $process)
     {
 
         return null;
@@ -150,7 +149,7 @@ class Login implements Operation
     private function logAccess( $computerid, $ipaddress )
     {
 
-        $this->logToComputer('Logged in as root', $computerid, $ipaddress );
+        $this->log('Logged in as root', $computerid, $ipaddress );
     }
 
     /**
@@ -164,60 +163,6 @@ class Login implements Operation
     private function logLocal( $computerid, $ipaddress )
     {
 
-        $this->logToComputer('Logged into <' . $ipaddress . '> as root', $computerid, 'localhost' );
-    }
-
-    /**
-     * Updates the computers log
-     *
-     * @param $message
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     */
-
-    private function logToComputer( $message, $computerid, $ipaddress )
-    {
-
-        $this->log->updateLog( $message, $computerid, $ipaddress );
-    }
-
-    /**
-     * Redirects to the error page
-     *
-     * @param string $message
-     *
-     * @param string $ipaddress
-     */
-
-    private function redirectError( $message='', $ipaddress='' )
-    {
-
-        if( $ipaddress !== '' )
-        {
-
-            Flight::redirect('/game/internet/' . $ipaddress . "?error=" . $message ); exit;
-        }
-
-        Flight::redirect('/game/internet/?error=' . $message ); exit;
-    }
-
-    /**
-     * Redirects to the success page
-     *
-     * @param string $ipaddress
-     */
-
-    private function redirectSuccess( $ipaddress='' )
-    {
-
-        if( $ipaddress !== '' )
-        {
-
-            Flight::redirect('/game/internet/' . $ipaddress . "?success" ); exit;
-        }
-
-        Flight::redirect('/game/internet/?success'); exit;
+        $this->log('Logged into <' . $ipaddress . '> as root', $computerid, 'localhost' );
     }
 }

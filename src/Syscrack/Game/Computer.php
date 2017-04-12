@@ -677,6 +677,46 @@ class Computer
     }
 
     /**
+     * Returns true if the computer is a bitcoin server
+     *
+     * @param $computerid
+     *
+     * @return bool
+     */
+
+    public function isBitcoin( $computerid )
+    {
+
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_bitcoin_type') )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if the computer is a market server
+     *
+     * @param $computerid
+     *
+     * @return bool
+     */
+
+    public function isMarket( $computerid )
+    {
+
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_market_type') )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Returns true if the computer is an NPCs
      *
      * @param $computerid

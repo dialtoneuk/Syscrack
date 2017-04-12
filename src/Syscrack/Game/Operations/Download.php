@@ -10,42 +10,20 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Log;
-use Framework\Syscrack\Game\Structures\Operation;
-use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Computer;
-use Framework\Syscrack\Game\Softwares;
-use Flight;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\Operation as BaseClass;
 
-class Download implements Operation
+class Download extends BaseClass implements Structure
 {
 
     /**
-     * @var Internet
-     */
-
-    protected $internet;
-
-    protected $computer;
-
-    protected $softwares;
-
-    protected $log;
-
-    /**
-     * Logout constructor.
+     * Download constructor.
      */
 
     public function __construct()
     {
 
-        $this->internet = new Internet();
-
-        $this->computer = new Computer();
-
-        $this->softwares = new Softwares();
-
-        $this->log = new Log();
+        parent::__construct();
     }
 
     /**
@@ -67,13 +45,7 @@ class Download implements Operation
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
     {
 
-        if( isset( $data['ipaddress' ] ) == false )
-        {
-
-            return false;
-        }
-
-        if( isset( $data['softwareid'] ) == false )
+        if( $this->checkData( $data ) == false )
         {
 
             return false;
@@ -160,7 +132,7 @@ class Download implements Operation
      * @return null
      */
 
-    public function getCompletionTime($computerid, $ipaddress, $process)
+    public function getCompletionSpeed($computerid, $ipaddress, $process)
     {
 
         return null;
@@ -177,7 +149,7 @@ class Download implements Operation
     private function logDownload( $softwarename, $computerid, $ipaddress )
     {
 
-        $this->logToComputer('Downloaded file <' . $softwarename . '> on root', $computerid, $ipaddress );
+        $this->log('Downloaded file <' . $softwarename . '> on root', $computerid, $ipaddress );
     }
 
     /**
@@ -191,60 +163,6 @@ class Download implements Operation
     private function logLocal( $softwarename, $ipaddress )
     {
 
-        $this->logToComputer('Downloaded file <' . $softwarename . '> on ' . $ipaddress, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
-    }
-
-    /**
-     * Updates the computers log
-     *
-     * @param $message
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     */
-
-    private function logToComputer( $message, $computerid, $ipaddress )
-    {
-
-        $this->log->updateLog( $message, $computerid, $ipaddress );
-    }
-
-    /**
-     * Redirects the user to an error page
-     *
-     * @param string $message
-     *
-     * @param string $ipaddress
-     */
-
-    private function redirectError( $message='', $ipaddress='' )
-    {
-
-        if( $ipaddress !== '' )
-        {
-
-            Flight::redirect('/game/internet/' . $ipaddress . "?error=" . $message ); exit;
-        }
-
-        Flight::redirect('/game/internet/?error=' . $message ); exit;
-    }
-
-    /**
-     * Redirects the user to a success page
-     *
-     * @param string $ipaddress
-     */
-
-    private function redirectSuccess( $ipaddress='' )
-    {
-
-        if( $ipaddress !== '' )
-        {
-
-            Flight::redirect('/game/internet/' . $ipaddress . "?success" ); exit;
-        }
-
-        Flight::redirect('/game/internet/?success'); exit;
+        $this->log('Downloaded file <' . $softwarename . '> on ' . $ipaddress, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
     }
 }

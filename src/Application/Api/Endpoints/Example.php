@@ -14,5 +14,9 @@ use Framework\Application\Api\Structures\Endpoint;
 class Example implements Endpoint
 {
 
+    public function requirements()
+    {
 
+        // TODO: Implement requirements() method.
+    }
 }

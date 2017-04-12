@@ -10,43 +10,14 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Application\Container;
-use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Operation;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
-use Framework\Syscrack\Game\Softwares;
-use Framework\Syscrack\Game\Computer;
-use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Log;
-use Flight;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\Operation as BaseClass;
 use Framework\Syscrack\Game\Viruses;
 
-class Install implements Operation
+class Install extends BaseClass implements Structure
 {
-
-    /**
-     * @var Softwares
-     */
-
-    protected $softwares;
-
-    /**
-     * @var Computer
-     */
-
-    protected $computer;
-
-    /**
-     * @var Internet
-     */
-
-    protected $internet;
-
-    /**
-     * @var Log
-     */
-
-    protected $log;
 
     /**
      * @var Viruses
@@ -61,13 +32,7 @@ class Install implements Operation
     public function __construct()
     {
 
-        $this->softwares = new Softwares();
-
-        $this->computer = new Computer();
-
-        $this->internet = new Internet();
-
-        $this->log = new Log();
+        parent::__construct();
 
         $this->viruses = new Viruses();
     }
@@ -92,13 +57,7 @@ class Install implements Operation
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
     {
 
-        if( isset( $data['ipaddress'] ) == false )
-        {
-
-            return false;
-        }
-
-        if( isset( $data['softwareid'] ) == false )
+        if( $this->checkData( $data ) == false )
         {
 
             return false;
@@ -168,13 +127,7 @@ class Install implements Operation
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
-        if( isset( $data['ipaddress'] ) == false )
-        {
-
-            throw new SyscrackException();
-        }
-
-        if( isset( $data['softwareid'] ) == false )
+        if( $this->checkData( $data ) == false )
         {
 
             throw new SyscrackException();
@@ -211,7 +164,7 @@ class Install implements Operation
      * @return int
      */
 
-    public function getCompletionTime($computerid, $ipaddress, $process)
+    public function getCompletionSpeed($computerid, $ipaddress, $process)
     {
 
         $future = new TimeHelper();
@@ -230,7 +183,7 @@ class Install implements Operation
     private function logInstall( $softwarename, $computerid, $ipaddress )
     {
 
-        $this->logToComputer('Installed file <' . $softwarename . '> on root', $computerid, $ipaddress );
+        $this->log('Installed file <' . $softwarename . '> on root', $computerid, $ipaddress );
     }
 
     /**
@@ -244,60 +197,6 @@ class Install implements Operation
     private function logLocal( $softwarename, $computerid, $ipaddress )
     {
 
-        $this->logToComputer('Installed file <' . $softwarename . '> on ' . $ipaddress, $computerid, 'localhost' );
-    }
-
-    /**
-     * Updates the computers log
-     *
-     * @param $message
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     */
-
-    private function logToComputer( $message, $computerid, $ipaddress )
-    {
-
-        $this->log->updateLog( $message, $computerid, $ipaddress );
-    }
-
-    /**
-     * Redirects to the error page
-     *
-     * @param string $message
-     *
-     * @param string $ipaddress
-     */
-
-    private function redirectError( $message='', $ipaddress='' )
-    {
-
-        if( $ipaddress !== '' )
-        {
-
-            Flight::redirect('/game/internet/' . $ipaddress . "?error=" . $message ); exit;
-        }
-
-        Flight::redirect('/game/internet/?error=' . $message ); exit;
-    }
-
-    /**
-     * Redirects to the success page
-     *
-     * @param string $ipaddress
-     */
-
-    private function redirectSuccess( $ipaddress='' )
-    {
-
-        if( $ipaddress !== '' )
-        {
-
-            Flight::redirect('/game/internet/' . $ipaddress . "?success" ); exit;
-        }
-
-        Flight::redirect('/game/internet/?success'); exit;
+        $this->log('Installed file <' . $softwarename . '> on ' . $ipaddress, $computerid, 'localhost' );
     }
 }

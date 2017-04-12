@@ -100,10 +100,10 @@ class AddressDatabase
     /**
      * Removes a computer from the hacked database
      *
-     * @param $computer
+     * @param $computerid
      */
 
-    public function removeComputer( $computer )
+    public function removeComputer( $computerid )
     {
 
         if( empty( $this->database ) )
@@ -115,7 +115,7 @@ class AddressDatabase
         foreach( $this->database as $key=>$value)
         {
 
-            if( $value == $computer )
+            if( $value['computerid'] == $computerid )
             {
 
                 unset( $this->database[ $key ] );

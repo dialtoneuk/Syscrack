@@ -240,6 +240,28 @@ class Finance
     }
 
     /**
+     * Returns true if we have an account at this computer
+     *
+     * @param $computerid
+     *
+     * @param $userid
+     *
+     * @return bool
+     */
+
+    public function hasAccountAtComputer( $computerid, $userid )
+    {
+
+        if( $this->getAccountAtBank( $computerid, $userid ) == null )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @param $computerid
      *
      * @param $userid

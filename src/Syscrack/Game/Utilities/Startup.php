@@ -17,6 +17,7 @@ use Framework\Syscrack\Game\BankDatabase;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Log;
 use Framework\Syscrack\Game\Computer;
+use Framework\Syscrack\Game\Softwares;
 
 class Startup
 {
@@ -27,18 +28,22 @@ class Startup
      * @param $userid
      */
 
-    public function __construct( $userid )
+    public function __construct( $userid=null, $autorun=true )
     {
 
-        $this->createAddressDatabase( $userid );
+        if( $autorun == true || $userid !== null  )
+        {
 
-        $this->createbankDatabase( $userid );
+            $this->createAddressDatabase( $userid );
 
-        $this->createFinance( $userid );
+            $this->createBankDatabase( $userid );
 
-        $this->createComputer( $userid );
+            $this->createFinance( $userid );
 
-        $this->createLog( $userid );
+            $this->createComputer( $userid );
+
+            $this->createLog( $userid );
+        }
     }
 
     /**
@@ -47,18 +52,39 @@ class Startup
      * @param $userid
      */
 
-    private function createComputer( $userid )
+    public function createComputer( $userid=null, $type='vpc', $ip=null )
     {
 
         $computer = new Computer();
 
-        if( $computer->userHasComputers( $userid ) )
+        if( $ip == null )
         {
 
-            return;
-        }
+            if( $userid == null )
+            {
 
-        $computer->createComputer( $userid, 'vpc', $this->getIP() );
+                $computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $ip );
+            }
+            else
+            {
+
+                $computer->createComputer( $userid, $type, $ip );
+            }
+        }
+        else
+        {
+
+            if( $userid == null )
+            {
+
+                $computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $this->getIP() );
+            }
+            else
+            {
+
+                $computer->createComputer( $userid, $type, $this->getIP() );
+            }
+        }
     }
 
     /**
@@ -67,7 +93,7 @@ class Startup
      * @param $userid
      */
 
-    private function createAddressDatabase( $userid )
+    public function createAddressDatabase( $userid )
     {
 
         $addressdatabase = new AddressDatabase();
@@ -78,7 +104,7 @@ class Startup
             return;
         }
 
-        $addressdatabase->saveDatabase( $userid, [] );
+        $addressdatabase->saveDatabase( [] );
     }
 
     /**
@@ -87,7 +113,7 @@ class Startup
      * @param $userid
      */
 
-    private function createbankDatabase( $userid )
+    public function createBankDatabase( $userid )
     {
 
         $bankdatabase = new BankDatabase();
@@ -107,18 +133,33 @@ class Startup
      * @param $userid
      */
 
-    private function createFinance( $userid )
+    public function createFinance( $userid, $computerid=null )
     {
 
         $finance = new Finance();
 
-        if( $finance->hasAccount( $userid ) )
+        if( $computerid == null )
         {
 
-            return;
-        }
+            if( $finance->hasAccountAtComputer( $computerid, $userid))
+            {
 
-        $finance->createAccount( Settings::getSetting('syscrack_default_bank'), $userid );
+                return;
+            }
+
+            $finance->createAccount( $computerid, $userid );
+        }
+        else
+        {
+
+            if( $finance->hasAccountAtComputer( Settings::getSetting('syscrack_default_bank'), $userid))
+            {
+
+                return;
+            }
+
+            $finance->createAccount( Settings::getSetting('syscrack_default_bank'), $userid );
+        }
     }
 
     /**
@@ -127,7 +168,7 @@ class Startup
      * @param $userid
      */
 
-    private function createLog( $userid )
+    public function createLog( $userid )
     {
 
         $log = new Log();
@@ -146,12 +187,111 @@ class Startup
     }
 
     /**
+     * Creates the NPC
+     *
+     * @param $computerid
+     *
+     * @param array|null $data
+     */
+
+    public function createNPC( $computerid, array $data=null )
+    {
+
+        if( FileSystem::fileExists( Settings::getSetting('syscrack_npc_filepath') . $computerid . '.json' ) )
+        {
+
+            return;
+        }
+
+        if( $data == null )
+        {
+
+            FileSystem::writeJson( Settings::getSetting('syscrack_npc_filepath') . $computerid . '.json', [] );
+        }
+        else
+        {
+
+            FileSystem::writeJson( Settings::getSetting('syscrack_npc_filepath') . $computerid . '.json', $data );
+        }
+    }
+
+    /**
+     * Creates the computers various softwares
+     *
+     * @param $userid
+     *
+     * @param $computerid
+     *
+     * @param array $softwares
+     */
+
+    public function createComputerSoftware( $userid, $computerid, array $softwares )
+    {
+
+        $software = new Softwares();
+
+        $computer = new Computer();
+
+        foreach( $softwares as $value )
+        {
+
+            if( isset( $value['softwarename'] ) == false || isset( $value['softwareid'] ) == false || isset( $value['type'] ) )
+            {
+
+                throw new SyscrackException();
+            }
+
+            if( $software->softwareExists( $value['softwareid'] ) == false )
+            {
+
+                throw new SyscrackException();
+            }
+
+            $softwareid = $software->copySoftware( $software->getSoftware( $value['softwareid'] )->computerid, $computerid, $userid );
+
+            $computer->addSoftware( $computerid, $softwareid, $value['type'], $value['softwarename'] );
+
+            if( isset( $value['installed'] ) )
+            {
+
+                if( $value['installed'] == true )
+                {
+
+                    $computer->installSoftware( $computerid, $softwareid );
+                }
+            }
+        }
+    }
+
+    /**
+     * Creates the markets stock
+     *
+     * @param $computerid
+     */
+
+    public function createStock( $computerid )
+    {
+
+        if( FileSystem::directoryExists( Settings::getSetting('syscrack_marketstock_location') . $computerid . '/') )
+        {
+
+            return;
+        }
+
+        FileSystem::createDirectory( Settings::getSetting('syscrack_marketstock_location') . $computerid . '/');
+
+        FileSystem::writeJson( Settings::getSetting('syscrack_marketstock_location') . $computerid . '/stock.json', [] );
+
+        FileSystem::writeJson( Settings::getSetting('syscrack_marketstock_location') . $computerid . '/purchases.json', [] );
+    }
+
+    /**
      * Generates a new random IP address
      *
      * @return string
      */
 
-    private function getIP()
+    public function getIP()
     {
 
         return rand( Settings::getSetting('syscrack_lowest_iprange'),255) .  '.' . rand(192,255) . '.' . rand(192,255) . '.' . rand(192,255);

@@ -11,7 +11,6 @@ namespace Framework\Views\Middleware;
 
 use Framework\Application\Container;
 use Framework\Application\Settings;
-use Framework\Exceptions\SyscrackException;
 use Framework\Views\Structures\Middleware;
 
 class SessionTimeout implements Middleware
@@ -47,6 +46,12 @@ class SessionTimeout implements Middleware
 
     public function onRequest()
     {
+
+        if( $this->session == null )
+        {
+
+            return true;
+        }
 
         if( $this->session->isLoggedIn() == false )
         {

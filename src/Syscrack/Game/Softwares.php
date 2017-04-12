@@ -55,7 +55,6 @@ class Softwares
 
             self::$factory = new Factory( Settings::getSetting('syscrack_software_namespace') );
 
-            //TODO: Rewrite software class ( right now its bulky )
             if( $autoload == true )
             {
 

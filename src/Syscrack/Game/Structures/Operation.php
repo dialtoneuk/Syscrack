@@ -50,7 +50,7 @@ interface Operation
     public function onCompletion( $timecompleted, $timestarted, $computerid, $userid, $process, array $data );
 
     /**
-     * Returns the completeion time for this process
+     * Returns the completion speed for this process
      *
      * @param $computerid
      *
@@ -61,5 +61,5 @@ interface Operation
      * @return int
      */
 
-    public function getCompletionTime( $computerid, $ipaddress, $process );
+    public function getCompletionSpeed($computerid, $ipaddress, $process );
 }

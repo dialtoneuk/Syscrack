@@ -1,6 +1,7 @@
 {
     "filesystem_root": "{$_SERVER['DOCUMENT_ROOT']}",
     "filesystem_seperator": "\/",
+    "filesystem_default_extension":".json",
     "developer_page": "developer",
     "developer_disabled": false,
     "user_default_group": "guest",
@@ -36,7 +37,8 @@
     "facebook_app_secret": "",
     "facebook_app_version": "v2.8",
     "facebook_redirect_url": "http:\/\/{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI]'}",
-    "online_timeframe":"{time() + 7200}",
+    "online_timeframe":"{60 * 60 * 2}",
+    "syscrack_game_name":"beta",
     "syscrack_bank_type":"bank",
     "syscrack_bitcoin_type":"bitcoin",
     "syscrack_market_type":"market",
@@ -53,7 +55,6 @@
     "syscrack_addressdatabase_location":"syscrack\/addressdatabase\/",
     "syscrack_bankdatabase_location":"syscrack\/bankdatabase\/",
     "syscrack_filedatabase_extension":".json",
-    "syscrack_software_allowedmethods":"{['onExecuted','onCollect','onInstalled','onUninstall','onDelete']}",
     "syscrack_bank_default_balance":1000,
     "syscrack_bitcoin_live":true,
     "syscrack_bitcoin_sellprice":500,
@@ -78,6 +79,10 @@
     "syscrack_operations_location":"src\/Syscrack\/Game\/Operations\/",
     "syscrack_operations_namespace":"Framework\\Syscrack\\Game\\Operations\\",
     "syscrack_vminer_uniquename":"vminer",
+    "syscrack_vddos_uniquename":"vddos",
+    "syscrack_vspam_uniquename":"vspam",
+    "syscrack_collector_static":false,
     "syscrack_collector_amount":1000.0,
-    "syscrack_collector_btc_amount":0.5
+    "syscrack_collector_btc_amount":0.5,
+    "syscrack_marketstock_location":"syscrack\/stocks.json"
 }

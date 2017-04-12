@@ -11,9 +11,7 @@ namespace Framework\Syscrack\Game;
 
 use Framework\Application\Settings;
 use Framework\Database\Tables\Computers;
-use Framework\Application\Utilities\FileSystem;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Finance;
 
 class Hardware
 {
@@ -29,25 +27,25 @@ class Hardware
     public function getDownloadSpeed( $computerid )
     {
 
-        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_internet_download_type') ];
+        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_internet_download_type') ]['value'];
     }
 
     public function getUploadSpeed( $computerid )
     {
 
-        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_internet_upload_type') ];
+        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_internet_upload_type') ]['value'];
     }
 
     public function getCPUSpeed( $computerid )
     {
 
-        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_cpu_type') ];
+        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_cpu_type') ]['value'];
     }
 
     public function getGPUSpeed( $computerid )
     {
 
-        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_gpu_type') ];
+        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_gpu_type') ]['value'];
     }
 
     public function updateHardware( $computerid, $type, $value )
@@ -88,6 +86,12 @@ class Hardware
 
     public function getHardwareType( $computerid, $type )
     {
+
+        if( isset( $this->getHardware( $computerid )[ $type ] ) == false )
+        {
+
+            return null;
+        }
 
         return $this->getHardware( $computerid )[ $type ];
     }

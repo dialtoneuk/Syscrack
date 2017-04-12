@@ -7,8 +7,6 @@ namespace Framework\Application\Utilities;
  * Class FileSystem
  *
  * @package Framework\Application\Utilities
- *
- * //TODO: Handle when I don't enter a file extension and automatically enter it
  */
 
 use Framework\Application\Settings;
@@ -27,6 +25,18 @@ class FileSystem
 
 	public static function read( $file )
 	{
+
+        if( is_dir( $file ) )
+        {
+
+            throw new ApplicationException();
+        }
+
+        if( self::hasFileExtension( $file ) == false )
+        {
+
+            $file = $file . Settings::getSetting('filesystem_default_extension');
+        }
 
 		if( file_exists( self::getFilePath( $file ) ) == false )
 		{
@@ -56,6 +66,18 @@ class FileSystem
 	public static function readJson( $file )
     {
 
+        if( is_dir( $file ) )
+        {
+
+            throw new ApplicationException();
+        }
+
+        if( self::hasFileExtension( $file ) == false )
+        {
+
+            $file = $file . '.json';
+        }
+
         if( self::fileExists( $file ) == false )
         {
 
@@ -73,13 +95,19 @@ class FileSystem
      * @param array $array
      */
 
-    public static function writeJson( $file, $array )
+    public static function writeJson( $file, array $array = [] )
     {
 
-        if( $array == null )
+        if( is_dir( $file ) )
         {
 
-            $array = [];
+            throw new ApplicationException();
+        }
+
+        if( self::hasFileExtension( $file ) == false )
+        {
+
+            $file = $file . '.json';
         }
 
         self::write( $file, json_encode( $array, JSON_PRETTY_PRINT ) );
@@ -95,6 +123,18 @@ class FileSystem
 
 	public static function write( $file, $data )
 	{
+
+        if( is_dir( $file ) )
+        {
+
+            throw new ApplicationException();
+        }
+
+        if( self::hasFileExtension( $file ) == false )
+        {
+
+            $file = $file . Settings::getSetting('filesystem_default_extension');
+        }
 
 	    $directories = self::getDirectories( $file );
 
@@ -124,6 +164,18 @@ class FileSystem
 	public static function fileExists( $file )
 	{
 
+        if( is_dir( $file ) )
+        {
+
+            throw new ApplicationException();
+        }
+
+        if( self::hasFileExtension( $file ) == false )
+        {
+
+            $file = $file . Settings::getSetting('filesystem_default_extension');
+        }
+
 		if( file_exists( self::getFilePath( $file ) ) == false )
 		{
 
@@ -142,21 +194,21 @@ class FileSystem
 	/**
 	 * Checks if a directory exists
 	 *
-	 * @param $file
+	 * @param $path
 	 *
 	 * @return bool
 	 */
 
-	public static function directoryExists( $file )
+	public static function directoryExists( $path )
 	{
 
-		if( file_exists( self::getFilePath( $file ) ) == false )
-		{
+	    if( is_dir( $path ) == false )
+        {
 
-			return false;
-		}
+            throw new ApplicationException();
+        }
 
-		if( is_file( $file ) == true )
+		if( file_exists( self::getFilePath( $path ) ) == false )
 		{
 
 			return false;
@@ -175,6 +227,18 @@ class FileSystem
 
 	public static function append( $file, $data )
 	{
+
+	    if( is_dir( $file ) )
+        {
+
+            throw new ApplicationException();
+        }
+
+	    if( self::hasFileExtension( $file ) == false )
+        {
+
+            $file = $file . Settings::getSetting('filesystem_default_extension');
+        }
 
 		if( file_exists( self::getFilePath( $file ) ) == false )
 		{
@@ -207,6 +271,12 @@ class FileSystem
 	public static function getFilesInDirectory( $path, $suffix='php' )
     {
 
+        if( is_dir( $path ) == false )
+        {
+
+            throw new ApplicationException();
+        }
+
         if( self::directoryExists( $path ) == false )
         {
 
@@ -227,19 +297,31 @@ class FileSystem
 	/**
 	 * Creates a directory
 	 *
-	 * @param $file
+	 * @param $path
 	 */
 
-	public static function createDirectory( $file, $access=0755 )
+	public static function createDirectory( $path, $access=null )
 	{
 
-	    if( substr( $file, -1 ) == '/' )
+	    if( is_dir( $path ) == false )
         {
 
-            $file = substr( $file, 0, -1);
+            throw new ApplicationException();
         }
 
-        mkdir( self::getFilePath( $file ), $access, true);
+        if( $access == null )
+        {
+
+            $access = Settings::getSetting('filesystem_default_access');
+        }
+
+	    if( substr( $path, -1 ) == '/' )
+        {
+
+            $path = substr( $path, 0, -1);
+        }
+
+        mkdir( self::getFilePath( $path ), $access, true);
 	}
 
 	/**
@@ -250,6 +332,12 @@ class FileSystem
 
 	public static function delete( $file )
 	{
+
+	    if( self::hasFileExtension( $file ) == false )
+        {
+
+            $file = $file . Settings::getSetting('filesystem_default_extension');
+        }
 
 		if( file_exists( self::getFilePath( $file ) ) == false )
 		{
@@ -346,6 +434,26 @@ class FileSystem
         }
 
         return end( $file );
+    }
+
+    /**
+     * Returns true if we have a file extension
+     *
+     * @param $file
+     *
+     * @return bool
+     */
+
+    public static function hasFileExtension( $file )
+    {
+
+        if( empty( explode('.', $file ) ) )
+        {
+
+            return false;
+        }
+
+        return true;
     }
 
 	/**

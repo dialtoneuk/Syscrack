@@ -4,7 +4,7 @@ namespace Framework\Syscrack\Game\Operations;
 /**
  * Lewis Lancaster 2017
  *
- * Class Logout
+ * Class Clear
  *
  * @package Framework\Syscrack\Game\Operations
  */
@@ -13,11 +13,11 @@ use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
 use Framework\Syscrack\Game\Operation as BaseClass;
 
-class Logout extends BaseClass implements Structure
+class Clear extends BaseClass implements Structure
 {
 
     /**
-     * Logout constructor.
+     * Clear constructor.
      */
 
     public function __construct()
@@ -27,7 +27,7 @@ class Logout extends BaseClass implements Structure
     }
 
     /**
-     * Called when this process request is created
+     * Called when the process is created
      *
      * @param $timecompleted
      *
@@ -39,7 +39,7 @@ class Logout extends BaseClass implements Structure
      *
      * @param array $data
      *
-     * @return mixed
+     * @return bool
      */
 
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
@@ -51,13 +51,23 @@ class Logout extends BaseClass implements Structure
             return false;
         }
 
+        $computer = $this->internet->getComputer( $data['ipaddress'] );
+
+        if( $this->computerlog->hasLog( $computer->computerid ) == false )
+        {
+
+            return false;
+        }
+
         return true;
     }
 
     /**
-     * Called when this process request is created
+     * Called when a process is completed
      *
      * @param $timecompleted
+     *
+     * @param $timestarted
      *
      * @param $computerid
      *
@@ -77,13 +87,13 @@ class Logout extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        $this->internet->setCurrentConnectedAddress( null );
+        $this->computerlog->saveLog( $this->internet->getComputer( $data['ipaddress'] )->computerid, [] );
 
         $this->redirectSuccess( $data['ipaddress'] );
     }
 
     /**
-     * Gets the completion time
+     * gets the time in seconds it takes to complete an action
      *
      * @param $computerid
      *

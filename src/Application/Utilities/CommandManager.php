@@ -77,7 +77,7 @@ class CommandManager
 	 * @return null
 	 */
 
-	final public function output( $text, $prefix='Command Manager' )
+	final public function output( $text, $prefix='Syscrack' )
 	{
 
 		echo "[" . $prefix . "] " . "\n" . $text;

@@ -12,28 +12,12 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Application\Container;
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Softwares;
-use Framework\Syscrack\Game\Structures\Operation;
-use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Computer;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\Operation as BaseClass;
 use Framework\Syscrack\Game\AddressDatabase;
-use Framework\Syscrack\Game\Utilities\TimeHelper;
-use Flight;
 
-class Hack implements Operation
+class Hack extends BaseClass implements Structure
 {
-
-    /**
-     * @var Internet
-     */
-
-    protected $internet;
-
-    /**
-     * @var Computer
-     */
-
-    protected $computer;
 
     /**
      * @var AddressDatabase;
@@ -42,23 +26,13 @@ class Hack implements Operation
     protected $addressdatabase;
 
     /**
-     * @var Softwares
-     */
-
-    protected $softwares;
-
-    /**
-     * Logout constructor.
+     * Hack constructor.
      */
 
     public function __construct()
     {
 
-        $this->internet = new Internet();
-
-        $this->computer = new Computer();
-
-        $this->softwares = new Softwares( true );
+        parent::__construct();
     }
 
     /**
@@ -80,7 +54,13 @@ class Hack implements Operation
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
     {
 
-        if( isset( $data['ipaddress'] ) == false )
+        if( $this->checkData( $data, ['ipaddress'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress == $data['ipaddress'] )
         {
 
             return false;
@@ -137,7 +117,7 @@ class Hack implements Operation
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
-        if( isset( $data['ipaddress'] ) == false )
+        if( $this->checkData( $data, ['ipaddress'] ) == false )
         {
 
             throw new SyscrackException();
@@ -153,7 +133,7 @@ class Hack implements Operation
 
         $this->addressdatabase->saveDatabase();
 
-        Flight::redirect('/game/internet/' . $data['ipaddress'] . '/login');
+        $this->redirectSuccess( $data['ipaddress'] );
     }
 
     /**
@@ -168,49 +148,9 @@ class Hack implements Operation
      * @return null
      */
 
-    public function getCompletionTime($computerid, $ipaddress, $process)
+    public function getCompletionSpeed($computerid, $ipaddress, $process)
     {
 
-        $future = new TimeHelper();
-
-        return $future->getSecondsInFuture(10);
-    }
-
-    /**
-     * Redirects the user to an error page
-     *
-     * @param string $message
-     *
-     * @param string $ipaddress
-     */
-
-    private function redirectError( $message='', $ipaddress='' )
-    {
-
-        if( $ipaddress !== '' )
-        {
-
-            Flight::redirect('/game/internet/' . $ipaddress . "?error=" . $message ); exit;
-        }
-
-        Flight::redirect('/game/internet/?error=' . $message ); exit;
-    }
-
-    /**
-     * Redirects the user to a success page
-     *
-     * @param string $ipaddress
-     */
-
-    private function redirectSuccess( $ipaddress='' )
-    {
-
-        if( $ipaddress !== '' )
-        {
-
-            Flight::redirect('/game/internet/' . $ipaddress . "?success" ); exit;
-        }
-
-        Flight::redirect('/game/internet/?success'); exit;
+        return 5.0;
     }
 }

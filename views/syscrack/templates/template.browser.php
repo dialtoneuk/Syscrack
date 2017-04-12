@@ -91,7 +91,7 @@
                                 </p>
                             <?php
                         }
-                        else
+                        elseif( $computer->type == Settings::getSetting('syscrack_market_type') )
                         {
 
                             ?>
