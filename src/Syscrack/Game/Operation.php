@@ -13,6 +13,7 @@ use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
 use Framework\Application\Settings;
 use Flight;
+use Framework\Syscrack\Game\Utilities\TimeHelper;
 
 class Operation
 {
@@ -42,19 +43,17 @@ class Operation
     public $internet;
 
     /**
+     * @var Hardware
+     */
+
+    public $hardware;
+
+    /**
      * Operation constructor.
      */
 
     public function __construct( $createclasses = true )
     {
-
-        $class = get_parent_class( $this );
-
-        if( $class instanceof Structure == false )
-        {
-
-            throw new SyscrackException('Operation class can only extend classes of which have the operation structure');
-        }
 
         $this->computerlog = new Log();
 
@@ -66,6 +65,8 @@ class Operation
             $this->computer = new Computer();
 
             $this->internet = new Internet();
+
+            $this->hardware = new Hardware();
         }
     }
 
@@ -123,6 +124,50 @@ class Operation
     {
 
         Flight::render( Settings::getSetting('syscrack_view_location') . $file, $array);
+    }
+
+    /**
+     * Calculates the processing time for an action using the algorithm
+     *
+     * @param $computerid
+     *
+     * @param string $hardwaretype
+     *
+     * @param float $speedness
+     *
+     * @param null $softwareid
+     *
+     * @return int
+     */
+
+    public function calculateProcessingTime( $computerid, $hardwaretype="cpu", $speedness=5.5, $softwareid=null )
+    {
+
+        if( $this->hardware->hasHardwareType( $computerid, $hardwaretype ) == false )
+        {
+
+            return TimeHelper::getSecondsInFuture( Settings::getSetting('syscrack_default_processingtime') );
+        }
+
+        if( $softwareid !== null )
+        {
+
+            if( $this->softwares->softwareExists( $softwareid ) == false )
+            {
+
+                throw new SyscrackException();
+            }
+
+            $hardware = $this->hardware->getHardwareType( $computerid, $hardwaretype );
+
+            $software = $this->softwares->getSoftware( $softwareid );
+
+            return TimeHelper::getSecondsInFuture( floor( sqrt( $hardware['value'] / $software->level / ( $hardware['value'] * Settings::getSetting('syscrack_global_speed' ) * $speedness ) ) ) );
+        }
+
+        $hardware = $this->hardware->getHardwareType( $computerid, $hardwaretype );
+
+        return TimeHelper::getSecondsInFuture( floor( sqrt( $hardware['value'] / $speedness / ( $hardware['value'] * Settings::getSetting('syscrack_global_speed' ) ) ) ) );
     }
 
     /**

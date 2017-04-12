@@ -16,7 +16,7 @@
 
     <?php
 
-        Flight::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game', 'scripts' => '<script src="http://www.webglearth.com/v2/api.js"></script>') );
+        Flight::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game', 'scripts' => '<script src="/assets/js/webglearth.js"></script>') );
     ?>
 
     <style>
@@ -62,14 +62,9 @@
         {
             -webkit-touch-callout: none; /* iOS Safari */
             -webkit-user-select: none; /* Safari */
-            -khtml-user-select: none; /* Konqueror HTML */
             -moz-user-select: none; /* Firefox */
             -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* N */
-        }
-
-        #earth_div
-        {
 
             -webkit-box-shadow: inset 0 0 229px -66px rgba(0, 0, 0, 1);
             -moz-box-shadow: inset 0 0 229px -66px rgba(0, 0, 0, 1);

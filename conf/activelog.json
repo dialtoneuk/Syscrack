@@ -2,134 +2,134 @@
     {
         "message": "Application has begun loading",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.589568
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.139554
     },
     {
         "message": "Controller Ran",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.591754
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.143373
     },
     {
         "message": "Page Created",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.591771
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.143393
     },
     {
         "message": "Database Connection Created",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.600291
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.154995
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.613972
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.170508
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.61455
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.171215
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.614568
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.171232
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.614579
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.171243
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.614589
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.171253
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.614598
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.171262
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.614608
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.171271
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.614618
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.17128
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.614626
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.171289
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.614635
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.171297
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.614644
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.171306
     },
     {
         "message": "Middleware Requested",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.617189
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.1739
     },
     {
         "message": "Succeeded Middleware Check",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.619619
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.176141
     },
     {
         "message": "Added application to global container",
         "type": "notice",
-        "time": 1491530088,
-        "date": "07-04-17",
-        "microtime": 1491530088.619626
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.176148
     },
     {
         "message": "Saving active log",
         "type": "notice",
-        "time": 1491530089,
-        "date": "07-04-17",
-        "microtime": 1491530089.388432
+        "time": 1491980831,
+        "date": "12-04-17",
+        "microtime": 1491980831.194803
     }
 ]

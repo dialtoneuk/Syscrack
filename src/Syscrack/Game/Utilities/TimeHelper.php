@@ -20,7 +20,7 @@ class TimeHelper
      * @return int
      */
 
-    public function getSecondsInFuture( $seconds )
+    public static function getSecondsInFuture( $seconds )
     {
 
         return time() + ( $seconds );

@@ -119,6 +119,6 @@ class Hardware
     public function getHardware( $computerid )
     {
 
-        return json_decode( $this->computers->getComputer( $computerid )->hardware );
+        return json_decode( $this->computers->getComputer( $computerid )->hardwares );
     }
 }

@@ -4,6 +4,7 @@
     "filesystem_default_extension":".json",
     "developer_page": "developer",
     "developer_disabled": false,
+    "database_connection_file":"conf\/database\/connection.json",
     "user_default_group": "guest",
     "user_group_admin":"admin",
     "user_group_developer":"developer",
@@ -49,6 +50,7 @@
     "syscrack_hasher_type":"hasher",
     "syscrack_firewall_type":"firewall",
     "syscrack_text_type":"text",
+    "syscrack_cpu_type":"cpu",
     "syscrack_collector_type":"collector",
     "syscrack_software_namespace":"Framework\\Syscrack\\Game\\Softwares\\",
     "syscrack_software_location":"src\/Syscrack\/Game\/Softwares\/",
@@ -84,5 +86,6 @@
     "syscrack_collector_static":false,
     "syscrack_collector_amount":1000.0,
     "syscrack_collector_btc_amount":0.5,
-    "syscrack_marketstock_location":"syscrack\/stocks.json"
+    "syscrack_marketstock_location":"syscrack\/stocks.json",
+    "syscrack_default_processingtime":10
 }

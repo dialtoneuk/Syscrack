@@ -99,14 +99,14 @@ class View extends BaseClass implements Structure
      *
      * @param $computerid
      *
-     * @param $ipaddress
-     *
      * @param $process
+     *
+     * @param null $sofwareid
      *
      * @return null
      */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $process)
+    public function getCompletionSpeed($computerid, $process, $sofwareid=null )
     {
 
         return null;

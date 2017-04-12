@@ -9,6 +9,7 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
+use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
 use Framework\Syscrack\Game\Operation as BaseClass;
@@ -97,16 +98,16 @@ class Clear extends BaseClass implements Structure
      *
      * @param $computerid
      *
-     * @param $ipaddress
+     * @param $softwareid
      *
      * @param $process
      *
      * @return null
      */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $process)
+    public function getCompletionSpeed($computerid, $process, $softwareid=null)
     {
 
-        return null;
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), 5.5, $softwareid );
     }
 }

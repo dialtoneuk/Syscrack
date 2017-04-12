@@ -65,7 +65,7 @@
 
                     $software = $softwares->getSoftware( $value['softwareid'] );
 
-                    if( $softwares->softwareExists( $value['softwareid'] ) == false )
+                    if( $softwares->softwareExists( $value['softwareid'] ) == false || $softwareclass == null )
                     {
 
                         continue;

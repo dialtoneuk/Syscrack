@@ -12,6 +12,7 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
 use Framework\Syscrack\Game\Operation as BaseClass;
+use Framework\Application\Settings;
 
 class Download extends BaseClass implements Structure
 {
@@ -121,21 +122,27 @@ class Download extends BaseClass implements Structure
     }
 
     /**
-     * Gets the completion time
+     * Gets the completion speed
      *
      * @param $computerid
      *
-     * @param $ipaddress
-     *
      * @param $process
      *
-     * @return null
+     * @param null $softwareid
+     *
+     * @return int
      */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $process)
+    public function getCompletionSpeed($computerid, $process, $softwareid=null)
     {
 
-        return null;
+        if( $this->softwares->softwareExists( $softwareid ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_download_type'), $this->softwares->getSoftware( $softwareid )->size / 10, $softwareid );
     }
 
     /**

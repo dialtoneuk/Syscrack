@@ -32,37 +32,54 @@ class Manager
 	 * Manager constructor.
 	 */
 
-	public function __construct ()
+	public function __construct ( $autoload=true )
 	{
 
-		$class = new Connection();
+	    if( $autoload )
+        {
 
-		if( empty( $class ) )
-		{
+            $this->setConnection();
+        }
+	}
 
-			throw new DatabaseException();
-		}
+    /**
+     * Sets the database connection
+     *
+     * @param null $file
+     */
 
-		self::$connection = $class->readConnectionFile();
+	public function setConnection( $file=null )
+    {
 
-		if( empty( self::$connection ) )
-		{
+        $class = new Connection();
 
-			throw new DatabaseException();
-		}
+        if( empty( $class ) )
+        {
 
-		self::$capsule = new Capsule();
+            throw new DatabaseException();
+        }
 
-		if( empty( self::$capsule ) )
-		{
+        self::$connection = $class->readConnectionFile( $file );
 
-			throw new DatabaseException();
-		}
+        if( empty( self::$connection ) )
+        {
 
-		$this->createConnection();
+            throw new DatabaseException();
+        }
+
+        self::$capsule = new Capsule();
+
+        if( empty( self::$capsule ) )
+        {
+
+            throw new DatabaseException();
+        }
+
+        $this->createConnection();
 
         Log::log('Database Connection Created');
-	}
+
+    }
 
 	/**
 	 * Creates our database connection

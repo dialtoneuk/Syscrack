@@ -12,6 +12,7 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
 use Framework\Syscrack\Game\Operation as BaseClass;
+use Framework\Application\Settings;
 
 class Delete extends BaseClass implements Structure
 {
@@ -119,22 +120,11 @@ class Delete extends BaseClass implements Structure
         $this->redirectSuccess( $data['ipaddress'] );
     }
 
-    /**
-     * Gets the completion time
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param $process
-     *
-     * @return null
-     */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $process)
+    public function getCompletionSpeed($computerid, $process, $softwareid=null)
     {
 
-        return 2.0;
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), 5.5, $softwareid );
     }
 
     /**

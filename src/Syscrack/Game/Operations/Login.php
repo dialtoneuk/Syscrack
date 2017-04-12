@@ -54,7 +54,7 @@ class Login extends BaseClass implements Structure
         if( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress == $data['ipaddress'] )
         {
 
-            return false;
+            $this->redirectError('Logging into your self is dangerous... do you want to break the space time continuum?'); exit;
         }
 
         return true;
@@ -79,7 +79,7 @@ class Login extends BaseClass implements Structure
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
-        if( $this->checkData( $data, ['ipaddress'] ) )
+        if( $this->checkData( $data, ['ipaddress'] ) == false )
         {
 
             throw new SyscrackException();

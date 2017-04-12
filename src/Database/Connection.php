@@ -9,6 +9,7 @@ namespace Framework\Database;
  * @package Framework\Database
  */
 
+use Framework\Application\Settings;
 use Framework\Application\Utilities\Cyphers;
 use Framework\Application\Utilities\FileSystem;
 use Framework\Exceptions\DatabaseException;
@@ -26,10 +27,14 @@ class Connection
 	 * Connection constructor.
 	 */
 
-	public function __construct()
+	public function __construct( $autoload=true )
 	{
 
-		$connection = $this->readConnectionFile();
+	    if( $autoload )
+        {
+
+            $connection = $this->readConnectionFile();
+        }
 
 		if( empty( $connection ) )
 		{
@@ -46,8 +51,14 @@ class Connection
 	 * @return array
 	 */
 
-	public function readConnectionFile( $file = 'conf/database/connection.json' )
+	public function readConnectionFile( $file = null )
 	{
+
+        if( $file == null )
+        {
+
+            $file = Settings::getSetting('database_connection_file');
+        }
 
 		if( file_exists( FileSystem::getFilePath( $file) ) == false )
 		{

@@ -51,11 +51,17 @@ class Bitcoin
      * @return mixed|null
      */
 
-    public function getWallet( $userid )
+    public function getWallets( $userid )
     {
 
-        return $this->database->getUserBitcoinWallet( $userid );
+        return $this->database->getUserBitcoinWallets( $userid );
     }
+
+    /**
+     * Sets the current active wallet
+     *
+     * @param $walletid
+     */
 
     public function setCurrentActiveWallet( $walletid )
     {
@@ -69,11 +75,23 @@ class Bitcoin
         $_SESSION['activewallet'] = $walletid;
     }
 
+    /**
+     * Gets the current active wallet
+     *
+     * @return mixed
+     */
+
     public function getCurrentActiveWallet()
     {
 
         return $_SESSION['activewallet'];
     }
+
+    /**
+     * Returns true if the user has a current active wallet
+     *
+     * @return bool
+     */
 
     public function hasCurrentActiveWallet()
     {
@@ -116,7 +134,7 @@ class Bitcoin
     public function getWalletsByServer( $computerid )
     {
 
-        return $this->database->findByServer( $computerid );
+        return $this->database->getByServer( $computerid );
     }
 
     /**
@@ -168,51 +186,37 @@ class Bitcoin
     }
 
     /**
-     * Deposits bitcoins into the users wallet
+     * Deposits bitcoins into a wallet
      *
-     * @param $userid
+     * @param $wallet
      *
      * @param float $bitcoins
      */
 
-    public function deposit( $userid, float $bitcoins )
+    public function deposit( $wallet, float $bitcoins )
     {
 
-        $currentbitcoins = $this->database->getUserBitcoinWallet( $userid )->bitcoins;
-
-        if( $bitcoins == null )
-        {
-
-            throw new SyscrackException();
-        }
-
-        $wallet = $this->getWallet( $userid );
-
-        $this->database->updateWallet( $wallet, array( 'bitcoins' => $currentbitcoins + $bitcoins ) );
+        $this->database->updateWallet( $wallet, array( 'bitcoins' => $this->database->findBitcoinWallet( $wallet )->bitcoins + $bitcoins ) );
     }
 
     /**
-     * Withdraws bitcoins from the wallet
+     * Withdraws from a wallet
      *
-     * @param $userid
+     * @param $wallet
      *
      * @param float $bitcoins
      */
 
-    public function withdraw( $userid, float $bitcoins )
+    public function withdraw( $wallet, float $bitcoins )
     {
 
-        $currentbitcoins = $this->database->getUserBitcoinWallet( $userid )->bitcoins;
-
-        if( $bitcoins == null )
+        if( $this->canAfford( $wallet, $bitcoins ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $wallet = $this->getWallet( $userid );
-
-        $this->database->updateWallet( $wallet, array( 'bitcoins' => $currentbitcoins - $bitcoins ) );
+        $this->database->updateWallet( $wallet, array( 'bitcoins' => $this->database->findBitcoinWallet( $wallet )->bitcoins - $bitcoins ) );
     }
 
     /**
@@ -230,7 +234,7 @@ class Bitcoin
 
         $user = $this->database->findBitcoinWallet( $wallet );
 
-        if( $this->canAfford( $user->userid, $bitcoins ) == false )
+        if( $this->canAfford( $wallet, $bitcoins ) == false )
         {
 
             throw new SyscrackException();
@@ -239,23 +243,23 @@ class Bitcoin
         $this->database->updateWallet( $wallet, array( 'bitcoins' => $user->bitcoins - $bitcoins ) );
 
         $this->database->updateWallet( $wallet, array( 'bitcoins' =>
-            $this->database->getUserBitcoinWallet( $receiver )->bitcoins + $bitcoins ) );
+            $this->database->findBitcoinWallet( $receiver )->bitcoins + $bitcoins ) );
     }
 
     /**
      * Returns true if the user can afford ths transaction
      *
-     * @param $userid
+     * @param $wallet
      *
      * @param $price
      *
      * @return bool
      */
 
-    public function canAfford( $userid, $price )
+    public function canAfford( $wallet, $price )
     {
 
-        $currentbitcoins = $this->database->getUserBitcoinWallet( $userid )->bitcoins;
+        $currentbitcoins = $this->database->findBitcoinWallet( $wallet )->bitcoins;
 
         if( $currentbitcoins - $price < 0 )
         {
@@ -277,7 +281,7 @@ class Bitcoin
     public function hasWallet( $userid )
     {
 
-        if( $this->database->getUserBitcoinWallet( $userid ) == null )
+        if( $this->database->getUserBitcoinWallets( $userid ) == null )
         {
 
             return false;
@@ -321,10 +325,10 @@ class Bitcoin
 
         $result = json_decode( Request::post( Settings::getSetting('syscrack_bitcoin_url') )->body, true );
 
-        if( empty( $result ) )
+        if( isset( $result[ strtoupper( Settings::getSetting('syscrack_bitcoin_country') ) ] ) == false )
         {
 
-            return null;
+            throw new SyscrackException();
         }
 
         return $result[ strtoupper( Settings::getSetting('syscrack_bitcoin_country') ) ]['sell'];

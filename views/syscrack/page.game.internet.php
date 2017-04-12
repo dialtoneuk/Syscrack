@@ -50,7 +50,7 @@
                                         </div>
 
                                         <div class="panel-body">
-                                            You are currently connected to <?= $internet->getCurrentConnectedAddress() ?>
+                                            You are currently connected to <?= $internet->getCurrentConnectedAddress() ?>, <a href="/game/internet/<?= $internet->getCurrentConnectedAddress()?>/logout">Logout?</a>
                                         </div>
                                     </div>
                                 <?php

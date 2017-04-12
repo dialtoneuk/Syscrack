@@ -15,6 +15,7 @@ use Framework\Syscrack\Game\Utilities\TimeHelper;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
 use Framework\Syscrack\Game\Operation as BaseClass;
 use Framework\Syscrack\Game\Viruses;
+use Framework\Application\Settings;
 
 class Install extends BaseClass implements Structure
 {
@@ -153,23 +154,22 @@ class Install extends BaseClass implements Structure
     }
 
     /**
-     * Gets the completion time
+     *
+     *
      *
      * @param $computerid
      *
-     * @param $ipaddress
-     *
      * @param $process
+     *
+     * @param null $softwareid
      *
      * @return int
      */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $process)
+    public function getCompletionSpeed($computerid, $process, $softwareid=null)
     {
 
-        $future = new TimeHelper();
-
-        return $future->getSecondsInFuture( 10 );
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), 5.5, $softwareid );
     }
 
     /**

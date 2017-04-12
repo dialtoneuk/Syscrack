@@ -50,13 +50,13 @@ class Softwares
 
         $this->database = new Database();
 
-        if( self::$factory == null )
+        if( $autoload )
         {
 
-            self::$factory = new Factory( Settings::getSetting('syscrack_software_namespace') );
-
-            if( $autoload == true )
+            if( empty( self::$factory ) )
             {
+
+                self::$factory = new Factory( Settings::getSetting('syscrack_software_namespace') );
 
                 $this->loadSoftwares();
             }
@@ -71,6 +71,7 @@ class Softwares
     {
 
         $softwares = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_software_location') );
+
 
         foreach( $softwares as $software )
         {

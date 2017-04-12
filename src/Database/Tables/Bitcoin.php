@@ -34,7 +34,15 @@ class Bitcoin extends Table
         return ( $result->isEmpty() ) ? null : $result[0];
     }
 
-    public function getUserBitcoinWallet( $userid )
+    /**
+     * Returns the users bitcoins wallets
+     *
+     * @param $userid
+     *
+     * @return \Illuminate\Support\Collection|null
+     */
+
+    public function getUserBitcoinWallets( $userid )
     {
 
         $array = array(
@@ -43,7 +51,7 @@ class Bitcoin extends Table
 
         $result = $this->getTable()->where( $array )->get();
 
-        return ( $result->isEmpty() ) ? null : $result[0];
+        return ( $result->isEmpty() ) ? null : $result;
     }
 
     /**
@@ -67,18 +75,39 @@ class Bitcoin extends Table
     }
 
     /**
-     * Finds the wallets by their server
+     * Finds the wallets by their server and computerid
      *
      * @param $computerid
      *
      * @return \Illuminate\Support\Collection|null
      */
 
-    public function findByServer( $computerid )
+    public function findByServer( $wallet, $computerid )
     {
 
         $array = array(
-            'wallet' => $wallet
+            'wallet'    => $wallet,
+            'computerid' => $computerid
+        );
+
+        $result = $this->getTable()->where( $array )->get();
+
+        return ( $result->isEmpty() ) ? null : $result;
+    }
+
+    /**
+     * Gets all the wallets tied to a specific computerid
+     *
+     * @param $computerid
+     *
+     * @return \Illuminate\Support\Collection|null
+     */
+
+    public function getByServer( $computerid )
+    {
+
+        $array = array(
+            'computerid' => $computerid
         );
 
         $result = $this->getTable()->where( $array )->get();

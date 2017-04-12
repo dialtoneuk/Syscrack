@@ -57,12 +57,6 @@ class Game implements Page
     public function __construct()
     {
 
-        $this->internet = new Internet();
-
-        $this->computer = new Computer();
-
-        $this->software = new Softwares( false );
-
         if( session_status() !== PHP_SESSION_ACTIVE )
         {
 
@@ -81,6 +75,15 @@ class Game implements Page
             Flight::redirect( '/' . Settings::getSetting('controller_index_root') );
 
             exit;
+        }
+        else
+        {
+
+            $this->internet = new Internet();
+
+            $this->computer = new Computer();
+
+            $this->software = new Softwares( false );
         }
     }
 
@@ -330,7 +333,7 @@ class Game implements Page
                 throw new SyscrackException();
             }
 
-            $completiontime = $class->getCompletionSpeed( $this->computer->getCurrentUserComputer(), $ipaddress, $process );
+            $completiontime = $class->getCompletionSpeed( $this->computer->getCurrentUserComputer(), $process, null );
 
             if( $completiontime == null )
             {
@@ -405,7 +408,7 @@ class Game implements Page
                 $this->redirectError('Action not found', $ipaddress );
             }
 
-            if( $this->softwares->softwareExists( $softwareid ) == false )
+            if( $this->software->softwareExists( $softwareid ) == false )
             {
 
                 $this->redirectError('Software does not exist', $ipaddress );
@@ -425,7 +428,7 @@ class Game implements Page
                 throw new SyscrackException();
             }
 
-            $completiontime = $class->getCompletionTime( $this->computer->getCurrentUserComputer(), $ipaddress, $process );
+            $completiontime = $class->getCompletionSpeed( $this->computer->getCurrentUserComputer(), $process, null );
 
             if( $completiontime == null )
             {
