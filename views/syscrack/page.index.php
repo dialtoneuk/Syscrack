@@ -119,7 +119,7 @@
                                     </p>
                                 </div>
                                 <div class="carousel-caption">
-                                    <p>Have your own virtual marketplace and sell software and hardware</p>
+                                    <p>Become a bitcoin barron, host your own bitcoin exchanges</p>
                                 </div>
                             </div>
                             <div class="item">

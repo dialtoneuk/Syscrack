@@ -81,7 +81,7 @@
 
             <div class="row" id="stats">
                 <div class="col-lg-12">
-                    <div class="jumbotron" style="padding: 0; background: black; box-shadow: #0f0f0f ">
+                    <div class="jumbotron" style="padding: 0; background: url('https://i.ytimg.com/vi/voWpbz1De_M/maxresdefault.jpg'); box-shadow: #0f0f0f ">
                         <div style="position: absolute; width: 100%; height: 100%; padding: 2.5%; color:white; z-index: 2;">
                             <h1>
                                 SC:\\ <?=\Framework\Application\Settings::getSetting('syscrack_game_name')?>
@@ -99,7 +99,7 @@
                                 0 Hacks
                             </p>
                         </div>
-                        <div id="earth_div" style="width: 100%; height: 40%; position: absolute; z-index: 1;"></div>
+                        <div id="earth" style="width: 100%; height: 40%; position: absolute; z-index: 1;"></div>
                     </div>
                 </div>
                 <script>
@@ -132,7 +132,7 @@
                     ?>
 
                     var options = { zoom: 10, position: [<?=$location->latitude?>,<?=$location->longitude?>] };
-                    var earth = new WE.map('earth_div', options);
+                    var earth = new WE.map('earth', options);
                     // Start a simple rotation animation
                     var before = null;
                     var zoom = 10;

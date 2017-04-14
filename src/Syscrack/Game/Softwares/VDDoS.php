@@ -10,8 +10,9 @@ namespace Framework\Syscrack\Game\Softwares;
  */
 
 use Framework\Syscrack\Game\Structures\Software as Structure;
+use Framework\Syscrack\Game\Software as BaseClass;
 
-class VDDoS implements Structure
+class VDDoS extends BaseClass implements Structure
 {
 
     /**

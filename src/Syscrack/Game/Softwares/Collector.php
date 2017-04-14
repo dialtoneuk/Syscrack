@@ -12,20 +12,13 @@ namespace Framework\Syscrack\Game\Softwares;
  */
 
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Structures\Software as Structure;
-use Framework\Syscrack\Game\Softwares;
 use Framework\Syscrack\Game\Viruses;
 use Framework\Syscrack\Game\AddressDatabase;
+use Framework\Syscrack\Game\Structures\Software as Structure;
+use Framework\Syscrack\Game\Software as BaseClass;
 
-class Collector implements Structure
+class Collector extends BaseClass implements Structure
 {
-
-    /**
-     * @var Softwares
-     */
-
-    protected $softwares;
 
     /**
      * @var Viruses
@@ -40,23 +33,15 @@ class Collector implements Structure
     protected $addressdatabase;
 
     /**
-     * @var Internet
-     */
-
-    protected $internet;
-
-    /**
      * Collector constructor.
      */
 
     public function __construct()
     {
 
-        $this->softwares = new Softwares();
+        parent::__construct();
 
         $this->viruses = new Viruses();
-
-        $this->internet = new Internet();
 
         $this->addressdatabase = new AddressDatabase();
     }
@@ -139,7 +124,7 @@ class Collector implements Structure
                     {
 
                         $profit['btc'][] = array(
-                            'profit'    => Settings::getSetting('syscrack_collector_btc_amount'),
+                            'profit'    => $result,
                             'timeran'   => time() - $viruses->lastmodified,
                             'ipaddress' => $address['ipaddress']
                         );
@@ -147,7 +132,7 @@ class Collector implements Structure
                     else
                     {
 
-                        $profit['btc'][] = array(
+                        $profit['cash'][] = array(
                             'profit'    => $result,
                             'timeran'   => time() - $viruses->lastmodified,
                             'ipaddress' => $address['ipaddress']
@@ -193,7 +178,7 @@ class Collector implements Structure
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
-
+        return;
     }
 
     /**

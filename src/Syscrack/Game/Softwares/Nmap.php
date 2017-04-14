@@ -10,8 +10,9 @@ namespace Framework\Syscrack\Game\Softwares;
  */
 
 use Framework\Syscrack\Game\Structures\Software as Structure;
+use Framework\Syscrack\Game\Software as BaseClass;
 
-class Nmap implements Structure
+class Nmap extends BaseClass implements Structure
 {
 
     /**
