@@ -160,56 +160,54 @@
 
                         <?php
 
-                            if( isset( $hideoptions ) )
+
+
+                            if( isset( $hideoptions ) == false || $hideoptions == false )
                             {
 
-                                if( $hideoptions == false )
-                                {
+                                ?>
 
-                                    ?>
+                                    <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Operations <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/game/internet/<?=$ipaddress?>/download/<?=$value['softwareid']?>">Download</a></li>
 
-                                        <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Operations <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="/game/internet/<?=$ipaddress?>/download/<?=$value['softwareid']?>">Download</a></li>
+                                            <?php
+                                            if( $software->installed )
+                                            {
 
-                                                <?php
-                                                if( $software->installed )
-                                                {
-
-                                                    ?>
-
-                                                    <li><a href="/game/internet/<?=$ipaddress?>/uninstall/<?=$value['softwareid']?>">Uninstall</a></li>
-                                                    <li><a href="/game/internet/<?=$ipaddress?>/execute/<?=$value['softwareid']?>">Execute</a></li>
-                                                    <?php
-                                                }
-                                                else
-                                                {
-
-                                                    ?>
-
-                                                    <li><a href="/game/internet/<?=$ipaddress?>/install/<?=$value['softwareid']?>">Install</a></li>
-                                                    <?php
-                                                }
-
-                                                if( $softwares->hasData( $value['softwareid'] ) )
-                                                {
-
-                                                    ?>
-
-                                                    <li><a href="/game/internet/<?=$ipaddress?>/view/<?=$value['softwareid']?>">View</a></li>
-                                                    <?php
-                                                }
                                                 ?>
-                                                <li><a href="/game/internet/<?=$ipaddress?>/delete/<?=$value['softwareid']?>">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <?php
-                                }
+
+                                                <li><a href="/game/internet/<?=$ipaddress?>/uninstall/<?=$value['softwareid']?>">Uninstall</a></li>
+                                                <li><a href="/game/internet/<?=$ipaddress?>/execute/<?=$value['softwareid']?>">Execute</a></li>
+                                                <?php
+                                            }
+                                            else
+                                            {
+
+                                                ?>
+
+                                                <li><a href="/game/internet/<?=$ipaddress?>/install/<?=$value['softwareid']?>">Install</a></li>
+                                                <?php
+                                            }
+
+                                            if( $softwares->hasData( $value['softwareid'] ) )
+                                            {
+
+                                                ?>
+
+                                                <li><a href="/game/internet/<?=$ipaddress?>/view/<?=$value['softwareid']?>">View</a></li>
+                                                <?php
+                                            }
+                                            ?>
+                                            <li><a href="/game/internet/<?=$ipaddress?>/delete/<?=$value['softwareid']?>">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <?php
                             }
                         ?>
                     </tr>

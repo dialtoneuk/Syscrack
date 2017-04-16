@@ -27,7 +27,7 @@ class CreateDatabase
 
         $array = array_merge( $array, $this->driverSettings() );
 
-        FileSystem::write( 'conf/database/connection.json', Cyphers::encryptToJson( $array ) );
+        FileSystem::write( Settings::getSetting('database_connection_file'), Cyphers::encryptToJson( $array ) );
 
         return true;
     }

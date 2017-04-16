@@ -3167,5 +3167,17 @@
         },
         "timestamp": 1491979864,
         "ip": "192.168.0.112"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/game\/internet\/5.5.5.5\/download\/2",
+            "line": 142,
+            "file": "C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations\\Download.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Pages\\Game.php(431): Framework\\Syscrack\\Game\\Operations\\Download->getCompletionSpeed('2', 'download', NULL)\n#1 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(208): Framework\\Views\\Pages\\Game->processSoftware('5.5.5.5', 'download', '2')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#11 C:\\xampp\\htdocs\\index.php(70): Framework\\Application->runFlight()\n#12 {main}"
+        },
+        "timestamp": 1492192807,
+        "ip": "192.168.0.112"
     }
 ]

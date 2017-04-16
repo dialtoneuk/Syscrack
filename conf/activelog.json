@@ -2,71 +2,71 @@
     {
         "message": "Application has begun loading",
         "type": "notice",
-        "time": 1492189114,
-        "date": "14-04-17",
-        "microtime": 1492189114.197734
+        "time": 1492321163,
+        "date": "16-04-17",
+        "microtime": 1492321163.483234
     },
     {
         "message": "Controller Ran",
         "type": "notice",
-        "time": 1492189114,
-        "date": "14-04-17",
-        "microtime": 1492189114.20084
+        "time": 1492321163,
+        "date": "16-04-17",
+        "microtime": 1492321163.542331
     },
     {
         "message": "Page Created",
         "type": "notice",
-        "time": 1492189114,
-        "date": "14-04-17",
-        "microtime": 1492189114.200857
+        "time": 1492321163,
+        "date": "16-04-17",
+        "microtime": 1492321163.542361
     },
     {
         "message": "Database Connection Created",
         "type": "notice",
-        "time": 1492189114,
-        "date": "14-04-17",
-        "microtime": 1492189114.256869
+        "time": 1492321163,
+        "date": "16-04-17",
+        "microtime": 1492321163.617083
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1492189114,
-        "date": "14-04-17",
-        "microtime": 1492189114.263278
+        "time": 1492321163,
+        "date": "16-04-17",
+        "microtime": 1492321163.782319
     },
     {
         "message": "Adding route to Flight Framework",
         "type": "notice",
-        "time": 1492189114,
-        "date": "14-04-17",
-        "microtime": 1492189114.263909
+        "time": 1492321163,
+        "date": "16-04-17",
+        "microtime": 1492321163.811702
     },
     {
         "message": "Middleware Requested",
         "type": "notice",
-        "time": 1492189114,
-        "date": "14-04-17",
-        "microtime": 1492189114.313376
+        "time": 1492321163,
+        "date": "16-04-17",
+        "microtime": 1492321163.893506
     },
     {
         "message": "Succeeded Middleware Check",
         "type": "notice",
-        "time": 1492189114,
-        "date": "14-04-17",
-        "microtime": 1492189114.344554
+        "time": 1492321163,
+        "date": "16-04-17",
+        "microtime": 1492321163.895177
     },
     {
         "message": "Added application to global container",
         "type": "notice",
-        "time": 1492189114,
-        "date": "14-04-17",
-        "microtime": 1492189114.344561
+        "time": 1492321163,
+        "date": "16-04-17",
+        "microtime": 1492321163.895185
     },
     {
         "message": "Saving active log",
         "type": "notice",
-        "time": 1492189114,
-        "date": "14-04-17",
-        "microtime": 1492189114.422878
+        "time": 1492321163,
+        "date": "16-04-17",
+        "microtime": 1492321163.971406
     }
 ]

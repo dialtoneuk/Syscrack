@@ -68,7 +68,7 @@
                             else
                             {
 
-                                Flight::render('syscrack/templates/template.computer', array( 'ipaddress' => $ipaddress, 'internet' => $internet, 'pagehelper' => $pagehelper ) );
+                                Flight::render('syscrack/templates/template.computer', array( 'ipaddress' => $ipaddress, 'internet' => $internet, 'pagehelper' => $pagehelper, 'hideoptions' => false ) );
                             }
 
                             Flight::render('syscrack/templates/template.tools', array( 'ipaddress' => $ipaddress, 'internet' => $internet, 'pagehelper' => $pagehelper ) );
