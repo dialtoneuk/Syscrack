@@ -48,9 +48,6 @@ class Developer implements Page
                 '/developer/connectiontester/', 'connectionTester'
             ],
             [
-                '/developer/databaseerror/', 'databaseError'
-            ],
-            [
                 '/developer/logger/', 'logger'
             ],
             [

@@ -30,6 +30,9 @@ class Error implements Page
             ],
             [
                 '/error/404/', 'error404'
+            ],
+            [
+                '/error/database/','errorDatabase'
             ]
         );
     }
@@ -48,5 +51,11 @@ class Error implements Page
     {
 
         Flight::render('error/page.404');
+    }
+
+    public function errorDatabase()
+    {
+
+        Flight::render('error/page.database');
     }
 }

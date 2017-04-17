@@ -44,6 +44,6 @@ class DatabaseCheck implements Middleware
     public function onFailure()
     {
 
-        \Flight::redirect('/developer/databaseerror'); exit;
+        \Flight::redirect('/error/database/'); exit;
     }
 }
