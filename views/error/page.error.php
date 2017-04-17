@@ -1,5 +1,9 @@
 <?php
 
+    use Framework\Application\Container;
+    use Framework\Application\Session;
+    use Framework\Syscrack\User;
+
     if( \Framework\Application\Settings::getSetting('error_logging') == false || \Framework\Application\Settings::getSetting('error_display_page') == false )
     {
 
@@ -8,15 +12,41 @@
         exit;
     }
 
+    if( session_status() !== PHP_SESSION_ACTIVE )
+    {
+
+        session_start();
+    }
+
+    if( Container::hasObject('session') == false )
+    {
+
+        Container::setObject('session', new Session() );
+    }
+
     $error_handler = \Framework\Application\Container::getObject('application')->getErrorHandler();
 
-    if( $error_handler->hasErrors() == false )
+    $user = new User();
+
+    if( $error_handler->hasErrors() == false || $error_handler->hasLogFile() == false )
     {
 
         Flight::redirect('/');
     }
 
     $last_error = $error_handler->getLastError();
+
+    if( $last_error['ip'] !== \Framework\Application\Utilities\IPAddress::getAddress() )
+    {
+
+        if(  Container::getObject('session')->isLoggedIn() !== true || $user->isAdmin( Container::getObject('session')->getSessionUser() ) == false )
+        {
+
+            Flight::redirect('/');
+        }
+    }
+
+    unset( $user );
 ?>
 <html lang="en">
 
