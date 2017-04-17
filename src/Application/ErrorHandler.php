@@ -12,6 +12,7 @@ namespace Framework\Application;
 use Framework\Application\Utilities\FileSystem;
 use Framework\Application\Utilities\Log;
 use Framework\Exceptions\ApplicationException;
+use Framework\Application\Utilities\IPAddress;
 use Exception;
 
 class ErrorHandler
@@ -209,7 +210,7 @@ class ErrorHandler
     private function getIP()
     {
 
-        return getHostByName(getHostName());
+        return IPAddress::getAddress();
     }
 
     /**

@@ -1,3 +1,7 @@
+<?php
+    use Framework\Application\Utilities\IPAddress;
+?>
+
 <html lang="en">
 
     <?php
@@ -14,7 +18,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="page-header">
-                        <h1>Hello <?= getHostByName(getHostName()) ?></h1>
+                        <h1>Hello <?= IPAddress::getAddress() ?></h1>
                     </div>
 
                     <p>

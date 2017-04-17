@@ -9,6 +9,7 @@ namespace Framework\Application;
  * @package Framework\Session
  */
 
+use Framework\Application\Utilities\IPAddress;
 use Framework\Database\Tables\Sessions as Database;
 
 class Session
@@ -135,7 +136,7 @@ class Session
             'sessionid'     => session_id(),
             'userid'        => $userid,
             'useragent'     => $_SERVER['HTTP_USER_AGENT'],
-            'ipaddress'     => gethostbyname( gethostname() ),
+            'ipaddress'     => IPAddress::getAddress(),
             'lastaction'    => microtime( true )
         );
 
