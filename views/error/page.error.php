@@ -10,6 +10,12 @@
 
     $error_handler = \Framework\Application\Container::getObject('application')->getErrorHandler();
 
+    if( $error_handler->hasErrors() == false )
+    {
+
+        Flight::redirect('/');
+    }
+
     $last_error = $error_handler->getLastError();
 ?>
 <html lang="en">

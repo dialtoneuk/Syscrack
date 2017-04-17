@@ -165,6 +165,31 @@ class ErrorHandler
     }
 
     /**
+     * Returns true if we have errors
+     *
+     * @return bool
+     */
+
+    public function hasErrors()
+    {
+
+        $log = null;
+
+        if( empty( $this->error_log ) )
+            $log = $this->readErrorLog();
+        else
+            $log = $this->error_log;
+
+        if( empty( $log ) )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Adds to the log
      *
      * @param array $array
