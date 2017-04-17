@@ -9,6 +9,7 @@ namespace Framework\Views;
  * @package Framework\Views
  */
 
+use Framework\Application\Settings;
 use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
 use Framework\Exceptions\ApplicationException;
@@ -38,8 +39,14 @@ class Middlewares
      * @param bool $auto
      */
 
-    public function __construct( $namespace = 'Framework\\Views\\Middleware\\', $auto=true )
+    public function __construct( $namespace = null, $auto=true )
     {
+
+        if( $namespace == null )
+        {
+
+            $namespace = Settings::getSetting('middlewares_namespace');
+        }
 
         $this->factory = new Factory( $namespace );
 
@@ -131,7 +138,7 @@ class Middlewares
     public function hasMiddlewares()
     {
 
-        if( FileSystem::getFilesInDirectory('src/Views/Middleware/') == null )
+        if( FileSystem::getFilesInDirectory( Settings::getSetting('middlewares_location') ) == null )
         {
 
             return false;
@@ -147,7 +154,7 @@ class Middlewares
     private function getMiddlewares()
     {
 
-        $middlewares = FileSystem::getFilesInDirectory('src/Views/Middleware/');
+        $middlewares = FileSystem::getFilesInDirectory( Settings::getSetting('middlewares_location') );
 
         if( empty( $middlewares ) )
         {

@@ -87,7 +87,7 @@ class Factory
 	public function classExists( $class )
     {
 
-        if( class_exists( $this->namespace . $class ) )
+        if( class_exists( $this->namespace . ucfirst( $class ) ) )
         {
 
             return true;
@@ -171,6 +171,6 @@ class Factory
 	private function getClass( $class )
 	{
 
-		return sprintf('%s%s', $this->namespace, $class );
+		return sprintf('%s%s', $this->namespace, ucfirst( $class ) );
 	}
 }

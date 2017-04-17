@@ -101,8 +101,6 @@ class Application
 
     /**
      * Runs the controller
-     *
-     * @return bool
      */
 
 	public function runController()
