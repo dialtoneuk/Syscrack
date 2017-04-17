@@ -121,7 +121,7 @@ class FileSystem
 	 * @param $data
 	 */
 
-	public static function write( $file, $data )
+	public static function write( $file, $data, $permission=true, $access=null )
 	{
 
         if( is_dir( $file ) )
@@ -324,6 +324,25 @@ class FileSystem
         mkdir( self::getFilePath( $path ), $access, true);
 	}
 
+    /**
+     * Sets the permissions of a file
+     *
+     * @param $file
+     *
+     * @param null $access
+     */
+
+	public static function setPermission( $file, $access=null )
+    {
+
+        if( $access == null )
+        {
+
+            $access = Settings::getSetting('filesystem_default_access');
+        }
+
+        chmod( self::getFilePath( $file ), $access );
+    }
 	/**
 	 * Deletes a file
 	 *

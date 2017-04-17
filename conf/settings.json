@@ -33,7 +33,7 @@
     "session_timeout":"{60 * 60 * 2}",
     "session_update_lastaction": true,
     "middlewares_enabled": true,
-    "middlewares_location": "src/Views/Middleware/",
+    "middlewares_location": "src\/Views\/Middleware\/",
     "middlewares_namespace": "Framework\\Views\\Middleware\\",
     "registration_password_length": 8,
     "facebook_enabled": true,

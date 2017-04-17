@@ -9,6 +9,7 @@ namespace Framework\Database;
  * @package Framework\Database
  */
 
+use Framework\Application\Container;
 use Framework\Exceptions\DatabaseException;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Framework\Application\Utilities\Log;
@@ -85,7 +86,7 @@ class Manager
 	 * Creates our database connection
 	 */
 
-	public function createConnection()
+	public function createConnection( $addtocontainer=true )
 	{
 
 		self::$capsule->addConnection( self::$connection );

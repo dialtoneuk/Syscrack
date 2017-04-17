@@ -10,6 +10,7 @@ namespace Framework\Application;
  */
 
 use Framework\Application;
+use Framework\Database\Manager;
 use Framework\Exceptions\ApplicationException;
 
 class Container
@@ -68,7 +69,7 @@ class Container
 	 *
 	 * @param $index
 	 *
-	 * @return Application|mixed|\stdClass|Session
+	 * @return Application|mixed|\stdClass|Session|Manager
 	 */
 
 	public static function getObject( $index )

@@ -48,6 +48,9 @@ class Developer implements Page
                 '/developer/connectiontester/', 'connectionTester'
             ],
             [
+                '/developer/databaseerror/', 'databaseError'
+            ],
+            [
                 '/developer/logger/', 'logger'
             ],
             [
@@ -76,6 +79,16 @@ class Developer implements Page
     {
 
         $this->renderPageFile('page.developer');
+    }
+
+    /**
+     * Renders the database error page
+     */
+
+    public function databaseError()
+    {
+
+        $this->renderPageFile('page.dberror');
     }
 
     /**
