@@ -27,6 +27,9 @@ class Error implements Page
         return array(
             [
                 '/error/', 'page'
+            ],
+            [
+                '/error/404/', 'error404'
             ]
         );
     }
@@ -39,5 +42,11 @@ class Error implements Page
     {
 
         Flight::render('error/page.error');
+    }
+
+    public function error404()
+    {
+
+        Flight::render('error/page.404');
     }
 }

@@ -11,7 +11,6 @@ namespace Framework\Views;
 
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Log;
-use Framework\Exceptions\ApplicationException;
 use Framework\Exceptions\ViewException;
 use Framework\Application\Utilities\Factory;
 use Framework\Views\Structures\Page;
@@ -185,7 +184,7 @@ class Controller
         if( $this->factory->classExists( $page ) == false )
         {
 
-            throw new ApplicationException('Page: ' . $page . ' does not exist');
+            return null;
         }
 
         $this->processClass( $this->factory->createClass( $page ) );
