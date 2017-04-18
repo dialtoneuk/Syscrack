@@ -9,12 +9,11 @@ namespace Framework\Views;
  * @package Framework\Views
  */
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\Log;
-use Framework\Exceptions\ViewException;
-use Framework\Application\Utilities\Factory;
-use Framework\Views\Structures\Page;
 use Flight;
+use Framework\Application\Settings;
+use Framework\Application\Utilities\Factory;
+use Framework\Exceptions\ViewException;
+use Framework\Views\Structures\Page;
 
 class Controller
 {
@@ -102,8 +101,6 @@ class Controller
 
             $page = $this->removeURLKey( $page );
         }
-
-        Log::log('Page Created');
 
         $this->createPage( $page );
 

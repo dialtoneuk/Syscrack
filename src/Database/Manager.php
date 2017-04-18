@@ -10,7 +10,6 @@ namespace Framework\Database;
  */
 
 use Framework\Application\Container;
-use Framework\Application\Utilities\Log;
 use Framework\Exceptions\DatabaseException;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
@@ -77,9 +76,6 @@ class Manager
         }
 
         $this->createConnection();
-
-        Log::log('Database Connection Created');
-
     }
 
 	/**

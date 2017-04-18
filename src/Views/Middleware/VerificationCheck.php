@@ -9,12 +9,11 @@ namespace Framework\Views\Middleware;
  * @package Framework\Views\Middleware
  */
 
-use Framework\Application\Container;
-use Framework\Application\Utilities\Log;
-use Framework\Views\Structures\Middleware;
-use Framework\Syscrack\Verification;
-use Framework\Application\Session;
 use Flight;
+use Framework\Application\Container;
+use Framework\Application\Session;
+use Framework\Syscrack\Verification;
+use Framework\Views\Structures\Middleware;
 
 class VerificationCheck implements Middleware
 {
@@ -40,8 +39,6 @@ class VerificationCheck implements Middleware
 
     public function onRequest()
     {
-
-        Log::log('Middleware Requested');
 
         if( Container::hasObject('session') == false )
         {
@@ -77,7 +74,7 @@ class VerificationCheck implements Middleware
     public function onSuccess()
     {
 
-        Log::log('Succeeded Middleware Check');
+
     }
 
     /**

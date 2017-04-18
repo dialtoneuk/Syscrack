@@ -9,58 +9,24 @@ require_once 'vendor/autoload.php';
 
 **/
 
-use Framework\Application;
+    use Framework\Application;
+    use Framework\Application\Settings;
 
-//Log our start
-Application\Utilities\Log::log('Application has begun loading');
-
-/**
+    /**
  * Starts the application
  */
 
 $application = new Application( false );
 
-/**
- * Saves our log file
- */
-
-Flight::after('start', function( &$params, &$output )
-{
-
-    if( Application\Utilities\Log::$disabled == false )
-    {
-
-        if( Application\Settings::getSetting('active_log_enabled') )
-        {
-
-            Application\Utilities\Log::log('Saving active log');
-
-            Application\Utilities\Log::saveLogToFile();
-        }
-    }
-});
-
-Flight::before('route', function( &$params, &$output )
-{
-
-    Application\Utilities\Log::log('Adding route to Flight Framework');
-});
-
 try
 {
 
-    /**
-     * Set the application to be global
-     */
-
-    Application\Utilities\Log::log('Controller Ran');
     $application->runController();
 
     /**
      * Set the application to be global
      */
 
-    Application\Utilities\Log::log('Added application to global container');
     $application->addToGlobalContainer();
 
     /**
@@ -72,12 +38,12 @@ try
 catch( Exception $error )
 {
 
-    if( Application\Settings::getSetting('error_logging') )
+    if( Settings::getSetting('error_logging') )
     {
 
         $application->getErrorHandler()->handleError( $error );
 
-        if( Application\Settings::getSetting('error_display_page') )
+        if( Settings::getSetting('error_display_page') )
         {
 
             if( $_SERVER['REQUEST_URI'] == '/' )

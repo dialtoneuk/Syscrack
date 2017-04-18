@@ -11,8 +11,8 @@
 
     use Flight;
     use Framework\Application\Utilities\Log;
-    use Framework\Views\Structures\Page;
     use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Structures\Page;
 
     class Developer extends BaseClass implements Page
     {
@@ -21,8 +21,6 @@
         {
 
             parent::__construct( false );
-
-            Log::log('Developer Page initialized');
         }
 
         /**
@@ -37,8 +35,6 @@
 
         public function mapping()
         {
-
-            Log::log('Mapping Pulled');
 
             return array(
                 [
