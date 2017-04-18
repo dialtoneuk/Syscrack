@@ -140,7 +140,7 @@ class Factory
 			
 			if( strtolower( $reflection->getShortName() ) == strtolower( $name ) )
 			{
-				
+
 				return $class;
 			}
 		}

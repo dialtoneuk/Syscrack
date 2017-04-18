@@ -1,0 +1,20 @@
+{
+  "name":"The Illuminati",
+  "page":"npc.illuminati",
+  "softwares":[
+    {
+      "softwareid":1,
+      "softwarename":"Basic Cracker",
+      "type":"cracker",
+      "installed":true,
+      "timeinstalled":0
+    },
+    {
+      "softwareid":2,
+      "softwarename":"Basic Firewall",
+      "type":"cracker",
+      "installed":true,
+      "timeinstalled":0
+    }
+  ]
+}

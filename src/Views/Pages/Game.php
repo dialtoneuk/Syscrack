@@ -13,6 +13,7 @@
     use Framework\Application\Container;
     use Framework\Application\Session;
     use Framework\Application\Settings;
+    use Framework\Application\Utilities\Log;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\Operations;
@@ -441,12 +442,12 @@
 
                 Flight::redirect('/' . Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?error=' . $message);
 
-                return;
+                exit;
             }
 
-            Flight::redirect( '/' . Settings::getSetting('syscrack_game_page') . '?error=' . $message);
+            Flight::redirect( '/' . Settings::getSetting('syscrack_game_page') . '/?error=' . $message);
 
-            return;
+            exit;
         }
 
         /**
@@ -461,13 +462,13 @@
             if( $ipaddress !== '' )
             {
 
-                Flight::redirect('/' . Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '?success');
+                Flight::redirect('/' . Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?success');
 
-                return;
+                exit;
             }
 
             Flight::redirect( '/' . Settings::getSetting('syscrack_game_page') . '/?success');
 
-            return;
+            exit;
         }
     }

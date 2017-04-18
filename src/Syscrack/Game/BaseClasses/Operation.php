@@ -195,11 +195,11 @@ class Operation
         if( $ipaddress !== '' )
         {
 
-            Flight::redirect('/' . $this->getCurrentPage() . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '?error=' . $message);
+            Flight::redirect('/' . $this->getCurrentPage() . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?error=' . $message);
             exit;
         }
 
-        Flight::redirect($this->getCurrentPage() . '?error=' . $message);
+        Flight::redirect( '/' . $this->getCurrentPage() . '/?error=' . $message);
         exit;
     }
 
@@ -215,22 +215,22 @@ class Operation
         if( $ipaddress !== '' )
         {
 
-            Flight::redirect('/' . $this->getCurrentPage() . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '?success');
+            Flight::redirect('/' . $this->getCurrentPage() . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?success');
 
-            return;
+            exit;
         }
 
         if ($path !== '')
         {
 
-            Flight::redirect('/' . $this->getCurrentPage() . $path . '?success');
+            Flight::redirect('/' . $this->getCurrentPage() . $path . '/?success');
 
-            return;
+            exit;
         }
 
-        Flight::redirect($this->getCurrentPage() . '?success');
+        Flight::redirect( '/' . $this->getCurrentPage() . '/?success');
 
-        return;
+        exit;
     }
 
     /**

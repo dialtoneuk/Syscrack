@@ -54,10 +54,13 @@ class Login extends BaseClass implements Structure
         if( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress == $data['ipaddress'] )
         {
 
-            $this->redirectError('Logging into your self is dangerous... do you want to break the space time continuum?'); exit;
+            $this->redirectError('Logging into your self is dangerous... do you want to break the space time continuum?', $data['ipaddress'] ); exit;
         }
+        else
+        {
 
-        return true;
+            return true;
+        }
     }
 
     /**

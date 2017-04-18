@@ -1,0 +1,21 @@
+{
+  "name":"TorrentBay",
+  "page":"npc.torrentbay",
+  "puzzle":"1.2.3.5",
+  "softwares":[
+    {
+      "softwareid":1,
+      "softwarename":"Basic Cracker",
+      "type":"cracker",
+      "installed":true,
+      "timeinstalled":0
+    },
+    {
+      "softwareid":2,
+      "softwarename":"Basic Firewall",
+      "type":"cracker",
+      "installed":true,
+      "timeinstalled":0
+    }
+  ]
+}

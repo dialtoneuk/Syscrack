@@ -46,10 +46,10 @@
                                         <li><a href="/game/addressbook">Address book</a>
                                         <li><a href="/game/accountbook">Account book</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="/game/computer/">Computer</a>
-                                        <li><a href="/game/computer/log">Log</a></li>
-                                        <li><a href="/game/computer/processes">Processes</a></li>
-                                        <li><a href="/game/computer/upgrade">Upgrade</a></li>
+                                        <li><a href="/computer/">Computer</a>
+                                        <li><a href="/computer/log">Log</a></li>
+                                        <li><a href="/computer/processes">Processes</a></li>
+                                        <li><a href="/computer/upgrade">Upgrade</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="/game/clans/">Clans</a>
                                         <li><a href="/game/ranking/">Ranking</a>

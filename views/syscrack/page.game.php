@@ -203,7 +203,7 @@
                                                     </small>
                                                 </div>
                                                 <div class="panel-body">
-                                                    <button style="width: 100%;" class="btn btn-primary" onclick="window.location.href = '/game/computer/'">
+                                                    <button style="width: 100%;" class="btn btn-primary" onclick="window.location.href = '/computer/'">
                                                         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> View
                                                     </button>
                                                 </div>
