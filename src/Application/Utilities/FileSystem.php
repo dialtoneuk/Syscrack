@@ -378,7 +378,7 @@ class FileSystem
 	public static function getFilePath( $file )
 	{
 
-		return sprintf('%s'.Settings::getSetting('filesystem_seperator').'%s', self::getRoot(), $file );
+		return sprintf('%s'.Settings::getSetting('filesystem_separator').'%s', self::getRoot(), $file );
 	}
 
 	/**
@@ -392,7 +392,7 @@ class FileSystem
 	public static function getDirectories( $file )
 	{
 
-		$path = explode( Settings::getSetting('filesystem_seperator'), $file );
+		$path = explode( Settings::getSetting('filesystem_separator'), $file );
 
 		if( empty( $path ) )
 		{
@@ -402,7 +402,7 @@ class FileSystem
 
 		array_pop( $path );
 
-		return implode( Settings::getSetting('filesystem_seperator'), $path );
+		return implode( Settings::getSetting('filesystem_separator'), $path );
 	}
 
     /**
@@ -444,7 +444,7 @@ class FileSystem
             $file = self::removeFileExtension( $file );
         }
 
-        $file = explode( Settings::getSetting('filesystem_seperator'), $file );
+        $file = explode( Settings::getSetting('filesystem_separator'), $file );
 
         if( empty( $file ) )
         {
@@ -516,6 +516,6 @@ class FileSystem
 	private function stitchPattern( $path, $pattern )
 	{
 
-		return sprintf("%s" . Settings::getSetting('filesystem_seperator') . "%s", $path, $pattern);
+		return sprintf("%s" . Settings::getSetting('filesystem_separator') . "%s", $path, $pattern);
 	}
 }

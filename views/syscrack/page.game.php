@@ -77,29 +77,40 @@
             <?php
 
                 Flight::render('syscrack/templates/template.navigation');
+
+                $stats = new \Framework\Syscrack\Game\Statistics();
             ?>
 
             <div class="row" id="stats">
                 <div class="col-lg-12">
-                    <div class="jumbotron" style="padding: 0; background: url('https://i.ytimg.com/vi/voWpbz1De_M/maxresdefault.jpg'); box-shadow: #0f0f0f ">
+                    <div class="jumbotron" style="padding: 0; box-shadow: #0f0f0f ">
                         <div style="position: absolute; width: 100%; height: 100%; padding: 2.5%; color:white; z-index: 2;">
                             <h1>
                                 SC:\\ <?=\Framework\Application\Settings::getSetting('syscrack_game_name')?>
                             </h1>
-                            <p>
-                                $0 Earned
-                            </p>
-                            <p>
-                                0 BTC mined
-                            </p>
-                            <p>
-                                0 Virus Installs
-                            </p>
-                            <p>
-                                0 Hacks
-                            </p>
+
+                            <?php
+                                if( $stats->hasStatistics() == true )
+                                {
+
+                                    ?>
+                                        <p>
+                                            $0 Earned
+                                        </p>
+                                        <p>
+                                            0 BTC mined
+                                        </p>
+                                        <p>
+                                            0 Virus Installs
+                                        </p>
+                                        <p>
+                                            <?=$stats->getStatistic('hacks')?> Hacks
+                                        </p>
+                                    <?php
+                                }
+                            ?>
                         </div>
-                        <div id="earth" style="width: 100%; height: 40%; position: absolute; z-index: 1;"></div>
+                        <div id="earth" style="width: 100%; height: 40%; position: absolute; z-index: 1; background: black;"></div>
                     </div>
                 </div>
                 <script>

@@ -10,10 +10,10 @@
      */
 
     use Flight;
+    use Framework\Application\Settings;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Softwares;
-    use Framework\Application\Settings;
 
     class Page
     {
@@ -57,11 +57,11 @@
         }
 
         /**
-         * Redirects the user to an error page
+         * Redirects the user to an error
          *
          * @param string $message
          *
-         * @param string $ipaddress
+         * @param string $path
          */
 
         public function redirectError($message = '', $path = '')
@@ -79,14 +79,13 @@
         }
 
         /**
-         * Redirects the user to a success page
+         * Redirects the user to a success
          *
-         * @param string $ipaddress
+         * @param string $path
          */
 
         public function redirectSuccess($path = '')
         {
-
 
             if ($path !== '')
             {
@@ -117,5 +116,17 @@
             }
 
             return $page[0];
+        }
+
+        /**
+         * Gets the entire path in the form of an array
+         *
+         * @return array
+         */
+
+        public function getPageSplat()
+        {
+
+            return array_values(array_filter(explode('/', $_SERVER['REQUEST_URI'])));
         }
     }

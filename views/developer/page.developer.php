@@ -1,5 +1,7 @@
 <?php
+    use Framework\Application\Settings;
     use Framework\Application\Utilities\IPAddress;
+
 ?>
 
 <html lang="en">
@@ -7,6 +9,8 @@
     <?php
 
         Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer Area'));
+
+        $page = Settings::getSetting('developer_page')
     ?>
     <body>
         <div class="container">
@@ -52,13 +56,13 @@
 
                     <div class="list-group">
                         <div class="list-group">
-                            <a href="/developer/connectioncreator/" class="list-group-item">Connection Creator</a>
-                            <a href="/developer/connectiontester/" class="list-group-item">Connection Tester</a>
-                            <a href="/developer/databasemigrator/" class="list-group-item">Database Migrator</a>
-                            <a href="/developer/settingsmanager/" class="list-group-item">Settings Manager</a>
-                            <a href="/developer/logger/" class="list-group-item">Logger</a>
-                            <a href="/developer/pageviewer/" class="list-group-item">Page Viewer</a>
-                            <a href="/developer/disable/" class="list-group-item">Disable Developer Section</a>
+                            <a href="/<?=$page?>/connectioncreator/" class="list-group-item">Connection Creator</a>
+                            <a href="/<?=$page?>/connectiontester/" class="list-group-item">Connection Tester</a>
+                            <a href="/<?=$page?>/databasemigrator/" class="list-group-item">Database Migrator</a>
+                            <a href="/<?=$page?>/settingsmanager/" class="list-group-item">Settings Manager</a>
+                            <a href="/<?=$page?>/logger/" class="list-group-item">Logger</a>
+                            <a href="/<?=$page?>/pageviewer/" class="list-group-item">Page Viewer</a>
+                            <a href="/<?=$page?>/disable/" class="list-group-item">Disable Developer Section</a>
                         </div>
                     </div>
                 </div>

@@ -81,11 +81,11 @@ class Manager
     }
 
     /**
-     * Gets all the API related to the userid
+     * Gets the API by the user
      *
      * @param $userid
      *
-     * @return array|null|static[]
+     * @return \Illuminate\Support\Collection|null
      */
 
     public function getUserApi( $userid )

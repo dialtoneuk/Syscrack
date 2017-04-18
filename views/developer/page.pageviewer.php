@@ -6,13 +6,13 @@
  * Class PageViewer
  */
 
-use Framework\Application\Settings;
-use Framework\Application\Container;
-use Framework\Application\Utilities\FileSystem;
-use Framework\Exceptions\ViewException;
-use Framework\Views\Structures\Page;
+    use Framework\Application\Container;
+    use Framework\Application\Settings;
+    use Framework\Application\Utilities\FileSystem;
+    use Framework\Exceptions\ViewException;
+    use Framework\Views\Structures\Page;
 
-class PageViewer
+    class PageViewer
 {
 
     /**
@@ -118,7 +118,9 @@ class PageViewer
     private function getMapping( $page )
     {
 
-        $class = $this->controller->getPageClass( $page );
+        $reflection = new ReflectionClass( Settings::getSetting('controller_namespace') . ucfirst( $page ) );
+
+        $class = $reflection->newInstanceWithoutConstructor();
 
         if( $class instanceof Page == false )
         {

@@ -1,6 +1,6 @@
 {
     "filesystem_root": "{$_SERVER['DOCUMENT_ROOT']}",
-    "filesystem_seperator": "\/",
+    "filesystem_separator": "\/",
     "filesystem_default_extension":".json",
     "filesystem_default_access": 777,
     "developer_page": "developer",
@@ -15,7 +15,7 @@
     "error_display_page": true,
     "error_logging": true,
     "active_log_location": "conf\/activelog.json",
-    "active_log_enabled": true,
+    "active_log_enabled": false,
     "active_log_showdeveloper": false,
     "api_use_get": true,
     "api_default_method": "endpoint",
@@ -92,5 +92,8 @@
     "syscrack_marketstock_location":"syscrack\/stocks.json",
     "syscrack_default_processingtime":10,
     "syscrack_internet_page":"internet",
-    "syscrack_game_page":"game"
+    "syscrack_game_page":"game",
+    "syscrack_hack_speed":5.5,
+    "syscrack_statistics_file":"syscrack\/statistics.json",
+    "syscrack_statistics_enabled":true
 }

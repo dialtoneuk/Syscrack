@@ -17,8 +17,8 @@
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Login\Account;
-    use Framework\Views\Structures\Page;
     use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Structures\Page;
 
     class Login extends BaseClass implements Page
     {
@@ -159,14 +159,16 @@
         }
 
         /**
-         * Display an error
+         * Displays an error
          *
-         * @param $error
+         * @param string $message
+         *
+         * @param string $path
          */
 
-        private function redirectError($error)
+        public function redirectError( $message='', $path='')
         {
 
-            Flight::redirect('/login/?error=' . $error);
+            Flight::redirect('/login/?error=' . $message);
         }
     }

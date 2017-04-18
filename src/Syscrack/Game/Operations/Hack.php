@@ -12,9 +12,9 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Application\Container;
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\AddressDatabase;
+use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
 
 class Hack extends BaseClass implements Structure
 {
@@ -151,6 +151,6 @@ class Hack extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $process, $softwareid=null)
     {
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), 5.5, $softwareid );
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), Settings::getSetting('syscrack_hack_speed'), $softwareid );
     }
 }

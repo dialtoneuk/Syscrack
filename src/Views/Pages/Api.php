@@ -15,8 +15,8 @@
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\ViewException;
-    use Framework\Views\Structures\Page;
     use Framework\Views\BaseClasses\Page as BaseClsas;
+    use Framework\Views\Structures\Page;
 
     class Api extends BaseClsas implements Page
     {

@@ -21,7 +21,7 @@ class IPAddress
     public static function getAddress()
     {
 
-        if( $_SERVER['REMOTE_ADDR'] == "::1" || "localhost" )
+        if( $_SERVER['REMOTE_ADDR'] == "::1" || $_SERVER['REMOTE_ADDR'] == "localhost" )
         {
 
             return gethostbyname( gethostname() );

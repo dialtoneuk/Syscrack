@@ -9,8 +9,8 @@ namespace Framework\Application\Utilities;
  * @package Framework\Command
  */
 
-use Framework\Exceptions\ConsoleException;
 use Exception;
+use Framework\Exceptions\ConsoleException;
 
 class CommandManager
 {
@@ -102,14 +102,14 @@ class CommandManager
 	/**
 	 * Gets the arguments of this console commands.
 	 *
-	 * @param string $seperator
+	 * @param string $separator
 	 *
 	 * @param null $array
 	 *
 	 * @return array
 	 */
 
-	final public function getArguments( $array=null, $seperator=':' )
+	final public function getArguments( $array=null, $separator=':' )
 	{
 
 		if( empty( $this->arguments ) )
@@ -118,7 +118,7 @@ class CommandManager
 			throw new ConsoleException('No arguments stored');
 		}
 
-		$commands = explode( $seperator, $this->arguments[1] );
+		$commands = explode( $separator, $this->arguments[1] );
 
 		if( empty( $commands ) )
 		{
