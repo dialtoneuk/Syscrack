@@ -53,7 +53,7 @@
 
                 <?php
 
-                    Flight::render('syscrack/templates/template.computeractions', array( 'computer' => $computer ) );
+                    Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );
                 ?>
 
                 <div class="col-lg-8">
@@ -74,8 +74,11 @@
 
                             ?>
                                 <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        Notice
+                                    </div>
                                     <div class="panel-body">
-                                        No Processes
+                                        Computer currently has no processes, maybe you should hack something?
                                     </div>
                                 </div>
                             <?php

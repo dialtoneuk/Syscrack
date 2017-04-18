@@ -11,7 +11,6 @@ namespace Framework\Views\Middleware;
 
 use Framework\Database\Manager;
 use Framework\Views\Structures\Middleware;
-use Framework\Application\Container;
 
 class DatabaseCheck implements Middleware
 {
@@ -19,7 +18,11 @@ class DatabaseCheck implements Middleware
     public function onRequest()
     {
 
-        new Manager();
+        if (Manager::getCapsule() == null)
+        {
+
+            new Manager();
+        }
 
         try
         {

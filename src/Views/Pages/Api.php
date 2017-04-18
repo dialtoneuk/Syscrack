@@ -1,145 +1,150 @@
 <?php
-namespace Framework\Views\Pages;
-
-/**
- * Lewis Lancaster 2017
- *
- * Class Api
- *
- * @package Framework\Views\Pages
- */
-
-use Framework\Application\Api\Controller;
-use Framework\Application\Api\Manager;
-use Framework\Application\Container;
-use Framework\Application\Settings;
-use Framework\Application\Utilities\PostHelper;
-use Framework\Exceptions\ViewException;
-use Framework\Views\Structures\Page;
-use Flight;
-
-class Api implements Page
-{
+    namespace Framework\Views\Pages;
 
     /**
-     * @var Manager
+     * Lewis Lancaster 2017
+     *
+     * Class Api
+     *
+     * @package Framework\Views\Pages
      */
 
-    protected $manager;
+    use Flight;
+    use Framework\Application\Api\Controller;
+    use Framework\Application\Api\Manager;
+    use Framework\Application\Settings;
+    use Framework\Application\Utilities\PostHelper;
+    use Framework\Exceptions\ViewException;
+    use Framework\Views\Structures\Page;
+    use Framework\Views\BaseClasses\Page as BaseClsas;
 
-    /**
-     * @var Controller
-     */
-
-    protected $controller;
-
-    /**
-     * @var mixed|string
-     */
-
-    public $apikey = "";
-
-    /**
-     * Api constructor.
-     */
-
-    public function __construct()
+    class Api extends BaseClsas implements Page
     {
 
-        if( Container::getObject('application')->getController()->page == Settings::getSetting('developer_page') )
+        /**
+         * @var Manager
+         */
+
+        protected $manager;
+
+        /**
+         * @var Controller
+         */
+
+        protected $controller;
+
+        /**
+         * @var mixed|string
+         */
+
+        public $apikey = "";
+
+        /**
+         * Api constructor.
+         */
+
+        public function __construct()
         {
 
-            return;
-        }
+            parent::__construct( false );
 
-        $this->manager = new Manager();
+            $this->manager = new Manager();
 
-        $this->controller = new Controller();
+            $this->controller = new Controller();
 
-        if( PostHelper::hasPostData() )
-        {
-
-            if( PostHelper::checkForRequirements( ['apikey'] ) == false )
+            if (PostHelper::hasPostData())
             {
 
-                Flight::notFound();
-            }
-            else
-            {
-
-                $this->apikey = PostHelper::getPostData('apikey');
-
-                if( $this->manager->hasApiKey( $this->apikey ) == false )
+                if (PostHelper::checkForRequirements(['apikey']) == false)
                 {
 
-                    Flight::redirect('/', 401);
+                    Flight::notFound();
                 }
-            }
-        }
-    }
+                else
+                {
 
-    /**
-     * The views mapping
-     *
-     * @return array
-     */
+                    $this->apikey = PostHelper::getPostData('apikey');
 
-    public function mapping()
-    {
+                    if ($this->manager->hasApiKey($this->apikey) == false)
+                    {
 
-        return array(
-            [
-                '/api/@endpoint/(@method)/', 'process'
-            ]
-        );
-    }
-
-    /**
-     * Processes the API request
-     *
-     * @param $endpoint
-     *
-     * @param null $method
-     */
-
-    public function process( $endpoint, $method=null )
-    {
-
-        $result = null;
-
-        try
-        {
-
-            if( $method == null )
-            {
-
-                $result = $this->controller->processEndpoint( $endpoint, Settings::getSetting('api_default_method') );
+                        Flight::redirect('/api/', 401);
+                    }
+                }
             }
             else
             {
 
-                $result = $this->controller->processEndpoint( $endpoint, $method );
+                Flight::json(array(
+                    'error' => true,
+                    'info' => [
+                        'message' => 'Apikey required as post key'
+                    ]
+                ));
             }
         }
-        catch( \Exception $error )
+
+        /**
+         * The views mapping
+         *
+         * @return array
+         */
+
+        public function mapping()
         {
 
-            Flight::json(array(
-                'error' => true,
-                'info' => [
-                    'message' => $error->getMessage(),
-                    'line'  => $error->getLine(),
-                    'file'  => $error->getFile()
+            return array(
+                [
+                    '/api/@endpoint/(@method)/', 'process'
                 ]
-            ));
+            );
         }
 
-        if( is_array( $result ) == false )
+        /**
+         * Processes the API request
+         *
+         * @param $endpoint
+         *
+         * @param null $method
+         */
+
+        public function process($endpoint, $method = null)
         {
 
-            throw new ViewException();
-        }
+            $result = null;
 
-        Flight::json( $result );
+            try
+            {
+
+                if ($method == null)
+                {
+
+                    $result = $this->controller->processEndpoint($endpoint, Settings::getSetting('api_default_method'));
+                }
+                else
+                {
+
+                    $result = $this->controller->processEndpoint($endpoint, $method);
+                }
+            } catch (\Exception $error)
+            {
+
+                Flight::json(array(
+                    'error' => true,
+                    'info' => [
+                        'message' => $error->getMessage(),
+                        'line' => $error->getLine(),
+                        'file' => $error->getFile()
+                    ]
+                ));
+            }
+
+            if (is_array($result) == false)
+            {
+
+                throw new ViewException();
+            }
+
+            Flight::json($result);
+        }
     }
-}

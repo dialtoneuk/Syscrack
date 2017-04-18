@@ -10,9 +10,9 @@ namespace Framework\Database;
  */
 
 use Framework\Application\Container;
+use Framework\Application\Utilities\Log;
 use Framework\Exceptions\DatabaseException;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Framework\Application\Utilities\Log;
 
 class Manager
 {
@@ -92,6 +92,12 @@ class Manager
 		self::$capsule->addConnection( self::$connection );
 
         self::$capsule->setAsGlobal();
+
+        if ($addtocontainer == true)
+        {
+
+            Container::setObject('database', self::$capsule);
+        }
 	}
 
     /**

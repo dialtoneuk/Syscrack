@@ -1,168 +1,103 @@
 <?php
-namespace Framework\Views\Pages;
-
-/**
- * Lewis Lancaster 2016
- *
- * Class Error
- *
- * @package Framework\Views\Pages
- */
-
-use Framework\Application\Container;
-use Framework\Application\Session;
-use Framework\Application\Settings;
-use Framework\Application\Utilities\PostHelper;
-use Framework\Syscrack\Game\Softwares;
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Log;
-use Framework\Syscrack\Game\Structures\Operation;
-use Framework\Views\Structures\Page;
-use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Computer;
-use Framework\Syscrack\Game\Operations;
-use Flight;
-
-class Game implements Page
-{
+    namespace Framework\Views\Pages;
 
     /**
-     * @var Internet
-     */
-
-    protected $internet;
-
-    /**
-     * @var Computer
-     */
-
-    protected $computer;
-
-    /**
-     * @var Operations
-     */
-
-    protected $operations;
-
-    /**
-     * @var Softwares
-     */
-
-    protected $software;
-
-    /**
-     * Game constructor.
-     */
-
-    public function __construct()
-    {
-
-        if( session_status() !== PHP_SESSION_ACTIVE )
-        {
-
-            session_start();
-        }
-
-        if( Container::hasObject('session') == false )
-        {
-
-            Container::setObject('session', new Session() );
-        }
-
-        if( Container::getObject('session')->isLoggedIn() == false )
-        {
-
-            Flight::redirect( '/' . Settings::getSetting('controller_index_root') );
-
-            exit;
-        }
-        else
-        {
-
-            $this->internet = new Internet();
-
-            $this->computer = new Computer();
-
-            $this->software = new Softwares( false );
-        }
-    }
-
-    /**
-     * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+     * Lewis Lancaster 2016
      *
-     * @return array
+     * Class Error
+     *
+     * @package Framework\Views\Pages
      */
 
-    public function mapping()
+    use Flight;
+    use Framework\Application\Container;
+    use Framework\Application\Session;
+    use Framework\Application\Settings;
+    use Framework\Application\Utilities\PostHelper;
+    use Framework\Exceptions\SyscrackException;
+    use Framework\Syscrack\Game\Operations;
+    use Framework\Syscrack\Game\Structures\Operation;
+    use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Structures\Page;
+
+    class Game extends BaseClass implements Page
     {
 
-        return array(
-            [
-                'GET /game/', 'page'
-            ],
-            [
-                'POST /game/', 'pageProcess'
-            ],
-            [
-                '/game/internet/', 'internet'
-            ],
-            [
-                '/game/computer/', 'computer'
-            ],
-            [
-                '/game/addressbook/', 'addressBook'
-            ],
-            [
-                'GET /game/computer/log/', 'computerLog'
-            ],
-            [
-                'POST /game/computer/log/', 'computerLogProcess'
-            ],
-            [
-                '/game/computer/processes/', 'computerProcesses'
-            ],
-            [
-                '/game/internet/@ipaddress', 'viewAddress'
-            ],
-            [
-                '/game/internet/@ipaddress/@process', 'process'
-            ],
-            [
-                '/game/internet/@ipaddress/@process/@softwareid', 'processSoftware'
-            ]
-        );
-    }
 
-    /**
-     * Game Index
-     */
+        protected $operations;
 
-    public function page()
-    {
+        /**
+         * Game constructor.
+         */
 
-        $this->getRender('page.game');
-    }
-
-    /**
-     * Switches your computer
-     */
-
-    public function pageProcess()
-    {
-
-        if( PostHelper::hasPostData() == false || PostHelper::checkForRequirements( ['action','computerid'] ) == false )
+        public function __construct()
         {
 
-            $this->page();
+            parent::__construct();
+
+            if (session_status() !== PHP_SESSION_ACTIVE)
+            {
+
+                session_start();
+            }
+
+            if (Container::hasObject('session') == false)
+            {
+
+                Container::setObject('session', new Session());
+            }
+
+            if (Container::getObject('session')->isLoggedIn() == false)
+            {
+
+                Flight::redirect('/' . Settings::getSetting('controller_index_root'));
+
+                exit;
+            }
         }
-        else
+
+        /**
+         * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+         *
+         * @return array
+         */
+
+        public function mapping()
         {
 
-            $action = PostHelper::getPostData('action');
+            return array(
+                [
+                    'GET /game/', 'page'
+                ],
+                [
+                    'POST /game/', 'pageProcess'
+                ],
+                [
+                    '/game/internet/', 'internet'
+                ],
+                [
+                    '/game/addressbook/', 'addressBook'
+                ],
+                [
+                    '/game/internet/@ipaddress', 'viewAddress'
+                ],
+                [
+                    '/game/internet/@ipaddress/@process', 'process'
+                ],
+                [
+                    '/game/internet/@ipaddress/@process/@softwareid', 'processSoftware'
+                ]
+            );
+        }
 
-            $computerid = PostHelper::getPostData('computerid');
+        /**
+         * Switches your computer
+         */
 
-            if( $this->computer->computerExists( $computerid ) == false )
+        public function pageProcess()
+        {
+
+            if (PostHelper::hasPostData() == false || PostHelper::checkForRequirements(['action', 'computerid']) == false)
             {
 
                 $this->page();
@@ -170,448 +105,369 @@ class Game implements Page
             else
             {
 
-                if( $action == "switch" )
-                {
-
-                    if( $this->computer->getComputer( $computerid )->userid != Container::getObject('session')->getSessionUser() )
-                    {
-
-                        $this->page();
-                    }
-                    else
-                    {
-
-                        $this->computer->setCurrentUserComputer( $computerid );
-
-                        Flight::redirect('/game/');
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * The Computer
-     */
-
-    public function computer()
-    {
-
-        $this->getRender('page.game.computer');
-    }
-
-    /**
-     * The computer log
-     */
-
-    public function computerLog()
-    {
-
-        $this->getRender('page.game.computer.log');
-    }
-
-    /**
-     * Your computer processes
-     */
-
-    public function computerProcesses()
-    {
-
-        $this->getRender('page.game.computer.processes');
-    }
-
-    /**
-     * The address book
-     */
-
-    public function addressBook()
-    {
-
-        $this->getRender('page.game.addressbook');
-    }
-
-    /**
-     * Clears the local computers log
-     */
-
-    public function computerLogProcess()
-    {
-
-        if( PostHelper::hasPostData() == false )
-        {
-
-            $this->redirectLocalError('No post data', 'log');
-        }
-        else
-        {
-
-            if( PostHelper::checkForRequirements(['action'] ) == false )
-            {
-
-                $this->redirectLocalError('No action given', 'log');
-            }
-            else
-            {
-
                 $action = PostHelper::getPostData('action');
 
-                if( $action == 'clear' )
+                $computerid = PostHelper::getPostData('computerid');
+
+                if ($this->computer->computerExists($computerid) == false)
                 {
 
-                    $log = new Log();
-
-                    $log->saveLog( $this->computer->getCurrentUserComputer(), [] );
-
-                    $this->redirectLocalSuccess('log');
+                    $this->page();
                 }
                 else
                 {
 
-                    $this->redirectLocalError('Action does not exist');
+                    if ($action == "switch")
+                    {
+
+                        if ($this->computer->getComputer($computerid)->userid != Container::getObject('session')->getSessionUser())
+                        {
+
+                            $this->page();
+                        }
+                        else
+                        {
+
+                            $this->computer->setCurrentUserComputer($computerid);
+
+                            Flight::redirect('/game/');
+                        }
+                    }
                 }
             }
         }
-    }
 
-    /**
-     * Default page
-     */
+        /**
+         * Game Index
+         */
 
-    public function internet()
-    {
-
-        if( PostHelper::hasPostData() )
+        public function page()
         {
 
-            if( $this->validAddress() == false )
-            {
-
-                $this->redirectError('404 Not Found');
-            }
-
-            $this->getRender('page.game.internet', array( 'ipaddress' => PostHelper::getPostData('ipaddress') ) );
+            $this->getRender('page.game');
         }
-        else
+
+        /**
+         * Renders a page
+         *
+         * @param $file
+         *
+         * @param array|null $array
+         */
+
+        private function getRender($file, array $array = null)
         {
 
-            $this->getRender('page.game.internet', array( 'ipaddress' => $this->internet->getComputerAddress( Settings::getSetting('syscrack_whois_computer') ) ) );
+            Flight::render(Settings::getSetting('syscrack_view_location') . $file, $array);
         }
-    }
 
-    /**
-     * Processes a game action
-     *
-     * @param $ipaddress
-     *
-     * @param $process
-     */
+        /**
+         * The address book
+         */
 
-    public function process( $ipaddress, $process )
-    {
-
-        $this->operations = new Operations();
-
-        if( $this->validAddress( $ipaddress ) == false )
+        public function addressBook()
         {
 
-            $this->redirectError('404 Not Found');
+            $this->getRender('page.game.addressbook');
         }
-        else
+
+        /**
+         * Default page
+         */
+
+        public function internet()
         {
 
-            if( $this->operations->hasProcessClass( $process ) == false )
+            if (PostHelper::hasPostData())
             {
 
-                $this->redirectError('Action not found', $ipaddress );
-            }
-
-            $class = $this->operations->findProcessClass( $process );
-
-            if( $class instanceof Operation == false )
-            {
-
-                throw new SyscrackException();
-            }
-
-            $completiontime = $class->getCompletionSpeed( $this->computer->getCurrentUserComputer(), $process, null );
-
-            if( $completiontime == null )
-            {
-
-                $result = $class->onCreation( time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                    'ipaddress' => $ipaddress
-                ));
-
-                if( $result == false )
+                if ($this->validAddress() == false)
                 {
 
-                    $this->redirectError('Unable to create process', $ipaddress );
+                    $this->redirectError('404 Not Found');
                 }
-                else
-                {
 
-                    $class->onCompletion( time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                        'ipaddress' => $ipaddress
-                    ));
-                }
+                $this->getRender('page.game.internet', array('ipaddress' => PostHelper::getPostData('ipaddress')));
             }
             else
             {
 
-                $processid = $this->operations->createProcess( $completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                    'ipaddress' => $ipaddress
-                ));
+                $this->getRender('page.game.internet', array('ipaddress' => $this->internet->getComputerAddress(Settings::getSetting('syscrack_whois_computer'))));
+            }
+        }
 
-                if( $processid == false )
+        /**
+         * returns true if the IP address is valid
+         *
+         * @param null $ipaddress
+         *
+         * @return bool
+         */
+
+        private function validAddress($ipaddress = null)
+        {
+
+            if ($ipaddress == null)
+            {
+
+                if (PostHelper::checkForRequirements(['ipaddress']) == false)
                 {
 
-                    $this->redirectError('Unable to create process', $ipaddress );
+                    return false;
                 }
 
-                Flight::redirect('/processes/' . $processid );
-            }
-        }
-    }
-
-    /**
-     * Processes a software action
-     *
-     * @param $ipaddress
-     *
-     * @param $process
-     *
-     * @param $softwareid
-     */
-
-    public function processSoftware( $ipaddress, $process, $softwareid )
-    {
-
-        $this->operations = new Operations();
-
-        if( $this->validAddress( $ipaddress ) == false )
-        {
-
-            $this->redirectError('404 Not Found');
-        }
-        else
-        {
-
-            if( $this->internet->hasCurrentConnection() == false || $this->internet->getCurrentConnectedAddress() != $ipaddress )
-            {
-
-                $this->redirectError('You must be connected to this computer to preform actions on its software');
+                $ipaddress = PostHelper::getPostData('ipaddress');
             }
 
-            if( $this->operations->hasProcessClass( $process ) == false )
-            {
-
-                $this->redirectError('Action not found', $ipaddress );
-            }
-
-            if( $this->software->softwareExists( $softwareid ) == false )
-            {
-
-                $this->redirectError('Software does not exist', $ipaddress );
-            }
-
-            if( $this->computer->hasSoftware( $this->internet->getComputer( $ipaddress )->computerid, $softwareid ) == false )
-            {
-
-                $this->redirectError('Software does not exist', $ipaddress );
-            }
-
-            $class = $this->operations->findProcessClass( $process );
-
-            if( $class instanceof Operation == false )
-            {
-
-                throw new SyscrackException();
-            }
-
-            $completiontime = $class->getCompletionSpeed( $this->computer->getCurrentUserComputer(), $process, null );
-
-            if( $completiontime == null )
-            {
-
-                $result = $class->onCreation( time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                    'ipaddress'     => $ipaddress,
-                    'softwareid'    => $softwareid
-                ));
-
-                if( $result == false )
-                {
-
-                    $this->redirectError('Process cannot be completed', $ipaddress );
-                }
-                else
-                {
-
-                    $class->onCompletion( time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                        'ipaddress' => $ipaddress,
-                        'softwareid'    => $softwareid
-                    ));
-                }
-            }
-            else
-            {
-
-                $processid = $this->operations->createProcess( $completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                    'ipaddress' => $ipaddress,
-                    'softwareid'    => $softwareid
-                ));
-
-                if( $processid == false )
-                {
-
-                    $this->redirectError('Process failed to be created', $ipaddress );
-                }
-
-                Flight::redirect('/processes/' . $processid );
-            }
-        }
-    }
-
-    /**
-     * Views a specific address
-     *
-     * @param $ipaddress
-     */
-
-    public function viewAddress( $ipaddress )
-    {
-
-        if( $this->validAddress( $ipaddress ) == false )
-        {
-
-            $this->redirectError('404 Not Found');
-        }
-
-        $this->getRender('page.game.internet', array( 'ipaddress' => $ipaddress ) );
-    }
-
-    /**
-     * Redirects local error
-     *
-     * @param string $message
-     */
-
-    private function redirectLocalError( $message="", $page="" )
-    {
-
-        if( $page !== "" )
-        {
-
-            Flight::redirect('/game/computer/' . $page . '/?error=' . $message ); die();
-        }
-
-        Flight::redirect('/game/computer/?error=' . $message ); die();
-    }
-
-    /**
-     * Redirects local success
-     *
-     * @param string $page
-     */
-
-    private function redirectLocalSuccess( $page="" )
-    {
-
-        if( $page !== "" )
-        {
-
-            Flight::redirect('/game/computer/' . $page . '/?success'); die();
-        }
-
-        Flight::redirect('/game/computer/?success'); die();
-    }
-
-    /**
-     * Redirects the user to an error page
-     *
-     * @param string $message
-     *
-     * @param string $ipaddress
-     */
-
-    private function redirectError( $message='', $ipaddress='' )
-    {
-
-        if( $ipaddress !== '' )
-        {
-
-            Flight::redirect('/game/internet/' . $ipaddress . "?error=" . $message ); die();
-        }
-
-        Flight::redirect('/game/internet/?error=' . $message ); die();
-    }
-
-    /**
-     * Redirects the user to a success page
-     *
-     * @param string $ipaddress
-     */
-
-    private function redirectSuccess( $ipaddress='' )
-    {
-
-        if( $ipaddress !== '' )
-        {
-
-            Flight::redirect('/game/internet/' . $ipaddress . "?success" ); exit;
-        }
-
-        Flight::redirect('/game/internet/?success'); exit;
-    }
-
-    /**
-     * Renders a page
-     *
-     * @param $file
-     *
-     * @param array|null $array
-     */
-
-    private function getRender( $file, array $array = null  )
-    {
-
-        Flight::render( Settings::getSetting('syscrack_view_location') . $file, $array);
-    }
-
-    /**
-     * returns true if the IP address is valid
-     *
-     * @param null $ipaddress
-     *
-     * @return bool
-     */
-
-    private function validAddress( $ipaddress=null )
-    {
-
-        if( $ipaddress == null )
-        {
-
-            if( PostHelper::checkForRequirements(['ipaddress'] ) == false )
+            if (filter_var($ipaddress, FILTER_VALIDATE_IP) == false)
             {
 
                 return false;
             }
 
-            $ipaddress = PostHelper::getPostData('ipaddress');
+            if ($this->internet->ipExists($ipaddress) == false)
+            {
+
+                return false;
+            }
+
+            return true;
         }
 
-        if( filter_var( $ipaddress, FILTER_VALIDATE_IP ) == false )
+        /**
+         * Processes a game action
+         *
+         * @param $ipaddress
+         *
+         * @param $process
+         */
+
+        public function process($ipaddress, $process)
         {
 
-            return false;
+            if ($this->validAddress($ipaddress) == false)
+            {
+
+                $this->redirectError('404 Not Found');
+            }
+            else
+            {
+
+                $this->operations = new Operations();
+
+                if ($this->operations->hasProcessClass($process) == false)
+                {
+
+                    $this->redirectError('Action not found', $ipaddress);
+                }
+
+                $class = $this->operations->findProcessClass($process);
+
+                if ($class instanceof Operation == false)
+                {
+
+                    throw new SyscrackException();
+                }
+
+                $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null);
+
+                if ($completiontime == null)
+                {
+
+                    $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                        'ipaddress' => $ipaddress
+                    ));
+
+                    if ($result == false)
+                    {
+
+                        $this->redirectError('Unable to create process', $ipaddress);
+                    }
+                    else
+                    {
+
+                        $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                            'ipaddress' => $ipaddress
+                        ));
+                    }
+                }
+                else
+                {
+
+                    $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                        'ipaddress' => $ipaddress
+                    ));
+
+                    if ($processid == false)
+                    {
+
+                        $this->redirectError('Unable to create process', $ipaddress);
+                    }
+
+                    Flight::redirect('/processes/' . $processid);
+                }
+            }
         }
 
-        if( $this->internet->ipExists( $ipaddress ) == false )
+        /**
+         * Processes a software action
+         *
+         * @param $ipaddress
+         *
+         * @param $process
+         *
+         * @param $softwareid
+         */
+
+        public function processSoftware($ipaddress, $process, $softwareid)
         {
 
-            return false;
+            if ($this->validAddress($ipaddress) == false)
+            {
+
+                $this->redirectError('404 Not Found');
+            }
+            else
+            {
+
+                $this->operations = new Operations();
+
+                if ($this->internet->hasCurrentConnection() == false || $this->internet->getCurrentConnectedAddress() != $ipaddress)
+                {
+
+                    $this->redirectError('You must be connected to this computer to preform actions on its software');
+                }
+
+                if ($this->operations->hasProcessClass($process) == false)
+                {
+
+                    $this->redirectError('Action not found', $ipaddress);
+                }
+
+                if ($this->softwares->softwareExists($softwareid) == false)
+                {
+
+                    $this->redirectError('Software does not exist', $ipaddress);
+                }
+
+                if ($this->computer->hasSoftware($this->internet->getComputer($ipaddress)->computerid, $softwareid) == false)
+                {
+
+                    $this->redirectError('Software does not exist', $ipaddress);
+                }
+
+                $class = $this->operations->findProcessClass($process);
+
+                if ($class instanceof Operation == false)
+                {
+
+                    throw new SyscrackException();
+                }
+
+                $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null);
+
+                if ($completiontime == null)
+                {
+
+                    $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                        'ipaddress' => $ipaddress,
+                        'softwareid' => $softwareid
+                    ));
+
+                    if ($result == false)
+                    {
+
+                        $this->redirectError('Process cannot be completed', $ipaddress);
+                    }
+                    else
+                    {
+
+                        $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                            'ipaddress' => $ipaddress,
+                            'softwareid' => $softwareid
+                        ));
+                    }
+                }
+                else
+                {
+
+                    $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                        'ipaddress' => $ipaddress,
+                        'softwareid' => $softwareid
+                    ));
+
+                    if ($processid == false)
+                    {
+
+                        $this->redirectError('Process failed to be created', $ipaddress);
+                    }
+
+                    Flight::redirect('/processes/' . $processid);
+                }
+            }
         }
 
-        return true;
+        /**
+         * Views a specific address
+         *
+         * @param $ipaddress
+         */
+
+        public function viewAddress($ipaddress)
+        {
+
+            if ($this->validAddress($ipaddress) == false)
+            {
+
+                $this->redirectError('404 Not Found');
+            }
+
+            $this->getRender('page.game.internet', array('ipaddress' => $ipaddress));
+        }
+
+        /**
+         * Redirects the user to an error page
+         *
+         * @param string $message
+         *
+         * @param string $ipaddress
+         */
+
+        public function redirectError( $message='', $ipaddress='' )
+        {
+
+            if( $ipaddress !== '' )
+            {
+
+                Flight::redirect('/' . Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?error=' . $message);
+
+                return;
+            }
+
+            Flight::redirect( '/' . Settings::getSetting('syscrack_game_page') . '?error=' . $message);
+
+            return;
+        }
+
+        /**
+         * Redirects the user to a success page
+         *
+         * @param string $ipaddress
+         */
+
+        public function redirectSuccess($ipaddress = '' )
+        {
+
+            if( $ipaddress !== '' )
+            {
+
+                Flight::redirect('/' . Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '?success');
+
+                return;
+            }
+
+            Flight::redirect( '/' . Settings::getSetting('syscrack_game_page') . '/?success');
+
+            return;
+        }
     }
-}

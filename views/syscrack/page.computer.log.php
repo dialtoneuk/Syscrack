@@ -52,7 +52,7 @@
 
                 <?php
 
-                    Flight::render('syscrack/templates/template.computeractions', array( 'computer' => $computer ) );
+                    Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );
                 ?>
 
                 <div class="col-lg-8">

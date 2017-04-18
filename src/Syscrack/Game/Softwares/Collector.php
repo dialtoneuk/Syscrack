@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Syscrack\Game\Softwares;
+    namespace Framework\Syscrack\Game\Softwares;
 
 /**
  * Lewis Lancaster 2017
@@ -12,10 +12,10 @@ namespace Framework\Syscrack\Game\Softwares;
  */
 
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Viruses;
 use Framework\Syscrack\Game\AddressDatabase;
+use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
 use Framework\Syscrack\Game\Structures\Software as Structure;
-use Framework\Syscrack\Game\Software as BaseClass;
+use Framework\Syscrack\Game\Viruses;
 
 class Collector extends BaseClass implements Structure
 {

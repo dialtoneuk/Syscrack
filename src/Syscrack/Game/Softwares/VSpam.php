@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Syscrack\Game\Softwares;
+    namespace Framework\Syscrack\Game\Softwares;
 
 /**
  * Lewis Lancaster 2017
@@ -9,8 +9,8 @@ namespace Framework\Syscrack\Game\Softwares;
  * @package Framework\Syscrack\Game\Softwares
  */
 
+use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
 use Framework\Syscrack\Game\Structures\Software as Structure;
-use Framework\Syscrack\Game\Software as BaseClass;
 
 class VSpam extends BaseClass implements Structure
 {

@@ -13,7 +13,7 @@ use Framework\Application\Container;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
-use Framework\Syscrack\Game\Operation as BaseClass;
+use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\Viruses;
 use Framework\Application\Settings;
 

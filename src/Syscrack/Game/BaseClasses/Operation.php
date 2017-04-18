@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Syscrack\Game;
+namespace Framework\Syscrack\Game\BaseClasses;
 
 /**
  * Lewis Lancaster 2017
@@ -9,11 +9,15 @@ namespace Framework\Syscrack\Game;
  * @package Framework\Syscrack\Game
  */
 
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
-use Framework\Application\Settings;
 use Flight;
+use Framework\Application\Settings;
+use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
+use Framework\Syscrack\Game\Log;
+use Framework\Syscrack\Game\Softwares;
+use Framework\Syscrack\Game\Computer;
+use Framework\Syscrack\Game\Internet;
+use Framework\Syscrack\Game\Hardware;
 
 class Operation
 {
@@ -55,10 +59,10 @@ class Operation
     public function __construct( $createclasses = true )
     {
 
-        $this->computerlog = new Log();
-
         if( $createclasses )
         {
+
+            $this->computerlog = new Log();
 
             $this->softwares = new Softwares();
 
@@ -178,16 +182,25 @@ class Operation
      * @param string $ipaddress
      */
 
-    public function redirectError( $message='', $ipaddress='' )
+    public function redirectError( $message = '', $ipaddress='', $path = '')
     {
+
+        if ($path !== '')
+        {
+
+            Flight::redirect('/' . $this->getCurrentPage() . $path . '?error=' . $message);
+            exit;
+        }
 
         if( $ipaddress !== '' )
         {
 
-            Flight::redirect('/game/internet/' . $ipaddress . "?error=" . $message ); exit;
+            Flight::redirect('/' . $this->getCurrentPage() . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '?error=' . $message);
+            exit;
         }
 
-        Flight::redirect('/game/internet/?error=' . $message ); exit;
+        Flight::redirect($this->getCurrentPage() . '?error=' . $message);
+        exit;
     }
 
     /**
@@ -196,15 +209,39 @@ class Operation
      * @param string $ipaddress
      */
 
-    public function redirectSuccess( $ipaddress='' )
+    public function redirectSuccess($ipaddress = '', $path = '')
     {
 
         if( $ipaddress !== '' )
         {
 
-            Flight::redirect('/game/internet/' . $ipaddress . "?success" ); exit;
+            Flight::redirect('/' . $this->getCurrentPage() . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '?success');
+
+            return;
         }
 
-        Flight::redirect('/game/internet/?success'); exit;
+        if ($path !== '')
+        {
+
+            Flight::redirect('/' . $this->getCurrentPage() . $path . '?success');
+
+            return;
+        }
+
+        Flight::redirect($this->getCurrentPage() . '?success');
+
+        return;
+    }
+
+    /**
+     * Gets the current page
+     *
+     * @return string
+     */
+
+    public function getCurrentPage()
+    {
+
+        return 'game';
     }
 }

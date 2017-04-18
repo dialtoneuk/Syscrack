@@ -35,5 +35,101 @@
         },
         "timestamp": 1492452475,
         "ip": "192.168.0.112"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/api\/",
+            "line": 81,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Pages\\Api.php(49): Framework\\Application\\Container::getObject('application')\n#1 C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php(66): Framework\\Views\\Pages\\Api->__construct()\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(190): Framework\\Application\\Utilities\\Factory->createClass('api')\n#3 C:\\xampp\\htdocs\\src\\Views\\Controller.php(108): Framework\\Views\\Controller->createPage('api')\n#4 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#5 C:\\xampp\\htdocs\\index.php(57): Framework\\Application->runController()\n#6 {main}"
+        },
+        "timestamp": 1492453470,
+        "ip": "192.168.0.112"
+    },
+    {
+        "message": "SQLSTATE[42S02]: Base table or view not found: 1146 Table 'syscrack.api' doesn't exist (SQL: select exists(select * from `Api`) as `exists`)",
+        "type": "error",
+        "details": {
+            "url": "\/api\/test\/test",
+            "line": 647,
+            "file": "C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php",
+            "trace": "#0 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(607): Illuminate\\Database\\Connection->runQueryCallback('select exists(s...', Array, Object(Closure))\n#1 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Connection.php(326): Illuminate\\Database\\Connection->run('select exists(s...', Array, Object(Closure))\n#2 C:\\xampp\\htdocs\\vendor\\illuminate\\database\\Query\\Builder.php(1999): Illuminate\\Database\\Connection->select('select exists(s...', Array, true)\n#3 C:\\xampp\\htdocs\\src\\Database\\Table.php(60): Illuminate\\Database\\Query\\Builder->exists()\n#4 C:\\xampp\\htdocs\\src\\Database\\Tables\\Api.php(32): Framework\\Database\\Table->getTable()\n#5 C:\\xampp\\htdocs\\src\\Application\\Api\\Manager.php(40): Framework\\Database\\Tables\\Api->getApiByKey('test')\n#6 C:\\xampp\\htdocs\\src\\Views\\Pages\\Api.php(66): Framework\\Application\\Api\\Manager->hasApiKey('test')\n#7 C:\\xampp\\htdocs\\src\\Application\\Utilities\\Factory.php(66): Framework\\Views\\Pages\\Api->__construct()\n#8 C:\\xampp\\htdocs\\src\\Views\\Controller.php(190): Framework\\Application\\Utilities\\Factory->createClass('api')\n#9 C:\\xampp\\htdocs\\src\\Views\\Controller.php(108): Framework\\Views\\Controller->createPage('api')\n#10 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#11 C:\\xampp\\htdocs\\index.php(57): Framework\\Application->runController()\n#12 {main}"
+        },
+        "timestamp": 1492453769,
+        "ip": "192.168.0.112"
+    },
+    {
+        "message": "",
+        "type": "error",
+        "details": {
+            "url": "\/game\/",
+            "line": 231,
+            "file": "C:\\xampp\\htdocs\\src\\Views\\Controller.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(209): Framework\\Views\\Controller->processFlightRoutes(Object(Framework\\Views\\Pages\\Game), Array)\n#1 C:\\xampp\\htdocs\\src\\Views\\Controller.php(190): Framework\\Views\\Controller->processClass(Object(Framework\\Views\\Pages\\Game))\n#2 C:\\xampp\\htdocs\\src\\Views\\Controller.php(108): Framework\\Views\\Controller->createPage('game')\n#3 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#4 C:\\xampp\\htdocs\\index.php(57): Framework\\Application->runController()\n#5 {main}"
+        },
+        "timestamp": 1492487211,
+        "ip": "192.168.0.112"
+    },
+    {
+        "message": "Template file not found: .\/views\/syscrack\/page.computer.php.",
+        "type": "error",
+        "details": {
+            "url": "\/computer\/",
+            "line": 116,
+            "file": "C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\template\\View.php",
+            "trace": "#0 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(455): flight\\template\\View->render('syscrack\/page.c...', NULL)\n#1 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): flight\\Engine->_render('syscrack\/page.c...')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('render', Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): flight\\Engine->__call('render', Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#7 C:\\xampp\\htdocs\\src\\Views\\Pages\\Computer.php(41): Flight::__callStatic('render', Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): Framework\\Views\\Pages\\Computer->page()\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#12 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#13 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#14 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#15 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#16 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#17 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#18 C:\\xampp\\htdocs\\index.php(70): Framework\\Application->runFlight()\n#19 {main}"
+        },
+        "timestamp": 1492487328,
+        "ip": "192.168.0.112"
+    },
+    {
+        "message": "That does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/computer\/",
+            "line": 81,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Container.php",
+            "trace": "#0 C:\\xampp\\htdocs\\views\\syscrack\\page.computer.php(11): Framework\\Application\\Container::getObject('session')\n#1 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\template\\View.php(125): include('C:\\\\xampp\\\\htdocs...')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(455): flight\\template\\View->render('syscrack\/page.c...', NULL)\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): flight\\Engine->_render('syscrack\/page.c...')\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('render', Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): flight\\Engine->__call('render', Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 C:\\xampp\\htdocs\\src\\Views\\Pages\\Computer.php(41): Flight::__callStatic('render', Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): Framework\\Views\\Pages\\Computer->page()\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#12 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#13 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#14 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#15 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#16 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#17 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#18 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#19 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#20 C:\\xampp\\htdocs\\index.php(70): Framework\\Application->runFlight()\n#21 {main}"
+        },
+        "timestamp": 1492487396,
+        "ip": "192.168.0.112"
+    },
+    {
+        "message": "Array to string conversion",
+        "type": "error",
+        "details": {
+            "url": "\/game\/internet\/5.5.5.5\/login?",
+            "line": 198,
+            "file": "C:\\xampp\\htdocs\\src\\Syscrack\\Game\\BaseClasses\\Operation.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Syscrack\\Game\\BaseClasses\\Operation.php(198): flight\\Engine->handleError(8, 'Array to string...', 'C:\\\\xampp\\\\htdocs...', 198, Array)\n#1 C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations\\Login.php(57): Framework\\Syscrack\\Game\\BaseClasses\\Operation->redirectError('Logging into yo...')\n#2 C:\\xampp\\htdocs\\src\\Views\\Pages\\Game.php(278): Framework\\Syscrack\\Game\\Operations\\Login->onCreation(1492490031, 1, 2, 'login', Array)\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(204): Framework\\Views\\Pages\\Game->process('5.5.5.5', 'login')\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#12 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#13 C:\\xampp\\htdocs\\index.php(70): Framework\\Application->runFlight()\n#14 {main}"
+        },
+        "timestamp": 1492490031,
+        "ip": "192.168.0.112"
+    },
+    {
+        "message": "Array to string conversion",
+        "type": "error",
+        "details": {
+            "url": "\/game\/internet\/Logging%20into%20your%20self%20is%20dangerous...%20do%20you%20want%20to%20break%20the%20space%20time%20continuum??error=",
+            "line": 76,
+            "file": "C:\\xampp\\htdocs\\src\\Views\\BaseClasses\\Page.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\BaseClasses\\Page.php(76): flight\\Engine->handleError(8, 'Array to string...', 'C:\\\\xampp\\\\htdocs...', 76, Array)\n#1 C:\\xampp\\htdocs\\src\\Views\\Pages\\Game.php(422): Framework\\Views\\BaseClasses\\Page->redirectError('404 Not Found')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): Framework\\Views\\Pages\\Game->viewAddress('Logging into yo...')\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#11 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#12 C:\\xampp\\htdocs\\index.php(70): Framework\\Application->runFlight()\n#13 {main}"
+        },
+        "timestamp": 1492490207,
+        "ip": "192.168.0.112"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "error",
+        "details": {
+            "url": "\/game\/internet\/6.6.6.6\/log",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Pages\\Game.php(442): Framework\\Application\\Settings::getSetting('syscrack_game_p...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Pages\\Game.php(261): Framework\\Views\\Pages\\Game->redirectError('Action not foun...', '6.6.6.6')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(204): Framework\\Views\\Pages\\Game->process('6.6.6.6', 'log')\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#11 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#12 C:\\xampp\\htdocs\\index.php(70): Framework\\Application->runFlight()\n#13 {main}"
+        },
+        "timestamp": 1492491030,
+        "ip": "192.168.0.112"
     }
 ]

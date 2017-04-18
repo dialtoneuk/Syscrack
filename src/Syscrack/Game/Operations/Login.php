@@ -11,7 +11,7 @@ namespace Framework\Syscrack\Game\Operations;
 
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
-use Framework\Syscrack\Game\Operation as BaseClass;
+use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 
 class Login extends BaseClass implements Structure
 {
@@ -99,8 +99,6 @@ class Login extends BaseClass implements Structure
                 $this->logAccess( $this->internet->getComputer( $data['ipaddress'] )->computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
 
                 $this->logLocal( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, $data['ipaddress'] );
-
-
 
                 $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
 

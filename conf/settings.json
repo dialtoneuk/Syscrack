@@ -90,5 +90,7 @@
     "syscrack_collector_amount":1000.0,
     "syscrack_collector_btc_amount":0.5,
     "syscrack_marketstock_location":"syscrack\/stocks.json",
-    "syscrack_default_processingtime":10
+    "syscrack_default_processingtime":10,
+    "syscrack_internet_page":"internet",
+    "syscrack_game_page":"game"
 }
