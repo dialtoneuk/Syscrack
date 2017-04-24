@@ -9,10 +9,10 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Application\Settings;
+use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
 
 class Delete extends BaseClass implements Structure
 {
@@ -117,7 +117,16 @@ class Delete extends BaseClass implements Structure
 
         $this->computer->removeSoftware( $this->internet->getComputer( $data['ipaddress'] )->computerid, $data['softwareid'] );
 
-        $this->redirectSuccess( $data['ipaddress'] );
+        if( isset( $data['redirect'] ) )
+        {
+
+            $this->redirectSuccess( null , $data['redirect'] );
+        }
+        else
+        {
+
+            $this->redirectSuccess( $data['ipaddress'] );
+        }
     }
 
 

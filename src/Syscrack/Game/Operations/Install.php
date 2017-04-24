@@ -10,12 +10,11 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Application\Container;
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Utilities\TimeHelper;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
-use Framework\Syscrack\Game\Viruses;
 use Framework\Application\Settings;
+use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\Viruses;
 
 class Install extends BaseClass implements Structure
 {
@@ -150,7 +149,16 @@ class Install extends BaseClass implements Structure
             'computerid'    => $this->internet->getComputer( $data['ipaddress'] )->computerid
         ));
 
-        $this->redirectSuccess( $data['ipaddress'] );
+        if( isset( $data['redirect'] ) )
+        {
+
+            $this->redirectSuccess( null , $data['redirect'] );
+        }
+        else
+        {
+
+            $this->redirectSuccess( $data['ipaddress'] );
+        }
     }
 
     /**

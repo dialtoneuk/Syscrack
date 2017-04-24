@@ -13,7 +13,6 @@
     use Framework\Application\Container;
     use Framework\Application\Session;
     use Framework\Application\Settings;
-    use Framework\Application\Utilities\Log;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\Operations;

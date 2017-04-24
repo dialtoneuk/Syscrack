@@ -10,8 +10,8 @@
      */
 
     use Flight;
-    use Framework\Views\Structures\Page;
     use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Structures\Page;
 
     class Error extends BaseClass implements Page
     {
@@ -38,12 +38,6 @@
             return array(
                 [
                     '/error/', 'page'
-                ],
-                [
-                    '/error/404/', 'error404'
-                ],
-                [
-                    '/error/database/', 'errorDatabase'
                 ]
             );
         }
@@ -56,17 +50,5 @@
         {
 
             Flight::render('error/page.error');
-        }
-
-        public function error404()
-        {
-
-            Flight::render('error/page.404');
-        }
-
-        public function errorDatabase()
-        {
-
-            Flight::render('error/page.database');
         }
     }

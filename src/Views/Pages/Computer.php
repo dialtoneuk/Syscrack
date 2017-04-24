@@ -12,6 +12,7 @@
     use Flight;
     use Framework\Application\Container;
     use Framework\Application\Session;
+    use Framework\Application\Settings;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -37,6 +38,14 @@
             {
 
                 Container::setObject('session', new Session());
+            }
+
+            if (Container::getObject('session')->isLoggedIn() == false)
+            {
+
+                Flight::redirect('/' . Settings::getSetting('controller_index_root'));
+
+                exit;
             }
         }
 

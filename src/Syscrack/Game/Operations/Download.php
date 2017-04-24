@@ -9,10 +9,10 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Application\Settings;
+use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
 
 class Download extends BaseClass implements Structure
 {
@@ -118,7 +118,16 @@ class Download extends BaseClass implements Structure
 
         $this->logLocal( $software->softwarename, $data['ipaddress'] );
 
-        $this->redirectSuccess( $data['ipaddress'] );
+        if( isset( $data['redirect'] ) )
+        {
+
+            $this->redirectSuccess( null , $data['redirect'] );
+        }
+        else
+        {
+
+            $this->redirectSuccess( $data['ipaddress'] );
+        }
     }
 
     /**

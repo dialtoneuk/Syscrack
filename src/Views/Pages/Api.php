@@ -58,7 +58,15 @@
                 if (PostHelper::checkForRequirements(['apikey']) == false)
                 {
 
-                    Flight::notFound();
+                    Flight::json(array(
+                        'error' => true,
+                        'code'  => 401,
+                        'info'  => [
+                            'message' => 'Apikey required as post key'
+                        ]
+                    ));
+
+                    exit;
                 }
                 else
                 {
@@ -77,10 +85,13 @@
 
                 Flight::json(array(
                     'error' => true,
-                    'info' => [
+                    'code'  => 401,
+                    'info'  => [
                         'message' => 'Apikey required as post key'
                     ]
                 ));
+
+                exit;
             }
         }
 
@@ -126,12 +137,14 @@
 
                     $result = $this->controller->processEndpoint($endpoint, $method);
                 }
-            } catch (\Exception $error)
+            }
+            catch (\Exception $error)
             {
 
                 Flight::json(array(
                     'error' => true,
-                    'info' => [
+                    'code'  => 502,
+                    'info'  => [
                         'message' => $error->getMessage(),
                         'line' => $error->getLine(),
                         'file' => $error->getFile()

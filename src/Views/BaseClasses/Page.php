@@ -101,7 +101,7 @@
         /**
          * Gets the current page
          *
-         * @return array
+         * @return string
          */
 
         public function getCurrentPage()

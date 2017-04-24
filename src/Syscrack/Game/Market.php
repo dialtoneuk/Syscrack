@@ -479,7 +479,7 @@ class Market
      * @param array $data
      */
 
-    private function save( $computerid, $file='purchases.json', $data=[] )
+    private function save( $computerid=null, $file='purchases.json', $data=[] )
     {
 
         FileSystem::writeJson( $this->getFilePath( $computerid, $file ), $data );

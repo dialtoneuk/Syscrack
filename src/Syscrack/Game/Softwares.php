@@ -12,11 +12,11 @@ namespace Framework\Syscrack\Game;
  */
 
 use Framework\Application\Settings;
-use Framework\Application\Utilities\FileSystem;
 use Framework\Application\Utilities\Factory;
+use Framework\Application\Utilities\FileSystem;
+use Framework\Database\Tables\Softwares as Database;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Structures\Software;
-use Framework\Database\Tables\Softwares as Database;
 use Framework\Syscrack\Game\Structures\Software as Structure;
 
 class Softwares
@@ -190,7 +190,7 @@ class Softwares
      * @return int
      */
 
-    public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software' )
+    public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software', float $softwarelavel = 1.0 )
     {
 
         if( $this->hasSoftwareClass( $software ) == false )
@@ -212,7 +212,7 @@ class Softwares
         $array = array(
             'userid'        => $userid,
             'computerid'    => $computerid,
-            'level'         => $class->getDefaultLevel(),
+            'level'         => $softwarelavel,
             'size'          => $class->getDefaultSize(),
             'uniquename'    => $configuration['uniquename'],
             'type'          => $configuration['type'],

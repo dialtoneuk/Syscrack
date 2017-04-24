@@ -9,6 +9,7 @@ namespace Framework\Views\Middleware;
  * @package Framework\Views\Middleware
  */
 
+use Flight;
 use Framework\Database\Manager;
 use Framework\Views\Structures\Middleware;
 
@@ -47,6 +48,6 @@ class DatabaseCheck implements Middleware
     public function onFailure()
     {
 
-        \Flight::redirect('/error/database/'); exit;
+        Flight::redirect('/framework/error/database/'); exit;
     }
 }

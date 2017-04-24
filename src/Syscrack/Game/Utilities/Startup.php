@@ -14,9 +14,9 @@ use Framework\Application\Utilities\FileSystem;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\BankDatabase;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Log;
-use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Softwares;
 
 class Startup
@@ -216,7 +216,7 @@ class Startup
     }
 
     /**
-     * Creates the computers various softwares
+     * Creates a computers software
      *
      * @param $userid
      *
@@ -228,34 +228,30 @@ class Startup
     public function createComputerSoftware( $userid, $computerid, array $softwares )
     {
 
-        $software = new Softwares();
+        $softwares = new Softwares();
 
         $computer = new Computer();
 
-        foreach( $softwares as $value )
+        foreach( $softwares as $software )
         {
 
-            if( isset( $value['softwarename'] ) == false || isset( $value['softwareid'] ) == false || isset( $value['type'] ) )
+            $softwareid = $softwares->createSoftware( $softwares->findSoftwareByUniqueName( $software['uniquename'] ), $userid, $computerid, $software['softwarename'], $software['softwarelevel'] );
+
+            if( $softwares->softwareExists( $softwareid ) == false )
             {
 
                 throw new SyscrackException();
             }
 
-            if( $software->softwareExists( $value['softwareid'] ) == false )
+            $computer->addSoftware( $computerid, $softwareid, $softwares->getSoftwareType( $softwares->getSoftwareNameFromSoftwareID( $softwareid ) ) );
+
+            if( isset( $software['installed'] ) )
             {
 
-                throw new SyscrackException();
-            }
-
-            $softwareid = $software->copySoftware( $software->getSoftware( $value['softwareid'] )->computerid, $computerid, $userid );
-
-            $computer->addSoftware( $computerid, $softwareid, $value['type'], $value['softwarename'] );
-
-            if( isset( $value['installed'] ) )
-            {
-
-                if( $value['installed'] == true )
+                if( $software['installed'] == true )
                 {
+
+                    $softwares->installSoftware( $softwareid, $userid );
 
                     $computer->installSoftware( $computerid, $softwareid );
                 }

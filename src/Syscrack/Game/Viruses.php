@@ -177,5 +177,4 @@ class Viruses
 
         return $this->softwares->getTypeOnComputer( Settings::getSetting('syscrack_virus_type'), $computerid );
     }
-
 }

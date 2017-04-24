@@ -11,8 +11,8 @@ namespace Framework\Syscrack\Game\Operations;
 
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
 
 class Clear extends BaseClass implements Structure
 {
@@ -90,7 +90,16 @@ class Clear extends BaseClass implements Structure
 
         $this->computerlog->saveLog( $this->internet->getComputer( $data['ipaddress'] )->computerid, [] );
 
-        $this->redirectSuccess( $data['ipaddress'] );
+        if( isset( $data['redirect'] ) )
+        {
+
+            $this->redirectSuccess(''. $data['redirect'] );
+        }
+        else
+        {
+
+            $this->redirectSuccess( $data['ipaddress'] );
+        }
     }
 
     /**

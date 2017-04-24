@@ -10,8 +10,8 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
 
 class View extends BaseClass implements Structure
 {
@@ -90,6 +90,8 @@ class View extends BaseClass implements Structure
 
             throw new SyscrackException();
         }
+
+        ob_clean();
 
         $this->getRender('operations/operations.view', array('softwareid' => $data['softwareid'], 'ipaddress' => $data['ipaddress'], 'data' => $this->softwares->getSoftwareData( $data['softwareid'] ) ) );
     }

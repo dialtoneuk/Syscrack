@@ -1,20 +1,36 @@
 {
   "name":"Whois",
   "page":"npc.whois",
+  "riddle":"1.2.3.4",
   "softwares":[
     {
-      "softwareid":1,
-      "softwarename":"Basic Cracker",
-      "type":"cracker",
+      "softwarename":"Advanced Cracker",
+      "uniquename":"cracker",
       "installed":true,
-      "timeinstalled":0
+      "softwarelevel":5.0
     },
     {
-      "softwareid":2,
-      "softwarename":"Basic Firewall",
-      "type":"cracker",
+      "softwarename":"Advanced Firewall",
+      "uniquename":"firewall",
       "installed":true,
-      "timeinstalled":0
+      "softwarelevel":5.0
     }
-  ]
+  ],
+  "hardwares":{
+    "cpu":{
+      "value":1000
+    },
+    "gpu":{
+      "value":500
+    },
+    "download":{
+      "value":1000
+    },
+    "upload":{
+      "value":1000
+    },
+    "harddrive":{
+      "value":1000
+    }
+  }
 }

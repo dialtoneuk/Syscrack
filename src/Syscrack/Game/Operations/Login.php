@@ -10,8 +10,8 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\Structures\Operation as Structure;
 
 class Login extends BaseClass implements Structure
 {
@@ -105,7 +105,16 @@ class Login extends BaseClass implements Structure
 
                 $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
 
-                $this->redirectSuccess( $data['ipaddress'] );
+                if( isset( $data['redirect'] ) )
+                {
+
+                    $this->redirectSuccess( null , $data['redirect'] );
+                }
+                else
+                {
+
+                    $this->redirectSuccess( $data['ipaddress'] );
+                }
             }
         }
         else
@@ -117,7 +126,16 @@ class Login extends BaseClass implements Structure
 
             $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
 
-            $this->redirectSuccess( $data['ipaddress'] );
+            if( isset( $data['redirect'] ) )
+            {
+
+                $this->redirectSuccess( null , $data['redirect'] );
+            }
+            else
+            {
+
+                $this->redirectSuccess( $data['ipaddress'] );
+            }
         }
     }
 

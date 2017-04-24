@@ -133,7 +133,16 @@ class Hack extends BaseClass implements Structure
 
         $this->addressdatabase->saveDatabase();
 
-        $this->redirectSuccess( $data['ipaddress'] );
+        if( isset( $data['redirect'] ) )
+        {
+
+            $this->redirectSuccess( null , $data['redirect'] );
+        }
+        else
+        {
+
+            $this->redirectSuccess( $data['ipaddress'] );
+        }
     }
 
     /**
