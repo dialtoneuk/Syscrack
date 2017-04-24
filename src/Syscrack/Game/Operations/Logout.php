@@ -27,6 +27,18 @@ class Logout extends BaseClass implements Structure
     }
 
     /**
+     * The configuration of this operation
+     */
+
+    public function configuration()
+    {
+
+        array(
+            'allowsoftwares' => false
+        );
+    }
+
+    /**
      * Called when this process request is created
      *
      * @param $timecompleted

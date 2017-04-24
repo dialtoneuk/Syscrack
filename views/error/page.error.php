@@ -61,7 +61,7 @@
                     <div class="page-header">
                         <h1>
                             Exception by <?= $last_error['ip'] ?> on <?= date('Y-m-d g:i a', $last_error['timestamp'] ) ?>
-                            <span style="float:right" class="label label-<?php if( $last_error['type'] == 'error'){ echo 'danger';}else{echo 'default';}?>">
+                            <span style="float:right" class="label label-<?php if( $last_error['type'] == 'frameworkerror'){ echo 'danger';}elseif( $last_error['type'] == 'rendererror'){echo 'warning';}else{ echo 'default'; }?>">
                                 <?= $last_error['type'] ?>
                             </span>
                         </h1>

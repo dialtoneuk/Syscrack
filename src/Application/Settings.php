@@ -291,6 +291,32 @@ class Settings
         return $setting;
     }
 
+    /**
+     * Bans some eval functions ( pretty invalid though )
+     *
+     * @param $match
+     *
+     * @return bool
+     */
+
+    private function isSafeEval( $match )
+    {
+
+        $keywords = self::getSetting('settings_eval_disabled');
+
+        foreach( $keywords as $keyword )
+        {
+
+            if( strpos( $match, $keyword ) !== false )
+            {
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 	/**
 	 * Loads the settings
 	 */

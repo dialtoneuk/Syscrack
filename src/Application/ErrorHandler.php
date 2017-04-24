@@ -9,11 +9,11 @@ namespace Framework\Application;
  * @package Framework\Application
  */
 
-use Framework\Application\Utilities\FileSystem;
-use Framework\Application\Utilities\Log;
-use Framework\Exceptions\ApplicationException;
-use Framework\Application\Utilities\IPAddress;
+use Error;
 use Exception;
+use Framework\Application\Utilities\FileSystem;
+use Framework\Application\Utilities\IPAddress;
+use Framework\Exceptions\ApplicationException;
 
 class ErrorHandler
 {
@@ -57,7 +57,33 @@ class ErrorHandler
 
         $array = array(
             'message'   => $error->getMessage(),
-            'type'      => 'error',
+            'type'      => 'frameworkerror',
+            'details'   => [
+                'url'       => $_SERVER['REQUEST_URI'],
+                'line'      => $error->getLine(),
+                'file'      => $error->getFile(),
+                'trace'     => $error->getTraceAsString()
+            ]
+        );
+
+        $this->addToLog( $array );
+
+        if( Settings::getSetting('error_logging') )
+            $this->saveErrors();
+    }
+
+    /**
+     * Handles an error with the render engine
+     *
+     * @param Error $error
+     */
+
+    public function handleFlightError( Error $error )
+    {
+
+        $array = array(
+            'message'   => $error->getMessage(),
+            'type'      => 'rendererror',
             'details'   => [
                 'url'       => $_SERVER['REQUEST_URI'],
                 'line'      => $error->getLine(),

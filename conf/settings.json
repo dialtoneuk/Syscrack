@@ -40,7 +40,7 @@
     "facebook_app_id": "",
     "facebook_app_secret": "",
     "facebook_app_version": "v2.8",
-    "facebook_redirect_url": "http:\/\/{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI]'}",
+    "facebook_redirect_url": "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI]'}",
     "online_timeframe":"{60 * 60 * 2}",
     "syscrack_game_name":"beta",
     "syscrack_bank_type":"bank",

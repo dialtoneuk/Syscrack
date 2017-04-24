@@ -139,6 +139,42 @@
 
         $application = new Application( false );
 
+        /**
+         * Handles an error with the render engine
+         */
+
+        Flight::map('error', function(Error $error) use ( $application ){
+
+            if( Settings::getSetting('error_logging') )
+            {
+
+                $application->getErrorHandler()->handleFlightError( $error );
+
+                if( Settings::getSetting('error_display_page') )
+                {
+
+                    if( $_SERVER['REQUEST_URI'] == '/' )
+                        Flight::redirect('/error?redirect=/index');
+                    else
+                        Flight::redirect('/error?redirect=' . $_SERVER['REQUEST_URI'] );
+                }
+                else
+                {
+
+                    Flight::redirect('/');
+                }
+            }
+            else
+            {
+
+                Flight::notFound();
+            }
+        });
+
+        /**
+         * Starts the applications controllers
+         */
+
         try
         {
 
@@ -155,6 +191,7 @@
              */
 
             $application->runFlight();
+
         }
         catch( Exception $error )
         {

@@ -332,77 +332,86 @@
 
                 $this->operations = new Operations();
 
-                if ($this->internet->hasCurrentConnection() == false || $this->internet->getCurrentConnectedAddress() != $ipaddress)
-                {
-
-                    $this->redirectError('You must be connected to this computer to preform actions on its software');
-                }
-
                 if ($this->operations->hasProcessClass($process) == false)
                 {
 
                     $this->redirectError('Action not found', $ipaddress);
                 }
 
-                if ($this->softwares->softwareExists($softwareid) == false)
+                if( $this->operations->allowSoftwares( $process ) == false )
                 {
 
-                    $this->redirectError('Software does not exist', $ipaddress);
-                }
-
-                if ($this->computer->hasSoftware($this->internet->getComputer($ipaddress)->computerid, $softwareid) == false)
-                {
-
-                    $this->redirectError('Software does not exist', $ipaddress);
-                }
-
-                $class = $this->operations->findProcessClass($process);
-
-                if ($class instanceof Operation == false)
-                {
-
-                    throw new SyscrackException();
-                }
-
-                $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null);
-
-                if ($completiontime == null)
-                {
-
-                    $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                        'ipaddress' => $ipaddress,
-                        'softwareid' => $softwareid
-                    ));
-
-                    if ($result == false)
-                    {
-
-                        $this->redirectError('Process cannot be completed', $ipaddress);
-                    }
-                    else
-                    {
-
-                        $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                            'ipaddress' => $ipaddress,
-                            'softwareid' => $softwareid
-                        ));
-                    }
+                    Flight::redirect('/' . Settings::getSetting('syscrack_game_page'). '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/' . $process );
                 }
                 else
                 {
 
-                    $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                        'ipaddress' => $ipaddress,
-                        'softwareid' => $softwareid
-                    ));
-
-                    if ($processid == false)
+                    if ($this->internet->hasCurrentConnection() == false || $this->internet->getCurrentConnectedAddress() != $ipaddress)
                     {
 
-                        $this->redirectError('Process failed to be created', $ipaddress);
+                        $this->redirectError('You must be connected to this computer to preform actions on its software', $ipaddress);
                     }
 
-                    Flight::redirect('/processes/' . $processid);
+                    if ($this->softwares->softwareExists($softwareid) == false)
+                    {
+
+                        $this->redirectError('Software does not exist', $ipaddress);
+                    }
+
+                    if ($this->computer->hasSoftware($this->internet->getComputer($ipaddress)->computerid, $softwareid) == false)
+                    {
+
+                        $this->redirectError('Software does not exist', $ipaddress);
+                    }
+
+                    $class = $this->operations->findProcessClass($process);
+
+                    if ($class instanceof Operation == false)
+                    {
+
+                        throw new SyscrackException();
+                    }
+
+                    $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null);
+
+                    if ($completiontime == null)
+                    {
+
+                        $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                            'ipaddress' => $ipaddress,
+                            'softwareid' => $softwareid
+                        ));
+
+                        if ($result == false)
+                        {
+
+                            $this->redirectError('Process cannot be completed', $ipaddress);
+                        }
+                        else
+                        {
+
+                            $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                                'ipaddress' => $ipaddress,
+                                'softwareid' => $softwareid
+                            ));
+                        }
+                    }
+                    else
+                    {
+
+                        $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                            'ipaddress' => $ipaddress,
+                            'softwareid' => $softwareid
+                        ));
+
+                        if ($processid == false)
+                        {
+
+                            $this->redirectError('Process failed to be created', $ipaddress);
+                        }
+
+                        Flight::redirect('/processes/' . $processid);
+                    }
                 }
             }
         }

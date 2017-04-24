@@ -28,6 +28,18 @@ class Clear extends BaseClass implements Structure
     }
 
     /**
+     * The configuration of this operation
+     */
+
+    public function configuration()
+    {
+
+        array(
+            'allowsoftwares' => false
+        );
+    }
+
+    /**
      * Called when the process is created
      *
      * @param $timecompleted

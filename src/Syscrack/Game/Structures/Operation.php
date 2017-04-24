@@ -14,6 +14,14 @@ interface Operation
 {
 
     /**
+     * Returns the operations configuration
+     *
+     * @return array
+     */
+
+    public function configuration();
+
+    /**
      * Called when a process is created
      *
      * @param $timecompleted

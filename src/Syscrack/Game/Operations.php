@@ -309,13 +309,47 @@ class Operations
      *
      * @param $process
      *
-     * @return mixed|null
+     * @return Operation
      */
 
     public function findProcessClass( $process )
     {
 
         return $this->factory->findClass( $process );
+    }
+
+    /**
+     * Returns true if this operation allows softwares
+     *
+     * @param $process
+     *
+     * @return bool
+     */
+
+    public function allowSoftwares( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['allowsoftwares'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $class->configuration()['allowsoftwares'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
     }
 
     /**

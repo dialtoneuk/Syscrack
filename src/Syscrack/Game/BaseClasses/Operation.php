@@ -75,6 +75,18 @@ class Operation
     }
 
     /**
+     * Gets the configuration of this operation
+     */
+
+    public function configuration()
+    {
+
+        array(
+            'allowsoftwares' => true
+        );
+    }
+
+    /**
      * Checks the data given to the operation and returns false is a requirement isn't set
      *
      * @param array $data

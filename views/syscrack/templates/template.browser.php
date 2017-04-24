@@ -1,8 +1,7 @@
 <?php
 
-    use Framework\Syscrack\Game\NPC;
-    use Framework\Application\Settings;
     use Framework\Syscrack\Game\Internet;
+    use Framework\Syscrack\Game\NPC;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
     $npc = new NPC();
@@ -36,72 +35,22 @@
             </span>
         </div><!-- /input-group -->
         <div class="panel panel-default" style="margin-top: 2.5%">
-            <div class="panel-body">
+            <div class="panel-body" style="background: black; color: limegreen; text-decoration: none;">
                 <?php
 
                     $computer = $internet->getComputer( $ipaddress );
 
-                    if( $npc->isNPC( $computer->computerid ) )
-                    {
-
-                        if( $npc->hasPage( $computer->computerid ) )
-                        {
-
-                            $npc->renderNPCPage( $computer->computerid );
-                        }
-                        else
-                        {
-
-                            ?>
-                                <p>
-                                    NPC Server
-                                </p>
-                            <?php
-
-                        }
-                    }
-                    else
-                    {
-
-                        if( $computer->type == Settings::getSetting('syscrack_vpc_type') )
-                        {
-
-                            ?>
-                                <p>
-                                    VPC Server
-                                </p>
-                            <?php
-
-                        }
-                        elseif( $computer->type == Settings::getSetting('syscrack_bank_type') )
-                        {
-
-                            ?>
-                                <p>
-                                    Bank Server
-                                </p>
-                            <?php
-                        }
-                        elseif( $computer->type == Settings::getSetting('syscrack_bitcoin_type') )
-                        {
-
-                            ?>
-                                <p>
-                                    Bitcoin Server
-                                </p>
-                            <?php
-                        }
-                        elseif( $computer->type == Settings::getSetting('syscrack_market_type') )
-                        {
-
-                            ?>
-                                <p>
-                                    Server
-                                </p>
-                            <?php
-                        }
-                    }
                 ?>
+
+                <p>
+                    $ view <?=$ipaddress?>
+                </p>
+                <p>
+                    ==[ Please Choose An Action ]==
+                </p>
+                <p>
+                    $ <a style="color: limegreen;" href="/game/internet/<?=$ipaddress?>/login">login</a>
+                </p>
             </div>
             <div class="panel-footer">
                 <?php echo strtoupper( $pagehelper->getComputerType( $internet->getComputer( $ipaddress )->computerid ) ); echo ' <small>' . date('d-M-y H:m:s') . '</small>';?>
