@@ -125,7 +125,7 @@
                     else
                     {
 
-                        $this->getRender('page.processes', array('processid' => $processid, 'processclass' => $this->operations, 'auto' => true));
+                        $this->getRender('page.process', array('processid' => $processid, 'processclass' => $this->operations, 'auto' => true));
                     }
                 }
             }
@@ -192,6 +192,6 @@
         private function getRender($file, array $array = null)
         {
 
-            Flight::render(Settings::getSetting('syscrack_view_location') . $file, $array);
+            Flight::render( Settings::getSetting('syscrack_view_location') . $file, $array);
         }
     }

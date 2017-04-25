@@ -20,14 +20,6 @@
 ?>
 <div class="col-md-8">
     <form method="post" action="/game/internet/">
-
-        <?php
-
-        if( isset( $_GET['error'] ) )
-            Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
-        elseif( isset( $_GET['success'] ) )
-            Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
-        ?>
         <div class="input-group">
             <input type="text" class="form-control" id="ipaddress" name="ipaddress" placeholder="<?php if( isset( $ipaddress ) ){ echo $ipaddress; } else { echo $internet->getComputerAddress( \Framework\Application\Settings::getSetting('syscrack_whois_computer')); }?>">
             <span class="input-group-btn">

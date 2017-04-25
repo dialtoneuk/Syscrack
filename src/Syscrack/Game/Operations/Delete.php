@@ -28,6 +28,18 @@ class Delete extends BaseClass implements Structure
     }
 
     /**
+     * Returns the configuration
+     *
+     * @return array
+     */
+
+    public function configuration()
+    {
+
+        return parent::configuration();
+    }
+
+    /**
      * Called when this process request is created
      *
      * @param $timecompleted

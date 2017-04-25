@@ -32,14 +32,17 @@
                 Flight::render('syscrack/templates/template.navigation');
             ?>
             <div class="row">
+                <div class="col-lg-12">
+                    <?php
 
-                <?php
-
-                    if( isset( $_GET['error'] ) )
-                        Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
-                    elseif( isset( $_GET['success'] ) )
-                        Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
-                ?>
+                        if( isset( $_GET['error'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
+                        elseif( isset( $_GET['success'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
+                    ?>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-12" onclick="window.location.href = '/game/computer/'">
                     <h1 class="page-header">
                         <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
@@ -55,7 +58,7 @@
                     
                     <?php
                     
-                        Flight::render('syscrack/templates/template.softwares', array('ipaddress' => $currentcomputer->ipaddress, 'computer' => $computer, 'hideoptions' => true ) );
+                        Flight::render('syscrack/templates/template.softwares', array('ipaddress' => $currentcomputer->ipaddress, 'computer' => $computer, 'hideoptions' => false, "local" => true ) );
                     ?>
                 </div>
             </div>

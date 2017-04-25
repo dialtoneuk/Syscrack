@@ -81,8 +81,9 @@ class Operation
     public function configuration()
     {
 
-        array(
-            'allowsoftwares' => true
+        return array(
+            'allowsoftwares'    => true,
+            'allowlocal'        => true,
         );
     }
 
@@ -229,7 +230,7 @@ class Operation
             $path = Settings::getSetting('syscrack_game_page');
         }
 
-        if( $ipaddress !== null )
+        if( $ipaddress != null )
         {
 
             Flight::redirect('/' . $path . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?success');

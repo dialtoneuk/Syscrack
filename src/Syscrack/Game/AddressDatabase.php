@@ -168,10 +168,16 @@ class AddressDatabase
     public function saveDatabase( $userid=null )
     {
 
-        if( $userid !=null)
-            FileSystem::writeJson( $this->getFile( $userid ), $this->database );
-        else
+        if( $userid == null )
+        {
+
             FileSystem::writeJson( $this->getFile( $this->userid ), $this->database );
+        }
+        else
+        {
+
+            FileSystem::writeJson( $this->getFile(  $userid ), $this->database );
+        }
     }
 
     /**

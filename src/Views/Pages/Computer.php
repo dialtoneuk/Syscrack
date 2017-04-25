@@ -13,6 +13,9 @@
     use Framework\Application\Container;
     use Framework\Application\Session;
     use Framework\Application\Settings;
+    use Framework\Exceptions\ViewException;
+    use Framework\Syscrack\Game\Operations;
+    use Framework\Syscrack\Game\Structures\Operation;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -26,7 +29,7 @@
         public function __construct()
         {
 
-            parent::__construct();
+            parent::__construct( true );
 
             if (session_status() !== PHP_SESSION_ACTIVE)
             {
@@ -119,12 +122,80 @@
         public function computerAction( $process )
         {
 
+            $operations = new Operations();
 
+            if( $operations->hasProcessClass( $process ) == false )
+            {
+
+                $this->redirectError('Action not found');
+            }
+            else
+            {
+                if( $operations->allowLocal( $process ) == false )
+                {
+
+                    $this->redirectError('Action cannot be preformed on a local machine');
+                }
+
+                $class = $operations->findProcessClass($process);
+
+                if ($class instanceof Operation == false)
+                {
+
+                    throw new ViewException();
+                }
+
+                $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null );
+
+                if( $completiontime == null )
+                {
+
+                    $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                        'ipaddress' => $this->getCurrentComputerAddress()
+                    ));
+
+                    if( $result == false )
+                    {
+
+                        $this->redirectError('Process failed');
+                    }
+                    else
+                    {
+
+                        $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                            'ipaddress' => $this->getCurrentComputerAddress(),
+                            'redirect'  => 'computer'
+                        ));
+                    }
+                }
+                else
+                {
+
+                    $processid = $operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                        'ipaddress' => $this->getCurrentComputerAddress(),
+                        'redirect' => 'computer'
+                    ));
+
+                    if ($processid == false)
+                    {
+
+                        $this->redirectError('Process failed to be created');
+                    }
+
+                    Flight::redirect('/processes/' . $processid);
+                }
+            }
         }
 
         public function computerSoftwareAction( $process, $softwareid )
         {
 
 
+        }
+
+        private function getCurrentComputerAddress()
+        {
+
+            return $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress;
         }
     }

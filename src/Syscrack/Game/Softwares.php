@@ -225,7 +225,7 @@ class Softwares
     }
 
     /**
-     * Copys a software
+     * Copys a software from one computer to another
      *
      * @param $targetid
      *
@@ -233,10 +233,12 @@ class Softwares
      *
      * @param $userid
      *
+     * @param bool $installed
+     *
      * @return int
      */
 
-    public function copySoftware( $targetid, $computerid, $userid )
+    public function copySoftware( $targetid, $computerid, $userid, $installed=false )
     {
 
         $software = $this->database->getSoftware( $targetid );
@@ -250,7 +252,7 @@ class Softwares
             'type'          => $software->type,
             'softwarename'  => $software->softwarename,
             'lastmodified'  => time(),
-            'installed'     => $software->installed,
+            'installed'     => $installed,
             'data'          => $software->data
         );
 

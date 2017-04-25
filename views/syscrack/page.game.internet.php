@@ -1,7 +1,7 @@
 <?php
 
-    use Framework\Application\Settings;
     use Framework\Application\Container;
+    use Framework\Application\Settings;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
@@ -33,6 +33,17 @@
 
                 Flight::render('syscrack/templates/template.navigation');
             ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <?php
+
+                        if( isset( $_GET['error'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
+                        elseif( isset( $_GET['success'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
+                    ?>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
 

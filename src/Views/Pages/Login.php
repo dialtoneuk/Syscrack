@@ -14,7 +14,7 @@
     use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
-    use Framework\Exceptions\SyscrackException;
+    use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Login\Account;
     use Framework\Views\BaseClasses\Page as BaseClass;
@@ -152,7 +152,7 @@
             if ($computer->userHasComputers($userid) == false)
             {
 
-                throw new SyscrackException('User has no computer');
+                throw new ViewException('User has no computer');
             }
 
             $computer->setCurrentUserComputer($computer->getUserMainComputer($userid)->computerid);

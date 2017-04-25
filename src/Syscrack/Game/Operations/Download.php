@@ -28,6 +28,21 @@ class Download extends BaseClass implements Structure
     }
 
     /**
+     * Returns the configuration
+     *
+     * @return array
+     */
+
+    public function configuration()
+    {
+
+        return array(
+            'allowsoftwares'    => true,
+            'allowlocal'        => false
+        );
+    }
+
+    /**
      * Called when this process request is created
      *
      * @param $timecompleted
@@ -142,7 +157,7 @@ class Download extends BaseClass implements Structure
      * @return int
      */
 
-    public function getCompletionSpeed($computerid, $process, $softwareid=null)
+    public function getCompletionSpeed($computerid, $process, $softwareid)
     {
 
         if( $this->softwares->softwareExists( $softwareid ) == false )

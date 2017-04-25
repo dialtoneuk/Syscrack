@@ -34,8 +34,9 @@ class Clear extends BaseClass implements Structure
     public function configuration()
     {
 
-        array(
-            'allowsoftwares' => false
+        return array(
+            'allowsoftwares'    => false,
+            'allowlocal'        => true
         );
     }
 
@@ -105,7 +106,7 @@ class Clear extends BaseClass implements Structure
         if( isset( $data['redirect'] ) )
         {
 
-            $this->redirectSuccess(''. $data['redirect'] );
+            $this->redirectSuccess( null, $data['redirect'] );
         }
         else
         {

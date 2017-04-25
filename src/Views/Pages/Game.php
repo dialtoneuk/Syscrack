@@ -2,9 +2,9 @@
     namespace Framework\Views\Pages;
 
     /**
-     * Lewis Lancaster 2016
+     * Lewis Lancaster 2017
      *
-     * Class Error
+     * Class Game
      *
      * @package Framework\Views\Pages
      */
@@ -14,7 +14,7 @@
     use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
-    use Framework\Exceptions\SyscrackException;
+    use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Game\Operations;
     use Framework\Syscrack\Game\Structures\Operation;
     use Framework\Views\BaseClasses\Page as BaseClass;
@@ -23,6 +23,10 @@
     class Game extends BaseClass implements Page
     {
 
+
+        /**
+         * @var Operations
+         */
 
         protected $operations;
 
@@ -184,7 +188,7 @@
                 if ($this->validAddress() == false)
                 {
 
-                    $this->redirectError('404 Not Found');
+                    $this->redirectError('404 Not Found', null, 'internet' );
                 }
 
                 $this->getRender('page.game.internet', array('ipaddress' => PostHelper::getPostData('ipaddress')));
@@ -248,7 +252,7 @@
             if ($this->validAddress($ipaddress) == false)
             {
 
-                $this->redirectError('404 Not Found');
+                $this->redirectError('404 Not Found', null, 'internet' );
             }
             else
             {
@@ -266,7 +270,7 @@
                 if ($class instanceof Operation == false)
                 {
 
-                    throw new SyscrackException();
+                    throw new ViewException();
                 }
 
                 $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null);
@@ -281,7 +285,7 @@
                     if ($result == false)
                     {
 
-                        $this->redirectError('Unable to create process', $ipaddress);
+                        $this->redirectError('Unable to preform action', $ipaddress);
                     }
                     else
                     {
@@ -325,7 +329,7 @@
             if ($this->validAddress($ipaddress) == false)
             {
 
-                $this->redirectError('404 Not Found');
+                $this->redirectError('404 Not Found', null, 'internet' );
             }
             else
             {
@@ -369,10 +373,10 @@
                     if ($class instanceof Operation == false)
                     {
 
-                        throw new SyscrackException();
+                        throw new ViewException();
                     }
 
-                    $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null);
+                    $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process,  $softwareid );
 
                     if ($completiontime == null)
                     {
@@ -428,7 +432,7 @@
             if ($this->validAddress($ipaddress) == false)
             {
 
-                $this->redirectError('404 Not Found');
+                $this->redirectError('404 Not Found', null, 'internet' );
             }
 
             $this->getRender('page.game.internet', array('ipaddress' => $ipaddress));
@@ -442,13 +446,21 @@
          * @param string $ipaddress
          */
 
-        public function redirectError( $message='', $ipaddress='' )
+        public function redirectError( $message='', $ipaddress=null, $path=null )
         {
 
-            if( $ipaddress !== '' )
+            if( $ipaddress !== null )
             {
 
                 Flight::redirect('/' . Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?error=' . $message);
+
+                exit;
+            }
+
+            if( $path !== null )
+            {
+
+                Flight::redirect('/' . Settings::getSetting('syscrack_game_page') . '/' . $path . '/?error=' . $message );
 
                 exit;
             }

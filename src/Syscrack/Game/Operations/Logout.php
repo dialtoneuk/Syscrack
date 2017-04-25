@@ -33,8 +33,9 @@ class Logout extends BaseClass implements Structure
     public function configuration()
     {
 
-        array(
-            'allowsoftwares' => false
+        return array(
+            'allowsoftwares'    => false,
+            'allowlocal'        => false
         );
     }
 

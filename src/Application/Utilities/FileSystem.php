@@ -300,14 +300,8 @@ class FileSystem
 	 * @param $path
 	 */
 
-	public static function createDirectory( $path, $access=null )
+	public static function createDirectory( $path )
 	{
-
-        if( $access == null )
-        {
-
-            $access = Settings::getSetting('filesystem_default_access');
-        }
 
 	    if( substr( $path, -1 ) == '/' )
         {
@@ -315,7 +309,7 @@ class FileSystem
             $path = substr( $path, 0, -1);
         }
 
-        mkdir( self::getFilePath( $path ), $access, true);
+        mkdir( self::getFilePath( $path ) );
 	}
 
     /**

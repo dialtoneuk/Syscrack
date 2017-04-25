@@ -38,6 +38,18 @@ class Install extends BaseClass implements Structure
     }
 
     /**
+     * Returns the configuration
+     *
+     * @return array
+     */
+
+    public function configuration()
+    {
+
+        return parent::configuration();
+    }
+
+    /**
      * Called when a process with the corresponding operation is created
      *
      * @param $timecompleted

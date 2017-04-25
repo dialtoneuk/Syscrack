@@ -3,8 +3,8 @@
 
     use Framework\Application\Container;
     use Framework\Syscrack\Game\Computer;
-    use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Syscrack\Game\Log;
+    use Framework\Syscrack\Game\Utilities\PageHelper;
 
     $computer = new Computer();
 
@@ -36,14 +36,6 @@
                 Flight::render('syscrack/templates/template.navigation');
             ?>
             <div class="row">
-
-                <?php
-
-                    if( isset( $_GET['error'] ) )
-                        Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
-                    elseif( isset( $_GET['success'] ) )
-                        Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
-                ?>
                 <div class="col-lg-12">
                     <h1 class="page-header" style="cursor: hand" onclick="window.location.href = '/game/computer/'">
                         <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
@@ -62,14 +54,14 @@
                         Flight::render('syscrack/templates/template.log', array( 'ipaddress' => $currentcomputer->ipaddress, 'log' => $log, 'hideoptions' => true ))
                     ?>
 
-                    <form method="post">
-                        <button name="action" value="clear" style="width: 100%;" class="btn btn-danger" type="submit">
+                    <div class="btn-group-vertical" style="width: 100%;">
+                        <button class="btn btn-danger" type="button" onclick="window.location.href = '/computer/actions/clear'">
                             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Clear Log
                         </button>
-                    </form>
-                    <button style="width: 100%;" class="btn btn-success" type="button" onclick="window.location.href = '/game/computer/log'">
-                        <span class="glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></span> Refresh Log
-                    </button>
+                        <button class="btn btn-success" type="button" onclick="window.location.href = '/computer/log'">
+                            <span class="glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></span> Refresh Log
+                        </button>
+                    <div>
                 </div>
             </div>
 

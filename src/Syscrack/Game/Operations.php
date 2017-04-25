@@ -353,6 +353,40 @@ class Operations
     }
 
     /**
+     * Returns true if this operation can be ran on the local users computer
+     *
+     * @param $process
+     *
+     * @return bool
+     */
+
+    public function allowLocal( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['allowlocal'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $class->configuration()['allowlocal'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Calls a method inside the process class
      *
      * @param Operation $process

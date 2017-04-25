@@ -83,8 +83,8 @@
 
             <div class="row" id="stats">
                 <div class="col-lg-12">
-                    <div class="jumbotron" style="padding: 0; box-shadow: #0f0f0f ">
-                        <div style="position: absolute; width: 100%; height: 100%; padding: 2.5%; color:white; z-index: 2;">
+                    <div class="jumbotron" style="height: 375px; padding: 5px; margin: 0; box-shadow: #0f0f0f ">
+                        <div style="position: absolute; width: 95%; padding-left: 2.5%; padding-right: 2.5%; height: 365px; color:white; z-index: 2;">
                             <h1>
                                 SC:\\ <?=\Framework\Application\Settings::getSetting('syscrack_game_name')?>
                             </h1>
@@ -106,11 +106,14 @@
                                         <p>
                                             <?=$stats->getStatistic('hacks')?> Hacks
                                         </p>
+                                        <p>
+                                            Running for 0:24:60:60
+                                        </p>
                                     <?php
                                 }
                             ?>
                         </div>
-                        <div id="earth" style="width: 100%; height: 40%; position: absolute; z-index: 1; background: black;"></div>
+                        <div id="earth" style="width: 100%; height: 365px; position: absolute; z-index: 1; background: black;"></div>
                     </div>
                 </div>
                 <script>
@@ -151,10 +154,8 @@
                     var bingKey = 'AsLurrtJotbxkJmnsefUYbatUuBkeBTzTL930TvcOekeG8SaQPY9Z5LDKtiuzAOu';
 
                     bingA = earth.initMap(WebGLEarth.Maps.BING, ['Aerial', bingKey]);
-                    bingAWL = earth.initMap(WebGLEarth.Maps.BING, ['AerialWithLabels', bingKey]);
-                    bingR = earth.initMap(WebGLEarth.Maps.BING, ['Road', bingKey]);
 
-                    earth.setBaseMap(bingAWL);
+                    earth.setBaseMap(bingA);
 
                     requestAnimationFrame(function animate(now) {
                         var c = earth.getPosition();
@@ -186,12 +187,12 @@
                     });
                 </script>
             </div>
-            <div class="row">
+            <div class="row" style="margin-top: 2.5%;">
                 <div class="col-lg-6">
-                    <h2 class="page-header">
-                        VPC's
-                    </h2>
                     <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Virtual Computers
+                        </div>
                         <div class="panel-body">
 
                             <?php
@@ -250,12 +251,16 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <h2 class="page-header">
-                        News
-                    </h2>
-                    <h2 class="page-header">
-                        Internets Most Wanted
-                    </h2>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            News
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                There is no news to report...
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 

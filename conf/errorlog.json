@@ -959,5 +959,113 @@
         },
         "timestamp": 1493101835,
         "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/game\/internet\/235.219.242.196\/download\/1",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations\\Download.php(154): Framework\\Application\\Settings::getSetting('syscrack_downlo...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Pages\\Game.php(375): Framework\\Syscrack\\Game\\Operations\\Download->getCompletionSpeed(2, 'download', '1')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(208): Framework\\Views\\Pages\\Game->processSoftware('235.219.242.196', 'download', '1')\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#11 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#12 C:\\xampp\\htdocs\\index.php(193): Framework\\Application->runFlight()\n#13 {main}"
+        },
+        "timestamp": 1493112610,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "syntax error, unexpected ';', expecting ',' or ')'",
+        "type": "rendererror",
+        "details": {
+            "url": "\/computer\/actions\/clear",
+            "line": 375,
+            "file": "C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations.php",
+            "trace": "#0 C:\\xampp\\htdocs\\vendor\\composer\\ClassLoader.php(322): Composer\\Autoload\\includeFile('C:\\\\xampp\\\\htdocs...')\n#1 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('Framework\\\\Syscr...')\n#2 C:\\xampp\\htdocs\\src\\Views\\Pages\\Computer.php(125): spl_autoload_call('Framework\\\\Syscr...')\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): Framework\\Views\\Pages\\Computer->computerAction('clear')\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#12 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#13 C:\\xampp\\htdocs\\index.php(193): Framework\\Application->runFlight()\n#14 {main}"
+        },
+        "timestamp": 1493114003,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/computer\/actions\/clear",
+            "line": 375,
+            "file": "C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Pages\\Computer.php(134): Framework\\Syscrack\\Game\\Operations->allowLocal('clear')\n#1 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): Framework\\Views\\Pages\\Computer->computerAction('clear')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#11 C:\\xampp\\htdocs\\index.php(193): Framework\\Application->runFlight()\n#12 {main}"
+        },
+        "timestamp": 1493114011,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/computer\/actions\/clear",
+            "line": 375,
+            "file": "C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Pages\\Computer.php(134): Framework\\Syscrack\\Game\\Operations->allowLocal('clear')\n#1 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): Framework\\Views\\Pages\\Computer->computerAction('clear')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#11 C:\\xampp\\htdocs\\index.php(193): Framework\\Application->runFlight()\n#12 {main}"
+        },
+        "timestamp": 1493114049,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/computer\/actions\/clear",
+            "line": 375,
+            "file": "C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Pages\\Computer.php(134): Framework\\Syscrack\\Game\\Operations->allowLocal('clear')\n#1 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): Framework\\Views\\Pages\\Computer->computerAction('clear')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#11 C:\\xampp\\htdocs\\index.php(193): Framework\\Application->runFlight()\n#12 {main}"
+        },
+        "timestamp": 1493114057,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/computer\/actions\/clear",
+            "line": 375,
+            "file": "C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Pages\\Computer.php(134): Framework\\Syscrack\\Game\\Operations->allowLocal('clear')\n#1 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): Framework\\Views\\Pages\\Computer->computerAction('clear')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#11 C:\\xampp\\htdocs\\index.php(193): Framework\\Application->runFlight()\n#12 {main}"
+        },
+        "timestamp": 1493114059,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Undefined index: allowslocal",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/computer\/actions\/clear",
+            "line": 381,
+            "file": "C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations.php(381): flight\\Engine->handleError(8, 'Undefined index...', 'C:\\\\xampp\\\\htdocs...', 381, Array)\n#1 C:\\xampp\\htdocs\\src\\Views\\Pages\\Computer.php(134): Framework\\Syscrack\\Game\\Operations->allowLocal('clear')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): Framework\\Views\\Pages\\Computer->computerAction('clear')\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#11 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#12 C:\\xampp\\htdocs\\index.php(193): Framework\\Application->runFlight()\n#13 {main}"
+        },
+        "timestamp": 1493114095,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "computer",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/processes\/6\/complete",
+            "line": 109,
+            "file": "C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations\\Clear.php",
+            "trace": "#0 [internal function]: Framework\\Syscrack\\Game\\Operations\\Clear->onCompletion(1493114337, 1493114327, 2, 2, 'clear', Array)\n#1 C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations.php(417): call_user_func_array(Array, Array)\n#2 C:\\xampp\\htdocs\\src\\Syscrack\\Game\\Operations.php(244): Framework\\Syscrack\\Game\\Operations->callProcessMethod(Object(Framework\\Syscrack\\Game\\Operations\\Clear), 'onCompletion', Array)\n#3 C:\\xampp\\htdocs\\src\\Views\\Pages\\Processes.php(177): Framework\\Syscrack\\Game\\Operations->completeProcess('6')\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(200): Framework\\Views\\Pages\\Processes->completeProcess('6')\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#12 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#13 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#14 C:\\xampp\\htdocs\\index.php(193): Framework\\Application->runFlight()\n#15 {main}"
+        },
+        "timestamp": 1493114337,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Undefined index: $computerid",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/game\/addressbook",
+            "line": 11,
+            "file": "C:\\xampp\\htdocs\\views\\syscrack\\templates\\template.address.php",
+            "trace": "#0 C:\\xampp\\htdocs\\views\\syscrack\\templates\\template.address.php(11): flight\\Engine->handleError(8, 'Undefined index...', 'C:\\\\xampp\\\\htdocs...', 11, Array)\n#1 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\template\\View.php(125): include('C:\\\\xampp\\\\htdocs...')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(455): flight\\template\\View->render('syscrack\/templa...', Array)\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(204): flight\\Engine->_render('syscrack\/templa...', Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('render', Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(204): flight\\Engine->__call('render', Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 C:\\xampp\\htdocs\\views\\syscrack\\page.game.addressbook.php(140): Flight::__callStatic('render', Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\template\\View.php(125): include('C:\\\\xampp\\\\htdocs...')\n#11 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(455): flight\\template\\View->render('syscrack\/page.g...', NULL)\n#12 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(204): flight\\Engine->_render('syscrack\/page.g...', NULL)\n#13 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#14 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#15 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('render', Array)\n#16 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(204): flight\\Engine->__call('render', Array)\n#17 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#18 C:\\xampp\\htdocs\\src\\Views\\Pages\\Game.php(161): Flight::__callStatic('render', Array)\n#19 C:\\xampp\\htdocs\\src\\Views\\Pages\\Game.php(171): Framework\\Views\\Pages\\Game->getRender('page.game.addre...')\n#20 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): Framework\\Views\\Pages\\Game->addressBook()\n#21 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#22 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#23 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#24 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#25 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#26 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#27 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#28 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#29 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#30 C:\\xampp\\htdocs\\index.php(193): Framework\\Application->runFlight()\n#31 {main}"
+        },
+        "timestamp": 1493159995,
+        "ip": "192.168.0.107"
     }
 ]

@@ -1,11 +1,11 @@
 <?php
 
-    use Framework\Syscrack\Game\NPC;
-    use Framework\Syscrack\Game\Internet;
-    use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Syscrack\Game\Computer;
-    use Framework\Syscrack\Game\Softwares;
+    use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Log;
+    use Framework\Syscrack\Game\NPC;
+    use Framework\Syscrack\Game\Softwares;
+    use Framework\Syscrack\Game\Utilities\PageHelper;
 
     $npc = new NPC();
 
@@ -29,12 +29,6 @@
 ?>
 <div class="col-md-8">
     <?php
-
-        if( isset( $_GET['error'] ) )
-            Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
-        elseif( isset( $_GET['success'] ) )
-            Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
-
         if( $internet->getComputerAddress( $computer->getCurrentUserComputer() ) == $ipaddress )
         {
 

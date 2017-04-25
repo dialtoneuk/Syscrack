@@ -118,7 +118,7 @@ class Startup
             return;
         }
 
-        $addressdatabase->saveDatabase( [] );
+        $addressdatabase->saveDatabase( $userid );
     }
 
     /**

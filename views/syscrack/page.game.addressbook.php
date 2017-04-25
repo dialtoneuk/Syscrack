@@ -64,63 +64,81 @@
 
                         <?php
 
-                            $addresses = $addressbook->getDatabase( $session->getSessionUser() );
+                            $addresses = array_reverse( $addressbook->getDatabase( $session->getSessionUser() ) );
 
                             $removed = [];
 
-                            foreach( $addresses as $key=>$value )
-                            {
-
-                                if( $internet->ipExists( $value['ipaddress'] ) == false )
-                                {
-
-                                    $removed[] = array(
-                                        'ipaddress' => $value['ipaddress'],
-                                        'reason'    => 'Not Responding'
-                                    );
-
-                                    $addressbook->removeComputer( $value['computerid'] );
-
-                                    $addressbook->saveDatabase();
-                                }
-                            }
-
-                            if( empty( $removed ) == false )
+                            if( empty( $addresses ) )
                             {
 
                                 ?>
-                                <div class="panel panel-danger">
-                                    <div class="panel-heading">
-                                        Attention!
+                                    <div class="panel panel-danger">
+                                        <div class="panel-heading">
+                                            Addressbook Empty
+                                        </div>
+                                        <div class="panel-body">
+                                            Your addressbook appears to be empty, go hack somebody!
+                                        </div>
                                     </div>
-                                    <div class="panel-body">
-
-                                        <?php
-
-                                        foreach( $removed as $value )
-                                        {
-
-                                            ?>
-
-                                            <p>
-                                                IP [<?=$value['ipaddress']?>] Removed < <?=$value['reason']?> >
-                                            </p>
-                                            <?php
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
                                 <?php
                             }
-
-                            $addresses = $addressbook->getDatabase( $session->getSessionUser() );
-
-                            array_reverse( $addresses );
-
-                            foreach( $addresses as $key=>$value )
+                            else
                             {
 
-                                Flight::render('syscrack/templates/template.address', array('key' => $key, 'value' => $value, 'computer' => $computer ) );
+                                foreach( $addresses as $key=>$value )
+                                {
+
+                                    if( $internet->ipExists( $value['ipaddress'] ) == false )
+                                    {
+
+                                        $removed[] = array(
+                                            'ipaddress' => $value['ipaddress'],
+                                            'reason'    => 'Not Responding'
+                                        );
+
+                                        $addressbook->removeComputer( $value['computerid'] );
+
+                                        $addressbook->saveDatabase();
+                                    }
+                                }
+
+                                if( empty( $removed ) == false )
+                                {
+
+                                    ?>
+                                    <div class="panel panel-danger">
+                                        <div class="panel-heading">
+                                            Attention!
+                                        </div>
+                                        <div class="panel-body">
+
+                                            <?php
+
+                                                foreach( $removed as $value )
+                                                {
+
+                                                    ?>
+
+                                                    <p>
+                                                        IP [<?=$value['ipaddress']?>] Removed < <?=$value['reason']?> >
+                                                    </p>
+                                                    <?php
+                                                }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+
+                                $addresses = $addressbook->getDatabase( $session->getSessionUser() );
+
+                                array_reverse( $addresses );
+
+                                foreach( $addresses as $key=>$value )
+                                {
+
+                                    Flight::render('syscrack/templates/template.address', array('key' => $key, 'value' => $value, 'computer' => $computer ) );
+                                }
                             }
                         ?>
                     </div>

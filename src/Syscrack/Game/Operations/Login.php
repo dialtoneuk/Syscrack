@@ -33,8 +33,9 @@ class Login extends BaseClass implements Structure
     public function configuration()
     {
 
-        array(
-            'allowsoftwares' => false
+        return array(
+            'allowsoftwares'    => false,
+            'allowlocal'        => false
         );
     }
 
@@ -106,7 +107,7 @@ class Login extends BaseClass implements Structure
             if( $this->internet->getCurrentConnectedAddress() == $data['ipaddress'] )
             {
 
-                $this->redirectError('You are already logged into this computer');
+                $this->redirectError('You are already logged into this computer', $data['ipaddress'] );
             }
             else
             {

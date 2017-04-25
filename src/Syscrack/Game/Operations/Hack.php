@@ -36,6 +36,19 @@ class Hack extends BaseClass implements Structure
     }
 
     /**
+     * The configuration of this operation
+     */
+
+    public function configuration()
+    {
+
+        return array(
+            'allowsoftwares'    => false,
+            'allowlocal'        => false
+        );
+    }
+
+    /**
      * Called when this process request is created
      *
      * @param $timecompleted
