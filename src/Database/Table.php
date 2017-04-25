@@ -9,9 +9,9 @@ namespace Framework\Database;
  * @package Framework\Database
  */
 
+use Exception;
 use Framework\Exceptions\DatabaseException;
 use ReflectionClass;
-use Exception;
 
 class Table
 {
@@ -54,19 +54,19 @@ class Table
 		if( $table === null )
 		{
 
-			$table = self::getShortName( new ReflectionClass( $this ) );
+			$table = strtolower( self::getShortName( new ReflectionClass( $this ) ) );
 		}
 
 		if( $this->database->table( $table )->exists() == false )
 		{
 
-			if( $this->database->table( strtolower( $table ) )->exists() == false )
+			if( $this->database->table( $table )->exists() == false )
 			{
 
 				try
 				{
 
-					$this->database->table( strtolower( $table ) )->get();
+					$this->database->table( $table )->get();
 				}
 				catch( Exception $error )
 				{
@@ -74,12 +74,12 @@ class Table
 					throw new DatabaseException();
 				}
 
-				return $this->database->table( strtolower( $table ) );
+				return $this->database->table( $table );
 			}
 			else
 			{
 
-				return $this->database->table( strtolower( $table ) );
+				return $this->database->table( $table );
 			}
 		}
 		else

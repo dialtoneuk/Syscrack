@@ -10,6 +10,7 @@ namespace Framework\Views\Middleware;
  */
 
 use Flight;
+use Framework\Application\Settings;
 use Framework\Database\Manager;
 use Framework\Views\Structures\Middleware;
 
@@ -18,6 +19,12 @@ class DatabaseCheck implements Middleware
 
     public function onRequest()
     {
+
+        if( $_SERVER['REQUEST_URI'] !== Settings::getSetting('controller_index_root') && array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == 'framework' )
+        {
+
+            return true;
+        }
 
         if (Manager::getCapsule() == null)
         {

@@ -13,10 +13,9 @@
     use Framework\Application\Container;
     use Framework\Application\Session;
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Operations;
-    use Framework\Views\Structures\Page;
     use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Structures\Page;
 
     class Processes extends BaseClass implements Page
     {
@@ -51,7 +50,7 @@
             if (Container::getObject('session')->isLoggedIn() == false)
             {
 
-                Flight::redirect('/' . Settings::getSetting('controller_index_root'));
+                Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
 
                 exit;
             }

@@ -67,7 +67,7 @@
                 if ($this->verification->getTokenUser($_GET['token']) == null)
                 {
 
-                    Flight::redirect('/verify?error=Sorry, that token is invalid');
+                    Flight::redirect('/verify/?error=Sorry, that token is invalid');
 
                     exit;
                 }
@@ -77,7 +77,7 @@
                 if ($userid == null)
                 {
 
-                    Flight::redirect('/verify?error=Sorry, that token is invalid');
+                    Flight::redirect('/verify/?error=Sorry, that token is invalid');
 
                     exit;
                 }
@@ -85,14 +85,14 @@
                 if ($this->verification->verifyUser($_GET['token']) == false)
                 {
 
-                    Flight::redirect('/verify?error=Sorry, that token is invalid');
+                    Flight::redirect('/verify/?error=Sorry, that token is invalid');
 
                     exit;
                 }
 
                 $startup = new Startup($userid);
 
-                Flight::redirect('/login?success');
+                Flight::redirect('/login/?success');
 
                 exit;
             }

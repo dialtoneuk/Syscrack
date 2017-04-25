@@ -10,6 +10,7 @@
      */
 
     use Flight;
+    use Framework\Application\Settings;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -37,12 +38,21 @@
 
             return array(
                 [
+                    '/framework/', 'redirect'
+                ],
+                [
                     '/framework/error/database/', 'databaseError'
                 ],
                 [
-                    '/framework/error/404/', 'notFound'
+                    '/framework/404/', 'notFound'
                 ]
             );
+        }
+
+        public function redirect()
+        {
+
+            Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
         }
 
         /**

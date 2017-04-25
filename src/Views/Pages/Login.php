@@ -43,7 +43,7 @@
             if (Container::getObject('session')->isLoggedIn())
             {
 
-                Flight::redirect('/' . Settings::getSetting('controller_index_page'));
+                Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
             }
         }
 

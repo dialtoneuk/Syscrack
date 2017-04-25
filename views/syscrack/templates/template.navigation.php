@@ -13,15 +13,20 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="/">Syscrack</a>
             <?php
-                if( $computer->hasCurrentComputer() )
+
+                if( $session->isLoggedIn() )
                 {
 
-                    ?>
+                    if( $computer->hasCurrentComputer() )
+                    {
+
+                        ?>
 
                         <a class="navbar-brand" style="font-size: 12px" href="/game/computer">
                             [<?=$computer->getComputer( $computer->getCurrentUserComputer() )->ipaddress?>]
                         </a>
-                    <?php
+                        <?php
+                    }
                 }
             ?>
         </div>

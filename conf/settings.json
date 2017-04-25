@@ -23,7 +23,7 @@
     "logger_max_errors": "32",
     "controller_url_length": 4048,
     "controller_namespace": "Framework\\Views\\Pages\\",
-    "controller_index_root": "",
+    "controller_index_root": "/",
     "controller_index_page": "index",
     "controller_page_folder": "src\/Views\/Pages\/",
     "database_driver": "mysql",

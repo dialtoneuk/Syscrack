@@ -13,7 +13,6 @@
     use Framework\Application\Container;
     use Framework\Application\Session;
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Utilities\Startup;
     use Framework\Syscrack\User;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page;
@@ -47,7 +46,7 @@
             if (Container::getObject('session')->isLoggedIn() == false)
             {
 
-                Flight::redirect('/' . Settings::getSetting('controller_index_root'));
+                Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
 
                 exit;
             }
@@ -66,10 +65,7 @@
 
             return array(
                 [
-                    '/account/logout', 'logout'
-                ],
-                [
-                    '/account/restartup', 'startup'
+                    '/account/logout/', 'logout'
                 ]
             );
         }
@@ -83,14 +79,12 @@
 
             Container::getObject('session')->cleanupSession( Container::getObject('session')->getSessionUser() );
 
+            session_regenerate_id( true );
+
             session_destroy();
 
-            Flight::redirect('/' . Settings::getSetting('controller_index_root'));
-        }
+            unset($_SESSION);
 
-        public function startup()
-        {
-
-            new Startup( Container::getObject('session')->getSessionUser() );
+            Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
         }
     }
