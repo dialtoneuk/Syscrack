@@ -34,13 +34,21 @@ class Startup
         if( $autorun == true || $userid !== null  )
         {
 
+            $computerid = $this->createComputer( $userid );
+
+            if( session_status() !== PHP_SESSION_ACTIVE )
+            {
+
+                session_start();
+            }
+
+            $_SESSION['current_computer'] = $computerid;
+
             $this->createAddressDatabase( $userid );
 
             $this->createBankDatabase( $userid );
 
             $this->createFinance( $userid );
-
-            $this->createComputer( $userid );
 
             $this->createLog( $userid );
         }
@@ -49,7 +57,13 @@ class Startup
     /**
      * Creates a new computer
      *
-     * @param $userid
+     * @param null $userid
+     *
+     * @param string $type
+     *
+     * @param null $ip
+     *
+     * @return int
      */
 
     public function createComputer( $userid=null, $type='vpc', $ip=null )
@@ -63,12 +77,12 @@ class Startup
             if( $userid == null )
             {
 
-                $computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $ip );
+                return $computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $this->getIP()  );
             }
             else
             {
 
-                $computer->createComputer( $userid, $type, $ip );
+                return $computer->createComputer( $userid, $type, $this->getIP()  );
             }
         }
         else
@@ -77,12 +91,12 @@ class Startup
             if( $userid == null )
             {
 
-                $computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $this->getIP() );
+                return $computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $ip );
             }
             else
             {
 
-                $computer->createComputer( $userid, $type, $this->getIP() );
+                return $computer->createComputer( $userid, $type, $ip );
             }
         }
     }
@@ -128,9 +142,13 @@ class Startup
     }
 
     /**
-     * Creates the finance
+     * Creates the users finance
      *
      * @param $userid
+     *
+     * @param null $computerid
+     *
+     * @return bool
      */
 
     public function createFinance( $userid, $computerid=null )
@@ -141,25 +159,16 @@ class Startup
         if( $computerid == null )
         {
 
-            if( $finance->hasAccountAtComputer( $computerid, $userid))
-            {
-
-                return;
-            }
-
-            $finance->createAccount( $computerid, $userid );
+            $computerid = Settings::getSetting('syscrack_default_bank');
         }
-        else
+
+        if( $finance->hasAccount( $userid ) )
         {
 
-            if( $finance->hasAccountAtComputer( Settings::getSetting('syscrack_default_bank'), $userid))
-            {
-
-                return;
-            }
-
-            $finance->createAccount( Settings::getSetting('syscrack_default_bank'), $userid );
+            return false;
         }
+
+        $finance->createAccount( $computerid, $userid );
     }
 
     /**

@@ -10,7 +10,6 @@
      */
 
     use Flight;
-    use Framework\Application\Container;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Syscrack\Game\Utilities\Startup;
@@ -32,13 +31,6 @@
 
         public function __construct()
         {
-
-            if (Container::getObject('application')->getController()->page == Settings::getSetting('developer_page'))
-            {
-
-                return;
-            }
-
 
             $this->verification = new Verification();
         }

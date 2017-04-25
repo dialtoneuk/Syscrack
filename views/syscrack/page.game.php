@@ -210,7 +210,7 @@
                                                 <div class="panel-heading">
                                                     <?=$value->ipaddress?>
                                                     <small>
-                                                        <span class="glyphicon glyphicon-modal-window"></span> <?=$value->computerid?>
+                                                        <span class="glyphicon glyphicon-modal-window"></span>
                                                     </small>
                                                 </div>
                                                 <div class="panel-body">
@@ -231,7 +231,7 @@
                                                     <div class="panel-heading">
                                                         <?=$value->ipaddress?>
                                                         <small>
-                                                            <span class="glyphicon glyphicon-modal-window"></span> <?=$value->computerid?>
+                                                            <span class="glyphicon glyphicon-modal-window"></span>
                                                         </small>
                                                     </div>
                                                     <div class="panel-body">

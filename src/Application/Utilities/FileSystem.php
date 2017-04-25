@@ -303,12 +303,6 @@ class FileSystem
 	public static function createDirectory( $path, $access=null )
 	{
 
-	    if( is_dir( $path ) == false )
-        {
-
-            throw new ApplicationException();
-        }
-
         if( $access == null )
         {
 

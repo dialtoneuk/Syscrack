@@ -4,7 +4,7 @@
     /**
      * Lewis Lancaster 2016
      *
-     * Class Computer
+     * Class Admin
      *
      * @package Framework\Views\Pages
      */
@@ -13,20 +13,27 @@
     use Framework\Application\Container;
     use Framework\Application\Session;
     use Framework\Application\Settings;
+    use Framework\Syscrack\User;
     use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page as Structure;
+    use Framework\Views\Structures\Page;
 
-    class Computer extends BaseClass implements Structure
+    class Admin extends BaseClass implements Page
     {
 
         /**
-         * Computer constructor.
+         * @var User
+         */
+
+        protected $user;
+
+        /**
+         * Error constructor.
          */
 
         public function __construct()
         {
 
-            parent::__construct();
+            parent::__construct( true );
 
             if (session_status() !== PHP_SESSION_ACTIVE)
             {
@@ -47,6 +54,16 @@
 
                 exit;
             }
+
+            $this->user = new User();
+
+            if( $this->user->isAdmin( Container::getObject('session')->getSessionUser() ) == false )
+            {
+
+                Flight::redirect('/' . Settings::getSetting('controller_index_root'));
+
+                exit;
+            }
         }
 
         /**
@@ -60,25 +77,10 @@
 
             return array(
                 [
-                    '/computer/', 'page'
+                    '/admin/', 'page'
                 ],
                 [
-                    '/computer/log/', 'computerLog'
-                ],
-                [
-                    '/computer/software/', 'computerSoftware'
-                ],
-                [
-                    '/computer/processes/', 'computerProcesses'
-                ],
-                [
-                    '/computer/processes/@processid', 'computerViewProcess'
-                ],
-                [
-                    '/computer/actions/@process', 'computerAction'
-                ],
-                [
-                    '/computer/actions/@process/@softwareid', 'computerSoftwareAction'
+                    '/admin/npcreator/', 'npcCreator'
                 ]
             );
         }
@@ -90,41 +92,16 @@
         public function page()
         {
 
-            Flight::render('syscrack/page.computer');
+            Flight::render('views/syscrack/page.admin.php');
         }
 
-        public function computerLog()
+        /**
+         * Renders the NPC Creator page
+         */
+
+        public function npcCreator()
         {
 
-            Flight::render('syscrack/page.computer.log');
-        }
-
-        public function computerSoftware()
-        {
-
-
-        }
-
-        public function computerProcesses()
-        {
-
-
-        }
-
-        public function computerViewProcess()
-        {
-
-        }
-
-        public function computerAction( $process )
-        {
-
-
-        }
-
-        public function computerSoftwareAction( $process, $softwareid )
-        {
-
-
+            Flight::render('views/syscrack/page.admin.npcreator.php');
         }
     }

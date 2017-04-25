@@ -19,7 +19,7 @@ class AddressDatabase
      * @var mixed
      */
 
-    public $database;
+    public $database = [];
 
     /**
      * @var null
