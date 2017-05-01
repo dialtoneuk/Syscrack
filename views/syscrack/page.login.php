@@ -23,7 +23,7 @@ if( $session->isLoggedIn() )
     <body>
         <div class="container">
 
-            <div class="row">
+            <div class="row" style="margin-top: 2.5%;">
                 <div class="col-lg-12">
                     <?php
 

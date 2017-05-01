@@ -19,7 +19,7 @@
          * @var null
          */
 
-        public $keys;
+        private $keys = [];
 
         /**
          * BetaKey constructor.
@@ -78,7 +78,7 @@
         public function hasBetaKey( $betakey )
         {
 
-            if( $this->keys == null )
+            if( empty( $this->keys ) )
             {
 
                 return false;
@@ -104,7 +104,7 @@
         public function saveBetaKeys()
         {
 
-            FileSystem::write( Settings::getSetting('syscrack_betakey_location'), $this->keys );
+            FileSystem::writeJson( Settings::getSetting('syscrack_betakey_location'), $this->keys );
         }
 
         /**
@@ -122,7 +122,7 @@
                 return null;
             }
 
-            FileSystem::readJson( Settings::getSetting('syscrack_betakey_location') );
+            return FileSystem::readJson( Settings::getSetting('syscrack_betakey_location') );
         }
 
         /**

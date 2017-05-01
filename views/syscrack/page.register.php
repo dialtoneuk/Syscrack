@@ -23,7 +23,7 @@ if( $session->isLoggedIn() )
     <body>
         <div class="container">
 
-            <div class="row">
+            <div class="row" style="margin-top: 2.5%;">
                 <div class="col-lg-12">
                     <?php
 
@@ -61,6 +61,12 @@ if( $session->isLoggedIn() )
                                     'name'          => 'email',
                                     'placeholder'   => 'Email',
                                     'icon'          => 'glyphicon-envelope'
+                                ],
+                                [
+                                    'type'          => 'text',
+                                    'name'          => 'betakey',
+                                    'placeholder'   => '0001-0002-0003',
+                                    'icon'          => 'glyphicon-certificate'
                                 ]
                             ], 'form_submit_label' => 'Login' ));
                         ?>
