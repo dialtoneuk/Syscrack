@@ -16,6 +16,8 @@
         $processclass = new \Framework\Syscrack\Game\Operations();
     }
 ?>
+
+<!DOCTYPE html>
 <html>
 
     <?php

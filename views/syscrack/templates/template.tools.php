@@ -1,6 +1,6 @@
 <?php
 
-    use Framework\Application\Settings;
+    use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
@@ -15,12 +15,30 @@
 
         $pagehelper = new PageHelper();
     }
+
+    if( empty( $computer ) )
+    {
+
+        $computer = new Computer();
+    }
 ?>
 <div class="col-md-4">
 
     <?php
 
-        if( $pagehelper->alreadyHacked( $ipaddress ) )
+        if( $computer->getComputer( $computer->getCurrentUserComputer() )->ipaddress == $ipaddress )
+        {
+
+            ?>
+
+            <div class="panel panel-success">
+                <div class="panel-body text-center">
+                    You are currently viewing yourself.
+                </div>
+            </div>
+            <?php
+        }
+        elseif( $pagehelper->alreadyHacked( $ipaddress ) )
         {
 
             if( $pagehelper->isCurrentlyConnected( $ipaddress ) == false )
@@ -29,11 +47,11 @@
                 ?>
 
                     <div class="panel panel-success">
-                        <div class="panel-body">
-                            This computer is already in your hacked database
+                        <div class="panel-body text-center">
+                            This computer is already in your hacked database.
                         </div>
                     </div>
-                    <form action="/game/internet/<?=$ipaddress?>/login">
+                    <form action="/game/internet/<?=$ipaddress?>/login" method="get">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <button style="width: 100%;" class="btn btn-success" type="submit">

@@ -18,6 +18,8 @@
 
     $virus = new \Framework\Syscrack\Game\Viruses();
 ?>
+
+<!DOCTYPE html>
 <html>
 
     <?php

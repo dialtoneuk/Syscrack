@@ -55,6 +55,20 @@ class ArrayHelper
     }
 
     /**
+     * Converts an object to an array
+     *
+     * @param mixed $array
+     *
+     * @return mixed
+     */
+
+    public static function allToArray( $array )
+    {
+
+        return json_decode( json_encode( $array ), true );
+    }
+
+    /**
      * Sorts an array by a key value
      *
      * @param array $array
@@ -66,7 +80,7 @@ class ArrayHelper
      * @return array|mixed
      */
 
-    public static function sortArray( array $array, $by, $sorttype=SORT_DESC )
+    public static function sortArray( array $array, $by, $sorttype=SORT_DESC, $toarray=true )
     {
 
         if( empty( $array ) || count( $array ) == 1 )
@@ -107,6 +121,12 @@ class ArrayHelper
         {
 
             throw new ApplicationException();
+        }
+
+        if( $toarray )
+        {
+
+            return self::allToArray( $array );
         }
 
         return $array;

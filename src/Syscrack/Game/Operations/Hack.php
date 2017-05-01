@@ -103,7 +103,7 @@ class Hack extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->getHighestLevelSoftware( $victimscomputer->computerid, Settings::getSetting('syscrack_hasher_type') ) > $this->getHighestLevelSoftware( $userscomputer->computerid, Settings::getSetting('syscrack_cracler_type') ) )
+        if( $this->getHighestLevelSoftware( $victimscomputer->computerid, Settings::getSetting('syscrack_hasher_type') ) > $this->getHighestLevelSoftware( $userscomputer->computerid, Settings::getSetting('syscrack_cracker_type') ) )
         {
 
             return false;

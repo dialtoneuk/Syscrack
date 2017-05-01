@@ -23,6 +23,8 @@
 
     $processes = $operations->getComputerProcesses( $currentcomputer->computerid );
 ?>
+
+<!DOCTYPE html>
 <html>
 
     <?php

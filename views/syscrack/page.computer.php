@@ -18,6 +18,8 @@
 
     $currentcomputer = $computer->getComputer( $computer->getCurrentUserComputer() );
 ?>
+
+<!DOCTYPE html>
 <html>
 
     <?php

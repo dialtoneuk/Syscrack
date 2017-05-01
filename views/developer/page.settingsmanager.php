@@ -1,9 +1,9 @@
 <?php
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\PostHelper;
+    use Framework\Application\Settings;
+    use Framework\Application\Utilities\PostHelper;
 
-/**
+    /**
  * Lewis Lancaster 2017
  *
  * Class SettingsManager
@@ -252,12 +252,29 @@ $class = new SettingsManager();
                                                 </div>
                                             <?php
                                         }
+                                        elseif( is_array( $value ) )
+                                        {
+
+                                            ?>
+
+                                                <p class="small text-uppercase" style="color: #ababab">
+                                                    Array
+                                                </p>
+                                                <div class="input-group">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
+                                                                <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                            </span>
+                                                    <input name="<?=$key?>" type="text" class="form-control" value="<?=htmlspecialchars( json_encode( $value ) )?>">
+                                                </div>
+                                            <?php
+                                        }
                                         else
                                         {
                                             ?>
 
                                                 <p class="small text-uppercase" style="color: #ababab">
-                                                    Mixed
+                                                    String
                                                 </p>
                                                 <div class="input-group">
                                                     <span class="input-group-btn">

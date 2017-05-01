@@ -14,6 +14,8 @@
     use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
+    use Framework\Exceptions\SyscrackException;
+    use Framework\Syscrack\BetaKeys;
     use Framework\Syscrack\Register as Account;
     use Framework\Views\Structures\Page;
 
@@ -97,7 +99,9 @@
             }
 
             $username = PostHelper::getPostData('username');
+
             $password = PostHelper::getPostData('password');
+
             $email = PostHelper::getPostData('email');
 
             if (empty($username) || empty($password) || empty($email))
@@ -114,17 +118,56 @@
                 $this->redirectError('Your password is too small, it needs to be longer than ' . Settings::getSetting('registration_password_length') . ' characters');
             }
 
-            try
+            if( Settings::getSetting('user_require_betakey') == true )
             {
 
-                $result = $register->register($username, $password, $email);
-            } catch (\Exception $error)
-            {
+                $betakeys = new BetaKeys();
 
-                $this->redirectError($error->getMessage());
+                if( PostHelper::checkForRequirements(['betakey'] ) == false )
+                {
+
+                    $this->redirectError('A beta-key is required to signup');
+                }
+
+                $key = PostHelper::getPostData('betakey');
+
+                if( $betakeys->hasBetaKey( $key ) == false )
+                {
+
+                    $this->redirectError('Sorry, that key is invalid or has already been used');
+                }
+
+                try
+                {
+
+                    $result = $register->register($username, $password, $email);
+                }
+                catch( SyscrackException $error )
+                {
+
+                    $this->redirectError( $error->getMessage() );
+                }
+
+                $betakeys->removeBetaKey( $key );
+
+                Flight::redirect('/verify/?token=' . $result);
             }
+            else
+            {
 
-            Flight::redirect('/verify/?token=' . $result);
+                try
+                {
+
+                    $result = $register->register($username, $password, $email);
+                }
+                catch( SyscrackException $error )
+                {
+
+                    $this->redirectError( $error->getMessage() );
+                }
+
+                Flight::redirect('/verify/?token=' . $result);
+            }
         }
 
         /**

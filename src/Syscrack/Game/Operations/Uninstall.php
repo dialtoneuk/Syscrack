@@ -191,7 +191,7 @@
         private function logInstall( $softwarename, $computerid, $ipaddress )
         {
 
-            if( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress == $ipaddress )
+            if( $this->computer->getCurrentUserComputer() == $computerid )
             {
 
                 return;

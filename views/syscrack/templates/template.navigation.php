@@ -63,8 +63,6 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span> Internet</a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="/game/">Home</a></li>
-                                        <li role="separator" class="divider"></li>
                                         <li><a href="/game/internet/">Internet</a></li>
                                         <li><a href="/game/ddos">DDoS</a></li>
                                         <li><a href="/game/collect">Collect</a>

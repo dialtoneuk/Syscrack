@@ -205,7 +205,7 @@ class FileSystem
 	    if( is_dir( $path ) == false )
         {
 
-            throw new ApplicationException();
+            return false;
         }
 
 		if( file_exists( self::getFilePath( $path ) ) == false )

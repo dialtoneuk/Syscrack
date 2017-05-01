@@ -125,7 +125,7 @@
                     else
                     {
 
-                        $this->getRender('page.process', array('processid' => $processid, 'processclass' => $this->operations, 'auto' => true));
+                        $this->getRender('page.process.view', array('processid' => $processid, 'processclass' => $this->operations, 'auto' => true));
                     }
                 }
             }

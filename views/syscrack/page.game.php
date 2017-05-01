@@ -1,6 +1,11 @@
 <?php
 
-    $session = \Framework\Application\Container::getObject('session');
+    use Framework\Application\Container;
+    use Framework\Application\Settings;
+    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Utilities\PageHelper;
+
+    $session = Container::getObject('session');
 
     if( $session->isLoggedIn() )
     {
@@ -8,69 +13,83 @@
         $session->updateLastAction();
     }
 
-    $pagehelper = new \Framework\Syscrack\Game\Utilities\PageHelper();
+    $pagehelper = new PageHelper();
 
-    $computer = new \Framework\Syscrack\Game\Computer();
+    $computer = new Computer();
 ?>
+
+<!DOCTYPE html>
 <html>
 
     <?php
 
-        Flight::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game', 'scripts' => '<script src="/assets/js/webglearth.js"></script>') );
+        if( Settings::getSetting('syscrack_globe_enabled') )
+        {
+
+            Flight::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game', 'scripts' => '<script src="/assets/js/webglearth.js"></script>'));
+
+            ?>
+
+                <style>
+                    #stats div {
+
+                        -webkit-animation: fadein 3.5s; /* Safari, Chrome and Opera > 12.1 */
+                        -moz-animation: fadein 3.5s; /* Firefox < 16 */
+                        -ms-animation: fadein 3.5s; /* Internet Explorer */
+                        -o-animation: fadein 3.5s; /* Opera < 12.1 */
+                        animation: fadein 3.5s;
+                    }
+
+                    @keyframes fadein {
+                        from { opacity: 0; }
+                        to   { opacity: 1; }
+                    }
+
+                    /* Firefox < 16 */
+                    @-moz-keyframes fadein {
+                        from { opacity: 0; }
+                        to   { opacity: 1; }
+                    }
+
+                    /* Safari, Chrome and Opera > 12.1 */
+                    @-webkit-keyframes fadein {
+                        from { opacity: 0; }
+                        to   { opacity: 1; }
+                    }
+
+                    /* Internet Explorer */
+                    @-ms-keyframes fadein {
+                        from { opacity: 0; }
+                        to   { opacity: 1; }
+                    }
+
+                    /* Opera < 12.1 */
+                    @-o-keyframes fadein {
+                        from { opacity: 0; }
+                        to   { opacity: 1; }
+                    }
+
+                    .jumbotron
+                    {
+                        -webkit-touch-callout: none; /* iOS Safari */
+                        -webkit-user-select: none; /* Safari */
+                        -moz-user-select: none; /* Firefox */
+                        -ms-user-select: none; /* Internet Explorer/Edge */
+                        user-select: none; /* N */
+
+                        -webkit-box-shadow: inset 0 0 229px -66px rgba(0, 0, 0, 1);
+                        -moz-box-shadow: inset 0 0 229px -66px rgba(0, 0, 0, 1);
+                        box-shadow: inset 0 0 229px -66px rgba(0, 0, 0, 1);
+                    }
+                </style>
+            <?php
+        }
+        else
+        {
+            Flight::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game'));
+        }
     ?>
 
-    <style>
-        #stats div {
-
-            -webkit-animation: fadein 3.5s; /* Safari, Chrome and Opera > 12.1 */
-            -moz-animation: fadein 3.5s; /* Firefox < 16 */
-            -ms-animation: fadein 3.5s; /* Internet Explorer */
-            -o-animation: fadein 3.5s; /* Opera < 12.1 */
-            animation: fadein 3.5s;
-        }
-
-        @keyframes fadein {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-
-        /* Firefox < 16 */
-        @-moz-keyframes fadein {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-
-        /* Safari, Chrome and Opera > 12.1 */
-        @-webkit-keyframes fadein {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-
-        /* Internet Explorer */
-        @-ms-keyframes fadein {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-
-        /* Opera < 12.1 */
-        @-o-keyframes fadein {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-
-        .jumbotron
-        {
-            -webkit-touch-callout: none; /* iOS Safari */
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none; /* Firefox */
-            -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* N */
-
-            -webkit-box-shadow: inset 0 0 229px -66px rgba(0, 0, 0, 1);
-            -moz-box-shadow: inset 0 0 229px -66px rgba(0, 0, 0, 1);
-            box-shadow: inset 0 0 229px -66px rgba(0, 0, 0, 1);
-        }
-    </style>
     <body>
         <div class="container">
 
@@ -81,112 +100,121 @@
                 $stats = new \Framework\Syscrack\Game\Statistics();
             ?>
 
-            <div class="row" id="stats">
-                <div class="col-lg-12">
-                    <div class="jumbotron" style="height: 375px; padding: 5px; margin: 0; box-shadow: #0f0f0f ">
-                        <div style="position: absolute; width: 95%; padding-left: 2.5%; padding-right: 2.5%; height: 365px; color:white; z-index: 2;">
-                            <h1>
-                                SC:\\<?=\Framework\Application\Settings::getSetting('syscrack_game_name')?>
-                            </h1>
+            <?php
 
-                            <?php
-                                if( $stats->hasStatistics() == true )
+                if( Settings::getSetting('syscrack_globe_enabled') )
+                {
+
+                    ?>
+                        <div class="row" id="stats">
+                            <div class="col-lg-12">
+                                <div class="jumbotron" style="height: 375px; padding: 5px; margin: 0; box-shadow: #0f0f0f ">
+                                    <div style="position: absolute; width: 95%; padding-left: 2.5%; padding-right: 2.5%; height: 365px; color:white; z-index: 2;">
+                                        <h1>
+                                            SC:\\<?=\Framework\Application\Settings::getSetting('syscrack_game_name')?>
+                                        </h1>
+
+                                        <?php
+                                            if( $stats->hasStatistics() == true )
+                                            {
+
+                                                ?>
+                                                <p>
+                                                    $0 Earned
+                                                </p>
+                                                <p>
+                                                    0 BTC mined
+                                                </p>
+                                                <p>
+                                                    0 Virus Installs
+                                                </p>
+                                                <p>
+                                                    <?=$stats->getStatistic('hacks')?> Hacks
+                                                </p>
+                                                <p>
+                                                    Running for 0:24:60:60
+                                                </p>
+                                                <?php
+                                            }
+                                        ?>
+                                    </div>
+                                    <div id="earth" style="width: 100%; height: 365px; position: absolute; z-index: 1; background: black;"></div>
+                                </div>
+                            </div>
+                            <script>
+
+                                <?php
+
+                                try
                                 {
 
-                                    ?>
-                                        <p>
-                                            $0 Earned
-                                        </p>
-                                        <p>
-                                            0 BTC mined
-                                        </p>
-                                        <p>
-                                            0 Virus Installs
-                                        </p>
-                                        <p>
-                                            <?=$stats->getStatistic('hacks')?> Hacks
-                                        </p>
-                                        <p>
-                                            Running for 0:24:60:60
-                                        </p>
-                                    <?php
+                                    if( $_SERVER['REMOTE_ADDR'] == "::1" || $_SERVER['REMOTE_ADDR'] == 'localhost' )
+                                    {
+
+                                        $location = json_decode( file_get_contents('http://freegeoip.net/json/') );
+                                    }
+                                    else
+                                    {
+
+                                        $location = json_decode( file_get_contents('http://freegeoip.net/json/' . $_SERVER['REMOTE_ADDR'] ) );
+                                    }
                                 }
-                            ?>
+                                catch( Exception $error )
+                                {
+
+                                    $location = new stdClass();
+
+                                    $location->longitude = 0;
+
+                                    $location->latitude = 0;
+                                }
+                                ?>
+
+                                var options = { zoom: 10, position: [<?=$location->latitude?>,<?=$location->longitude?>] };
+                                var earth = new WE.map('earth', options);
+                                // Start a simple rotation animation
+                                var before = null;
+                                var zoom = 10;
+
+                                var bingKey = 'AsLurrtJotbxkJmnsefUYbatUuBkeBTzTL930TvcOekeG8SaQPY9Z5LDKtiuzAOu';
+
+                                bingA = earth.initMap(WebGLEarth.Maps.BING, ['Aerial', bingKey]);
+
+                                earth.setBaseMap(bingA);
+
+                                requestAnimationFrame(function animate(now) {
+                                    var c = earth.getPosition();
+                                    var elapsed = before? now - before: 0;
+                                    zoom = zoom - 0.001;
+
+                                    if( zoom < 3 )
+                                    {
+
+                                        zoom = zoom + 0.0005
+                                    }
+
+                                    if( zoom < 2 )
+                                    {
+
+                                        zoom = zoom + 0.00025;
+                                    }
+
+                                    if( zoom < 1 )
+                                    {
+
+                                        zoom = zoom + 0.000245;
+                                    }
+
+                                    before = now;
+                                    earth.setCenter([c[0], c[1] + 0.1*(elapsed/150)]);
+                                    earth.setZoom( zoom );
+                                    requestAnimationFrame(animate);
+                                });
+                            </script>
                         </div>
-                        <div id="earth" style="width: 100%; height: 365px; position: absolute; z-index: 1; background: black;"></div>
-                    </div>
-                </div>
-                <script>
-
                     <?php
-
-                        try
-                        {
-
-                            if( $_SERVER['REMOTE_ADDR'] == "::1" || $_SERVER['REMOTE_ADDR'] == 'localhost' )
-                            {
-
-                                $location = json_decode( file_get_contents('http://freegeoip.net/json/') );
-                            }
-                            else
-                            {
-
-                                $location = json_decode( file_get_contents('http://freegeoip.net/json/' . $_SERVER['REMOTE_ADDR'] ) );
-                            }
-                        }
-                        catch( Exception $error )
-                        {
-
-                            $location = new stdClass();
-
-                            $location->longitude = 0;
-
-                            $location->latitude = 0;
-                        }
-                    ?>
-
-                    var options = { zoom: 10, position: [<?=$location->latitude?>,<?=$location->longitude?>] };
-                    var earth = new WE.map('earth', options);
-                    // Start a simple rotation animation
-                    var before = null;
-                    var zoom = 10;
-
-                    var bingKey = 'AsLurrtJotbxkJmnsefUYbatUuBkeBTzTL930TvcOekeG8SaQPY9Z5LDKtiuzAOu';
-
-                    bingA = earth.initMap(WebGLEarth.Maps.BING, ['Aerial', bingKey]);
-
-                    earth.setBaseMap(bingA);
-
-                    requestAnimationFrame(function animate(now) {
-                        var c = earth.getPosition();
-                        var elapsed = before? now - before: 0;
-                        zoom = zoom - 0.001;
-
-                        if( zoom < 3 )
-                        {
-
-                            zoom = zoom + 0.0005
-                        }
-
-                        if( zoom < 2 )
-                        {
-
-                            zoom = zoom + 0.00025;
-                        }
-
-                        if( zoom < 1 )
-                        {
-
-                            zoom = zoom + 0.000245;
-                        }
-
-                        before = now;
-                        earth.setCenter([c[0], c[1] + 0.1*(elapsed/150)]);
-                        earth.setZoom( zoom );
-                        requestAnimationFrame(animate);
-                    });
-                </script>
-            </div>
+                }
+            ?>
             <div class="row" style="margin-top: 2.5%;">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
@@ -194,33 +222,48 @@
                             Virtual Computers
                         </div>
                         <div class="panel-body">
-
                             <?php
 
-                                $computers = $computer->getUserComputers( $session->getSessionUser() );
+                                if( $computer->hasCurrentComputer() )
+                                {
+
+                                    $currentcomputer = $computer->getComputer( $computer->getCurrentUserComputer() );
+
+                                    ?>
+
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <?=$currentcomputer->ipaddress?>
+                                                <small>
+                                                    <span class="badge" style="float: right;"><?=$currentcomputer->type?></span>
+                                                </small>
+                                            </div>
+                                            <div class="panel-body">
+                                                <button style="width: 100%;" class="btn btn-primary" onclick="window.location.href = '/computer/'">
+                                                    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> View
+                                                </button>
+                                            </div>
+                                        </div>
+                                    <?php
+                                }
+
+                                $computers =  $computer->getUserComputers( $session->getSessionUser() );
+
+                                $count = 0;
 
                                 foreach( $computers as $value )
                                 {
 
+                                    if( $count >= Settings::getSetting('syscrack_vpc_viewcount') )
+                                    {
+
+                                        continue;
+                                    }
+
                                     if( $computer->getCurrentUserComputer() == $value->computerid )
                                     {
 
-                                        ?>
-
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading">
-                                                    <?=$value->ipaddress?>
-                                                    <small>
-                                                        <span class="glyphicon glyphicon-modal-window"></span>
-                                                    </small>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <button style="width: 100%;" class="btn btn-primary" onclick="window.location.href = '/computer/'">
-                                                        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> View
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        <?php
+                                        continue;
                                     }
                                     else
                                     {
@@ -232,7 +275,7 @@
                                                     <div class="panel-heading">
                                                         <?=$value->ipaddress?>
                                                         <small>
-                                                            <span class="glyphicon glyphicon-modal-window"></span>
+                                                            <span class="badge" style="float: right;"><?=$value->type?></span>
                                                         </small>
                                                     </div>
                                                     <div class="panel-body">
@@ -245,7 +288,21 @@
                                             </form>
                                         <?php
                                     }
+
+                                    $count++;
                                 }
+
+                                if( $count >= Settings::getSetting('syscrack_vpc_viewcount') )
+                                {
+
+                                    ?>
+
+                                        <p class="text-center">
+                                            Some computers were removed from this list because you have too many, <a href="#">view them all?</a>
+                                        </p>
+                                    <?php
+                                }
+
                             ?>
                         </div>
                     </div>

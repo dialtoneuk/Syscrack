@@ -12,6 +12,8 @@ if( $session->isLoggedIn() )
     exit;
 }
 ?>
+
+<!DOCTYPE html>
 <html>
 
     <?php
@@ -35,32 +37,51 @@ if( $session->isLoggedIn() )
             <div class="row">
                 <div class="col-lg-6">
                     <div class="page-header">
-                        <h1>Login</h1>
+                        <h1>SC:\\login</h1>
                     </div>
                     <form method="post">
 
                         <?php
 
-                            Flight::render('developer/templates/template.form', array('form_elements' => [
+                            Flight::render('syscrack/templates/template.form', array('form_elements' => [
                                 [
                                     'type'          => 'text',
                                     'name'          => 'username',
-                                    'placeholder'   => 'Username'
+                                    'placeholder'   => 'Username',
+                                    'icon'          => 'glyphicon-user'
                                 ],
                                 [
                                     'type'          => 'password',
                                     'name'          => 'password',
-                                    'placeholder'   => 'Password'
+                                    'placeholder'   => 'Password',
+                                    'icon'          => 'glyphicon-lock'
                                 ]
-                            ]));
+                            ],'form_submit_label' => 'Login'));
                         ?>
                     </form>
+                </div>
+                <div class="col-lg-6">
+                    <div class="page-header">
+                        <h1>SC:\\register</h1>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><span class="glyphicon glyphicon-certificate"></span> Hack and infect users with your deadly viruses.</li>
+                        <li class="list-group-item"><span class="glyphicon glyphicon glyphicon-usd"></span> Make money to buy better softwares, hardwares and computer customizations.</li>
+                        <li class="list-group-item"><span class="glyphicon glyphicon glyphicon-briefcase"></span> Be your own bank and bitcoin exchange.</li>
+                        <li class="list-group-item"><span class="glyphicon glyphicon-wrench"></span> Sell hardwares and softwares on your own marketplace.</li>
+                        <li class="list-group-item"><span class="glyphicon glyphicon-sunglasses"></span> Completely free and <a href="https://github.com/dialtoneuk/Syscrack2017/">open source</a>, no ads.</li>
+                    </ul>
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <button type="button" onclick='window.location.href="/register/"' class="btn btn-default">Register</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <?php
 
-                Flight::render('syscrack/templates/template.footer');
+                Flight::render('syscrack/templates/template.footer', array('breadcrumb' => true ));
             ?>
         </div>
     </body>

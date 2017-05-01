@@ -8,6 +8,8 @@
         $session->updateLastAction();
     }
 ?>
+
+<!DOCTYPE html>
 <html>
 
     <?php

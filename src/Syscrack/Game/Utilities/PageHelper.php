@@ -219,7 +219,15 @@ class PageHelper
             return null;
         }
 
-        return (array) ArrayHelper::sortArray( $results, 'level' )[0];
+        $results = ArrayHelper::sortArray( $results, 'level' );
+
+        if( is_array( $results ) == false )
+        {
+
+            return (array)$results;
+        }
+
+        return (array)$results[0];
     }
 
     /**
@@ -265,7 +273,15 @@ class PageHelper
             return null;
         }
 
-        return (array) ArrayHelper::sortArray( $results, 'level' )[0];
+        $results = ArrayHelper::sortArray( $results, 'level' );
+
+        if( is_array( $results ) == false )
+        {
+
+            return (array)$results;
+        }
+
+        return (array)$results[0];
     }
 
     /**
@@ -311,7 +327,15 @@ class PageHelper
             return null;
         }
 
-        return (array) ArrayHelper::sortArray( $results, 'level' )[0];
+        $results = ArrayHelper::sortArray( $results, 'level' );
+
+        if( is_array( $results ) == false )
+        {
+
+            return (array)$results;
+        }
+
+        return (array)$results[0];
     }
 
     /**

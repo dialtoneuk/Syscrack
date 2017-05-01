@@ -15,7 +15,7 @@
     <![endif]-->
 
     <?php
-        if( isset( $scripts) )
+        if( isset( $scripts ) )
         {
 
             echo $scripts;
