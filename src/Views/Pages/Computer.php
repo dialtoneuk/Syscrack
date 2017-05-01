@@ -134,7 +134,7 @@
                 if( $operations->allowLocal( $process ) == false )
                 {
 
-                    $this->redirectError('Action cannot be preformed on a local machine');
+                    $this->redirectError('Action cannot be preformed locally');
                 }
 
                 $class = $operations->findProcessClass($process);
@@ -190,6 +190,97 @@
         public function computerSoftwareAction( $process, $softwareid )
         {
 
+            $operations = new Operations();
+
+            if( $operations->hasProcessClass( $process ) == false )
+            {
+
+                $this->redirectError('Action not found');
+            }
+            else
+            {
+
+                if( $operations->allowLocal( $process ) == false )
+                {
+
+                    $this->redirectError('Action cannot be preformed locally');
+                }
+                else
+                {
+
+                    if( $this->softwares->softwareExists( $softwareid ) == false )
+                    {
+
+                        $this->redirectError('Software does not exist');
+                    }
+
+                    if( $this->computer->hasSoftware( $this->computer->getCurrentUserComputer(), $softwareid ) == false )
+                    {
+
+                        $this->redirectError('Software does not exist');
+                    }
+
+                    if( $operations->allowSoftwares( $process ) == false )
+                    {
+
+                        Flight::redirect('/' . Settings::getSetting('syscrack_computer_page') . '/actions/' . $process );
+                    }
+                    else
+                    {
+
+                        $class = $operations->findProcessClass($process);
+
+                        if ($class instanceof Operation == false)
+                        {
+
+                            throw new ViewException();
+                        }
+
+                        $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null );
+
+                        if( $completiontime == null )
+                        {
+
+                            $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                                'ipaddress' => $this->getCurrentComputerAddress(),
+                                'softwareid' => $softwareid
+                            ));
+
+                            if( $result == false )
+                            {
+
+                                $this->redirectError('Process failed');
+                            }
+                            else
+                            {
+
+                                $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                                    'ipaddress' => $this->getCurrentComputerAddress(),
+                                    'softwareid' => $softwareid,
+                                    'redirect'  => 'computer'
+                                ));
+                            }
+                        }
+                        else
+                        {
+
+                            $processid = $operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                                'ipaddress' => $this->getCurrentComputerAddress(),
+                                'softwareid' => $softwareid,
+                                'redirect' => 'computer'
+                            ));
+
+                            if ($processid == false)
+                            {
+
+                                $this->redirectError('Process failed to be created');
+                            }
+
+                            Flight::redirect('/processes/' . $processid);
+                        }
+                    }
+                }
+            }
 
         }
 

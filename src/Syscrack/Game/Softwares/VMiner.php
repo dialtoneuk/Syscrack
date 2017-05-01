@@ -46,6 +46,11 @@ class VMiner extends BaseClass implements Structure
 
     }
 
+    public function onUninstalled($softwareid, $userid, $computerid)
+    {
+        // TODO: Implement onUninstalled() method.
+    }
+
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 

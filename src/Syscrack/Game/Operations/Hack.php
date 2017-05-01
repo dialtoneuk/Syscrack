@@ -87,24 +87,23 @@ class Hack extends BaseClass implements Structure
             return false;
         }
 
-        $usercomputer = $this->computer->getComputer( $this->computer->getCurrentUserComputer() );
+        $userscomputer = $this->computer->getComputer( $this->computer->getCurrentUserComputer() );
 
-        $computer = $this->internet->getComputer( $data['ipaddress'] );
-
-        if( $this->computer->hasType($computer->computerid, Settings::getSetting('syscrack_hasher_type'), true ) == false )
-        {
-
-            return true;
-        }
-
-        if( $this->computer->hasType( $usercomputer->computerid, Settings::getSetting('syscrack_cracker_type'), true ) == false )
+        if( $this->computer->hasType( $userscomputer->computerid, Settings::getSetting('syscrack_cracker_type'), true ) == false )
         {
 
             return false;
         }
 
-        if( $this->softwares->getSoftware( $this->computer->getCracker( $usercomputer->computerid ) )->level
-            < $this->softwares->getSoftware( $this->computer->getHasher( $computer->computerid ) )->level )
+        $victimscomputer = $this->internet->getComputer( $data['ipaddress'] );
+
+        if( $this->computer->hasType($victimscomputer->computerid, Settings::getSetting('syscrack_hasher_type'), true ) == true )
+        {
+
+            return false;
+        }
+
+        if( $this->getHighestLevelSoftware( $victimscomputer->computerid, Settings::getSetting('syscrack_hasher_type') ) > $this->getHighestLevelSoftware( $userscomputer->computerid, Settings::getSetting('syscrack_cracler_type') ) )
         {
 
             return false;

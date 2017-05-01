@@ -86,7 +86,7 @@
                     <div class="jumbotron" style="height: 375px; padding: 5px; margin: 0; box-shadow: #0f0f0f ">
                         <div style="position: absolute; width: 95%; padding-left: 2.5%; padding-right: 2.5%; height: 365px; color:white; z-index: 2;">
                             <h1>
-                                SC:\\ <?=\Framework\Application\Settings::getSetting('syscrack_game_name')?>
+                                SC:\\<?=\Framework\Application\Settings::getSetting('syscrack_game_name')?>
                             </h1>
 
                             <?php

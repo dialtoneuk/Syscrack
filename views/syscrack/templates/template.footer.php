@@ -39,7 +39,13 @@
             echo '</ol>';
         }
     ?>
-
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="small text-center" style="color: lightgray;">
+                Syscrack 2017 was created by <a href="http://www.github.com/dialtoneuk/">Lewis Lancaster</a> and we loaded in <?=SYSCRACK_TIME_END - SYSCRACK_TIME_START;?> seconds
+            </p>
+        </div>
+    </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

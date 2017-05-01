@@ -11,6 +11,7 @@ namespace Framework\Syscrack\Game\Utilities;
 
 use Framework\Application\Container;
 use Framework\Application\Settings;
+use Framework\Application\Utilities\ArrayHelper;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\Computer;
@@ -186,15 +187,19 @@ class PageHelper
 
         $computer = new Computer();
 
+        $softwares = new Softwares();
+
         if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $softwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+        $computersoftwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
 
-        foreach( $softwares as $software )
+        $results = [];
+
+        foreach( $computersoftwares as $software )
         {
 
             if( $software['type'] == Settings::getSetting('syscrack_hasher_type') )
@@ -203,12 +208,18 @@ class PageHelper
                 if( $software['installed'] == true )
                 {
 
-                    return $software;
+                    $results[] = $softwares->getSoftware( $software['softwareid'] );
                 }
             }
         }
 
-        return null;
+        if( empty( $results ) )
+        {
+
+            return null;
+        }
+
+        return (array) ArrayHelper::sortArray( $results, 'level' )[0];
     }
 
     /**
@@ -222,15 +233,19 @@ class PageHelper
 
         $computer = new Computer();
 
+        $softwares = new Softwares();
+
         if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $softwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+        $computersoftwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
 
-        foreach( $softwares as $software )
+        $results = [];
+
+        foreach( $computersoftwares as $software )
         {
 
             if( $software['type'] == Settings::getSetting('syscrack_firewall_type') )
@@ -239,12 +254,18 @@ class PageHelper
                 if( $software['installed'] == true )
                 {
 
-                    return $software;
+                    $results[] = $softwares->getSoftware( $software['softwareid'] );
                 }
             }
         }
 
-        return null;
+        if( empty( $results ) )
+        {
+
+            return null;
+        }
+
+        return (array) ArrayHelper::sortArray( $results, 'level' )[0];
     }
 
     /**
@@ -258,15 +279,19 @@ class PageHelper
 
         $computer = new Computer();
 
+        $softwares = new Softwares();
+
         if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $softwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+        $computersoftwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
 
-        foreach( $softwares as $software )
+        $results = [];
+
+        foreach( $computersoftwares as $software )
         {
 
             if( $software['type'] == Settings::getSetting('syscrack_cracker_type') )
@@ -275,12 +300,18 @@ class PageHelper
                 if( $software['installed'] == true )
                 {
 
-                    return $software;
+                    $results[] = $softwares->getSoftware( $software['softwareid'] );
                 }
             }
         }
 
-        return null;
+        if( empty( $results ) )
+        {
+
+            return null;
+        }
+
+        return (array) ArrayHelper::sortArray( $results, 'level' )[0];
     }
 
     /**

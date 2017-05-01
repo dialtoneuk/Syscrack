@@ -96,5 +96,6 @@
     "syscrack_game_page":"game",
     "syscrack_hack_speed":5.5,
     "syscrack_statistics_file":"syscrack\/statistics.json",
-    "syscrack_statistics_enabled":true
+    "syscrack_statistics_enabled":true,
+    "syscrack_software_allowedmethods":["onInstalled","onUninstalled","onExecute","onCollect"]
 }

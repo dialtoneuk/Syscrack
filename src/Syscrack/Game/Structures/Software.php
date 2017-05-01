@@ -49,6 +49,20 @@ interface Software
     public function onInstalled( $softwareid, $userid, $comptuerid );
 
     /**
+     * Called when the software is uninstalled
+     *
+     * @param $softwareid
+     *
+     * @param $userid
+     *
+     * @param $computerid
+     *
+     * @return mixed
+     */
+
+    public function onUninstalled( $softwareid, $userid, $computerid );
+
+    /**
      * Called when the software collects ( virus type only )
      *
      * @param $softwareid

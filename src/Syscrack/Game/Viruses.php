@@ -70,7 +70,7 @@ class Viruses
         if( $userid != null )
         {
 
-            if( empty( $this->getVirusesOnComputer( $computerid, $userid ) ) )
+            if( empty( $this->getVirusesOnComputer( $computerid, $userid ) ) || $this->getVirusesOnComputer( $computerid, $userid ) == null )
             {
 
                 return false;
@@ -159,6 +159,12 @@ class Viruses
         {
 
             $viruses = $this->softwares->getTypeOnComputer( Settings::getSetting('syscrack_virus_type'), $computerid );
+
+            if( empty( $viruses ) )
+            {
+
+                return null;
+            }
 
             $result = [];
 

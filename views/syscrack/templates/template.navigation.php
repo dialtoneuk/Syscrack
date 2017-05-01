@@ -11,8 +11,29 @@
 <nav class="navbar navbar-default" style="margin-top: 2.5%">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Syscrack</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
             <?php
+
+                if( $session->isLoggedIn() )
+                {
+
+                    ?>
+
+                        <a class="navbar-brand" href="/game/">Syscrack</a>
+                    <?php
+                }
+                else
+                {
+
+                    ?>
+                        <a class="navbar-brand" href="/">Syscrack</a>
+                    <?php
+                }
 
                 if( $session->isLoggedIn() )
                 {
@@ -22,7 +43,7 @@
 
                         ?>
 
-                        <a class="navbar-brand" style="font-size: 12px" href="/game/computer">
+                        <a class="navbar-brand" style="font-size: 12px" href="/computer/">
                             [<?=$computer->getComputer( $computer->getCurrentUserComputer() )->ipaddress?>]
                         </a>
                         <?php
@@ -30,8 +51,7 @@
                 }
             ?>
         </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav navbar-right">
 
                     <?php
@@ -41,7 +61,7 @@
                             $user = new \Framework\Syscrack\User();
                             ?>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game<span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span> Internet</a>
                                     <ul class="dropdown-menu">
                                         <li><a href="/game/">Home</a></li>
                                         <li role="separator" class="divider"></li>
@@ -50,23 +70,24 @@
                                         <li><a href="/game/collect">Collect</a>
                                         <li><a href="/game/addressbook">Address book</a>
                                         <li><a href="/game/accountbook">Account book</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="/computer/">Computer</a>
-                                        <li><a href="/computer/log">Log</a></li>
-                                        <li><a href="/computer/processes">Processes</a></li>
-                                        <li><a href="/computer/upgrade">Upgrade</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="/game/clans/">Clans</a>
-                                        <li><a href="/game/ranking/">Ranking</a>
                                     </ul>
                                 </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-hdd"></span> Computer</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/computer/">Computer</a>
+                                    <li><a href="/computer/log">Log</a></li>
+                                    <li><a href="/computer/processes">Processes</a></li>
+                                    <li><a href="/computer/upgrade">Upgrade</a></li>
+                                </ul>
+                            </li>
                                 <?php
                                     if( $user->isAdmin( $session->getSessionUser() ) )
                                     {
 
                                         ?>
                                         <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+                                            <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-briefcase"></span> Admin</a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="/admin/">Home</a></li>
                                                 <li role="separator" class="divider"></li>
@@ -80,7 +101,7 @@
                                     }
                                 ?>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?=$user->getUsername($session->getSessionUser())?><span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span> Settings</a>
                                     <ul class="dropdown-menu">
                                         <li><a href="/account/settings/">Account Settings</a></li>
                                         <li><a href="/account/logout/">Logout</a></li>

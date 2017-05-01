@@ -157,15 +157,11 @@
                             <div class="well" style="max-height: 50%;">
                                 <pre style="max-height: 45%;">
 <?= json_encode( $active_log, JSON_PRETTY_PRINT )?>
-                                </pre>
-                            </div>
+                        </pre>
+                    </div>
                             <button class="btn btn-lg btn-primary btn-block" onclick="window.location.reload()">
                                 Refresh
                             </button>
-                            <p class="small" style="padding-top: 2.5%;">
-                                Took <?=end( $active_log )['microtime'] - $active_log[0]['microtime']; ?> seconds to complete from
-                                first log.
-                            </p>
                             <?php
                         }
                         ?>

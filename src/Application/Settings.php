@@ -183,10 +183,14 @@ class Settings
 
 		$setting = $settings[ $setting ];
 
-		if( self::hasParsableData( $setting ) )
+		if( is_array( $setting ) == false )
         {
 
-            return self::parseSetting( $setting );
+            if( self::hasParsableData( $setting ) )
+            {
+
+                return self::parseSetting( $setting );
+            }
         }
 
         return $setting;

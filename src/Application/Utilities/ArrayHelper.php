@@ -9,6 +9,8 @@ namespace Framework\Application\Utilities;
  * @package Framework\Application\Utilities
  */
 
+use Framework\Exceptions\ApplicationException;
+
 class ArrayHelper
 {
 
@@ -50,5 +52,63 @@ class ArrayHelper
     {
 
         return json_decode( json_encode( $array ) );
+    }
+
+    /**
+     * Sorts an array by a key value
+     *
+     * @param array $array
+     *
+     * @param $by
+     *
+     * @param int $sorttype
+     *
+     * @return array|mixed
+     */
+
+    public static function sortArray( array $array, $by, $sorttype=SORT_DESC )
+    {
+
+        if( empty( $array ) || count( $array ) == 1 )
+        {
+
+            return $array[0];
+        }
+
+        $sort = array();
+
+        foreach( $array as $key=>$value )
+        {
+
+            if( is_object( $value ) )
+            {
+
+                $sort[] = $value->{ $by };
+            }
+            else
+            {
+
+                if( is_array( $value ) )
+                {
+
+                    $soft[] = $value[ $by ];
+                }
+                else
+                {
+
+                    throw new ApplicationException();
+                }
+            }
+        }
+
+        $result = array_multisort( $sort, $sorttype, $array );
+
+        if( $result == false )
+        {
+
+            throw new ApplicationException();
+        }
+
+        return $array;
     }
 }

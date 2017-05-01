@@ -14,6 +14,8 @@
      * Written by Lewis Lancaster
      */
 
+    define('SYSCRACK_TIME_START', microtime( true ) );
+
     /**
      * Checks if composer exists
      */
@@ -169,6 +171,13 @@
 
                 Flight::notFound();
             }
+        });
+
+
+        Flight::before('start', function ()
+        {
+
+            define('SYSCRACK_TIME_END', microtime( true ) );
         });
 
         /**

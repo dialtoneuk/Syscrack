@@ -11,6 +11,7 @@ namespace Framework\Syscrack\Game\BaseClasses;
 
 use Flight;
 use Framework\Application\Settings;
+use Framework\Application\Utilities\ArrayHelper;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Hardware;
@@ -85,6 +86,58 @@ class Operation
             'allowsoftwares'    => true,
             'allowlocal'        => true,
         );
+    }
+
+    /**
+     * Gets the highest level of software on the users computer
+     *
+     * @param $computerid
+     *
+     * @param null $type
+     *
+     * @return array|null
+     */
+
+    public function getHighestLevelSoftware( $computerid, $type=null )
+    {
+
+        if( $type == null )
+        {
+
+            $type = Settings::getSetting('syscrack_cracker_type');
+        }
+
+        $softwares = $this->computer->getComputerSoftware( $computerid );
+
+        if( empty( $softwares ) )
+        {
+
+            return null;
+        }
+
+        $results = [];
+
+        foreach( $softwares as $key=>$value )
+        {
+
+            if( $value['type'] == $type )
+            {
+
+                if( $value['installed'] == true )
+                {
+
+                    $results[] = $this->softwares->getSoftware( $value['softwareid'] );
+                }
+            }
+        }
+
+        if( empty( $results ) )
+        {
+
+            return null;
+        }
+
+        return (array) ArrayHelper::sortArray( $results, 'level' )[0];
     }
 
     /**

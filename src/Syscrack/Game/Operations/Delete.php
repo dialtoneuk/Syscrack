@@ -159,6 +159,12 @@ class Delete extends BaseClass implements Structure
     private function logDelete( $softwarename, $computerid, $ipaddress )
     {
 
+        if( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress == $ipaddress )
+        {
+
+            return;
+        }
+
         $this->log('Deleted file <' . $softwarename . '> on root', $computerid, $ipaddress );
     }
 
@@ -175,5 +181,4 @@ class Delete extends BaseClass implements Structure
 
         $this->log('Deleted file <' . $softwarename . '> on ' . $ipaddress, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
     }
-
 }

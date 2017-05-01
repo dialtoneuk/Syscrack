@@ -155,7 +155,7 @@ class Install extends BaseClass implements Structure
         $this->logLocal( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
             $this->computer->getCurrentUserComputer(), $data['ipaddress']);
 
-        $this->softwares->executeSoftwareMethod( $this->softwares->getSoftwareClassFromID( $data['softwareid'] ), 'onInstall', array(
+        $this->softwares->executeSoftwareMethod( $this->softwares->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onInstalled', array(
             'softwareid'    => $data['softwareid'],
             'userid'        => $userid,
             'computerid'    => $this->internet->getComputer( $data['ipaddress'] )->computerid
@@ -202,6 +202,12 @@ class Install extends BaseClass implements Structure
 
     private function logInstall( $softwarename, $computerid, $ipaddress )
     {
+
+        if( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress == $ipaddress )
+        {
+
+            return;
+        }
 
         $this->log('Installed file <' . $softwarename . '> on root', $computerid, $ipaddress );
     }

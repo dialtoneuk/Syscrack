@@ -61,14 +61,17 @@
                         <button class="btn btn-success" type="button" onclick="window.location.href = '/computer/log'">
                             <span class="glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></span> Refresh Log
                         </button>
-                    <div>
+                    </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <?php
 
-            <?php
-
-                Flight::render('syscrack/templates/template.footer', array('breadcrumb' => true ) );
-            ?>
+                        Flight::render('syscrack/templates/template.footer', array('breadcrumb' => true ) );
+                    ?>
+                </div>
+            </div>
         </div>
     </body>
 </html>
