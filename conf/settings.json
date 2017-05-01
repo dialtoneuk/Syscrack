@@ -105,6 +105,7 @@
     ],
     "syscrack_vpc_viewcount": 5,
     "syscrack_globe_enabled": true,
+    "syscrack_betakey_location":"conf\/betakeys.json",
     "sycsrack_betakey_steps":3,
     "sycsrack_betakey_length":6
 }
