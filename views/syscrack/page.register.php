@@ -1,6 +1,9 @@
 <?php
 
-$session = \Framework\Application\Container::getObject('session');
+    use Framework\Application\Container;
+    use Framework\Application\Settings;
+
+    $session = Container::getObject('session');
 
 if( $session->isLoggedIn() )
 {
@@ -43,32 +46,60 @@ if( $session->isLoggedIn() )
 
                         <?php
 
-                            Flight::render('syscrack/templates/template.form', array('form_elements' => [
-                                [
-                                    'type'          => 'text',
-                                    'name'          => 'username',
-                                    'placeholder'   => 'Username',
-                                    'icon'          => 'glyphicon-user'
-                                ],
-                                [
-                                    'type'          => 'password',
-                                    'name'          => 'password',
-                                    'placeholder'   => 'Password',
-                                    'icon'          => 'glyphicon-lock'
-                                ],
-                                [
-                                    'type'          => 'email',
-                                    'name'          => 'email',
-                                    'placeholder'   => 'Email',
-                                    'icon'          => 'glyphicon-envelope'
-                                ],
-                                [
-                                    'type'          => 'text',
-                                    'name'          => 'betakey',
-                                    'placeholder'   => '0001-0002-0003',
-                                    'icon'          => 'glyphicon-certificate'
-                                ]
-                            ], 'form_submit_label' => 'Login' ));
+                            if( Settings::getSetting('user_require_betakey') )
+                            {
+
+                                Flight::render('syscrack/templates/template.form', array('form_elements' => [
+                                    [
+                                        'type'          => 'text',
+                                        'name'          => 'username',
+                                        'placeholder'   => 'Username',
+                                        'icon'          => 'glyphicon-user'
+                                    ],
+                                    [
+                                        'type'          => 'password',
+                                        'name'          => 'password',
+                                        'placeholder'   => 'Password',
+                                        'icon'          => 'glyphicon-lock'
+                                    ],
+                                    [
+                                        'type'          => 'email',
+                                        'name'          => 'email',
+                                        'placeholder'   => 'Email',
+                                        'icon'          => 'glyphicon-envelope'
+                                    ],
+                                    [
+                                        'type'          => 'text',
+                                        'name'          => 'betakey',
+                                        'placeholder'   => '0001-0002-0003',
+                                        'icon'          => 'glyphicon-certificate'
+                                    ]
+                                ], 'form_submit_label' => 'Login' ));
+                            }
+                            else
+                            {
+
+                                Flight::render('syscrack/templates/template.form', array('form_elements' => [
+                                    [
+                                        'type'          => 'text',
+                                        'name'          => 'username',
+                                        'placeholder'   => 'Username',
+                                        'icon'          => 'glyphicon-user'
+                                    ],
+                                    [
+                                        'type'          => 'password',
+                                        'name'          => 'password',
+                                        'placeholder'   => 'Password',
+                                        'icon'          => 'glyphicon-lock'
+                                    ],
+                                    [
+                                        'type'          => 'email',
+                                        'name'          => 'email',
+                                        'placeholder'   => 'Email',
+                                        'icon'          => 'glyphicon-envelope'
+                                    ],
+                                ], 'form_submit_label' => 'Login' ));
+                            }
                         ?>
                     </form>
                 </div>
