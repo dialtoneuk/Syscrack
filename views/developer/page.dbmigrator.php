@@ -6,12 +6,14 @@
 * Class DatabaseMigrator
 */
 
-use Framework\Database\Manager as Database;
-use Framework\Exceptions\ViewException;
-use Illuminate\Database\Schema\Blueprint;
-use Framework\Application\Utilities\PostHelper;
+    use Framework\Application\Settings;
+    use Framework\Application\Utilities\FileSystem;
+    use Framework\Application\Utilities\PostHelper;
+    use Framework\Database\Manager as Database;
+    use Framework\Exceptions\ViewException;
+    use Illuminate\Database\Schema\Blueprint;
 
-class DatabaseMigrator
+    class DatabaseMigrator
 {
 
     /**
@@ -166,7 +168,23 @@ $class = new DatabaseMigrator();
                     <form method="post">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <textarea style='resize: none; width: 100%; height: 42.5%;' name="json"></textarea>
+                                <?php
+
+                                    if( FileSystem::fileExists( Settings::getSetting('database_schema_file') ) )
+                                    {
+
+                                        ?>
+<textarea style='resize: none; width: 100%; height: 42.5%;' name="json"><?=json_encode( FileSystem::readJson( Settings::getSetting('database_schema_file') ), JSON_PRETTY_PRINT )?></textarea>
+                                        <?php
+                                    }
+                                    else
+                                    {
+
+                                        ?>
+                                            <textarea style='resize: none; width: 100%; height: 42.5%;' name="json">{}</textarea>
+                                        <?php
+                                    }
+                                ?>
                             </div>
                         </div>
                         <button class="btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#disablemodal">

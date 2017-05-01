@@ -6,6 +6,7 @@
     "developer_page": "developer",
     "developer_disabled": false,
     "database_connection_file": "conf\/database\/connection.json",
+    "database_schema_file":"conf\/database\/databaseschema.json",
     "user_default_group": "guest",
     "user_group_admin": "admin",
     "user_group_developer": "developer",
