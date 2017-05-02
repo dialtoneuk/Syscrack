@@ -1,17 +1,23 @@
 <?php
     require_once "../vendor/autoload.php";
 
+    use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\BetaKeys;
-
 
     if( php_sapi_name() == 'cli' )
     {
 
         $betakeys = new BetaKeys();
 
-        $betakeys->generateBetaKeys( 1000 );
+        $keys = $betakeys->generateBetaKeys( 1000 );
 
-        //Echo out the betakeys
+        if( empty( $keys ) )
+        {
 
-        print_r( $betakeys->getBetakeys() );
+            throw new SyscrackException();
+        }
+
+        $betakeys->addBetaKey( $keys );
+
+        die( print_r( $betakeys->getBetakeys() ) );
     }

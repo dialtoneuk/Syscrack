@@ -37,12 +37,28 @@
          * @param $betakey
          */
 
-        public function addBetaKey( $betakey )
+        public function addBetaKey( $betakey=null )
         {
 
-            $this->keys[] = $betakey;
 
-            $this->saveBetaKeys();
+            if( is_array( $betakey ) )
+            {
+
+                foreach( $betakey as $key=>$value )
+                {
+
+                    $this->keys[] = $value;
+                }
+
+                $this->saveBetaKeys();
+            }
+            else
+            {
+
+                $this->keys[] = $betakey;
+
+                $this->saveBetaKeys();
+            }
         }
 
         /**
@@ -141,7 +157,7 @@
             for( $i = 0; $i < $count; $i++ )
             {
 
-                $keys[] = $this->getBetakey();
+                $keys[] = $this->createBetakey();
             }
 
             return $keys;
@@ -153,17 +169,17 @@
          * @return string
          */
 
-        private function getBetaKey()
+        private function createBetaKey()
         {
 
             $key = "";
 
-            for( $i = 0; $i < Settings::getSetting('sycsrack_betakey_steps'); $i++ )
+            for( $i = 0; $i < Settings::getSetting('syscrack_betakey_steps'); $i++ )
             {
 
                 $step = "";
 
-                for( $k = 0; $k < Settings::getSetting('sycsrack_betakey_length'); $k++ )
+                for( $k = 0; $k < Settings::getSetting('syscrack_betakey_length'); $k++ )
                 {
 
                     $step = $step . rand(0,9 );
