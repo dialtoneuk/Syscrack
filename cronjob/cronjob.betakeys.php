@@ -1,11 +1,26 @@
 <?php
     require_once "../vendor/autoload.php";
 
+    use Framework\Application\Settings;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\BetaKeys;
 
+    /**
+     * Special thank's to Deck for pointing this out :)
+     */
+
     if( php_sapi_name() == 'cli' )
     {
+
+        $_SERVER['DOCUMENT_ROOT'] = realpath( __DIR__ . '/..');
+
+        Settings::preloadSettings();
+
+        if( empty( Settings::getSettings() ) )
+        {
+
+            throw new SyscrackException('Settings have failed to load');
+        }
 
         $betakeys = new BetaKeys();
 
@@ -19,5 +34,5 @@
 
         $betakeys->addBetaKey( $keys );
 
-        die( print_r( $betakeys->getBetakeys() ) );
+        die( json_encode( $betakeys->getBetakeys(), JSON_PRETTY_PRINT ) );
     }

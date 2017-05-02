@@ -20,6 +20,55 @@
      * Checks if composer exists
      */
 
+    if( version_compare(phpversion(), '7.0.0', '<' ) )
+    {
+
+        ob_clean();
+
+        ?>
+
+        <html>
+            <head>
+                <meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+
+                <title>Framework Error</title>
+
+                <!-- Stylesheets -->
+                <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+                <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+
+                <!--[if lt IE 9]>
+                <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+                <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+                <![endif]-->
+            </head>
+            <body>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="page-header text-center">
+                                PHP Version Error
+                            </h1>
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">
+                                    Major error
+                                </div>
+                                <div class="panel-body text-center">
+                                    Your PHP version is currently <?=phpversion()?> and needs to be version 7.0.0 or higher, if you are having troubles, please refer to our <a href="#">github</a>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
+        <?php
+
+        exit;
+    }
+
     if( file_exists( $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php') == false )
     {
 
