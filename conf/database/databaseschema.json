@@ -19,8 +19,8 @@
   "processes":
   {
     "processid":"increments",
-    "timecompleted":"timestamp",
-    "timestarted":"timestamp",
+    "timecompleted":"integer",
+    "timestarted":"integer",
     "computerid":"integer",
     "userid":"integer",
     "process":"string",
@@ -32,7 +32,7 @@
     "userid":"integer",
     "useragent":"text",
     "ipaddress":"string",
-    "lastaction":"timestamp"
+    "lastaction":"integer"
   },
   "softwares":
   {
@@ -44,7 +44,7 @@
     "uniquename":"string",
     "type":"string",
     "softwarename":"text",
-    "lastmodified":"timestamp",
+    "lastmodified":"integer",
     "installed":"boolean",
     "data":"binary"
   },
