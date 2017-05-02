@@ -13,8 +13,8 @@
     "userid":"integer",
     "type":"string",
     "ipaddress":"string",
-    "softwares":"json",
-    "hardwares":"json"
+    "softwares":"binary",
+    "hardwares":"binary"
   },
   "processes":
   {
@@ -24,7 +24,7 @@
     "computerid":"integer",
     "userid":"integer",
     "process":"string",
-    "data":"json"
+    "data":"binary"
   },
   "sessions":
   {
@@ -46,7 +46,7 @@
     "softwarename":"text",
     "lastmodified":"timestamp",
     "installed":"boolean",
-    "data":"json"
+    "data":"binary"
   },
   "userid":
   {

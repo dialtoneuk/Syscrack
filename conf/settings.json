@@ -1,12 +1,16 @@
 {
-    "filesystem_root": "{$_SERVER['DOCUMENT_ROOT']}",
+    "filesystem_root": "<$_SERVER['DOCUMENT_ROOT']>",
     "filesystem_separator": "\/",
     "filesystem_default_extension": ".json",
     "filesystem_default_access": "0777",
     "developer_page": "developer",
     "developer_disabled": false,
     "database_connection_file": "conf\/database\/connection.json",
-    "database_schema_file":"conf\/database\/databaseschema.json",
+    "database_schema_file": "conf\/database\/databaseschema.json",
+    "database_recommended_version": "10.3.0",
+    "database_required_version_types": [
+        "json"
+    ],
     "user_default_group": "guest",
     "user_group_admin": "admin",
     "user_group_developer": "developer",
@@ -31,7 +35,7 @@
     "database_charset": "utf8",
     "database_collation": "utf8_unicode_ci",
     "database_prefix": "",
-    "session_timeout": "{60 * 60 * 2}",
+    "session_timeout": "<60 * 60 * 2>",
     "session_update_lastaction": true,
     "middlewares_enabled": true,
     "middlewares_location": "src\/Views\/Middleware\/",
@@ -41,8 +45,8 @@
     "facebook_app_id": "",
     "facebook_app_secret": "",
     "facebook_app_version": "v2.8",
-    "facebook_redirect_url": "http:\/\/{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI]'}",
-    "online_timeframe": "{60 * 60 * 2}",
+    "facebook_redirect_url": "http:\/\/<$_SERVER['HTTP_HOST']>\/login\/facebook\/",
+    "online_timeframe": "<60 * 60 * 2>",
     "syscrack_game_name": "beta",
     "syscrack_bank_type": "bank",
     "syscrack_bitcoin_type": "bitcoin",
@@ -106,7 +110,22 @@
     ],
     "syscrack_vpc_viewcount": 5,
     "syscrack_globe_enabled": true,
-    "syscrack_betakey_location":"conf\/betakeys.json",
-    "sycsrack_betakey_steps":3,
-    "sycsrack_betakey_length":6
+    "syscrack_betakey_location": "conf\/betakeys.json",
+    "sycsrack_betakey_steps": 3,
+    "sycsrack_betakey_length": 6,
+    "syscrack_default_hardware": {
+        "cpu": {
+            "value": 200
+        },
+        "hdd": {
+            "value:": 100
+        },
+        "download": {
+            "value": 1
+        },
+        "upload": {
+            "value": 1
+        }
+    },
+    "settings_php_enabled": true
 }

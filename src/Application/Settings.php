@@ -204,10 +204,10 @@ class Settings
      * @return bool
      */
 
-	private static function hasParsableData( $setting )
+	public static function hasParsableData( $setting )
     {
 
-        if( preg_match('/\{(.*?)\}/', $setting ) == false )
+        if( preg_match('/\<(.*?)\>/', $setting ) == false )
         {
 
             return false;
@@ -227,7 +227,7 @@ class Settings
     private static function getRegexMatch( $setting )
     {
 
-        preg_match("/\{(.*?)\}/",  $setting, $array );
+        preg_match("/\<(.*?)\>/",  $setting, $array );
 
         if( empty( $array ) )
         {
@@ -247,22 +247,31 @@ class Settings
      * @return array|bool
      */
 
-    private static function parseSetting( $setting )
+    public static function parseSetting( $setting )
     {
 
         $match = self::getRegexMatch( $setting );
 
         $parsed = null;
 
-        try
+        if( Settings::getSetting('settings_php_enabled') )
         {
 
-            eval("\$parsed = {$match};");
+            try
+            {
+
+                eval("\$parsed = {$match};");
+            }
+            catch( \RuntimeException $error )
+            {
+
+                throw new ApplicationException( $error->getMessage() );
+            }
         }
-        catch( \RuntimeException $error )
+        else
         {
 
-            throw new ApplicationException( $error->getMessage() );
+            $parsed = $match;
         }
 
         return self::replaceMatches( $setting, array(
@@ -289,36 +298,10 @@ class Settings
         foreach( $array as $value )
         {
 
-            $setting = str_replace( "{" . $value[0] . "}", $value[1], $setting );
+            $setting = str_replace( "<" . $value[0] . ">", $value[1], $setting );
         }
 
         return $setting;
-    }
-
-    /**
-     * Bans some eval functions ( pretty invalid though )
-     *
-     * @param $match
-     *
-     * @return bool
-     */
-
-    private function isSafeEval( $match )
-    {
-
-        $keywords = self::getSetting('settings_eval_disabled');
-
-        foreach( $keywords as $keyword )
-        {
-
-            if( strpos( $match, $keyword ) !== false )
-            {
-
-                return false;
-            }
-        }
-
-        return true;
     }
 
 	/**

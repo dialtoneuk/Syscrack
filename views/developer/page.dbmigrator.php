@@ -10,7 +10,6 @@
     use Framework\Application\Utilities\FileSystem;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Database\Manager as Database;
-    use Framework\Exceptions\ViewException;
     use Illuminate\Database\Schema\Blueprint;
 
     class DatabaseMigrator
@@ -96,7 +95,7 @@
             if( $this->tableExists( $table )  )
             {
 
-                throw new ViewException('Table already exists');
+                continue;
             }
 
             Database::$capsule->getConnection()->getSchemaBuilder()->create( $table, function( Blueprint $table ) use ( $columns )
@@ -109,6 +108,24 @@
                 }
             });
         }
+    }
+
+    private function requiresRecommendedVersion( $type )
+    {
+
+        $recommended = Settings::getSetting('database_required_version_types');
+
+        foreach( $recommended as $value )
+        {
+
+            if( $type == $value )
+            {
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
@@ -140,7 +157,13 @@ $class = new DatabaseMigrator();
 
                     <p class="lead">
                         This tool is used to migrate your database. This is used to create tables and data automatically in your
-                        sql or equivilent database.
+                        sql or equivalent database.
+                    </p>
+
+                    <p>
+                        If found, by default the framework will read the file <strong><?=Settings::getSetting('database_schema_file')?></strong> and
+                        output it into field to your right. So all you need to do is press 'migrate database' to populate your database ready
+                        for your current configuration.
                     </p>
 
                     <p>

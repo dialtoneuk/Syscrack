@@ -60,7 +60,9 @@ class Controller
         if( $this->checkURL( $url ) == false )
         {
 
-            throw new ViewException('URL has exceeded the maximum length');
+            Flight::notFound();
+
+            exit;
         }
 
         $page = $this->getPage( $url );
@@ -83,6 +85,8 @@ class Controller
         }
 
         $this->page = $page;
+
+        //Disables the developer page from the root
 
         if( Settings::getSetting('developer_disabled') == true )
         {

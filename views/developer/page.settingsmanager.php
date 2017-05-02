@@ -95,6 +95,28 @@ class SettingsManager
     }
 
     /**
+     * Checks if a string is json or not
+     *
+     * @param $setting_value
+     *
+     * @return bool
+     */
+
+    public function isJson( $setting_value )
+    {
+
+        json_encode( $setting_value );
+
+        if( json_last_error() !== JSON_ERROR_NONE )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Converts a string to a bool
      *
      * @param $setting_value
@@ -199,7 +221,27 @@ $class = new SettingsManager();
 
                                     <?php
 
-                                        if( is_bool( $value ) )
+                                        if( is_array( $value ) == false && Settings::hasParsableData( $value ) )
+                                        {
+
+                                            ?>
+
+                                                <p class="small text-uppercase" style="color: #ababab">
+                                                    PHP Eval String
+                                                </p>
+                                                <p class="small" style="color: #ababab">
+                                                    <?=addslashes( Settings::parseSetting( $value ) )?>
+                                                </p>
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
+                                                        <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                    </span>
+                                                    <input name="<?=$key?>" type="text" class="form-control" value="<?=$value?>">
+                                                </div>
+                                            <?php
+                                        }
+                                        elseif( is_bool( $value ) )
                                         {
 
                                     ?>
@@ -355,6 +397,12 @@ if( PostHelper::checkPostData( ['action'] ) )
             {
 
                 $value = $class->stringToBool( $value );
+            }
+
+            if( $class->isJson( $value ) )
+            {
+
+                $value = json_decode( $value, true );
             }
 
             $class->updateSetting( $key, $value );
