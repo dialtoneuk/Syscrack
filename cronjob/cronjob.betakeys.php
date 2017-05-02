@@ -12,7 +12,7 @@
     if( php_sapi_name() == 'cli' )
     {
 
-        $_SERVER['DOCUMENT_ROOT'] = realpath( __DIR__ . '/..');
+        $_SERVER['DOCUMENT_ROOT'] = realpath( getcwd() . '/..');
 
         Settings::preloadSettings();
 
@@ -32,7 +32,5 @@
             throw new SyscrackException();
         }
 
-        $betakeys->addBetaKey( $keys );
-
-        die( json_encode( $betakeys->getBetakeys(), JSON_PRETTY_PRINT ) );
+        print_r( json_encode( $keys, JSON_PRETTY_PRINT ) );
     }

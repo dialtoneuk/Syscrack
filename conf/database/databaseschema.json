@@ -48,7 +48,7 @@
     "installed":"boolean",
     "data":"binary"
   },
-  "userid":
+  "users":
   {
     "userid":"increments",
     "username":"string",

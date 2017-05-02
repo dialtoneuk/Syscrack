@@ -160,8 +160,13 @@ $class = new SettingsManager();
 
     <style>
         :target {
-            transition: all 1s;
-            background-color: #ffa;
+            animation: border-pulsate 5s;
+            border: 1px solid #ddd;
+        }
+
+        @keyframes border-pulsate {
+            0%   { border-color: #337ab7; }
+            100% { border-color: #ddd; }
         }
     </style>
 
@@ -213,7 +218,7 @@ $class = new SettingsManager();
                         {
                     ?>
                         <form method="post">
-                            <div class="panel panel-default" id="panel_<?=$key?>">
+                            <div class="panel panel-default" id="setting_<?=$key?>">
                                 <div class="panel-body">
                                     <p>
                                         <?=$key?>
@@ -221,7 +226,7 @@ $class = new SettingsManager();
 
                                     <?php
 
-                                        if( is_array( $value ) == false && Settings::hasParsableData( $value ) )
+                                        if( is_array( $value ) == false && is_bool( $value ) == false && Settings::hasParsableData( $value ) )
                                         {
 
                                             ?>
@@ -236,6 +241,7 @@ $class = new SettingsManager();
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                         <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                        <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
                                                     </span>
                                                     <input name="<?=$key?>" type="text" class="form-control" value="<?=$value?>">
                                                 </div>
@@ -252,6 +258,7 @@ $class = new SettingsManager();
                                              <span class="input-group-btn">
                                                 <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                 <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
                                             </span>
 
                                             <?php
@@ -289,6 +296,7 @@ $class = new SettingsManager();
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                             <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                            <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
                                                         </span>
                                                     <input name="<?=$key?>" type="text" class="form-control" value="<?=$value?>">
                                                 </div>
@@ -306,6 +314,7 @@ $class = new SettingsManager();
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                                 <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                                <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
                                                             </span>
                                                     <input name="<?=$key?>" type="text" class="form-control" value="<?=htmlspecialchars( json_encode( $value ) )?>">
                                                 </div>
@@ -322,6 +331,7 @@ $class = new SettingsManager();
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                         <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                        <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
                                                     </span>
                                                     <input name="<?=$key?>" type="text" class="form-control" value="<?=$value?>">
                                                 </div>
@@ -338,7 +348,7 @@ $class = new SettingsManager();
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-primary" id="createsetting">
+                    <div class="panel panel-primary" id="settings_creator">
                         <div class="panel-heading">
                             <h3 class="panel-title">Settings Creator</h3>
                         </div>
@@ -399,7 +409,7 @@ if( PostHelper::checkPostData( ['action'] ) )
                 $value = $class->stringToBool( $value );
             }
 
-            if( $class->isJson( $value ) )
+            if( $class->isJson( $value ) && is_string( $value ) )
             {
 
                 $value = json_decode( $value, true );

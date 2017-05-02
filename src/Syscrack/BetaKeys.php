@@ -185,9 +185,9 @@
                     $step = $step . rand(0,9 );
                 }
 
-                $key = $key . "-" . $step;
+                $key = $step . "-" . $key;
             }
 
-            return $key;
+            return rtrim( $key, '-');
         }
     }

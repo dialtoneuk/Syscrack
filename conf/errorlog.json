@@ -467,5 +467,749 @@
         },
         "timestamp": 1493702729,
         "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734380,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734380,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734380,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734380,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734380,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734380,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734381,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/developer\/settingsmanager?success",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\Controller.php(111): Framework\\Application\\Settings::getSetting('middlewares_ena...')\n#1 C:\\xampp\\htdocs\\src\\Application.php(109): Framework\\Views\\Controller->run()\n#2 C:\\xampp\\htdocs\\index.php(239): Framework\\Application->runController()\n#3 {main}"
+        },
+        "timestamp": 1493734387,
+        "ip": "192.168.0.107"
     }
 ]
