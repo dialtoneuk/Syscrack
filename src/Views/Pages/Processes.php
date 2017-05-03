@@ -32,8 +32,7 @@
         public function __construct()
         {
 
-            parent::__construct( false, true, true, true );
-
+            parent::__construct( true, true, true, true );
 
             if( isset( $this->operations ) == false )
             {
