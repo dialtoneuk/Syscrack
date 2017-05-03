@@ -6,6 +6,12 @@
 
             $url = $_SERVER['REQUEST_URI'];
 
+            if( empty( explode('?', $url ) ) == false )
+            {
+
+                $url = explode('?', $url )[0];
+            }
+
             $paths = explode('/', $url);
 
             $built = '';
@@ -30,7 +36,7 @@
                 }
 
                 ?>
-                    <li><a class="text-capitalize" href="<?= '/' . $built . $path?>"><?=$path?></a></li>
+                    <li><a class="text-capitalize" href="<?= '/' . htmlspecialchars( $built . $path, ENT_QUOTES, 'UTF-8' )?>"><?=htmlspecialchars( $path, ENT_QUOTES, 'UTF-8' )?></a></li>
                 <?php
 
                 $built = $built . $path . '/';
