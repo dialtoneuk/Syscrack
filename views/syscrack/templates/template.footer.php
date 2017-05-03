@@ -57,4 +57,15 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/bootstrap-combobox.js"></script>
+
+    <!--Fade out any alerts which are on the page after 5 seconds-->
+    <script>
+        if($('#alert').length !== 0) {
+
+            $('#alert').delay(5000).fadeOut(400, function(){
+                window.history.pushState("Syscrack", $(document).find("title").text(), 'http://<?php
+                    $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; if( empty( explode('?', $url ) ) == false ){ echo( explode('?', $url )[0 ] ); }else{ echo( $url ); }?>' );
+            });
+        }
+    </script>
 </footer>

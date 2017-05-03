@@ -46,9 +46,9 @@
     }
 ?>
 
-
-<div class="alert alert-dismissible <?php if( isset( $alert_type ) ){ echo $alert_type; }else{?> alert-danger <?php }?>" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<div class="alert alert-dismissible <?php if( isset( $alert_type ) ){ echo $alert_type; }else{?> alert-danger <?php }?>" id="alert" role="alert">
+    <button type="button" class="close" data-dismiss="alert" onclick='window.history.pushState("Syscrack", $(document).find("title").text(), "http://<?php
+        $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; if( empty( explode('?', $url ) ) == false ){ echo( explode('?', $url )[0 ] ); }else{ echo( $url ); }?>" );' aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <?php
 
         if( isset( $_GET['success'] ) && isset( $_GET['error'] ) == false )
