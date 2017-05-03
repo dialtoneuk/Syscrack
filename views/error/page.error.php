@@ -1,7 +1,6 @@
 <?php
 
     use Framework\Application\Container;
-    use Framework\Application\Session;
     use Framework\Syscrack\User;
 
     if( \Framework\Application\Settings::getSetting('error_logging') == false || \Framework\Application\Settings::getSetting('error_display_page') == false )
@@ -10,18 +9,6 @@
         Flight::notFound();
 
         exit;
-    }
-
-    if( session_status() !== PHP_SESSION_ACTIVE )
-    {
-
-        session_start();
-    }
-
-    if( Container::hasObject('session') == false )
-    {
-
-        Container::setObject('session', new Session() );
     }
 
     $error_handler = \Framework\Application\Container::getObject('application')->getErrorHandler();

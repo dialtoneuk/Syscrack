@@ -19,6 +19,7 @@
     "error_log_location": "conf\/errorlog.json",
     "error_display_page": true,
     "error_logging": true,
+    "error_use_session": true,
     "active_log_location": "conf\/activelog.json",
     "active_log_enabled": false,
     "active_log_showdeveloper": false,

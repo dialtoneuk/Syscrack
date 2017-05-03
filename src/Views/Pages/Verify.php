@@ -14,9 +14,10 @@
     use Framework\Application\Utilities\PostHelper;
     use Framework\Syscrack\Game\Utilities\Startup;
     use Framework\Syscrack\Verification;
-    use Framework\Views\Structures\Page;
+    use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Structures\Page as Structure;
 
-    class Verify implements Page
+    class Verify extends BaseClass implements Structure
     {
 
         /**
@@ -32,11 +33,17 @@
         public function __construct()
         {
 
-            $this->verification = new Verification();
+            parent::__construct( false );
+
+            if( isset( $this->verification ) == false )
+            {
+
+                $this->verification = new Verification();
+            }
         }
 
         /**
-         * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+         * Returns the pages mapping
          *
          * @return array
          */

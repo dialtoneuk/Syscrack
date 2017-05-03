@@ -12,9 +12,9 @@
     use Flight;
     use Framework\Application\Utilities\Log;
     use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page;
+    use Framework\Views\Structures\Page as Structure;
 
-    class Developer extends BaseClass implements Page
+    class Developer extends BaseClass implements Structure
     {
 
         public function __construct()

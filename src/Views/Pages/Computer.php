@@ -2,7 +2,7 @@
     namespace Framework\Views\Pages;
 
     /**
-     * Lewis Lancaster 2016
+     * Lewis Lancaster 2017
      *
      * Class Computer
      *
@@ -11,7 +11,6 @@
 
     use Flight;
     use Framework\Application\Container;
-    use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Game\Operations;
@@ -29,31 +28,11 @@
         public function __construct()
         {
 
-            parent::__construct( true );
-
-            if (session_status() !== PHP_SESSION_ACTIVE)
-            {
-
-                session_start();
-            }
-
-            if (Container::hasObject('session') == false)
-            {
-
-                Container::setObject('session', new Session());
-            }
-
-            if (Container::getObject('session')->isLoggedIn() == false)
-            {
-
-                Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
-
-                exit;
-            }
+            parent::__construct( true, true, true, true );
         }
 
         /**
-         * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+         * Returns the pages mapping
          *
          * @return array
          */

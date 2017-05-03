@@ -127,6 +127,15 @@ class PostHelper
 
                 return false;
             }
+            else
+            {
+
+                if( $post[ $requirement ] == null || $post[ $requirement ] == "" )
+                {
+
+                    return false;
+                }
+            }
         }
 
         return true;

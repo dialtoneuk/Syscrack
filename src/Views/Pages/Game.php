@@ -11,16 +11,15 @@
 
     use Flight;
     use Framework\Application\Container;
-    use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Game\Operations;
     use Framework\Syscrack\Game\Structures\Operation;
     use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page;
+    use Framework\Views\Structures\Page as Structure;
 
-    class Game extends BaseClass implements Page
+    class Game extends BaseClass implements Structure
     {
 
 
@@ -37,31 +36,11 @@
         public function __construct()
         {
 
-            parent::__construct();
-
-            if (session_status() !== PHP_SESSION_ACTIVE)
-            {
-
-                session_start();
-            }
-
-            if (Container::hasObject('session') == false)
-            {
-
-                Container::setObject('session', new Session());
-            }
-
-            if (Container::getObject('session')->isLoggedIn() == false)
-            {
-
-                Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
-
-                exit;
-            }
+            parent::__construct( true, true, true, true );
         }
 
         /**
-         * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+         * Returns the pages mapping
          *
          * @return array
          */
@@ -83,7 +62,7 @@
                     '/game/addressbook/', 'addressBook'
                 ],
                 [
-                    '/game/internet/@ipaddress', 'viewAddress'
+                    '/game/internet/@ipaddress/', 'viewAddress'
                 ],
                 [
                     '/game/internet/@ipaddress/@process', 'process'
@@ -188,7 +167,7 @@
                 if ($this->validAddress() == false)
                 {
 
-                    $this->redirectError('404 Not Found', null, 'internet' );
+                    $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
                 }
 
                 $this->getRender('page.game.internet', array('ipaddress' => PostHelper::getPostData('ipaddress')));
@@ -252,7 +231,7 @@
             if ($this->validAddress($ipaddress) == false)
             {
 
-                $this->redirectError('404 Not Found', null, 'internet' );
+                $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
             }
             else
             {
@@ -262,7 +241,7 @@
                 if ($this->operations->hasProcessClass($process) == false)
                 {
 
-                    $this->redirectError('Action not found', $ipaddress);
+                    $this->redirectError('Action not found', $this->getRedirect( $ipaddress ) );
                 }
 
                 $class = $this->operations->findProcessClass($process);
@@ -285,7 +264,7 @@
                     if ($result == false)
                     {
 
-                        $this->redirectError('Unable to preform action', $ipaddress);
+                        $this->redirectError('Unable to preform action', $this->getRedirect( $ipaddress ) );
                     }
                     else
                     {
@@ -305,7 +284,7 @@
                     if ($processid == false)
                     {
 
-                        $this->redirectError('Unable to create process', $ipaddress);
+                        $this->redirectError('Unable to create process', $this->getRedirect( $ipaddress ) );
                     }
 
                     Flight::redirect('/processes/' . $processid);
@@ -329,7 +308,7 @@
             if ($this->validAddress($ipaddress) == false)
             {
 
-                $this->redirectError('404 Not Found', null, 'internet' );
+                $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
             }
             else
             {
@@ -339,13 +318,13 @@
                 if ($this->operations->hasProcessClass($process) == false)
                 {
 
-                    $this->redirectError('Action not found', $ipaddress);
+                    $this->redirectError('Action not found', $this->getRedirect( $ipaddress ) );
                 }
 
                 if( $this->operations->allowSoftwares( $process ) == false )
                 {
 
-                    Flight::redirect('/' . Settings::getSetting('syscrack_game_page'). '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/' . $process );
+                    Flight::redirect( Settings::getSetting('controller_index_root') . $this->getRedirect( $ipaddress ) . $process );
                 }
                 else
                 {
@@ -353,19 +332,19 @@
                     if ($this->internet->hasCurrentConnection() == false || $this->internet->getCurrentConnectedAddress() != $ipaddress)
                     {
 
-                        $this->redirectError('You must be connected to this computer to preform actions on its software', $ipaddress);
+                        $this->redirectError('You must be connected to this computer to preform actions on its software', $this->getRedirect( $ipaddress ) );
                     }
 
                     if ($this->softwares->softwareExists($softwareid) == false)
                     {
 
-                        $this->redirectError('Software does not exist', $ipaddress);
+                        $this->redirectError('Software does not exist', $this->getRedirect( $ipaddress ) );
                     }
 
                     if ($this->computer->hasSoftware($this->internet->getComputer($ipaddress)->computerid, $softwareid) == false)
                     {
 
-                        $this->redirectError('Software does not exist', $ipaddress);
+                        $this->redirectError('Software does not exist', $this->getRedirect( $ipaddress ) );
                     }
 
                     $class = $this->operations->findProcessClass($process);
@@ -389,7 +368,7 @@
                         if ($result == false)
                         {
 
-                            $this->redirectError('Process cannot be completed', $ipaddress);
+                            $this->redirectError('Process cannot be completed', $this->getRedirect( $ipaddress ) );
                         }
                         else
                         {
@@ -411,7 +390,7 @@
                         if ($processid == false)
                         {
 
-                            $this->redirectError('Process failed to be created', $ipaddress);
+                            $this->redirectError('Process failed to be created', $this->getRedirect( $ipaddress ) );
                         }
 
                         Flight::redirect('/processes/' . $processid);
@@ -432,63 +411,29 @@
             if ($this->validAddress($ipaddress) == false)
             {
 
-                $this->redirectError('404 Not Found', null, 'internet' );
+                $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
             }
 
             $this->getRender('page.game.internet', array('ipaddress' => $ipaddress));
         }
 
         /**
-         * Redirects the user to an error page
+         * Gets the game page to redirect too
          *
-         * @param string $message
+         * @param null $ipaddress
          *
-         * @param string $ipaddress
+         * @return string
          */
 
-        public function redirectError( $message='', $ipaddress=null, $path=null )
+        private function getRedirect($ipaddress=null )
         {
 
-            if( $ipaddress !== null )
+            if( $ipaddress )
             {
 
-                Flight::redirect('/' . Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?error=' . $message);
-
-                exit;
+                return Settings::getSetting('syscrack_game_page') . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/';
             }
 
-            if( $path !== null )
-            {
-
-                Flight::redirect('/' . Settings::getSetting('syscrack_game_page') . '/' . $path . '/?error=' . $message );
-
-                exit;
-            }
-
-            Flight::redirect( '/' . Settings::getSetting('syscrack_game_page') . '/?error=' . $message);
-
-            exit;
-        }
-
-        /**
-         * Redirects the user to a success page
-         *
-         * @param string $ipaddress
-         */
-
-        public function redirectSuccess($ipaddress = '' )
-        {
-
-            if( $ipaddress !== '' )
-            {
-
-                Flight::redirect('/' . Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?success');
-
-                exit;
-            }
-
-            Flight::redirect( '/' . Settings::getSetting('syscrack_game_page') . '/?success');
-
-            exit;
+            return Settings::getSetting('syscrack_game_page') . '/';
         }
     }

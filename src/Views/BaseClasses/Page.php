@@ -10,6 +10,8 @@
      */
 
     use Flight;
+    use Framework\Application\Container;
+    use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Internet;
@@ -42,7 +44,7 @@
          * @param bool $autoload
          */
 
-        public function __construct($autoload = true)
+        public function __construct($autoload = true, $session=false, $requirelogin=false, $clearerrors=true )
         {
 
             if ($autoload == true)
@@ -53,6 +55,53 @@
                 $this->internet = new Internet();
 
                 $this->computer = new Computer();
+            }
+
+            if( $session )
+            {
+
+                if (session_status() !== PHP_SESSION_ACTIVE)
+                {
+
+                    session_start();
+                }
+
+                Container::setObject('session', new Session());
+
+                if( $requirelogin )
+                {
+
+                    if (Container::getObject('session')->isLoggedIn() == false)
+                    {
+
+                        Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+
+                        exit;
+                    }
+                }
+
+                if( $clearerrors )
+                {
+
+                    if( isset( $_GET['error'] ) == false )
+                    {
+
+                        if( isset( $_SESSION['error_page'] ) == false )
+                        {
+
+                            Container::getObject('session')->clearError();
+                        }
+                        else
+                        {
+
+                            if( $_SESSION['error_page'] !== $this->getCurrentPage() )
+                            {
+
+                                Container::getObject('session')->clearError();
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -67,15 +116,46 @@
         public function redirectError($message = '', $path = '')
         {
 
-            if ($path !== '')
+            if( Settings::getSetting('error_use_session') )
             {
 
-                Flight::redirect('/' . $this->getCurrentPage() . $path . "?success");
-                exit;
-            }
+                $_SESSION['error'] = $message;
 
-            Flight::redirect('/' .  $this->getCurrentPage() . '?error=' . $message);
-            exit;
+                $_SESSION['error_page'] = $this->getCurrentPage();
+
+                if ($path !== '')
+                {
+
+                    Flight::redirect( Settings::getSetting('controller_index_root') . $path . '?error');
+
+                    exit;
+                }
+                else
+                {
+
+                    Flight::redirect('/' .  $this->getCurrentPage() . '?error' );
+
+                    exit;
+                }
+            }
+            else
+            {
+
+                if ($path !== '')
+                {
+
+                    Flight::redirect( Settings::getSetting('controller_index_root') . $path . '?error=' . $message );
+
+                    exit;
+                }
+                else
+                {
+
+                    Flight::redirect('/' .  $this->getCurrentPage() . '?error=' . $message );
+
+                    exit;
+                }
+            }
         }
 
         /**
@@ -107,12 +187,18 @@
         public function getCurrentPage()
         {
 
-            $page = array_values(array_filter(explode('/', $_SERVER['REQUEST_URI'])));
+            $page = array_values(array_filter(explode('/', strip_tags( $_SERVER['REQUEST_URI'] ))));
 
             if( empty( $page ) )
             {
 
                 return Settings::getSetting('controller_index_page');
+            }
+
+            if( empty( explode('?', $page[0] ) ) == false )
+            {
+
+                return explode('?', $page[0] )[0];
             }
 
             return $page[0];
@@ -124,9 +210,9 @@
          * @return array
          */
 
-        public function getPageSplat()
+        private function getPageSplat()
         {
 
-            return array_values(array_filter(explode('/', $_SERVER['REQUEST_URI'])));
+            return array_values(array_filter(explode('/', strip_tags( $_SERVER['REQUEST_URI'] ))));
         }
     }

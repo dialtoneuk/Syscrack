@@ -11,9 +11,9 @@
 
     use Flight;
     use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page;
+    use Framework\Views\Structures\Page as Structure;
 
-    class Error extends BaseClass implements Page
+    class Error extends BaseClass implements Structure
     {
 
         /**
@@ -23,11 +23,11 @@
         public function __construct()
         {
 
-            parent::__construct( false );
+            parent::__construct( false, true );
         }
 
         /**
-         * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+         * Returns the pages flight mapping
          *
          * @return array
          */

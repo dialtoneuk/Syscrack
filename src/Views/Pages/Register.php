@@ -2,7 +2,7 @@
     namespace Framework\Views\Pages;
 
     /**
-     * Lewis Lancaster 2016
+     * Lewis Lancaster 2017
      *
      * Class Register
      *
@@ -11,31 +11,25 @@
 
     use Flight;
     use Framework\Application\Container;
-    use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\BetaKeys;
     use Framework\Syscrack\Register as Account;
-    use Framework\Views\Structures\Page;
+    use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Structures\Page as Structure;
 
-    class Register implements Page
+    class Register extends BaseClass implements Structure
     {
 
         /**
-         * Login constructor.
+         * Register constructor.
          */
 
         public function __construct()
         {
 
-            if (session_status() !== PHP_SESSION_ACTIVE)
-            {
-
-                session_start();
-            }
-
-            Container::setObject('session', new Session());
+            parent::__construct( false, true, false, true );
 
             if (Container::getObject('session')->isLoggedIn())
             {
@@ -45,7 +39,7 @@
         }
 
         /**
-         * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+         * Returns the pages mapping
          *
          * @return array
          */
@@ -107,7 +101,7 @@
             if (empty($username) || empty($password) || empty($email))
             {
 
-                $this->redirectError('Failed to register');
+                $this->redirectError('Missing Information');
             }
 
             $register = new Account();
@@ -168,17 +162,5 @@
 
                 Flight::redirect('/verify/?token=' . $result);
             }
-        }
-
-        /**
-         * Display an error
-         *
-         * @param $error
-         */
-
-        private function redirectError($error)
-        {
-
-            Flight::redirect('/register/?error=' . $error);
         }
     }

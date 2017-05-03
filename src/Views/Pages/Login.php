@@ -2,7 +2,7 @@
     namespace Framework\Views\Pages;
 
     /**
-     * Lewis Lancaster 2016
+     * Lewis Lancaster 2017
      *
      * Class Login
      *
@@ -11,16 +11,15 @@
 
     use Flight;
     use Framework\Application\Container;
-    use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Login\Account;
     use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page;
+    use Framework\Views\Structures\Page as Structure;
 
-    class Login extends BaseClass implements Page
+    class Login extends BaseClass implements Structure
     {
 
         /**
@@ -30,15 +29,7 @@
         public function __construct()
         {
 
-            parent::__construct( false );
-
-            if (session_status() !== PHP_SESSION_ACTIVE)
-            {
-
-                session_start();
-            }
-
-            Container::setObject('session', new Session());
+            parent::__construct( false, true, false, true );
 
             if (Container::getObject('session')->isLoggedIn())
             {
@@ -48,7 +39,7 @@
         }
 
         /**
-         * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+         * Returns the pages mapping
          *
          * @return array
          */
@@ -156,19 +147,5 @@
             }
 
             $computer->setCurrentUserComputer($computer->getUserMainComputer($userid)->computerid);
-        }
-
-        /**
-         * Displays an error
-         *
-         * @param string $message
-         *
-         * @param string $path
-         */
-
-        public function redirectError( $message='', $path='')
-        {
-
-            Flight::redirect('/login/?error=' . $message);
         }
     }

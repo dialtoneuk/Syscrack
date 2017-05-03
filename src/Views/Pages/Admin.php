@@ -2,7 +2,7 @@
     namespace Framework\Views\Pages;
 
     /**
-     * Lewis Lancaster 2016
+     * Lewis Lancaster 2017
      *
      * Class Admin
      *
@@ -11,13 +11,12 @@
 
     use Flight;
     use Framework\Application\Container;
-    use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Syscrack\User;
     use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page;
+    use Framework\Views\Structures\Page as Structure;
 
-    class Admin extends BaseClass implements Page
+    class Admin extends BaseClass implements Structure
     {
 
         /**
@@ -27,35 +26,19 @@
         protected $user;
 
         /**
-         * Error constructor.
+         * Admin Error constructor.
          */
 
         public function __construct()
         {
 
-            parent::__construct( true );
+            parent::__construct( true, true, true, true  );
 
-            if (session_status() !== PHP_SESSION_ACTIVE)
+            if( isset( $this->user ) == false )
             {
 
-                session_start();
+                $this->user = new User();
             }
-
-            if (Container::hasObject('session') == false)
-            {
-
-                Container::setObject('session', new Session());
-            }
-
-            if (Container::getObject('session')->isLoggedIn() == false)
-            {
-
-                Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
-
-                exit;
-            }
-
-            $this->user = new User();
 
             if( $this->user->isAdmin( Container::getObject('session')->getSessionUser() ) == false )
             {
@@ -67,7 +50,7 @@
         }
 
         /**
-         * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+         * Returns the pages mapping
          *
          * @return array
          */

@@ -256,24 +256,38 @@ class Operation
      * @param string $ipaddress
      */
 
-    public function redirectError( $message = null, $ipaddress=null, $path = null)
+    public function redirectError($message = '', $path = '')
     {
 
-        if( $path === null )
+        if( Settings::getSetting('error_use_session') )
         {
 
-            $path = Settings::getSetting('syscrack_game_page');
+            $_SESSION['error'] = $message;
+
+            $_SESSION['error_page'] = $this->getCurrentPage();
+
+            if ($path !== '')
+            {
+
+                Flight::redirect( Settings::getSetting('controller_index_root') . $path . '?error');
+
+                exit;
+            }
+            else
+            {
+
+                Flight::redirect('/' .  $this->getCurrentPage() . '?error' );
+
+                exit;
+            }
         }
-
-        if( $ipaddress !== null )
+        else
         {
 
-            Flight::redirect('/' . $path . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?error=' . $message);
+            Flight::redirect('/' .  $this->getCurrentPage() . '?error=' . $message);
+
             exit;
         }
-
-        Flight::redirect( '/' . $path . '/?error=' . $message);
-        exit;
     }
 
     /**
@@ -302,5 +316,66 @@ class Operation
         Flight::redirect( '/' . $path . '/?success');
 
         exit;
+    }
+
+
+    /**
+     * Gets the page the operation should redirect too
+     *
+     * @param null $ipaddress
+     *
+     * @param bool $local
+     *
+     * @return string
+     */
+
+    public function getRedirect( $ipaddress=null, $local=false )
+    {
+
+        if( $local )
+        {
+
+            return Settings::getSetting('syscrack_computer_page') . '/';
+        }
+
+        if( $ipaddress )
+        {
+
+            return Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/';
+        }
+
+        return Settings::getSetting('syscrack_game_page') . '/';
+    }
+
+    /**
+     * Gets the current page
+     *
+     * @return string
+     */
+
+    private function getCurrentPage()
+    {
+
+        $page = array_values(array_filter(explode('/', strip_tags( $_SERVER['REQUEST_URI'] ))));
+
+        if( empty( $page ) )
+        {
+
+            return Settings::getSetting('controller_index_page');
+        }
+
+        return $page[0];
+    }
+
+    /**
+     * Gets the entire path in the form of an array
+     *
+     * @return array
+     */
+
+    private function getPageSplat()
+    {
+
+        return array_values(array_filter(explode('/', strip_tags( $_SERVER['REQUEST_URI'] ))));
     }
 }

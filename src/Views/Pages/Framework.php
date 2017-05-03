@@ -28,7 +28,7 @@
         }
 
         /**
-         * Returns the url routes
+         * Returns the pages mapping
          *
          * @return array
          */

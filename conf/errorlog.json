@@ -1211,5 +1211,17 @@
         },
         "timestamp": 1493734387,
         "ip": "192.168.0.107"
+    },
+    {
+        "message": "Setting does not exist",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/game\/internet\/",
+            "line": 181,
+            "file": "C:\\xampp\\htdocs\\src\\Application\\Settings.php",
+            "trace": "#0 C:\\xampp\\htdocs\\src\\Views\\BaseClasses\\Page.php(70): Framework\\Application\\Settings::getSetting('errors_use_sess...')\n#1 C:\\xampp\\htdocs\\src\\Views\\Pages\\Game.php(191): Framework\\Views\\BaseClasses\\Page->redirectError('404 Not Found', 'game\/internet')\n#2 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): Framework\\Views\\Pages\\Game->internet()\n#3 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#4 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(322): flight\\core\\Dispatcher::execute(Array, Array)\n#5 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->_start()\n#6 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(142): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#7 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(48): flight\\core\\Dispatcher::execute(Array, Array)\n#8 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Engine.php(65): flight\\core\\Dispatcher->run('start', Array)\n#9 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(196): flight\\Engine->__call('start', Array)\n#10 C:\\xampp\\htdocs\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#11 C:\\xampp\\htdocs\\src\\Application.php(99): Flight::__callStatic('start', Array)\n#12 C:\\xampp\\htdocs\\index.php(251): Framework\\Application->runFlight()\n#13 {main}"
+        },
+        "timestamp": 1493778813,
+        "ip": "192.168.0.107"
     }
 ]

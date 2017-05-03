@@ -15,10 +15,10 @@
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\ViewException;
-    use Framework\Views\BaseClasses\Page as BaseClsas;
-    use Framework\Views\Structures\Page;
+    use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Structures\Page as Structure;
 
-    class Api extends BaseClsas implements Page
+    class Api extends BaseClass implements Structure
     {
 
         /**
@@ -48,9 +48,17 @@
 
             parent::__construct( false );
 
-            $this->manager = new Manager();
+            if( isset( $this->manager ) == false )
+            {
 
-            $this->controller = new Controller();
+                $this->manager = new Manager();
+            }
+
+            if( isset( $this->computer ) == false )
+            {
+
+                $this->controller = new Controller();
+            }
 
             if (PostHelper::hasPostData())
             {

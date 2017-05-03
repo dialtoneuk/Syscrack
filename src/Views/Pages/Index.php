@@ -10,12 +10,10 @@
      */
 
     use Flight;
-    use Framework\Application\Container;
-    use Framework\Application\Session;
-    use Framework\Views\Structures\Page;
     use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Structures\Page as Structure;
 
-    class Index extends BaseClass implements Page
+    class Index extends BaseClass implements Structure
     {
 
         /**
@@ -25,15 +23,7 @@
         public function __construct()
         {
 
-            parent::__construct( false );
-
-            if (session_status() !== PHP_SESSION_ACTIVE)
-            {
-
-                session_start();
-            }
-
-            Container::setObject('session', new Session());
+            parent::__construct( false, true );
         }
 
         /**

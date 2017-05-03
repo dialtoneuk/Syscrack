@@ -323,6 +323,6 @@ class Controller
     private function getURL()
     {
 
-        return $_SERVER['REQUEST_URI'];
+        return strip_tags( $_SERVER['REQUEST_URI'] );
     }
 }

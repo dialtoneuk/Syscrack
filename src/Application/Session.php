@@ -42,6 +42,24 @@ class Session
     }
 
     /**
+     * Clears the last session error
+     */
+
+    public function clearError()
+    {
+
+        if( isset( $_SESSION['error'] ) == false )
+        {
+
+            return;
+        }
+
+        $_SESSION['error_page'] = null;
+
+        $_SESSION['error'] = null;
+    }
+
+    /**
      * Gets the time of which the user hsa done the last action
      *
      * @return mixed
