@@ -15,7 +15,7 @@
     "user_group_admin": "admin",
     "user_group_developer": "developer",
     "user_allow_registrations": true,
-    "user_require_betakey": true,
+    "user_require_betakey": false,
     "error_log_location": "conf\/errorlog.json",
     "error_display_page": true,
     "error_logging": true,

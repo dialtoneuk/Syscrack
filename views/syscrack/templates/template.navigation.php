@@ -110,7 +110,8 @@
                         else
                         {
                             ?>
-                                <li><a href="/login/">Login</a></li>
+                                <li><a href="/login/"><span class="glyphicon glyphicon-off"></span> Login</a></li>
+                                <li><a href="/register/"><span class="glyphicon glyphicon-star"></span> Register</a></li>
                             <?php
                         }
                     ?>

@@ -40,7 +40,7 @@ if( $session->isLoggedIn() )
             <div class="row">
                 <div class="col-lg-6">
                     <div class="page-header">
-                        <h1>Register</h1>
+                        <h1>SC:\\register</h1>
                     </div>
                     <form method="post">
 
@@ -74,7 +74,7 @@ if( $session->isLoggedIn() )
                                         'placeholder'   => '0001-0002-0003',
                                         'icon'          => 'glyphicon-certificate'
                                     ]
-                                ], 'form_submit_label' => 'Login' ));
+                                ], 'form_submit_label' => 'Register' ));
                             }
                             else
                             {
@@ -98,10 +98,22 @@ if( $session->isLoggedIn() )
                                         'placeholder'   => 'Email',
                                         'icon'          => 'glyphicon-envelope'
                                     ],
-                                ], 'form_submit_label' => 'Login' ));
+                                ], 'form_submit_label' => 'Register' ));
                             }
                         ?>
                     </form>
+                </div>
+                <div class="col-lg-6">
+                    <div class="page-header">
+                        <h1>SC:\\iwanttoplay</h1>
+                    </div>
+                    <div class="well">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DrxJCOVsV1E?ecver=1" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <p>
+                        We are currently setting up the final steps on making your experience awesome, <a href="https://discordapp.com/invite/yezxfN3">please join our discord
+                        for updates direct from the mouth of the developers.</a>
+                    </p>
                 </div>
             </div>
 

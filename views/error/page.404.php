@@ -2,7 +2,7 @@
 
     <?php
 
-        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Connection Tester'));
+        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Not Found'));
     ?>
 
     <body>

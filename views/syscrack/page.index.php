@@ -36,7 +36,7 @@
             ?>
             <div class="row">
                 <div class="col-lg-12">
-                    <div style="background: black" id="carousel" class="carousel slide" data-ride="carousel">
+                    <div style="background: black; height: 300px;" id="carousel" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
                         <ol class="carousel-indicators">
                             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -49,96 +49,31 @@
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner" role="listbox">
                             <div class="item active">
-                                <div style="color: white; width: 100%; padding: 5%; padding-left: 10%; padding-bottom: 10%;">
-                                    <h2>
-                                        SC:\\hacks
-                                    </h2>
-                                    <p>
-                                        0 Hacks
-                                    </p>
-                                    <p>
-                                        0 Infections
-                                    </p>
-                                    <p>
-                                        0 Transfers
-                                    </p>
-                                </div>
+                                <div style="color: white; width: 100%; height: 300px; background: url('/assets/img/vibrant_green.png') center no-repeat; background-size:contain;"></div>
                                 <div class="carousel-caption">
                                     <p>Hack your victims and infect them with your doom</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; padding: 5%; padding-left: 10%; padding-bottom: 10%;">
-                                    <h2>
-                                        SC:\\computers
-                                    </h2>
-                                    <p>
-                                        0 Computers
-                                    </p>
-                                    <p>
-                                        0 Softwares on computers
-                                    </p>
-                                    <p>
-                                        $0 Spent on computers
-                                    </p>
-                                </div>
+                                <div style="color: white; width: 100%; height: 300px; background: url('/assets/img/vibrant_blue.png') center no-repeat; background-size:contain;"></div>
                                 <div class="carousel-caption">
                                     <p>Control multiple computers</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; padding: 5%; padding-left: 10%; padding-bottom: 10%;">
-                                    <h2>
-                                        SC:\\market
-                                    </h2>
-                                    <p>
-                                        0 Markets
-                                    </p>
-                                    <p>
-                                        $0 Spent on software
-                                    </p>
-                                    <p>
-                                        $0 Spent on hardware
-                                    </p>
-                                </div>
+                                <div style="color: white; width: 100%; height: 300px; background: url('/assets/img/vibrant_red.png') center no-repeat; background-size:contain;"></div>
                                 <div class="carousel-caption">
                                     <p>Have your own virtual marketplace and sell software and hardware</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; padding: 5%; padding-left: 10%; padding-bottom: 10%;">
-                                    <h2>
-                                        SC:\\bitcoins
-                                    </h2>
-                                    <p>
-                                        0 Bitcoin servers
-                                    </p>
-                                    <p>
-                                        $0 Spent on bitcoin
-                                    </p>
-                                    <p>
-                                        0 Bitcoins Transfered
-                                    </p>
-                                </div>
+                                <div style="color: white; width: 100%; height: 300px; background: url('/assets/img/vibrant_cyan.png') center no-repeat; background-size:contain;"></div>
                                 <div class="carousel-caption">
                                     <p>Become a bitcoin barron, host your own bitcoin exchanges</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; padding: 5%; padding-left: 10%; padding-bottom: 10%;">
-                                    <h2>
-                                        SC:\\freeforever
-                                    </h2>
-                                    <p>
-                                        Never 'pay-to'win
-                                    </p>
-                                    <p>
-                                        Ad Free
-                                    </p>
-                                    <p>
-                                        Open Source
-                                    </p>
-                                </div>
+                                <div style="color: white; width: 100%; height: 300px; background: url('/assets/img/white.png') center no-repeat; background-size:contain;"></div>
                                 <div class="carousel-caption">
                                     <p>Syscrack is a completely free and open source game</p>
                                 </div>
@@ -157,10 +92,10 @@
                     </a>
                 </div>
             </div>
-            <div class="row" style="margin-top: 2.5%;">
+            <div class="row" style="margin-top: 5%;">
                 <div class="col-lg-12">
-                    <div class="panel panel-default" style="padding-bottom: 0.5%;">
-                        <h3 class="text-center text-capitalize">
+                    <div class="panel panel-default" style="padding: 2%; color: #dddddd;">
+                        <h3 class="text-center text-uppercase">
                             An Open Source Hacking Simulator, simulated on a Virtual Internet
                         </h3>
                     </div>
@@ -168,9 +103,9 @@
             </div>
             <div class="row">
                 <div class="col-lg-6">
-                    <h1 class="page-header">
-                        SC:\\hack_the_planet
-                    </h1>
+                    <div class="page-header">
+                        <h1>SC:\\hacktheplanet</h1>
+                    </div>
                     <p>
                         Syscrack is a <strong>hacking simulator</strong> built from the ground up
                         to be expandable and modded. Users are thrown into a virtual internet and are
@@ -205,9 +140,9 @@
                     </p>
                 </div>
                 <div class="col-lg-6">
-                    <h1 class="page-header">
-                        SC:\\features
-                    </h1>
+                    <div class="page-header">
+                        <h1>SC:\\features</h1>
+                    </div>
                     <ul class="list-group">
                         <li class="list-group-item"><span class="glyphicon glyphicon-certificate"></span> Hack and infect users with your deadly viruses.</li>
                         <li class="list-group-item"><span class="glyphicon glyphicon glyphicon-usd"></span> Make money to buy better softwares, hardwares and computer customizations.</li>
