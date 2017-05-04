@@ -38,7 +38,9 @@ class Download extends BaseClass implements Structure
 
         return array(
             'allowsoftwares'    => true,
-            'allowlocal'        => false
+            'allowlocal'        => false,
+            'requiresoftwares'  => true,
+            'requireloggedin'   => true
         );
     }
 
@@ -110,6 +112,12 @@ class Download extends BaseClass implements Structure
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
+
+        if( $this->checkData( $data ) == false )
+        {
+
+            throw new SyscrackException();
+        }
 
         $softwareid = $this->softwares->copySoftware( $data['softwareid'], $this->computer->getCurrentUserComputer(), $userid );
 

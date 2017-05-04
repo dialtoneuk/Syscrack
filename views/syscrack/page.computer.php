@@ -46,9 +46,11 @@
             </div>
             <div class="row">
                 <div class="col-lg-12" onclick="window.location.href = '/game/computer/'">
-                    <h1 class="page-header">
-                        <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
-                    </h1>
+                    <div class="page-header">
+                        <h1>
+                            <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
+                        </h1>
+                    </div>
                 </div>
 
                 <?php

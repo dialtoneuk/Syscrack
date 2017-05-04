@@ -2,6 +2,7 @@
 
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Internet;
+    use Framework\Syscrack\Game\Softwares;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
     if( empty( $internet ) )
@@ -20,6 +21,12 @@
     {
 
         $computer = new Computer();
+    }
+
+    if( empty( $softwares ) )
+    {
+
+        $softwares = new Softwares();
     }
 ?>
 <div class="col-md-4">
@@ -77,13 +84,32 @@
                             </div>
                         </div>
                     </div>
-                    <form action="/game/internet/<?=$ipaddress?>/login">
+                    <form action="/game/internet/<?=$ipaddress?>/upload" method="post">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-addon" id="sizing-addon3">C:\\</span>
-                                    <input type="text" class="form-control" placeholder="Software" aria-describedby="sizing-addon3">
-                                </div>
+                                <select name="softwareid" class="combobox input-sm form-control">
+                                    <option></option>
+
+                                    <?php
+
+                                        $computersoftwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+
+                                        if( empty( $computersoftwares ) == false )
+                                        {
+
+                                            foreach( $computersoftwares as $key=>$value )
+                                            {
+
+                                                $software = $softwares->getSoftware( $value['softwareid'] );
+
+                                                $extension = $softwares->getSoftwareExtension( $softwares->getSoftwareNameFromSoftwareID( $value['softwareid'] ) );
+
+                                                echo('<option value="' . $software->softwareid . '">' . $software->softwarename . $extension . ' ' . $software->size . 'mb (' . $software->level . ')' . '</option>');
+                                            }
+
+                                        }
+                                    ?>
+                                </select>
                                 <button style="width: 100%; margin-top: 2.5%;" class="btn btn-primary" type="submit">
                                     <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Upload
                                 </button>

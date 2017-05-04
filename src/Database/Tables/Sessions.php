@@ -71,6 +71,22 @@ class Sessions extends Table
 	}
 
     /**
+     * Gets a session by their last action
+     *
+     * @param $time
+     *
+     * @return \Illuminate\Support\Collection|null
+     */
+
+	public function getSessionsByLastAction( $time )
+    {
+
+        $result = $this->getTable()->where('lastaction', '>', $time )->get();
+
+        return ( $result->isEmpty() ) ? null : $result;
+    }
+
+    /**
      * Returns all the sessions
      *
      * @return \Illuminate\Support\Collection

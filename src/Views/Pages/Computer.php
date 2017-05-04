@@ -22,6 +22,12 @@
     {
 
         /**
+         * @var Operations
+         */
+
+        protected $operations;
+
+        /**
          * Computer constructor.
          */
 
@@ -29,6 +35,12 @@
         {
 
             parent::__construct( true, true, true, true );
+
+            if( isset( $this->operations ) == false )
+            {
+
+                $this->operations = new Operations();
+            }
         }
 
         /**
@@ -90,7 +102,7 @@
         public function computerProcesses()
         {
 
-
+            Flight::render('syscrack/page.computer.processes');
         }
 
         public function computerViewProcess()
@@ -101,22 +113,27 @@
         public function computerAction( $process )
         {
 
-            $operations = new Operations();
-
-            if( $operations->hasProcessClass( $process ) == false )
+            if( $this->operations->hasProcessClass( $process ) == false )
             {
 
                 $this->redirectError('Action not found');
             }
             else
             {
-                if( $operations->allowLocal( $process ) == false )
+
+                if( $this->operations->allowLocal( $process ) == false )
                 {
 
                     $this->redirectError('Action cannot be preformed locally');
                 }
 
-                $class = $operations->findProcessClass($process);
+                if( $this->operations->hasProcess( $this->computer->getCurrentUserComputer(), $process, $this->getCurrentComputerAddress() ) == true )
+                {
+
+                    $this->redirectError('You already have a process of this nature processing, complete that one first');
+                }
+
+                $class = $this->operations->findProcessClass($process);
 
                 if ($class instanceof Operation == false)
                 {
@@ -150,7 +167,7 @@
                 else
                 {
 
-                    $processid = $operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                    $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
                         'ipaddress' => $this->getCurrentComputerAddress(),
                         'redirect' => 'computer'
                     ));
@@ -186,6 +203,12 @@
                 }
                 else
                 {
+
+                    if( $this->operations->hasProcess( $this->computer->getCurrentUserComputer(), $process, $this->getCurrentComputerAddress(), $softwareid ) == true )
+                    {
+
+                        $this->redirectError('You already have a process of this nature processing, complete that one first');
+                    }
 
                     if( $this->softwares->softwareExists( $softwareid ) == false )
                     {

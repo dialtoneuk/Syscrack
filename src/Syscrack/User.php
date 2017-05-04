@@ -297,6 +297,30 @@ class User
 		return true;
 	}
 
+    /**
+     * Returns all the users currently in the database
+     *
+     * @return \Illuminate\Support\Collection
+     */
+
+	public function getAllUsers()
+    {
+
+        return $this->database->getUsers();
+    }
+
+    /**
+     * Returns the number of users
+     *
+     * @return int
+     */
+
+	public function getUsersCount()
+    {
+
+        return $this->database->getUsers()->count();
+    }
+
 	/**
 	 * Returns true if it is an email.
 	 *

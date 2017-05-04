@@ -377,7 +377,7 @@ class PageHelper
             throw new SyscrackException();
         }
 
-        return Settings::getSetting('syscrack_currency') . $finance->getTotalUserCash( $this->session->getSessionUser() );
+        return number_format( $finance->getTotalUserCash( $this->session->getSessionUser() ) );
     }
 
     /**

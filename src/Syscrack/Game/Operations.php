@@ -120,6 +120,62 @@ class Operations
     }
 
     /**
+     * Returns true if we already have a process like this on a users computer
+     *
+     * @param $computerid
+     *
+     * @param $process
+     *
+     * @return bool
+     */
+
+    public function hasProcess( $computerid, $process, $ipaddress, $softwareid=null )
+    {
+
+        $processes = $this->getComputerProcesses( $computerid );
+
+        if( empty( $processes ) )
+        {
+
+            return false;
+        }
+
+        foreach( $processes as $key=>$value )
+        {
+
+            if( $value->process == $process )
+            {
+
+                $data = json_decode( $value->data, true );
+
+                if( $data['ipaddress'] == $ipaddress )
+                {
+
+                    if( $softwareid !== null )
+                    {
+
+                        if( isset( $data['softwareid'] ) == false )
+                        {
+
+                            return false;
+                        }
+
+                        if( $data['softwareid'] == $softwareid )
+                        {
+
+                            return true;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Creates a new process and adds it to the database
      *
      * @param $timecompleted
@@ -344,6 +400,142 @@ class Operations
         }
 
         if( $class->configuration()['allowsoftwares'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if this process requires softwares
+     *
+     * @param $process
+     *
+     * @return bool
+     */
+
+    public function requireSoftwares( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['requiresoftwares'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $class->configuration()['requiresoftwares'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if the user is required to login in order to complete this process
+     *
+     * @param $process
+     *
+     * @return bool
+     */
+
+    public function requireLoggedIn( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['requireloggedin'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $class->configuration()['requireloggedin'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if this operation uses the software of your computer and not the software of your current connection
+     *
+     * @param $process
+     *
+     * @return bool
+     */
+
+    public function useLocalSoftware( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['uselocalsoftware'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $class->configuration()['uselocalsoftware'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if this action can be preformed with out logging in ( used when dealing with softwares )
+     *
+     * @param $process
+     *
+     * @return bool
+     */
+
+    public function allowAnonymous( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['allowanonymous'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $class->configuration()['allowanonymous'] == false )
         {
 
             return false;

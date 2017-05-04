@@ -35,7 +35,8 @@ class Logout extends BaseClass implements Structure
 
         return array(
             'allowsoftwares'    => false,
-            'allowlocal'        => false
+            'allowlocal'        => false,
+            'requireloggedin'   => true
         );
     }
 
@@ -59,6 +60,18 @@ class Logout extends BaseClass implements Structure
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $this->internet->hasCurrentConnection() == false )
+        {
+
+            return false;
+        }
+
+        if( $this->internet->getCurrentConnectedAddress() !== $data['ipaddress'] )
         {
 
             return false;

@@ -1,11 +1,21 @@
 <?php
 
-    $session = \Framework\Application\Container::getObject('session');
+    use Framework\Application\Container;
+    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Utilities\PageHelper;
+
+    $session = Container::getObject('session');
 
     if( isset( $computer ) == false )
     {
 
-        $computer = new \Framework\Syscrack\Game\Computer();
+        $computer = new Computer();
+    }
+
+    if( isset( $pagehelper ) == false )
+    {
+
+        $pagehelper = new PageHelper();
     }
 ?>
 <nav class="navbar navbar-default" style="margin-top: 2.5%">
@@ -44,10 +54,19 @@
                         ?>
 
                         <a class="navbar-brand" style="font-size: 12px" href="/computer/">
-                            [<?=$computer->getComputer( $computer->getCurrentUserComputer() )->ipaddress?>]
+                            <span class="glyphicon glyphicon-hdd" data-toggle="tooltip" data-placement="auto" title="Address"></span> <?=$computer->getComputer( $computer->getCurrentUserComputer() )->ipaddress?>
                         </a>
                         <?php
                     }
+
+                    ?>
+                    <a class="navbar-brand" style="font-size: 12px">
+                        <span class="glyphicon glyphicon-time" data-toggle="tooltip" data-placement="auto" title="System Time"></span> <span id="clock">0:00:00</span>
+                    </a>
+                    <a class="navbar-brand" style="font-size: 12px" href="/finances/">
+                        <span class="glyphicon glyphicon-gbp" data-toggle="tooltip" data-placement="auto" title="Cash"></span> <?=$pagehelper->getCash()?>
+                    </a>
+                    <?php
                 }
             ?>
         </div>
@@ -73,7 +92,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-hdd"></span> Computer</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/computer/">Computer</a>
+                                    <li><a href="/computer/">View</a>
                                     <li><a href="/computer/log">Log</a></li>
                                     <li><a href="/computer/processes">Processes</a></li>
                                     <li><a href="/computer/upgrade">Upgrade</a></li>

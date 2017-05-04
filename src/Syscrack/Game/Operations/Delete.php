@@ -36,7 +36,12 @@ class Delete extends BaseClass implements Structure
     public function configuration()
     {
 
-        return parent::configuration();
+        return array(
+            'allowsoftwares'    => true,
+            'allowlocal'        => true,
+            'requiresoftwares'  => true,
+            'requireloggedin'   => true
+        );
     }
 
     /**

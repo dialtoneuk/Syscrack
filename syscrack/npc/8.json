@@ -1,0 +1,36 @@
+{
+  "name":"Download Server",
+  "page":"npc.downloadserver",
+  "riddle":"1.2.3.4",
+  "softwares":[
+    {
+      "softwarename":"Impressive Cracker",
+      "uniquename":"cracker",
+      "installed":true,
+      "softwarelevel":100.0
+    },
+    {
+      "softwarename":"Impressive Firewall",
+      "uniquename":"firewall",
+      "installed":true,
+      "softwarelevel":100
+    }
+  ],
+  "hardwares":{
+    "cpu":{
+      "value":1000
+    },
+    "gpu":{
+      "value":500
+    },
+    "download":{
+      "value":1000
+    },
+    "upload":{
+      "value":1000
+    },
+    "harddrive":{
+      "value":1000
+    }
+  }
+}

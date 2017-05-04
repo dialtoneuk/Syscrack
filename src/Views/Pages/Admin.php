@@ -75,7 +75,7 @@
         public function page()
         {
 
-            Flight::render('views/syscrack/page.admin.php');
+            Flight::render('syscrack/page.admin.php');
         }
 
         /**
@@ -85,6 +85,6 @@
         public function npcCreator()
         {
 
-            Flight::render('views/syscrack/page.admin.npcreator.php');
+            Flight::render('syscrack/page.admin.npcreator.php');
         }
     }

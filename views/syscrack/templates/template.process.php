@@ -1,8 +1,8 @@
 <?php
 
-use Framework\Syscrack\Game\Operations;
+    use Framework\Syscrack\Game\Operations;
 
-if( isset( $processclass ) == false )
+    if( isset( $processclass ) == false )
 {
 
     $processclass = new Operations();
@@ -20,7 +20,7 @@ if( isset( $processid ) )
         <div class="panel panel-primary">
             <div class="panel-body">
                 <p>
-                    <span class="glyphicon glyphicon-cog"></span> <?=$process->process?> at <?=$data['ipaddress']?>
+                    <span class="glyphicon glyphicon-cog"></span> <?=$process->process?> at <a href="/game/internet/<?=$data['ipaddress']?>/"><?=$data['ipaddress']?></a>
                 </p>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" id="progressbar<?=$processid?>" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
@@ -41,7 +41,7 @@ if( isset( $processid ) )
                         </div>
                         <div id="collapse<?=$processid?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headin<?=$processid?>e">
                             <div class="panel-body" style="padding-top: 0%;">
-                                <button style="width: 100%; margin-top: 2.5%;" class="btn btn-danger" type="button" onclick="window.location.href = '/processes/<?=$processid?>/complete'">
+                                <button style="width: 100%; margin-top: 2.5%;" class="btn btn-danger" type="button" onclick="window.location.href = '/processes/<?=$processid?>/delete'">
                                     <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Delete
                                 </button>
 
@@ -84,7 +84,21 @@ if( isset( $processid ) )
                                 if( isset( $auto ) )
                                 {
 
-                                    echo 'window.location.href = "/processes/' . $processid . '/complete";';
+                                    if( $auto == true )
+                                    {
+
+                                        echo 'window.location.href = "/processes/' . $processid . '/complete";';
+                                    }
+                                }
+
+                                if( isset( $refresh ) )
+                                {
+
+                                    if( $refresh == true )
+                                    {
+
+                                        echo 'location.reload();';
+                                    }
                                 }
                             ?>
                         } else {

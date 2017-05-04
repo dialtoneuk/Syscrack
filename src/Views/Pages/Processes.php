@@ -70,7 +70,7 @@
         public function page()
         {
 
-            die('page soon');
+            Flight::render('syscrack/page.processes');
         }
 
         /**
@@ -141,10 +141,40 @@
                 else
                 {
 
-                    if ($process->computerid != $this->computer->getCurrentUserComputer())
+                    $data = json_decode( $process->data, true );
+
+                    if( $this->internet->getComputer( $data['ipaddress'] )->computerid != $this->computer->getCurrentUserComputer() )
                     {
 
-                        $this->redirectError('You are connected as a different computer');
+                        if( $this->operations->requireLoggedIn( $process->process ) == true )
+                        {
+
+                            if( $this->internet->hasCurrentConnection() == false )
+                            {
+
+                                $this->redirectError('You must be connected to the computer this process was initiated on');
+                            }
+                            else
+                            {
+
+                                if( $data['ipaddress'] != $this->internet->getCurrentConnectedAddress() )
+                                {
+
+                                    $this->redirectError('You must be connected to the computer this process was initiated on');
+                                }
+                            }
+                        }
+
+                        if ($this->operations->canComplete($processid) == false)
+                        {
+
+                            $this->redirectError('Process has not yet completed');
+                        }
+                        else
+                        {
+
+                            $this->operations->completeProcess($processid);
+                        }
                     }
                     else
                     {

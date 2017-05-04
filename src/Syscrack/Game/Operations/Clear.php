@@ -36,7 +36,8 @@ class Clear extends BaseClass implements Structure
 
         return array(
             'allowsoftwares'    => false,
-            'allowlocal'        => true
+            'allowlocal'        => true,
+            'requireloggedin'   => true
         );
     }
 
@@ -71,6 +72,18 @@ class Clear extends BaseClass implements Structure
         {
 
             return false;
+        }
+
+        if( empty( $this->computerlog->getCurrentLog( $computer->computerid ) ) )
+        {
+
+            if( isset( $data['redirect'] ) )
+            {
+
+                $this->redirectError('Log is currently empty', $data['redirect'] );
+            }
+
+            $this->redirectError('Log is currently empty', $this->getRedirect( $data['ipaddress'] ) );
         }
 
         return true;

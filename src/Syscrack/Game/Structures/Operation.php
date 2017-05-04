@@ -64,10 +64,10 @@ interface Operation
      *
      * @param $ipaddress
      *
-     * @param $process
+     * @param $softwareid
      *
      * @return int
      */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $process );
+    public function getCompletionSpeed($computerid, $ipaddress, $softwareid );
 }

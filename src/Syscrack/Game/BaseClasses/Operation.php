@@ -85,6 +85,9 @@ class Operation
         return array(
             'allowsoftwares'    => true,
             'allowlocal'        => true,
+            'allowanonymous'    => false,
+            'requiresoftwares'  => false,
+            'requireloggedin'   => true,
         );
     }
 
@@ -165,6 +168,12 @@ class Operation
         {
 
             if( isset( $data[ $requirement ] ) == false )
+            {
+
+                return false;
+            }
+
+            if( $data[ $requirement ] == null || empty( $data[ $requirement ] ))
             {
 
                 return false;
@@ -308,12 +317,12 @@ class Operation
         if( $ipaddress != null )
         {
 
-            Flight::redirect('/' . $path . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/?success');
+            Flight::redirect('/' . $path . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '?success');
 
             exit;
         }
 
-        Flight::redirect( '/' . $path . '/?success');
+        Flight::redirect( '/' . $path . '?success');
 
         exit;
     }

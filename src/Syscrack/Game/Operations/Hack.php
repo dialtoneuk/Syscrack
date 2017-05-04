@@ -44,7 +44,9 @@ class Hack extends BaseClass implements Structure
 
         return array(
             'allowsoftwares'    => false,
-            'allowlocal'        => false
+            'allowlocal'        => false,
+            'requiresoftwares'  => false,
+            'requireloggedin'   => false,
         );
     }
 

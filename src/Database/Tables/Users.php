@@ -14,6 +14,18 @@ use Framework\Database\Table;
 class Users extends Table
 {
 
+    /**
+     * Gets all the users
+     *
+     * @return \Illuminate\Support\Collection
+     */
+
+    public function getUsers()
+    {
+
+        return $this->getTable()->get();
+    }
+
 	/**
 	 * Gets the user
 	 *

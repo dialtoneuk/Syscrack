@@ -53,6 +53,7 @@
     "syscrack_bitcoin_type": "bitcoin",
     "syscrack_market_type": "market",
     "syscrack_virus_type": "virus",
+    "syscrack_downloadserver_type": "download",
     "syscrack_npc_type": "npc",
     "syscrack_vpc_type": "vpc",
     "syscrack_cracker_type": "cracker",

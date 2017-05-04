@@ -60,12 +60,41 @@
 
     <!--Fade out any alerts which are on the page after 5 seconds-->
     <script>
+
+        function startTime() {
+
+            if($('#clock').length !== 0) {
+
+                var today = new Date();
+                var h = today.getHours();
+                var m = today.getMinutes();
+                var s = today.getSeconds();
+                m = checkTime(m);
+                s = checkTime(s);
+                document.getElementById('clock').innerHTML =
+                    h + ":" + m + ":" + s;
+                var t = setTimeout(startTime, 500);
+            }
+        }
+
+        function checkTime(i) {
+            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+            return i;
+        }
+
         if($('#alert').length !== 0) {
 
             $('#alert').delay(5000).fadeOut(400, function(){
-                window.history.pushState("Syscrack", $(document).find("title").text(), 'http://<?php
-                    $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; if( empty( explode('?', $url ) ) == false ){ echo( explode('?', $url )[0 ] ); }else{ echo( $url ); }?>' );
+                window.history.pushState("Syscrack", $(document).find("title").text(), '<?php
+                    $url = $_SERVER['REQUEST_URI']; if( empty( explode('?', $url ) ) == false ){ echo( explode('?', $url )[0 ] ); }else{ echo( $url ); }?>' );
             });
         }
+
+        $(document).ready(function(){
+
+            startTime();
+
+            $('.combobox').combobox();
+        });
     </script>
 </footer>

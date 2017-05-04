@@ -113,6 +113,8 @@
 
                             $this->computer->setCurrentUserComputer($computerid);
 
+                            $this->internet->setCurrentConnectedAddress( null );
+
                             Flight::redirect('/game/');
                         }
                     }
@@ -244,6 +246,18 @@
                     $this->redirectError('Action not found', $this->getRedirect( $ipaddress ) );
                 }
 
+                if( $this->operations->hasProcess( $this->computer->getCurrentUserComputer(), $process, $ipaddress ) == true )
+                {
+
+                    $this->redirectError('You already have a process of this nature processing, complete that one first', $this->getRedirect( $ipaddress ));
+                }
+
+                if( $this->operations->requireSoftwares( $process ) )
+                {
+
+                    $this->redirectError('A software is required to preform this action', $this->getRedirect( $ipaddress ) );
+                }
+
                 $class = $this->operations->findProcessClass($process);
 
                 if ($class instanceof Operation == false)
@@ -321,6 +335,12 @@
                     $this->redirectError('Action not found', $this->getRedirect( $ipaddress ) );
                 }
 
+                if( $this->operations->hasProcess( $this->computer->getCurrentUserComputer(), $process, $ipaddress, $softwareid ) == true )
+                {
+
+                    $this->redirectError('You already have a process of this nature processing, complete that one first', $this->getRedirect( $ipaddress ) );
+                }
+
                 if( $this->operations->allowSoftwares( $process ) == false )
                 {
 
@@ -329,10 +349,35 @@
                 else
                 {
 
-                    if ($this->internet->hasCurrentConnection() == false || $this->internet->getCurrentConnectedAddress() != $ipaddress)
+                    $class = $this->operations->findProcessClass($process);
+
+                    if ($class instanceof Operation == false)
                     {
 
-                        $this->redirectError('You must be connected to this computer to preform actions on its software', $this->getRedirect( $ipaddress ) );
+                        throw new ViewException();
+                    }
+
+                    if( $this->operations->requireLoggedIn( $process ) == false )
+                    {
+
+                        if( $this->operations->allowAnonymous( $process ) == true )
+                        {
+
+                            if ($this->softwares->softwareExists($softwareid) == false)
+                            {
+
+                                $this->redirectError('Unable to preform action', $this->getRedirect( $ipaddress ) );
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                        if ($this->internet->hasCurrentConnection() == false || $this->internet->getCurrentConnectedAddress() != $ipaddress)
+                        {
+
+                            $this->redirectError('You must be connected to this computer to preform this action on its software', $this->getRedirect( $ipaddress ) );
+                        }
                     }
 
                     if ($this->softwares->softwareExists($softwareid) == false)
@@ -341,18 +386,29 @@
                         $this->redirectError('Software does not exist', $this->getRedirect( $ipaddress ) );
                     }
 
-                    if ($this->computer->hasSoftware($this->internet->getComputer($ipaddress)->computerid, $softwareid) == false)
+                    if( $this->softwares->getSoftware( $softwareid )->computerid !== $this->internet->getComputer( $ipaddress )->computerid )
                     {
 
-                        $this->redirectError('Software does not exist', $this->getRedirect( $ipaddress ) );
+                        $this->redirectError('The you are trying to access does not own this software', $this->getRedirect( $ipaddress ) );
                     }
 
-                    $class = $this->operations->findProcessClass($process);
-
-                    if ($class instanceof Operation == false)
+                    if( $this->operations->useLocalSoftware( $process ) )
                     {
 
-                        throw new ViewException();
+                        if( $this->computer->hasSoftware( $this->computer->getCurrentUserComputer(), $softwareid ) == false )
+                        {
+
+                            $this->redirectError('This software does not exist on your computer', $this->getRedirect( $ipaddress ) );
+                        }
+                    }
+                    else
+                    {
+
+                        if ($this->computer->hasSoftware($this->internet->getComputer($ipaddress)->computerid, $softwareid) == false)
+                        {
+
+                            $this->redirectError('Software does not exist', $this->getRedirect( $ipaddress ) );
+                        }
                     }
 
                     $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process,  $softwareid );
@@ -431,7 +487,7 @@
             if( $ipaddress )
             {
 
-                return Settings::getSetting('syscrack_game_page') . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/';
+                return Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/';
             }
 
             return Settings::getSetting('syscrack_game_page') . '/';

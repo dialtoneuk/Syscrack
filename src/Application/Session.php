@@ -162,6 +162,18 @@ class Session
     }
 
     /**
+     * Gets the sessions of which have been active in the last hour ( according to the settings )
+     *
+     * @return mixed|null
+     */
+
+    public function getActiveSessions()
+    {
+
+        return $this->database->getSessionsByLastAction( time() - Settings::getSetting('online_timeframe') );
+    }
+
+    /**
      * Returns true if the user is logged in
      *
      * @return bool

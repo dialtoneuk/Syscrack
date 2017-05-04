@@ -9,7 +9,7 @@
     if( isset( $internet ) == false )
     {
 
-        $interent = new Internet();
+        $internet = new Internet();
     }
 
     if( isset( $pagehelper ) == false )
@@ -27,22 +27,25 @@
             </span>
         </div><!-- /input-group -->
         <div class="panel panel-default" style="margin-top: 2.5%">
-            <div class="panel-body" style="background: black; color: limegreen; text-decoration: none;">
+            <div class="panel-body">
                 <?php
 
                     $computer = $internet->getComputer( $ipaddress );
 
-                ?>
+                    if( $npc->hasNPCFile( $computer->computerid ) && $npc->hasNPCPage( $computer->computerid) )
+                    {
 
-                <p>
-                    $ view <?=$ipaddress?>
-                </p>
-                <p>
-                    ==[ Please Choose An Action ]==
-                </p>
-                <p>
-                    $ <a style="color: limegreen;" href="/game/internet/<?=$ipaddress?>/login">login</a>
-                </p>
+                        Flight::render( $npc->getNPCPageLocation( $computer->computerid ), array( 'internet' => $internet, 'ipaddress' => $ipaddress ) );
+                    }
+                    else
+                    {
+                        ?>
+                            <p>
+                                Connection success
+                            </p>
+                        <?php
+                    }
+                ?>
             </div>
             <div class="panel-footer">
                 <?php echo strtoupper( $pagehelper->getComputerType( $internet->getComputer( $ipaddress )->computerid ) ); echo ' <small>' . date('d-M-y H:m:s') . '</small>';?>

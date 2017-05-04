@@ -48,9 +48,11 @@
                         Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
                 ?>
                 <div class="col-lg-12">
-                    <h1 class="page-header" style="cursor: hand" onclick="window.location.href = '/game/computer/'">
-                        <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
-                    </h1>
+                    <div class="page-header">
+                        <h1>
+                            <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
+                        </h1>
+                    </div>
                 </div>
 
                 <?php
@@ -68,7 +70,7 @@
                             foreach( $processes as $process )
                             {
 
-                                Flight::render('syscrack/templates/template.process',array('processid' => $process->processid, 'processcclass' => $operations->findProcessClass( $process->process ) ) );
+                                Flight::render('syscrack/templates/template.process',array('processid' => $process->processid, 'processcclass' => $operations->findProcessClass( $process->process ), 'refresh' => true ) );
                             }
                         }
                         else

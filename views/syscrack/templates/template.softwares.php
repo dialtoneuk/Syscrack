@@ -61,15 +61,15 @@
                 foreach( $software as $key=>$value )
                 {
 
-                    $softwareclass = $softwares->getSoftwareClassFromID( $value['softwareid'] );
-
-                    $software = $softwares->getSoftware( $value['softwareid'] );
-
-                    if( $softwares->softwareExists( $value['softwareid'] ) == false || $softwareclass == null )
+                    if( $softwares->softwareExists( $value['softwareid'] ) == false )
                     {
 
                         continue;
                     }
+
+                    $softwareclass = $softwares->getSoftwareClassFromID( $value['softwareid'] );
+
+                    $software = $softwares->getSoftware( $value['softwareid'] );
                     ?>
                     <tr>
                         <td data-toggle="tooltip" data-placement="auto" title="<?=$value['type']?>" style="padding-top: 2.5%;">

@@ -107,7 +107,7 @@ class Login extends BaseClass implements Structure
             if( $this->internet->getCurrentConnectedAddress() == $data['ipaddress'] )
             {
 
-                $this->redirectError('You are already logged into this computer', $data['ipaddress'] );
+                $this->redirectError('You are already logged into this computer', $this->getRedirect( $data['ipaddress'] ) );
             }
             else
             {
