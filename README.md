@@ -24,7 +24,7 @@ composer install
 
 If all your extensions are currently active, this will not produce any errors. But in the likely hood that they are not, please edit your php.ini settings and enable the plugins that composer is requesting.
 
-You will then need to create a .htaccess file inside your apache2 website folder, XAMPP ( or your development server ) might have rewrites disabled by default, if you are continuing to get a 404 error on all pages, please look if your rewriting is enabled. Simply copy the code below into your .htaccess file that you have just created.
+You will then need to create a .htaccess file inside your apache2 website folder. Simply copy the code below into your .htaccess file that you have just created.
 
 ```
 RewriteEngine On
@@ -49,7 +49,9 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
 ```
 
-Once you have installed composer, you can fire up localhost and check out if the website is working. You should see a 'Database Error', Syscracks framework automatically encrypts and saves your database settings to a secure file for your convinence. The next step is to head to...
+If you are continuing to get an 404 error on all pages, please look if your rewriting is enabled on your current set up. Another reason could be that your .htaccess file isn't being loaded. Check for spelling mistakes, and write some 'garbage' at the top of the file to check if apache2 is accessing the file, it should give you a 503 error if so. 
+
+Once you have installed composer, and set up your .htaccess file, you can fire up localhost and check out if the website is working. You should see a 'Database Error', Syscracks framework automatically encrypts and saves your database settings to a secure file for your convinence. The next step is to head to...
 
 ```
 http://localhost/developer/
