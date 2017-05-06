@@ -85,7 +85,7 @@ Remember, when you are finished developing you will need to disable this section
 http://localhost/developer/disable/
 ```
 
-Syscrack might complain that some directories are missing in your /syscrack/ folder and will give you an error with you register a new account, if this is the case, please check that these files exist in your roots folder.
+Syscrack might complain that some directories are missing in your /syscrack/ folder and will give you an error when you register a new account, if this is the case, please check that these files exist in your roots folder.
 
 ```
 /syscrack/addressdatabase/
