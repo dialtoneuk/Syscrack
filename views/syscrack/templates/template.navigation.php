@@ -82,9 +82,19 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span> Internet</a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="/game/internet/">Internet</a></li>
-                                        <li><a href="/game/ddos">DDoS</a></li>
-                                        <li><a href="/game/collect">Collect</a>
+                                        <li><a href="/game/internet">Browser</a></li>
+
+                                        <?php
+
+                                            if( isset( $_SESSION['connected_ipaddress'] ) )
+                                            {
+
+                                                ?>
+
+                                                    <li><a href="/game/internet/<?=$_SESSION['connected_ipaddress']?>">Current Connection</a></li>
+                                                <?php
+                                            }
+                                        ?>
                                         <li><a href="/game/addressbook">Address book</a>
                                         <li><a href="/game/accountbook">Account book</a></li>
                                     </ul>
@@ -95,7 +105,7 @@
                                     <li><a href="/computer/">View</a>
                                     <li><a href="/computer/log">Log</a></li>
                                     <li><a href="/computer/processes">Processes</a></li>
-                                    <li><a href="/computer/upgrade">Upgrade</a></li>
+                                    <li><a href="/computer/hardware">Hardware</a></li>
                                 </ul>
                             </li>
                                 <?php
@@ -106,12 +116,10 @@
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-briefcase"></span> Admin</a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="/admin/">Home</a></li>
+                                                <li><a href="/admin">Home</a></li>
                                                 <li role="separator" class="divider"></li>
-                                                <li><a href="/admin/npcreator/">NPC Creator</a></li>
-                                                <li><a href="/admin/npcviewer/">NPC Viewer</a></li>
-                                                <li role="separator" class="divider"></li>
-                                                <li><a href="/admin/softwarecreator/">Software Creator</a></li>
+                                                <li><a href="/admin/computer">Computer Viewer</a></li>
+                                                <li><a href="/admin/computer/creator">Computer Creator</a></li>
                                             </ul>
                                         </li>
                                         <?php

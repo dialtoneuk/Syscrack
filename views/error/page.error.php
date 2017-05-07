@@ -91,6 +91,8 @@
                             if( $_GET['redirect'] )
                             {
 
+                                $_GET['redirect'] = htmlspecialchars( $_GET['redirect'], ENT_QUOTES, 'UTF-8' );
+
                                 if( strlen( $_GET['redirect'] ) < \Framework\Application\Settings::getSetting('controller_url_length') )
                                 {
 

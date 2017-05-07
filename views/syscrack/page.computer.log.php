@@ -38,7 +38,7 @@
                 Flight::render('syscrack/templates/template.navigation');
             ?>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12" onclick="window.location.href = '/game/computer/'">
                     <div class="page-header">
                         <h1>
                             <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
@@ -46,6 +46,8 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="row">
                 <?php
 
                     Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );

@@ -200,6 +200,12 @@ class Log
     private function createDirectory( $computerid )
     {
 
+        if( FileSystem::directoryExists( $this->getFilepath( $computerid ) ) )
+        {
+
+            return;
+        }
+
         FileSystem::createDirectory( $this->getFilepath( $computerid ) );
     }
 

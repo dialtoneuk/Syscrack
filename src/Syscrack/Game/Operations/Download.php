@@ -88,7 +88,7 @@ class Download extends BaseClass implements Structure
                 if( $this->softwares->getSoftware( $value['softwareid'] )->softwarename == $software->softwarename )
                 {
 
-                    $this->redirectError('You already have this software on your computer', $data['ipaddress'] );
+                    $this->redirectError('You already have this software on your computer', $this->getRedirect( $data['ipaddress'] ) );
                 }
             }
         }

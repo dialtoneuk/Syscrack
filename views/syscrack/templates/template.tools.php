@@ -75,12 +75,16 @@
                 ?>
                     <div class="panel panel-success">
                         <div class="panel-heading">
-                            Computer Information
+                            Hardwares
                         </div>
                         <div class="panel-body">
-                            <small style="color:lightslategray;" class="text-uppercase">Hardware</small>
-                            <div class="well">
-                                <?=$internet->getComputer($ipaddress)->hardwares?>
+                            <div class="btn-group" role="group" aria-label="Options" style="width: 100%;">
+                                <button type="button" class="btn btn-default" style="width: 100%;" data-toggle="collapse" data-parent="#accordion" href="#collapsehardwares" aria-expanded="true" aria-controls="collapsehardwares">Show</button>
+                            </div>
+                            <div id="collapsehardwares" class="panel-collapse collapse" role="tabpanel" aria-labelledby="hardwares">
+                                <div class="well-sm" style="margin-top: 8.75%;">
+                                    <pre style="white-space:pre-wrap; max-height: 345px;"><?=print_r( json_decode( $internet->getComputer($ipaddress)->hardwares, true ) )?></pre>
+                                </div>
                             </div>
                         </div>
                     </div>

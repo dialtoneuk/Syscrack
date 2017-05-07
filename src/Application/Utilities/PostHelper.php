@@ -45,57 +45,23 @@ class PostHelper
     }
 
     /**
-     * Checks the post data
-     *
-     * @param $requirements
-     *
-     * @return bool
-     */
-
-    public static function checkPostData( $requirements )
-    {
-
-        if( self::hasPostData() == false )
-        {
-
-            return false;
-        }
-
-        if( self::checkForRequirements( $requirements ) == false )
-        {
-
-            return false;
-        }
-
-        $post = self::getPost();
-
-        foreach( $requirements as $key=>$value )
-        {
-
-            if( isset( $post[ $value ] ) )
-            {
-
-                if( $post[ $value ] == null || empty( $post[ $value ] ) )
-                {
-
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Gets the post data at the specified index
+     * Gets an index from the post array
      *
      * @param $index
      *
-     * @return mixed
+     * @param bool $escape
+     *
+     * @return string
      */
 
-    public static function getPostData( $index )
+    public static function getPostData( $index, $escape=false )
     {
+
+        if( $escape == true )
+        {
+
+            return htmlspecialchars( $_POST[ $index ], ENT_QUOTES, 'UTF-8' );
+        }
 
         return $_POST[ $index ];
     }
@@ -130,7 +96,7 @@ class PostHelper
             else
             {
 
-                if( $post[ $requirement ] == null || $post[ $requirement ] == "" )
+                if( $post[ $requirement ] == null || $post[ $requirement ] == "" || empty( $post[ $requirement ] ) )
                 {
 
                     return false;

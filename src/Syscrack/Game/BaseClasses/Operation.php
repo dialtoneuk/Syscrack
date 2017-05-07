@@ -249,12 +249,12 @@ class Operation
 
             $software = $this->softwares->getSoftware( $softwareid );
 
-            return TimeHelper::getSecondsInFuture( floor( sqrt( $hardware['value'] / $software->level / ( $hardware['value'] * Settings::getSetting('syscrack_global_speed' ) * $speedness ) ) ) );
+            return TimeHelper::getSecondsInFuture( floor( ( sqrt( $software->level / $hardware['value'] ) * $speedness ) * ( Settings::getSetting('syscrack_global_speed' ) ) ) );
         }
 
         $hardware = $this->hardware->getHardwareType( $computerid, $hardwaretype );
 
-        return TimeHelper::getSecondsInFuture( floor( sqrt( $hardware['value'] / $speedness / ( $hardware['value'] * Settings::getSetting('syscrack_global_speed' ) ) ) ) );
+        return TimeHelper::getSecondsInFuture( floor( sqrt( $speedness / $hardware['value'] ) * ( Settings::getSetting('syscrack_global_speed' ) ) ) );
     }
 
     /**

@@ -39,14 +39,29 @@
                 Flight::render('syscrack/templates/template.navigation');
             ?>
             <div class="row">
+                <div class="col-lg-12">
+                    <?php
+
+                        if( isset( $_GET['error'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
+                        elseif( isset( $_GET['success'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
+                    ?>
+                </div>
+            </div>
+            <div class="row">
 
                 <?php
 
                     Flight::render('syscrack/templates/template.admin.options');
                 ?>
                 <div class="col-lg-8">
-                    <div class="page-header">
-                        <h1>SC:\\<?=Settings::getSetting('syscrack_game_name')?></h1>
+                    <div class="panel panel-default">
+                        <div class="panel-body" style="padding: 10px 15px;">
+                            <h4>
+                                Admin Panel
+                            </h4>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">

@@ -190,7 +190,7 @@ class Softwares
      * @return int
      */
 
-    public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software', float $softwarelavel = 1.0 )
+    public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software', float $softwarelavel = 1.0, $data=[] )
     {
 
         if( $this->hasSoftwareClass( $software ) == false )
@@ -218,14 +218,15 @@ class Softwares
             'type'          => $configuration['type'],
             'softwarename'  => $softwarename,
             'lastmodified'  => time(),
-            'installed'     => false
+            'installed'     => false,
+            'data'          => json_encode( $data )
         );
 
         return $this->database->insertSoftware( $array );
     }
 
     /**
-     * Copys a software from one computer to another
+     * Copys a software from one computer to the other
      *
      * @param $targetid
      *
@@ -235,10 +236,12 @@ class Softwares
      *
      * @param bool $installed
      *
+     * @param array $data
+     *
      * @return int
      */
 
-    public function copySoftware( $targetid, $computerid, $userid, $installed=false )
+    public function copySoftware( $targetid, $computerid, $userid, $installed=false, array $data=[] )
     {
 
         $software = $this->database->getSoftware( $targetid );
@@ -253,7 +256,7 @@ class Softwares
             'softwarename'  => $software->softwarename,
             'lastmodified'  => time(),
             'installed'     => $installed,
-            'data'          => $software->data
+            'data'          => json_encode( $data )
         );
 
         return $this->database->insertSoftware( $array );

@@ -238,7 +238,7 @@
                             throw new ViewException();
                         }
 
-                        $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null );
+                        $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, $softwareid );
 
                         if( $completiontime == null )
                         {

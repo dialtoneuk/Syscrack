@@ -16,11 +16,54 @@ use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\BankDatabase;
 use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
+use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Log;
 use Framework\Syscrack\Game\Softwares;
 
 class Startup
 {
+
+    /**
+     * @var Computer
+     */
+
+    protected $computer;
+
+    /**
+     * @var Internet
+     */
+
+    protected $internet;
+
+    /**
+     * @var Softwares
+     */
+
+    protected $softwares;
+
+    /**
+     * @var AddressDatabase
+     */
+
+    public $addressdatabase;
+
+    /**
+     * @var BankDatabase;
+     */
+
+    public $bankdatabase;
+
+    /**
+     * @var Finance
+     */
+
+    public $finance;
+
+    /**
+     * @var Log
+     */
+
+    public $log;
 
     /**
      * Startup constructor.
@@ -31,10 +74,50 @@ class Startup
     public function __construct( $userid=null, $autorun=true )
     {
 
-        if( $autorun == true || $userid !== null  )
+        if( isset( $this->computer ) == false )
         {
 
-            $computerid = $this->createComputer( $userid );
+            $this->computer = new Computer();
+        }
+
+        if( isset( $this->internet ) == false )
+        {
+
+            $this->internet = new Internet();
+        }
+
+        if( isset( $this->softwares ) == false )
+        {
+
+            $this->softwares = new Softwares();
+        }
+
+        if( isset( $this->addressdatabase ) == false )
+        {
+
+            $this->addressdatabase = new AddressDatabase();
+        }
+
+        if( isset( $this->bankdatabase ) == false )
+        {
+
+            $this->bankdatabase = new BankDatabase();
+        }
+
+        if( isset( $this->finance ) == false )
+        {
+
+            $this->finance = new Finance();
+        }
+
+        if( isset( $this->log ) == false )
+        {
+
+            $this->log = new Log();
+        }
+
+        if( $autorun == true || $userid !== null  )
+        {
 
             if( session_status() !== PHP_SESSION_ACTIVE )
             {
@@ -42,15 +125,39 @@ class Startup
                 session_start();
             }
 
-            $_SESSION['current_computer'] = $computerid;
+            $computerid = $this->createComputer( $userid );
 
-            $this->createAddressDatabase( $userid );
+            if( $this->computer->computerExists( $computerid ) == false )
+            {
 
-            $this->createBankDatabase( $userid );
+                throw new SyscrackException('Computer does not exist');
+            }
 
-            $this->createFinance( $userid );
+            $this->computer->setCurrentUserComputer( $computerid );
 
-            $this->createLog( $userid );
+            if( $this->addressdatabase->hasDatabase( $userid ) == false )
+            {
+
+                $this->createAddressDatabase( $userid );
+            }
+
+            if( $this->bankdatabase->hasDatabase( $userid ) == false )
+            {
+
+                $this->createBankDatabase( $userid );
+            }
+
+            if( $this->finance->hasAccountAtComputer( Settings::getSetting('syscrack_default_bank'), $userid ) == false )
+            {
+
+                $this->createFinance( $userid );
+            }
+
+            if( $this->log->hasLog( $computerid ) == false )
+            {
+
+                $this->log->createLog( $computerid );
+            }
         }
     }
 
@@ -66,10 +173,8 @@ class Startup
      * @return int
      */
 
-    public function createComputer( $userid=null, $type='vpc', $ip=null )
+    public function createComputer( $userid=null, $type='vpc', $ip=null, $softwares = [], $hardwares = [] )
     {
-
-        $computer = new Computer();
 
         if( $ip == null )
         {
@@ -77,12 +182,12 @@ class Startup
             if( $userid == null )
             {
 
-                return $computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $this->getIP()  );
+                return $this->computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $this->getIP(), $softwares, $hardwares  );
             }
             else
             {
 
-                return $computer->createComputer( $userid, $type, $this->getIP()  );
+                return $this->computer->createComputer( $userid, $type, $this->getIP(), $softwares, $hardwares  );
             }
         }
         else
@@ -91,12 +196,12 @@ class Startup
             if( $userid == null )
             {
 
-                return $computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $ip );
+                return $this->computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $ip, $softwares, $hardwares );
             }
             else
             {
 
-                return $computer->createComputer( $userid, $type, $ip );
+                return $this->computer->createComputer( $userid, $type, $ip, $softwares, $hardwares );
             }
         }
     }
@@ -110,15 +215,13 @@ class Startup
     public function createAddressDatabase( $userid )
     {
 
-        $addressdatabase = new AddressDatabase();
-
-        if( $addressdatabase->hasDatabase( $userid ) )
+        if( $this->addressdatabase->hasDatabase( $userid ) )
         {
 
             return;
         }
 
-        $addressdatabase->saveDatabase( $userid );
+        $this->addressdatabase->saveDatabase( $userid );
     }
 
     /**
@@ -130,15 +233,13 @@ class Startup
     public function createBankDatabase( $userid )
     {
 
-        $bankdatabase = new BankDatabase();
-
-        if( $bankdatabase->hasDatabase( $userid ) )
+        if( $this->bankdatabase->hasDatabase( $userid ) )
         {
 
             return;
         }
 
-        $bankdatabase->saveDatabase( $userid, [] );
+        $this->bankdatabase->saveDatabase( $userid, [] );
     }
 
     /**
@@ -147,14 +248,10 @@ class Startup
      * @param $userid
      *
      * @param null $computerid
-     *
-     * @return bool
      */
 
     public function createFinance( $userid, $computerid=null )
     {
-
-        $finance = new Finance();
 
         if( $computerid == null )
         {
@@ -162,48 +259,48 @@ class Startup
             $computerid = Settings::getSetting('syscrack_default_bank');
         }
 
-        if( $finance->hasAccount( $userid ) )
+        if( $this->finance->hasAccountAtComputer( $computerid, $userid ) )
         {
 
-            return false;
+            return;
         }
 
-        $finance->createAccount( $computerid, $userid );
+        $this->finance->createAccount( $computerid, $userid );
     }
 
     /**
-     * Creates a new user log
+     * Creates a new computer log
      *
-     * @param $userid
+     * @param null $computerid
      */
 
-    public function createLog( $userid )
+    public function createComputerLog( $computerid=null )
     {
 
-        $log = new Log();
-
-        $computer = new Computer();
-
-        $computerid = $computer->getUserMainComputer( $userid )->computerid;
-
-        if( empty( $computerid ) )
+        if( $computerid == null )
         {
 
-            throw new SyscrackException();
+            $computerid = $this->computer->getCurrentUserComputer();
         }
 
-        $log->createLog( $computerid );
+        if( $this->log->hasCurrentLog( $computerid ) == true )
+        {
+
+            return;
+        }
+
+        $this->log->createLog( $computerid );
     }
 
     /**
-     * Creates the NPC
+     * Creates the schema file for a computer
      *
      * @param $computerid
      *
      * @param array|null $data
      */
 
-    public function createNPC( $computerid, array $data=null )
+    public function createSchema( $computerid, array $data=null )
     {
 
         if( FileSystem::fileExists( Settings::getSetting('syscrack_npc_filepath') . $computerid . '.json' ) )
@@ -237,22 +334,33 @@ class Startup
     public function createComputerSoftware( $userid, $computerid, array $softwares )
     {
 
-        $softwares = new Softwares();
-
-        $computer = new Computer();
-
         foreach( $softwares as $software )
         {
 
-            $softwareid = $softwares->createSoftware( $softwares->findSoftwareByUniqueName( $software['uniquename'] ), $userid, $computerid, $software['softwarename'], $software['softwarelevel'] );
+            if( isset( $software['uniquename'] ) == false || isset( $software['softwarename'] ) == false || isset( $software['softwarelevel'] ) == false )
+            {
 
-            if( $softwares->softwareExists( $softwareid ) == false )
+                continue;
+            }
+
+            if( isset( $software['data'] ) )
+            {
+
+                $softwareid = $this->softwares->createSoftware( $this->softwares->getNameFromClass( $this->softwares->findSoftwareByUniqueName( $software['uniquename'] ) ), $userid, $computerid, $software['softwarename'], $software['softwarelevel'], $software['data'] );
+            }
+            else
+            {
+
+                $softwareid = $this->softwares->createSoftware( $this->softwares->getNameFromClass( $this->softwares->findSoftwareByUniqueName( $software['uniquename'] ) ), $userid, $computerid, $software['softwarename'], $software['softwarelevel'] );
+            }
+
+            if( $this->softwares->softwareExists( $softwareid ) == false )
             {
 
                 throw new SyscrackException();
             }
 
-            $computer->addSoftware( $computerid, $softwareid, $softwares->getSoftwareType( $softwares->getSoftwareNameFromSoftwareID( $softwareid ) ) );
+            $this->computer->addSoftware( $computerid, $softwareid, $this->softwares->getSoftwareType( $this->softwares->getSoftwareNameFromSoftwareID( $softwareid ) ) );
 
             if( isset( $software['installed'] ) )
             {
@@ -260,9 +368,9 @@ class Startup
                 if( $software['installed'] == true )
                 {
 
-                    $softwares->installSoftware( $softwareid, $userid );
+                    $this->softwares->installSoftware( $softwareid, $userid );
 
-                    $computer->installSoftware( $computerid, $softwareid );
+                    $this->computer->installSoftware( $computerid, $softwareid );
                 }
             }
         }
@@ -299,6 +407,6 @@ class Startup
     public function getIP()
     {
 
-        return rand( Settings::getSetting('syscrack_lowest_iprange'),255) .  '.' . rand(192,255) . '.' . rand(192,255) . '.' . rand(192,255);
+        return $this->internet->getIP();
     }
 }

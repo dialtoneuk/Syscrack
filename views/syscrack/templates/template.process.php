@@ -26,7 +26,7 @@ if( isset( $processid ) )
                     <div class="progress-bar" role="progressbar" id="progressbar<?=$processid?>" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
                          style="<?php if( $processclass->canComplete( $processid ) ){ echo 'width: 100%';}else{echo 'width: 0%';}?>">
                         <p id="progresspercentage<?=$processid?>">
-                            100%
+                            0%
                         </p>
                     </div>
                 </div>
@@ -39,7 +39,7 @@ if( isset( $processid ) )
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapse<?=$processid?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headin<?=$processid?>e">
+                        <div id="collapse<?=$processid?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="process<?=$processid?>">
                             <div class="panel-body" style="padding-top: 0%;">
                                 <button style="width: 100%; margin-top: 2.5%;" class="btn btn-danger" type="button" onclick="window.location.href = '/processes/<?=$processid?>/delete'">
                                     <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Delete
@@ -111,6 +111,20 @@ if( isset( $processid ) )
 
                 move();
             </script>
+            <?php
+        }
+        else
+        {
+
+            ?>
+                <script>
+
+                    var elem = document.getElementById("progressbar<?=$processid?>");
+                    var precentage = document.getElementById("progresspercentage<?=$processid?>");
+
+                    precentage.innerHTML = 100 + '%';
+                    elem.style.width = 100 + '%';
+                </script>
             <?php
         }
         ?>

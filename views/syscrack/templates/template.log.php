@@ -90,7 +90,7 @@
 
             ?>
                 <div class="well">
-                    <textarea id="log" name="log" style="width: 100%; height: 400px; resize: none; font-size: 14px; padding: 2.5%;"><?php $log = array_reverse( $log->getCurrentLog( $connectedcomputer->computerid ) ); foreach( $log as $key=>$value ){ echo '[' , $value['ipaddress'] . '] ' . strftime("%d-%m-%Y %H:%M:%S", $value['time']) . ' : ' . $value['message'] . "\n";}?></textarea>
+                    <textarea readonly id="log" name="log" style="width: 100%; height: 400px; resize: none; font-size: 14px; padding: 2.5%;"><?php $log = array_reverse( $log->getCurrentLog( $connectedcomputer->computerid ) ); foreach( $log as $key=>$value ){ echo '[' , $value['ipaddress'] . '] ' . strftime("%d-%m-%Y %H:%M:%S", $value['time']) . ' : ' . $value['message'] . "\n";}?></textarea>
                 </div>
 
                 <div class="btn-group-vertical" style="width: 100%">

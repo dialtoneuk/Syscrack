@@ -194,12 +194,18 @@ $class = new SettingsManager();
                     <p>
                         To save a setting, select a setting you would like to modify and edit the corresponding input box and then
                         press the save button. To delete a setting, simply hit the delete button corresponding to the setting you want
-                        to remove. To add a new setting, use the form at the <a href="#createsetting">bottom of this page.</a>
+                        to remove. To add a new setting, use the form at the <a href="#settings_creator">bottom of this page.</a>
                     </p>
                     <p>
-                        It is strongly advised you <strong>do not edit, delete or modify in any way any of the various developer
-                        and filesystem settings. Use this area with extreme caution!</strong> If you are editing a setting that you
-                        want to be a boolean, make sure to simply use 'true' or 'false'.
+                        It is strongly advised you <strong>do not edit, delete or modify in any way any of the various developer_,
+                        middlewares_, database_ and filesytem_ settings unless you know what you are doing. Use this area with extreme caution!</strong>
+                        If you are editing a setting that you want to be a boolean, make sure to simply use 'true' or 'false'. It is highly recommended
+                        that you <strong>keep strict to the type</strong> of the setting, meaning don't change an array to a bool, else you will most probably
+                        experience errors!
+                    </p>
+                    <p>
+                        The framework automatically parses anything in between <strong><?=htmlspecialchars('<>')?></strong> into a php eval string, this can be disabled
+                        via editing <a href="#setting_settings_php_enabled">this setting</a> to false.
                     </p>
                 </div>
             </div>
@@ -214,134 +220,152 @@ $class = new SettingsManager();
 
                         $settings = $class->getSettings();
 
-                        foreach( $settings as $key=>$value )
+                        try
                         {
-                    ?>
-                        <form method="post">
-                            <div class="panel panel-default" id="setting_<?=$key?>">
-                                <div class="panel-body">
-                                    <p>
-                                        <?=$key?>
-                                    </p>
 
-                                    <?php
+                            foreach( $settings as $key=>$value )
+                            {
+                                ?>
+                                <form method="post">
+                                    <div class="panel panel-default" id="setting_<?=$key?>">
+                                        <div class="panel-body">
+                                            <p>
+                                                <?=$key?>
+                                            </p>
 
-                                        if( is_array( $value ) == false && is_bool( $value ) == false && Settings::hasParsableData( $value ) )
-                                        {
+                                            <?php
 
-                                            ?>
+                                                if( is_array( $value ) == false && is_bool( $value ) == false && Settings::hasParsableData( $value ) )
+                                                {
 
-                                                <p class="small text-uppercase" style="color: #ababab">
-                                                    PHP Eval String
-                                                </p>
-                                                <p class="small" style="color: #ababab">
-                                                    <?=addslashes( Settings::parseSetting( $value ) )?>
-                                                </p>
-                                                <div class="input-group">
+                                                    ?>
+
+                                                    <p class="small text-uppercase" style="color: #ababab">
+                                                        PHP Eval String
+                                                    </p>
+                                                    <p class="small" style="color: #ababab">
+                                                        <?=htmlspecialchars( addslashes( Settings::parseSetting( $value ) ) )?>
+                                                    </p>
+                                                    <div class="input-group">
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                         <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
                                                         <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
                                                     </span>
-                                                    <input name="<?=$key?>" type="text" class="form-control" value="<?=$value?>">
-                                                </div>
-                                            <?php
-                                        }
-                                        elseif( is_bool( $value ) )
-                                        {
+                                                        <input name="<?=$key?>" type="text" class="form-control" value="<?=$value?>">
+                                                    </div>
+                                                    <?php
+                                                }
+                                                elseif( is_bool( $value ) )
+                                                {
 
-                                    ?>
-                                        <p class="small text-uppercase" style="color: #ababab">
-                                            Boolean
-                                        </p>
-                                        <div class="input-group">
+                                                    ?>
+                                                    <p class="small text-uppercase" style="color: #ababab">
+                                                        Boolean
+                                                    </p>
+                                                    <div class="input-group">
                                              <span class="input-group-btn">
                                                 <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                 <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
                                                 <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
                                             </span>
 
-                                            <?php
+                                                        <?php
 
-                                                if( $value == true )
+                                                            if( $value == true )
+                                                            {
+
+                                                                ?>
+
+                                                                <input name="<?=$key?>" type="text" class="form-control" value="True">
+                                                                <?php
+
+                                                            }
+                                                            else
+                                                            {
+
+                                                                ?>
+
+                                                                <input name="<?=$key?>" type="text" class="form-control" value="False">
+                                                                <?php
+                                                            }
+                                                        ?>
+                                                    </div>
+
+                                                    <?php
+                                                }
+                                                elseif( empty( $value ) )
                                                 {
-
                                                     ?>
 
-                                                        <input name="<?=$key?>" type="text" class="form-control" value="True">
-                                                    <?php
-
-                                                }
-                                                else
-                                                {
-
-                                                    ?>
-
-                                                        <input name="<?=$key?>" type="text" class="form-control" value="False">
-                                                    <?php
-                                                }
-                                            ?>
-                                        </div>
-
-                                    <?php
-                                        }
-                                        elseif( empty( $value ) )
-                                        {
-                                            ?>
-
-                                                <p class="small text-uppercase" style="color: #ababab">
-                                                    Empty
-                                                </p>
-                                                <div class="input-group">
+                                                    <p class="small text-uppercase" style="color: #ababab">
+                                                        Empty
+                                                    </p>
+                                                    <div class="input-group">
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                             <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
                                                             <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
                                                         </span>
-                                                    <input name="<?=$key?>" type="text" class="form-control" value="<?=$value?>">
-                                                </div>
-                                            <?php
-                                        }
-                                        elseif( is_array( $value ) )
-                                        {
+                                                        <input name="<?=$key?>" type="text" class="form-control" value="<?=$value?>">
+                                                    </div>
+                                                    <?php
+                                                }
+                                                elseif( is_array( $value ) )
+                                                {
 
-                                            ?>
+                                                    ?>
 
-                                                <p class="small text-uppercase" style="color: #ababab">
-                                                    Array
-                                                </p>
-                                                <div class="input-group">
+                                                    <p class="small text-uppercase" style="color: #ababab">
+                                                        Array
+                                                    </p>
+                                                    <div class="input-group">
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                                 <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
                                                                 <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
                                                             </span>
-                                                    <input name="<?=$key?>" type="text" class="form-control" value="<?=htmlspecialchars( json_encode( $value ) )?>">
-                                                </div>
-                                            <?php
-                                        }
-                                        else
-                                        {
-                                            ?>
+                                                        <input name="<?=$key?>" type="text" class="form-control" value="<?=htmlspecialchars( json_encode( $value ) )?>">
+                                                    </div>
+                                                    <?php
+                                                }
+                                                else
+                                                {
+                                                    ?>
 
-                                                <p class="small text-uppercase" style="color: #ababab">
-                                                    String
-                                                </p>
-                                                <div class="input-group">
+                                                    <p class="small text-uppercase" style="color: #ababab">
+                                                        String
+                                                    </p>
+                                                    <div class="input-group">
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                         <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
                                                         <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
                                                     </span>
-                                                    <input name="<?=$key?>" type="text" class="form-control" value="<?=$value?>">
-                                                </div>
-                                            <?php
-                                        }
-                                    ?>
+                                                        <input name="<?=$key?>" type="text" class="form-control" value="<?=$value?>">
+                                                    </div>
+                                                    <?php
+                                                }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </form>
+                                <?php
+                            }
+                        }
+                        catch( Exception $error )
+                        {
+
+                            ?>
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        Failed to display setting
+                                    </div>
+                                    <div class="panel-body">
+                                        <?=$error->getMessage()?>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    <?php
+                            <?php
                         }
                     ?>
                 </div>
@@ -398,7 +422,7 @@ if( PostHelper::checkPostData( ['action'] ) )
             if( Settings::hasSetting( $key ) == false )
             {
 
-                $class->displayError('Settings given by post data have invalid keys');
+                $class->displayError('Setting "' . $key . "' does not exist'");
 
                 exit;
             }
@@ -409,7 +433,7 @@ if( PostHelper::checkPostData( ['action'] ) )
                 $value = $class->stringToBool( $value );
             }
 
-            if( $class->isJson( $value ) && is_string( $value ) )
+            if( $class->isJson( $value ) && is_string( $value ) && Settings::hasParsableData( $value ) == false )
             {
 
                 $value = json_decode( $value, true );

@@ -1,56 +1,18 @@
-<div class="col-lg-4">
-    <div class="page-header">
-        <h1>Admin</h1>
+<div class="col-sm-4">
+    <div class="list-group">
+        <a href="/admin/" class="list-group-item">
+            <h4 class="list-group-item-heading">Home</h4>
+            <p class="list-group-item-text">Takes you back to the admin panels index.</p>
+        </a>
     </div>
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/admin/'">
-        <div class="panel-body" style="padding-bottom: 0;">
-            <p>
-                <span class="glyphicon glyphicon-modal-window"></span> Home
-            </p>
-        </div>
-    </div>
-    <div class="page-header">
-        <h1>Users</h1>
-    </div>
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/admin/users/view'">
-        <div class="panel-body" style="padding-bottom: 0;">
-            <p>
-                <span class="glyphicon glyphicon-search"></span> View
-            </p>
-        </div>
-    </div>
-    <div class="page-header">
-        <h1>Computers</h1>
-    </div>
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/admin/computer/view'">
-        <div class="panel-body" style="padding-bottom: 0;">
-            <p>
-                <span class="glyphicon glyphicon-search"></span> View
-            </p>
-        </div>
-    </div>
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/admin/computer/creator'">
-        <div class="panel-body" style="padding-bottom: 0;">
-            <p>
-                <span class="glyphicon glyphicon-pencil"></span> Creator
-            </p>
-        </div>
-    </div>
-    <div class="page-header">
-        <h1>Softwares</h1>
-    </div>
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/admin/software/view'">
-        <div class="panel-body" style="padding-bottom: 0;">
-            <p>
-                <span class="glyphicon glyphicon-search"></span> View
-            </p>
-        </div>
-    </div>
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/admin/software/creator'">
-        <div class="panel-body" style="padding-bottom: 0;">
-            <p>
-                <span class="glyphicon glyphicon-pencil"></span> Creator
-            </p>
-        </div>
+    <div class="list-group">
+        <a href="/admin/computer/" class="list-group-item">
+            <h4 class="list-group-item-heading">Computer Viewer</h4>
+            <p class="list-group-item-text">View all the computers on your system and edit specific computers.</p>
+        </a>
+        <a href="/admin/computer/creator/" class="list-group-item">
+            <h4 class="list-group-item-heading">Computer Creator</h4>
+            <p class="list-group-item-text">Allows you to create new computers.</p>
+        </a>
     </div>
 </div>

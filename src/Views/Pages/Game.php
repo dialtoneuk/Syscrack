@@ -298,7 +298,7 @@
                     if ($processid == false)
                     {
 
-                        $this->redirectError('Unable to create process', $this->getRedirect( $ipaddress ) );
+                        $this->redirectError('Failed to create process', $this->getRedirect( $ipaddress ) );
                     }
 
                     Flight::redirect('/processes/' . $processid);

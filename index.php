@@ -27,49 +27,49 @@
 
         ?>
 
-        <html>
-            <head>
-                <meta charset="utf-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
+            <html>
+                <head>
+                    <meta charset="utf-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-                <title>Framework Error</title>
+                    <title>PHP Version Error</title>
 
-                <!-- Stylesheets -->
-                <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-                <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+                    <!-- Stylesheets -->
+                    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+                    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
 
-                <!--[if lt IE 9]>
-                <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-                <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-                <![endif]-->
-            </head>
-            <body>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1 class="page-header text-center">
-                                PHP Version Error
-                            </h1>
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">
-                                    Major error
-                                </div>
-                                <div class="panel-body text-center">
-                                    Your PHP version is currently <?=phpversion()?> and needs to be version 7.0.0 or higher, if you are having troubles, please refer to our <a href="#">github</a>.
+                    <!--[if lt IE 9]>
+                    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+                    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+                    <![endif]-->
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1 class="page-header text-center">
+                                    Critical Error
+                                </h1>
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        Major error
+                                    </div>
+                                    <div class="panel-body text-center">
+                                        Your PHP version is currently <?=phpversion()?> and needs to be version 7.0.0 or higher, if you are having troubles, please refer to our <a href="https://github.com/dialtoneuk/Syscrack2017/">github</a>.
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </body>
-        </html>
+                </body>
+            </html>
         <?php
 
         exit;
     }
 
-    if( file_exists( $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php') == false )
+    if( file_exists( $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php' ) == false )
     {
 
         ob_clean();
@@ -106,7 +106,7 @@
                                     </div>
                                     <div class="panel-body text-center">
                                         Composer was unable to be loaded, this usually means you haven't ran 'composer install' on your htdocs directory. If you are still having troubles,
-                                        please check out <a href="#">the github.</a>
+                                        please check out <a href="https://github.com/dialtoneuk/Syscrack2017/">the github.</a>
                                     </div>
                                 </div>
                             </div>
@@ -136,43 +136,43 @@
 
         ?>
 
-        <html>
-            <head>
-                <meta charset="utf-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
+            <html>
+                <head>
+                    <meta charset="utf-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-                <title>Framework Error</title>
+                    <title>Framework Error</title>
 
-                <!-- Stylesheets -->
-                <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-                <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+                    <!-- Stylesheets -->
+                    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+                    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
 
-                <!--[if lt IE 9]>
-                <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-                <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-                <![endif]-->
-            </head>
-            <body>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1 class="page-header text-center">
-                                Critical Error
-                            </h1>
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">
-                                    Major error
-                                </div>
-                                <div class="panel-body text-center">
-                                    The framework was unable to find the Application class, this could be due to a few reasons, please check out the <a href="#">github for solutions</a>
+                    <!--[if lt IE 9]>
+                    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+                    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+                    <![endif]-->
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1 class="page-header text-center">
+                                    Critical Error
+                                </h1>
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        Major error
+                                    </div>
+                                    <div class="panel-body text-center">
+                                        The framework was unable to find the Application class, this could be due to a few reasons, please check out the <a href="https://github.com/dialtoneuk/Syscrack2017/">github for solutions</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </body>
-        </html>
+                </body>
+            </html>
         <?php
 
         exit;
@@ -180,6 +180,55 @@
 
     use Framework\Application;
     use Framework\Application\Settings;
+
+    if( Settings::canFindSettings() == false )
+    {
+
+        ob_clean();
+
+        ?>
+
+            <html>
+                <head>
+                    <meta charset="utf-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+                    <title>Framework Error</title>
+
+                    <!-- Stylesheets -->
+                    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+                    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+
+                    <!--[if lt IE 9]>
+                    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+                    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+                    <![endif]-->
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1 class="page-header text-center">
+                                    Critical Error
+                                </h1>
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                        Major error
+                                    </div>
+                                    <div class="panel-body text-center">
+                                        The framework was unable to find your settings file, this could be because of a few reasons. We suggest you check out <a href="https://github.com/dialtoneuk/Syscrack2017/">the github.</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                </body>
+            </html>
+        <?php
+
+        exit;
+    }
 
     /**
     * Starts the application

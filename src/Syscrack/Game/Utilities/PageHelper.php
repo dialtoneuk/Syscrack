@@ -374,7 +374,7 @@ class PageHelper
         if( $finance->hasAccount( $this->session->getSessionUser() ) == false )
         {
 
-            throw new SyscrackException();
+            return number_format( 0.0 );
         }
 
         return number_format( $finance->getTotalUserCash( $this->session->getSessionUser() ) );

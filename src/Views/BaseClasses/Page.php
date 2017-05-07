@@ -133,7 +133,7 @@
                 else
                 {
 
-                    Flight::redirect('/' .  $this->getCurrentPage() . '?error' );
+                    Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error' );
 
                     exit;
                 }
@@ -151,7 +151,7 @@
                 else
                 {
 
-                    Flight::redirect('/' .  $this->getCurrentPage() . '?error=' . $message );
+                    Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error=' . $message );
 
                     exit;
                 }
@@ -170,11 +170,11 @@
             if ($path !== '')
             {
 
-                Flight::redirect('/' . $this->getCurrentPage() . $path . "?success");
+                Flight::redirect( Settings::getSetting('controller_index_root') . $path . "?success");
                 exit;
             }
 
-            Flight::redirect('/' . $this->getCurrentPage() . '?success');
+            Flight::redirect( Settings::getSetting('controller_index_root') . $this->getCurrentPage() . '?success');
             exit;
         }
 

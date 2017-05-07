@@ -33,7 +33,7 @@
         public function __construct()
         {
 
-            parent::__construct( false );
+            parent::__construct( false, false, false, true );
 
             if( isset( $this->verification ) == false )
             {
@@ -56,7 +56,7 @@
                     'GET /verify/', 'page'
                 ],
                 [
-                    'POSt /verify/', 'process'
+                    'POST /verify/', 'process'
                 ]
             );
         }
@@ -74,9 +74,7 @@
                 if ($this->verification->getTokenUser($_GET['token']) == null)
                 {
 
-                    Flight::redirect('/verify/?error=Sorry, that token is invalid');
-
-                    exit;
+                    $this->redirectError('Sorry, this token is invalid...', '/login' );
                 }
 
                 $userid = $this->verification->getTokenUser($_GET['token']);
@@ -84,27 +82,34 @@
                 if ($userid == null)
                 {
 
-                    Flight::redirect('/verify/?error=Sorry, that token is invalid');
-
-                    exit;
+                    $this->redirectError('Sorry, this token isnt tied to a user, try again?', '/login' );
                 }
 
                 if ($this->verification->verifyUser($_GET['token']) == false)
                 {
 
-                    Flight::redirect('/verify/?error=Sorry, that token is invalid');
-
-                    exit;
+                    $this->redirectError('Sorry, failed to verify, try again?', '/login' );
                 }
 
-                $startup = new Startup($userid);
+                try
+                {
 
-                Flight::redirect('/login/?success');
+                    if (Settings::getSetting('syscrack_startup_on_verification'))
+                    {
 
-                exit;
+                        $startup = new Startup($userid);
+                    }
+                }
+                catch( \Exception $error )
+                {
+
+                    $this->redirectError('Sorry, we encounted an error, please a developer', '/login');
+                }
+
+                $this->redirectSuccess('/login');
             }
 
-            Flight::render('page.verify');
+            Flight::notFound();
         }
 
         /**
@@ -117,35 +122,46 @@
             if (PostHelper::hasPostData() == false)
             {
 
-                Flight::redirect('/verify?error=Please enter something.. atleast...');
-
-                exit;
+                $this->redirectError('Please enter a token');
             }
 
             if (PostHelper::checkPostData(['token']) == false)
             {
 
-                Flight::redirect('/verify?error=Please enter something.. atleast...');
-
-                exit;
+                $this->redirectError('Please enter a token');
             }
 
             $token = PostHelper::getPostData('token');
 
             $userid = $this->verification->getTokenUser($token);
 
-            if ($this->verification->verifyUser($token) == false)
+            if ($userid == null)
             {
 
-                Flight::redirect('/verify?error=Sorry.. that token is invalid...');
+                $this->redirectError('Sorry, this token isnt tied to a user, try again?', '/login' );
             }
 
-            if (Settings::getSetting('syscrack_startup_on_verification'))
+            if ($this->verification->verifyUser($_GET['token']) == false)
             {
 
-                $startup = new Startup($userid);
+                $this->redirectError('Sorry, failed to verify, try again?', '/login' );
             }
 
-            Flight::redirect('/login/?success');
+            try
+            {
+
+                if (Settings::getSetting('syscrack_startup_on_verification'))
+                {
+
+                    $startup = new Startup($userid);
+                }
+            }
+            catch( \Exception $error )
+            {
+
+                $this->redirectError('Sorry, we encounted an error, please a developer', '/login');
+            }
+
+            $this->redirectSuccess('/login');
         }
     }

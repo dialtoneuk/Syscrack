@@ -229,12 +229,12 @@ class Internet
     }
 
     /**
-     * Returns a new random IPs
+     * Returns a new random IP address
      *
      * @return string
      */
 
-    private function getIP()
+    public function getIP()
     {
 
         return rand(0,255) . '.' . rand(0,255)  . '.' .  rand(0,255)  . '.' .  rand(0,255);

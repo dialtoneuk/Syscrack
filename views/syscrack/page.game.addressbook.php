@@ -99,10 +99,10 @@
                                         );
 
                                         $addressbook->removeComputer( $value['computerid'] );
-
-                                        $addressbook->saveDatabase();
                                     }
                                 }
+
+                                $addressbook->saveDatabase();
 
                                 if( empty( $removed ) == false )
                                 {
@@ -132,9 +132,7 @@
                                     <?php
                                 }
 
-                                $addresses = $addressbook->getDatabase( $session->getSessionUser() );
-
-                                array_reverse( $addresses );
+                                $addresses = array_reverse( $addressbook->getDatabase( $session->getSessionUser() ) );
 
                                 foreach( $addresses as $key=>$value )
                                 {

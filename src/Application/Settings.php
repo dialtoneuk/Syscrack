@@ -322,6 +322,24 @@ class Settings
 		self::$settings = $settings;
 	}
 
+    /**
+     * Returns true if we can find our settings file ( aka it exists )
+     *
+     * @return bool
+     */
+
+	public static function canFindSettings()
+    {
+
+        if( file_exists( self::fileLocation() ) == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
 	/**
 	 * Reads the specific settings
 	 *

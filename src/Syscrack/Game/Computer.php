@@ -204,7 +204,7 @@ class Computer
             'type'      => $type,
             'ipaddress' => $ipaddress,
             'softwares' => json_encode( $softwares ),
-            'hardwares' => json_encode( $hardwares)
+            'hardwares' => json_encode( $hardwares )
         );
 
         return $this->database->insertComputer( $array );

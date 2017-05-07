@@ -52,7 +52,8 @@
                         </h1>
                     </div>
                 </div>
-
+            </div>
+            <div class="row">
                 <?php
 
                     Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );
