@@ -120,7 +120,7 @@
     "sycsrack_betakey_length": 6,
     "syscrack_default_hardware": {
         "cpu": {
-            "value": 200
+            "value": 100
         },
         "hdd": {
             "value:": 100

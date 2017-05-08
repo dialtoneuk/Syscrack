@@ -360,7 +360,7 @@ class Startup
                 throw new SyscrackException();
             }
 
-            $this->computer->addSoftware( $computerid, $softwareid, $this->softwares->getSoftwareType( $this->softwares->getSoftwareNameFromSoftwareID( $softwareid ) ) );
+            $this->computer->addSoftware( $computerid, $softwareid, $this->softwares->getSoftwareType( $this->softwares->getSoftwareNameFromSoftwareID( $softwareid ) ), $software['softwarename'] );
 
             if( isset( $software['installed'] ) )
             {

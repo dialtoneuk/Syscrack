@@ -179,18 +179,26 @@ class Softwares
     }
 
     /**
-     * Creates a new piece of software
+     * Creates a new software
      *
      * @param $software
      *
-     * @param $userid
+     * @param int $userid
      *
-     * @param $computerid
+     * @param int $computerid
+     *
+     * @param string $softwarename
+     *
+     * @param float $softwarelevel
+     *
+     * @param float $softwaresize
+     *
+     * @param array $data
      *
      * @return int
      */
 
-    public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software', float $softwarelavel = 1.0, $data=[] )
+    public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software', float $softwarelevel = 1.0, float $softwaresize = 10.0, $data=[] )
     {
 
         if( $this->hasSoftwareClass( $software ) == false )
@@ -212,8 +220,8 @@ class Softwares
         $array = array(
             'userid'        => $userid,
             'computerid'    => $computerid,
-            'level'         => $softwarelavel,
-            'size'          => $class->getDefaultSize(),
+            'level'         => $softwarelevel,
+            'size'          => $softwaresize,
             'uniquename'    => $configuration['uniquename'],
             'type'          => $configuration['type'],
             'softwarename'  => $softwarename,
