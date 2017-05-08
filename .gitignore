@@ -9,7 +9,7 @@ composer.phar
 
 # Syscrack
 
-/conf/database/
+/conf/database/connection.json
 /conf/activelog.json
 /conf/errorlog.json
 /conf/betakeys.json
