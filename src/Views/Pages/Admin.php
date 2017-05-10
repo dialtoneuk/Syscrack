@@ -163,43 +163,83 @@
                     if( PostHelper::getPostData('schema') == true )
                     {
 
-                        if( PostHelper::checkForRequirements(['name','page']) == false )
+                        if( PostHelper::checkForRequirements(['name']) == false )
                         {
 
                             $this->redirectError('Unable to create schema due to missing information, but the computer was created...', 'admin/computer/creator');
                         }
 
-                        $name = PostHelper::getPostData('name');
-                        $page = PostHelper::getPostData('page');
-
-                        if( PostHelper::checkForRequirements(['riddle']) == false )
+                        if( PostHelper::checkForRequirements(['page'] ) == false )
                         {
 
-                            $this->startup->createSchema( $computerid, array(
-                                'name' => $name,
-                                'page'  => $page,
-                                'softwares' => json_decode( $softwares, true ),
-                                'hardwares' => json_decode( $hardwares, true )
-                            ));
+                            $name = PostHelper::getPostData('name');
+                            $page = Settings::getSetting('syscrack_default_computer_page');
+
+                            if( PostHelper::checkForRequirements(['riddle']) == false )
+                            {
+
+                                $this->startup->createSchema( $computerid, array(
+                                    'name' => $name,
+                                    'page'  => $page,
+                                    'softwares' => json_decode( $softwares, true ),
+                                    'hardwares' => json_decode( $hardwares, true )
+                                ));
+                            }
+                            else
+                            {
+
+                                if( PostHelper::checkForRequirements( ['riddleaddress'] ) == false )
+                                {
+
+                                    $this->redirectError('Unable to create schema due to missing information, but the computer was created', 'admin/computer/creator');
+                                }
+
+                                $riddle = PostHelper::getPostData('riddladdress');
+
+                                $this->startup->createSchema( $computerid, array(
+                                    'name'      => $name,
+                                    'page'      => $page,
+                                    'riddle'    => $riddle,
+                                    'softwares' => json_decode( $softwares, true ),
+                                    'hardwares' => json_decode( $hardwares, true )
+                                ));
+                            }
                         }
                         else
                         {
 
-                            if( PostHelper::checkForRequirements( ['riddleaddress'] ) == false )
+                            $name = PostHelper::getPostData('name');
+                            $page = PostHelper::getPostData('page');
+
+                            if( PostHelper::checkForRequirements(['riddle']) == false )
                             {
 
-                                $this->redirectError('Unable to create schema due to missing information, but the computer was created', 'admin/computer/creator');
+                                $this->startup->createSchema( $computerid, array(
+                                    'name' => $name,
+                                    'page'  => $page,
+                                    'softwares' => json_decode( $softwares, true ),
+                                    'hardwares' => json_decode( $hardwares, true )
+                                ));
                             }
+                            else
+                            {
 
-                            $riddle = PostHelper::getPostData('riddladdress');
+                                if( PostHelper::checkForRequirements( ['riddleaddress'] ) == false )
+                                {
 
-                            $this->startup->createSchema( $computerid, array(
-                                'name'      => $name,
-                                'page'      => $page,
-                                'riddle'    => $riddle,
-                                'softwares' => json_decode( $softwares, true ),
-                                'hardwares' => json_decode( $hardwares, true )
-                            ));
+                                    $this->redirectError('Unable to create schema due to missing information, but the computer was created', 'admin/computer/creator');
+                                }
+
+                                $riddle = PostHelper::getPostData('riddladdress');
+
+                                $this->startup->createSchema( $computerid, array(
+                                    'name'      => $name,
+                                    'page'      => $page,
+                                    'riddle'    => $riddle,
+                                    'softwares' => json_decode( $softwares, true ),
+                                    'hardwares' => json_decode( $hardwares, true )
+                                ));
+                            }
                         }
                     }
                 }

@@ -32,10 +32,10 @@
 
                     $computer = $internet->getComputer( $ipaddress );
 
-                    if( $npc->hasNPCFile( $computer->computerid ) && $npc->hasNPCPage( $computer->computerid) )
+                    if( $npc->hasNPCFile( $computer->computerid ) && $npc->hasNPCPage( $computer->computerid ) )
                     {
 
-                        Flight::render( $npc->getNPCPageLocation( $computer->computerid ), array( 'internet' => $internet, 'ipaddress' => $ipaddress ) );
+                        Flight::render( $npc->getNPCPageLocation( $computer->computerid ), array( 'internet' => $internet, 'ipaddress' => $ipaddress, 'npc' => $npc ) );
                     }
                     else
                     {

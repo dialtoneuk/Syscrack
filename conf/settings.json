@@ -49,7 +49,7 @@
     "facebook_app_version": "v2.8",
     "facebook_redirect_url": "http:\/\/<$_SERVER['HTTP_HOST']>\/login\/facebook\/",
     "online_timeframe": "<60 * 60 * 2>",
-    "syscrack_global_speed":30,
+    "syscrack_global_speed": 30,
     "syscrack_game_name": "beta",
     "syscrack_bank_type": "bank",
     "syscrack_bitcoin_type": "bitcoin",
@@ -70,12 +70,12 @@
     "syscrack_addressdatabase_location": "syscrack\/addressdatabase\/",
     "syscrack_bankdatabase_location": "syscrack\/bankdatabase\/",
     "syscrack_filedatabase_extension": ".json",
-    "syscrack_bank_default_balance": 1000,
+    "syscrack_bank_default_balance": 25,
     "syscrack_bitcoin_live": true,
     "syscrack_bitcoin_sellprice": 500,
     "syscrack_bitcoin_buyprice": 550,
     "syscrack_bitcoin_url": "https:\/\/blockchain.info\/ticker",
-    "syscrack_bitcoin_country": "USD",
+    "syscrack_bitcoin_country": "GBP",
     "syscrack_default_bank": 1,
     "syscrack_bank_accountnumber_length": 8,
     "syscrack_currency": "\u00a3",
@@ -104,7 +104,7 @@
     "syscrack_internet_page": "internet",
     "syscrack_game_page": "game",
     "syscrack_hack_speed": 25,
-    "syscrack_clear_speed": 16.5,
+    "syscrack_clear_speed": 18.5,
     "syscrack_statistics_file": "syscrack\/statistics.json",
     "syscrack_statistics_enabled": true,
     "syscrack_software_allowedmethods": [
@@ -120,7 +120,7 @@
     "sycsrack_betakey_length": 6,
     "syscrack_default_hardware": {
         "cpu": {
-            "value": 100
+            "value": 1000
         },
         "hdd": {
             "value:": 100
@@ -167,5 +167,7 @@
                 "value": 1000
             }
         }
-    }
+    },
+    "syscrack_default_computer_name": "WindowsPC",
+    "syscrack_default_computer_page": "npc.default"
 }

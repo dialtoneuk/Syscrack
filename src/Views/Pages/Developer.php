@@ -2,7 +2,7 @@
     namespace Framework\Views\Pages;
 
     /**
-     * Lewis Lancaster 2016
+     * Lewis Lancaster 2017
      *
      * Class Developer
      *
@@ -10,17 +10,44 @@
      */
 
     use Flight;
-    use Framework\Application\Utilities\Log;
+    use Framework\Application\ErrorHandler;
+    use Framework\Application\Settings;
+    use Framework\Application\Utilities\PostHelper;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
     class Developer extends BaseClass implements Structure
     {
 
+        /**
+         * @var ErrorHandler
+         */
+
+        protected $errorhandler;
+
+        /**
+         * Developer constructor.
+         */
+
         public function __construct()
         {
 
             parent::__construct( false );
+
+
+            if( isset( $this->errorhandler ) == false )
+            {
+
+                $this->errorhandler = new ErrorHandler();
+            }
+
+            //Used to display errors
+
+            if( session_status() !== PHP_SESSION_ACTIVE )
+            {
+
+                session_start();
+            }
         }
 
         /**
@@ -41,28 +68,34 @@
                     '/developer/', 'index'
                 ],
                 [
-                    '/developer/connectioncreator/', 'connectionCreator'
+                    '/developer/connection/creator/', 'connectionCreator'
                 ],
                 [
-                    '/developer/connectiontester/', 'connectionTester'
+                    '/developer/connection/', 'connection'
                 ],
                 [
-                    '/developer/logger/', 'logger'
+                    'GET /developer/errors/', 'errors'
                 ],
                 [
-                    '/developer/logger/@id:[0-9]{0,9}/', 'loggerDetailed'
+                    'POST /developer/errors/', 'errorsProcess'
+                ],
+                [
+                    '/developer/errors/@id:[0-9]{0,9}/', 'errorsView'
                 ],
                 [
                     '/developer/disable/', 'disable'
                 ],
                 [
-                    '/developer/settingsmanager/', 'settingsManager'
+                    'GET /developer/settings/', 'settings'
                 ],
                 [
-                    '/developer/pageviewer/', 'pageViewer'
+                    'POST /developer/settings/', 'settingsProcess'
                 ],
                 [
-                    '/developer/databasemigrator/', 'databaseMigrator'
+                    '/developer/routes/', 'routes'
+                ],
+                [
+                    '/developer/migrator/', 'databaseMigrator'
                 ]
             );
         }
@@ -74,17 +107,7 @@
         public function index()
         {
 
-            $this->renderPageFile('page.developer');
-        }
-
-        /**
-         * Renders the database error page
-         */
-
-        public function databaseError()
-        {
-
-            $this->renderPageFile('page.dberror');
+            $this->getRender('page.developer');
         }
 
         /**
@@ -94,41 +117,81 @@
         public function databaseMigrator()
         {
 
-            $this->renderPageFile('page.dbmigrator');
+            $this->getRender('page.migrator');
         }
 
         /**
          * Renders the page viewer page
          */
 
-        public function pageViewer()
+        public function routes()
         {
 
-            $this->renderPageFile('page.pageviewer');
+            $this->getRender('page.routes');
         }
 
         /**
          * Renders the logger page
          */
 
-        public function logger()
+        public function errors()
         {
 
-            Log::$disabled = true;
-
-            $this->renderPageFile('page.logger');
+            $this->getRender('page.errors');
         }
 
+        public function errorsProcess()
+        {
+
+            if( PostHelper::hasPostData() == false )
+            {
+
+                $this->errors();
+            }
+            else
+            {
+
+                if( PostHelper::checkForRequirements(['action'] ) == false )
+                {
+
+                    $this->redirectError('Missing information', $this->getRedirect('errors') );
+                }
+                else
+                {
+
+                    $action = PostHelper::getPostData('action');
+
+                    if( $action == "delete" )
+                    {
+
+                        $this->errorhandler->deleteErrorLog();
+
+                        $this->redirectSuccess( $this->getRedirect('errors') );
+                    }
+                }
+            }
+        }
         /**
          * Renders the detailed logger page
          *
          * @param $id
          */
 
-        public function loggerDetailed($id)
+        public function errorsView( $id )
         {
 
-            Flight::render('developer/page.logger.detailed', array('id' => $id));
+            $errors = $this->errorhandler->getErrorLog();
+
+            if( isset( $errors[ $id ] ) == false )
+            {
+
+                $this->redirectError('Error does not exist', $this->getRedirect('errors') );
+            }
+            else
+            {
+
+                Flight::render('developer/page.errors.view', array( 'id' => $id ) );
+            }
         }
 
         /**
@@ -138,17 +201,90 @@
         public function disable()
         {
 
-            $this->renderPageFile('page.disabledevelopersection');
+            $this->getRender('page.disable');
         }
 
         /**
          * Renders the settings manager
          */
 
-        public function settingsManager()
+        public function settings()
         {
 
-            $this->renderPageFile('page.settingsmanager');
+            $this->getRender('page.settings');
+        }
+
+        /**
+         * Processes a post request to the settings page
+         */
+
+        public function settingsProcess()
+        {
+
+            if( PostHelper::hasPostData() == false )
+            {
+
+                $this->settings();
+            }
+            else
+            {
+
+                if( PostHelper::checkForRequirements(['action','setting_name','setting_value'] ) == false )
+                {
+
+                    $this->redirectError('Missing information', $this->getRedirect('settings') );
+                }
+
+                $action = PostHelper::getPostData('action');
+
+                if( $action == "create" )
+                {
+
+                    $settings_name = PostHelper::getPostData('setting_name');
+                    $settings_value = PostHelper::getPostData('setting_value');
+
+                    if( Settings::hasSetting( $settings_name ) )
+                    {
+
+                        $this->redirectError('Setting already exists under that name');
+                    }
+
+                    Settings::addSetting( $settings_name, $settings_value, true );
+
+                    $this->redirectSuccess( $this->getRedirect('settings') );
+                }
+                elseif( $action == "save" )
+                {
+
+                    $settings_name = PostHelper::getPostData('setting_name');
+                    $settings_value = PostHelper::getPostData('setting_value');
+
+                    if( Settings::hasSetting( $settings_name ) == false )
+                    {
+
+                        $this->redirectError('This setting does not exist', $this->getRedirect('settings') );
+                    }
+
+                    Settings::updateSetting( $settings_name, $this->parseSetting( $settings_value ) );
+
+                    $this->redirectSuccess( $this->getRedirect('settings') );
+                }
+                elseif( $action == "delete" )
+                {
+
+                    $settings_name = PostHelper::getPostData('setting_name');
+
+                    if( Settings::hasSetting( $settings_name ) == false )
+                    {
+
+                        $this->redirectError('This setting does not exist', $this->getRedirect('settings') );
+                    }
+
+                    Settings::removeSetting( $settings_name );
+
+                    $this->redirectSuccess( $this->getRedirect('settings') );
+                }
+            }
         }
 
         /**
@@ -158,17 +294,90 @@
         public function connectionCreator()
         {
 
-            $this->renderPageFile('page.dbconnectioncreator');
+            $this->getRender('page.connection.creator');
         }
 
         /**
          * Renders the database creator
          */
 
-        public function connectionTester()
+        public function connection()
         {
 
-            $this->renderPageFile('page.dbconnectiontester');
+            $this->getRender('page.connection');
+        }
+
+        /**
+         * Parses a setting and returns the correct value
+         *
+         * @param $setting_value
+         *
+         * @return bool|mixed
+         */
+
+        private function parseSetting( $setting_value )
+        {
+
+            if( strtolower( $setting_value ) == 'true' )
+            {
+
+                return true;
+            }
+            elseif( strtolower( $setting_value ) == 'false' )
+            {
+
+                return false;
+            }
+
+            if( $this->isJson( $setting_value ) && Settings::hasParsableData( $setting_value ) == false )
+            {
+
+                return json_decode( $setting_value, true );
+            }
+
+            return $setting_value;
+        }
+
+        /**
+         * Returns true if the string is json
+         *
+         * @param $setting_value
+         *
+         * @return bool
+         */
+
+        private function isJson( $setting_value )
+        {
+
+            if( is_string( $setting_value ) == false )
+            {
+
+                return false;
+            }
+
+            json_decode( $setting_value );
+
+            if( json_last_error() !== JSON_ERROR_NONE )
+            {
+
+                return false;
+            }
+
+            return true;
+        }
+
+        /**
+         * Gets where to redirect the user too
+         *
+         * @param $path
+         *
+         * @return string
+         */
+
+        private function getRedirect( $path )
+        {
+
+            return Settings::getSetting('developer_page') . '/' . $path;
         }
 
         /**
@@ -177,9 +386,9 @@
          * @param $file
          */
 
-        private function renderPageFile($file)
+        private function getRender( $file, array $data=[])
         {
 
-            Flight::render("developer/{$file}");
+            Flight::render('developer/' . $file, $data );
         }
     }

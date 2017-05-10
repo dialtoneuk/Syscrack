@@ -118,7 +118,7 @@
                                                 'name'          => 'page',
                                                 'icon'          => 'glyphicon-book',
                                                 'disabled'      => true,
-                                                'placeholder'   => 'npc.whois'
+                                                'placeholder'   => 'npc.default'
                                             ],
                                             [
                                                 'type'          => 'checkbox',

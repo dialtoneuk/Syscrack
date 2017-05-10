@@ -207,8 +207,23 @@ class Operation
      * @param array|null $array
      */
 
-    public function getRender( $file, array $array = null  )
+    public function getRender( $file, array $array = null, $default_classes = false  )
     {
+
+        if( $array !== null )
+        {
+
+            if( $default_classes !== false )
+            {
+
+                array_merge( $array, [
+                    'softwares' => $this->softwares,
+                    'internet'  => $this->internet,
+                    'computer'  => $this->computer
+                ]);
+            }
+
+        }
 
         Flight::render( Settings::getSetting('syscrack_view_location') . $file, $array);
     }

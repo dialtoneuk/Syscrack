@@ -17,6 +17,8 @@ composer.phar
 /syscrack/addressdatabase/
 /syscrack/bankdatabase/
 /syscrack/logs/
+
+# Comment this line if you would like to share your NPC schema files
 /syscrack/npc/
 
 # PHPStorm

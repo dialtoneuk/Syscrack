@@ -23,14 +23,6 @@ class Settings
 	private static $settings = array();
 
 	/**
-	 * Holds a raw json version of the settings to prevent double reading of files.
-	 *
-	 * @var string
-	 */
-
-	private static $raw;
-
-	/**
 	 * Gets the settings for this application
 	 *
 	 * @return array
@@ -62,43 +54,67 @@ class Settings
 	}
 
     /**
-     * Removes the setting
+     * Removes a setting
      *
      * @param $setting_name
+     *
+     * @param bool $save
      */
 
-	public static function removeSetting( $setting_name )
+	public static function removeSetting( $setting_name, $save=true )
     {
 
         unset( self::$settings[ $setting_name ] );
+
+        if( $save )
+        {
+
+            self::writeSettings();
+        }
     }
 
     /**
-     * Adds the setting to the local settings array
+     * Adds a setting
      *
      * @param $name
      *
      * @param $value
+     *
+     * @param bool $save
      */
 
-    public static function addSetting( $name, $value )
+    public static function addSetting( $name, $value, $save=true )
     {
 
         self::$settings[ $name ] = $value;
+
+        if( $save )
+        {
+
+            self::writeSettings();
+        }
     }
 
     /**
-     * Updates the setting
+     * Updates a setting
      *
      * @param $setting_name
      *
      * @param $setting_value
+     *
+     * @param bool $save
      */
 
-    public static function updateSetting( $setting_name, $setting_value )
+    public static function updateSetting( $setting_name, $setting_value, $save=true )
     {
 
         self::$settings[ $setting_name ] = $setting_value;
+
+        if( $save )
+        {
+
+            Settings::writeSettings();
+        }
     }
 
     /**

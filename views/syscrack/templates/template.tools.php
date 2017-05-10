@@ -1,5 +1,6 @@
 <?php
 
+    use Framework\Application\Settings;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Softwares;
@@ -164,6 +165,52 @@
                     </div>
                 <?php
             }
+        }
+
+        $computer = $internet->getComputer( $ipaddress );
+
+        if( $computer->type == Settings::getSetting('syscrack_bank_type') )
+        {
+
+            ?>
+                <div class="panel panel-info">
+                    <div class="panel-body text-center">
+                        This computer appears to be a bank
+                    </div>
+                </div>
+                <form action="/game/internet/<?=$ipaddress?>/bank" method="get">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <button style="width: 100%;" class="btn btn-success" type="submit">
+                                <span class="glyphicon glyphicon-gbp" aria-hidden="true"></span> Access Bank
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <?php
+                    if( $pagehelper->isCurrentlyConnected( $ipaddress ) )
+                    {
+
+                        ?>
+
+                            <form action="/game/internet/<?=$ipaddress?>/crackaccount" method="post">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon">#</span>
+                                            <input type="text" class="form-control" placeholder="000000000" name="account" aria-describedby="basic-addon">
+                                        </div>
+                                        <button style="width: 100%; margin-top: 2.5%;" class="btn btn-warning" type="submit">
+                                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Crack Account
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        <?php
+                    }
+                ?>
+            <?php
         }
     ?>
 </div>

@@ -53,6 +53,12 @@ class NPC
             return false;
         }
 
+        if( $this->NPCPageExists( $computerid ) == false )
+        {
+
+            return false;
+        }
+
         return true;
     }
 

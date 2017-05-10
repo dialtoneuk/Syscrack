@@ -10,8 +10,8 @@ namespace Framework\Syscrack\Game;
  */
 
 use Framework\Application\Settings;
-use Framework\Database\Tables\Computers;
 use Framework\Database\Tables\Banks;
+use Framework\Database\Tables\Computers;
 use Framework\Exceptions\SyscrackException;
 
 class Finance
@@ -108,6 +108,20 @@ class Finance
     }
 
     /**
+     * Removes an account from the bank
+     *
+     * @param $computerid
+     *
+     * @param $userid
+     */
+
+    public function removeAccount( $computerid, $userid )
+    {
+
+        $this->banks->deleteAccount( $computerid, $userid );
+    }
+
+    /**
      * Gets the users account at the specified bank
      *
      * @param $userid
@@ -117,7 +131,7 @@ class Finance
      * @return mixed|null
      */
 
-    public function getAccountAtBank( $userid, $computerid )
+    public function getAccountAtBank( $computerid, $userid )
     {
 
         $accounts = $this->banks->getAccountsOnComputer( $computerid );

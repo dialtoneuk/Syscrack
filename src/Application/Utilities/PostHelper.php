@@ -80,7 +80,7 @@ class PostHelper
         if( self::hasPostData() == false )
         {
 
-            throw new ApplicationException();
+            return false;
         }
 
         $post = self::getPost();

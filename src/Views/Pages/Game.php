@@ -133,20 +133,6 @@
         }
 
         /**
-         * Renders a page
-         *
-         * @param $file
-         *
-         * @param array|null $array
-         */
-
-        private function getRender($file, array $array = null)
-        {
-
-            Flight::render(Settings::getSetting('syscrack_view_location') . $file, $array);
-        }
-
-        /**
          * The address book
          */
 
@@ -172,7 +158,7 @@
                     $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
                 }
 
-                $this->getRender('page.game.internet', array('ipaddress' => PostHelper::getPostData('ipaddress')));
+                Flight::redirect( Settings::getSetting('controller_index_root') . $this->getRedirect( PostHelper::getPostData('ipaddress') ) );
             }
             else
             {
@@ -491,5 +477,19 @@
             }
 
             return Settings::getSetting('syscrack_game_page') . '/';
+        }
+
+        /**
+         * Renders a page
+         *
+         * @param $file
+         *
+         * @param array|null $array
+         */
+
+        private function getRender($file, array $array = null)
+        {
+
+            Flight::render(Settings::getSetting('syscrack_view_location') . $file, $array);
         }
     }

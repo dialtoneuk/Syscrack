@@ -88,6 +88,17 @@ class Banks extends Table
         return $this->getTable()->insertGetId( $array );
     }
 
+    public function deleteAccount( $computerid, $userid )
+    {
+
+        $array = array(
+            'computerid' => $computerid,
+            'userid'     => $userid
+        );
+
+        $this->getTable()->where( $array )->delete();
+    }
+
     /**
      * Updates a users financial account
      *
