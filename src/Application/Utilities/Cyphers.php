@@ -67,7 +67,7 @@ class Cyphers
 	}
 
 	/**
-	 * Encrypts an array to Json using out format
+	 * Encrypts an array
 	 *
 	 * @param array $array
 	 *
@@ -76,7 +76,7 @@ class Cyphers
 	 * @return array|string
 	 */
 
-	public static function encryptToJson( array $array, $key=null )
+	public static function encryptArray( array $array, $key=null, $json=true )
 	{
 
 		if( $key == null )
@@ -119,7 +119,13 @@ class Cyphers
 
 		$result['iv_size'] = base64_encode( $iv_size );
 
-		return json_encode( $result, JSON_PRETTY_PRINT );
+		if( $json == true )
+        {
+
+            return json_encode( $result, JSON_PRETTY_PRINT );
+        }
+
+        return $result;
 	}
 
 	/**
@@ -264,7 +270,7 @@ class Cyphers
 	}
 
 	/**
-	 * Generates a truely random key
+	 * Generates a truly random key
 	 *
 	 * @return string
 	 */

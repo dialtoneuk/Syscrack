@@ -12,9 +12,17 @@
     use Flight;
     use Framework\Application\ErrorHandler;
     use Framework\Application\Settings;
+    use Framework\Application\Utilities\Cyphers;
+    use Framework\Application\Utilities\FileSystem;
     use Framework\Application\Utilities\PostHelper;
+    use Framework\Database\Manager;
+    use Framework\Exceptions\ViewException;
     use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Controller;
+    use Framework\Views\Structures\Page;
     use Framework\Views\Structures\Page as Structure;
+    use Illuminate\Database\Schema\Blueprint;
+    use ReflectionClass;
 
     class Developer extends BaseClass implements Structure
     {
@@ -26,6 +34,18 @@
         protected $errorhandler;
 
         /**
+         * @var Controller
+         */
+
+        protected $controller;
+
+        /**
+         * @var Manager
+         */
+
+        protected $database;
+
+        /**
          * Developer constructor.
          */
 
@@ -34,11 +54,22 @@
 
             parent::__construct( false );
 
-
             if( isset( $this->errorhandler ) == false )
             {
 
                 $this->errorhandler = new ErrorHandler();
+            }
+
+            if( isset( $this->controller ) == false )
+            {
+
+                $this->controller = new Controller();
+            }
+
+            if( isset( $this->database ) == false )
+            {
+
+                $this->database = new Manager();
             }
 
             //Used to display errors
@@ -68,7 +99,10 @@
                     '/developer/', 'index'
                 ],
                 [
-                    '/developer/connection/creator/', 'connectionCreator'
+                    'GET /developer/connection/creator/', 'connectionCreator'
+                ],
+                [
+                    'POST /developer/connection/creator/', 'connectionCreatorProcess'
                 ],
                 [
                     '/developer/connection/', 'connection'
@@ -95,7 +129,10 @@
                     '/developer/routes/', 'routes'
                 ],
                 [
-                    '/developer/migrator/', 'databaseMigrator'
+                    'GET /developer/migrator/', 'migrator'
+                ],
+                [
+                    'POST /developer/migrator/', 'migratorProcess'
                 ]
             );
         }
@@ -114,10 +151,66 @@
          * Renders the database migrator page
          */
 
-        public function databaseMigrator()
+        public function migrator()
         {
 
+            if( $this->hasDatabaseConnection() == false )
+            {
+
+                $this->redirectError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer' );
+            }
+
             $this->getRender('page.migrator');
+        }
+
+        /**
+         * Processes the migrators post request
+         */
+
+        public function migratorProcess()
+        {
+
+            if( $this->hasDatabaseConnection() == false )
+            {
+
+                $this->redirectError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer' );
+            }
+
+            if( PostHelper::hasPostData() == false )
+            {
+
+                $this->migrator();
+            }
+            else
+            {
+
+                if( PostHelper::checkForRequirements(['json']) == false )
+                {
+
+                    $this->redirectError('Missing information', $this->getRedirect('migrator') );
+                }
+
+                $json = PostHelper::getPostData('json');
+
+                if( $this->isJson( $json ) == false )
+                {
+
+                    $this->redirectError('Invalid Json: ' . json_last_error_msg(), $this->getRedirect('migrator') );
+                }
+
+                try
+                {
+
+                    $this->migrateDatabase( json_decode( $json, true ) );
+                }
+                catch( \Exception $error )
+                {
+
+                    $this->redirectError('Migrator Error: ' . $error->getMessage(), $this->getRedirect('migrator') );
+                }
+
+                $this->redirectSuccess( $this->getRedirect('migrator') );
+            }
         }
 
         /**
@@ -127,7 +220,18 @@
         public function routes()
         {
 
-            $this->getRender('page.routes');
+            $routes = $this->getRoutes();
+
+            if( $routes == null )
+            {
+
+                $this->redirectError('No routes were found', 'developer' );
+            }
+            else
+            {
+
+                $this->getRender('page.routes', array('routes' => $routes ) );
+            }
         }
 
         /**
@@ -171,6 +275,7 @@
                 }
             }
         }
+
         /**
          * Renders the detailed logger page
          *
@@ -298,6 +403,52 @@
         }
 
         /**
+         * Processes the connection creators post route
+         */
+
+        public function connectionCreatorProcess()
+        {
+
+            if( PostHelper::hasPostData() == false )
+            {
+
+                $this->connectionCreator();
+            }
+            else
+            {
+
+                if( PostHelper::checkForRequirements(['username','password','host','database'] ) == false )
+                {
+
+                    $this->redirectError('Missing information', $this->getRedirect('connection/creator') );
+                }
+
+                if( FileSystem::directoryExists('conf/database/') == false )
+                {
+
+                    FileSystem::createDirectory('conf/database/');
+                }
+
+                $array = $this->mergeDatabaseArrays( array(
+                    'username'  => PostHelper::getPostData('username'),
+                    'password'  => PostHelper::getPostData('password'),
+                    'host'      => PostHelper::getPostData('host'),
+                    'database'  => PostHelper::getPostData('database')
+                ));
+
+                FileSystem::writeJson( Settings::getSetting('database_connection_file'), Cyphers::encryptArray( $array, null, false ) );
+
+                if( FileSystem::fileExists( Settings::getSetting('database_connection_file') ) == false )
+                {
+
+                    $this->redirectError('Failed to create connection file, this could be due to a permissions error', $this->getRedirect('connection/creator') );
+                }
+
+                $this->redirectSuccess( $this->getRedirect('connection/creator') );
+            }
+        }
+
+        /**
          * Renders the database creator
          */
 
@@ -305,6 +456,102 @@
         {
 
             $this->getRender('page.connection');
+        }
+
+        /**
+         * Merges the database arrays together
+         *
+         * @param array $array
+         *
+         * @return array
+         */
+
+        private function mergeDatabaseArrays( array $array )
+        {
+
+            $merged = array(
+                'driver'    =>  Settings::getSetting('database_driver'),
+                'charset'   =>  Settings::getSetting('database_charset'),
+                'collation' =>  Settings::getSetting('database_collation'),
+                'prefix'    =>  Settings::getSetting('database_prefix')
+            );
+
+            return array_merge( $array, $merged );
+        }
+
+        /**
+         * Migrates the database
+         *
+         * @param $payload
+         */
+
+        private function migrateDatabase( $payload )
+        {
+
+            foreach( $payload as $table=>$columns )
+            {
+
+                if( $this->tableExists( $table ) )
+                {
+
+                    continue;
+                }
+
+                Manager::$capsule->getConnection()->getSchemaBuilder()->create( $table, function( Blueprint $table ) use ( $columns )
+                {
+                    foreach ($columns as $column => $type)
+                    {
+                        $table->{$type}($column);
+                    }
+                });
+            }
+        }
+
+        /**
+         * Returns true if this table exits
+         *
+         * @param $table
+         *
+         * @return bool
+         */
+
+        private function tableExists( $table )
+        {
+
+            try
+            {
+
+                Manager::$capsule->getConnection()->table( strtolower( $table ) )->get();
+            }
+            catch( \Exception $error )
+            {
+
+                return false;
+            }
+            return true;
+        }
+
+        /**
+         * Checks if we have a database connection
+         *
+         * @return bool
+         */
+
+        private function hasDatabaseConnection()
+        {
+
+            try
+            {
+
+                Manager::getCapsule()->getConnection()->getPdo();
+            }
+            catch( \Exception $error )
+            {
+
+                return false;
+            }
+
+            return true;
         }
 
         /**
@@ -364,6 +611,64 @@
             }
 
             return true;
+        }
+
+        /**
+         * Gets a list of the routes for all of the page files
+         *
+         * @return array|null
+         */
+
+        private function getRoutes()
+        {
+
+            $files = FileSystem::getFilesInDirectory( Settings::getSetting('controller_page_folder') );
+
+            if( $files == null )
+            {
+
+                return null;
+            }
+
+            $routes = array();
+
+            foreach( $files as $file )
+            {
+
+                $file = FileSystem::getFileName( $file );
+
+                if( class_exists( Settings::getSetting('controller_namespace') . ucfirst( $file ) ) == false )
+                {
+
+                    throw new ViewException();
+                }
+
+                $reflection = new ReflectionClass( Settings::getSetting('controller_namespace') . ucfirst( $file )  );
+
+                if( empty( $reflection ))
+                {
+
+                    throw new ViewException();
+                }
+
+                $class = $reflection->newInstanceWithoutConstructor();
+
+                if( $class instanceof Page !== true )
+                {
+
+                    throw new ViewException();
+                }
+
+                $routes[ ucfirst( $file ) ] = $class->mapping();
+            }
+
+            if( empty( $routes ) )
+            {
+
+                throw new ViewException();
+            }
+
+            return $routes;
         }
 
         /**

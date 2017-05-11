@@ -1,173 +1,176 @@
 {
-    "filesystem_root": "<$_SERVER['DOCUMENT_ROOT']>",
-    "filesystem_separator": "\/",
-    "filesystem_default_extension": ".json",
-    "filesystem_default_access": "0777",
-    "developer_page": "developer",
-    "developer_disabled": false,
+    "active_log_enabled": false,
+    "active_log_location": "conf\/activelog.json",
+    "active_log_showdeveloper": false,
+    "alert_success_message": "Success!",
+    "api_default_method": "endpoint",
+    "api_method_length": 32,
+    "api_use_get": true,
+    "controller_index_page": "index",
+    "controller_index_root": "/",
+    "controller_namespace": "Framework\\Views\\Pages\\",
+    "controller_page_folder": "src\/Views\/Pages\/",
+    "controller_url_length": 4048,
+    "database_charset": "utf8",
+    "database_collation": "utf8_unicode_ci",
     "database_connection_file": "conf\/database\/connection.json",
-    "database_schema_file": "conf\/database\/databaseschema.json",
+    "database_driver": "mysql",
+    "database_prefix": "",
     "database_recommended_version": "10.3.0",
     "database_required_version_types": [
         "json"
     ],
-    "user_default_group": "guest",
-    "user_group_admin": "admin",
-    "user_group_developer": "developer",
-    "user_allow_registrations": true,
-    "user_require_betakey": false,
-    "error_log_location": "conf\/errorlog.json",
+    "database_schema_file": "conf\/database\/databaseschema.json",
+    "database_show_decrypted": false,
+    "developer_disabled": false,
+    "developer_page": "developer",
     "error_display_page": true,
+    "error_log_location": "conf\/errorlog.json",
     "error_logging": true,
     "error_use_session": true,
-    "active_log_location": "conf\/activelog.json",
-    "active_log_enabled": false,
-    "active_log_showdeveloper": false,
-    "settings_php_enabled": true,
-    "api_use_get": true,
-    "api_default_method": "endpoint",
-    "api_method_length": 32,
-    "logger_max_errors": "32",
-    "controller_url_length": 4048,
-    "controller_namespace": "Framework\\Views\\Pages\\",
-    "controller_index_root": "\/",
-    "controller_index_page": "index",
-    "controller_page_folder": "src\/Views\/Pages\/",
-    "database_driver": "mysql",
-    "database_charset": "utf8",
-    "database_collation": "utf8_unicode_ci",
-    "database_prefix": "",
-    "session_timeout": "<60 * 60 * 2>",
-    "session_update_lastaction": true,
-    "middlewares_enabled": false,
-    "middlewares_location": "src\/Views\/Middleware\/",
-    "middlewares_namespace": "Framework\\Views\\Middleware\\",
-    "registration_password_length": 8,
-    "facebook_enabled": true,
     "facebook_app_id": "",
     "facebook_app_secret": "",
     "facebook_app_version": "v2.8",
+    "facebook_enabled": true,
     "facebook_redirect_url": "http:\/\/<$_SERVER['HTTP_HOST']>\/login\/facebook\/",
+    "filesystem_default_access": "0777",
+    "filesystem_default_extension": ".json",
+    "filesystem_root": "<$_SERVER['DOCUMENT_ROOT']>",
+    "filesystem_separator": "\/",
+    "framework_version": "4.1",
+    "logger_max_errors": "32",
+    "middlewares_enabled": false,
+    "middlewares_location": "src\/Views\/Middleware\/",
+    "middlewares_namespace": "Framework\\Views\\Middleware\\",
     "online_timeframe": "<60 * 60 * 2>",
-    "syscrack_global_speed": 30,
-    "syscrack_game_name": "beta",
-    "syscrack_bank_type": "bank",
-    "syscrack_bitcoin_type": "bitcoin",
-    "syscrack_market_type": "market",
-    "syscrack_virus_type": "virus",
-    "syscrack_downloadserver_type": "download",
-    "syscrack_npc_type": "npc",
-    "syscrack_vpc_type": "vpc",
-    "syscrack_cracker_type": "cracker",
-    "syscrack_hasher_type": "hasher",
-    "syscrack_firewall_type": "firewall",
-    "syscrack_text_type": "text",
-    "syscrack_cpu_type": "cpu",
-    "syscrack_download_type": "download",
-    "syscrack_collector_type": "collector",
-    "syscrack_software_namespace": "Framework\\Syscrack\\Game\\Softwares\\",
-    "syscrack_software_location": "src\/Syscrack\/Game\/Softwares\/",
+    "registration_password_length": 8,
+    "session_timeout": "<60 * 60 * 2>",
+    "session_update_lastaction": true,
+    "settings_php_enabled": true,
+    "sycsrack_betakey_length": 6,
+    "sycsrack_betakey_steps": 3,
     "syscrack_addressdatabase_location": "syscrack\/addressdatabase\/",
-    "syscrack_bankdatabase_location": "syscrack\/bankdatabase\/",
-    "syscrack_filedatabase_extension": ".json",
+    "syscrack_bank_accountnumber_length": 8,
     "syscrack_bank_default_balance": 25,
+    "syscrack_bank_type": "bank",
+    "syscrack_bankdatabase_location": "syscrack\/bankdatabase\/",
+    "syscrack_betakey_location": "conf\/betakeys.json",
+    "syscrack_bitcoin_buyprice": 550,
+    "syscrack_bitcoin_country": "GBP",
     "syscrack_bitcoin_live": true,
     "syscrack_bitcoin_sellprice": 500,
-    "syscrack_bitcoin_buyprice": 550,
+    "syscrack_bitcoin_type": "bitcoin",
     "syscrack_bitcoin_url": "https:\/\/blockchain.info\/ticker",
-    "syscrack_bitcoin_country": "GBP",
-    "syscrack_default_bank": 1,
-    "syscrack_bank_accountnumber_length": 8,
+    "syscrack_clear_speed": 18.5,
+    "syscrack_collector_amount": 1000,
+    "syscrack_collector_btc_amount": 0.5,
+    "syscrack_collector_static": false,
+    "syscrack_collector_type": "collector",
+    "syscrack_cpu_type": "cpu",
+    "syscrack_cracker_type": "cracker",
     "syscrack_currency": "\u00a3",
+    "syscrack_default_bank": 1,
+    "syscrack_default_computer_name": "WindowsPC",
+    "syscrack_default_computer_page": "npc.default",
+    "syscrack_default_hardware": {
+        "cpu": {
+            "value": 1000
+        },
+        "download": {
+            "value": 1
+        },
+        "hdd": {
+            "value:": 100
+        },
+        "upload": {
+            "value": 1
+        }
+    },
+    "syscrack_default_processingtime": 10,
+    "syscrack_download_type": "download",
+    "syscrack_downloadserver_type": "download",
+    "syscrack_example_schema": {
+        "hardwares": {
+            "cpu": {
+                "value": 1000
+            },
+            "download": {
+                "value": 1000
+            },
+            "gpu": {
+                "value": 500
+            },
+            "harddrive": {
+                "value": 1000
+            },
+            "upload": {
+                "value": 1000
+            }
+        },
+        "name": "Example",
+        "page": "npc.example",
+        "riddle": "192.192.192.192",
+        "softwares": [
+            {
+                "installed": true,
+                "softwarelevel": 1.2,
+                "softwarename": "Example Cracker",
+                "uniquename": "cracker"
+            },
+            {
+                "installed": true,
+                "softwarelevel": 1,
+                "softwarename": "Example Hasher",
+                "uniquename": "hasher"
+            }
+        ]
+    },
+    "syscrack_filedatabase_extension": ".json",
+    "syscrack_firewall_type": "firewall",
+    "syscrack_game_name": "beta",
+    "syscrack_game_page": "game",
+    "syscrack_global_speed": 30,
+    "syscrack_globe_enabled": true,
+    "syscrack_hack_speed": 25,
+    "syscrack_hasher_type": "hasher",
+    "syscrack_internet_page": "internet",
+    "syscrack_level_advanced": 50,
+    "syscrack_level_expert": 100,
+    "syscrack_level_normal": 50,
+    "syscrack_log_current": "current",
+    "syscrack_log_location": "syscrack\/logs\/",
+    "syscrack_lowest_iprange": 192,
+    "syscrack_market_type": "market",
+    "syscrack_marketstock_location": "syscrack\/stocks.json",
     "syscrack_master_user": 1,
     "syscrack_npc_filepath": "syscrack\/npc\/",
     "syscrack_npc_page_location": "syscrack\/npc\/",
-    "syscrack_log_current": "current",
-    "syscrack_log_location": "syscrack\/logs\/",
-    "syscrack_startup_on_verification": true,
-    "syscrack_lowest_iprange": 192,
-    "syscrack_whois_computer": 1,
-    "syscrack_level_expert": 100,
-    "syscrack_level_advanced": 50,
-    "syscrack_level_normal": 50,
-    "syscrack_view_location": "syscrack\/",
+    "syscrack_npc_type": "npc",
     "syscrack_operations_location": "src\/Syscrack\/Game\/Operations\/",
     "syscrack_operations_namespace": "Framework\\Syscrack\\Game\\Operations\\",
-    "syscrack_vminer_uniquename": "vminer",
-    "syscrack_vddos_uniquename": "vddos",
-    "syscrack_vspam_uniquename": "vspam",
-    "syscrack_collector_static": false,
-    "syscrack_collector_amount": 1000,
-    "syscrack_collector_btc_amount": 0.5,
-    "syscrack_marketstock_location": "syscrack\/stocks.json",
-    "syscrack_default_processingtime": 10,
-    "syscrack_internet_page": "internet",
-    "syscrack_game_page": "game",
-    "syscrack_hack_speed": 25,
-    "syscrack_clear_speed": 18.5,
-    "syscrack_statistics_file": "syscrack\/statistics.json",
-    "syscrack_statistics_enabled": true,
     "syscrack_software_allowedmethods": [
         "onInstalled",
         "onUninstalled",
         "onExecute",
         "onCollect"
     ],
+    "syscrack_software_location": "src\/Syscrack\/Game\/Softwares\/",
+    "syscrack_software_namespace": "Framework\\Syscrack\\Game\\Softwares\\",
+    "syscrack_startup_on_verification": true,
+    "syscrack_statistics_enabled": true,
+    "syscrack_statistics_file": "syscrack\/statistics.json",
+    "syscrack_text_type": "text",
+    "syscrack_vddos_uniquename": "vddos",
+    "syscrack_view_location": "syscrack\/",
+    "syscrack_virus_type": "virus",
+    "syscrack_vminer_uniquename": "vminer",
+    "syscrack_vpc_type": "vpc",
     "syscrack_vpc_viewcount": 5,
-    "syscrack_globe_enabled": true,
-    "syscrack_betakey_location": "conf\/betakeys.json",
-    "sycsrack_betakey_steps": 3,
-    "sycsrack_betakey_length": 6,
-    "syscrack_default_hardware": {
-        "cpu": {
-            "value": 1000
-        },
-        "hdd": {
-            "value:": 100
-        },
-        "download": {
-            "value": 1
-        },
-        "upload": {
-            "value": 1
-        }
-    },
-    "syscrack_example_schema": {
-        "name": "Example",
-        "page": "npc.example",
-        "riddle": "192.192.192.192",
-        "softwares": [
-            {
-                "softwarename": "Example Cracker",
-                "uniquename": "cracker",
-                "installed": true,
-                "softwarelevel": 1.2
-            },
-            {
-                "softwarename": "Example Hasher",
-                "uniquename": "hasher",
-                "installed": true,
-                "softwarelevel": 1
-            }
-        ],
-        "hardwares": {
-            "cpu": {
-                "value": 1000
-            },
-            "gpu": {
-                "value": 500
-            },
-            "download": {
-                "value": 1000
-            },
-            "upload": {
-                "value": 1000
-            },
-            "harddrive": {
-                "value": 1000
-            }
-        }
-    },
-    "syscrack_default_computer_name": "WindowsPC",
-    "syscrack_default_computer_page": "npc.default"
+    "syscrack_vspam_uniquename": "vspam",
+    "syscrack_whois_computer": 1,
+    "user_allow_registrations": true,
+    "user_default_group": "guest",
+    "user_group_admin": "admin",
+    "user_group_developer": "developer",
+    "user_require_betakey": false
 }

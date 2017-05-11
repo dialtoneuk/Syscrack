@@ -48,7 +48,7 @@
     <div class="row">
         <div class="col-sm-12">
             <p class="small text-center" style="color: lightgray;">
-                Syscrack 2017 was created by <a href="http://www.github.com/dialtoneuk/">Lewis Lancaster</a> and we loaded in <?=SYSCRACK_TIME_END - SYSCRACK_TIME_START;?> seconds
+                Framework <?=\Framework\Application\Settings::getSetting('framework_version')?> was created by <a href="http://www.github.com/dialtoneuk/">Lewis Lancaster</a> and we loaded in <?=SYSCRACK_TIME_END - SYSCRACK_TIME_START;?> seconds
             </p>
         </div>
     </div>
@@ -95,6 +95,48 @@
             startTime();
 
             $('.combobox').combobox();
+
+            window.addEventListener("hashchange", function()
+            {
+
+                if( window.location.hash )
+                {
+
+                    if( $( window.location.hash ).length == 0 )
+                    {
+
+                        history.pushState("", document.title, window.location.pathname);
+                    }
+                    else
+                    {
+
+                        setTimeout(
+                            function()
+                            {
+                                history.pushState("", document.title, window.location.pathname);
+                            }, 1000);
+                    }
+                }
+            }, false);
+
+            if( window.location.hash )
+            {
+
+                if( $( window.location.hash ).length == 0 )
+                {
+
+                    history.pushState("", document.title, window.location.pathname);
+                }
+                else
+                {
+
+                    setTimeout(
+                        function()
+                        {
+                            history.pushState("", document.title, window.location.pathname);
+                        }, 1000);
+                }
+            }
         });
     </script>
 </footer>

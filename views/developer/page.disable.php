@@ -13,13 +13,12 @@
             ?>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="page-header">
-                        <h1>Disable Developers Section</h1>
-                    </div>
-
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Disable
+                    </h5>
                     <p class="lead">
-                        This tool will disable this developer section from being accessed, this is highly recommended
-                        when launching your website publically.
+                        Disable your developer section for when you are launching live to disallow settings from being edited and other
+                        framework operations from being executed.
                     </p>
 
                     <p>
@@ -28,31 +27,27 @@
                     </p>
                 </div>
                 <div class="col-md-6">
-                    <div class="page-header">
-                        <h1>Danger zone!</h1>
-                    </div>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Danger Zone
+                    </h5>
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <p class="text-center text-uppercase">
-                                <strong>
-                                    Use the button below only if you have 100% finished your web-application and you are ready
-                                    to launch
-                                </strong>
+                            <p class="text-center">
+                                "Success consists of going from failure to failure without loss of enthusiasm." <strong>Winston Churchill</strong>
                             </p>
-                            <button class="btn btn-danger btn-block btn-lg" data-toggle="modal" data-target="#disablemodal">
-                                Disable Developer Section
+                            <button class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-target="#disablemodal">
+                                Make It Live
                             </button>
                         </div>
                     </div>
                 </div>
-                <!-- Modal -->
                 <div class="modal fade" id="disablemodal" tabindex="-1" role="dialog" aria-labelledby="disable-modal-label">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <form method="post" >
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">You sure?</h4>
+                                    <h4 class="modal-title" id="myModalLabel">You ready to do this?</h4>
                                 </div>
                                 <div class="modal-body">
                                     <p>
@@ -76,16 +71,3 @@
         </div>
     </body>
 </html>
-
-<?php
-    if( $_POST )
-        if( \Framework\Application\Utilities\PostHelper::checkForRequirements(['action']) )
-        {
-
-            \Framework\Application\Settings::updateSetting('developer_disabled', true );
-
-            \Framework\Application\Settings::writeSettings();
-
-            Flight::redirect('/');
-        }
-?>

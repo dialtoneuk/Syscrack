@@ -1,5 +1,7 @@
 <?php
 
+    use Framework\Application\Settings;
+    use Framework\Application\Utilities\FileSystem;
     use Framework\Database\Manager as Database;
 
 ?>
@@ -16,34 +18,38 @@
             <?php
 
                 Flight::render('developer/templates/template.navigation');
-
-                if( isset( $_GET['error'] ) )
-                    Flight::render('developer/templates/template.alert', array( 'message' => $_GET['error'] ) );
-                elseif( isset( $_GET['success'] ) )
-                    Flight::render('developer/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
             ?>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="page-header">
-                        <h1>DB Connection Tester</h1>
-                    </div>
+                <div class="col-lg-12">
+                    <?php
 
+                        if( isset( $_GET['error'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
+                        elseif( isset( $_GET['success'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success' ) );
+                    ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Connection
+                    </h5>
                     <p class="lead">
-                        This tool displays the current status of the DB connection and if there is currently a successful
+                        This tool displays the current status your database connection and if there is currently a successful
                         connection between the web-application and your database.
                     </p>
 
                     <p>
-                        To use this, first if you have not already, head to the <a href="/developer/connectioncreator/">Connecton Creator</a>
+                        To use this, first if you have not already, head to the <a href="/developer/connection/creator/">Connecton Creator</a>
                         tool and enter your database settings. This page should update automatically everytime you refresh, but
                         you can also press the 'refresh' button underneath the status report.
                     </p>
                 </div>
                 <div class="col-md-6">
-                    <div class="page-header">
-                        <h1>Current Connection Status</h1>
-                    </div>
-
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Connection Status
+                    </h5>
                     <?php
 
                         //TODO: Find a cleaner way to do this
@@ -70,22 +76,30 @@
                         {
 
                             ?>
-                                <div class="panel panel-default">
+                                <div class="panel panel-danger">
                                     <div class="panel-body">
                                         <p class="lead">
                                             Failed to connect...
                                         </p>
-
                                         <p>
                                             <?= $databaseerror ?>
                                         </p>
-
-                                        <h5 style="color: #67b168">
-                                            Connection Details
+                                        <h5 style="color: #ababab" class="text-uppercase">
+                                            Details
                                         </h5>
-
                                         <div class="well">
-                                            <?= json_encode( Database::$connection, JSON_PRETTY_PRINT ) ?>
+                                            <?php
+                                                if( Settings::getSetting('database_show_decrypted') == false )
+                                                {
+
+                                                    echo ( FileSystem::read( Settings::getSetting('database_connection_file') ) );
+                                                }
+                                                else
+                                                {
+
+                                                    echo ( json_encode( Database::$connection, JSON_PRETTY_PRINT ) );
+                                                }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -100,18 +114,22 @@
                                         <p class="lead">
                                             Succesfully connected!
                                         </p>
-
-                                        <p>
-                                            The web-application and database are now connected, if you are still getting
-                                            connection errors, check the information below and make sure it is correct.
-                                        </p>
-
-                                        <h5 style="color: #67b168">
-                                            Connection Details
+                                        <h5 style="color: #ababab" class="text-uppercase">
+                                            Details
                                         </h5>
-
                                         <div class="well">
-                                            <?= json_encode( Database::$connection, JSON_PRETTY_PRINT ) ?>
+                                            <?php
+                                                if( Settings::getSetting('database_show_decrypted') == false )
+                                                {
+
+                                                    echo ( FileSystem::read( Settings::getSetting('database_connection_file') ) );
+                                                }
+                                                else
+                                                {
+
+                                                    echo ( json_encode( Database::$connection, JSON_PRETTY_PRINT ) );
+                                                }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +137,7 @@
                         }
                     ?>
 
-                    <button class="btn btn-lg btn-primary btn-block" onclick="window.location.reload()">
+                    <button class="btn btn-sm btn-primary btn-block" onclick="window.location.reload()">
                         Refresh
                     </button>
                 </div>

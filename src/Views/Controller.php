@@ -75,7 +75,36 @@ class Controller
         else
         {
 
-            $page = $page[0];
+            //TODO: Make the index root work.. kinda works now but...
+
+            if( Settings::getSetting('controller_index_root') !== '/' )
+            {
+
+                if( '/' . $page[0] == Settings::getSetting('controller_index_root') )
+                {
+
+                    if( isset( $page[1] ) == false )
+                    {
+
+                        $page = $page[0];
+                    }
+                    else
+                    {
+
+                        $page = $page[1];
+                    }
+                }
+                else
+                {
+
+                    $page = $page[0];
+                }
+            }
+            else
+            {
+
+                $page = $page[0];
+            }
         }
 
         if( $this->isIndex( $page ))
@@ -162,10 +191,23 @@ class Controller
     private function isIndex( $page )
     {
 
-        if( $page == Settings::getSetting('controller_index_root') )
+        if( Settings::getSetting('controller_index_root') !== '/' )
         {
 
-            return true;
+            if( '/' . $page == Settings::getSetting('controller_index_root') )
+            {
+
+                return true;
+            }
+        }
+        else
+        {
+
+            if( $page == Settings::getSetting('controller_index_root') )
+            {
+
+                return true;
+            }
         }
 
         return false;
@@ -232,7 +274,25 @@ class Controller
                 throw new ViewException();
             }
 
-            Flight::route( $route[0], array( $class, $route[1]) );
+            if( substr( $route[0], 0, 1 ) !== '/' )
+            {
+
+                Flight::route( Settings::getSetting('controller_index_root') . $route[0], array( $class, $route[1]) );
+            }
+            else
+            {
+
+                if( Settings::getSetting('controller_index_root') == '/' )
+                {
+
+                    Flight::route( $route[0], array( $class, $route[1] ) );
+                }
+                else
+                {
+
+                    Flight::route( Settings::getSetting('controller_index_root') . $route[0], array( $class, $route[1] ) );
+                }
+            }
         }
 
         return true;

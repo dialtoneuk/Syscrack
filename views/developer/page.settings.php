@@ -36,7 +36,7 @@
                         if( isset( $_GET['error'] ) )
                             Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
                         elseif( isset( $_GET['success'] ) )
-                            Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success' ) );
                     ?>
                 </div>
             </div>
@@ -75,9 +75,9 @@
                                     <form method="post" style="margin-top: 2.5%;">
                                         <div class="input-group input-group-md">
                                             <span class="input-group-addon" id="settingname">@</span>
-                                            <input type="text" name="settings_name" class="form-control" placeholder="Setting Name" aria-describedby="settingname">
+                                            <input type="text" name="setting_name" class="form-control" placeholder="Setting Name" aria-describedby="settingname">
                                             <span class="input-group-addon" id="settingvalue">=</span>
-                                            <input type="text" name="settings_value" class="form-control" placeholder="Setting Value" aria-describedby="settingvalue">
+                                            <input type="text" name="setting_value" class="form-control" placeholder="Setting Value" aria-describedby="settingvalue">
                                         </div>
                                         <button class="btn btn-default btn-block btn-sm" type="submit" name="action" value="create" style="margin-top: 2.5%">
                                             Create

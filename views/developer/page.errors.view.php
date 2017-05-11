@@ -1,11 +1,12 @@
 <?php
 
     use Framework\Application\Container;
+    use Framework\Application\Settings;
 
     if( isset( $id ) == false )
     {
 
-        Flight::redirect('/developer/logger/');
+        Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('developer_page') );
     }
 
     $error = Container::getObject('application')->getErrorHandler()->getErrorLog()[ $id ];

@@ -26,7 +26,7 @@ class FileSystem
 	public static function read( $file )
 	{
 
-        if( is_dir( $file ) )
+        if( is_dir( self::getFilePath( $file )  ) )
         {
 
             throw new ApplicationException();
@@ -98,7 +98,7 @@ class FileSystem
     public static function writeJson( $file, array $array = [] )
     {
 
-        if( is_dir( $file ) )
+        if( is_dir( self::getFilePath( $file ) ) )
         {
 
             throw new ApplicationException();
@@ -124,7 +124,7 @@ class FileSystem
 	public static function write( $file, $data, $permission=true, $access=null )
 	{
 
-        if( is_dir( $file ) )
+        if( is_dir( self::getFilePath( $file ) ) )
         {
 
             throw new ApplicationException();
@@ -136,7 +136,7 @@ class FileSystem
             $file = $file . Settings::getSetting('filesystem_default_extension');
         }
 
-	    $directories = self::getDirectories( $file );
+	    $directories = self::getDirectoriesFromPath( $file );
 
 	    if( self::directoryExists( $directories ) == false )
         {
@@ -164,7 +164,7 @@ class FileSystem
 	public static function fileExists( $file )
 	{
 
-        if( is_dir( $file ) )
+        if( is_dir( self::getFilePath( $file ) ) )
         {
 
             throw new ApplicationException();
@@ -182,7 +182,7 @@ class FileSystem
 			return false;
 		}
 
-		if( is_file( $file ) == false )
+		if( is_file( self::getFilePath ($file ) ) == false )
 		{
 
 			return false;
@@ -202,7 +202,7 @@ class FileSystem
 	public static function directoryExists( $path )
 	{
 
-	    if( is_dir( $path ) == false )
+	    if( is_dir( self::getFilePath( $path ) ) == false )
         {
 
             return false;
@@ -228,7 +228,7 @@ class FileSystem
 	public static function append( $file, $data )
 	{
 
-	    if( is_dir( $file ) )
+	    if( is_dir( self::getFilePath( $file ) ) )
         {
 
             throw new ApplicationException();
@@ -271,7 +271,7 @@ class FileSystem
 	public static function getFilesInDirectory( $path, $suffix='php' )
     {
 
-        if( is_dir( $path ) == false )
+        if( is_dir( self::getFilePath( $path ) ) == false )
         {
 
             throw new ApplicationException();
@@ -370,14 +370,14 @@ class FileSystem
 	}
 
 	/**
-	 * Gets the directories of a file
+	 * Gets the directories of a path
 	 *
 	 * @param $file
 	 *
 	 * @return string
 	 */
 
-	public static function getDirectories( $file )
+	public static function getDirectoriesFromPath( $file )
 	{
 
 		$path = explode( Settings::getSetting('filesystem_separator'), $file );

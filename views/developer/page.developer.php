@@ -23,7 +23,7 @@
                         Hello, <?=IPAddress::getAddress()?>
                     </h5>
                     <p class="lead">
-                        Welcome to Framework 4, you have reached the developer section...
+                        Welcome to Framework <?=Settings::getSetting('framework_version')?>, you have reached the developer section...
                     </p>
                     <p>
                         The developer area can be used to access useful tools which modify and edit the framework to your
@@ -69,7 +69,7 @@
                             <h4 class="list-group-item-heading">Settings</h4>
                             <p class="list-group-item-text">Make changes to the frameworks settings as well as create new ones.</p>
                         </a>
-                        <a href="/<?=Settings::getSetting('developer_page')?>/settings/" class="list-group-item">
+                        <a href="/<?=Settings::getSetting('developer_page')?>/routes/" class="list-group-item">
                             <h4 class="list-group-item-heading">Routes</h4>
                             <p class="list-group-item-text">View the current routes of your page classes.</p>
                         </a>
