@@ -35,9 +35,9 @@
             ?>
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">
+                    <h5 style="color: #ababab" class="text-uppercase">
                         Address Book
-                    </h1>
+                    </h5>
                 </div>
             </div>
             <div class="row">

@@ -36,9 +36,9 @@ if( $session->isLoggedIn() )
             </div>
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="page-header">
-                        <h1>SC:\\login</h1>
-                    </div>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Login
+                    </h5>
                     <form method="post">
 
                         <?php
@@ -61,9 +61,9 @@ if( $session->isLoggedIn() )
                     </form>
                 </div>
                 <div class="col-lg-6">
-                    <div class="page-header">
-                        <h1>SC:\\register</h1>
-                    </div>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Register
+                    </h5>
                     <ul class="list-group">
                         <li class="list-group-item"><span class="glyphicon glyphicon-certificate"></span> Hack and infect users with your deadly viruses.</li>
                         <li class="list-group-item"><span class="glyphicon glyphicon glyphicon-usd"></span> Make money to buy better softwares, hardwares and computer customizations.</li>

@@ -56,13 +56,9 @@
                     Flight::render('syscrack/templates/template.admin.options');
                 ?>
                 <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-body" style="padding: 10px 15px;">
-                            <h4>
-                                Admin Panel
-                            </h4>
-                        </div>
-                    </div>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Admin
+                    </h5>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="panel panel-success">

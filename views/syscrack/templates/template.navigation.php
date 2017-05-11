@@ -48,29 +48,37 @@
                 if( $session->isLoggedIn() )
                 {
 
-                    if( $computer->hasCurrentComputer() )
-                    {
 
-                        ?>
-
-                        <a class="navbar-brand" style="font-size: 12px" href="/computer/">
-                            <span class="glyphicon glyphicon-hdd" data-toggle="tooltip" data-placement="auto" title="Address"></span> <?=$computer->getComputer( $computer->getCurrentUserComputer() )->ipaddress?>
-                        </a>
-                        <?php
-                    }
-
-                    ?>
-                    <a class="navbar-brand" style="font-size: 12px">
-                        <span class="glyphicon glyphicon-time" data-toggle="tooltip" data-placement="auto" title="System Time"></span> <span id="clock">0:00:00</span>
-                    </a>
-                    <a class="navbar-brand" style="font-size: 12px" href="/finances/">
-                        <span class="glyphicon glyphicon-gbp" data-toggle="tooltip" data-placement="auto" title="Cash"></span> <?=$pagehelper->getCash()?>
-                    </a>
-                    <?php
                 }
             ?>
         </div>
         <div class="collapse navbar-collapse" id="navbar">
+            <div class="nav navbar-left navbar-fix">
+                <?php
+                    if( $session->isLoggedIn() )
+                    {
+                        if( $computer->hasCurrentComputer() )
+                        {
+
+                            ?>
+
+                            <a class="navbar-brand" style="font-size: 12px" href="/computer/">
+                                <span class="glyphicon glyphicon-cloud" data-toggle="tooltip" data-placement="auto" title="Address"></span> <?=$computer->getComputer( $computer->getCurrentUserComputer() )->ipaddress?>
+                            </a>
+                            <?php
+                        }
+
+                        ?>
+                            <a class="navbar-brand" style="font-size: 12px">
+                                <span class="glyphicon glyphicon-time" data-toggle="tooltip" data-placement="auto" title="System Time"></span> <span id="clock">0:00:00</span>
+                            </a>
+                            <a class="navbar-brand" style="font-size: 12px" href="/finances/">
+                                <span class="glyphicon glyphicon-gbp" data-toggle="tooltip" data-placement="auto" title="Cash"></span> <?=$pagehelper->getCash()?>
+                            </a>
+                        <?php
+                    }
+                ?>
+            </div>
             <ul class="nav navbar-nav navbar-right">
 
                     <?php

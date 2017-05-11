@@ -35,7 +35,7 @@
 <html>
     <?php
 
-        Flight::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Admin'));
+        Flight::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Admin | Computer Creator' ) );
     ?>
     <body>
         <div class="container">
@@ -63,13 +63,9 @@
                 ?>
 
                 <div class="col-sm-8">
-                    <div class="panel panel-default">
-                        <div class="panel-body" style="padding: 10px 15px;">
-                           <h4>
-                               Computer Creator
-                           </h4>
-                        </div>
-                    </div>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Computer Creator
+                    </h5>
                     <form class="form-group" method="post">
 
                         <?php

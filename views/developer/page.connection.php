@@ -9,7 +9,22 @@
 
     <?php
 
-        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Connection Tester'));
+        if( Settings::getSetting('theme_dark') )
+        {
+
+            Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Connection Tester',
+                'styles' => array(
+                    '<link href="/assets/css/highlight/atelier-cave-dark.css" rel="stylesheet">'
+                )));
+        }
+        else
+        {
+
+            Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Connection Tester',
+                'styles' => array(
+                    '<link href="/assets/css/highlight/magula.css" rel="stylesheet">'
+                )));
+        }
     ?>
 
     <body>
@@ -31,7 +46,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <h5 style="color: #ababab" class="text-uppercase">
                         Connection
                     </h5>
@@ -45,8 +60,14 @@
                         tool and enter your database settings. This page should update automatically everytime you refresh, but
                         you can also press the 'refresh' button underneath the status report.
                     </p>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Actions
+                    </h5>
+                    <button class="btn btn-sm btn-primary btn-block" onclick="window.location.reload()">
+                        Refresh
+                    </button>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <h5 style="color: #ababab" class="text-uppercase">
                         Connection Status
                     </h5>
@@ -87,20 +108,22 @@
                                         <h5 style="color: #ababab" class="text-uppercase">
                                             Details
                                         </h5>
-                                        <div class="well">
-                                            <?php
-                                                if( Settings::getSetting('database_show_decrypted') == false )
-                                                {
+                                        <pre style="width 100%; margin: 0; padding: 0;">
+                                                <code class="json hljs">
+<?php
+    if( Settings::getSetting('database_show_decrypted') == false )
+    {
 
-                                                    echo ( FileSystem::read( Settings::getSetting('database_connection_file') ) );
-                                                }
-                                                else
-                                                {
+        echo ( FileSystem::read( Settings::getSetting('database_connection_file') ) );
+    }
+    else
+    {
 
-                                                    echo ( json_encode( Database::$connection, JSON_PRETTY_PRINT ) );
-                                                }
-                                            ?>
-                                        </div>
+        echo ( json_encode( Database::$connection, JSON_PRETTY_PRINT ) );
+    }
+?>
+                                            </code>
+                                        </pre>
                                     </div>
                                 </div>
                             <?php
@@ -117,36 +140,40 @@
                                         <h5 style="color: #ababab" class="text-uppercase">
                                             Details
                                         </h5>
-                                        <div class="well">
-                                            <?php
-                                                if( Settings::getSetting('database_show_decrypted') == false )
-                                                {
+                                        <pre style="width 100%; margin: 0; padding: 0;">
+                                                <code class="json hljs">
+<?php
+    if( Settings::getSetting('database_show_decrypted') == false )
+    {
 
-                                                    echo ( FileSystem::read( Settings::getSetting('database_connection_file') ) );
-                                                }
-                                                else
-                                                {
+        echo ( FileSystem::read( Settings::getSetting('database_connection_file') ) );
+    }
+    else
+    {
 
-                                                    echo ( json_encode( Database::$connection, JSON_PRETTY_PRINT ) );
-                                                }
-                                            ?>
-                                        </div>
+        echo ( json_encode( Database::$connection, JSON_PRETTY_PRINT ) );
+    }
+?>
+                                            </code>
+                                        </pre>
                                     </div>
                                 </div>
                             <?php
                         }
                     ?>
-
-                    <button class="btn btn-sm btn-primary btn-block" onclick="window.location.reload()">
-                        Refresh
-                    </button>
                 </div>
             </div>
 
             <?php
 
-                Flight::render('developer/templates/template.footer', array( 'breadcrumb' => true ));
+                Flight::render('developer/templates/template.footer', array( 'breadcrumb' => true,
+                    'scripts' => array(
+                            '<script src="/assets/js/highlight.pack.js">'
+                    )));
             ?>
         </div>
     </body>
+    <footer>
+        <script>hljs.initHighlightingOnLoad();</script>
+    </footer>
 </html>

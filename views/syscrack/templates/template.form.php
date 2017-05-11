@@ -50,7 +50,7 @@
                 <label class="text-uppercase" style="color: lightgray;" for="form-<?= $element['name']?>">
                     <?= $element['name']?>
                 </label>
-                <div class="input-group" style="width: 100%; height: 21%; padding-bottom: 1%;">
+                <div class="input-group" style="width: 100%; height: 22%; padding-bottom: 1%;">
                     <div class="well" style="height: 100%;">
                         <textarea style="resize: <?php if( isset( $element['resizeable' ] )){ echo $element['resizeable']; }else{ echo 'none'; }?>;  max-height: 400px; width: 100%; height: 100%;" name="<?= $element['name']?>" id="form-<?= $element['name']?>"><?php if( isset( $element['value'] ) ){ echo $element['value']; } ?></textarea>
                     </div>

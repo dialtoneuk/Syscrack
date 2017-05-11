@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">
-            Welcome to TorrentBay
-        </h1>
+        <h5 style="color: #ababab" class="text-uppercase">
+            TorrentBay
+        </h5>
 
         <p>
-            High-Quality, fast downloads. NSA proof!
+            The most popular torrenting network
         </p>
     </div>
 </div>

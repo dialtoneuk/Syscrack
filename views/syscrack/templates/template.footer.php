@@ -58,6 +58,22 @@
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/bootstrap-combobox.js"></script>
 
+    <?php
+        if( isset( $scripts ) )
+        {
+
+            if( is_array( $scripts ) )
+            {
+
+                foreach( $scripts as $script )
+                {
+
+                    echo $script;
+                }
+            }
+        }
+    ?>
+
     <!--Fade out any alerts which are on the page after 5 seconds-->
     <script>
 

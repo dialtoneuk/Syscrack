@@ -1,3 +1,8 @@
+<?php
+
+    use Framework\Application\Settings;
+
+?>
 <html lang="en">
 
     <?php
@@ -37,7 +42,7 @@
                         associated boxed, and then press submit. An error will appear if the tool has been unsuccessful.
                     </p>
                     <p>
-                        If you would like to test your connection, <a href="/developer/connectiontester/">head to the <b>Connection Tester</b> tool.</a>
+                        If you would like to test your connection, <a href="/developer/connection/">head to the connection page.</a>
                     </p>
                 </div>
                 <div class="col-md-6">

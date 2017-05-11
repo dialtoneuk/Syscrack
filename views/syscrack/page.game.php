@@ -26,7 +26,9 @@
         if( Settings::getSetting('syscrack_globe_enabled') )
         {
 
-            Flight::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game', 'scripts' => '<script src="/assets/js/webglearth.js"></script>'));
+            Flight::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game', 'scripts' => array(
+                    '<script src="/assets/js/webglearth.js"></script>'
+            )));
 
             ?>
 

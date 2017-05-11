@@ -46,14 +46,12 @@
             </div>
             <div class="row">
                 <div class="col-lg-12" onclick="window.location.href = '/game/computer/'">
-                    <div class="page-header">
-                        <h1>
-                            <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
-                        </h1>
-                    </div>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
+                    </h5>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-top: 1.5%;">
                 <?php
 
                     Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );

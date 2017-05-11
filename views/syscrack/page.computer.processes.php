@@ -39,29 +39,32 @@
                 Flight::render('syscrack/templates/template.navigation');
             ?>
             <div class="row">
-
-                <?php
-
-                    if( isset( $_GET['error'] ) )
-                        Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
-                    elseif( isset( $_GET['success'] ) )
-                        Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
-                ?>
                 <div class="col-lg-12">
-                    <div class="page-header">
-                        <h1>
-                            <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
-                        </h1>
-                    </div>
+
+                    <?php
+
+                        if( isset( $_GET['error'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
+                        elseif( isset( $_GET['success'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
+                    ?>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" onclick="window.location.href = '/game/computer/'">
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
+                    </h5>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 1.5%;">
 
                 <?php
 
                     Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );
                 ?>
-
                 <div class="col-lg-8">
-                    
+
                     <?php
 
                         if( empty( $processes ) == false )
@@ -77,14 +80,14 @@
                         {
 
                             ?>
-                                <div class="panel panel-danger">
-                                    <div class="panel-heading">
-                                        Notice
-                                    </div>
-                                    <div class="panel-body">
-                                        Computer currently has no processes, maybe you should hack something?
-                                    </div>
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">
+                                    Notice
                                 </div>
+                                <div class="panel-body">
+                                    Computer currently has no processes, maybe you should hack something?
+                                </div>
+                            </div>
                             <?php
                         }
                     ?>

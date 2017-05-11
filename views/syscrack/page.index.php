@@ -92,7 +92,7 @@
                     </a>
                 </div>
             </div>
-            <div class="row" style="margin-top: 5%;">
+            <div class="row" style="margin-top: 2.5%;">
                 <div class="col-lg-12">
                     <div class="panel panel-default" style="padding: 2%; color: #dddddd;">
                         <h3 class="text-center text-uppercase">
@@ -103,9 +103,9 @@
             </div>
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="page-header">
-                        <h1>SC:\\hacktheplanet</h1>
-                    </div>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                    Hack The Planet
+                    </h5>
                     <p>
                         Syscrack is a <strong>hacking simulator</strong> built from the ground up
                         to be expandable and modded. Users are thrown into a virtual internet and are
@@ -140,9 +140,9 @@
                     </p>
                 </div>
                 <div class="col-lg-6">
-                    <div class="page-header">
-                        <h1>SC:\\features</h1>
-                    </div>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Features
+                    </h5>
                     <ul class="list-group">
                         <li class="list-group-item"><span class="glyphicon glyphicon-certificate"></span> Hack and infect users with your deadly viruses.</li>
                         <li class="list-group-item"><span class="glyphicon glyphicon glyphicon-usd"></span> Make money to buy better softwares, hardwares and computer customizations.</li>

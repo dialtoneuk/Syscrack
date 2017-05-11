@@ -25,11 +25,26 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <div class="page-header">
-            <h1>
-                Jreggs Downloads
-            </h1>
-        </div>
+        <h5 style="color: #ababab" class="text-uppercase">
+            <?php
+                if( $npc->hasNPCFile( $current_computer->computerid ) )
+                {
+
+                    $schema = $npc->getNPCFile( $current_computer->computerid );
+
+                    if( isset( $schema['name'] ) )
+                    {
+
+                        echo $schema['name'];
+                    }
+                }
+                else
+                {
+
+                    echo 'Download Server';
+                }
+            ?>
+        </h5>
         <p>
             Free anonymous downloads! Download away!
         </p>

@@ -77,10 +77,10 @@
                     '/admin/', 'page'
                 ],
                 [
-                    'GET /admin/computer/creator', 'computerCreator'
+                    'GET /admin/computer/creator/', 'computerCreator'
                 ],
                 [
-                    'POST /admin/computer/creator', 'computerCreatorProcess'
+                    'POST /admin/computer/creator/', 'computerCreatorProcess'
                 ]
             );
         }

@@ -274,25 +274,7 @@ class Controller
                 throw new ViewException();
             }
 
-            if( substr( $route[0], 0, 1 ) !== '/' )
-            {
-
-                Flight::route( Settings::getSetting('controller_index_root') . $route[0], array( $class, $route[1]) );
-            }
-            else
-            {
-
-                if( Settings::getSetting('controller_index_root') == '/' )
-                {
-
-                    Flight::route( $route[0], array( $class, $route[1] ) );
-                }
-                else
-                {
-
-                    Flight::route( Settings::getSetting('controller_index_root') . $route[0], array( $class, $route[1] ) );
-                }
-            }
+            Flight::route( $route[0], array( $class, $route[1] ) );
         }
 
         return true;

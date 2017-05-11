@@ -39,9 +39,9 @@ if( $session->isLoggedIn() )
             </div>
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="page-header">
-                        <h1>SC:\\register</h1>
-                    </div>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Register
+                    </h5>
                     <form method="post">
 
                         <?php
@@ -104,9 +104,9 @@ if( $session->isLoggedIn() )
                     </form>
                 </div>
                 <div class="col-lg-6">
-                    <div class="page-header">
-                        <h1>SC:\\iwanttoplay</h1>
-                    </div>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Why Cant I Play?
+                    </h5>
                     <div class="well">
                         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DrxJCOVsV1E?ecver=1" frameborder="0" allowfullscreen></iframe>
                     </div>
