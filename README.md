@@ -12,9 +12,9 @@ Syscrack is very easy to host, and extremely straight forward to getting modding
 
 It is suggest that for Windows development that you use XAMPP, as it is what I used to develop Syscrack, here's a list of things you'll need installed on your system.
 
-1. Composer
-2. XAMPP ( PHP 7.0 + ) with MySQL
-3. Memcache ( if you are using the memory cache services )
+1. Composer ( https://getcomposer.org/ )
+2. XAMPP ( PHP 7.0 + ) with MySQL ( https://www.apachefriends.org/download.html )
+3. Memcache ( if you are using the memory cache services ) ( https://commaster.net/content/installing-memcached-windows )
 
 To launch and develop Syscrack, it is a simple drag and drop operation into your htdocs folder, or equivilent. Download the latest release, or if you feel, clone the github. Move over the files into your respective apache2 website folder and then run...
 
