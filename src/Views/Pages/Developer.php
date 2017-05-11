@@ -166,7 +166,7 @@
             if( $this->database == null )
             {
 
-                $this->redirectError('The database class failed to be created, this is usually due it not existing, maybe you should create one fist?', 'developer');
+                $this->redirectError('The database class failed to be created, this is usually due the connection file not existing, maybe you should create one?', 'developer');
             }
 
             if( $this->hasDatabaseConnection() == false )
@@ -188,7 +188,7 @@
             if( $this->database == null )
             {
 
-                $this->redirectError('The database class failed to be created, this is usually due it not existing, maybe you should create one fist?', 'developer');
+                $this->redirectError('The database class failed to be created, this is usually due the connection file not existing, maybe you should create one?', 'developer');
             }
 
             if( $this->hasDatabaseConnection() == false )
@@ -434,6 +434,12 @@
         public function connectionCreatorProcess()
         {
 
+            if( $this->database == null )
+            {
+
+                $this->redirectError('The database class failed to be created, this is usually due the connection file not existing, maybe you should create one?', 'developer');
+            }
+
             if( PostHelper::hasPostData() == false )
             {
 
@@ -483,7 +489,7 @@
             if( $this->database == null )
             {
 
-                $this->redirectError('The database class failed to be created, this is usually due it not existing, maybe you should create one fist?', 'developer');
+                $this->redirectError('The database class failed to be created, this is usually due the connection file not existing, maybe you should create one?', 'developer');
             }
 
             $this->getRender('page.connection');
