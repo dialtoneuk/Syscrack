@@ -104,8 +104,14 @@ class Install extends BaseClass implements Structure
                 else
                 {
 
-                    if( $this->viruses->isVirus( $data['softwareid'] ) );
+                    if( $this->viruses->isVirus( $data['softwareid'] ) )
                     {
+
+                        if( $this->internet->getComputer( $data['ipaddress'] )->computerid == $this->computer->getCurrentUserComputer() )
+                        {
+
+                            return false;
+                        }
 
                         if( $this->viruses->hasVirusesOnComputer( $this->internet->getComputer( $data['ipaddress'] )->computerid, Container::getObject('session')->getSessionUser() ) )
                         {

@@ -9,9 +9,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header text-center">
-                        SC:\\404
-                    </h1>
+                    <img class="img-responsive" src="/assets/img/logos/vibrant_green.png">
+                </div>
+            </div>
+            <div class="row" style="margin-top: 5%;">
+                <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-body text-center">
                             You've hit rock bottom my friend, scoot on <a href="/">back to the index.</a>

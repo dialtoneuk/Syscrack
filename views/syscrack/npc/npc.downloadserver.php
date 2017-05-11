@@ -21,6 +21,8 @@
 
         $internet = new Internet();
     }
+
+    $current_computer = $internet->getComputer( $ipaddress );
 ?>
 
 <div class="row">

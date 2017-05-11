@@ -36,7 +36,7 @@
             ?>
             <div class="row">
                 <div class="col-lg-12">
-                    <div style="background: black; height: 300px;" id="carousel" class="carousel slide" data-ride="carousel">
+                    <div style="background: black; height: 400px;" id="carousel" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
                         <ol class="carousel-indicators">
                             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -49,31 +49,31 @@
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner" role="listbox">
                             <div class="item active">
-                                <div style="color: white; width: 100%; height: 300px; background: url('/assets/img/vibrant_green.png') center no-repeat; background-size:contain;"></div>
+                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_prompt.png') center no-repeat; background-size:contain;"></div>
                                 <div class="carousel-caption">
                                     <p>Hack your victims and infect them with your doom</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; height: 300px; background: url('/assets/img/vibrant_blue.png') center no-repeat; background-size:contain;"></div>
+                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_monitor.png') center no-repeat; background-size:contain;"></div>
                                 <div class="carousel-caption">
                                     <p>Control multiple computers</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; height: 300px; background: url('/assets/img/vibrant_red.png') center no-repeat; background-size:contain;"></div>
+                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_synth.png') center no-repeat; background-size:contain;"></div>
                                 <div class="carousel-caption">
                                     <p>Have your own virtual marketplace and sell software and hardware</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; height: 300px; background: url('/assets/img/vibrant_cyan.png') center no-repeat; background-size:contain;"></div>
+                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_stockmarket.png') center no-repeat; background-size:contain;"></div>
                                 <div class="carousel-caption">
                                     <p>Become a bitcoin barron, host your own bitcoin exchanges</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; height: 300px; background: url('/assets/img/white.png') center no-repeat; background-size:contain;"></div>
+                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_code.png') center no-repeat; background-size:contain;"></div>
                                 <div class="carousel-caption">
                                     <p>Syscrack is a completely free and open source game</p>
                                 </div>
@@ -104,7 +104,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <h5 style="color: #ababab" class="text-uppercase">
-                    Hack The Planet
+                        Hack The Planet
                     </h5>
                     <p>
                         Syscrack is a <strong>hacking simulator</strong> built from the ground up

@@ -337,7 +337,7 @@ class Startup
         foreach( $softwares as $software )
         {
 
-            if( isset( $software['uniquename'] ) == false || isset( $software['softwarename'] ) == false || isset( $software['softwarelevel'] ) == false )
+            if( isset( $software['uniquename'] ) == false || isset( $software['softwarename'] ) == false || isset( $software['softwarelevel'] ) == false || isset( $software['softwaresize'] ) == false )
             {
 
                 continue;
@@ -346,7 +346,7 @@ class Startup
             if( isset( $software['data'] ) )
             {
 
-                $softwareid = $this->softwares->createSoftware( $this->softwares->getNameFromClass( $this->softwares->findSoftwareByUniqueName( $software['uniquename'] ) ), $userid, $computerid, $software['softwarename'], $software['softwarelevel'], $software['data'] );
+                $softwareid = $this->softwares->createSoftware( $this->softwares->getNameFromClass( $this->softwares->findSoftwareByUniqueName( $software['uniquename'] ) ), $userid, $computerid, $software['softwarename'], $software['softwarelevel'], $software['softwaresize'], $software['data'] );
             }
             else
             {

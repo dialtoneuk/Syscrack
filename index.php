@@ -271,6 +271,14 @@
             }
         });
 
+        /**
+         * Maps the 'not found' page
+         */
+
+        Flight::map('notFound', function(){
+
+            Flight::redirect('/framework/404/');
+        });
 
         Flight::before('start', function ()
         {

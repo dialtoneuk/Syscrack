@@ -99,13 +99,13 @@ class Viruses
     public function isVirus( $softwareid )
     {
 
-        if( $this->softwares->getSoftware( $softwareid )->type != Settings::getSetting('syscrack_virus_type'))
+        if( $this->softwares->getSoftware( $softwareid )->type === Settings::getSetting('syscrack_virus_type') )
         {
 
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**

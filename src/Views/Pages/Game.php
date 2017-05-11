@@ -378,6 +378,16 @@
                         $this->redirectError('The you are trying to access does not own this software', $this->getRedirect( $ipaddress ) );
                     }
 
+                    if( $this->softwares->isEditable( $softwareid ) == false )
+                    {
+
+                        if( $this->operations->allowAnonymous( $process ) == false )
+                        {
+
+                            $this->redirectError('This software cannot be modified or edited', $this->getRedirect( $ipaddress ) );
+                        }
+                    }
+
                     if( $this->operations->useLocalSoftware( $process ) )
                     {
 

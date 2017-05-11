@@ -115,12 +115,14 @@
                 "installed": true,
                 "softwarelevel": 1.2,
                 "softwarename": "Example Cracker",
+                "softwaresize": 10,
                 "uniquename": "cracker"
             },
             {
                 "installed": true,
                 "softwarelevel": 1,
                 "softwarename": "Example Hasher",
+                "softwaresize": 10,
                 "uniquename": "hasher"
             }
         ]

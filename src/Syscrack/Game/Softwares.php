@@ -514,6 +514,40 @@ class Softwares
     }
 
     /**
+     * Returns true if the software can be edited
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function isEditable( $softwareid )
+    {
+
+        $data = $this->getSoftwareData( $softwareid );
+
+        if( empty( $data ) )
+        {
+
+            return true;
+        }
+
+        if( isset( $data['editable'] ) == false )
+        {
+
+            return true;
+        }
+
+        if( $data['editable'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Gets the softwares type
      *
      * @param $software
