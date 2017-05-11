@@ -64,19 +64,26 @@ After you have successfully connected, the next step is to migrate your database
 After you have successfully created your connection, checked the status of your database connection and migrated your database. Head to the index page, and check it out! You should see the website functioning as it should be, stylish HTML boostrap and all. If you would like to change any of the settings ( which I suggest you do ), head to..
 
 ```
-http://localhost/developer/settingsmanager/
+http://localhost/developer/settings/
 ```
 
 Here, you will be able to edit many of the settings of the framework, and game. But be careful, some of these settings are very important and must remain the type that they have been set as, else you might embrace errors! If you would like to disable disable registrations for testing purposes, that can be done by editing the setting...
 
 ```
-http://localhost/developer/settingsmanager/#setting_user_allow_registrations
+http://localhost/developer/settings/#user_allow_registrations
 ```
 
 Or for instance, only allow people with beta-keys to sign up...
 
 ```
-http://localhost/developer/settingsmanager/#setting_user_require_betakey
+http://localhost/developer/settings/#user_require_betakey
+```
+
+To enable the dark theme, you can flick this perticular setting...
+
+
+```
+http://localhost/developer/settings/#theme_dark
 ```
 
 Remember, when you are finished developing you will need to disable this section. By default it is higher than the game and thus doesn't require you to login, or be an admin. This is because the developer section is meant to be a platform for development and not to be used when the website is live. To disable this section, simply head to...
