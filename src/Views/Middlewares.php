@@ -13,7 +13,6 @@ use Framework\Application\Settings;
 use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
 use Framework\Exceptions\ApplicationException;
-use Framework\Exceptions\SyscrackException;
 use Framework\Views\Structures\Middleware;
 
 class Middlewares
@@ -90,23 +89,32 @@ class Middlewares
         foreach( $this->middlewares as $middleware )
         {
 
-            $middleware = $this->factory->createClass( $middleware );
-
-            if( $middleware instanceof Middleware == false )
+            try
             {
 
-                throw new ApplicationException();
+                $middleware = $this->factory->createClass( $middleware );
+
+                if( $middleware instanceof Middleware == false )
+                {
+
+                    throw new ApplicationException();
+                }
+
+                if( $middleware->onRequest() )
+                {
+
+                    $middleware->onSuccess();
+                }
+                else
+                {
+
+                    $middleware->onFailure();
+                }
             }
-
-            if( $middleware->onRequest() )
+            catch( \RuntimeException $error )
             {
 
-                $middleware->onSuccess();
-            }
-            else
-            {
-
-                $middleware->onFailure();
+                continue;
             }
         }
     }
