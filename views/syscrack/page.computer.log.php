@@ -60,7 +60,7 @@
                         <button class="btn btn-danger" type="button" onclick="window.location.href = '/computer/actions/clear'">
                             <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Clear Log
                         </button>
-                        <button class="btn btn-success" type="button" onclick="window.location.href = '/computer/log'">
+                        <button class="btn btn-success" type="button" onclick="window.location.href = '/computer/log/'">
                             <span class="glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></span> Refresh Log
                         </button>
                     </div>

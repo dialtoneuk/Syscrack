@@ -199,7 +199,7 @@
                                     <div class="panel-body">
                                         <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon">#</span>
-                                            <input type="text" class="form-control" placeholder="000000000" name="account" aria-describedby="basic-addon">
+                                            <input type="text" class="form-control" placeholder="000000000" name="accountnumber" aria-describedby="basic-addon">
                                         </div>
                                         <button style="width: 100%; margin-top: 2.5%;" class="btn btn-warning" type="submit">
                                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Crack Account

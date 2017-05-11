@@ -108,13 +108,47 @@ class Logout extends BaseClass implements Structure
         if( isset( $data['redirect'] ) )
         {
 
-            $this->redirectSuccess( null , $data['redirect'] );
+            $this->redirectSuccess( $data['redirect'] );
         }
         else
         {
 
-            $this->redirectSuccess( $data['ipaddress'] );
+            $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
         }
+    }
+
+    /**
+     * Gets the custom data for this operation
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return array
+     */
+
+    public function getCustomData($ipaddress, $userid)
+    {
+
+        return array();
+    }
+
+    /**
+     * Called upon a post request to this operation
+     *
+     * @param $data
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return bool
+     */
+
+    public function onPost($data, $ipaddress, $userid)
+    {
+
+        return true;
     }
 
     /**

@@ -2,7 +2,6 @@
 
     use Framework\Application\Container;
     use Framework\Application\Settings;
-    use Framework\Application\Utilities\PostHelper;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\NPC;
@@ -11,49 +10,49 @@
 
     $session = Container::getObject('session');
 
-if( $session->isLoggedIn() )
-{
+    if( $session->isLoggedIn() )
+    {
 
-    $session->updateLastAction();
-}
+        $session->updateLastAction();
+    }
 
-if( isset( $pagehelper ) == false )
-{
+    if( isset( $pagehelper ) == false )
+    {
 
-    $pagehelper = new PageHelper();
-}
+        $pagehelper = new PageHelper();
+    }
 
-if( isset( $softwares ) == false )
-{
+    if( isset( $softwares ) == false )
+    {
 
-    $softwares = new Softwares();
-}
+        $softwares = new Softwares();
+    }
 
-if( isset( $npc ) == false )
-{
+    if( isset( $npc ) == false )
+    {
 
-    $npc = new NPC();
-}
+        $npc = new NPC();
+    }
 
-if( isset( $internet ) == false )
-{
+    if( isset( $internet ) == false )
+    {
 
-    $internet = new Internet();
-}
+        $internet = new Internet();
+    }
 
-if( isset( $finance ) == false )
-{
+    if( isset( $finance ) == false )
+    {
 
-    $finance = new Finance();
-}
+        $finance = new Finance();
+    }
 
-if( isset( $userid ) == false )
-{
+    if( isset( $userid ) == false )
+    {
 
-    $userid = $session->getSessionUser();
-}
+        $userid = $session->getSessionUser();
+    }
 
-$current_computer  = $internet->getComputer( $ipaddress );
+    $current_computer  = $internet->getComputer( $ipaddress );
 ?>
 <html>
 
@@ -69,30 +68,38 @@ $current_computer  = $internet->getComputer( $ipaddress );
                 Flight::render('syscrack/templates/template.navigation');
             ?>
             <div class="row">
+                <div class="col-lg-12">
+                    <?php
+
+                        if( isset( $_GET['error'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
+                        elseif( isset( $_GET['success'] ) )
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
+                    ?>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
-                    <div class="page-header">
-                       <h1>
-                           <?php
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        <?php
+                            if( $npc->hasNPCFile( $current_computer->computerid ) )
+                            {
 
-                               if( $npc->hasNPCFile( $current_computer->computerid ) == true )
-                               {
+                                $schema = $npc->getNPCFile( $current_computer->computerid );
 
-                                   $schema = $npc->getNPCFile( $current_computer->computerid );
+                                if( isset( $schema['name'] ) )
+                                {
 
-                                   if( isset( $schema['name'] ) )
-                                   {
+                                    echo $schema['name'];
+                                }
+                            }
+                            else
+                            {
 
-                                       echo $schema['name'];
-                                   }
-                               }
-                               else
-                               {
-
-                                   echo 'Random Bank';
-                               }
-                           ?>
-                       </h1>
-                    </div>
+                                echo 'Baguette.com';
+                            }
+                        ?>
+                    </h5>
                     <div class="row">
                         <div class="col-md-4 col-md-offset-4">
                             <?php
@@ -171,38 +178,3 @@ $current_computer  = $internet->getComputer( $ipaddress );
         </div>
     </body>
 </html>
-
-<?php
-
-    if( PostHelper::hasPostData() )
-    {
-
-        if( PostHelper::checkForRequirements(['action'] ) == true )
-        {
-
-            $action = PostHelper::getPostData('action');
-
-            if( $action == 'create' )
-            {
-
-                if( $finance->hasAccountAtComputer( $current_computer->computerid, $userid ) == false )
-                {
-
-                    $finance->createAccount( $current_computer->computerid, $userid );
-
-                    Flight::redirect('/game/internet/' . $ipaddress . '/bank');
-                }
-            }
-            elseif( $action == 'delete' )
-            {
-
-                if( $finance->hasAccountAtComputer( $current_computer->computerid, $userid ) == true )
-                {
-
-                    $finance->removeAccount( $current_computer->computerid, $userid );
-
-                    Flight::redirect('/game/internet/' . $ipaddress . '/bank');
-                }
-            }
-        }
-    }

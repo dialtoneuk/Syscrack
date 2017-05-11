@@ -21,7 +21,7 @@
         "json"
     ],
     "database_schema_file": "conf\/database\/databaseschema.json",
-    "database_show_decrypted": false,
+    "database_show_decrypted": true,
     "developer_disabled": false,
     "developer_page": "developer",
     "error_display_page": true,

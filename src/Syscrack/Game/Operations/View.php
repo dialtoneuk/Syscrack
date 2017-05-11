@@ -108,9 +108,41 @@ class View extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        ob_clean();
-
         $this->getRender('operations/operations.view', array('softwareid' => $data['softwareid'], 'ipaddress' => $data['ipaddress'], 'data' => $this->softwares->getSoftwareData( $data['softwareid'] ) ) );
+    }
+
+    /**
+     * Gets the custom data for this operation
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return array
+     */
+
+    public function getCustomData($ipaddress, $userid)
+    {
+
+        return array();
+    }
+
+    /**
+     * Called upon a post request to this operation
+     *
+     * @param $data
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return bool
+     */
+
+    public function onPost($data, $ipaddress, $userid)
+    {
+
+        return true;
     }
 
     /**

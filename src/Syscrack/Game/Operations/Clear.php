@@ -68,13 +68,13 @@ class Clear extends BaseClass implements Structure
 
         $computer = $this->internet->getComputer( $data['ipaddress'] );
 
-        if( $this->computerlog->hasLog( $computer->computerid ) == false )
+        if( $this->log->hasLog( $computer->computerid ) == false )
         {
 
             return false;
         }
 
-        if( empty( $this->computerlog->getCurrentLog( $computer->computerid ) ) )
+        if( empty( $this->log->getCurrentLog( $computer->computerid ) ) )
         {
 
             if( isset( $data['redirect'] ) )
@@ -114,17 +114,17 @@ class Clear extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        $this->computerlog->saveLog( $this->internet->getComputer( $data['ipaddress'] )->computerid, [] );
+        $this->log->saveLog( $this->internet->getComputer( $data['ipaddress'] )->computerid, [] );
 
         if( isset( $data['redirect'] ) )
         {
 
-            $this->redirectSuccess( null, $data['redirect'] );
+            $this->redirectSuccess( $data['redirect'] );
         }
         else
         {
 
-            $this->redirectSuccess( $data['ipaddress'] );
+            $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
         }
     }
 
@@ -144,5 +144,39 @@ class Clear extends BaseClass implements Structure
     {
 
         return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), Settings::getSetting('syscrack_clear_speed'), $softwareid );
+    }
+
+    /**
+     * Gets the custom data for this operation
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return array
+     */
+
+    public function getCustomData($ipaddress, $userid)
+    {
+
+        return array();
+    }
+
+    /**
+     * Called upon a post request to this operation
+     *
+     * @param $data
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return bool
+     */
+
+    public function onPost($data, $ipaddress, $userid)
+    {
+
+        return true;
     }
 }

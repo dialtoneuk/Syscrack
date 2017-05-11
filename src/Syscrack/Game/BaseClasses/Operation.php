@@ -27,7 +27,7 @@ class Operation
      * @var Log
      */
 
-    protected $computerlog;
+    protected $log;
 
     /**
      * @var Softwares
@@ -63,7 +63,7 @@ class Operation
         if( $createclasses )
         {
 
-            $this->computerlog = new Log();
+            $this->log = new Log();
 
             $this->softwares = new Softwares();
 
@@ -86,8 +86,11 @@ class Operation
             'allowsoftwares'    => true,
             'allowlocal'        => true,
             'allowanonymous'    => false,
-            'requiresoftwares'  => false,
+            'requiresoftwares'  => true,
             'requireloggedin'   => true,
+            'allowpost'         => false,
+            'allowcustomdata'   => false,
+            'postrequirements'  => []
         );
     }
 
@@ -178,9 +181,9 @@ class Operation
 
                 return false;
             }
-
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -193,10 +196,10 @@ class Operation
      * @param $ipaddress
      */
 
-    public function log( $message, $computerid, $ipaddress )
+    public function logToComputer($message, $computerid, $ipaddress )
     {
 
-        $this->computerlog->updateLog( $message, $computerid, $ipaddress );
+        $this->log->updateLog( $message, $computerid, $ipaddress );
     }
 
     /**
@@ -207,7 +210,7 @@ class Operation
      * @param array|null $array
      */
 
-    public function getRender( $file, array $array = null, $default_classes = false  )
+    public function getRender( $file, array $array = null, $default_classes = false, $cleanob=true  )
     {
 
         if( $array !== null )
@@ -222,7 +225,12 @@ class Operation
                     'computer'  => $this->computer
                 ]);
             }
+        }
 
+        if( $cleanob )
+        {
+
+            ob_clean();
         }
 
         Flight::render( Settings::getSetting('syscrack_view_location') . $file, $array);
@@ -277,7 +285,7 @@ class Operation
      *
      * @param string $message
      *
-     * @param string $ipaddress
+     * @param string $path
      */
 
     public function redirectError($message = '', $path = '')
@@ -300,7 +308,7 @@ class Operation
             else
             {
 
-                Flight::redirect('/' .  $this->getCurrentPage() . '?error' );
+                Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error' );
 
                 exit;
             }
@@ -308,7 +316,7 @@ class Operation
         else
         {
 
-            Flight::redirect('/' .  $this->getCurrentPage() . '?error=' . $message);
+            Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error=' . $message);
 
             exit;
         }
@@ -317,31 +325,69 @@ class Operation
     /**
      * Redirects the user to a success page
      *
-     * @param string $ipaddress
+     * @param string $path
      */
 
-    public function redirectSuccess($ipaddress = null, $path = null )
+    public function redirectSuccess( $path = '' )
     {
 
-        if( $path === null )
+        if ($path !== '')
         {
 
-            $path = Settings::getSetting('syscrack_game_page');
-        }
-
-        if( $ipaddress != null )
-        {
-
-            Flight::redirect('/' . $path . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '?success');
+            Flight::redirect( Settings::getSetting('controller_index_root') . $path . '?success');
 
             exit;
         }
+        else
+        {
 
-        Flight::redirect( '/' . $path . '?success');
+            Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?success' );
 
-        exit;
+            exit;
+        }
     }
 
+    /**
+     * Checks the custom data
+     *
+     * @param $data
+     *
+     * @param array|null $requirements
+     *
+     * @return bool
+     */
+
+    public function checkCustomData( $data, array $requirements=null )
+    {
+
+        if( isset( $data['custom'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( empty( $data['custom'] ) || $data['custom'] == null )
+        {
+
+            return false;
+        }
+
+        if( $requirements !== null )
+        {
+
+            foreach( $requirements as $requirement )
+            {
+
+                if( isset( $data['custom'][ $requirement ] ) == false )
+                {
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 
     /**
      * Gets the page the operation should redirect too

@@ -146,11 +146,56 @@ class Delete extends BaseClass implements Structure
         }
     }
 
+    /**
+     * Returns the completion time for this action
+     *
+     * @param $computerid
+     *
+     * @param $process
+     *
+     * @param null $softwareid
+     *
+     * @return int
+     */
 
     public function getCompletionSpeed($computerid, $process, $softwareid=null)
     {
 
         return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), 5.5, $softwareid );
+    }
+
+    /**
+     * Called upon a post request to this operation
+     *
+     * @param $data
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return bool
+     */
+
+    public function onPost($data, $ipaddress, $userid)
+    {
+
+        return true;
+    }
+
+    /**
+     * Gets the custom data for this operation
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return array
+     */
+
+    public function getCustomData($ipaddress, $userid)
+    {
+
+        return array();
     }
 
     /**
@@ -170,7 +215,7 @@ class Delete extends BaseClass implements Structure
             return;
         }
 
-        $this->log('Deleted file <' . $softwarename . '> on root', $computerid, $ipaddress );
+        $this->logToComputer('Deleted file <' . $softwarename . '> on root', $computerid, $ipaddress );
     }
 
     /**
@@ -184,6 +229,6 @@ class Delete extends BaseClass implements Structure
     private function logLocal( $softwarename, $ipaddress )
     {
 
-        $this->log('Deleted file <' . $softwarename . '> on ' . $ipaddress, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
+        $this->logToComputer('Deleted file <' . $softwarename . '> on ' . $ipaddress, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
     }
 }

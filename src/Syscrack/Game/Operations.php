@@ -477,6 +477,164 @@ class Operations
     }
 
     /**
+     * Returns true if this operation allows post
+     *
+     * @param $process
+     *
+     * @return bool
+     */
+
+    public function allowPost( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['allowpost'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $class->configuration()['allowpost'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if we allow custom data to be passed
+     *
+     * @param $process
+     *
+     * @return bool
+     */
+
+    public function allowCustomData( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['allowcustomdata'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $class->configuration()['allowcustomdata'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the custom data for this operation
+     *
+     * @param $process
+     *
+     * @return array
+     */
+
+    public function getCustomData( $process, $ipaddress, $userid )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['allowcustomdata'] ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $class->getCustomData( $ipaddress, $userid );
+    }
+
+    /**
+     * Returns true if we have post requirements
+     *
+     * @param $process
+     *
+     * @return bool
+     */
+
+    public function hasPostRequirements( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['postrequirements'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( empty( $class->configuration()['postrequirements'] ) )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the post requirements for this operation
+     *
+     * @param $process
+     *
+     * @return mixed
+     */
+
+    public function getPostRequirements( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['postrequirements'] ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $class->configuration()['postrequirements'];
+    }
+
+    /**
      * Returns true if this operation uses the software of your computer and not the software of your current connection
      *
      * @param $process

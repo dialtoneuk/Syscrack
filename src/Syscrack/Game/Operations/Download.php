@@ -144,12 +144,12 @@ class Download extends BaseClass implements Structure
         if( isset( $data['redirect'] ) )
         {
 
-            $this->redirectSuccess( null , $data['redirect'] );
+            $this->redirectSuccess( $data['redirect'] );
         }
         else
         {
 
-            $this->redirectSuccess( $data['ipaddress'] );
+            $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
         }
     }
 
@@ -178,6 +178,40 @@ class Download extends BaseClass implements Structure
     }
 
     /**
+     * Gets the custom data for this operation
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return array
+     */
+
+    public function getCustomData($ipaddress, $userid)
+    {
+
+        return array();
+    }
+
+    /**
+     * Called upon a post request to this operation
+     *
+     * @param $data
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return bool
+     */
+
+    public function onPost($data, $ipaddress, $userid)
+    {
+
+        return true;
+    }
+
+    /**
      * Logs a login action to the computers log
      *
      * @param $computerid
@@ -188,7 +222,7 @@ class Download extends BaseClass implements Structure
     private function logDownload( $softwarename, $computerid, $ipaddress )
     {
 
-        $this->log('Downloaded file <' . $softwarename . '> on root', $computerid, $ipaddress );
+        $this->logToComputer('Downloaded file <' . $softwarename . '> on root', $computerid, $ipaddress );
     }
 
     /**
@@ -202,6 +236,6 @@ class Download extends BaseClass implements Structure
     private function logLocal( $softwarename, $ipaddress )
     {
 
-        $this->log('Downloaded file <' . $softwarename . '> on ' . $ipaddress, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
+        $this->logToComputer('Downloaded file <' . $softwarename . '> on ' . $ipaddress, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
     }
 }

@@ -70,4 +70,31 @@ interface Operation
      */
 
     public function getCompletionSpeed($computerid, $ipaddress, $softwareid );
+
+
+    /**
+     * Returns the custom data for this operation
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return array
+     */
+
+    public function getCustomData( $ipaddress, $userid );
+
+    /**
+     * Called upon a post request to the operation
+     *
+     * @param $data
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return bool
+     */
+
+    public function onPost( $data, $ipaddress, $userid );
 }

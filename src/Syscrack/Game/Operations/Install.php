@@ -175,12 +175,12 @@ class Install extends BaseClass implements Structure
         if( isset( $data['redirect'] ) )
         {
 
-            $this->redirectSuccess( null , $data['redirect'] );
+            $this->redirectSuccess( $data['redirect'] );
         }
         else
         {
 
-            $this->redirectSuccess( $data['ipaddress'] );
+            $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
         }
     }
 
@@ -204,6 +204,40 @@ class Install extends BaseClass implements Structure
     }
 
     /**
+     * Gets the custom data for this operation
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return array
+     */
+
+    public function getCustomData($ipaddress, $userid)
+    {
+
+        return array();
+    }
+
+    /**
+     * Called upon a post request to this operation
+     *
+     * @param $data
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return bool
+     */
+
+    public function onPost($data, $ipaddress, $userid)
+    {
+
+        return true;
+    }
+
+    /**
      * Logs a login action to the computers log
      *
      * @param $computerid
@@ -220,7 +254,7 @@ class Install extends BaseClass implements Structure
             return;
         }
 
-        $this->log('Installed file <' . $softwarename . '> on root', $computerid, $ipaddress );
+        $this->logToComputer('Installed file <' . $softwarename . '> on root', $computerid, $ipaddress );
     }
 
     /**
@@ -234,6 +268,6 @@ class Install extends BaseClass implements Structure
     private function logLocal( $softwarename, $computerid, $ipaddress )
     {
 
-        $this->log('Installed file <' . $softwarename . '> on ' . $ipaddress, $computerid, 'localhost' );
+        $this->logToComputer('Installed file <' . $softwarename . '> on ' . $ipaddress, $computerid, 'localhost' );
     }
 }

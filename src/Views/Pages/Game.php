@@ -13,6 +13,7 @@
     use Framework\Application\Container;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
+    use Framework\Exceptions\SyscrackException;
     use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Game\Operations;
     use Framework\Syscrack\Game\Structures\Operation;
@@ -252,13 +253,43 @@
                     throw new ViewException();
                 }
 
+                if( $this->operations->allowPost( $process ) == true )
+                {
+
+                    if( PostHelper::hasPostData() == true )
+                    {
+
+                        if( $this->operations->hasPostRequirements( $process ) )
+                        {
+
+                            if( PostHelper::checkForRequirements( $this->operations->getPostRequirements( $process ) ) == false )
+                            {
+
+                                $this->redirectError('Missing post information', $this->getRedirect( $ipaddress ) );
+                            }
+                            else
+                            {
+
+                                $result = $class->onPost( PostHelper::returnRequirements( $this->operations->getPostRequirements( $process ) ), $ipaddress, Container::getObject('session')->getSessionUser() );
+
+                                if( $result == false )
+                                {
+
+                                    $this->redirectError('Unable to complete action', $this->getRedirect( $ipaddress ) );
+                                }
+                            }
+                        }
+                    }
+                }
+
                 $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null);
 
                 if ($completiontime == null)
                 {
 
                     $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                        'ipaddress' => $ipaddress
+                        'ipaddress' => $ipaddress,
+                        'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
                     ));
 
                     if ($result == false)
@@ -270,24 +301,40 @@
                     {
 
                         $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                            'ipaddress' => $ipaddress
+                            'ipaddress' => $ipaddress,
+                            'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
                         ));
                     }
                 }
                 else
                 {
 
-                    $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                        'ipaddress' => $ipaddress
+                    $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                        'ipaddress' => $ipaddress,
+                        'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
                     ));
 
-                    if ($processid == false)
+                    if ($result == false)
                     {
 
-                        $this->redirectError('Failed to create process', $this->getRedirect( $ipaddress ) );
+                        $this->redirectError('Unable to preform action', $this->getRedirect( $ipaddress ) );
                     }
+                    else
+                    {
 
-                    Flight::redirect('/processes/' . $processid);
+                        $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                            'ipaddress' => $ipaddress,
+                            'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
+                        ));
+
+                        if ($processid == false)
+                        {
+
+                            $this->redirectError('Failed to create process', $this->getRedirect( $ipaddress ) );
+                        }
+
+                        Flight::redirect('/processes/' . $processid);
+                    }
                 }
             }
         }
@@ -414,7 +461,8 @@
 
                         $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
                             'ipaddress' => $ipaddress,
-                            'softwareid' => $softwareid
+                            'softwareid' => $softwareid,
+                            'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
                         ));
 
                         if ($result == false)
@@ -427,28 +475,83 @@
 
                             $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
                                 'ipaddress' => $ipaddress,
-                                'softwareid' => $softwareid
+                                'softwareid' => $softwareid,
+                                'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
                             ));
                         }
                     }
                     else
                     {
 
-                        $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                        $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
                             'ipaddress' => $ipaddress,
-                            'softwareid' => $softwareid
+                            'softwareid' => $softwareid,
+                            'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
                         ));
 
-                        if ($processid == false)
+                        if ($result == false)
                         {
 
-                            $this->redirectError('Process failed to be created', $this->getRedirect( $ipaddress ) );
+                            $this->redirectError('Process cannot be completed', $this->getRedirect( $ipaddress ) );
+                        }
+                        else
+                        {
+
+                            $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
+                                'ipaddress' => $ipaddress,
+                                'softwareid' => $softwareid,
+                                'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
+                            ));
+
+                            if ($processid == false)
+                            {
+
+                                $this->redirectError('Process failed to be created', $this->getRedirect( $ipaddress ) );
+                            }
                         }
 
                         Flight::redirect('/processes/' . $processid);
                     }
                 }
             }
+        }
+
+        /**
+         * Gets the custom data for this operation
+         *
+         * @param $process
+         *
+         * @param $ipaddress
+         *
+         * @param $userid
+         *
+         * @return array|null
+         */
+
+        private function getCustomData( $process, $ipaddress, $userid )
+        {
+
+            if( $this->operations->allowCustomData( $process ) == false )
+            {
+
+                return null;
+            }
+
+            $data = $this->operations->getCustomData( $process, $ipaddress, $userid );
+
+            if( empty( $data ) || $data == null )
+            {
+
+                return null;
+            }
+
+            if( is_array( $data ) == false )
+            {
+
+                throw new SyscrackException();
+            }
+
+            return $data;
         }
 
         /**

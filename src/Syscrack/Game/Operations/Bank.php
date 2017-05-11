@@ -12,10 +12,13 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
 
 class Bank extends BaseClass implements Structure
 {
+
+    protected $finance;
 
     /**
      * View constructor.
@@ -25,6 +28,12 @@ class Bank extends BaseClass implements Structure
     {
 
         parent::__construct( true );
+
+        if( isset( $this->finance ) == false )
+        {
+
+            $this->finance = new Finance();
+        }
     }
 
     /**
@@ -40,7 +49,11 @@ class Bank extends BaseClass implements Structure
             'allowsoftwares'    => false,
             'allowlocal'        => false,
             'requiresoftwares'  => false,
-            'requireloggedin'   => false
+            'requireloggedin'   => false,
+            'allowpost'         => true,
+            'postrequirements'  => [
+                'action'
+            ]
         );
     }
 
@@ -105,8 +118,6 @@ class Bank extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        ob_clean();
-
         $this->getRender('operations/operations.bank', array( 'ipaddress' => $data['ipaddress'], 'userid' => $userid ), true );
     }
 
@@ -126,5 +137,64 @@ class Bank extends BaseClass implements Structure
     {
 
         return null;
+    }
+
+    /**
+     * Gets the custom data for this operation
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return array
+     */
+
+    public function getCustomData($ipaddress, $userid)
+    {
+
+        return array();
+    }
+
+    /**
+     * Calls when the operation receives a post request
+     *
+     * @param $data
+     *
+     * @return bool
+     */
+
+    public function onPost( $data, $ipaddress, $userid )
+    {
+
+        $computer = $this->internet->getComputer( $ipaddress );
+
+        if( $data['action'] == 'create' )
+        {
+
+            if( $this->finance->hasAccountAtComputer( $computer->computerid, $userid ) == true )
+            {
+
+                $this->redirectError('You already have an account at this bank', $this->getRedirect( $ipaddress ) . 'bank' );
+            }
+
+            $this->finance->createAccount( $computer->computerid, $userid );
+
+            $this->redirectSuccess( $this->getRedirect( $ipaddress ) . 'bank' );
+        }
+        elseif( $data['action'] == "delete" )
+        {
+
+            if( $this->finance->hasAccountAtComputer( $computer->computerid, $userid ) == false )
+            {
+
+                $this->redirectError('You do not have a bank account at this bank', $this->getRedirect( $ipaddress ) . 'bank' );
+            }
+
+            $this->finance->removeAccount( $computer->computerid, $userid );
+
+            $this->redirectSuccess( $this->getRedirect( $ipaddress ) . 'bank' );
+        }
+
+        return true;
     }
 }

@@ -99,7 +99,7 @@
 
                                                 ?>
 
-                                                    <li><a href="/game/internet/<?=$_SESSION['connected_ipaddress']?>">Current Connection</a></li>
+                                                    <li><a href="/game/internet/<?=$_SESSION['connected_ipaddress']?>">Connection</a></li>
                                                 <?php
                                             }
                                         ?>
