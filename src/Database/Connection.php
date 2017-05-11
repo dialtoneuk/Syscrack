@@ -33,7 +33,16 @@ class Connection
 	    if( $autoload )
         {
 
-            $connection = $this->readConnectionFile();
+            try
+            {
+
+                $connection = $this->readConnectionFile();
+            }
+            catch( DatabaseException $error )
+            {
+
+                //Do nothing
+            }
         }
 
 		if( empty( $connection ) )
@@ -60,7 +69,7 @@ class Connection
             $file = Settings::getSetting('database_connection_file');
         }
 
-		if( file_exists( FileSystem::getFilePath( $file) ) == false )
+		if( file_exists( FileSystem::getFilePath( $file ) ) == false )
 		{
 
 			throw new DatabaseException();

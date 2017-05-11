@@ -135,13 +135,13 @@ class Controller
             $page = $this->removeURLKey( $page );
         }
 
-        $this->createPage( $page );
-
         if( Settings::getSetting('middlewares_enabled') && Settings::getSetting('developer_page') !== $page )
         {
 
             $this->processMiddlewares();
         }
+
+        $this->createPage( $page );
     }
 
     /**

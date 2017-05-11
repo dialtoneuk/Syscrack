@@ -116,7 +116,7 @@
                             {
 
                                 ?>
-                                <p style="color: lightgray;">
+                                <p style="color: #ababab">
                                     <?=$software->softwarename . $softwareclass->configuration()['extension']?>
                                 </p>
                                 <?php
@@ -126,32 +126,42 @@
                         <td style="padding-top: 2.25%;">
                             <?php
 
-                            if( $software->level >= Settings::getSetting('syscrack_level_expert') )
-                            {
+                                if( $software->level >= Settings::getSetting('syscrack_softwarelevel_godlike') )
+                                {
 
-                                ?>
-                                <strong style="color: palevioletred;">
-                                    <?=$software->level?>
-                                </strong>
-                                <?php
-                            }elseif( $software->level >= Settings::getSetting('syscrack_level_advanced') && $software->level < Settings::getSetting('syscrack_level_expert') )
-                            {
+                                    ?>
+                                        <strong style="color: rebeccapurple;">
+                                            <?=$software->level?>
+                                        </strong>
+                                    <?php
+                                }
+                                elseif( $software->level >= Settings::getSetting('syscrack_softwarelevel_expert') )
+                                {
 
-                                ?>
-                                <strong>
-                                    <?=$software->level?>
-                                </strong>
-                                <?php
-                            }else
-                            {
+                                    ?>
+                                        <strong style="color: limegreen;">
+                                            <?=$software->level?>
+                                        </strong>
+                                    <?php
+                                }
+                                elseif( $software->level >= Settings::getSetting('syscrack_softwarelevel_advanced') )
+                                {
 
-                                ?>
-                                <p>
-                                    <?=$software->level?>
-                                </p>
-                                <?php
-                            }
+                                    ?>
+                                        <strong style="color: indianred;">
+                                            <?=$software->level?>
+                                        </strong>
+                                    <?php
+                                }
+                                else
+                                {
 
+                                    ?>
+                                    <p>
+                                        <?=$software->level?>
+                                    </p>
+                                    <?php
+                                }
                             ?>
                         </td>
                         <td style="padding-top: 2.25%;">

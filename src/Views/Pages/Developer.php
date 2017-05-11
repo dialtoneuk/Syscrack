@@ -69,7 +69,16 @@
             if( isset( $this->database ) == false )
             {
 
-                $this->database = new Manager();
+                try
+                {
+
+                    $this->database = new Manager();
+                }
+                catch( \Exception $error )
+                {
+
+                    //Stop redirect error
+                }
             }
 
             //Used to display errors
@@ -154,6 +163,12 @@
         public function migrator()
         {
 
+            if( $this->database == null )
+            {
+
+                $this->redirectError('The database class failed to be created, this is usually due it not existing, maybe you should create one fist?', 'developer');
+            }
+
             if( $this->hasDatabaseConnection() == false )
             {
 
@@ -169,6 +184,12 @@
 
         public function migratorProcess()
         {
+
+            if( $this->database == null )
+            {
+
+                $this->redirectError('The database class failed to be created, this is usually due it not existing, maybe you should create one fist?', 'developer');
+            }
 
             if( $this->hasDatabaseConnection() == false )
             {
@@ -243,6 +264,10 @@
 
             $this->getRender('page.errors');
         }
+
+        /**
+         * Processes the post request to the error page
+         */
 
         public function errorsProcess()
         {
@@ -354,7 +379,7 @@
                         $this->redirectError('Setting already exists under that name');
                     }
 
-                    Settings::addSetting( $settings_name, $settings_value, true );
+                    Settings::addSetting( $settings_name, $this->parseSetting( $settings_value ), true );
 
                     $this->redirectSuccess( $this->getRedirect('settings') );
                 }
@@ -454,6 +479,12 @@
 
         public function connection()
         {
+
+            if( $this->database == null )
+            {
+
+                $this->redirectError('The database class failed to be created, this is usually due it not existing, maybe you should create one fist?', 'developer');
+            }
 
             $this->getRender('page.connection');
         }
@@ -574,6 +605,21 @@
             {
 
                 return false;
+            }
+
+            if( is_numeric( $setting_value ) )
+            {
+
+                if(is_numeric( $setting_value ) && strpos( $setting_value, ".") !== false)
+                {
+
+                    return (float)$setting_value;
+                }
+                else
+                {
+
+                    return (int)$setting_value;
+                }
             }
 
             if( $this->isJson( $setting_value ) && Settings::hasParsableData( $setting_value ) == false )

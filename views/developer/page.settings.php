@@ -11,15 +11,26 @@
     ?>
 
     <style>
-        :target {
-            animation: border-pulsate 5s;
-            border: 1px solid #ddd;
-        }
 
-        @keyframes border-pulsate {
-            0%   { border-color: #337ab7; }
-            100% { border-color: #ddd; }
-        }
+        <?php
+
+            if( Settings::getSetting('theme_dark') == false )
+            {
+
+                ?>
+
+                    :target {
+                        animation: border-pulsate 5s;
+                        border: 1px solid #ddd;
+                    }
+
+                    @keyframes border-pulsate {
+                        0%   { border-color: #337ab7; }
+                        100% { border-color: #ddd; }
+                    }
+                <?php
+            }
+        ?>
     </style>
 
     <body>
@@ -231,22 +242,42 @@
                                                     </div>
                                                     <?php
                                                 }
-                                                else
+                                                elseif( is_numeric( $value ) )
                                                 {
+
                                                     ?>
 
-                                                    <p class="small text-uppercase" style="color: #ababab">
-                                                        String
-                                                    </p>
-                                                    <div class="input-group">
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
-                                                            <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
-                                                            <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
-                                                        </span>
-                                                        <input name="setting_value" type="text" class="form-control" value="<?=htmlspecialchars( $value )?>">
-                                                        <input type="hidden" name="setting_name" value="<?=$key?>">
-                                                    </div>
+                                                        <p class="small text-uppercase" style="color: #ababab">
+                                                            Numeric
+                                                        </p>
+                                                        <div class="input-group">
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
+                                                                    <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                                    <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
+                                                                </span>
+                                                            <input name="setting_value" type="text" class="form-control" value="<?=htmlspecialchars( $value )?>">
+                                                            <input type="hidden" name="setting_name" value="<?=$key?>">
+                                                        </div>
+                                                    <?php
+                                                }
+                                                else
+                                                {
+
+                                                    ?>
+
+                                                        <p class="small text-uppercase" style="color: #ababab">
+                                                            String
+                                                        </p>
+                                                        <div class="input-group">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
+                                                                <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                                <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
+                                                            </span>
+                                                            <input name="setting_value" type="text" class="form-control" value="<?=htmlspecialchars( $value )?>">
+                                                            <input type="hidden" name="setting_name" value="<?=$key?>">
+                                                        </div>
                                                     <?php
                                                 }
                                             ?>

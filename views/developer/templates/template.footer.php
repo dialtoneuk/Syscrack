@@ -106,6 +106,24 @@
             });
         }
 
+        if(window.location.hash) {
+
+
+            setTimeout( function()
+            {
+
+                history.pushState("", document.title, window.location.pathname);
+            },100)
+        }
+
+        $(window).on('hashchange',function(){
+            setTimeout( function()
+            {
+
+                history.pushState("", document.title, window.location.pathname);
+            },100)
+        });
+
         $(document).ready(function(){
 
             startTime();

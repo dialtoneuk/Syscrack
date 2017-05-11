@@ -39,7 +39,7 @@
     "filesystem_separator": "\/",
     "framework_version": "4.1",
     "logger_max_errors": "32",
-    "middlewares_enabled": false,
+    "middlewares_enabled": true,
     "middlewares_location": "src\/Views\/Middleware\/",
     "middlewares_namespace": "Framework\\Views\\Middleware\\",
     "online_timeframe": "<60 * 60 * 2>",
@@ -136,9 +136,8 @@
     "syscrack_hack_speed": 25,
     "syscrack_hasher_type": "hasher",
     "syscrack_internet_page": "internet",
-    "syscrack_level_advanced": 50,
-    "syscrack_level_expert": 100,
-    "syscrack_level_normal": 50,
+    "syscrack_softwarelevel_advanced": 50,
+    "syscrack_softwarelevel_expert": 100,
     "syscrack_log_current": "current",
     "syscrack_log_location": "syscrack\/logs\/",
     "syscrack_lowest_iprange": 192,
@@ -175,5 +174,6 @@
     "user_default_group": "guest",
     "user_group_admin": "admin",
     "user_group_developer": "developer",
-    "user_require_betakey": false
+    "user_require_betakey": false,
+    "syscrack_softwarelevel_godlike": 200
 }

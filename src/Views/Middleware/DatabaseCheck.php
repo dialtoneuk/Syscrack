@@ -12,10 +12,17 @@ namespace Framework\Views\Middleware;
 use Flight;
 use Framework\Application\Settings;
 use Framework\Database\Manager;
+use Framework\Exceptions\DatabaseException;
 use Framework\Views\Structures\Middleware;
 
 class DatabaseCheck implements Middleware
 {
+
+    /**
+     * On Request
+     *
+     * @return bool
+     */
 
     public function onRequest()
     {
@@ -26,18 +33,18 @@ class DatabaseCheck implements Middleware
             return true;
         }
 
-        if (Manager::getCapsule() == null)
-        {
-
-            new Manager();
-        }
-
         try
         {
 
+            if (Manager::getCapsule() == null)
+            {
+
+                new Manager();
+            }
+
             Manager::$capsule->getConnection()->getPdo();
         }
-        catch( \Exception $error )
+        catch( DatabaseException $error )
         {
 
             return false;
@@ -46,11 +53,19 @@ class DatabaseCheck implements Middleware
         return true;
     }
 
+    /**
+     * On Success
+     */
+
     public function onSuccess()
     {
 
         //Do nothing
     }
+
+    /**
+     * Render the error database page
+     */
 
     public function onFailure()
     {
