@@ -55,7 +55,7 @@
                                     </p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" name="action" value="delete" class="btn btn-primary">Yes</button>
+                                    <button type="submit" name="action" value="disable" class="btn btn-primary">Yes</button>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                                 </div>
                             </form>

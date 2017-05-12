@@ -33,7 +33,7 @@
         public function __construct()
         {
 
-            parent::__construct( false, false, false, true );
+            parent::__construct( false, true, false, true );
 
             if( isset( $this->verification ) == false )
             {
@@ -74,7 +74,7 @@
                 if ($this->verification->getTokenUser($_GET['token']) == null)
                 {
 
-                    $this->redirectError('Sorry, this token is invalid...', '/login' );
+                    $this->redirectError('Sorry, this token is invalid...', 'login' );
                 }
 
                 $userid = $this->verification->getTokenUser($_GET['token']);
@@ -82,13 +82,13 @@
                 if ($userid == null)
                 {
 
-                    $this->redirectError('Sorry, this token isnt tied to a user, try again?', '/login' );
+                    $this->redirectError('Sorry, this token isnt tied to a user, try again?', 'login' );
                 }
 
                 if ($this->verification->verifyUser($_GET['token']) == false)
                 {
 
-                    $this->redirectError('Sorry, failed to verify, try again?', '/login' );
+                    $this->redirectError('Sorry, failed to verify, try again?', 'login' );
                 }
 
                 try
@@ -103,10 +103,10 @@
                 catch( \Exception $error )
                 {
 
-                    $this->redirectError('Sorry, we encounted an error, please a developer', '/login');
+                    $this->redirectError('Sorry, we encounted an error, please tell a developer', 'login');
                 }
 
-                $this->redirectSuccess('/login');
+                $this->redirectSuccess('login');
             }
 
             Flight::notFound();
@@ -125,7 +125,7 @@
                 $this->redirectError('Please enter a token');
             }
 
-            if (PostHelper::checkPostData(['token']) == false)
+            if (PostHelper::checkForRequirements(['token']) == false)
             {
 
                 $this->redirectError('Please enter a token');
@@ -138,13 +138,13 @@
             if ($userid == null)
             {
 
-                $this->redirectError('Sorry, this token isnt tied to a user, try again?', '/login' );
+                $this->redirectError('Sorry, this token isnt tied to a user, try again?', 'login' );
             }
 
             if ($this->verification->verifyUser($_GET['token']) == false)
             {
 
-                $this->redirectError('Sorry, failed to verify, try again?', '/login' );
+                $this->redirectError('Sorry, failed to verify, try again?', 'Wlogin' );
             }
 
             try
@@ -162,6 +162,6 @@
                 $this->redirectError('Sorry, we encounted an error, please a developer', '/login');
             }
 
-            $this->redirectSuccess('/login');
+            $this->redirectSuccess('login');
         }
     }

@@ -121,7 +121,34 @@
 
                 $_SESSION['error'] = $message;
 
-                $_SESSION['error_page'] = $this->getCurrentPage();
+                if( $path !== '' )
+                {
+
+                    if( empty( explode('/', $path ) ) )
+                    {
+
+                        $_SESSION['error_page'] = explode('/', $path)[0];
+                    }
+                    else
+                    {
+
+                        if( substr( $path, 0, 1 ) == '/' )
+                        {
+
+                            $_SESSION['error_page'] = substr( $path, 1);
+                        }
+                        else
+                        {
+
+                            $_SESSION['error_page'] = $path;
+                        }
+                    }
+                }
+                else
+                {
+
+                    $_SESSION['error_page'] = $this->getCurrentPage();
+                }
 
                 if ($path !== '')
                 {

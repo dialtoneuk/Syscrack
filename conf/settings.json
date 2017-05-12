@@ -38,6 +38,7 @@
     "filesystem_root": "<$_SERVER['DOCUMENT_ROOT']>",
     "filesystem_separator": "\/",
     "framework_version": "4.1",
+    "framework_page": "framework",
     "logger_max_errors": "32",
     "middlewares_enabled": true,
     "middlewares_location": "src\/Views\/Middleware\/",

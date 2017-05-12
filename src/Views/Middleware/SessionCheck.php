@@ -4,17 +4,18 @@ namespace Framework\Views\Middleware;
 /**
  * Lewis Lancaster 2017
  *
- * Class SessionTimeout
+ * Class SessionCheck
  *
  * @package Framework\Views\Middleware
  */
 
+use Flight;
 use Framework\Application\Container;
 use Framework\Application\Session;
 use Framework\Application\Settings;
 use Framework\Views\Structures\Middleware;
 
-class SessionTimeout implements Middleware
+class SessionCheck implements Middleware
 {
 
     /**
@@ -24,7 +25,7 @@ class SessionTimeout implements Middleware
     protected $session;
 
     /**
-     * SessionTimeout constructor.
+     * SessionCheck constructor.
      */
 
     public function __construct()
@@ -40,7 +41,7 @@ class SessionTimeout implements Middleware
     }
 
     /**
-     * Checks to see if the session has timed out
+     * On Request
      *
      * @return bool
      */
@@ -48,48 +49,54 @@ class SessionTimeout implements Middleware
     public function onRequest()
     {
 
-        if( $this->session == null )
+        if( $_SERVER['REQUEST_URI'] == Settings::getSetting('controller_index_root') )
         {
 
             return true;
         }
 
-        if( $this->session->isLoggedIn() == false )
+        if( array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('framework_page') || array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('developer_page') )
         {
 
             return true;
         }
 
-        if( $this->session->getLastAction() < time() - Settings::getSetting('session_timeout') )
+        if( $this->session->isLoggedIn() )
         {
 
-            return false;
+            if( empty( $_SESSION ) )
+            {
+
+                return false;
+            }
+
+            if( empty( $_SESSION['current_computer'] ) )
+            {
+
+                return false;
+            }
         }
 
         return true;
     }
 
     /**
-     * Doesn't do anything :)
+     * On Success
      */
 
     public function onSuccess()
     {
 
-        //
+        //Do nothing
     }
 
     /**
-     * Cleans up and destroys the session, asks the user to login again
+     * Render the error database page
      */
 
     public function onFailure()
     {
 
-        $this->session->cleanupSession( $this->session->getSessionUser() );
-
-        session_destroy();
-
-        \Flight::redirect('/login?error=Session has timed out, login again!');
+        Flight::redirect('/framework/error/session/'); exit;
     }
 }

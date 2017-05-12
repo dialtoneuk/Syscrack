@@ -12,6 +12,7 @@ namespace Framework\Application;
 use Framework\Application;
 use Framework\Database\Manager;
 use Framework\Exceptions\ApplicationException;
+use Framework\Views\Middlewares;
 
 class Container
 {
@@ -69,7 +70,7 @@ class Container
 	 *
 	 * @param $index
 	 *
-	 * @return Application|mixed|\stdClass|Session|Manager
+	 * @return Application|mixed|\stdClass|Session|Manager|Middlewares
 	 */
 
 	public static function getObject( $index )

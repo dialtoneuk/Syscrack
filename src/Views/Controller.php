@@ -10,6 +10,7 @@ namespace Framework\Views;
  */
 
 use Flight;
+use Framework\Application\Container;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Factory;
 use Framework\Exceptions\ViewException;
@@ -135,13 +136,24 @@ class Controller
             $page = $this->removeURLKey( $page );
         }
 
+        try
+        {
+
+            $this->createPage( $page );
+        }
+        catch( \Error $error )
+        {
+
+
+        }
+
         if( Settings::getSetting('middlewares_enabled') && Settings::getSetting('developer_page') !== $page )
         {
 
             $this->processMiddlewares();
-        }
 
-        $this->createPage( $page );
+            Container::setObject('middlewares', $this->middlewares );
+        }
     }
 
     /**

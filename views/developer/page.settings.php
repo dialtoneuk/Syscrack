@@ -174,12 +174,11 @@
                                                         Boolean
                                                     </p>
                                                     <div class="input-group">
-                                                            <span class="input-group-btn">
-                                                                <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
-                                                                <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
-                                                                <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
-                                                            </span>
-
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
+                                                            <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                            <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settings/#' . $key?>");'>Link</button>
+                                                        </span>
                                                         <?php
 
                                                             if( $value == true )
@@ -213,11 +212,11 @@
                                                         Empty
                                                     </p>
                                                     <div class="input-group">
-                                                            <span class="input-group-btn">
-                                                                <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
-                                                                <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
-                                                                <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
-                                                            </span>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
+                                                            <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                            <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settings/#' . $key?>");'>Link</button>
+                                                        </span>
                                                         <input name="setting_value" type="text" class="form-control" value="<?=htmlspecialchars( $value )?>">
                                                         <input type="hidden" name="setting_name" value="<?=$key?>">
                                                     </div>
@@ -232,11 +231,11 @@
                                                         Array
                                                     </p>
                                                     <div class="input-group">
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
-                                                                    <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
-                                                                    <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
-                                                                </span>
+                                                        <span class="input-group-btn">
+                                                             <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
+                                                             <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                             <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settings/#' . $key?>");'>Link</button>
+                                                        </span>
                                                         <input name="setting_value" type="text" class="form-control" value="<?=htmlspecialchars( json_encode( $value ) )?>">
                                                         <input type="hidden" name="setting_name" value="<?=$key?>">
                                                     </div>
@@ -251,11 +250,11 @@
                                                             Numeric
                                                         </p>
                                                         <div class="input-group">
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
-                                                                    <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
-                                                                    <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
-                                                                </span>
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
+                                                                <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
+                                                                <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settings/#' . $key?>");'>Link</button>
+                                                            </span>
                                                             <input name="setting_value" type="text" class="form-control" value="<?=htmlspecialchars( $value )?>">
                                                             <input type="hidden" name="setting_name" value="<?=$key?>">
                                                         </div>
@@ -273,7 +272,7 @@
                                                             <span class="input-group-btn">
                                                                 <button class="btn btn-default" type="submit" name="action" value="save">Save</button>
                                                                 <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
-                                                                <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settingsmanager/#setting_' . $key?>");'>Link</button>
+                                                                <button class="btn btn-default" type="button" onclick='window.prompt("Copy to clipboard: Ctrl+C, Enter","<?='http://' . $_SERVER['HTTP_HOST'] . '/developer/settings/#' . $key?>");'>Link</button>
                                                             </span>
                                                             <input name="setting_value" type="text" class="form-control" value="<?=htmlspecialchars( $value )?>">
                                                             <input type="hidden" name="setting_name" value="<?=$key?>">

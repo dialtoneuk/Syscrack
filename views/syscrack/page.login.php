@@ -1,18 +1,21 @@
 <?php
 
-$session = \Framework\Application\Container::getObject('session');
+    use Framework\Application\Container;
+    use Framework\Application\Settings;
 
-if( $session->isLoggedIn() )
-{
+    $session = Container::getObject('session');
 
-    $session->updateLastAction();
+    if( $session->isLoggedIn() )
+    {
 
-    Flight::redirect('/game/');
+        $session->updateLastAction();
 
-    exit;
-}
+        Flight::redirect('/game/');
+
+        exit;
+    }
 ?>
-
+0
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +33,7 @@ if( $session->isLoggedIn() )
                         if( isset( $_GET['error'] ) )
                             Flight::render('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
                         elseif( isset( $_GET['success'] ) )
-                            Flight::render('syscrack/templates/template.alert', array( 'message' => 'Success', 'alert_type' => 'alert-success' ) );
+                            Flight::render('syscrack/templates/template.alert', array( 'message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success' ) );
                     ?>
                 </div>
             </div>

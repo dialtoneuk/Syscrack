@@ -31,13 +31,22 @@ class Table
 	public function __construct ()
 	{
 
-		if( Manager::getCapsule() === null )
-		{
+	    try
+        {
 
-			$this->initializeDatabase();
-		}
+            if( Manager::getCapsule() === null )
+            {
 
-		$this->database = Manager::getCapsule();
+                $this->initializeDatabase();
+            }
+
+            $this->database = Manager::getCapsule();
+        }
+        catch( DatabaseException $error )
+        {
+
+
+        }
 	}
 
 	/**

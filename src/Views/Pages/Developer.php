@@ -126,7 +126,10 @@
                     '/developer/errors/@id:[0-9]{0,9}/', 'errorsView'
                 ],
                 [
-                    '/developer/disable/', 'disable'
+                    'GET /developer/disable/', 'disable'
+                ],
+                [
+                    'POST /developer/disable/', 'disableProcess'
                 ],
                 [
                     'GET /developer/settings/', 'settings'
@@ -334,6 +337,35 @@
             $this->getRender('page.disable');
         }
 
+        public function disableProcess()
+        {
+
+            if( PostHelper::hasPostData() == false )
+            {
+
+                $this->disable();
+            }
+            else
+            {
+
+                if( PostHelper::checkForRequirements(['action'] ) == false )
+                {
+
+                    $this->redirectError('Missing information', $this->getRedirect('settings') );
+                }
+
+                $action = PostHelper::getPostData('action');
+
+                if( $action == 'disable' )
+                {
+
+                    Settings::updateSetting('developer_disabled', true );
+
+                    $this->redirectSuccess('index');
+                }
+            }
+        }
+
         /**
          * Renders the settings manager
          */
@@ -528,11 +560,11 @@
                     continue;
                 }
 
-                Manager::$capsule->getConnection()->getSchemaBuilder()->create( $table, function( Blueprint $table ) use ( $columns )
+                Manager::$capsule->getConnection()->getSchemaBuilder()->create( $table, function( Blueprint $blueprint ) use ( $columns )
                 {
                     foreach ($columns as $column => $type)
                     {
-                        $table->{$type}($column);
+                        $blueprint->{$type}($column);
                     }
                 });
             }

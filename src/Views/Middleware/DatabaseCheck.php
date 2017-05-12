@@ -27,7 +27,13 @@ class DatabaseCheck implements Middleware
     public function onRequest()
     {
 
-        if( $_SERVER['REQUEST_URI'] !== Settings::getSetting('controller_index_root') && array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == 'framework' )
+        if( $_SERVER['REQUEST_URI'] == Settings::getSetting('controller_index_root') )
+        {
+
+            return true;
+        }
+
+        if( array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('framework_page') || array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('developer_page') )
         {
 
             return true;

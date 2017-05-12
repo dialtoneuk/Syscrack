@@ -9,6 +9,7 @@ namespace Framework\Views;
  * @package Framework\Views
  */
 
+use Error;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
@@ -23,6 +24,12 @@ class Middlewares
      */
 
     protected $middlewares = [];
+
+    /**
+     * @var array
+     */
+
+    protected $results = [];
 
     /**
      * @var Factory
@@ -92,31 +99,65 @@ class Middlewares
             try
             {
 
-                $middleware = $this->factory->createClass( $middleware );
+                $class = $this->factory->createClass( $middleware );
 
-                if( $middleware instanceof Middleware == false )
+                if( $class instanceof Middleware == false )
                 {
 
                     throw new ApplicationException();
                 }
 
-                if( $middleware->onRequest() )
+                if( $class->onRequest() )
                 {
 
-                    $middleware->onSuccess();
+                    $this->addToResults( $middleware, true );
+
+                    $class->onSuccess();
                 }
                 else
                 {
 
-                    $middleware->onFailure();
+                    $this->addToResults( $middleware, false );
+
+                    $class->onFailure();
                 }
             }
-            catch( \RuntimeException $error )
+            catch( Error $error )
             {
+
+                $this->addToResults( $middleware, false );
 
                 continue;
             }
         }
+    }
+
+    /**
+     * Gets a result
+     *
+     * @param $middleware
+     *
+     * @return mixed
+     */
+
+    public function getResult( $middleware )
+    {
+
+        return $this->results[ strtolower( $middleware ) ];
+    }
+
+    /**
+     * Adds a middleware to the results array
+     *
+     * @param $middleware
+     *
+     * @param bool $result
+     */
+
+    public function addToResults( $middleware, bool $result=true )
+    {
+
+        $this->results[ strtolower( $middleware ) ] = $result;
     }
 
     /**
