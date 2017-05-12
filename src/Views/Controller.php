@@ -9,8 +9,8 @@ namespace Framework\Views;
  * @package Framework\Views
  */
 
+use Error;
 use Flight;
-use Framework\Application\Container;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Factory;
 use Framework\Exceptions\ViewException;
@@ -141,18 +141,18 @@ class Controller
 
             $this->createPage( $page );
         }
-        catch( \Error $error )
+        catch( Error $error )
         {
 
-
+            //If the database file isn't present, then when a database tries to access the 'getTable()' method,
+            //it will throw an error, this essentially catches that error so the middlewares can pick up the error
+            //and then display the database error page
         }
 
         if( Settings::getSetting('middlewares_enabled') && Settings::getSetting('developer_page') !== $page )
         {
 
             $this->processMiddlewares();
-
-            Container::setObject('middlewares', $this->middlewares );
         }
     }
 
@@ -229,8 +229,6 @@ class Controller
      * Creates the page class
      *
      * @param $page
-     *
-     * @return null
      */
 
     private function createPage( $page )
@@ -239,7 +237,7 @@ class Controller
         if( $this->factory->classExists( $page ) == false )
         {
 
-            return null;
+            return;
         }
 
         $this->processClass( $this->factory->createClass( $page ) );

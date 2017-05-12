@@ -29,7 +29,7 @@ class Middlewares
      * @var array
      */
 
-    protected $results = [];
+    protected static $results = [];
 
     /**
      * @var Factory
@@ -110,14 +110,14 @@ class Middlewares
                 if( $class->onRequest() )
                 {
 
-                    $this->addToResults( $middleware, true );
+                    self::addToResults( $middleware, true );
 
                     $class->onSuccess();
                 }
                 else
                 {
 
-                    $this->addToResults( $middleware, false );
+                    self::addToResults( $middleware, false );
 
                     $class->onFailure();
                 }
@@ -125,41 +125,12 @@ class Middlewares
             catch( Error $error )
             {
 
-                $this->addToResults( $middleware, false );
+                self::addToResults( $middleware, false );
 
                 continue;
             }
         }
     }
-
-    /**
-     * Gets a result
-     *
-     * @param $middleware
-     *
-     * @return mixed
-     */
-
-    public function getResult( $middleware )
-    {
-
-        return $this->results[ strtolower( $middleware ) ];
-    }
-
-    /**
-     * Adds a middleware to the results array
-     *
-     * @param $middleware
-     *
-     * @param bool $result
-     */
-
-    public function addToResults( $middleware, bool $result=true )
-    {
-
-        $this->results[ strtolower( $middleware ) ] = $result;
-    }
-
     /**
      * Returns if the middlewares have loaded
      *
@@ -194,6 +165,41 @@ class Middlewares
         }
 
         return true;
+    }
+
+
+    /**
+     * Gets a result
+     *
+     * @param $middleware
+     *
+     * @return mixed
+     */
+
+    public static function getResult( $middleware )
+    {
+
+        if( self::$results[ strtolower( $middleware ) ] == null )
+        {
+
+            return false;
+        }
+
+        return self::$results[ strtolower( $middleware ) ];
+    }
+
+    /**
+     * Adds a middleware to the results array
+     *
+     * @param $middleware
+     *
+     * @param bool $result
+     */
+
+    public static function addToResults( $middleware, $result )
+    {
+
+        self::$results[ strtolower( $middleware ) ] = $result;
     }
 
     /**

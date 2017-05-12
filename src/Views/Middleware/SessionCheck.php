@@ -49,16 +49,14 @@ class SessionCheck implements Middleware
     public function onRequest()
     {
 
-        if( $_SERVER['REQUEST_URI'] == Settings::getSetting('controller_index_root') )
+        if( $_SERVER['REQUEST_URI'] !== Settings::getSetting('controller_index_root') )
         {
 
-            return true;
-        }
+            if( array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('framework_page') || array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('developer_page') )
+            {
 
-        if( array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('framework_page') || array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('developer_page') )
-        {
-
-            return true;
+                return true;
+            }
         }
 
         if( $this->session->isLoggedIn() )
@@ -97,6 +95,6 @@ class SessionCheck implements Middleware
     public function onFailure()
     {
 
-        Flight::redirect('/framework/error/session/'); exit;
+        Flight::redirect('/framework/error/session/');
     }
 }

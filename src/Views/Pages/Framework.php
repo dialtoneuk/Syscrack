@@ -10,9 +10,9 @@
      */
 
     use Flight;
-    use Framework\Application\Container;
     use Framework\Application\Settings;
     use Framework\Views\BaseClasses\Page as BaseClass;
+    use Framework\Views\Middlewares;
     use Framework\Views\Structures\Page as Structure;
 
     class Framework extends BaseClass implements Structure
@@ -42,13 +42,16 @@
                     '/framework/', 'redirect'
                 ],
                 [
+                    '/framework/error/', 'redirect'
+                ],
+                [
                     '/framework/error/database/', 'databaseError'
                 ],
                 [
                     '/framework/error/session/', 'sessionError'
                 ],
                 [
-                    '/framework/404/', 'notFound'
+                    '/framework/error/notfound/', 'notFound'
                 ]
             );
         }
@@ -76,7 +79,16 @@
         public function databaseError()
         {
 
-            Flight::render('error/page.database');
+            if( Middlewares::getResult('databasecheck') == true )
+            {
+
+                Flight::notFound();
+            }
+            else
+            {
+
+                Flight::render('error/page.database');
+            }
         }
 
         /**
@@ -86,21 +98,15 @@
         public function sessionError()
         {
 
-            if( Container::hasObject('middlewares') == false )
+            if( Middlewares::getResult('sessioncheck') == true )
             {
 
-                Flight::notFound(); exit;
+                Flight::notFound();
             }
             else
             {
 
-                if( Container::getObject('middlewares')->getResult('sessioncheck') == true )
-                {
-
-                    Flight::notFound(); exit;
-                }
+                Flight::render('error/page.session');
             }
-
-            Flight::render('error/page.session');
         }
     }

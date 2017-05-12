@@ -277,8 +277,12 @@
 
         Flight::map('notFound', function(){
 
-            Flight::redirect('/framework/404/');
+            Flight::redirect('/framework/error/notfound/');
         });
+
+        /**
+         * Map our time end
+         */
 
         Flight::before('start', function ()
         {

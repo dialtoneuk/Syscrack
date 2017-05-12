@@ -9,6 +9,7 @@ namespace Framework\Views\Middleware;
  * @package Framework\Views\Middleware
  */
 
+use Error;
 use Flight;
 use Framework\Application\Settings;
 use Framework\Database\Manager;
@@ -19,6 +20,25 @@ class DatabaseCheck implements Middleware
 {
 
     /**
+     * DatabaseCheck constructor.
+     */
+
+    public function __construct()
+    {
+
+        if( $_SERVER['REQUEST_URI'] !== Settings::getSetting('controller_index_root') )
+        {
+
+            if( array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('framework_page') || array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('developer_page') )
+            {
+
+                //Throws an error which stops the middlewares from doing anything past this point and instantly returns a false
+                throw new Error();
+            }
+        }
+    }
+
+    /**
      * On Request
      *
      * @return bool
@@ -26,18 +46,6 @@ class DatabaseCheck implements Middleware
 
     public function onRequest()
     {
-
-        if( $_SERVER['REQUEST_URI'] == Settings::getSetting('controller_index_root') )
-        {
-
-            return true;
-        }
-
-        if( array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('framework_page') || array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('developer_page') )
-        {
-
-            return true;
-        }
 
         try
         {
@@ -76,6 +84,6 @@ class DatabaseCheck implements Middleware
     public function onFailure()
     {
 
-        Flight::redirect('/framework/error/database/'); exit;
+        Flight::redirect('/framework/error/database/');
     }
 }
