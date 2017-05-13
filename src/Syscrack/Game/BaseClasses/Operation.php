@@ -27,7 +27,7 @@ class Operation
      * @var Log
      */
 
-    protected $log;
+    public $log;
 
     /**
      * @var Softwares
@@ -281,7 +281,27 @@ class Operation
     }
 
     /**
-     * Redirects the user to an error page
+     * Redirects the user to a page
+     *
+     * @param $path
+     *
+     * @param bool $exit
+     */
+
+    public function redirect( $path, $exit=true )
+    {
+
+        Flight::redirect( Settings::getSetting('controller_index_root') . $path );
+
+        if( $exit == true )
+        {
+
+            exit;
+        }
+    }
+
+    /**
+     * Redirects the user to an error
      *
      * @param string $message
      *
@@ -296,55 +316,78 @@ class Operation
 
             $_SESSION['error'] = $message;
 
-            $_SESSION['error_page'] = $this->getCurrentPage();
-
-            if ($path !== '')
+            if( $path !== '' )
             {
 
-                Flight::redirect( Settings::getSetting('controller_index_root') . $path . '?error');
+                if( empty( explode('/', $path ) ) )
+                {
 
-                exit;
+                    $_SESSION['error_page'] = explode('/', $path)[0];
+                }
+                else
+                {
+
+                    if( substr( $path, 0, 1 ) == '/' )
+                    {
+
+                        $_SESSION['error_page'] = substr( $path, 1);
+                    }
+                    else
+                    {
+
+                        $_SESSION['error_page'] = $path;
+                    }
+                }
             }
             else
             {
 
-                Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error' );
+                $_SESSION['error_page'] = $this->getCurrentPage();
+            }
 
-                exit;
+            if ($path !== '')
+            {
+
+                $this->redirect( $path . '?error' );
+            }
+            else
+            {
+
+                $this->redirect( $this->getCurrentPage() . '?error' );
             }
         }
         else
         {
 
-            Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error=' . $message);
+            if ($path !== '')
+            {
 
-            exit;
+                $this->redirect( $path . '?error=' . $message );
+            }
+            else
+            {
+
+                $this->redirect( $this->getCurrentPage() . '?error=' . $message );
+            }
         }
     }
 
     /**
-     * Redirects the user to a success page
+     * Redirects the user to a success
      *
      * @param string $path
      */
 
-    public function redirectSuccess( $path = '' )
+    public function redirectSuccess($path = '')
     {
 
         if ($path !== '')
         {
 
-            Flight::redirect( Settings::getSetting('controller_index_root') . $path . '?success');
-
-            exit;
+            $this->redirect( $path . '?success' );
         }
-        else
-        {
 
-            Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?success' );
-
-            exit;
-        }
+        $this->redirect( $this->getCurrentPage() . '?success' );
     }
 
     /**
@@ -405,16 +448,16 @@ class Operation
         if( $local )
         {
 
-            return Settings::getSetting('syscrack_computer_page') . '/';
+            return Settings::getSetting('syscrack_computer_page');
         }
 
         if( $ipaddress )
         {
 
-            return Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/';
+            return Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress;
         }
 
-        return Settings::getSetting('syscrack_game_page') . '/';
+        return Settings::getSetting('syscrack_game_page');
     }
 
     /**

@@ -52,7 +52,7 @@ class Account
 	 * @return bool
 	 */
 
-	public function login( $username, $password )
+	public function loginAccount( $username, $password )
 	{
 		
 		if( $this->user->usernameExists( $username ) == false )

@@ -1,6 +1,7 @@
 <?php
 
     use Framework\Application\Container;
+    use Framework\Application\Settings;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 

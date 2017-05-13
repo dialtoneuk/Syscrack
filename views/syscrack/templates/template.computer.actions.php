@@ -19,21 +19,21 @@
     <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/computer/log'">
         <div class="panel-body" style="padding-bottom: 0;">
             <p>
-                <span class="glyphicon glyphicon-paperclip"></span> View Log
+                <span class="glyphicon glyphicon-paperclip"></span> Log
             </p>
         </div>
     </div>
     <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/computer/processes'">
         <div class="panel-body" style="padding-bottom: 0;">
             <p>
-                <span class="glyphicon glyphicon-cog"></span> View Processes
+                <span class="glyphicon glyphicon-cog"></span> Processes
             </p>
         </div>
     </div>
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/computer/upgrade'">
+    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/computer/hardware'">
         <div class="panel-body" style="padding-bottom: 0;">
             <p>
-                <span class="glyphicon glyphicon-wrench"></span> Upgrade Computer
+                <span class="glyphicon glyphicon-wrench"></span> Hardware
             </p>
         </div>
     </div>

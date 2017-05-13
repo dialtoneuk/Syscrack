@@ -13,9 +13,10 @@ use Flight;
 use Framework\Application\Container;
 use Framework\Application\Session;
 use Framework\Application\Settings;
-use Framework\Views\Structures\Middleware;
+use Framework\Views\BaseClasses\Middleware as BaseClass;
+use Framework\Views\Structures\Middleware as Structure;
 
-class SessionCheck implements Middleware
+class SessionCheck extends BaseClass implements Structure
 {
 
     /**
@@ -52,7 +53,7 @@ class SessionCheck implements Middleware
         if( $_SERVER['REQUEST_URI'] !== Settings::getSetting('controller_index_root') )
         {
 
-            if( array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('framework_page') || array_values( array_filter( explode('/', $_SERVER['REQUEST_URI'] ) ) )[0] == Settings::getSetting('developer_page') )
+            if( $this->getCurrentPage() == Settings::getSetting('framework_page') || $this->getCurrentPage() == Settings::getSetting('developer_page') )
             {
 
                 return true;

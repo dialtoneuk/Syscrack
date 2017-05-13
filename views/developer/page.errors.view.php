@@ -15,7 +15,7 @@
 
     <?php
 
-        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Custom Tools'));
+        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer / Errors / '. $id ));
     ?>
     <body>
         <div class="container">

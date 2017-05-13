@@ -740,7 +740,7 @@ class Softwares
     public function isInstalled( $softwareid, $computerid )
     {
 
-        if( $this->getSoftware( $softwareid )->$computerid !== $computerid )
+        if( $this->getSoftware( $softwareid )->computerid !== $computerid )
         {
 
             return false;

@@ -1,3 +1,9 @@
+<?php
+
+    use Framework\Application\Settings;
+
+?>
+
 <footer style="padding-top: 2.5%">
 
     <?php
@@ -18,7 +24,7 @@
 
             echo '<ol class="breadcrumb">';
 
-            echo '<li><a href="/' . \Framework\Application\Settings::getSetting('controller_index_page') . '">Home</a></li>';
+            echo '<li><a href="/' . Settings::getSetting('controller_index_page') . '">Home</a></li>';
 
             foreach( $paths as $path )
             {
@@ -29,7 +35,7 @@
                     $path = explode('?', $path)[0];
                 }
 
-                if( empty( $path ) || $path == \Framework\Application\Settings::getSetting('controller_index_page') )
+                if( empty( $path ) || $path == Settings::getSetting('controller_index_page') )
                 {
 
                     continue;
@@ -100,7 +106,7 @@
 
         if($('#alert').length !== 0) {
 
-            $('#alert').delay(5000).fadeOut(400, function(){
+            $('#alert').delay(<?=Settings::getSetting('error_fadeout_time')?>).fadeOut(400, function(){
                 window.history.pushState("Syscrack", $(document).find("title").text(), '<?php
                     $url = $_SERVER['REQUEST_URI']; if( empty( explode('?', $url ) ) == false ){ echo( explode('?', $url )[0 ] ); }else{ echo( $url ); }?>' );
             });

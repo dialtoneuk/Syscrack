@@ -254,7 +254,7 @@ class Install extends BaseClass implements Structure
             return;
         }
 
-        $this->logToComputer('Installed file <' . $softwarename . '> on root', $computerid, $ipaddress );
+        $this->logToComputer('Installed file (' . $softwarename . ') on root', $computerid, $ipaddress );
     }
 
     /**
@@ -268,6 +268,6 @@ class Install extends BaseClass implements Structure
     private function logLocal( $softwarename, $computerid, $ipaddress )
     {
 
-        $this->logToComputer('Installed file <' . $softwarename . '> on ' . $ipaddress, $computerid, 'localhost' );
+        $this->logToComputer('Installed file (' . $softwarename . ') on <' . $ipaddress . '>', $computerid, 'localhost' );
     }
 }

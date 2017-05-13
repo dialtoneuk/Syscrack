@@ -12,7 +12,7 @@
         if( Settings::getSetting('theme_dark') )
         {
 
-            Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Connection Tester',
+            Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer / Connection',
                 'styles' => array(
                     '<link href="/assets/css/highlight/atelier-cave-dark.css" rel="stylesheet">'
                 )));
@@ -20,7 +20,7 @@
         else
         {
 
-            Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Connection Tester',
+            Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer / Connection',
                 'styles' => array(
                     '<link href="/assets/css/highlight/magula.css" rel="stylesheet">'
                 )));

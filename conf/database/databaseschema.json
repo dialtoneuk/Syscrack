@@ -5,7 +5,8 @@
     "computerid":"integer",
     "userid":"integer",
     "accountnumber":"integer",
-    "cash":"float"
+    "cash":"float",
+    "timecreated":"integer"
   },
   "computers":
   {

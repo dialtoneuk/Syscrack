@@ -7,7 +7,7 @@
 
     <?php
 
-        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Settings Manager'));
+        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer / Settings'));
     ?>
 
     <style>
@@ -306,7 +306,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <p class="text-center">
-                        <a href="#settingcreator">
+                        <a onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
                             Back to the top...
                         </a>
                     </p>

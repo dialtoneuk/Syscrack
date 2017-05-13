@@ -1,3 +1,28 @@
+<?php
+
+    use Framework\Application\Settings;
+    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Internet;
+    use Framework\Syscrack\Game\NPC;
+
+    if( isset( $internet ) == false )
+    {
+
+        $internet = new Internet();
+    }
+
+    if( isset( $computer ) == false )
+    {
+
+        $computer = new Computer();
+    }
+
+    if( isset( $npc ) == false )
+    {
+
+        $npc = new NPC();
+    }
+?>
 <div class="row">
     <div class="col-lg-6">
         <h5 style="color: #ababab" class="text-uppercase">
@@ -20,9 +45,68 @@
             Links
         </h5>
         <ul class="list-group">
-            <li class="list-group-item">
-                <a href="/game/internet/214.249.254.236">Jregg's Downloads</a>
-            </li>
+            <?php
+
+                if( Settings::hasSetting('syscrack_whois_default_computers') == true )
+                {
+
+                    $computers = Settings::getSetting('syscrack_whois_default_computers');
+
+                    foreach( $computers as $computerid )
+                    {
+
+                        if( $computer->computerExists( $computerid ) )
+                        {
+
+                            $current_computer = $computer->getComputer( $computerid );
+
+                            ?>
+                                <li class="list-group-item">
+                                    <a href="/game/internet/<?=$current_computer->ipaddress?>/">
+                                        <?php
+
+                                            if( $npc->hasNPCFile( $computerid ) )
+                                            {
+
+                                                $schema = $npc->getNPCFile( $computerid );
+
+                                                if( isset( $schema['name'] ))
+                                                {
+
+                                                    echo $schema['name'];
+                                                }
+                                            }
+                                            else
+                                            {
+
+                                                echo ( $current_computer->ipaddress );
+                                            }
+                                        ?>
+                                    </a>
+                                </li>
+                            <?php
+                        }
+                        else
+                        {
+
+                            ?>
+                                <li class="list-group-item">
+                                    Computer offline, try again later?
+                                </li>
+                            <?php
+                        }
+                    }
+                }
+                else
+                {
+
+                    ?>
+                        <li class="list-group-item">
+                            No links available today, sorry!
+                        </li>
+                    <?php
+                }
+            ?>
         </ul>
     </div>
 </div>

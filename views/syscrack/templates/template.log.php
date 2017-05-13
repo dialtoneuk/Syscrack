@@ -1,15 +1,19 @@
 <?php
 
+    use Framework\Application\Container;
+    use Framework\Syscrack\Game\Internet;
+    use Framework\Syscrack\Game\Log;
+
     if( isset( $internet ) == false )
     {
 
-        $internet = new \Framework\Syscrack\Game\Internet();
+        $internet = new Internet();
     }
 
     if( isset( $log ) == false )
     {
 
-        $log = new \Framework\Syscrack\Game\Log();
+        $log = new Log();
     }
 ?>
 
@@ -19,70 +23,30 @@
 
         $connectedcomputer = $internet->getComputer( $ipaddress );
 
-        try
-        {
-
-            $log->hasLog( $connectedcomputer->computerid );
-        }
-        catch( Exception $error )
-        {
-
-            ob_clean();
-
-            ?>
-
-                <html>
-                    <head>
-                        <meta charset="utf-8">
-                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-                        <title>Empty Log Error</title>
-
-                        <!-- Stylesheets -->
-                        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-                        <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
-
-                        <!--[if lt IE 9]>
-                        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-                        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-                        <![endif]-->
-                    </head>
-                    <body>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="panel panel-danger">
-                                    <div class="panel-heading">
-                                        Empty Log
-                                    </div>
-                                    <div class="panel-body">
-                                        Oh no! Something has happened internally and you currently don't have a log file associated to your computer, please report this
-                                        to an administrator or developer for them to fix this for you!
-
-                                        <p>
-                                            <a href="<?=\Framework\Application\Settings::getSetting('controller_index_root')?><?=\Framework\Application\Settings::getSetting('controller_index_page')?>">Go Home</a>
-                                        </p>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    </body>
-                </html>
-            <?php
-
-            exit;
-        }
-
         if( $log->hasLog( $connectedcomputer->computerid ) == false  )
         {
 
             ?>
 
-            <p>
-                No Log Available
-            </p>
+                <div class="panel panel-danger">
+                    <div class="panel panel-heading">
+                        Missing Log
+                    </div>
+                    <div class="panel panel-body">
+                        <p>
+                            The log you are currently trying to view appears to be missing, please tell a developer as this
+                            is usually a server side issue.
+                        </p>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                Current Computer <span class="badge right"><?=$connectedcomputer->computerid?></span>
+                            </li>
+                            <li class="list-group-item">
+                                Userid <span class="badge right"><?=Container::getObject('session')->getSessionUser()?></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             <?php
         }
         else

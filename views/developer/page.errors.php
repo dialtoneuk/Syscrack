@@ -9,7 +9,7 @@
 
     <?php
 
-        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Framework Log'));
+        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer / Errors'));
     ?>
     <body>
         <div class="container">

@@ -166,6 +166,12 @@ class Log
             return false;
         }
 
+        if( FileSystem::fileExists( $this->getFilepath( $computerid ) . Settings::getSetting('syscrack_log_current') . '.json' ) == false )
+        {
+
+            return false;
+        }
+
         return true;
     }
 

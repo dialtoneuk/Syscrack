@@ -12,9 +12,10 @@ namespace Framework\Views\Middleware;
 use Framework\Application\Container;
 use Framework\Application\Session;
 use Framework\Application\Settings;
-use Framework\Views\Structures\Middleware;
+use Framework\Views\BaseClasses\Middleware as BaseClass;
+use Framework\Views\Structures\Middleware as Structure;
 
-class SessionTimeout implements Middleware
+class SessionTimeout extends BaseClass implements Structure
 {
 
     /**
@@ -37,6 +38,12 @@ class SessionTimeout implements Middleware
         }
 
         $this->session = Container::getObject('session');
+
+        if( session_status() !== PHP_SESSION_ACTIVE )
+        {
+
+            session_start();
+        }
     }
 
     /**
@@ -70,13 +77,13 @@ class SessionTimeout implements Middleware
     }
 
     /**
-     * Doesn't do anything :)
+     * We don't do anything here
      */
 
     public function onSuccess()
     {
 
-        //
+
     }
 
     /**
@@ -88,8 +95,8 @@ class SessionTimeout implements Middleware
 
         $this->session->cleanupSession( $this->session->getSessionUser() );
 
-        session_destroy();
+        $this->session->destroySession();
 
-        \Flight::redirect('/login?error=Session has timed out, login again!');
+        $this->redirectError('Session has timed out, please login again!', 'login');
     }
 }

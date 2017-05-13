@@ -143,7 +143,7 @@
 
             $this->computer->uninstallSoftware( $this->internet->getComputer( $data['ipaddress'] )->computerid, $data['softwareid'] );
 
-            $this->logInstall( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
+            $this->logUninstall( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
                 $this->internet->getComputer( $data['ipaddress'] )->computerid,$this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
 
             $this->logLocal( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
@@ -227,7 +227,7 @@
          * @param $ipaddress
          */
 
-        private function logInstall( $softwarename, $computerid, $ipaddress )
+        private function logUninstall( $softwarename, $computerid, $ipaddress )
         {
 
             if( $this->computer->getCurrentUserComputer() == $computerid )
@@ -236,13 +236,13 @@
                 return;
             }
 
-            $this->logToComputer('Unintalled file <' . $softwarename . '> on root', $computerid, $ipaddress );
+            $this->logToComputer('Uninstalled file (' . $softwarename . ') on root', $computerid, $ipaddress );
         }
 
         /**
-         * Logs to the local log
+         * Logs to the computer
          *
-         * @param $softwarename
+         * @param $computerid
          *
          * @param $ipaddress
          */
@@ -250,6 +250,6 @@
         private function logLocal( $softwarename, $computerid, $ipaddress )
         {
 
-            $this->logToComputer('Uninstalled file <' . $softwarename . '> on ' . $ipaddress, $computerid, 'localhost' );
+            $this->logToComputer('Uninstalled file (' . $softwarename . ') on <' . $ipaddress . '>', $computerid, 'localhost' );
         }
     }

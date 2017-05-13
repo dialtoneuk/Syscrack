@@ -1,6 +1,13 @@
 <?php
 
-    $session = \Framework\Application\Container::getObject('session');
+    use Framework\Application\Container;
+    use Framework\Syscrack\Game\AddressDatabase;
+    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Internet;
+    use Framework\Syscrack\Game\Utilities\PageHelper;
+    use Framework\Syscrack\Game\Viruses;
+
+    $session = Container::getObject('session');
 
     if( $session->isLoggedIn() )
     {
@@ -8,15 +15,35 @@
         $session->updateLastAction();
     }
 
-    $pagehelper = new \Framework\Syscrack\Game\Utilities\PageHelper();
+    if( isset( $pagehelper ) == false )
+    {
 
-    $computer = new \Framework\Syscrack\Game\Computer();
+        $pagehelper = new PageHelper();
+    }
 
-    $addressbook = new \Framework\Syscrack\Game\AddressDatabase( $session->getSessionUser(), true );
+    if( isset( $computer ) == false )
+    {
 
-    $internet = new \Framework\Syscrack\Game\Internet();
+        $computer = new Computer();
+    }
 
-    $virus = new \Framework\Syscrack\Game\Viruses();
+    if( isset( $addressbook ) == false )
+    {
+
+        $addressbook = new AddressDatabase( $session->getSessionUser(), true );
+    }
+
+    if( isset( $internet ) == false )
+    {
+
+        $internet = new Internet();
+    }
+
+    if( isset( $virus ) == false )
+    {
+
+        $viruses = new Viruses();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -66,20 +93,24 @@
 
                         <?php
 
-                            $addresses = array_reverse( $addressbook->getDatabase( $session->getSessionUser() ) );
-
-                            $removed = [];
-
-                            if( empty( $addresses ) )
+                            if( $addressbook->getDatabase( $session->getSessionUser() ) == null )
                             {
 
                                 ?>
                                     <div class="panel panel-danger">
                                         <div class="panel-heading">
-                                            Addressbook Empty
+                                            Addressbook Missing
                                         </div>
                                         <div class="panel-body">
-                                            Your addressbook appears to be empty, go hack somebody!
+                                            <p>
+                                                Your addressbook appears to be missing, this is usually an error so please tell a developer
+                                                you are having this problem.
+                                            </p>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    Userid <span class="badge right"><?=$session->getSessionUser()?></span>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 <?php
@@ -87,57 +118,79 @@
                             else
                             {
 
-                                foreach( $addresses as $key=>$value )
-                                {
+                                $addresses = array_reverse( $addressbook->getDatabase( $session->getSessionUser() ) );
 
-                                    if( $internet->ipExists( $value['ipaddress'] ) == false )
-                                    {
+                                $removed = [];
 
-                                        $removed[] = array(
-                                            'ipaddress' => $value['ipaddress'],
-                                            'reason'    => 'Not Responding'
-                                        );
-
-                                        $addressbook->removeComputer( $value['computerid'] );
-                                    }
-                                }
-
-                                $addressbook->saveDatabase();
-
-                                if( empty( $removed ) == false )
+                                if( empty( $addresses ))
                                 {
 
                                     ?>
-                                    <div class="panel panel-danger">
-                                        <div class="panel-heading">
-                                            Attention!
+                                        <div class="panel panel-danger">
+                                            <div class="panel-heading">
+                                                Addressbook Empty
+                                            </div>
+                                            <div class="panel-body">
+                                                Your addressbook appears to be empty, go hack somebody!
+                                            </div>
                                         </div>
-                                        <div class="panel-body">
-
-                                            <?php
-
-                                                foreach( $removed as $value )
-                                                {
-
-                                                    ?>
-
-                                                    <p>
-                                                        IP [<?=$value['ipaddress']?>] Removed < <?=$value['reason']?> >
-                                                    </p>
-                                                    <?php
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
                                     <?php
                                 }
-
-                                $addresses = array_reverse( $addressbook->getDatabase( $session->getSessionUser() ) );
-
-                                foreach( $addresses as $key=>$value )
+                                else
                                 {
 
-                                    Flight::render('syscrack/templates/template.address', array('key' => $key, 'value' => $value, 'computer' => $computer ) );
+                                    foreach( $addresses as $key=>$value )
+                                    {
+
+                                        if( $internet->ipExists( $value['ipaddress'] ) == false )
+                                        {
+
+                                            $removed[] = array(
+                                                'ipaddress' => $value['ipaddress'],
+                                                'reason'    => 'Not Responding'
+                                            );
+
+                                            $addressbook->removeComputer( $value['computerid'] );
+                                        }
+                                    }
+
+                                    $addressbook->saveDatabase();
+
+                                    if( empty( $removed ) == false )
+                                    {
+
+                                        ?>
+                                        <div class="panel panel-danger">
+                                            <div class="panel-heading">
+                                                Attention!
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <?php
+
+                                                    foreach( $removed as $value )
+                                                    {
+
+                                                        ?>
+
+                                                        <p>
+                                                            IP [<?=$value['ipaddress']?>] Removed < <?=$value['reason']?> >
+                                                        </p>
+                                                        <?php
+                                                    }
+                                                ?>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+
+                                    $addresses = array_reverse( $addressbook->getDatabase( $session->getSessionUser() ) );
+
+                                    foreach( $addresses as $key=>$value )
+                                    {
+
+                                        Flight::render('syscrack/templates/template.address', array('key' => $key, 'value' => $value, 'computer' => $computer ) );
+                                    }
                                 }
                             }
                         ?>

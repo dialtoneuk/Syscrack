@@ -7,7 +7,7 @@
 
     <?php
 
-        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Connection Creator'));
+        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer / Connection / Creator'));
     ?>
     <body>
         <div class="container">

@@ -296,7 +296,8 @@ class Finance
             'computerid'        => $computerid,
             'userid'            => $userid,
             'accountnumber'     => $this->getAccountNumber(),
-            'cash'              => Settings::getSetting('syscrack_bank_default_balance')
+            'cash'              => Settings::getSetting('syscrack_bank_default_balance'),
+            'timecreated'       => time()
         ));
 
         return $this->getAccountNumber();

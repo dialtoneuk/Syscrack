@@ -11,7 +11,6 @@
 
     use Flight;
     use Framework\Application\Container;
-    use Framework\Application\Settings;
     use Framework\Syscrack\Game\Operations;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
@@ -192,19 +191,5 @@
                     }
                 }
             }
-        }
-
-        /**
-         * Renders a page
-         *
-         * @param $file
-         *
-         * @param array|null $array
-         */
-
-        private function getRender($file, array $array = null)
-        {
-
-            Flight::render( Settings::getSetting('syscrack_view_location') . $file, $array);
         }
     }

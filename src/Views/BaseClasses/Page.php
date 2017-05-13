@@ -106,6 +106,26 @@
         }
 
         /**
+         * Redirects the user to a page
+         *
+         * @param $path
+         *
+         * @param bool $exit
+         */
+
+        public function redirect( $path, $exit=true )
+        {
+
+            Flight::redirect( Settings::getSetting('controller_index_root') . $path );
+
+            if( $exit == true )
+            {
+
+                exit;
+            }
+        }
+
+        /**
          * Redirects the user to an error
          *
          * @param string $message
@@ -153,16 +173,12 @@
                 if ($path !== '')
                 {
 
-                    Flight::redirect( Settings::getSetting('controller_index_root') . $path . '?error');
-
-                    exit;
+                    $this->redirect( $path . '?error' );
                 }
                 else
                 {
 
-                    Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error' );
-
-                    exit;
+                    $this->redirect( $this->getCurrentPage() . '?error' );
                 }
             }
             else
@@ -171,16 +187,12 @@
                 if ($path !== '')
                 {
 
-                    Flight::redirect( Settings::getSetting('controller_index_root') . $path . '?error=' . $message );
-
-                    exit;
+                    $this->redirect( $path . '?error=' . $message );
                 }
                 else
                 {
 
-                    Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error=' . $message );
-
-                    exit;
+                    $this->redirect( $this->getCurrentPage() . '?error=' . $message );
                 }
             }
         }
@@ -197,12 +209,30 @@
             if ($path !== '')
             {
 
-                Flight::redirect( Settings::getSetting('controller_index_root') . $path . "?success");
-                exit;
+                $this->redirect( $path . '?success' );
             }
 
-            Flight::redirect( Settings::getSetting('controller_index_root') . $this->getCurrentPage() . '?success');
-            exit;
+            $this->redirect( $this->getCurrentPage() . '?success' );
+        }
+
+        /**
+         * Renders a page
+         *
+         * @param $file
+         *
+         * @param array|null $array
+         */
+
+        public function getRender($file, array $array = null, $obclean=true )
+        {
+
+            if( $obclean )
+            {
+
+                ob_clean();
+            }
+
+            Flight::render(Settings::getSetting('syscrack_view_location') . $file, $array);
         }
 
         /**
@@ -214,7 +244,7 @@
         public function getCurrentPage()
         {
 
-            $page = array_values(array_filter(explode('/', strip_tags( $_SERVER['REQUEST_URI'] ))));
+            $page = $this->getPageSplat();
 
             if( empty( $page ) )
             {

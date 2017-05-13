@@ -2,7 +2,7 @@
 
     <?php
 
-        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Disable Developers Section'));
+        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer / Disable'));
     ?>
     <body>
         <div class="container">

@@ -222,7 +222,7 @@ class Download extends BaseClass implements Structure
     private function logDownload( $softwarename, $computerid, $ipaddress )
     {
 
-        $this->logToComputer('Downloaded file <' . $softwarename . '> on root', $computerid, $ipaddress );
+        $this->logToComputer('Downloaded file (' . $softwarename . ') on root', $computerid, $ipaddress );
     }
 
     /**
@@ -236,6 +236,6 @@ class Download extends BaseClass implements Structure
     private function logLocal( $softwarename, $ipaddress )
     {
 
-        $this->logToComputer('Downloaded file <' . $softwarename . '> on ' . $ipaddress, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
+        $this->logToComputer('Downloaded file (' . $softwarename . ') on <' . $ipaddress . '>', $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
     }
 }

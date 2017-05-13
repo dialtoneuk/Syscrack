@@ -60,6 +60,29 @@ class Session
     }
 
     /**
+     * Destroys a session
+     */
+
+    public function destroySession( $safeunset = true )
+    {
+
+        session_regenerate_id( true );
+
+        if( $safeunset )
+        {
+
+            $this->safeUnset();
+        }
+        else
+        {
+
+            unset( $_SESSION );
+        }
+
+        session_destroy();
+    }
+
+    /**
      * Gets the time of which the user hsa done the last action
      *
      * @return mixed
@@ -145,10 +168,18 @@ class Session
      * Inserts a new session into the database
      *
      * @param $userid
+     *
+     * @param $regen
      */
 
-    public function insertSession( $userid )
+    public function insertSession( $userid, $regen=true )
     {
+
+        if( $regen )
+        {
+
+            session_regenerate_id( true );
+        }
 
         $array = array(
             'sessionid'     => session_id(),
@@ -189,6 +220,30 @@ class Session
         }
 
         return true;
+    }
+
+    /**
+     * Keeps some values in the $_SESSION array instead of unsetting everything
+     */
+
+    public function safeUnset()
+    {
+
+        $keep = Settings::getSetting('session_keep');
+
+        foreach( $keep as $value )
+        {
+
+            foreach( $_SESSION as $key=>$item )
+            {
+
+                if( $key !== $value )
+                {
+
+                    unset( $_SESSION[ $key ] );
+                }
+            }
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
+use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
@@ -104,6 +105,16 @@ class Logout extends BaseClass implements Structure
         }
 
         $this->internet->setCurrentConnectedAddress( null );
+
+        if( $this->internet->getComputer( $data['ipaddress'] )->type == Settings::getSetting('syscrack_bank_type') )
+        {
+
+            if( isset( $_SESSION['activeaccount'] ) )
+            {
+
+                unset( $_SESSION['activeaccount'] );
+            }
+        }
 
         if( isset( $data['redirect'] ) )
         {

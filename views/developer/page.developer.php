@@ -8,7 +8,7 @@
 
     <?php
 
-        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer Area'));
+        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer'));
     ?>
     <body>
         <div class="container">

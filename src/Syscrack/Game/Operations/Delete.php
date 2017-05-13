@@ -77,18 +77,17 @@ class Delete extends BaseClass implements Structure
 
         $softwareclass = $this->softwares->getSoftwareClassFromID( $data['softwareid'] );
 
-        if( isset( $softwareclass->configuration()['removeable'] ) == false )
-        {
-
-            return true;
-        }
-        else
+        if( isset( $softwareclass->configuration()['removeable'] ) )
         {
 
             if( $softwareclass->configuration()['removeable'] == false )
             {
 
-                return false;
+                if( $this->softwares->isInstalled( $data['softwareid'], $this->internet->getComputer( $data['ipaddress'] )->computerid ) )
+                {
+
+                    return false;
+                }
             }
         }
 
@@ -137,12 +136,12 @@ class Delete extends BaseClass implements Structure
         if( isset( $data['redirect'] ) )
         {
 
-            $this->redirectSuccess( null , $data['redirect'] );
+            $this->redirectSuccess( $data['redirect'] );
         }
         else
         {
 
-            $this->redirectSuccess( $data['ipaddress'] );
+            $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
         }
     }
 

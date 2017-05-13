@@ -11,16 +11,36 @@
 
     use Flight;
     use Framework\Application\Container;
+    use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Login\Account;
+    use Framework\Syscrack\User;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
     class Login extends BaseClass implements Structure
     {
+
+        /**
+         * @var Session
+         */
+
+        protected $session;
+
+        /**
+         * @var User
+         */
+
+        protected $user;
+
+        /**
+         * @var Account
+         */
+
+        protected $login;
 
         /**
          * Login constructor.
@@ -31,10 +51,22 @@
 
             parent::__construct( false, true, false, true );
 
-            if (Container::getObject('session')->isLoggedIn())
+            if( isset( $this->session ) == false )
             {
 
-                Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+                if( Container::hasObject('session') == false )
+                {
+
+                    Container::setObject('session', new Session() );
+                }
+
+                $this->session = Container::getObject('session');
+            }
+
+            if( isset( $this->user ) == false )
+            {
+
+                $this->user = new User();
             }
         }
 
@@ -77,6 +109,12 @@
         public function process()
         {
 
+            if( isset( $this->login ) == false )
+            {
+
+                $this->login = new Account();
+            }
+
             if (PostHelper::hasPostData() == false)
             {
 
@@ -92,18 +130,10 @@
             $username = PostHelper::getPostData('username');
             $password = PostHelper::getPostData('password');
 
-            if (empty($username) || empty($password))
-            {
-
-                $this->redirectError('Failed to login');
-            }
-
-            $login = new Account();
-
             try
             {
 
-                if ($login->login($username, $password) == false)
+                if ($this->login->loginAccount($username, $password) == false)
                 {
 
                     $this->redirectError('Failed to login');
@@ -114,13 +144,25 @@
                 $this->redirectError($error->getMessage());
             }
 
-            Container::getObject('session')->cleanupSession($login->getUserID($username));
+            $userid = $this->login->getUserID( $username );
 
-            Container::getObject('session')->insertSession($login->getUserID($username));
+            if( $this->user->userExists( $userid ) == false )
+            {
 
-            $this->addConnectedComputer($login->getUserID($username));
+                $this->redirectError('Your userid is invalid, please tell a developer');
+            }
 
-            Flight::redirect('/game/');
+            $this->session->cleanupSession( $userid );
+
+            $this->session->insertSession( $userid );
+
+            if( Settings::getSetting('login_set_computer') )
+            {
+
+                $this->addConnectedComputer( $userid );
+            }
+
+            $this->redirect('game', false );
         }
 
         public function facebook()

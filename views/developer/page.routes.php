@@ -12,7 +12,7 @@
 
     <?php
 
-        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Page Viewer'));
+        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer / Routes'));
     ?>
     <body>
         <div class="container">
@@ -81,7 +81,9 @@
 
                                             <div class="panel-body">
                                                 <div class="well well-sm">
-                                                     <?=htmlspecialchars( json_encode( $mapping , JSON_PRETTY_PRINT ), ENT_QUOTES, 'UTF-8')?>
+                                                    <pre>
+                                                         <?=json_encode( $mapping , JSON_PRETTY_PRINT )?>
+                                                    </pre>
                                                 </div>
                                             </div>
                                         </div>

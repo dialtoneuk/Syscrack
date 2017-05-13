@@ -125,7 +125,7 @@ class Middlewares
             catch( Error $error )
             {
 
-                self::addToResults( $middleware, false );
+                self::addToResults( $middleware, 'error' );
 
                 continue;
             }
@@ -167,6 +167,17 @@ class Middlewares
         return true;
     }
 
+    /**
+     * Gets all the results from the middlewares result array
+     *
+     * @return array
+     */
+
+    public static function getResults()
+    {
+
+        return self::$results;
+    }
 
     /**
      * Gets a result
@@ -200,6 +211,26 @@ class Middlewares
     {
 
         self::$results[ strtolower( $middleware ) ] = $result;
+    }
+
+    /**
+     * Returns true if this middleware has an error
+     *
+     * @param $middleware
+     *
+     * @return bool
+     */
+
+    public static function hasError( $middleware )
+    {
+
+        if( self::$results[ strtolower( $middleware ) ] == 'error' )
+        {
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -2,6 +2,7 @@
 
     use Framework\Application\Settings;
     use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Softwares;
     use Framework\Syscrack\Game\Utilities\PageHelper;
@@ -29,6 +30,8 @@
 
         $softwares = new Softwares();
     }
+
+    $current_computer = $internet->getComputer( $ipaddress );
 ?>
 <div class="col-md-4">
 
@@ -89,6 +92,73 @@
                             </div>
                         </div>
                     </div>
+                <?php
+                    if( $current_computer->type == Settings::getSetting('syscrack_bank_type') )
+                    {
+
+                        if (empty($finance))
+                        {
+
+                            $finance = new Finance();
+                        }
+
+
+                        if ($finance->hasCurrentActiveAccount())
+                        {
+
+                            if ($finance->accountNumberExists($finance->getCurrentActiveAccount()))
+                            {
+
+                                if ($finance->getByAccountNumber($finance->getCurrentActiveAccount())->computerid == $current_computer->computerid)
+                                {
+
+                                    ?>
+                                        <p>
+                                            Account #<?=$finance->getCurrentActiveAccount()?> Options
+                                        </p>
+                                        <form action="/game/internet/<?= $ipaddress ?>/remoteadmin">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <button style="width: 100%;" class="btn btn-info" type="submit">
+                                                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                                        Remote Admin
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    <?php
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                            ?>
+                                <p>
+                                    Account Hacking Options
+                                </p>
+                                <form action="/game/internet/<?=$ipaddress?>/crackaccount" method="post">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon">#</span>
+                                                <input type="text" class="form-control" placeholder="000000000"
+                                                       name="accountnumber" aria-describedby="basic-addon">
+                                            </div>
+                                            <button style="width: 100%; margin-top: 2.5%;" class="btn btn-warning"
+                                                    type="submit">
+                                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Crack Account
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            <?php
+                        }
+                    }
+                    ?>
+                    <p>
+                        Computer Options
+                    </p>
                     <form action="/game/internet/<?=$ipaddress?>/upload" method="post">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -167,49 +237,22 @@
             }
         }
 
-        $computer = $internet->getComputer( $ipaddress );
-
-        if( $computer->type == Settings::getSetting('syscrack_bank_type') )
+        if( $current_computer->type == Settings::getSetting('syscrack_bank_type') )
         {
 
             ?>
-                <div class="panel panel-info">
-                    <div class="panel-body text-center">
-                        This computer appears to be a bank
-                    </div>
-                </div>
-                <form action="/game/internet/<?=$ipaddress?>/bank" method="get">
+                <p>
+                    Remote Bank Options
+                </p>
+                <form action="/game/internet/<?= $ipaddress ?>/bank">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <button style="width: 100%;" class="btn btn-success" type="submit">
-                                <span class="glyphicon glyphicon-gbp" aria-hidden="true"></span> Access Bank
+                            <button style="width: 100%;" class="btn btn-info" type="submit">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> View Your Account
                             </button>
                         </div>
                     </div>
                 </form>
-
-                <?php
-                    if( $pagehelper->isCurrentlyConnected( $ipaddress ) )
-                    {
-
-                        ?>
-
-                            <form action="/game/internet/<?=$ipaddress?>/crackaccount" method="post">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon">#</span>
-                                            <input type="text" class="form-control" placeholder="000000000" name="accountnumber" aria-describedby="basic-addon">
-                                        </div>
-                                        <button style="width: 100%; margin-top: 2.5%;" class="btn btn-warning" type="submit">
-                                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Crack Account
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        <?php
-                    }
-                ?>
             <?php
         }
     ?>

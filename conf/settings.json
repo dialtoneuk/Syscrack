@@ -28,6 +28,7 @@
     "error_log_location": "conf\/errorlog.json",
     "error_logging": true,
     "error_use_session": true,
+    "error_fadeout_time":2000,
     "facebook_app_id": "",
     "facebook_app_secret": "",
     "facebook_app_version": "v2.8",
@@ -37,9 +38,10 @@
     "filesystem_default_extension": ".json",
     "filesystem_root": "<$_SERVER['DOCUMENT_ROOT']>",
     "filesystem_separator": "\/",
-    "framework_version": "4.1",
     "framework_page": "framework",
+    "framework_version": "4.1",
     "logger_max_errors": "32",
+    "login_set_computer": true,
     "middlewares_enabled": true,
     "middlewares_location": "src\/Views\/Middleware\/",
     "middlewares_namespace": "Framework\\Views\\Middleware\\",
@@ -47,6 +49,10 @@
     "registration_password_length": 8,
     "session_timeout": "<60 * 60 * 2>",
     "session_update_lastaction": true,
+    "session_keep":[
+        "error",
+        "error_page"
+    ],
     "settings_php_enabled": true,
     "sycsrack_betakey_length": 6,
     "sycsrack_betakey_steps": 3,
@@ -75,7 +81,7 @@
     "syscrack_default_computer_page": "npc.default",
     "syscrack_default_hardware": {
         "cpu": {
-            "value": 1000
+            "value": 100
         },
         "download": {
             "value": 1
@@ -137,8 +143,6 @@
     "syscrack_hack_speed": 25,
     "syscrack_hasher_type": "hasher",
     "syscrack_internet_page": "internet",
-    "syscrack_softwarelevel_advanced": 50,
-    "syscrack_softwarelevel_expert": 100,
     "syscrack_log_current": "current",
     "syscrack_log_location": "syscrack\/logs\/",
     "syscrack_lowest_iprange": 192,
@@ -158,6 +162,9 @@
     ],
     "syscrack_software_location": "src\/Syscrack\/Game\/Softwares\/",
     "syscrack_software_namespace": "Framework\\Syscrack\\Game\\Softwares\\",
+    "syscrack_softwarelevel_advanced": 50,
+    "syscrack_softwarelevel_expert": 100,
+    "syscrack_softwarelevel_godlike": 200,
     "syscrack_startup_on_verification": true,
     "syscrack_statistics_enabled": true,
     "syscrack_statistics_file": "syscrack\/statistics.json",
@@ -170,11 +177,15 @@
     "syscrack_vpc_viewcount": 5,
     "syscrack_vspam_uniquename": "vspam",
     "syscrack_whois_computer": 1,
+    "syscrack_whois_default_computers": [
+        23,
+        19,
+        20
+    ],
     "theme_dark": true,
     "user_allow_registrations": true,
     "user_default_group": "guest",
     "user_group_admin": "admin",
     "user_group_developer": "developer",
-    "user_require_betakey": false,
-    "syscrack_softwarelevel_godlike": 200
+    "user_require_betakey": false
 }

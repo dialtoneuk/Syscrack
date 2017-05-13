@@ -12,7 +12,6 @@
     use Flight;
     use Framework\Application\Settings;
     use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Middlewares;
     use Framework\Views\Structures\Page as Structure;
 
     class Framework extends BaseClass implements Structure
@@ -39,10 +38,10 @@
 
             return array(
                 [
-                    '/framework/', 'redirect'
+                    '/framework/', 'redirectIndex'
                 ],
                 [
-                    '/framework/error/', 'redirect'
+                    '/framework/error/', 'redirectIndex'
                 ],
                 [
                     '/framework/error/database/', 'databaseError'
@@ -56,7 +55,11 @@
             );
         }
 
-        public function redirect()
+        /**
+         * Redirects the user to the index
+         */
+
+        public function redirectIndex()
         {
 
             Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
@@ -79,16 +82,7 @@
         public function databaseError()
         {
 
-            if( Middlewares::getResult('databasecheck') == true )
-            {
-
-                Flight::notFound();
-            }
-            else
-            {
-
-                Flight::render('error/page.database');
-            }
+            Flight::render('error/page.database');
         }
 
         /**
@@ -98,15 +92,6 @@
         public function sessionError()
         {
 
-            if( Middlewares::getResult('sessioncheck') == true )
-            {
-
-                Flight::notFound();
-            }
-            else
-            {
-
-                Flight::render('error/page.session');
-            }
+            Flight::render('error/page.session');
         }
     }

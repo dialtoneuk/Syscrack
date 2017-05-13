@@ -9,7 +9,12 @@
      * @package Framework\Syscrack\Game\Operations
      */
 
+    use Framework\Application\Container;
+    use Framework\Application\Session;
+    use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
+    use Framework\Exceptions\SyscrackException;
+    use Framework\Syscrack\Game\BankDatabase;
     use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Structures\Operation as Structure;
@@ -22,6 +27,8 @@
          */
 
         protected $finance;
+
+        protected $bankdatabase;
 
         /**
          * CrackAccount constructor.
@@ -36,6 +43,18 @@
             {
 
                 $this->finance = new Finance();
+            }
+
+            if( isset( $this->bankdatabase ) == false )
+            {
+
+                if( Container::hasObject('session') == false )
+                {
+
+                    Container::setObject('session', new Session() );
+                }
+
+                $this->bankdatabase = new BankDatabase( Container::getObject('session')->getSessionUser() );
             }
         }
 
@@ -95,12 +114,28 @@
                 $this->redirectError('Account does not exist', $this->getRedirect( $data['ipaddress'] ) );
             }
 
+            if( $this->finance->hasCurrentActiveAccount() )
+            {
+
+                if( $this->finance->getCurrentActiveAccount() == $data['custom']['accountnumber'] )
+                {
+
+                    $this->redirectError('You have already hacked this bank account', $this->getRedirect( $data['ipaddress'] ) );
+                }
+            }
+
             $computer = $this->internet->getComputer( $data['ipaddress'] );
 
             if( $this->finance->getByAccountNumber( $data['custom']['accountnumber'] )->computerid !== $computer->computerid )
             {
 
-                return false;
+                $this->redirectError('This account does not exist in this banks database', $this->getRedirect( $data['ipaddress'] ) );
+            }
+
+            if( $this->finance->getByAccountNumber( $data['custom']['accountnumber'] )->userid == $userid )
+            {
+
+                $this->redirectError('You cant crack your own account, stupid', $this->getRedirect( $data['ipaddress'] ) );
             }
 
             return true;
@@ -124,7 +159,32 @@
 
         public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
         {
-            // TODO: Implement onCompletion() method.
+
+            if( $this->checkData( $data, ['ipaddress','custom'] ) == false )
+            {
+
+                throw new SyscrackException();
+            }
+
+            if( $this->checkCustomData( $data, ['accountnumber'] ) == false )
+            {
+
+                throw new SyscrackException();
+            }
+
+            $this->finance->setCurrentActiveAccount( $data['custom']['accountnumber'] );
+
+            if( $this->bankdatabase->hasAccountNumber( $data['custom']['accountnumber'] ) == false )
+            {
+
+                $this->bankdatabase->addAccountNumber( $data['custom']['accountnumber'], $data['ipaddress'] );
+            }
+
+            $this->logCrack( $data['custom']['accountnumber'], $this->internet->getComputer( $data['ipaddress'] )->computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+
+            $this->logLocal( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, $data['custom']['accountnumber'], $data['ipaddress'] );
+
+            $this->redirectSuccess( $this->getRedirect($data['ipaddress'] ) );
         }
 
         /**
@@ -142,7 +202,7 @@
         public function getCompletionSpeed($computerid, $ipaddress, $softwareid)
         {
 
-            return null;
+            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), Settings::getSetting('syscrack_hack_speed') );
         }
 
         /**
@@ -191,5 +251,35 @@
         {
 
             return false;
+        }
+
+        /**
+         * Account Number
+         *
+         * @param $accountnumber
+         *
+         * @param $computerid
+         *
+         * @param $ipaddress
+         */
+
+        private function logCrack( $accountnumber, $computerid, $ipaddress )
+        {
+
+            $this->logToComputer('Granted remote admin access to account (' . $accountnumber . ')', $computerid, $ipaddress );
+        }
+
+        /**
+         * Logs a local crack action
+         *
+         * @param $computerid
+         *
+         * @param $accountnumber
+         */
+
+        private function logLocal( $computerid, $accountnumber, $ipaddress )
+        {
+
+            $this->logToComputer('Granted remote admin access to account (' . $accountnumber . ') at <' . $ipaddress . '>', $computerid, 'localhost' );
         }
     }

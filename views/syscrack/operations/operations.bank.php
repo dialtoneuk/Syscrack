@@ -96,7 +96,9 @@
                             else
                             {
 
-                                echo 'Baguette.com';
+                                ?>
+                                    Bank
+                                <?php
                             }
                         ?>
                     </h5>

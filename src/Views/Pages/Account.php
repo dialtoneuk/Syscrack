@@ -9,9 +9,8 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
     use Framework\Application\Container;
-    use Framework\Application\Settings;
+    use Framework\Application\Session;
     use Framework\Syscrack\User;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
@@ -19,7 +18,17 @@
     class Account extends BaseClass implements Structure
     {
 
+        /**
+         * @var User
+         */
+
         protected $user;
+
+        /**
+         * @var Session
+         */
+
+        protected $session;
 
         /**
          * Account constructor.
@@ -34,6 +43,18 @@
             {
 
                 $this->user = new User();
+            }
+
+            if( isset( $this->session ) == false )
+            {
+
+                if( Container::hasObject('session') == false )
+                {
+
+                    Container::setObject('session', new Session() );
+                }
+
+                $this->session = Container::getObject('session');
             }
         }
 
@@ -60,14 +81,10 @@
         public function logout()
         {
 
-            Container::getObject('session')->cleanupSession( Container::getObject('session')->getSessionUser() );
+            $this->session->cleanupSession( $this->session->getSessionUser() );
 
-            session_regenerate_id( true );
+            $this->session->destroySession( true );
 
-            session_destroy();
-
-            unset($_SESSION);
-
-            Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+            $this->redirectSuccess('login');
         }
     }

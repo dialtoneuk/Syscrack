@@ -159,13 +159,31 @@
                     $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
                 }
 
-                Flight::redirect( Settings::getSetting('controller_index_root') . $this->getRedirect( PostHelper::getPostData('ipaddress') ) );
+                $this->redirect( $this->getRedirect( PostHelper::getPostData('ipaddress') ) );
             }
             else
             {
 
-                $this->getRender('page.game.internet', array('ipaddress' => $this->internet->getComputerAddress(Settings::getSetting('syscrack_whois_computer'))));
+                $this->getRender('page.game.internet', array('ipaddress' => $this->internet->getComputerAddress( Settings::getSetting('syscrack_whois_computer') ) ) );
             }
+        }
+
+        /**
+         * Views a specific address
+         *
+         * @param $ipaddress
+         */
+
+        public function viewAddress($ipaddress)
+        {
+
+            if ($this->validAddress($ipaddress) == false)
+            {
+
+                $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
+            }
+
+            $this->getRender('page.game.internet', array('ipaddress' => $ipaddress));
         }
 
         /**
@@ -236,7 +254,7 @@
                 if( $this->operations->hasProcess( $this->computer->getCurrentUserComputer(), $process, $ipaddress ) == true )
                 {
 
-                    $this->redirectError('You already have a process of this nature processing, complete that one first', $this->getRedirect( $ipaddress ));
+                    $this->redirectError('You already have a process of this nature processing, complete that one first', $this->getRedirect( $ipaddress ) );
                 }
 
                 if( $this->operations->requireSoftwares( $process ) )
@@ -333,7 +351,7 @@
                             $this->redirectError('Failed to create process', $this->getRedirect( $ipaddress ) );
                         }
 
-                        Flight::redirect('/processes/' . $processid);
+                        $this->redirect('processes/' . $processid , false );
                     }
                 }
             }
@@ -510,7 +528,7 @@
                             }
                         }
 
-                        Flight::redirect('/processes/' . $processid);
+                        $this->redirect('processes/' . $processid , false );
                     }
                 }
             }
@@ -555,24 +573,6 @@
         }
 
         /**
-         * Views a specific address
-         *
-         * @param $ipaddress
-         */
-
-        public function viewAddress($ipaddress)
-        {
-
-            if ($this->validAddress($ipaddress) == false)
-            {
-
-                $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
-            }
-
-            $this->getRender('page.game.internet', array('ipaddress' => $ipaddress));
-        }
-
-        /**
          * Gets the game page to redirect too
          *
          * @param null $ipaddress
@@ -590,19 +590,5 @@
             }
 
             return Settings::getSetting('syscrack_game_page') . '/';
-        }
-
-        /**
-         * Renders a page
-         *
-         * @param $file
-         *
-         * @param array|null $array
-         */
-
-        private function getRender($file, array $array = null)
-        {
-
-            Flight::render(Settings::getSetting('syscrack_view_location') . $file, $array);
         }
     }

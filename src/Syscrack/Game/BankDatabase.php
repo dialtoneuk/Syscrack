@@ -9,8 +9,8 @@ namespace Framework\Syscrack\Game;
  * @package Framework\Syscrack\Game
  */
 
-use Framework\Application\Utilities\FileSystem;
 use Framework\Application\Settings;
+use Framework\Application\Utilities\FileSystem;
 
 class BankDatabase
 {
@@ -73,6 +73,59 @@ class BankDatabase
         }
 
         return null;
+    }
+
+    /**
+     * Adds an account number
+     *
+     * @param $accountnumber
+     *
+     * @param $ipaddress
+     *
+     * @param bool $save
+     */
+
+    public function addAccountNumber( $accountnumber, $ipaddress, $save=true )
+    {
+
+        $this->database[] = array(
+            'accountnumber' => $accountnumber,
+            'ipaddress'     => $ipaddress
+        );
+
+        if( $save == true )
+        {
+
+            $this->saveDatabase( $this->userid, $this->database );
+        }
+    }
+
+    /**
+     * Removes an account number from this list
+     *
+     * @param $accountnumber
+     *
+     * @param bool $save
+     */
+
+    public function removeAccountNumber( $accountnumber, $save=true )
+    {
+
+        foreach( $this->database as $key=>$value )
+        {
+
+            if( $value['accountnumber'] == $accountnumber )
+            {
+
+                unset( $this->database[ $key ] );
+            }
+        }
+
+        if( $save == true )
+        {
+
+            $this->saveDatabase( $this->userid, $this->database );
+        }
     }
 
     /**

@@ -9,7 +9,6 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
     use Framework\Application\ErrorHandler;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\Cyphers;
@@ -156,7 +155,7 @@
         public function index()
         {
 
-            $this->getRender('page.developer');
+            $this->getRender('../developer/page.developer');
         }
 
         /**
@@ -178,7 +177,7 @@
                 $this->redirectError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer' );
             }
 
-            $this->getRender('page.migrator');
+            $this->getRender('../developer/page.migrator');
         }
 
         /**
@@ -254,7 +253,7 @@
             else
             {
 
-                $this->getRender('page.routes', array('routes' => $routes ) );
+                $this->getRender('../developer/page.routes', array( 'routes' => $routes ) );
             }
         }
 
@@ -265,7 +264,7 @@
         public function errors()
         {
 
-            $this->getRender('page.errors');
+            $this->getRender('../developer/page.errors');
         }
 
         /**
@@ -323,7 +322,7 @@
             else
             {
 
-                Flight::render('developer/page.errors.view', array( 'id' => $id ) );
+                $this->getRender( '../developer/page.errors.view', array( 'id' => $id ) );
             }
         }
 
@@ -334,7 +333,7 @@
         public function disable()
         {
 
-            $this->getRender('page.disable');
+            $this->getRender('../developer/page.disable');
         }
 
         public function disableProcess()
@@ -373,7 +372,7 @@
         public function settings()
         {
 
-            $this->getRender('page.settings');
+            $this->getRender('../developer/page.settings');
         }
 
         /**
@@ -456,7 +455,7 @@
         public function connectionCreator()
         {
 
-            $this->getRender('page.connection.creator');
+            $this->getRender('../developer/page.connection.creator');
         }
 
         /**
@@ -518,7 +517,7 @@
                 $this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
             }
 
-            $this->getRender('page.connection');
+            $this->getRender('../developer/page.connection');
         }
 
         /**
@@ -761,17 +760,5 @@
         {
 
             return Settings::getSetting('developer_page') . '/' . $path;
-        }
-
-        /**
-         * Tells flight to render the page but with a prefix to save typing
-         *
-         * @param $file
-         */
-
-        private function getRender( $file, array $data=[])
-        {
-
-            Flight::render('developer/' . $file, $data );
         }
     }

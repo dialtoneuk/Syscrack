@@ -13,9 +13,10 @@ use Flight;
 use Framework\Application\Container;
 use Framework\Application\Session;
 use Framework\Syscrack\Verification;
-use Framework\Views\Structures\Middleware;
+use Framework\Views\BaseClasses\Middleware as BaseClass;
+use Framework\Views\Structures\Middleware as Structure;
 
-class VerificationCheck implements Middleware
+class VerificationCheck extends BaseClass implements Structure
 {
 
     /**
@@ -78,12 +79,12 @@ class VerificationCheck implements Middleware
     }
 
     /**
-     * If the user hasn't verified their email, they'll be sent here.
+     * If the user has not verified their email, they'll be sent here.
      */
 
     public function onFailure()
     {
 
-        Flight::redirect('/verifyemail');
+        Flight::redirect('/verify/');
     }
 }

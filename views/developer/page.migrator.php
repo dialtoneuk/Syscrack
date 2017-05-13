@@ -8,7 +8,7 @@
 
     <?php
 
-        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Database Migrator'));
+        Flight::render('developer/templates/template.header', array( 'pagetitle' => 'Developer / Migrator'));
     ?>
     <body>
         <div class="container">

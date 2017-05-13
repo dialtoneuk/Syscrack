@@ -110,7 +110,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-hdd"></span> Computer</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/computer/">View</a>
+                                    <li><a href="/computer/">Desktop</a>
                                     <li><a href="/computer/log">Log</a></li>
                                     <li><a href="/computer/processes">Processes</a></li>
                                     <li><a href="/computer/hardware">Hardware</a></li>

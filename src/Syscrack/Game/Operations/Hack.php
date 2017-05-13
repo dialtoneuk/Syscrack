@@ -105,7 +105,7 @@ class Hack extends BaseClass implements Structure
             if( $this->getHighestLevelSoftware( $victimscomputer->computerid, Settings::getSetting('syscrack_hasher_type') )['level'] > $this->getHighestLevelSoftware( $userscomputer->computerid, Settings::getSetting('syscrack_cracker_type') )['level'] )
             {
 
-                return false;
+                $this->redirectError('Your cracker is too weak', $this->getRedirect( $data['ipaddress'] ) );
             }
         }
 

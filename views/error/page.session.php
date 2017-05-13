@@ -51,10 +51,15 @@
                                     if( empty( $_SESSION ) )
                                     {
 
-                                        echo('Session is empty');
+                                        ?>
+                                            Session is empty
+                                        <?php
                                     }
+                                    else
+                                    {
 
-                                    print_r( $_SESSION );
+                                        print_r( $_SESSION );
+                                    }
                                 ?>
                             </div>
                         </div>
