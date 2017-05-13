@@ -124,9 +124,7 @@
                 }
             }
 
-            $computer = $this->internet->getComputer( $data['ipaddress'] );
-
-            if( $this->finance->getByAccountNumber( $data['custom']['accountnumber'] )->computerid !== $computer->computerid )
+            if( $this->finance->getByAccountNumber( $data['custom']['accountnumber'] )->computerid !== $this->getComputerId( $data['ipaddress'] ) )
             {
 
                 $this->redirectError('This account does not exist in this banks database', $this->getRedirect( $data['ipaddress'] ) );
@@ -180,9 +178,9 @@
                 $this->bankdatabase->addAccountNumber( $data['custom']['accountnumber'], $data['ipaddress'] );
             }
 
-            $this->logCrack( $data['custom']['accountnumber'], $this->internet->getComputer( $data['ipaddress'] )->computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+            $this->logCrack( $data['custom']['accountnumber'], $this->getComputerId( $data['ipaddress'] ), $this->computer->getComputer( $computerid )->ipaddress );
 
-            $this->logLocal( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, $data['custom']['accountnumber'], $data['ipaddress'] );
+            $this->logLocal( $computerid, $data['custom']['accountnumber'], $data['ipaddress'] );
 
             $this->redirectSuccess( $this->getRedirect($data['ipaddress'] ) );
         }
@@ -199,7 +197,7 @@
          * @return null
          */
 
-        public function getCompletionSpeed($computerid, $ipaddress, $softwareid)
+        public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
         {
 
             return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), Settings::getSetting('syscrack_hack_speed') );

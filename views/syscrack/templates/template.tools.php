@@ -175,6 +175,12 @@
                                             foreach( $computersoftwares as $key=>$value )
                                             {
 
+                                                if( $softwares->softwareExists( $value['softwareid'] ) == false )
+                                                {
+
+                                                    continue;
+                                                }
+
                                                 $software = $softwares->getSoftware( $value['softwareid'] );
 
                                                 $extension = $softwares->getSoftwareExtension( $softwares->getSoftwareNameFromSoftwareID( $value['softwareid'] ) );

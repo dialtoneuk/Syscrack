@@ -69,7 +69,7 @@ interface Operation
      * @return int
      */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid );
+    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null );
 
 
     /**

@@ -131,7 +131,7 @@ class PostHelper
      * @return mixed
      */
 
-    private static function getPost()
+    public static function getPost()
     {
 
         return $_POST;

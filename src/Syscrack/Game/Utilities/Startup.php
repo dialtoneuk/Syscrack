@@ -125,7 +125,7 @@ class Startup
                 session_start();
             }
 
-            $computerid = $this->createComputer( $userid );
+            $computerid = $this->createComputer( $userid, 'vpc', null, [], Settings::getSetting('syscrack_default_hardware') );
 
             if( $this->computer->computerExists( $computerid ) == false )
             {

@@ -69,26 +69,24 @@ class Delete extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computer->hasSoftware( $this->internet->getComputer( $data['ipaddress'] )->computerid, $data['softwareid'] ) == false )
+        if( $this->computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
         {
 
             return false;
         }
 
-        $softwareclass = $this->softwares->getSoftwareClassFromID( $data['softwareid'] );
+        $software = $this->softwares->getSoftware( $data['softwareid'] );
 
-        if( isset( $softwareclass->configuration()['removeable'] ) )
+        if( $this->softwares->canRemove( $software->softwareid ) == false )
         {
 
-            if( $softwareclass->configuration()['removeable'] == false )
-            {
+            return false;
+        }
 
-                if( $this->softwares->isInstalled( $data['softwareid'], $this->internet->getComputer( $data['ipaddress'] )->computerid ) )
-                {
+        if( $this->softwares->canRemove( $software->softwareid ) == false )
+        {
 
-                    return false;
-                }
-            }
+            return false;
         }
 
         return true;
@@ -111,27 +109,27 @@ class Delete extends BaseClass implements Structure
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
-        if( isset( $data['ipaddress' ] ) == false )
+        if( $this->checkData( $data ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        if( isset( $data['softwareid'] ) == false )
+        if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
         {
 
-            throw new SyscrackException();
+            $this->redirectError('Sorry, it looks like this software might have been deleted already');
         }
 
         $software = $this->softwares->getSoftware( $data['softwareid'] );
 
-        $this->logDelete( $software->softwarename, $this->internet->getComputer( $data['ipaddress'] )->computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+        $this->softwares->deleteSoftware( $software->softwareid );
+
+        $this->computer->removeSoftware( $this->getComputerId( $data['ipaddress'] ), $software->softwareid );
+
+        $this->logDelete( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computer->getComputer( $computerid )->ipaddress );
 
         $this->logLocal( $software->softwarename, $data['ipaddress'] );
-
-        $this->softwares->deleteSoftware( $data['softwareid'] );
-
-        $this->computer->removeSoftware( $this->internet->getComputer( $data['ipaddress'] )->computerid, $data['softwareid'] );
 
         if( isset( $data['redirect'] ) )
         {

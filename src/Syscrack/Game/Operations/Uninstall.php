@@ -94,7 +94,7 @@
                 else
                 {
 
-                    if( $this->softwares->canInstall( $data['softwareid'] ) == false )
+                    if( $this->softwares->canUninstall( $data['softwareid'] ) == false )
                     {
 
                         return false;
@@ -137,6 +137,12 @@
             {
 
                 throw new SyscrackException();
+            }
+
+            if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+            {
+
+                $this->redirectError('Sorry, it looks like this software might have been deleted');
             }
 
             $this->softwares->uninstallSoftware( $data['softwareid'] );

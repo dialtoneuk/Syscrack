@@ -98,6 +98,12 @@ class Softwares
     public function softwareExists( $softwareid )
     {
 
+        if( $softwareid == null )
+        {
+
+            return false;
+        }
+
         if( $this->database->getSoftware( $softwareid ) == null )
         {
 
@@ -429,7 +435,7 @@ class Softwares
         if( isset( $softwareclass->configuration()['installable'] ) == false )
         {
 
-            return false;
+            return true;
         }
 
         if( $softwareclass->configuration()['installable'] == false )
@@ -465,10 +471,118 @@ class Softwares
         if( isset( $softwareclass->configuration()['uninstallable'] ) == false )
         {
 
-            return false;
+            return true;
         }
 
         if( $softwareclass->configuration()['uninstallable'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * If the software is uneditable, if viewable is equal to true, then the user will
+     * still be allowed to view this software
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function canView( $softwareid )
+    {
+
+        $software = $this->database->getSoftware( $softwareid );
+
+        if( $software == null )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+
+        if( isset( $softwareclass->configuration()['viewable'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $softwareclass->configuration()['viewable'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if this software can be removed
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function canRemove( $softwareid )
+    {
+
+        $software = $this->database->getSoftware( $softwareid );
+
+        if( $software == null )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+
+        if( isset( $softwareclass->configuration()['removeable'] ) == false )
+        {
+
+            return true;
+        }
+
+        if( $softwareclass->configuration()['removeable'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+    /**
+     * Returns true if we keep the data on downloads and uploads
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function keepData( $softwareid )
+    {
+
+        $software = $this->database->getSoftware( $softwareid );
+
+        if( $software == null )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+
+        if( isset( $softwareclass->configuration()['keepdata'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $softwareclass->configuration()['keepdata'] == false )
         {
 
             return false;
@@ -661,6 +775,34 @@ class Softwares
     {
 
         return json_decode( $this->database->getSoftware( $softwareid )->data, true );
+    }
+
+    /**
+     * Checks the softwares data
+     *
+     * @param $softwareid
+     *
+     * @param array $requirements
+     *
+     * @return bool
+     */
+
+    public function checkSoftwareData( $softwareid, array $requirements = ['text'] )
+    {
+
+        $data = $this->getSoftwareData( $softwareid );
+
+        foreach( $requirements as $requirement )
+        {
+
+            if( isset( $data[ $requirement ] ) == false )
+            {
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

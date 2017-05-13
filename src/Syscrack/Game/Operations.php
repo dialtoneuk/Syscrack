@@ -200,20 +200,6 @@ class Operations
             throw new SyscrackException();
         }
 
-        $result = $this->callProcessMethod( $this->findProcessClass( $process ), 'onCreation', array(
-            'timecompleted' => $timecompleted,
-            'computerid'    => $computerid,
-            'userid'        => $userid,
-            'process'       => $process,
-            'data'          => $data
-        ));
-
-        if( $result == false )
-        {
-
-            return false;
-        }
-
         return $this->addToDatabase( $timecompleted, $computerid, $userid, $process, $data );
     }
 

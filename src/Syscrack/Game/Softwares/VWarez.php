@@ -29,6 +29,7 @@ class VWarez extends BaseClass implements Structure
             'extension'     => '.vwarez',
             'type'          => 'virus',
             'installable'   => true,
+            'uninstallable' => false,
             'executable'    => false,
             'removeable'    => false
         );

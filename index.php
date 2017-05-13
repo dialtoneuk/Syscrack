@@ -36,7 +36,7 @@
                     <title>PHP Version Error</title>
 
                     <!-- Stylesheets -->
-                    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+                    <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
                     <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
 
                     <!--[if lt IE 9]>
@@ -48,9 +48,9 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h1 class="page-header text-center">
+                                <h5 style="color: #ababab" class="text-uppercase text-center">
                                     Critical Error
-                                </h1>
+                                </h5>
                                 <div class="panel panel-danger">
                                     <div class="panel-heading">
                                         Major error
@@ -85,7 +85,7 @@
                     <title>Composer Error</title>
 
                     <!-- Stylesheets -->
-                    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+                    <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
                     <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
 
                     <!--[if lt IE 9]>
@@ -97,9 +97,9 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h1 class="page-header text-center">
+                                <<h5 style="color: #ababab" class="text-uppercase text-center">
                                     Critical Error
-                                </h1>
+                                </h5>
                                 <div class="panel panel-danger">
                                     <div class="panel-heading">
                                         Major error
@@ -145,7 +145,7 @@
                     <title>Framework Error</title>
 
                     <!-- Stylesheets -->
-                    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+                    <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
                     <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
 
                     <!--[if lt IE 9]>
@@ -157,15 +157,15 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h1 class="page-header text-center">
+                                <h5 style="color: #ababab" class="text-uppercase text-center">
                                     Critical Error
-                                </h1>
+                                </h5>
                                 <div class="panel panel-danger">
                                     <div class="panel-heading">
                                         Major error
                                     </div>
                                     <div class="panel-body text-center">
-                                        The framework was unable to find the Application class, this could be due to a few reasons, please check out the <a href="https://github.com/dialtoneuk/Syscrack2017/">github for solutions</a>
+                                        The framework was unable to find the Application class, this could be due to a few reasons, please check out the <a href="https://github.com/dialtoneuk/Syscrack2017/">github for solutions.</a>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                     <title>Framework Error</title>
 
                     <!-- Stylesheets -->
-                    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+                    <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
                     <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
 
                     <!--[if lt IE 9]>
@@ -209,9 +209,9 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h1 class="page-header text-center">
+                                <h5 style="color: #ababab" class="text-uppercase text-center">
                                     Critical Error
-                                </h1>
+                                </h5>
                                 <div class="panel panel-danger">
                                     <div class="panel-heading">
                                         Major error
@@ -357,7 +357,7 @@
                     <title>Critical Error</title>
 
                     <!-- Stylesheets -->
-                    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+                    <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
                     <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
 
                     <!--[if lt IE 9]>
@@ -369,16 +369,16 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h1 class="page-header text-center">
+                                <h5 style="color: #ababab" class="text-uppercase text-center">
                                     Critical Error
-                                </h1>
+                                </h5>
                                 <div class="panel panel-danger">
                                     <div class="panel-heading">
                                         <?=$error->getMessage()?> @ <?=$error->getFile()?> line <?=$error->getLine()?>
                                     </div>
                                     <div class="panel-body text-center">
                                         <p>
-                                            An error occured outside of the framework, this is usually due to a permission error, a rewrite error, or something completely different, check out the error stack below.
+                                            An error occurred outside of the framework, this is usually due to a permission error, a rewrite error, or something completely different, check out the error stack below.
                                         </p>
 
                                         <div class="well">

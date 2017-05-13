@@ -67,6 +67,12 @@
                         continue;
                     }
 
+                    if( $computer->hasSoftware( $internet->getComputer( $ipaddress )->computerid, $value['softwareid'] ) == false )
+                    {
+
+                        continue;
+                    }
+
                     $softwareclass = $softwares->getSoftwareClassFromID( $value['softwareid'] );
 
                     $software = $softwares->getSoftware( $value['softwareid'] );
@@ -98,6 +104,12 @@
 
                                 ?>
                                 <span class="glyphicon glyphicon-paperclip"></span>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>
+                                <span class="glyphicon glyphicon-book"></span>
                                 <?php
                             }
                             ?>

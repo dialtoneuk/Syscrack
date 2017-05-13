@@ -13,9 +13,16 @@ use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\Viruses;
 
 class Download extends BaseClass implements Structure
 {
+
+    /**
+     * @var Viruses;
+     */
+
+    protected $viruses;
 
     /**
      * Download constructor.
@@ -25,6 +32,12 @@ class Download extends BaseClass implements Structure
     {
 
         parent::__construct();
+
+        if( isset( $this->viruses ) == false )
+        {
+
+            $this->viruses = new Viruses();
+        }
     }
 
     /**
@@ -77,20 +90,20 @@ class Download extends BaseClass implements Structure
 
         $software = $this->softwares->getSoftware( $data['softwareid'] );
 
-        $softwares = $this->computer->getComputerSoftware( $this->computer->getCurrentUserComputer() );
-
-        foreach( $softwares as $value )
+        if( $this->viruses->isVirus( $software->softwareid ) )
         {
 
-            if( $value['type'] == $software->type )
+            if( $this->softwares->isInstalled( $software->softwareid, $this->internet->getComputer( $data['ipaddress'] )->computerid ) )
             {
 
-                if( $this->softwares->getSoftware( $value['softwareid'] )->softwarename == $software->softwarename )
-                {
-
-                    $this->redirectError('You already have this software on your computer', $this->getRedirect( $data['ipaddress'] ) );
-                }
+                return false;
             }
+        }
+
+        if( $this->computer->getSoftwareByName( $computerid, $software->softwarename, false ) !== null )
+        {
+
+            return false;
         }
 
         return true;
@@ -119,25 +132,48 @@ class Download extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        $softwareid = $this->softwares->copySoftware( $data['softwareid'], $this->computer->getCurrentUserComputer(), $userid );
-
-        if( empty( $softwareid ) )
+        if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
         {
 
-            throw new SyscrackException();
+            $this->redirectError('Sorry, it looks like this software might have been deleted');
         }
 
         $software = $this->softwares->getSoftware( $data['softwareid'] );
 
-        if( $software == null )
+        if( $this->softwares->hasData( $software->softwareid ) == true && $this->softwares->keepData( $software->softwareid ) )
+        {
+
+            $softwaredata = $this->softwares->getSoftwareData( $software->softwareid );
+
+            if( $this->softwares->checkSoftwareData( $software->softwareid, ['allowanondownloads'] ) == true )
+            {
+
+                unset( $softwaredata['allowanondownloads'] );
+            }
+
+            if( $this->softwares->checkSoftwareData( $software->softwareid, ['editable'] ) == true )
+            {
+
+                unset( $softwaredata['editable'] );
+            }
+
+            $new_softwareid = $this->softwares->copySoftware( $software->softwareid, $computerid, $userid, false, $softwaredata );
+        }
+        else
+        {
+
+            $new_softwareid = $this->softwares->copySoftware( $software->softwareid, $computerid, $userid );
+        }
+
+        $this->computer->addSoftware( $computerid, $new_softwareid, $software->type, $software->softwarename );
+
+        if( $this->computer->hasSoftware( $computerid, $new_softwareid ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $this->computer->addSoftware( $this->computer->getCurrentUserComputer(), $softwareid, $software->type, $software->softwarename );
-
-        $this->logDownload( $software->softwarename, $this->internet->getComputer( $data['ipaddress'] )->computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+        $this->logDownload( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computer->getComputer( $computerid )->ipaddress );
 
         $this->logLocal( $software->softwarename, $data['ipaddress'] );
 
@@ -165,7 +201,7 @@ class Download extends BaseClass implements Structure
      * @return int
      */
 
-    public function getCompletionSpeed($computerid, $process, $softwareid)
+    public function getCompletionSpeed($computerid, $process, $softwareid=null)
     {
 
         if( $this->softwares->softwareExists( $softwareid ) == false )
@@ -174,7 +210,7 @@ class Download extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_download_type'), $this->softwares->getSoftware( $softwareid )->size / 10, $softwareid );
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_download_type'), $this->softwares->getSoftware( $softwareid )->size / 5, $softwareid );
     }
 
     /**

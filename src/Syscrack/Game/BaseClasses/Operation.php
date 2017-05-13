@@ -387,7 +387,7 @@ class Operation
             $this->redirect( $path . '?success' );
         }
 
-        $this->redirect( $this->getCurrentPage() . '?success' );
+        $this->redirect( $this->getCurrentPage() . '?success', true );
     }
 
     /**
@@ -458,6 +458,20 @@ class Operation
         }
 
         return Settings::getSetting('syscrack_game_page');
+    }
+
+    /**
+     * Gets the computer id from an ipaddress
+     *
+     * @param $ipaddress
+     *
+     * @return mixed
+     */
+
+    public function getComputerId( $ipaddress )
+    {
+
+        return $this->internet->getComputer( $ipaddress )->computerid;
     }
 
     /**

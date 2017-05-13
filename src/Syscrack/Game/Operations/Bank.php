@@ -174,12 +174,12 @@ class Bank extends BaseClass implements Structure
             if( $this->finance->hasAccountAtComputer( $computer->computerid, $userid ) == true )
             {
 
-                $this->redirectError('You already have an account at this bank', $this->getRedirect( $ipaddress ) . 'bank' );
+                $this->redirectError('You already have an account at this bank', $this->getRedirect( $ipaddress ) . '/bank' );
             }
 
             $this->finance->createAccount( $computer->computerid, $userid );
 
-            $this->redirectSuccess( $this->getRedirect( $ipaddress ) . 'bank' );
+            $this->redirectSuccess( $this->getRedirect( $ipaddress ) . '/bank' );
         }
         elseif( $data['action'] == "delete" )
         {
@@ -187,12 +187,12 @@ class Bank extends BaseClass implements Structure
             if( $this->finance->hasAccountAtComputer( $computer->computerid, $userid ) == false )
             {
 
-                $this->redirectError('You do not have a bank account at this bank', $this->getRedirect( $ipaddress ) . 'bank' );
+                $this->redirectError('You do not have a bank account at this bank', $this->getRedirect( $ipaddress ) . '/bank' );
             }
 
             $this->finance->removeAccount( $computer->computerid, $userid );
 
-            $this->redirectSuccess( $this->getRedirect( $ipaddress ) . 'bank' );
+            $this->redirectSuccess( $this->getRedirect( $ipaddress ) . '/bank' );
         }
 
         return true;

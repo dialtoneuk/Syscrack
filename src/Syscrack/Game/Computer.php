@@ -129,7 +129,7 @@ class Computer
     public function getComputerSoftware( $computerid )
     {
 
-        return json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        return json_decode( $this->getComputer( $computerid )->softwares, true );
     }
 
     /**
@@ -165,7 +165,7 @@ class Computer
     public function hasSoftware( $computerid, $softwareid )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         foreach( $softwares as $software )
         {
@@ -223,7 +223,7 @@ class Computer
     public function addSoftware( $computerid, $softwareid, $type, $softwarename='My Software' )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         $softwares[] = array(
             'softwareid'        => $softwareid,
@@ -247,7 +247,7 @@ class Computer
     public function removeSoftware( $computerid, $softwareid )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         if( empty( $softwares ) )
         {
@@ -279,7 +279,7 @@ class Computer
     public function installSoftware( $computerid, $softwareid )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         if( empty( $softwares ) )
         {
@@ -311,7 +311,7 @@ class Computer
     public function uninstallSoftware( $computerid, $softwareid )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         if( empty( $softwares ) )
         {
@@ -399,7 +399,7 @@ class Computer
     public function getInstalledSoftware( $computerid )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         $result = array();
 
@@ -427,7 +427,7 @@ class Computer
     public function getCracker( $computerid )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         foreach( $softwares as $software )
         {
@@ -459,7 +459,7 @@ class Computer
     public function getFirewall( $computerid )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         foreach( $softwares as $software )
         {
@@ -491,7 +491,7 @@ class Computer
     public function getHasher( $computerid )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         foreach( $softwares as $software )
         {
@@ -523,7 +523,7 @@ class Computer
     public function getCollector( $computerid )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         foreach( $softwares as $software )
         {
@@ -601,7 +601,7 @@ class Computer
     public function hasType( $computerid, $type, $checkinstall=true )
     {
 
-        $softwares = json_decode( $this->database->getComputer( $computerid )->softwares, true );
+        $softwares = $this->getComputerSoftware( $computerid );
 
         foreach( $softwares as $software )
         {
@@ -620,6 +620,37 @@ class Computer
         }
 
         return false;
+    }
+    
+    public function getSoftwareByName( $computerid, $softwarename, $checkinstalled=true )
+    {
+        
+        $softwares = $this->getComputerSoftware( $computerid );
+
+        foreach( $softwares as $software )
+        {
+
+            if( $software['softwarename'] == $softwarename )
+            {
+
+                if( $checkinstalled )
+                {
+
+                    if( $software['installed'] == true )
+                    {
+
+                        return $software;
+                    }
+                }
+                else
+                {
+
+                    return $software;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**

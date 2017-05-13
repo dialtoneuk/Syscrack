@@ -28,8 +28,11 @@ class Text extends BaseClass implements Structure
             'uniquename'    => 'text',
             'extension'     => '.txt',
             'type'          => 'text',
+            'viewable'      => true,
+            'removeable'    => true,
             'installable'   => false,
-            'executable'    => false
+            'executable'    => false,
+            'keepdata'      => true
         );
     }
 

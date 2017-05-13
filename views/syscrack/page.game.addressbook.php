@@ -93,7 +93,7 @@
 
                         <?php
 
-                            if( $addressbook->getDatabase( $session->getSessionUser() ) == null )
+                            if( $addressbook->hasDatabase( $session->getSessionUser() ) == false )
                             {
 
                                 ?>
@@ -118,9 +118,7 @@
                             else
                             {
 
-                                $addresses = array_reverse( $addressbook->getDatabase( $session->getSessionUser() ) );
-
-                                $removed = [];
+                                $addresses = $addressbook->getDatabase( $session->getSessionUser() );
 
                                 if( empty( $addresses ))
                                 {
@@ -138,6 +136,10 @@
                                 }
                                 else
                                 {
+
+                                    $addresses = array_reverse( $addresses );
+
+                                    $removed = [];
 
                                     foreach( $addresses as $key=>$value )
                                     {

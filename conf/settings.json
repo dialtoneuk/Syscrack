@@ -28,7 +28,7 @@
     "error_log_location": "conf\/errorlog.json",
     "error_logging": true,
     "error_use_session": true,
-    "error_fadeout_time":2000,
+    "error_fadeout_time": 2000,
     "facebook_app_id": "",
     "facebook_app_secret": "",
     "facebook_app_version": "v2.8",
@@ -49,7 +49,7 @@
     "registration_password_length": 8,
     "session_timeout": "<60 * 60 * 2>",
     "session_update_lastaction": true,
-    "session_keep":[
+    "session_keep": [
         "error",
         "error_page"
     ],
@@ -95,6 +95,7 @@
     },
     "syscrack_default_processingtime": 10,
     "syscrack_download_type": "download",
+    "syscrack_download_process": "download",
     "syscrack_downloadserver_type": "download",
     "syscrack_example_schema": {
         "hardwares": {
@@ -171,6 +172,7 @@
     "syscrack_text_type": "text",
     "syscrack_vddos_uniquename": "vddos",
     "syscrack_view_location": "syscrack\/",
+    "syscrack_view_process": "view",
     "syscrack_virus_type": "virus",
     "syscrack_vminer_uniquename": "vminer",
     "syscrack_vpc_type": "vpc",

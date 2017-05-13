@@ -29,6 +29,7 @@ class VSpam extends BaseClass implements Structure
             'extension'     => '.vspam',
             'type'          => 'virus',
             'installable'   => true,
+            'uninstallable' => false,
             'executable'    => false,
             'removeable'    => false,
         );

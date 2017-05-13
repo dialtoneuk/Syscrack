@@ -29,6 +29,7 @@ class VPhisher extends BaseClass implements Structure
             'extension'     => '.vphish',
             'type'          => 'virus',
             'installable'   => true,
+            'uninstallable' => false,
             'executable'    => false,
             'removeable'    => false
         );

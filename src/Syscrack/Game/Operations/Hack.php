@@ -33,6 +33,12 @@ class Hack extends BaseClass implements Structure
     {
 
         parent::__construct();
+
+        if( isset( $this->addressdatabase ) == false )
+        {
+
+            $this->addressdatabase = new AddressDatabase( Container::getObject('session')->getSessionUser() );
+        }
     }
 
     /**
@@ -75,13 +81,11 @@ class Hack extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress == $data['ipaddress'] )
+        if( $this->computer->getComputer( $computerid )->ipaddress == $data['ipaddress'] )
         {
 
             return false;
         }
-
-        $this->addressdatabase = new AddressDatabase( Container::getObject('session')->getSessionUser() );
 
         if( $this->addressdatabase->getComputerByIPAddress( $data['ipaddress' ] ) != null )
         {
@@ -89,20 +93,18 @@ class Hack extends BaseClass implements Structure
             return false;
         }
 
-        $userscomputer = $this->computer->getComputer( $this->computer->getCurrentUserComputer() );
-
-        if( $this->computer->hasType( $userscomputer->computerid, Settings::getSetting('syscrack_cracker_type'), true ) == false )
+        if( $this->computer->hasType( $computerid, Settings::getSetting('syscrack_cracker_type'), true ) == false )
         {
 
             return false;
         }
 
-        $victimscomputer = $this->internet->getComputer( $data['ipaddress'] );
+        $victimid = $this->getComputerId( $data['ipaddress'] );
 
-        if( $this->computer->hasType( $victimscomputer->computerid, Settings::getSetting('syscrack_hasher_type'), true ) == true )
+        if( $this->computer->hasType( $victimid, Settings::getSetting('syscrack_hasher_type'), true ) == true )
         {
 
-            if( $this->getHighestLevelSoftware( $victimscomputer->computerid, Settings::getSetting('syscrack_hasher_type') )['level'] > $this->getHighestLevelSoftware( $userscomputer->computerid, Settings::getSetting('syscrack_cracker_type') )['level'] )
+            if( $this->getHighestLevelSoftware( $victimid, Settings::getSetting('syscrack_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::getSetting('syscrack_cracker_type') )['level'] )
             {
 
                 $this->redirectError('Your cracker is too weak', $this->getRedirect( $data['ipaddress'] ) );
@@ -135,15 +137,11 @@ class Hack extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        $this->addressdatabase = new AddressDatabase( Container::getObject('session')->getSessionUser() );
-
         $this->addressdatabase->addComputer( array(
             'computerid'        => $this->internet->getComputer( $data['ipaddress'] )->computerid,
             'ipaddress'         => $data['ipaddress'],
             'timehacked'        => time()
         ));
-
-        $this->addressdatabase->saveDatabase();
 
         if( isset( $data['redirect'] ) )
         {

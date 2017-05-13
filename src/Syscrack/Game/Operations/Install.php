@@ -9,7 +9,6 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
-use Framework\Application\Container;
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
@@ -80,55 +79,25 @@ class Install extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+        if( $this->softwares->canInstall( $data['softwareid'] ) == false )
         {
 
             return false;
         }
-        else
+
+        if( $this->viruses->isVirus( $data['softwareid'] ) )
         {
 
-            if( $this->computer->hasSoftware( $this->internet->getComputer( $data['ipaddress'] )->computerid, $data['softwareid'] ) == false )
+            $software = $this->softwares->getSoftware( $data['softwareid'] );
+
+            if( $this->viruses->virusAlreadyInstalled( $software->uniquename, $this->getComputerId( $data['ipaddress']), $userid ) )
             {
 
                 return false;
             }
-            else
-            {
-
-                if( $this->softwares->canInstall( $data['softwareid'] ) == false )
-                {
-
-                    return false;
-                }
-                else
-                {
-
-                    if( $this->viruses->isVirus( $data['softwareid'] ) )
-                    {
-
-                        if( $this->internet->getComputer( $data['ipaddress'] )->computerid == $this->computer->getCurrentUserComputer() )
-                        {
-
-                            return false;
-                        }
-
-                        if( $this->viruses->hasVirusesOnComputer( $this->internet->getComputer( $data['ipaddress'] )->computerid, Container::getObject('session')->getSessionUser() ) )
-                        {
-
-                            if( $this->viruses->virusAlreadyInstalled( $this->softwares->getSoftwareClassFromID( $data['softwareid'] )->configuration()['uniquename'],
-                                $this->internet->getComputer( $data['ipaddress'] )->computerid, Container::getObject('session')->getSessionUser() ))
-                            {
-
-                                return false;
-                            }
-                        }
-                    }
-                }
-
-                return true;
-            }
         }
+
+        return true;
     }
 
     /**
@@ -154,6 +123,12 @@ class Install extends BaseClass implements Structure
         {
 
             throw new SyscrackException();
+        }
+
+        if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+        {
+
+            $this->redirectError('Sorry, it looks like this software might have been deleted');
         }
 
         $this->softwares->installSoftware( $data['softwareid'], $userid );

@@ -185,35 +185,6 @@ class RemoteAdmin extends BaseClass implements Structure
     public function onPost( $data, $ipaddress, $userid )
     {
 
-        $computer = $this->internet->getComputer( $ipaddress );
-
-        if( $data['action'] == 'create' )
-        {
-
-            if( $this->finance->hasAccountAtComputer( $computer->computerid, $userid ) == true )
-            {
-
-                $this->redirectError('You already have an account at this bank', $this->getRedirect( $ipaddress ) . 'bank' );
-            }
-
-            $this->finance->createAccount( $computer->computerid, $userid );
-
-            $this->redirectSuccess( $this->getRedirect( $ipaddress ) . 'bank' );
-        }
-        elseif( $data['action'] == "delete" )
-        {
-
-            if( $this->finance->hasAccountAtComputer( $computer->computerid, $userid ) == false )
-            {
-
-                $this->redirectError('You do not have a bank account at this bank', $this->getRedirect( $ipaddress ) . 'bank' );
-            }
-
-            $this->finance->removeAccount( $computer->computerid, $userid );
-
-            $this->redirectSuccess( $this->getRedirect( $ipaddress ) . 'bank' );
-        }
-
         return true;
     }
 }

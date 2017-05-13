@@ -88,13 +88,19 @@ class AddressDatabase
     /**
      * Adds a computer to the database
      *
-     * @param $computer
+     * @param array $computer
      */
 
-    public function addComputer( $computer )
+    public function addComputer( array $computer, $save=true )
     {
 
         $this->database[] = $computer;
+
+        if( $save )
+        {
+
+            $this->saveDatabase();
+        }
     }
 
     /**

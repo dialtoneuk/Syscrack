@@ -102,6 +102,12 @@ class View extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
+        if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+        {
+
+            $this->redirectError('Sorry, it looks like this software might have been deleted');
+        }
+
         if( $this->softwares->hasData( $data['softwareid'] ) == false )
         {
 

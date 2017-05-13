@@ -63,7 +63,7 @@ class Session
      * Destroys a session
      */
 
-    public function destroySession( $safeunset = true )
+    public function destroySession( $safeunset = true, $destroy=false )
     {
 
         session_regenerate_id( true );
@@ -79,7 +79,12 @@ class Session
             unset( $_SESSION );
         }
 
-        session_destroy();
+
+        if( $destroy  )
+        {
+
+            session_destroy();
+        }
     }
 
     /**

@@ -70,42 +70,24 @@
                 return false;
             }
 
-            if( $this->computer->getComputerType( $this->internet->getComputer( $data['ipaddress'] )->computerid ) !== Settings::getSetting('syscrack_downloadserver_type') )
+            if( $this->computer->getComputerType( $this->getComputerId( $data['ipaddress'] ) ) !== Settings::getSetting('syscrack_downloadserver_type') )
             {
 
                 $this->redirectError('This action can only be used on a download server', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $softwaredata = json_decode( $this->softwares->getSoftware( $data['softwareid'] )->data, true );
-
-            if( isset( $softwaredata['allowanondownloads'] ) == false )
-            {
-
-                return false;
-            }
-
-            if( $softwaredata['allowanondownloads'] == false )
-            {
-
-                return false;
-            }
-
             $software = $this->softwares->getSoftware( $data['softwareid'] );
 
-            $softwares = $this->computer->getComputerSoftware( $this->computer->getCurrentUserComputer() );
-
-            foreach( $softwares as $value )
+            if( $this->softwares->hasData( $software->softwareid ) == false )
             {
 
-                if( $value['type'] == $software->type )
-                {
+                return false;
+            }
 
-                    if( $this->softwares->getSoftware( $value['softwareid'] )->softwarename == $software->softwarename )
-                    {
+            if( $this->computer->getSoftwareByName( $computerid, $software->softwarename, false ) !== null )
+            {
 
-                        $this->redirectError('You already have this software on your computer', $this->getRedirect( $data['ipaddress'] ) );
-                    }
-                }
+                return false;
             }
 
             return true;
@@ -134,6 +116,12 @@
             {
 
                 throw new SyscrackException();
+            }
+
+            if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+            {
+
+                $this->redirectError('Sorry, it looks like this software might have been deleted');;
             }
 
             $softwareid = $this->softwares->copySoftware( $data['softwareid'], $this->computer->getCurrentUserComputer(), $userid );
@@ -178,7 +166,7 @@
          * @return int
          */
 
-        public function getCompletionSpeed($computerid, $ipaddress, $softwareid )
+        public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
         {
 
             if( $this->softwares->softwareExists( $softwareid ) == false )
@@ -187,7 +175,7 @@
                 throw new SyscrackException();
             }
 
-            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_download_type'), $this->softwares->getSoftware( $softwareid )->size / 10, $softwareid );
+            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_download_type'), $this->softwares->getSoftware( $softwareid )->size / 5, $softwareid );
         }
 
         /**
