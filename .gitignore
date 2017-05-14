@@ -17,6 +17,8 @@ composer.phar
 /syscrack/addressdatabase/
 /syscrack/bankdatabase/
 /syscrack/logs/
+/syscrack/retailer/
+/syscrack/market/
 
 # Comment this line if you would like to share your NPC schema files
 /syscrack/npc/
