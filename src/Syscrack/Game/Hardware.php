@@ -39,7 +39,7 @@ class Hardware
     public function getCPUSpeed( $computerid )
     {
 
-        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_cpu_type') ]['value'];
+        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_hardware_cpu_type') ]['value'];
     }
 
     public function getGPUSpeed( $computerid )

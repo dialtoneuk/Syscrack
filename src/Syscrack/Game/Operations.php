@@ -799,7 +799,7 @@ class Operations
 
         $timehelper = new TimeHelper();
 
-        if( $this->hardware->hasHardwareType( $computerid, Settings::getSetting('syscrack_cpu_type')) == null )
+        if( $this->hardware->hasHardwareType( $computerid, Settings::getSetting('syscrack_hardware_cpu_type')) == null )
         {
 
             return null;

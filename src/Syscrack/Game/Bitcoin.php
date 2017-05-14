@@ -9,12 +9,12 @@ namespace Framework\Syscrack\Game;
  * @package Framework\Syscrack\Game
  */
 
-use Unirest\Request;
-use Framework\Application\Utilities\Hashes;
-use Framework\Exceptions\SyscrackException;
 use Framework\Application\Settings;
+use Framework\Application\Utilities\Hashes;
 use Framework\Database\Tables\Bitcoin as Database;
 use Framework\Database\Tables\Computers;
+use Framework\Exceptions\SyscrackException;
+use Unirest\Request;
 
 class Bitcoin
 {
@@ -120,7 +120,7 @@ class Bitcoin
     public function getBitcoinServers()
     {
 
-        return $this->computers->getComputerByType( Settings::getSetting('syscrack_bitcoin_type') );
+        return $this->computers->getComputerByType( Settings::getSetting('syscrack_computer_bitcoin_type') );
     }
 
     /**
@@ -176,7 +176,7 @@ class Bitcoin
     public function isBitcoinServer( $computerid )
     {
 
-        if( $this->computers->getComputer( $computerid )->type != Settings::getSetting('syscrack_bitcoin_type') )
+        if( $this->computers->getComputer( $computerid )->type != Settings::getSetting('syscrack_computer_bitcoin_type') )
         {
 
             return false;

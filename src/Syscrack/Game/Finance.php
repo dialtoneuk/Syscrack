@@ -104,7 +104,7 @@ class Finance
     public function getBanks()
     {
 
-        return $this->computers->getComputerByType( Settings::getSetting('syscrack_bank_type') );
+        return $this->computers->getComputerByType( Settings::getSetting('syscrack_computer_bank_type') );
     }
 
     /**

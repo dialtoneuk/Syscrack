@@ -12,6 +12,7 @@
     use Flight;
     use Framework\Application\Container;
     use Framework\Application\Settings;
+    use Framework\Application\Utilities\FileSystem;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Syscrack\Game\Utilities\Startup;
     use Framework\Syscrack\User;
@@ -77,6 +78,12 @@
                     '/admin/', 'page'
                 ],
                 [
+                    'GET /admin/computer/', 'computerViewer'
+                ],
+                [
+                    'POST /admin/computer/', 'computerSearch'
+                ],
+                [
                     'GET /admin/computer/creator/', 'computerCreator'
                 ],
                 [
@@ -92,7 +99,63 @@
         public function page()
         {
 
-            Flight::render('syscrack/page.admin.php');
+            Flight::render('syscrack/page.admin');
+        }
+
+        public function computerViewer()
+        {
+
+            Flight::render('syscrack/page.admin.computer');
+        }
+
+        public function computerSearch()
+        {
+
+            if( PostHelper::hasPostData() == false )
+            {
+
+                $this->computerViewer();
+            }
+            else
+            {
+
+                if( PostHelper::checkForRequirements( ['query'] ) == false )
+                {
+
+                    $this->redirectError('Please enter a search query', 'admin/computer');
+                }
+
+                $query = PostHelper::getPostData('query');
+
+                if( filter_var( $query, FILTER_VALIDATE_IP) )
+                {
+
+                    if( $this->internet->ipExists( $query ) == false )
+                    {
+
+                        $this->redirectError('Address is invalid', 'admin/computer');
+                    }
+
+                    $this->redirect('admin/computer/' . $this->internet->getComputer( $query )->computerid );
+                }
+                else
+                {
+
+                    if( is_numeric( $query ) == false )
+                    {
+
+                        $this->redirectError('Invalid query', 'admin/computer' );
+                    }
+
+                    if( $this->computer->computerExists( $query ) == false )
+                    {
+
+                        $this->redirectError('Computer not found', 'admin/computer');
+                    }
+
+                    $this->redirect('admin/computer/' . $this->computer->getComputer( $query )->computerid );
+                }
+            }
         }
 
         /**
@@ -102,7 +165,7 @@
         public function computerCreator()
         {
 
-            Flight::render('syscrack/page.admin.computer.creator.php');
+            Flight::render('syscrack/page.admin.computer.creator');
         }
 
         public function computerCreatorProcess()
@@ -146,7 +209,6 @@
                     $this->redirectError('Json Error: ' . $this->getLastJsonError(), 'admin/computer/creator');
                 }
 
-                //We don't add the softwares as they need to be created using the createComputerSoftware method instead
                 $computerid = $this->startup->createComputer( $userid, $type, $ipaddress, [], json_decode( $hardwares, true ) );
 
                 if( $this->startup->log->hasLog( $computerid ) == false )
@@ -157,6 +219,18 @@
 
                 $this->startup->createComputerSoftware( $userid, $computerid, json_decode( $softwares, true ) );
 
+                if( $this->computer->getComputerType( $computerid ) == Settings::getSetting('syscrack_computer_market_type') )
+                {
+
+                    $this->startupMarket( $computerid );
+                }
+
+                if( $this->computer->getComputerType( $computerid ) == Settings::getSetting('syscrack_computer_retailer_type') )
+                {
+
+                    $this->startupRetailer( $computerid );
+                }
+
                 if( PostHelper::checkForRequirements( ['schema'] ) == true  )
                 {
 
@@ -166,80 +240,56 @@
                         if( PostHelper::checkForRequirements(['name']) == false )
                         {
 
-                            $this->redirectError('Unable to create schema due to missing information, but the computer was created...', 'admin/computer/creator');
-                        }
-
-                        if( PostHelper::checkForRequirements(['page'] ) == false )
-                        {
-
-                            $name = PostHelper::getPostData('name');
-                            $page = Settings::getSetting('syscrack_default_computer_page');
-
-                            if( PostHelper::checkForRequirements(['riddle']) == false )
-                            {
-
-                                $this->startup->createSchema( $computerid, array(
-                                    'name' => $name,
-                                    'page'  => $page,
-                                    'softwares' => json_decode( $softwares, true ),
-                                    'hardwares' => json_decode( $hardwares, true )
-                                ));
-                            }
-                            else
-                            {
-
-                                if( PostHelper::checkForRequirements( ['riddleaddress'] ) == false )
-                                {
-
-                                    $this->redirectError('Unable to create schema due to missing information, but the computer was created', 'admin/computer/creator');
-                                }
-
-                                $riddle = PostHelper::getPostData('riddladdress');
-
-                                $this->startup->createSchema( $computerid, array(
-                                    'name'      => $name,
-                                    'page'      => $page,
-                                    'riddle'    => $riddle,
-                                    'softwares' => json_decode( $softwares, true ),
-                                    'hardwares' => json_decode( $hardwares, true )
-                                ));
-                            }
+                            $name = Settings::getSetting('syscrack_default_computer_name');
                         }
                         else
                         {
 
                             $name = PostHelper::getPostData('name');
-                            $page = PostHelper::getPostData('page');
+                        }
 
-                            if( PostHelper::checkForRequirements(['riddle']) == false )
+                        if( PostHelper::checkForRequirements(['page']) == false )
+                        {
+
+                            $page = Settings::getSetting('syscrack_default_computer_page');
+                        }
+                        else
+                        {
+
+                            $page = PostHelper::getPostData('page');
+                        }
+
+                        if( PostHelper::checkForRequirements(['riddle']) == false )
+                        {
+
+                            $this->startup->createSchema( $computerid, array(
+                                'name' => $name,
+                                'page'  => $page,
+                                'softwares' => json_decode( $softwares, true ),
+                                'hardwares' => json_decode( $hardwares, true )
+                            ));
+                        }
+                        else
+                        {
+
+                            if( PostHelper::checkForRequirements( ['riddleaddress'] ) == false )
                             {
 
-                                $this->startup->createSchema( $computerid, array(
-                                    'name' => $name,
-                                    'page'  => $page,
-                                    'softwares' => json_decode( $softwares, true ),
-                                    'hardwares' => json_decode( $hardwares, true )
-                                ));
+                                $riddle = null;
                             }
                             else
                             {
 
-                                if( PostHelper::checkForRequirements( ['riddleaddress'] ) == false )
-                                {
-
-                                    $this->redirectError('Unable to create schema due to missing information, but the computer was created', 'admin/computer/creator');
-                                }
-
-                                $riddle = PostHelper::getPostData('riddladdress');
-
-                                $this->startup->createSchema( $computerid, array(
-                                    'name'      => $name,
-                                    'page'      => $page,
-                                    'riddle'    => $riddle,
-                                    'softwares' => json_decode( $softwares, true ),
-                                    'hardwares' => json_decode( $hardwares, true )
-                                ));
+                                $riddle = PostHelper::getPostData('riddleaddress');
                             }
+
+                            $this->startup->createSchema( $computerid, array(
+                                'name'      => $name,
+                                'page'      => $page,
+                                'riddle'    => $riddle,
+                                'softwares' => json_decode( $softwares, true ),
+                                'hardwares' => json_decode( $hardwares, true )
+                            ));
                         }
                     }
                 }
@@ -248,11 +298,104 @@
             }
         }
 
+        /**
+         * Start ups a market server
+         *
+         * @param $computerid
+         */
+
+        private function startupMarket( $computerid )
+        {
+
+            if( FileSystem::directoryExists( $this->getFilePath( $computerid ) ) == false )
+            {
+
+                FileSystem::createDirectory(  $this->getFilePath( $computerid ) );
+            }
+
+            if( FileSystem::fileExists( $this->getFilePath( $computerid, true, 'stocks.json' ) ) == false )
+            {
+
+                FileSystem::writeJson( $this->getFilePath( $computerid, true, 'stocks.json') );
+            }
+
+            if( FileSystem::fileExists( $this->getFilePath( $computerid, true, 'purchases.json' ) ) == false )
+            {
+
+                FileSystem::writeJson( $this->getFilePath( $computerid, true, 'purchases.json') );
+            }
+        }
+
+        /**
+         * Starts up the retailer server
+         *
+         * @param $computerid
+         */
+
+        private function startupRetailer( $computerid )
+        {
+
+            if( FileSystem::directoryExists( $this->getFilePath( $computerid , false) ) == false )
+            {
+
+                FileSystem::createDirectory(  $this->getFilePath( $computerid ) );
+            }
+
+            if( FileSystem::fileExists( $this->getFilePath( $computerid, false, 'stocks.json' ) ) == false )
+            {
+
+                FileSystem::writeJson( $this->getFilePath( $computerid, true, 'stocks.json') );
+            }
+        }
+
+        /**
+         * Gets the filepath of both the market and retailer servers for setup
+         *
+         * //TODO: move this to an automated class based computer system
+         *
+         * @param $computerid
+         *
+         * @param bool $market
+         *
+         * @param string $file
+         *
+         * @return string
+         */
+
+        private function getFilePath( $computerid, $market=true, $file='' )
+        {
+
+            if( $market )
+            {
+
+                return Settings::getSetting('syscrack_market_location') . $computerid . '/' . $file;
+            }
+            else
+            {
+
+                return Settings::getSetting('syscrack_retailer_location') . $computerid . '/' . $file;
+            }
+        }
+
+        /**
+         * Gets the last json error
+         *
+         * @return string
+         */
+
         private function getLastJsonError()
         {
 
             return json_last_error_msg();
         }
+
+        /**
+         * Retuns true the address given is valid
+         *
+         * @param $ipaddress
+         *
+         * @return bool
+         */
 
         private function validAddress( $ipaddress )
         {
@@ -271,6 +414,14 @@
 
             return true;
         }
+
+        /**
+         * Returns true if this is valid json
+         *
+         * @param $data
+         *
+         * @return bool
+         */
 
         private function isValidJson( $data )
         {

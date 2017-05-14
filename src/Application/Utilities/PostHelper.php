@@ -96,6 +96,12 @@ class PostHelper
             else
             {
 
+                if( $post[ $requirement ] == '0' )
+                {
+
+                    continue;
+                }
+
                 if( $post[ $requirement ] == null || $post[ $requirement ] == "" || empty( $post[ $requirement ] ) )
                 {
 

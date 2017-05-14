@@ -81,25 +81,25 @@
                         <td data-toggle="tooltip" data-placement="auto" title="<?=$value['type']?>" style="padding-top: 2.5%;">
                             <?php
 
-                            if( $value['type'] == Settings::getSetting('syscrack_virus_type') )
+                            if( $value['type'] == Settings::getSetting('syscrack_software_virus_type') )
                             {
 
                                 ?>
                                 <span class="glyphicon glyphicon-cog"></span>
                                 <?php
-                            }elseif( $value['type'] == Settings::getSetting('syscrack_cracker_type') )
+                            }elseif( $value['type'] == Settings::getSetting('syscrack_software_cracker_type') )
                             {
 
                                 ?>
                                 <span class="glyphicon glyphicon-lock"></span>
                                 <?php
-                            }elseif( $value['type'] == Settings::getSetting('syscrack_hasher_type') )
+                            }elseif( $value['type'] == Settings::getSetting('syscrack_software_hasher_type') )
                             {
 
                                 ?>
                                 <span class="glyphicon glyphicon-briefcase"></span>
                                 <?php
-                            }elseif( $value['type'] == Settings::getSetting('syscrack_text_type') )
+                            }elseif( $value['type'] == Settings::getSetting('syscrack_software_text_type') )
                             {
 
                                 ?>
@@ -138,7 +138,7 @@
                         <td style="padding-top: 2.25%;">
                             <?php
 
-                                if( $software->level >= Settings::getSetting('syscrack_softwarelevel_godlike') )
+                                if( $software->level >= Settings::getSetting('syscrack_software_level_godlike') )
                                 {
 
                                     ?>
@@ -147,7 +147,7 @@
                                         </strong>
                                     <?php
                                 }
-                                elseif( $software->level >= Settings::getSetting('syscrack_softwarelevel_expert') )
+                                elseif( $software->level >= Settings::getSetting('syscrack_software_level_expert') )
                                 {
 
                                     ?>
@@ -156,7 +156,7 @@
                                         </strong>
                                     <?php
                                 }
-                                elseif( $software->level >= Settings::getSetting('syscrack_softwarelevel_advanced') )
+                                elseif( $software->level >= Settings::getSetting('syscrack_software_level_advanced') )
                                 {
 
                                     ?>

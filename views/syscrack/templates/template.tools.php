@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 <?php
-                    if( $current_computer->type == Settings::getSetting('syscrack_bank_type') )
+                    if( $current_computer->type == Settings::getSetting('syscrack_computer_bank_type') )
                     {
 
                         if (empty($finance))
@@ -243,7 +243,7 @@
             }
         }
 
-        if( $current_computer->type == Settings::getSetting('syscrack_bank_type') )
+        if( $current_computer->type == Settings::getSetting('syscrack_computer_bank_type') )
         {
 
             ?>

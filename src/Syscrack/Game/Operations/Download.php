@@ -210,7 +210,7 @@ class Download extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_download_type'), $this->softwares->getSoftware( $softwareid )->size / 5, $softwareid );
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_download_type'), $this->softwares->getSoftware( $softwareid )->size / 5, $softwareid );
     }
 
     /**

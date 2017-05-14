@@ -15,6 +15,20 @@ class Computers extends Table
 {
 
     /**
+     * Gets all the computers in our array
+     *
+     * @param int $pick
+     *
+     * @return mixed|\Illuminate\Support\Collection
+     */
+
+    public function getAllComputers( $pick=32 )
+    {
+
+        return $this->getTable()->get()->take( $pick );
+    }
+
+    /**
      * Gets a computer by its ID
      *
      * @param $computerid

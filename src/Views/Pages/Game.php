@@ -247,6 +247,14 @@
             return true;
         }
 
+        /**
+         * Processes an action
+         *
+         * @param $ipaddress
+         *
+         * @param $process
+         */
+
         public function process( $ipaddress, $process )
         {
 
@@ -361,140 +369,6 @@
                 'custom'        =>  $data
             ));
         }
-
-        /**
-         * Processes a game action
-         *
-         * @param $ipaddress
-         *
-         * @param $process
-
-
-        public function process($ipaddress, $process)
-        {
-
-            if ($this->validAddress($ipaddress) == false)
-            {
-
-                $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
-            }
-            else
-            {
-
-                $this->operations = new Operations();
-
-                if ($this->operations->hasProcessClass($process) == false)
-                {
-
-                    $this->redirectError('Action not found', $this->getRedirect( $ipaddress ) );
-                }
-
-                if( $this->operations->hasProcess( $this->computer->getCurrentUserComputer(), $process, $ipaddress ) == true )
-                {
-
-                    $this->redirectError('You already have a process of this nature processing, complete that one first', $this->getRedirect( $ipaddress ) );
-                }
-
-                if( $this->operations->requireSoftwares( $process ) )
-                {
-
-                    $this->redirectError('A software is required to preform this action', $this->getRedirect( $ipaddress ) );
-                }
-
-                $class = $this->operations->findProcessClass($process);
-
-                if ($class instanceof Operation == false)
-                {
-
-                    throw new ViewException();
-                }
-
-                if( $this->operations->allowPost( $process ) == true )
-                {
-
-                    if( PostHelper::hasPostData() == true )
-                    {
-
-                        if( $this->operations->hasPostRequirements( $process ) )
-                        {
-
-                            if( PostHelper::checkForRequirements( $this->operations->getPostRequirements( $process ) ) == false )
-                            {
-
-                                $this->redirectError('Missing post information', $this->getRedirect( $ipaddress ) );
-                            }
-                            else
-                            {
-
-                                $result = $class->onPost( PostHelper::returnRequirements( $this->operations->getPostRequirements( $process ) ), $ipaddress, Container::getObject('session')->getSessionUser() );
-
-                                if( $result == false )
-                                {
-
-                                    $this->redirectError('Unable to complete action', $this->getRedirect( $ipaddress ) );
-                                }
-                            }
-                        }
-                    }
-                }
-
-                $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null);
-
-                if ($completiontime == null)
-                {
-
-                    $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                        'ipaddress' => $ipaddress,
-                        'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
-                    ));
-
-                    if ($result == false)
-                    {
-
-                        $this->redirectError('Unable to preform action', $this->getRedirect( $ipaddress ) );
-                    }
-                    else
-                    {
-
-                        $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                            'ipaddress' => $ipaddress,
-                            'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
-                        ));
-                    }
-                }
-                else
-                {
-
-                    $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                        'ipaddress' => $ipaddress,
-                        'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
-                    ));
-
-                    if ($result == false)
-                    {
-
-                        $this->redirectError('Unable to preform action', $this->getRedirect( $ipaddress ) );
-                    }
-                    else
-                    {
-
-                        $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), Container::getObject('session')->getSessionUser(), $process, array(
-                            'ipaddress' => $ipaddress,
-                            'custom'    => $this->getCustomData( $process, $ipaddress, Container::getObject('session')->getSessionUser() )
-                        ));
-
-                        if ($processid == false)
-                        {
-
-                            $this->redirectError('Failed to create process', $this->getRedirect( $ipaddress ) );
-                        }
-
-                        $this->redirect('processes/' . $processid , false );
-                    }
-                }
-            }
-        }
-         **/
 
         /**
          * Processes a software action

@@ -106,7 +106,7 @@ class Logout extends BaseClass implements Structure
 
         $this->internet->setCurrentConnectedAddress( null );
 
-        if( $this->internet->getComputer( $data['ipaddress'] )->type == Settings::getSetting('syscrack_bank_type') )
+        if( $this->internet->getComputer( $data['ipaddress'] )->type == Settings::getSetting('syscrack_computer_bank_type') )
         {
 
             if( isset( $_SESSION['activeaccount'] ) )

@@ -80,7 +80,7 @@ class Collector extends BaseClass implements Structure
     public function onExecuted( $softwareid, $userid, $computerid )
     {
 
-        if( $this->softwares->getSoftware( $softwareid )->type !== Settings::getSetting('syscrack_collector_type') )
+        if( $this->softwares->getSoftware( $softwareid )->type !== Settings::getSetting('syscrack_software_collector_type') )
         {
 
             return false;
@@ -117,7 +117,7 @@ class Collector extends BaseClass implements Structure
                     'timeran'       => time() - $viruses->lastmodified
                 ));
 
-                if( $viruses->uniquename == Settings::getSetting('syscrack_vminer_uniquename') )
+                if( $viruses->uniquename == Settings::getSetting('syscrack_software_vminer_uniquename') )
                 {
 
                     if( empty( $result ) || $result == null )

@@ -93,7 +93,7 @@ class Hack extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computer->hasType( $computerid, Settings::getSetting('syscrack_cracker_type'), true ) == false )
+        if( $this->computer->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )
         {
 
             return false;
@@ -101,10 +101,10 @@ class Hack extends BaseClass implements Structure
 
         $victimid = $this->getComputerId( $data['ipaddress'] );
 
-        if( $this->computer->hasType( $victimid, Settings::getSetting('syscrack_hasher_type'), true ) == true )
+        if( $this->computer->hasType( $victimid, Settings::getSetting('syscrack_software_hasher_type'), true ) == true )
         {
 
-            if( $this->getHighestLevelSoftware( $victimid, Settings::getSetting('syscrack_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::getSetting('syscrack_cracker_type') )['level'] )
+            if( $this->getHighestLevelSoftware( $victimid, Settings::getSetting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::getSetting('syscrack_software_cracker_type') )['level'] )
             {
 
                 $this->redirectError('Your cracker is too weak', $this->getRedirect( $data['ipaddress'] ) );
@@ -170,7 +170,7 @@ class Hack extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $process, $softwareid=null)
     {
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), Settings::getSetting('syscrack_hack_speed'), $softwareid );
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), Settings::getSetting('syscrack_hack_speed'), $softwareid );
     }
 
     /**

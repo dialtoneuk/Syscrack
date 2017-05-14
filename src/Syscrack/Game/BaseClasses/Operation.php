@@ -110,7 +110,7 @@ class Operation
         if( $type == null )
         {
 
-            $type = Settings::getSetting('syscrack_cracker_type');
+            $type = Settings::getSetting('syscrack_software_cracker_type');
         }
 
         $softwares = $this->computer->getComputerSoftware( $computerid );

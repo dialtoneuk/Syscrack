@@ -4,7 +4,7 @@
 
 ?>
 
-<footer style="padding-top: 2.5%">
+<footer>
 
     <?php
         if( isset( $breadcrumb ) )

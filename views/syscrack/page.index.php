@@ -27,7 +27,7 @@
             -khtml-user-select: none; /* Konqueror HTML */
             -moz-user-select: none; /* Firefox */
             -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* N
+            user-select: none;
         }
     </style>
     <body>
@@ -63,33 +63,33 @@
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner" role="listbox">
                             <div class="item active">
-                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_prompt.png') center no-repeat; background-size:contain;"></div>
+                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_prompt.png') center no-repeat;"></div>
                                 <div class="carousel-caption">
-                                    <p>Hack your victims and infect them with your doom</p>
+                                    <p>Hack your victims and infect them with your doom.</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_monitor.png') center no-repeat; background-size:contain;"></div>
+                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_monitor.png') center no-repeat;"></div>
                                 <div class="carousel-caption">
-                                    <p>Control multiple computers</p>
+                                    <p>Control multiple computers.</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_synth.png') center no-repeat; background-size:contain;"></div>
+                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_synth.png') center no-repeat;"></div>
                                 <div class="carousel-caption">
-                                    <p>Have your own virtual marketplace and sell software and hardware</p>
+                                    <p>Have your own virtual marketplace and sell software and hardware.</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_stockmarket.png') center no-repeat; background-size:contain;"></div>
+                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_stockmarket.png') center no-repeat;"></div>
                                 <div class="carousel-caption">
-                                    <p>Become a bitcoin barron, host your own bitcoin exchanges</p>
+                                    <p>Become a bitcoin barron, host your own bitcoin exchanges.</p>
                                 </div>
                             </div>
                             <div class="item">
-                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_code.png') center no-repeat; background-size:contain;"></div>
+                                <div style="color: white; width: 100%; height: 400px; background: url('/assets/img/art/art_code.png') center no-repeat;"></div>
                                 <div class="carousel-caption">
-                                    <p>Syscrack is a completely free and open source game</p>
+                                    <p>Syscrack is a completely free and open source game.</p>
                                 </div>
                             </div>
                         </div>
@@ -108,28 +108,79 @@
             </div>
             <div class="row" style="margin-top: 2.5%;">
                 <div class="col-lg-12">
-                    <div class="panel panel-default" style="padding: 2%; color: #dddddd;">
-                        <h3 class="text-center text-uppercase">
+                    <div class="panel panel-default" style="padding: 2%;">
+                        <h5 class="text-center text-uppercase">
                             An Open Source Hacking Simulator, simulated on a Virtual Internet
-                        </h3>
+                        </h5>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <h1>
+                                <span class="glyphicon glyphicon-arrow-up"></span>
+                            </h1>
+                            <p>
+                                Find new and stronger softwares to increase your hacking power.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <h1>
+                                <span class="glyphicon glyphicon-certificate"></span>
+                            </h1>
+                            <p>
+                                Install a wide array of viruses onto your victims in order to
+                                raise funds.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <h1>
+                                <span class="glyphicon glyphicon-hdd"></span>
+                            </h1>
+                            <p>
+                                Become stronger by buying new computers and hardwares.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default" style="padding: 2%;">
+                        <h5 class="text-center text-uppercase">
+                            Become the hacker you always wanted to be
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
                     <h5 style="color: #ababab" class="text-uppercase">
                         Hack The Planet
                     </h5>
                     <p>
-                        Syscrack is a <strong>hacking simulator</strong> built from the ground up
-                        to be expandable and modded. Users are thrown into a virtual internet and are
-                        given a set of tools. The aim is simple, become <i>the best hacker in the world.</i>
+                        Set in <strong>1986</strong> on a forever evolving timeline, you are an
+                        underground computer hacker in the hay-days of virus creation for fun. You have no
+                        objective and are free to do as you please.
                     </p>
                     <p>
-                        Its <strong>simple and easy to start playing.</strong> This game has been designed
-                        from scratch to be simple to use, fast to play, and a ton of fun. Inspired by games like
-                        <a href="http://www.slavehack.com">Slavehack</a> and <a href="http://www.hackerexperience.com">Hacker Experience</a>,
-                        players familiar with both games will feel right at home.
+                        Time will progress around you, you will watch the NSA's surveillance service be born and
+                        slowly watch the world become as it is today. It is up to you and your actions to shape
+                        the future of the internet.
+                    </p>
+                    <p>
+                        Using the best softwares you can find, and the best hardware money can buy. It is up to you
+                        how far you want to go. Become a hacker for good, or for bad. The choice is in your hands.
                     </p>
                     <p>
 
@@ -152,8 +203,22 @@
                             }
                         ?>
                     </p>
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        FAQ
+                    </h5>
+                    <p>
+                        This game is a hacking simulator and does not involve any real hacking.
+                    </p>
+                    <p>
+                        The game is 100% free to play, and always will be. We will never hide features from you and
+                        ask you to pay.
+                    </p>
+                    <p>
+                        The game is constantly being updated and worked on, each update will be different to the rest
+                        and truly add something amazing.
+                    </p>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     <h5 style="color: #ababab" class="text-uppercase">
                         Features
                     </h5>
@@ -169,6 +234,62 @@
                         <li class="list-group-item"><span class="glyphicon glyphicon-sunglasses"></span> Completely free and <a href="https://github.com/dialtoneuk/Syscrack2017/">open source</a>, no ads.</li>
                         <li class="list-group-item"><span class="glyphicon glyphicon-heart-empty"></span> and the list goes on... with more being added every update!</li>
                     </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default" style="padding: 2%;">
+                        <h5 class="text-center text-uppercase">
+                            Change the future and be the controller of the fate of the internet
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <h1>
+                                <span class="glyphicon glyphicon-phone"></span>
+                            </h1>
+                            <p>
+                                Join our discord and chat to other players and show off your ego.
+                            </p>
+                            <button style="width: 100%;" class="btn btn-info" onclick="window.location.href = '<?=Settings::getSetting('syscrack_discord_main')?>'">
+                                Join Discord
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <h1>
+                                <span class="glyphicon glyphicon-open"></span>
+                            </h1>
+                            <p>
+                                Join the modders discord and get help with modding the game.
+                            </p>
+                            <button style="width: 100%;" class="btn btn-info" onclick="window.location.href = '<?=Settings::getSetting('syscrack_discord_modders')?>'">
+                                Join Discord
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <h1>
+                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                            </h1>
+                            <p>
+                                Like us on facebook and message us with your suggestions.
+                            </p>
+                            <button style="width: 100%;" class="btn btn-info" onclick="window.location.href = '<?=Settings::getSetting('syscrack_facebook_page')?>'">
+                                Facebook
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <?php

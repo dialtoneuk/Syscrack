@@ -84,7 +84,7 @@ class Bank extends BaseClass implements Structure
 
         $computer = $this->internet->getComputer( $data['ipaddress'] );
 
-        if( $computer->type != Settings::getSetting('syscrack_bank_type') )
+        if( $computer->type != Settings::getSetting('syscrack_computer_bank_type') )
         {
 
             return false;

@@ -35,6 +35,18 @@ class Computer
     }
 
     /**
+     * Gets all the computers
+     *
+     * @return \Illuminate\Support\Collection|mixed
+     */
+
+    public function getAllComputers( $pick=32 )
+    {
+
+        return $this->database->getAllComputers( $pick );
+    }
+
+    /**
      * Returns true if the user has computers
      *
      * @param $userid
@@ -432,7 +444,7 @@ class Computer
         foreach( $softwares as $software )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_cracker_type') )
+            if( $software['type'] == Settings::getSetting('syscrack_software_cracker_type') )
             {
 
                 if( $software['installed'] == false )
@@ -464,7 +476,7 @@ class Computer
         foreach( $softwares as $software )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_hasher_type') )
+            if( $software['type'] == Settings::getSetting('syscrack_software_hasher_type') )
             {
 
                 if( $software['installed'] == false )
@@ -496,7 +508,7 @@ class Computer
         foreach( $softwares as $software )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_hasher_type') )
+            if( $software['type'] == Settings::getSetting('syscrack_software_hasher_type') )
             {
 
                 if( $software['installed'] == false )
@@ -528,7 +540,7 @@ class Computer
         foreach( $softwares as $software )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_collector_type') )
+            if( $software['type'] == Settings::getSetting('syscrack_software_collector_type') )
             {
 
                 if( $software['installed'] == false )
@@ -698,7 +710,7 @@ class Computer
     public function isBank( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_bank_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_bank_type') )
         {
 
             return false;
@@ -718,7 +730,7 @@ class Computer
     public function isBitcoin( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_bitcoin_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_bitcoin_type') )
         {
 
             return false;
@@ -738,7 +750,7 @@ class Computer
     public function isMarket( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_market_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_market_type') )
         {
 
             return false;
@@ -758,7 +770,7 @@ class Computer
     public function isNPC( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_npc_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_npc_type') )
         {
 
             return false;
@@ -778,7 +790,7 @@ class Computer
     public function isVPC( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_vpc_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_vpc_type') )
         {
 
             return false;

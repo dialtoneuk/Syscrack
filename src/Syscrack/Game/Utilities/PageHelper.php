@@ -202,7 +202,7 @@ class PageHelper
         foreach( $computersoftwares as $software )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_hasher_type') )
+            if( $software['type'] == Settings::getSetting('syscrack_software_hasher_type') )
             {
 
                 if( $software['installed'] == true )
@@ -256,7 +256,7 @@ class PageHelper
         foreach( $computersoftwares as $software )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_firewall_type') )
+            if( $software['type'] == Settings::getSetting('syscrack_software_firewall_type') )
             {
 
                 if( $software['installed'] == true )
@@ -310,7 +310,7 @@ class PageHelper
         foreach( $computersoftwares as $software )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_cracker_type') )
+            if( $software['type'] == Settings::getSetting('syscrack_software_cracker_type') )
             {
 
                 if( $software['installed'] == true )

@@ -143,7 +143,7 @@ class Clear extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $process, $softwareid=null)
     {
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_cpu_type'), Settings::getSetting('syscrack_clear_speed'), $softwareid );
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), Settings::getSetting('syscrack_clear_speed'), $softwareid );
     }
 
     /**

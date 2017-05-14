@@ -375,7 +375,7 @@ class Softwares
     public function getVirusesOnComputer( $computerid )
     {
 
-        return $this->database->getTypeOnComputer( Settings::getSetting('syscrack_virus_type'), $computerid );
+        return $this->database->getTypeOnComputer( Settings::getSetting('syscrack_software_virus_type'), $computerid );
     }
 
     /**

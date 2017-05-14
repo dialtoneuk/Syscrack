@@ -70,7 +70,7 @@
                 return false;
             }
 
-            if( $this->computer->getComputerType( $this->getComputerId( $data['ipaddress'] ) ) !== Settings::getSetting('syscrack_downloadserver_type') )
+            if( $this->computer->getComputerType( $this->getComputerId( $data['ipaddress'] ) ) !== Settings::getSetting('syscrack_computer_download_type') )
             {
 
                 $this->redirectError('This action can only be used on a download server', $this->getRedirect( $data['ipaddress'] ) );
@@ -175,7 +175,7 @@
                 throw new SyscrackException();
             }
 
-            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_download_type'), $this->softwares->getSoftware( $softwareid )->size / 5, $softwareid );
+            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_download_type'), $this->softwares->getSoftware( $softwareid )->size / 5, $softwareid );
         }
 
         /**

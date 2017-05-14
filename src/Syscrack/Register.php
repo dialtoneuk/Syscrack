@@ -12,7 +12,6 @@ namespace Framework\Syscrack;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Hashes;
 use Framework\Database\Tables\Users as Database;
-use Framework\Exceptions\ApplicationException;
 use Framework\Exceptions\SyscrackException;
 
 class Register
@@ -153,12 +152,23 @@ class Register
 
         $password = $this->saltPassword( $password, $salt );
 
+        if( $this->database->getUsers()->isEmpty() && Settings::getSetting('user_first_signup_admin') )
+        {
+
+            $group = Settings::getSetting('user_group_admin');
+        }
+        else
+        {
+
+            $group = Settings::getSetting('user_default_group');
+        }
+
         $array = array(
             'username'  => $username,
             'email'     => $email,
             'password'  => $password,
             'salt'      => $salt,
-            'group'     => Settings::getSetting('user_default_group')
+            'group'     => $group
         );
 
         return $array;
