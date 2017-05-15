@@ -82,6 +82,9 @@
                     '/computer/processes/', 'computerProcesses'
                 ],
                 [
+                    '/computer/hardware/', 'computerHardware'
+                ],
+                [
                     '/computer/actions/@process', 'computerAction'
                 ],
                 [
@@ -108,6 +111,12 @@
         {
 
             Flight::render('syscrack/page.computer.log');
+        }
+
+        public function computerHardware()
+        {
+
+            Flight::render('syscrack/page.computer.hardware');
         }
 
         /**
