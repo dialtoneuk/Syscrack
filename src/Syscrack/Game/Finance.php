@@ -51,16 +51,10 @@ class Finance
      * @return int
      */
 
-    public function getUserCash( $userid, $computerid )
+    public function getUserCash( $computerid, $userid )
     {
 
-        if( $this->isBank( $computerid ) == false )
-        {
-
-            throw new SyscrackException();
-        }
-
-        $account = $this->getAccountAtBank( $userid, $computerid );
+        $account = $this->getAccountAtBank( $computerid, $userid );
 
         if( $account == null )
         {
@@ -286,7 +280,7 @@ class Finance
     public function createAccount( $computerid, $userid )
     {
 
-        if( $this->getAccountAtBank( $userid, $computerid ) !== null )
+        if( $this->getAccountAtBank( $computerid, $userid ) !== null )
         {
 
             throw new SyscrackException();
@@ -313,11 +307,11 @@ class Finance
      * @param $amount
      */
 
-    public function deposit( $userid, $computerid, $amount )
+    public function deposit( $computerid, $userid, $amount )
     {
 
         $this->banks->updateAccount( $computerid, $userid, array(
-            'cash' => $this->getUserCash( $userid, $computerid ) + $amount
+            'cash' => $this->getUserCash( $computerid, $userid ) + $amount
         ));
     }
 
@@ -331,11 +325,11 @@ class Finance
      * @param $computerid
      */
 
-    public function withdraw( $userid, $computerid, $amount )
+    public function withdraw( $computerid, $userid, $amount )
     {
 
         $this->banks->updateAccount( $computerid, $userid, array(
-            'cash' => $this->getUserCash( $userid, $computerid ) - $amount
+            'cash' => $this->getUserCash( $computerid, $userid ) - $amount
         ));
     }
 
@@ -351,10 +345,10 @@ class Finance
      * @return bool
      */
 
-    public function canAfford( $userid, int $amount, $computerid )
+    public function canAfford( $computerid, $userid, int $amount )
     {
 
-        $cash = $this->getUserCash( $userid, $computerid );
+        $cash = $this->getUserCash( $computerid, $userid );
 
         if( $cash - $amount > 0 )
         {
@@ -396,7 +390,7 @@ class Finance
     private function isBank( $computerid )
     {
 
-        if( $this->computers->getComputer( $computerid )->type != Settings::getSetting('sysscrack_bank_type') )
+        if( $this->computers->getComputer( $computerid )->type != Settings::getSetting('syscrack_computer_bank_type') )
         {
 
             return false;

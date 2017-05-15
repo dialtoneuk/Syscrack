@@ -633,7 +633,19 @@ class Computer
 
         return false;
     }
-    
+
+    /**
+     * Gets a software by its name
+     *
+     * @param $computerid
+     *
+     * @param $softwarename
+     *
+     * @param bool $checkinstalled
+     *
+     * @return mixed|null
+     */
+
     public function getSoftwareByName( $computerid, $softwarename, $checkinstalled=true )
     {
         

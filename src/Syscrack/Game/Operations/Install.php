@@ -95,6 +95,12 @@ class Install extends BaseClass implements Structure
 
                 return false;
             }
+
+            if( $this->getComputerId( $data['ipaddress'] ) == $computerid )
+            {
+
+                return false;
+            }
         }
 
         return true;

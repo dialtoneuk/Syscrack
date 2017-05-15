@@ -59,7 +59,9 @@ class Hardware
             throw new SyscrackException();
         }
 
-        $hardwares[ $type ] = $value;
+        $hardwares[ $type ] = array(
+            'value' => $value
+        );
 
         $this->computers->updateComputer( $computerid, array(
             'hardwares' => json_encode( $hardwares, JSON_PRETTY_PRINT )
@@ -77,7 +79,9 @@ class Hardware
             throw new SyscrackException();
         }
 
-        $hardwares[ $type ] = $value;
+        $hardwares[ $type ] = array(
+            'value' => $value
+        );
 
         $this->computers->updateComputer( $computerid, array(
             'hardwares' => json_encode( $hardwares, JSON_PRETTY_PRINT )

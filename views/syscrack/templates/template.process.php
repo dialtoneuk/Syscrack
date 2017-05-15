@@ -20,7 +20,7 @@ if( isset( $processid ) )
         <div class="panel panel-primary">
             <div class="panel-body">
                 <p>
-                    <span class="glyphicon glyphicon-cog"></span> <?=$process->process?> at <a href="/game/internet/<?=$data['ipaddress']?>/"><?=$data['ipaddress']?></a>
+                    <span class="glyphicon glyphicon-cog"></span> <?=$process->process?> at <a href="/game/internet/<?=$data['ipaddress']?>/"><?=$data['ipaddress']?></a> <span class="badge" style="float: right;"><?=date("F j, Y, g:i a", $process->timecompleted)?></span>
                 </p>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" id="progressbar<?=$processid?>" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"

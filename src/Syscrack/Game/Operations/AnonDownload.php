@@ -78,13 +78,25 @@
 
             $software = $this->softwares->getSoftware( $data['softwareid'] );
 
+            if( $this->hasSoftware( $software->softwarename, $computerid ) )
+            {
+
+                $this->redirectError('Your computer already has this software', $this->getRedirect( $data['ipaddress'] ) );
+            }
+
             if( $this->softwares->hasData( $software->softwareid ) == false )
             {
 
                 return false;
             }
 
-            if( $this->computer->getSoftwareByName( $computerid, $software->softwarename, false ) !== null )
+            if( isset(  $this->softwares->getSoftwareData( $software->softwareid )['allowanondownloads'] ) == false )
+            {
+
+                return false;
+            }
+
+            if( $this->softwares->getSoftwareData( $software->softwareid )['allowanondownloads'] == false )
             {
 
                 return false;

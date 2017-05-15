@@ -95,6 +95,42 @@ class Operation
     }
 
     /**
+     * Checks if the computer has this software by its name
+     *
+     * @param $softwarename
+     *
+     * @param $computerid
+     *
+     * @return bool
+     */
+
+    public function hasSoftware( $softwarename, $computerid )
+    {
+
+        $softwares = $this->computer->getComputerSoftware( $computerid );
+
+        foreach( $softwares as $key=>$value )
+        {
+
+            if( $this->softwares->softwareExists( $value['softwareid'] ) == false )
+            {
+
+                continue;
+            }
+
+            $software = $this->softwares->getSoftware( $value['softwareid'] );
+
+            if( $software->softwarename == $softwarename )
+            {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Gets the highest level of software on the users computer
      *
      * @param $computerid

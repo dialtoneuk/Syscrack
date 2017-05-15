@@ -212,11 +212,16 @@
         else
         {
 
+            ?>
+                <p>
+                    Access Options
+                </p>
+            <?php
+
             if( $pagehelper->getInstalledCracker() !== null )
             {
 
                 ?>
-
                     <form action="/game/internet/<?=$ipaddress?>/hack">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -259,6 +264,25 @@
                         </div>
                     </div>
                 </form>
+            <?php
+        }
+
+        if( $current_computer->type == Settings::getSetting('syscrack_computer_market_type') )
+        {
+
+            ?>
+            <p>
+                Market Options
+            </p>
+            <form action="/game/internet/<?= $ipaddress ?>/market">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <button style="width: 100%;" class="btn btn-info" type="submit">
+                            <span class="glyphicon glyphicon-gbp" aria-hidden="true"></span> Shop
+                        </button>
+                    </div>
+                </div>
+            </form>
             <?php
         }
     ?>

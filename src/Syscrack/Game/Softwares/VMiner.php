@@ -29,7 +29,7 @@ class VMiner extends BaseClass implements Structure
             'extension'     => '.vminer',
             'type'          => 'virus',
             'installable'   => true,
-            'uninstallable' => false,
+            'uninstallable' => true,
             'executable'    => false,
             'removeable'    => false
         );

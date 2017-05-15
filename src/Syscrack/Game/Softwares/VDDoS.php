@@ -29,7 +29,7 @@ class VDDoS extends BaseClass implements Structure
             'extension'     => '.vddos',
             'type'          => 'ddos',
             'installable'   => true,
-            'uninstallable' => false,
+            'uninstallable' => true,
             'executable'    => false,
             'removeable'    => false
         );

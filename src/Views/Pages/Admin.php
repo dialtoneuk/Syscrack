@@ -313,10 +313,10 @@
                 FileSystem::createDirectory(  $this->getFilePath( $computerid ) );
             }
 
-            if( FileSystem::fileExists( $this->getFilePath( $computerid, true, 'stocks.json' ) ) == false )
+            if( FileSystem::fileExists( $this->getFilePath( $computerid, true, 'stock.json' ) ) == false )
             {
 
-                FileSystem::writeJson( $this->getFilePath( $computerid, true, 'stocks.json') );
+                FileSystem::writeJson( $this->getFilePath( $computerid, true, 'stock.json') );
             }
 
             if( FileSystem::fileExists( $this->getFilePath( $computerid, true, 'purchases.json' ) ) == false )
@@ -341,10 +341,10 @@
                 FileSystem::createDirectory(  $this->getFilePath( $computerid ) );
             }
 
-            if( FileSystem::fileExists( $this->getFilePath( $computerid, false, 'stocks.json' ) ) == false )
+            if( FileSystem::fileExists( $this->getFilePath( $computerid, false, 'stock.json' ) ) == false )
             {
 
-                FileSystem::writeJson( $this->getFilePath( $computerid, true, 'stocks.json') );
+                FileSystem::writeJson( $this->getFilePath( $computerid, true, 'stock.json') );
             }
         }
 

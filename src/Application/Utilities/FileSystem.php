@@ -182,12 +182,6 @@ class FileSystem
 			return false;
 		}
 
-		if( is_file( self::getFilePath ($file ) ) == false )
-		{
-
-			return false;
-		}
-
 		return true;
 	}
 

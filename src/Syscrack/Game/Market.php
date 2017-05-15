@@ -161,6 +161,42 @@
         }
 
         /**
+         * Gets all the purchases by a computer
+         *
+         * @param $computerid
+         *
+         * @param $targetid
+         *
+         * @return array|null
+         */
+
+        public function getPurchasesByComputer( $computerid, $targetid )
+        {
+
+            $purchases = $this->getPurchases( $computerid );
+
+            if( empty( $purchases ) )
+            {
+
+                return null;
+            }
+
+            $result = [];
+
+            foreach( $purchases as $purchase )
+            {
+
+                if( $purchase['computerid'] == $targetid )
+                {
+
+                    $result[] = $purchase;
+                }
+            }
+
+            return $result;
+        }
+
+        /**
          * Gets this markets stock
          *
          * @param $computerid
@@ -281,10 +317,15 @@
                     if( $itemid !== null )
                     {
 
-                        if( $purchases['itemid'] == $itemid )
+                        if( $purchase['itemid'] == $itemid )
                         {
 
                             return true;
+                        }
+                        else
+                        {
+
+                            continue;
                         }
                     }
 
@@ -317,7 +358,7 @@
             }
 
             $purchases[] = array(
-                'computerid'    => $computerid,
+                'computerid'    => $targetid,
                 'itemid'        => $itemid,
                 'timepurchased' => time()
             );
