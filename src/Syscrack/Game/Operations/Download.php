@@ -90,12 +90,6 @@ class Download extends BaseClass implements Structure
 
         $software = $this->softwares->getSoftware( $data['softwareid'] );
 
-        if( $this->hasSoftware( $software->softwarename, $computerid ) )
-        {
-
-            $this->redirectError('Your computer already has this software', $this->getRedirect( $data['ipaddress'] ) );
-        }
-
         if( $this->viruses->isVirus( $software->softwareid ) )
         {
 

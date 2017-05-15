@@ -39,7 +39,7 @@
         $internet = new Internet();
     }
 
-    if( isset( $virus ) == false )
+    if( isset( $viruses ) == false )
     {
 
         $viruses = new Viruses();
@@ -191,7 +191,7 @@
                                     foreach( $addresses as $key=>$value )
                                     {
 
-                                        Flight::render('syscrack/templates/template.address', array('key' => $key, 'value' => $value, 'computer' => $computer ) );
+                                        Flight::render('syscrack/templates/template.address', array('key' => $key, 'value' => $value, 'computer' => $computer, 'internet' => $internet, 'viruses' => $viruses ) );
                                     }
                                 }
                             }

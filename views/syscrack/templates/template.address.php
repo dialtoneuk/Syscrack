@@ -5,12 +5,37 @@
 
         $computer = new \Framework\Syscrack\Game\Computer();
     }
+
+    if( isset( $viruses ) == false )
+    {
+
+        $viruses = new \Framework\Syscrack\Game\Viruses();
+    }
+
+    if( isset( $internet ) == false )
+    {
+
+        $internet = new \Framework\Syscrack\Game\Internet();
+    }
+
+    $session = \Framework\Application\Container::getObject('session');
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="badge">address #<?=$key?></span> <?=$value['ipaddress']?> <span style="float: right;" class="badge"><?=$computer->getComputerType( $value['computerid'] )?></span>
     </div>
     <div class="panel-body">
+        <?php
+            if( $viruses->hasVirusesOnComputer( $internet->getComputer($value['ipaddress'])->computerid, $session->getSessionUser() ) )
+            {
+
+                ?>
+                    <p class="text-center">
+                        You currently have a virus installed on this computer
+                    </p>
+                <?php
+            }
+        ?>
         <button class="btn btn-default" style="width: 100%" type="button" data-toggle="collapse" data-target="#computer_<?=$value['computerid']?>" aria-expanded="false" aria-controls="computer_<?=$value['computerid']?>">
             View
         </button>

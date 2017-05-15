@@ -145,6 +145,7 @@
   "syscrack_hack_speed":25,
   "syscrack_hardware_cpu_type":"cpu",
   "syscrack_hardware_download_type":"download",
+  "syscrack_hardware_upload_type":"upload",
   "syscrack_internet_page":"internet",
   "syscrack_log_current":"current",
   "syscrack_log_location":"syscrack/logs/",

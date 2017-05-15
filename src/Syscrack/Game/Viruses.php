@@ -123,7 +123,7 @@ class Viruses
     public function virusAlreadyInstalled( $uniquename, $computerid, $userid )
     {
 
-        $viruses =  $this->softwares->getTypeOnComputer( Settings::getSetting('syscrack_software_virus_type'), $computerid );
+        $viruses = $this->softwares->getTypeOnComputer( Settings::getSetting('syscrack_software_virus_type'), $computerid );
 
         foreach( $viruses as $virus )
         {
@@ -134,7 +134,11 @@ class Viruses
                 if( $virus->uniquename == $uniquename )
                 {
 
-                    return true;
+                    if( $virus->installed == true )
+                    {
+
+                        return true;
+                    }
                 }
             }
         }

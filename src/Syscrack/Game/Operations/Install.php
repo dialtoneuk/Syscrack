@@ -90,8 +90,10 @@ class Install extends BaseClass implements Structure
 
             $software = $this->softwares->getSoftware( $data['softwareid'] );
 
-            if( $this->viruses->virusAlreadyInstalled( $software->uniquename, $this->getComputerId( $data['ipaddress']), $userid ) )
+            if( $this->viruses->virusAlreadyInstalled( $software->uniquename, $this->getComputerId( $data['ipaddress'] ) , $userid ) )
             {
+
+                die('eh');
 
                 return false;
             }
