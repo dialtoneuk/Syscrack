@@ -55,7 +55,13 @@ class VPhisher extends BaseClass implements Structure
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
+        return null;
+    }
 
+    public function getExecuteCompletionTime($softwareid, $computerid)
+    {
+
+        return null;
     }
 
     /**

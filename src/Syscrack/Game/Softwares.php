@@ -628,6 +628,42 @@ class Softwares
     }
 
     /**
+     * Returns true if this software can only be executed locally
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function localExecuteOnly( $softwareid )
+    {
+
+        $software = $this->database->getSoftware( $softwareid );
+
+        if( $software == null )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+
+        if( isset( $softwareclass->configuration()['localexecuteonly'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $softwareclass->configuration()['localexecuteonly'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Returns true if the software can be edited
      *
      * @param $softwareid

@@ -55,7 +55,13 @@ class VSpam extends BaseClass implements Structure
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
+        return 1.25 * $timeran;
+    }
 
+    public function getExecuteCompletionTime($softwareid, $computerid)
+    {
+
+        return null;
     }
 
     /**

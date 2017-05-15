@@ -56,6 +56,11 @@ class Hasher extends BaseClass implements Structure
 
     }
 
+    public function getExecuteCompletionTime($softwareid, $computerid)
+    {
+        return null;
+    }
+
     /**
      * Default size of 10.0
      *

@@ -29,14 +29,14 @@ class Cracker extends BaseClass implements Structure
             'extension'     => '.crc',
             'type'          => 'cracker',
             'installable'   => true,
-            'executable'    => false
+            'executable'    => true
         );
     }
 
     public function onExecuted( $softwareid, $userid, $computerid )
     {
 
-
+        $this->redirect('game/internet');
     }
 
     public function onInstalled( $softwareid, $userid, $computerid )
@@ -54,6 +54,12 @@ class Cracker extends BaseClass implements Structure
     {
 
 
+    }
+
+    public function getExecuteCompletionTime($softwareid, $computerid)
+    {
+
+        return null;
     }
 
     /**

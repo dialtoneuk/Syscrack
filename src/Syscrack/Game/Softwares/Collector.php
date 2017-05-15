@@ -12,8 +12,11 @@
  */
 
 use Framework\Application\Settings;
+use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
+use Framework\Syscrack\Game\Finance;
+use Framework\Syscrack\Game\Structures\Software;
 use Framework\Syscrack\Game\Structures\Software as Structure;
 use Framework\Syscrack\Game\Viruses;
 
@@ -33,6 +36,12 @@ class Collector extends BaseClass implements Structure
     protected $addressdatabase;
 
     /**
+     * @var Finance;
+     */
+
+    protected $finance;
+
+    /**
      * Collector constructor.
      */
 
@@ -41,9 +50,23 @@ class Collector extends BaseClass implements Structure
 
         parent::__construct();
 
-        $this->viruses = new Viruses();
+        if( isset( $this->viruses ) == false )
+        {
 
-        $this->addressdatabase = new AddressDatabase();
+            $this->viruses = new Viruses();
+        }
+
+        if( isset( $this->addressdatabase ) == false )
+        {
+
+            $this->addressdatabase = new AddressDatabase();
+        }
+
+        if( isset( $this->finance ) == false )
+        {
+
+            $this->finance = new Finance();
+        }
     }
 
     /**
@@ -56,10 +79,12 @@ class Collector extends BaseClass implements Structure
     {
 
         return array(
-            'uniquename'    => 'collector',
-            'extension'     => '.col',
-            'type'          => 'collector',
-            'installable'   => false
+            'uniquename'        => 'collector',
+            'extension'         => '.col',
+            'type'              => 'collector',
+            'installable'       => true,
+            'executable'        => true,
+            'localexecuteonly'  => true,
         );
     }
 
@@ -73,8 +98,6 @@ class Collector extends BaseClass implements Structure
      * @param $computerid
      *
      * @return array|bool
-     *
-     * //TOOD: Improve this to instead or returning 'false', returning a sort of class which can display an error
      */
 
     public function onExecuted( $softwareid, $userid, $computerid )
@@ -94,7 +117,15 @@ class Collector extends BaseClass implements Structure
             return false;
         }
 
-        $profit = [];
+        $accounts = $this->finance->getUserBankAccounts( $userid );
+
+        if( empty( $accounts ) )
+        {
+
+            $this->redirectError('You currently dont have any bank accounts, the collector for now will use the first account it finds', $this->getRedirect( $this->computer->getComputer( $computerid )->ipaddress ) );
+        }
+
+        $profits = [];
 
         foreach( $addresses as $address )
         {
@@ -110,63 +141,64 @@ class Collector extends BaseClass implements Structure
             foreach( $viruses as $virus )
             {
 
-                $result = $this->softwares->executeSoftwareMethod( $this->softwares->getSoftware( $virus->softwareid ), 'onCollect', array(
-                    'softwareid'    => $virus->softwareid,
-                    'userid'        => $userid,
-                    'computerid'    => $computerid,
-                    'timeran'       => time() - $viruses->lastmodified
-                ));
+                $class = $this->softwares->getSoftwareClassFromID( $virus->softwareid );
 
-                if( $viruses->uniquename == Settings::getSetting('syscrack_software_vminer_uniquename') )
+                if( $class instanceof Software == false )
                 {
 
-                    if( empty( $result ) || $result == null )
-                    {
+                    throw new SyscrackException();
+                }
 
-                        $profit['btc'][] = array(
-                            'profit'    => $result,
-                            'timeran'   => time() - $viruses->lastmodified,
-                            'ipaddress' => $address['ipaddress']
-                        );
-                    }
-                    else
-                    {
+                if( ( time() - $virus->lastmodified ) <= Settings::getSetting('syscrack_collector_cooldown') )
+                {
 
-                        $profit['cash'][] = array(
-                            'profit'    => $result,
-                            'timeran'   => time() - $viruses->lastmodified,
-                            'ipaddress' => $address['ipaddress']
-                        );
-                    }
+                    continue;
+                }
+
+                $result = $class->onCollect( $virus->softwareid, $userid, $computerid, time() - $virus->lastmodified );
+
+                if( $result == null )
+                {
+
+                    $profit = Settings::getSetting('syscrack_collector_amount');
                 }
                 else
                 {
 
-                    if( empty( $result ) || $result == null )
-                    {
-
-                        $profit['cash'][] = array(
-                            'profit'    => Settings::getSetting('syscrack_collector_btc_amount'),
-                            'timeran'   => time() - $viruses->lastmodified,
-                            'ipaddress' => $address['ipaddress']
-                        );
-                    }
-                    else
-                    {
-
-                        $profit['cash'][] = array(
-                            'profit'    => $result,
-                            'timeran'   => time() - $viruses->lastmodified,
-                            'ipaddress' => $address['ipaddress']
-                        );
-                    }
+                    $profit = $result;
                 }
+
+                $profits[] = [
+                    'profit'    => $profit * $this->softwares->getSoftware( $softwareid )->level,
+                    'timeran'   => time() - $virus->lastmodified,
+                    'ipaddress' => $address['ipaddress']
+                ];
 
                 $this->viruses->updateVirusModified( $virus->softwareid );
             }
         }
 
-        return $profit;
+        if( empty( $profits ) )
+        {
+
+            $this->redirectError('No profits were collected, you need to wait ' . Settings::getSetting('syscrack_collector_cooldown') . ' seconds between each collect', $this->getRedirect( $this->computer->getComputer( $computerid )->ipaddress ) );
+        }
+
+        foreach( $profits as $profit )
+        {
+
+            $account = $accounts[0];
+
+            if( $this->finance->accountNumberExists( $account->accountnumber ) == false )
+            {
+
+                return false;
+            }
+
+            $this->finance->deposit( $account->computerid, $userid, $profit['profit'] );
+        }
+
+        return true;
     }
 
     public function onInstalled( $softwareid, $userid, $computerid )
@@ -184,6 +216,11 @@ class Collector extends BaseClass implements Structure
     {
 
         return;
+    }
+
+    public function getExecuteCompletionTime($softwareid, $computerid)
+    {
+        return null;
     }
 
     /**

@@ -59,6 +59,12 @@ class Text extends BaseClass implements Structure
 
     }
 
+    public function getExecuteCompletionTime($softwareid, $computerid)
+    {
+
+        return null;
+    }
+
     /**
      * Default size of 16.0
      *

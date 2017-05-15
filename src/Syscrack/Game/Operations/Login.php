@@ -164,7 +164,7 @@ class Login extends BaseClass implements Structure
      * @return null
      */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $sofwareid=null)
+    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
         return null;

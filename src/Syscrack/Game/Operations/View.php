@@ -105,7 +105,7 @@ class View extends BaseClass implements Structure
         if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
         {
 
-            $this->redirectError('Sorry, it looks like this software might have been deleted');
+            $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
         if( $this->softwares->hasData( $data['softwareid'] ) == false )
@@ -156,14 +156,14 @@ class View extends BaseClass implements Structure
      *
      * @param $computerid
      *
-     * @param $process
+     * @param $ipaddress
      *
-     * @param null $sofwareid
+     * @param null $softwareid
      *
      * @return null
      */
 
-    public function getCompletionSpeed($computerid, $process, $sofwareid=null )
+    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
     {
 
         return null;

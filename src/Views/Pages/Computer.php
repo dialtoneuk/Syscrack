@@ -190,7 +190,7 @@
                 $this->redirectError('Unable to complete process' );
             }
 
-            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process, null );
+            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $ipaddress, null );
 
             if( $completiontime !== null )
             {
@@ -333,7 +333,7 @@
                 $this->redirectError('Unable to complete process' );
             }
 
-            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process,  $softwareid );
+            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $ipaddress, $software->softwareid );
 
             if( $completiontime !== null )
             {

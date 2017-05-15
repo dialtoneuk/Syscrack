@@ -142,7 +142,7 @@
             if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
             {
 
-                $this->redirectError('Sorry, it looks like this software might have been deleted');
+                $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
             }
 
             $this->softwares->uninstallSoftware( $data['softwareid'] );
@@ -178,14 +178,14 @@
          *
          * @param $computerid
          *
-         * @param $process
+         * @param $ipaddress
          *
          * @param null $softwareid
          *
          * @return int
          */
 
-        public function getCompletionSpeed($computerid, $process, $softwareid=null)
+        public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
         {
 
             return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), 20, $softwareid );

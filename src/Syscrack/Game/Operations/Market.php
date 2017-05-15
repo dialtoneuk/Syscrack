@@ -114,14 +114,14 @@ class Market extends BaseClass implements Structure
      *
      * @param $computerid
      *
-     * @param $process
+     * @param $ipaddress
      *
-     * @param null $sofwareid
+     * @param null $softwareid
      *
      * @return null
      */
 
-    public function getCompletionSpeed($computerid, $process, $sofwareid=null )
+    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
     {
 
         return null;

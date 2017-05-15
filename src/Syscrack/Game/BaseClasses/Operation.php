@@ -481,6 +481,12 @@ class Operation
     public function getRedirect( $ipaddress=null, $local=false )
     {
 
+        if( $ipaddress == $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress )
+        {
+
+            return Settings::getSetting('syscrack_computer_page');
+        }
+
         if( $local )
         {
 

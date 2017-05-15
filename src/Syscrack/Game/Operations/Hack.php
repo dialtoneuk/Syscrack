@@ -160,14 +160,14 @@ class Hack extends BaseClass implements Structure
      *
      * @param $computerid
      *
-     * @param $process
+     * @param $ipaddress
      *
      * @param null $softwareid
      *
      * @return int
      */
 
-    public function getCompletionSpeed($computerid, $process, $softwareid=null)
+    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
         return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), Settings::getSetting('syscrack_hack_speed'), $softwareid );

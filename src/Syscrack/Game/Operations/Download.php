@@ -135,7 +135,7 @@ class Download extends BaseClass implements Structure
         if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
         {
 
-            $this->redirectError('Sorry, it looks like this software might have been deleted');
+            $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
         $software = $this->softwares->getSoftware( $data['softwareid'] );
@@ -194,14 +194,14 @@ class Download extends BaseClass implements Structure
      *
      * @param $computerid
      *
-     * @param $process
+     * @param $ipaddress
      *
      * @param null $softwareid
      *
      * @return int
      */
 
-    public function getCompletionSpeed($computerid, $process, $softwareid=null)
+    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
         if( $this->softwares->softwareExists( $softwareid ) == false )

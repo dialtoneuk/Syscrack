@@ -79,6 +79,18 @@ interface Software
     public function onCollect( $softwareid, $userid, $computerid, $timeran );
 
     /**
+     * Gets the execute completion time ( only on execute and if executable is equal to true )
+     *
+     * @param $softwareid
+     *
+     * @param $computerid
+     *
+     * @return mixed|null
+     */
+
+    public function getExecuteCompletionTime( $softwareid, $computerid );
+
+    /**
      * Gets the default size in megabytes of the software
      *
      * @return float

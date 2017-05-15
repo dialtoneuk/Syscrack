@@ -322,6 +322,15 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="text-center">
+                        <a onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
+                            Back to the top...
+                        </a>
+                    </p>
+                </div>
+            </div>
             <?php
 
                 Flight::render('syscrack/templates/template.footer', array('breadcrumb' => true ) );
