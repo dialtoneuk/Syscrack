@@ -77,13 +77,7 @@ class Clear extends BaseClass implements Structure
         if( empty( $this->log->getCurrentLog( $computer->computerid ) ) )
         {
 
-            if( isset( $data['redirect'] ) )
-            {
-
-                $this->redirectError('Log is currently empty', $data['redirect'] );
-            }
-
-            $this->redirectError('Log is currently empty', $this->getRedirect( $data['ipaddress'] ) );
+            $this->redirectError('The log is currently already empty', $this->getRedirect( $data['ipaddress'] ) );
         }
 
         return true;
@@ -114,7 +108,7 @@ class Clear extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        $this->log->saveLog( $this->internet->getComputer( $data['ipaddress'] )->computerid, [] );
+        $this->log->saveLog( $this->getComputerId( $data['ipaddress'] ), [] );
 
         if( isset( $data['redirect'] ) )
         {
@@ -143,7 +137,7 @@ class Clear extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), Settings::getSetting('syscrack_clear_speed'), $softwareid );
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), Settings::getSetting('syscrack_operations_clear_speed'), $softwareid );
     }
 
     /**

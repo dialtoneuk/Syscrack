@@ -76,27 +76,7 @@
                 $this->redirectError('This action can only be used on a download server', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $software = $this->softwares->getSoftware( $data['softwareid'] );
-
-            if( $this->hasSoftware( $software->softwarename, $computerid ) )
-            {
-
-                $this->redirectError('Your computer already has this software', $this->getRedirect( $data['ipaddress'] ) );
-            }
-
-            if( $this->softwares->hasData( $software->softwareid ) == false )
-            {
-
-                return false;
-            }
-
-            if( isset(  $this->softwares->getSoftwareData( $software->softwareid )['allowanondownloads'] ) == false )
-            {
-
-                return false;
-            }
-
-            if( $this->softwares->getSoftwareData( $software->softwareid )['allowanondownloads'] == false )
+            if( $this->softwares->isAnonDownloadSoftware( $data['softwareid'] ) == false )
             {
 
                 return false;
@@ -144,7 +124,7 @@
                 throw new SyscrackException();
             }
 
-            $software = $this->softwares->getSoftware( $data['softwareid'] );
+            $software = $this->softwares->getSoftware( $softwareid );
 
             if( $software == null )
             {
@@ -152,7 +132,7 @@
                 throw new SyscrackException();
             }
 
-            $this->computer->addSoftware( $this->computer->getCurrentUserComputer(), $softwareid, $software->type, $software->softwarename );
+            $this->computer->addSoftware( $this->computer->getCurrentUserComputer(), $software->softwareid, $software->type, $software->softwarename );
 
             if( isset( $data['redirect'] ) )
             {

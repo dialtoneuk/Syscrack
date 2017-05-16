@@ -138,7 +138,7 @@ class Hack extends BaseClass implements Structure
         }
 
         $this->addressdatabase->addComputer( array(
-            'computerid'        => $this->internet->getComputer( $data['ipaddress'] )->computerid,
+            'computerid'        => $this->getComputerId( $data['ipaddress'] ),
             'ipaddress'         => $data['ipaddress'],
             'timehacked'        => time()
         ));
@@ -170,7 +170,7 @@ class Hack extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), Settings::getSetting('syscrack_hack_speed'), $softwareid );
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), Settings::getSetting('syscrack_operations_hack_speed'), $softwareid );
     }
 
     /**

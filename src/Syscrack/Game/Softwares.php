@@ -72,7 +72,6 @@ class Softwares
 
         $softwares = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_software_location') );
 
-
         foreach( $softwares as $software )
         {
 
@@ -698,6 +697,104 @@ class Softwares
     }
 
     /**
+     * Returns true if this software is an anon download software
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function isAnonDownloadSoftware( $softwareid )
+    {
+
+        if( $this->hasData( $softwareid ) == false )
+        {
+
+            return false;
+        }
+
+        $data = $this->getSoftwareData( $softwareid );
+
+        if( isset( $data['allowanondownloads'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( is_bool( $data['allowanondownloads'] ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $data['allowanondownloads'];
+    }
+
+    public function hasIcon( $softwareid )
+    {
+
+        $software = $this->database->getSoftware( $softwareid );
+
+        if( $software == null )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+
+        if( empty( $softwareclass->configuration() ) )
+        {
+
+            return false;
+        }
+
+        if( isset( $softwareclass->configuration()['icon'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( empty( $softwareclass->configuration()['icon'] ) )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the softwares icon
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function getIcon( $softwareid )
+    {
+
+        $software = $this->database->getSoftware( $softwareid );
+
+        if( $software == null )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+
+        if( empty( $softwareclass->configuration() ) )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $softwareclass->configuration()['icon'];
+    }
+
+    /**
      * Gets the softwares type
      *
      * @param $software
@@ -788,9 +885,7 @@ class Softwares
     public function hasData( $softwareid )
     {
 
-        $software = $this->database->getSoftware( $softwareid );
-
-        if( $software->data == null || empty( $software->data ) )
+        if( $this->getSoftwareData( $softwareid ) == null )
         {
 
             return false;

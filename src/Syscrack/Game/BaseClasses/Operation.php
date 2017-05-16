@@ -101,10 +101,12 @@ class Operation
      *
      * @param $computerid
      *
+     * @param $installed
+     *
      * @return bool
      */
 
-    public function hasSoftware( $softwarename, $computerid )
+    public function hasSoftware( $softwarename, $computerid, $installed=true )
     {
 
         $softwares = $this->computer->getComputerSoftware( $computerid );
@@ -123,7 +125,20 @@ class Operation
             if( $software->softwarename == $softwarename )
             {
 
-                return true;
+                if( $installed )
+                {
+
+                    if( $software->installed == true )
+                    {
+
+                        return true;
+                    }
+                }
+                else
+                {
+
+                    return true;
+                }
             }
         }
 
@@ -239,6 +254,39 @@ class Operation
     }
 
     /**
+     * Logs the actions on the personal players computer and the corresponding ip addresses computer
+     *
+     * @param $message
+     *
+     * @param $computerid
+     *
+     * @param $ipaddress
+     */
+
+    public function logActions( $message, $computerid, $ipaddress )
+    {
+
+        if( $this->computer->computerExists( $computerid ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $victimid = $this->internet->getComputer( $ipaddress );
+
+        if( $this->log->hasLog( $victimid->computerid ) == false || $this->log->hasLog( $computerid ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $this->logToComputer( $message, $victimid->computerid, $this->computer->getComputer( $computerid )->ipaddress );
+
+        $this->logToComputer( $message, $computerid, Settings::getSetting('syscrack_log_localhost_name'));
+
+    }
+
+    /**
      * Renders a page
      *
      * @param $file
@@ -292,7 +340,7 @@ class Operation
         if( $this->hardware->hasHardwareType( $computerid, $hardwaretype ) == false )
         {
 
-            return TimeHelper::getSecondsInFuture( Settings::getSetting('syscrack_default_processingtime') );
+            return TimeHelper::getSecondsInFuture( Settings::getSetting('syscrack_operations_default_processingtime') );
         }
 
         if( $softwareid !== null )
@@ -308,12 +356,12 @@ class Operation
 
             $software = $this->softwares->getSoftware( $softwareid );
 
-            return TimeHelper::getSecondsInFuture( floor( ( sqrt( $software->level / $hardware['value'] ) * $speedness ) * ( Settings::getSetting('syscrack_global_speed' ) ) ) );
+            return TimeHelper::getSecondsInFuture( floor( ( sqrt( $software->level / $hardware['value'] ) * $speedness ) * ( Settings::getSetting('syscrack_operations_global_speed' ) ) ) );
         }
 
         $hardware = $this->hardware->getHardwareType( $computerid, $hardwaretype );
 
-        return TimeHelper::getSecondsInFuture( floor( sqrt( $speedness / $hardware['value'] ) * ( Settings::getSetting('syscrack_global_speed' ) ) ) );
+        return TimeHelper::getSecondsInFuture( floor( sqrt( $speedness / $hardware['value'] ) * ( Settings::getSetting('syscrack_operations_global_speed' ) ) ) );
     }
 
     /**
@@ -349,6 +397,12 @@ class Operation
 
         if( Settings::getSetting('error_use_session') )
         {
+
+            if( session_status() !== PHP_SESSION_ACTIVE )
+            {
+
+                session_status();
+            }
 
             $_SESSION['error'] = $message;
 
@@ -503,6 +557,26 @@ class Operation
     }
 
     /**
+     * Unsets session variables on logout
+     */
+
+    public function safeUnset()
+    {
+
+        $unset = Settings::getSetting('syscrack_operation_safeunset');
+
+        foreach( $unset as $value )
+        {
+
+            if( isset( $_SESSION[ $value ] ) )
+            {
+
+                unset( $_SESSION[ $value ] );
+            }
+        }
+    }
+
+    /**
      * Gets the computer id from an ipaddress
      *
      * @param $ipaddress
@@ -514,6 +588,38 @@ class Operation
     {
 
         return $this->internet->getComputer( $ipaddress )->computerid;
+    }
+
+    /**
+     * Gets the current computers ip address
+     *
+     * @return mixed
+     */
+
+    public function getCurrentComputerAddress()
+    {
+
+        return $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress;
+    }
+
+    /**
+     * Gets the software name of a software
+     *
+     * @param $softwareid
+     *
+     * @return mixed
+     */
+
+    public function getSoftwareName( $softwareid )
+    {
+
+        if( $this->softwares->softwareExists( $softwareid ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $this->softwares->getSoftware( $softwareid )->softwarename;
     }
 
     /**

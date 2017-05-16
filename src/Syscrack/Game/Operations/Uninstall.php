@@ -13,16 +13,9 @@
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
     use Framework\Syscrack\Game\Structures\Operation as Structure;
-    use Framework\Syscrack\Game\Viruses;
 
     class Uninstall extends BaseClass implements Structure
     {
-
-        /**
-         * @var Viruses
-         */
-
-        protected $viruses;
 
         /**
          * Uninstall constructor.
@@ -32,8 +25,6 @@
         {
 
             parent::__construct();
-
-            $this->viruses = new Viruses();
         }
 
         /**
@@ -86,7 +77,7 @@
             else
             {
 
-                if( $this->computer->hasSoftware( $this->internet->getComputer( $data['ipaddress'] )->computerid, $data['softwareid'] ) == false )
+                if( $this->computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
                 {
 
                     return false;
@@ -98,15 +89,6 @@
                     {
 
                         return false;
-                    }
-                    else
-                    {
-
-                        if( $this->viruses->isVirus( $data['softwareid'] ) )
-                        {
-
-                            return false;
-                        }
                     }
                 }
             }
@@ -145,20 +127,26 @@
                 $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
             }
 
+            if( $this->softwares->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
+            {
+
+                $this->redirectError('Sorry, it looks like this software got uninstalled already', $this->getRedirect( $data['ipaddress'] ) );
+            }
+
             $this->softwares->uninstallSoftware( $data['softwareid'] );
 
-            $this->computer->uninstallSoftware( $this->internet->getComputer( $data['ipaddress'] )->computerid, $data['softwareid'] );
+            $this->computer->uninstallSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
-            $this->logUninstall( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
-                $this->internet->getComputer( $data['ipaddress'] )->computerid,$this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+            $this->logUninstall( $this->getSoftwareName( $data['softwareid' ] ),
+                $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
 
-            $this->logLocal( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
+            $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
                 $this->computer->getCurrentUserComputer(), $data['ipaddress']);
 
             $this->softwares->executeSoftwareMethod( $this->softwares->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onUninstalled', array(
                 'softwareid'    => $data['softwareid'],
                 'userid'        => $userid,
-                'computerid'    => $this->internet->getComputer( $data['ipaddress'] )->computerid
+                'computerid'    => $this->getComputerId( $data['ipaddress'] )
             ));
 
             if( isset( $data['redirect'] ) )

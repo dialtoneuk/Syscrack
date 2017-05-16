@@ -15,7 +15,14 @@
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
+    use Framework\Exceptions\ViewException;
+    use Framework\Syscrack\Game\AddressDatabase;
+    use Framework\Syscrack\Game\Finance;
+    use Framework\Syscrack\Game\Log;
     use Framework\Syscrack\Game\Operations;
+    use Framework\Syscrack\Game\Structures\Software;
+    use Framework\Syscrack\Game\Utilities\PageHelper;
+    use Framework\Syscrack\Game\Viruses;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -35,6 +42,36 @@
         protected $session;
 
         /**
+         * @var Finance
+         */
+
+        protected $finance;
+
+        /**
+         * @var AddressDatabase
+         */
+
+        protected $addressdatabase;
+
+        /**
+         * @var Viruses
+         */
+
+        protected $viruses;
+
+        /**
+         * @var PageHelper
+         */
+
+        protected $pagehelper;
+
+        /**
+         * @var Log
+         */
+
+        protected $log;
+
+        /**
          * Computer constructor.
          */
 
@@ -49,6 +86,12 @@
                 $this->operations = new Operations();
             }
 
+            if( isset( $this->finance ) == false )
+            {
+
+                $this->finance = new Finance();
+            }
+
             if( isset( $this->session ) == false )
             {
 
@@ -59,6 +102,36 @@
                 }
 
                 $this->session = Container::getObject('session');
+            }
+
+            if( isset( $this->addressdatabase ) == false )
+            {
+
+                if( isset( $this->session ) == false )
+                {
+
+                    throw new ViewException();
+                }
+
+                $this->addressdatabase = new AddressDatabase( $this->session->getSessionUser() );
+            }
+
+            if( isset ( $this->pagehelper ) == false )
+            {
+
+                $this->pagehelper = new PageHelper();
+            }
+
+            if( isset( $this->viruses ) == false )
+            {
+
+                $this->viruses = new Viruses();
+            }
+
+            if( isset( $this->log ) == false )
+            {
+
+                $this->log = new Log();
             }
         }
 
@@ -83,6 +156,12 @@
                 ],
                 [
                     '/computer/hardware/', 'computerHardware'
+                ],
+                [
+                    'GET /computer/collect', 'computerCollect'
+                ],
+                [
+                    'POST /computer/collect', 'computerCollectProcess'
                 ],
                 [
                     '/computer/actions/@process', 'computerAction'
@@ -127,6 +206,164 @@
         {
 
             Flight::render('syscrack/page.computer.processes');
+        }
+
+        /**
+         * Renders the collection page
+         */
+
+        public function computerCollect()
+        {
+
+            Flight::render('syscrack/page.computer.collect');
+        }
+
+        /**
+         * Processes the virus collection process
+         */
+
+        public function computerCollectProcess()
+        {
+
+            if( PostHelper::hasPostData() == false )
+            {
+
+                $this->computerCollect();
+            }
+            else
+            {
+
+                if( PostHelper::checkForRequirements(['accountnumber'] ) == false )
+                {
+
+                    $this->redirectError('Please enter an account number', 'computer/collect');
+                }
+
+                $accountnumber = PostHelper::getPostData('accountnumber');
+
+                if( $this->finance->accountNumberExists( $accountnumber ) == false )
+                {
+
+                    $this->redirectError('This account does not exist', 'computer/collect');
+                }
+
+                $addressdatabase = $this->addressdatabase->getDatabase();
+
+                if( empty( $addressdatabase ) )
+                {
+
+                    $this->redirectError('Your address database is empty, go hack somebody', 'computer/collect');
+                }
+
+                $results = [];
+
+                foreach( $addressdatabase as $address )
+                {
+
+                    if( $this->internet->ipExists( $address['ipaddress'] ) == false )
+                    {
+
+                        $results[ $address['ipaddress'] ] = array(
+                            'message' => 'Failed to connect to address'
+                        );
+                    }
+                    else
+                    {
+
+                        $computer = $this->internet->getComputer( $address['ipaddress'] );
+
+                        if( $this->viruses->hasVirusesOnComputer( $computer->computerid, $this->session->getSessionUser() ) == false )
+                        {
+
+                            continue;
+                        }
+
+                        $viruses = $this->viruses->getVirusesOnComputer( $computer->computerid, $this->session->getSessionUser() );
+
+                        foreach( $viruses as $virus )
+                        {
+
+                            if( ( time() - $virus->lastmodified ) <= Settings::getSetting('syscrack_collector_cooldown') )
+                            {
+
+                                $results[ $address['ipaddress'] ] = array(
+                                    'message' => 'Virus was collected too soon ago'
+                                );
+                            }
+                            else
+                            {
+
+                                $class = $this->softwares->getSoftwareClassFromID( $virus->softwareid );
+
+                                if( $class instanceof Software == false )
+                                {
+
+                                    throw new SyscrackException();
+                                }
+
+                                $result = $class->onCollect( $virus->softwareid, $this->session->getSessionUser(), $computer->computerid, time() - $virus->lastmodified );
+
+                                if( empty( $result ) | $result == null )
+                                {
+
+                                    $results[ $address['ipaddress'] ] = array(
+                                        'message' => 'Virus generated no profits'
+                                    );
+                                }
+                                else
+                                {
+
+                                    $results[ $address['ipaddress'] ] = array(
+                                        'message'   => 'Virus ran for ' .  ( time() - $virus->lastmodified ) . ' seconds and generated ' . Settings::getSetting('syscrack_currency') . number_format( ( $result * $this->pagehelper->getInstalledCollector()['level'] ) ),
+                                        'profits'   => ( $result * $this->pagehelper->getInstalledCollector()['level'] )
+                                    );
+
+                                    $this->viruses->updateVirusModified( $virus->softwareid );
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if( empty( $results ) )
+                {
+
+                    $this->redirectError('Nothing was collected, this is probably because you tried to collect too soon. You need to wait ' . Settings::getSetting('syscrack_collector_cooldown') . ' seconds per execution', 'computer/collect');
+                }
+
+                $account = $this->finance->getByAccountNumber( $accountnumber );
+
+                if( $account == null )
+                {
+
+                    $this->redirectError('Sorry, your account wasnt able to be retrieved, you should tell a developer', 'computer/collect' );
+                }
+
+                $total = 0;
+
+                foreach( $results as $profit )
+                {
+
+                    if( isset( $profit['profits'] ) == false )
+                    {
+
+                        continue;
+                    }
+
+                    $total = $total + $profit['profits'];
+                }
+
+                if( $total != 0 )
+                {
+
+
+                    $this->finance->deposit( $account->computerid, $this->session->getSessionUser(), $total );
+
+                    $this->log->updateLog('Deposited ' . $total . ' into account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid ) . '>', $this->computer->getCurrentUserComputer(), 'localhost');
+                }
+
+                Flight::render('syscrack/page.computer.collect', array( 'results' => $results, 'total' => $total ));
+            }
         }
 
         /**
@@ -290,7 +527,7 @@
             if( $this->softwares->isEditable( $software->softwareid ) == false )
             {
 
-                if( $process == Settings::getSetting('syscrack_view_process') )
+                if( $process == Settings::getSetting('syscrack_operations_view_process') )
                 {
 
                     if( $this->softwares->canView( $software->softwareid ) == false )

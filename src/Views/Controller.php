@@ -13,6 +13,7 @@ use Error;
 use Flight;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Factory;
+use Framework\Exceptions\SyscrackException;
 use Framework\Exceptions\ViewException;
 use Framework\Views\Structures\Page;
 
@@ -144,9 +145,7 @@ class Controller
         catch( Error $error )
         {
 
-            //If the database file isn't present, then when a database tries to access the 'getTable()' method,
-            //it will throw an error, this essentially catches that error so the middlewares can pick up the error
-            //and then display the database error page
+            throw new SyscrackException( $error->getMessage() );
         }
 
         if( Settings::getSetting('middlewares_enabled') && Settings::getSetting('developer_page') !== $page )
@@ -281,7 +280,7 @@ class Controller
             if( method_exists( $class, $route[1] ) == false )
             {
 
-                throw new ViewException();
+                throw new ViewException('Method does not exist in class');
             }
 
             Flight::route( $route[0], array( $class, $route[1] ) );

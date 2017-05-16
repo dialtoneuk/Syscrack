@@ -106,26 +106,13 @@ class Logout extends BaseClass implements Structure
 
         $this->internet->setCurrentConnectedAddress( null );
 
-        if( $this->internet->getComputer( $data['ipaddress'] )->type == Settings::getSetting('syscrack_computer_bank_type') )
+        if( Settings::hasSetting('syscrack_operations_safeunset') )
         {
 
-            if( isset( $_SESSION['activeaccount'] ) )
-            {
-
-                unset( $_SESSION['activeaccount'] );
-            }
+            $this->safeUnset();
         }
 
-        if( isset( $data['redirect'] ) )
-        {
-
-            $this->redirectSuccess( $data['redirect'] );
-        }
-        else
-        {
-
-            $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
-        }
+        $this->redirectSuccess( $this->getRedirect() . '/internet' );
     }
 
     /**

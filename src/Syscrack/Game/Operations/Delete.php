@@ -77,16 +77,14 @@ class Delete extends BaseClass implements Structure
 
         $software = $this->softwares->getSoftware( $data['softwareid'] );
 
-        if( $this->softwares->canRemove( $software->softwareid ) == false )
+        if( $this->softwares->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
         {
 
-            return false;
-        }
+            if( $this->softwares->canRemove( $software->softwareid ) == false )
+            {
 
-        if( $this->softwares->canRemove( $software->softwareid ) == false )
-        {
-
-            return false;
+                return false;
+            }
         }
 
         return true;

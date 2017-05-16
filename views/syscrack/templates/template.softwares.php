@@ -56,247 +56,246 @@
                 <tbody>
                 <?php
 
-                $software = $computer->getComputerSoftware( $internet->getComputer( $ipaddress )->computerid );
+                    $software = $computer->getComputerSoftware( $internet->getComputer( $ipaddress )->computerid );
 
-                foreach( $software as $key=>$value )
-                {
-
-                    if( $softwares->softwareExists( $value['softwareid'] ) == false )
+                    foreach( $software as $key=>$value )
                     {
 
-                        continue;
-                    }
+                        if( $softwares->softwareExists( $value['softwareid'] ) == false )
+                        {
 
-                    if( $computer->hasSoftware( $internet->getComputer( $ipaddress )->computerid, $value['softwareid'] ) == false )
-                    {
+                            continue;
+                        }
 
-                        continue;
-                    }
+                        if( $computer->hasSoftware( $internet->getComputer( $ipaddress )->computerid, $value['softwareid'] ) == false )
+                        {
 
-                    $softwareclass = $softwares->getSoftwareClassFromID( $value['softwareid'] );
+                            continue;
+                        }
 
-                    $software = $softwares->getSoftware( $value['softwareid'] );
-                    ?>
-                    <tr>
-                        <td data-toggle="tooltip" data-placement="auto" title="<?=$value['type']?>" style="padding-top: 2.5%;">
-                            <?php
+                        $softwareclass = $softwares->getSoftwareClassFromID( $value['softwareid'] );
 
-                            if( $value['type'] == Settings::getSetting('syscrack_software_virus_type') )
-                            {
-
-                                ?>
-                                <span class="glyphicon glyphicon-cog"></span>
+                        $software = $softwares->getSoftware( $value['softwareid'] );
+                        ?>
+                        <tr>
+                            <td data-toggle="tooltip" data-placement="auto" title="<?=$value['type']?>" style="padding-top: 2.5%;">
                                 <?php
-                            }elseif( $value['type'] == Settings::getSetting('syscrack_software_cracker_type') )
-                            {
 
+                                    if( $softwares->hasIcon( $software->softwareid ) )
+                                    {
+
+                                        ?>
+                                            <span class="glyphicon <?=$softwares->getIcon( $software->softwareid )?>"></span>
+                                        <?php
+                                    }
+                                    else
+                                    {
+
+                                        ?>
+                                            <span class="glyphicon glyphicon-question-sign"></span>
+                                        <?php
+                                    }
                                 ?>
-                                <span class="glyphicon glyphicon-lock"></span>
+                            </td>
+                            <td style="padding-top: 2.25%;">
                                 <?php
-                            }elseif( $value['type'] == Settings::getSetting('syscrack_software_hasher_type') )
-                            {
 
-                                ?>
-                                <span class="glyphicon glyphicon-briefcase"></span>
-                                <?php
-                            }elseif( $value['type'] == Settings::getSetting('syscrack_software_text_type') )
-                            {
-
-                                ?>
-                                <span class="glyphicon glyphicon-paperclip"></span>
-                                <?php
-                            }
-                            else
-                            {
-                                ?>
-                                <span class="glyphicon glyphicon-book"></span>
-                                <?php
-                            }
-                            ?>
-                        </td>
-                        <td style="padding-top: 2.25%;">
-                            <?php
-
-                            if( $software->installed )
-                            {
-
-                                ?>
-                                <strong><?=$software->softwarename . $softwareclass->configuration()['extension']?></strong>
-                                <?php
-                            }
-                            else
-                            {
-
-                                ?>
-                                <p style="color: #ababab">
-                                    <?=$software->softwarename . $softwareclass->configuration()['extension']?>
-                                </p>
-                                <?php
-                            }
-                            ?>
-                        </td>
-                        <td style="padding-top: 2.25%;">
-                            <?php
-
-                                if( $software->level >= Settings::getSetting('syscrack_software_level_godlike') )
+                                if( $software->installed )
                                 {
 
-                                    ?>
-                                        <strong style="color: rebeccapurple;">
-                                            <?=$software->level?>
-                                        </strong>
-                                    <?php
-                                }
-                                elseif( $software->level >= Settings::getSetting('syscrack_software_level_expert') )
-                                {
+                                    if( $software->userid == \Framework\Application\Container::getObject('session')->getSessionUser() )
+                                    {
 
-                                    ?>
-                                        <strong style="color: limegreen;">
-                                            <?=$software->level?>
-                                        </strong>
-                                    <?php
-                                }
-                                elseif( $software->level >= Settings::getSetting('syscrack_software_level_advanced') )
-                                {
+                                        ?>
+                                            <strong><u><?=$software->softwarename . $softwareclass->configuration()['extension']?></u></strong>
+                                        <?php
+                                    }
+                                    else
+                                    {
 
-                                    ?>
-                                        <strong style="color: indianred;">
-                                            <?=$software->level?>
-                                        </strong>
-                                    <?php
+                                        ?>
+                                            <strong><?=$software->softwarename . $softwareclass->configuration()['extension']?></strong>
+                                        <?php
+                                    }
                                 }
                                 else
                                 {
 
+                                    if( $software->userid == \Framework\Application\Container::getObject('session')->getSessionUser() )
+                                    {
+
+                                        ?>
+                                            <span style="color: grey"><u><?=$software->softwarename . $softwareclass->configuration()['extension']?></u></span>
+                                        <?php
+                                    }
+                                    else
+                                    {
+
+                                        ?>
+                                            <span style="color: grey"><?=$software->softwarename . $softwareclass->configuration()['extension']?></span>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </td>
+                            <td style="padding-top: 2.25%;">
+                                <?php
+
+                                    if( $software->level >= Settings::getSetting('syscrack_software_level_godlike') )
+                                    {
+
+                                        ?>
+                                            <strong style="color: rebeccapurple;">
+                                                <?=$software->level?>
+                                            </strong>
+                                        <?php
+                                    }
+                                    elseif( $software->level >= Settings::getSetting('syscrack_software_level_expert') )
+                                    {
+
+                                        ?>
+                                            <strong style="color: limegreen;">
+                                                <?=$software->level?>
+                                            </strong>
+                                        <?php
+                                    }
+                                    elseif( $software->level >= Settings::getSetting('syscrack_software_level_advanced') )
+                                    {
+
+                                        ?>
+                                            <strong style="color: indianred;">
+                                                <?=$software->level?>
+                                            </strong>
+                                        <?php
+                                    }
+                                    else
+                                    {
+
+                                        ?>
+                                        <p>
+                                            <?=$software->level?>
+                                        </p>
+                                        <?php
+                                    }
+                                ?>
+                            </td>
+                            <td style="padding-top: 2.25%;">
+                                <?=$software->size?>MB
+                            </td>
+                            <?php
+
+                                if( isset( $hideoptions ) == false || $hideoptions == false )
+                                {
+
                                     ?>
-                                    <p>
-                                        <?=$software->level?>
-                                    </p>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Operations <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+
+                                                    <?php
+                                                        if( isset( $local ) == false || $local == false )
+                                                        {
+                                                            ?>
+                                                                <li><a href="/game/internet/<?=$ipaddress?>/download/<?=$value['softwareid']?>">Download</a></li>
+                                                            <?php
+                                                        }
+                                                    ?>
+
+
+                                                    <?php
+                                                    if( $software->installed )
+                                                    {
+
+                                                        if( isset( $local ) == true && $local == true )
+                                                        {
+
+                                                            ?>
+
+                                                                <li><a href="/computer/actions/uninstall/<?=$value['softwareid']?>">Uninstall</a></li>
+                                                                <li><a href="/computer/actions/execute/<?=$value['softwareid']?>">Execute</a></li>
+                                                            <?php
+                                                        }
+                                                        else
+                                                        {
+
+                                                            ?>
+
+                                                                <li><a href="/game/internet/<?=$ipaddress?>/uninstall/<?=$value['softwareid']?>">Uninstall</a></li>
+                                                                <li><a href="/game/internet/<?=$ipaddress?>/execute/<?=$value['softwareid']?>">Execute</a></li>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+
+                                                        if( isset( $local ) == true && $local == true )
+                                                        {
+
+                                                            ?>
+
+                                                                <li><a href="/computer/actions/install/<?=$value['softwareid']?>">Install</a></li>
+                                                            <?php
+                                                        }
+                                                        else
+                                                        {
+
+                                                            ?>
+
+                                                                <li><a href="/game/internet/<?=$ipaddress?>/install/<?=$value['softwareid']?>">Install</a></li>
+                                                            <?php
+                                                        }
+                                                    }
+
+                                                    if( $softwares->hasData( $value['softwareid'] ) )
+                                                    {
+
+                                                        if( isset( $local ) == true && $local == true )
+                                                        {
+
+                                                            ?>
+
+                                                            <li><a href="/computer/actions/view/<?=$value['softwareid']?>">View</a></li>
+                                                            <?php
+                                                        }
+                                                        else
+                                                        {
+
+                                                            ?>
+
+                                                            <li><a href="/game/internet/<?=$ipaddress?>/view/<?=$value['softwareid']?>">View</a></li>
+                                                            <?php
+                                                        }
+                                                    }
+
+                                                    if( isset( $local ) == true && $local == true )
+                                                    {
+
+                                                        ?>
+
+                                                            <li><a href="/computer/actions/delete/<?=$value['softwareid']?>">Delete</a></li>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+
+                                                        ?>
+
+                                                            <li><a href="/game/internet/<?=$ipaddress?>/delete/<?=$value['softwareid']?>">Delete</a></li>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </ul>
+                                            </div>
+                                        </td>
                                     <?php
                                 }
                             ?>
-                        </td>
-                        <td style="padding-top: 2.25%;">
-                            <?=$software->size?>MB
-                        </td>
-
+                        </tr>
                         <?php
-
-
-
-                            if( isset( $hideoptions ) == false || $hideoptions == false )
-                            {
-
-                                ?>
-
-                                    <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Operations <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-
-                                            <?php
-                                                if( isset( $local ) == false || $local == false )
-                                                {
-                                                    ?>
-                                                        <li><a href="/game/internet/<?=$ipaddress?>/download/<?=$value['softwareid']?>">Download</a></li>
-                                                    <?php
-                                                }
-                                            ?>
-
-
-                                            <?php
-                                            if( $software->installed )
-                                            {
-
-                                                if( isset( $local ) == true && $local == true )
-                                                {
-
-                                                    ?>
-
-                                                        <li><a href="/computer/actions/uninstall/<?=$value['softwareid']?>">Uninstall</a></li>
-                                                        <li><a href="/computer/actions/execute/<?=$value['softwareid']?>">Execute</a></li>
-                                                    <?php
-                                                }
-                                                else
-                                                {
-
-                                                    ?>
-
-                                                        <li><a href="/game/internet/<?=$ipaddress?>/uninstall/<?=$value['softwareid']?>">Uninstall</a></li>
-                                                        <li><a href="/game/internet/<?=$ipaddress?>/execute/<?=$value['softwareid']?>">Execute</a></li>
-                                                    <?php
-                                                }
-                                            }
-                                            else
-                                            {
-
-                                                if( isset( $local ) == true && $local == true )
-                                                {
-
-                                                    ?>
-
-                                                        <li><a href="/computer/actions/install/<?=$value['softwareid']?>">Install</a></li>
-                                                    <?php
-                                                }
-                                                else
-                                                {
-
-                                                    ?>
-
-                                                        <li><a href="/game/internet/<?=$ipaddress?>/install/<?=$value['softwareid']?>">Install</a></li>
-                                                    <?php
-                                                }
-                                            }
-
-                                            if( $softwares->hasData( $value['softwareid'] ) )
-                                            {
-
-                                                if( isset( $local ) == true && $local == true )
-                                                {
-
-                                                    ?>
-
-                                                    <li><a href="/computer/actions/view/<?=$value['softwareid']?>">View</a></li>
-                                                    <?php
-                                                }
-                                                else
-                                                {
-
-                                                    ?>
-
-                                                    <li><a href="/game/internet/<?=$ipaddress?>/view/<?=$value['softwareid']?>">View</a></li>
-                                                    <?php
-                                                }
-                                            }
-
-                                            if( isset( $local ) == true && $local == true )
-                                            {
-
-                                                ?>
-
-                                                    <li><a href="/computer/actions/delete/<?=$value['softwareid']?>">Delete</a></li>
-                                                <?php
-                                            }
-                                            else
-                                            {
-
-                                                ?>
-
-                                                    <li><a href="/game/internet/<?=$ipaddress?>/delete/<?=$value['softwareid']?>">Delete</a></li>
-                                                <?php
-                                            }
-                                            ?>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <?php
-                            }
-                        ?>
-                    </tr>
-                    <?php
-                }
+                    }
                 ?>
                 </tbody>
             </table>

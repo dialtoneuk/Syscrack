@@ -4,7 +4,7 @@
 
 ?>
 
-<footer>
+<footer style="margin-top: 1.5%;">
 
     <?php
         if( isset( $breadcrumb ) )
@@ -85,23 +85,18 @@
 
         function startTime() {
 
+            <?php
+                $today = getdate()
+            ?>
+
             if($('#clock').length !== 0) {
 
-                var today = new Date();
-                var h = today.getHours();
-                var m = today.getMinutes();
-                var s = today.getSeconds();
-                m = checkTime(m);
-                s = checkTime(s);
-                document.getElementById('clock').innerHTML =
-                    h + ":" + m + ":" + s;
-                var t = setTimeout(startTime, 500);
+                var d = new Date(Date.UTC(<?php echo $today['year'].",".$today['mon'].",".$today['mday'].",".$today['hours'].",".$today['minutes'].",".$today['seconds']; ?>));
+                setInterval(function() {
+                    d.setSeconds(d.getSeconds() + 1);
+                    $('#clock').text((d.getHours() +':' + d.getMinutes() + ':' + d.getSeconds() ));
+                }, 1000);
             }
-        }
-
-        function checkTime(i) {
-            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-            return i;
         }
 
         if($('#alert').length !== 0) {

@@ -1,21 +1,25 @@
 <?php
 
+    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Internet;
+    use Framework\Syscrack\Game\Viruses;
+
     if( isset( $computer ) == false )
     {
 
-        $computer = new \Framework\Syscrack\Game\Computer();
+        $computer = new Computer();
     }
 
     if( isset( $viruses ) == false )
     {
 
-        $viruses = new \Framework\Syscrack\Game\Viruses();
+        $viruses = new Viruses();
     }
 
     if( isset( $internet ) == false )
     {
 
-        $internet = new \Framework\Syscrack\Game\Internet();
+        $internet = new Internet();
     }
 
     $session = \Framework\Application\Container::getObject('session');

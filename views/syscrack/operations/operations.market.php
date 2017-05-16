@@ -206,7 +206,7 @@
 
                                                                             ?>
                                                                                 <li class="list-group-item">
-                                                                                Purchase of <?=$item['name']?> for <?=Settings::getSetting('syscrack_currency') . number_format($item['price'])?> <span class="badge" style="float: right"><?=date("F j, Y, g:i a", $purchase['timepurchased'])?></span>
+                                                                                    <?=$item['name']?> for <?=Settings::getSetting('syscrack_currency') . number_format($item['price'])?> <span class="badge" style="float: right"><?=date("F j, Y, g:i a", $purchase['timepurchased'])?></span>
                                                                                 </li>
                                                                             <?php
                                                                         }
@@ -262,7 +262,7 @@
                                                                                             ?>
                                                                                             <div class="panel panel-warning">
                                                                                                 <div class="panel-body text-center">
-                                                                                                    Your current hardware for this type is faster than or equal the one being sold
+                                                                                                    Your current hardware for this type is faster than or equal to the one being sold
                                                                                                 </div>
                                                                                             </div>
                                                                                             <?php

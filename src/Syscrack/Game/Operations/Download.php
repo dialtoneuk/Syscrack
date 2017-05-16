@@ -93,7 +93,7 @@ class Download extends BaseClass implements Structure
         if( $this->viruses->isVirus( $software->softwareid ) )
         {
 
-            if( $this->softwares->isInstalled( $software->softwareid, $this->internet->getComputer( $data['ipaddress'] )->computerid ) )
+            if( $this->softwares->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
             {
 
                 return false;

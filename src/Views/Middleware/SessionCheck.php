@@ -63,16 +63,20 @@ class SessionCheck extends BaseClass implements Structure
         if( $this->session->isLoggedIn() )
         {
 
-            if( empty( $_SESSION ) )
+            if( $this->session->getLastAction() > time() - Settings::getSetting('session_timeout') )
             {
 
-                return false;
-            }
+                if( empty( $_SESSION ) )
+                {
 
-            if( empty( $_SESSION['current_computer'] ) )
-            {
+                    return false;
+                }
 
-                return false;
+                if( empty( $_SESSION['current_computer'] ) )
+                {
+
+                    return false;
+                }
             }
         }
 

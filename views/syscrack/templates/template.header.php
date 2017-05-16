@@ -77,6 +77,8 @@
             }
         }
     ?>
+
+    <script src="/assets/js/progressbar.js"></script>
     <style>
 
         pre, code{

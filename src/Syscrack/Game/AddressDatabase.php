@@ -11,6 +11,7 @@ namespace Framework\Syscrack\Game;
 
 use Framework\Application\Settings;
 use Framework\Application\Utilities\FileSystem;
+use Framework\Exceptions\SyscrackException;
 
 class AddressDatabase
 {
@@ -139,8 +140,28 @@ class AddressDatabase
      * @return mixed
      */
 
-    public function getDatabase( $userid )
+    public function getDatabase( $userid=null )
     {
+
+        if( $this->userid != null && $userid == null )
+        {
+
+
+            if( $this->database !== null )
+            {
+
+                return $this->database;
+            }
+        }
+        else
+        {
+
+            if( $userid == null )
+            {
+
+                throw new SyscrackException();
+            }
+        }
 
         return $this->readDatabase( $userid );
     }

@@ -273,7 +273,6 @@ class Operations
             throw new SyscrackException();
         }
 
-
         $this->database->trashProcess( $processid );
 
         $this->callProcessMethod( $this->findProcessClass( $process->process ), 'onCompletion', array(
@@ -781,49 +780,6 @@ class Operations
 
         return true;
     }
-
-    /**
-     * @param $computerid
-     *
-     * @param $softwareid
-     *
-     * @param float $speedness
-     *
-     * @return float|int|null
-
-
-    public function getCompletionTime( $computerid, $softwareid=null, $speedness=5.0 )
-    {
-
-        $softwares = new Softwares();
-
-        $timehelper = new TimeHelper();
-
-        if( $this->hardware->hasHardwareType( $computerid, Settings::getSetting('syscrack_hardware_cpu_type')) == null )
-        {
-
-            return null;
-        }
-
-        if( $softwareid !== null )
-        {
-
-            $software = $softwares->getSoftwareData( $softwareid );
-
-            $cpu = $this->hardware->getCPUSpeed( $computerid );
-
-            $seconds = floor( $timehelper->getSecondsInFuture( sqrt( $cpu / $software->level ) / ( $cpu * Settings::getSetting('syscrack_global_speed' ) * $speedness ) ) );
-
-            if( $seconds <= 0 )
-            {
-
-                return null;
-            }
-
-            return $timehelper->getSecondsInFuture( $seconds );
-        }
-    }
-    */
 
     /**
      * Gets all the processes

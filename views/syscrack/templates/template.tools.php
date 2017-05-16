@@ -181,6 +181,12 @@
                                                     continue;
                                                 }
 
+                                                if( $softwares->isInstalled( $value['softwareid'], $computer->getCurrentUserComputer() ) )
+                                                {
+
+                                                    continue;
+                                                }
+
                                                 $software = $softwares->getSoftware( $value['softwareid'] );
 
                                                 $extension = $softwares->getSoftwareExtension( $softwares->getSoftwareNameFromSoftwareID( $value['softwareid'] ) );

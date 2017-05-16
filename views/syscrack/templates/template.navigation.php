@@ -17,6 +17,18 @@
 
         $pagehelper = new PageHelper();
     }
+
+    if( $session->isLoggedIn() )
+    {
+
+        ?>
+            <div class="row" style="margin-top: 2.5%">
+                <div class="col-sm-12">
+                    <a href="https://www.youtube.com/watch?v=1H1agTB9xVI"><img class="img-responsive" src="/assets/img/art/update.png"></a>
+                </div>
+            </div>
+        <?php
+    }
 ?>
 <nav class="navbar navbar-default" style="margin-top: 2.5%">
     <div class="container-fluid">
@@ -99,7 +111,7 @@
 
                                                 ?>
 
-                                                    <li><a href="/game/internet/<?=$_SESSION['connected_ipaddress']?>">Connection</a></li>
+                                                    <li><a href="/game/internet/<?=$_SESSION['connected_ipaddress']?>">Session</a></li>
                                                 <?php
                                             }
                                         ?>
@@ -114,6 +126,16 @@
                                     <li><a href="/computer/log">Log</a></li>
                                     <li><a href="/computer/processes">Processes</a></li>
                                     <li><a href="/computer/hardware">Hardware</a></li>
+
+                                    <?php
+                                        if( $pagehelper->getInstalledCollector() !== null )
+                                        {
+
+                                            ?>
+                                            <li><a href="/computer/collect">Collect</a></li>
+                                            <?php
+                                        }
+                                    ?>
                                 </ul>
                             </li>
                                 <?php

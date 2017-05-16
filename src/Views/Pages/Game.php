@@ -179,7 +179,7 @@
                 if ($this->validAddress() == false)
                 {
 
-                    $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
+                    $this->redirectError('404 Not Found', $this->getRedirect() . '/internet' );
                 }
 
                 $this->redirect( $this->getRedirect( PostHelper::getPostData('ipaddress') ) );
@@ -203,7 +203,7 @@
             if ($this->validAddress($ipaddress) == false)
             {
 
-                $this->redirectError('404 Not Found', $this->getRedirect() . 'internet' );
+                $this->redirectError('404 Not Found', $this->getRedirect() . '/internet' );
             }
 
             $this->getRender('page.game.internet', array('ipaddress' => $ipaddress));
@@ -464,13 +464,17 @@
             if( $this->softwares->isEditable( $software->softwareid ) == false )
             {
 
-                if( $process == Settings::getSetting('syscrack_view_process') || $process == Settings::getSetting('syscrack_download_process') )
+                if( $process == Settings::getSetting('syscrack_operations_view_process') || $process == Settings::getSetting('syscrack_operations_download_process') )
                 {
 
                     if( $this->softwares->canView( $software->softwareid ) == false )
                     {
 
-                        $this->redirectError('This software cannot be modified or edited', $this->getRedirect( $ipaddress ) );
+                        if( $process != Settings::getSetting('syscrack_operations_download_process') )
+                        {
+
+                            $this->redirectError('This software cannot be modified or edited', $this->getRedirect( $ipaddress ) );
+                        }
                     }
                 }
                 else
@@ -615,9 +619,9 @@
             if( $ipaddress )
             {
 
-                return Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress . '/';
+                return Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress;
             }
 
-            return Settings::getSetting('syscrack_game_page') . '/';
+            return Settings::getSetting('syscrack_game_page');
         }
     }

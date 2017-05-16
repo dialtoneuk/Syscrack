@@ -41,6 +41,8 @@ class PageHelper
             return;
         }
 
+
+
         $this->session = Container::getObject('session');
     }
 
@@ -174,6 +176,116 @@ class PageHelper
         }
 
         return $computer->getComputer( $computerid )->type;
+    }
+
+    /**
+     * Gets the users installed type of software
+     *
+     * @param $type
+     *
+     * @return array|null
+     */
+
+    public function getInstalledType( $type )
+    {
+
+        $computer = new Computer();
+
+        $softwares = new Softwares();
+
+        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $computersoftwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+
+        $results = [];
+
+        foreach( $computersoftwares as $software )
+        {
+
+            if( $software['type'] == $type )
+            {
+
+                if( $software['installed'] == true )
+                {
+
+                    $results[] = $softwares->getSoftware( $software['softwareid'] );
+                }
+            }
+        }
+
+        if( empty( $results ) )
+        {
+
+            return null;
+        }
+
+        $results = ArrayHelper::sortArray( $results, 'level' );
+
+        if( is_array( $results ) == false )
+        {
+
+            return (array)$results;
+        }
+
+        return (array)$results[0];
+    }
+
+    /**
+     * Gets the users installed collector
+     *
+     * @return null
+     */
+
+    public function getInstalledCollector()
+    {
+
+        $computer = new Computer();
+
+        $softwares = new Softwares();
+
+        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $computersoftwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+
+        $results = [];
+
+        foreach( $computersoftwares as $software )
+        {
+
+            if( $software['type'] == Settings::getSetting('syscrack_software_collector_type') )
+            {
+
+                if( $software['installed'] == true )
+                {
+
+                    $results[] = $softwares->getSoftware( $software['softwareid'] );
+                }
+            }
+        }
+
+        if( empty( $results ) )
+        {
+
+            return null;
+        }
+
+        $results = ArrayHelper::sortArray( $results, 'level' );
+
+        if( is_array( $results ) == false )
+        {
+
+            return (array)$results;
+        }
+
+        return (array)$results[0];
     }
 
     /**

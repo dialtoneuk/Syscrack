@@ -9,6 +9,7 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
+use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
@@ -64,16 +65,41 @@ class Login extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress == $data['ipaddress'] )
+        if( $this->computer->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )
         {
 
-            $this->redirectError('Logging into your self is dangerous... do you want to break the space time continuum?', $this->getRedirect( $data['ipaddress'] ) ); exit;
+            return false;
         }
-        else
+
+        if( $this->getCurrentComputerAddress() == $data['ipaddress'] )
         {
 
-            return true;
+            $this->redirectError('Logging into your self is dangerous... do you want to break the space time continuum?', $this->getRedirect( $data['ipaddress'] ) );
         }
+
+        if( $this->internet->hasCurrentConnection() == true )
+        {
+
+            if( $this->internet->getCurrentConnectedAddress() == $data['ipaddress'] )
+            {
+
+                return false;
+            }
+        }
+
+        $victimid = $this->getComputerId( $data['ipaddress'] );
+
+        if( $this->computer->hasType( $victimid, Settings::getSetting('syscrack_software_hasher_type'), true ) == true )
+        {
+
+            if( $this->getHighestLevelSoftware( $victimid, Settings::getSetting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::getSetting('syscrack_software_cracker_type') )['level'] )
+            {
+
+                $this->redirectError('Your cracker is too weak', $this->getRedirect( $data['ipaddress'] ) );
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -101,55 +127,17 @@ class Login extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->hasCurrentConnection() )
+        $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
+
+        if( $this->internet->hasCurrentConnection() == false )
         {
 
-            if( $this->internet->getCurrentConnectedAddress() == $data['ipaddress'] )
-            {
-
-                $this->redirectError('You are already logged into this computer', $this->getRedirect( $data['ipaddress'] ) );
-            }
-            else
-            {
-
-                $this->logAccess( $this->internet->getComputer( $data['ipaddress'] )->computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
-
-                $this->logLocal( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, $data['ipaddress'] );
-
-                $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
-
-                if( isset( $data['redirect'] ) )
-                {
-
-                    $this->redirectSuccess( $data['redirect'] );
-                }
-                else
-                {
-
-                    $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
-                }
-            }
+            throw new SyscrackException();
         }
-        else
-        {
 
-            $this->logAccess( $this->internet->getComputer( $data['ipaddress'] )->computerid, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+        $this->logActions('Logged into root <' . $data['ipaddress'] . '>', $computerid, $data['ipaddress'] );
 
-            $this->logLocal( $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, $data['ipaddress'] );
-
-            $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
-
-            if( isset( $data['redirect'] ) )
-            {
-
-                $this->redirectSuccess( $data['redirect'] );
-            }
-            else
-            {
-
-                $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
-            }
-        }
+        $this->redirect( $this->getRedirect( $data['ipaddress'] ) );
     }
 
     /**

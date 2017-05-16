@@ -93,8 +93,6 @@ class Install extends BaseClass implements Structure
             if( $this->viruses->virusAlreadyInstalled( $software->uniquename, $this->getComputerId( $data['ipaddress'] ) , $userid ) )
             {
 
-                die('eh');
-
                 return false;
             }
 
@@ -139,20 +137,26 @@ class Install extends BaseClass implements Structure
             $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
+        if( $this->softwares->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
+        {
+
+            $this->redirectError('Sorry, it looks like this software got installed already', $this->getRedirect( $data['ipaddress'] ) );
+        }
+
         $this->softwares->installSoftware( $data['softwareid'], $userid );
 
-        $this->computer->installSoftware( $this->internet->getComputer( $data['ipaddress'] )->computerid, $data['softwareid'] );
+        $this->computer->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
-        $this->logInstall( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
-            $this->internet->getComputer( $data['ipaddress'] )->computerid,$this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress );
+        $this->logInstall( $this->getSoftwareName( $data['softwareid' ] ),
+            $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
 
-        $this->logLocal( $this->softwares->getSoftware( $data['softwareid'] )->softwarename,
+        $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
             $this->computer->getCurrentUserComputer(), $data['ipaddress']);
 
         $this->softwares->executeSoftwareMethod( $this->softwares->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onInstalled', array(
             'softwareid'    => $data['softwareid'],
             'userid'        => $userid,
-            'computerid'    => $this->internet->getComputer( $data['ipaddress'] )->computerid
+            'computerid'    => $this->getComputerId( $data['ipaddress'] )
         ));
 
         if( isset( $data['redirect'] ) )

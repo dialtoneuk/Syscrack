@@ -83,7 +83,7 @@
                 if( $clearerrors )
                 {
 
-                    if( isset( $_GET['error'] ) == false )
+                    if( isset( $_GET['error'] ) == true )
                     {
 
                         if( isset( $_SESSION['error_page'] ) == false )
@@ -91,15 +91,11 @@
 
                             Container::getObject('session')->clearError();
                         }
-                        else
-                        {
+                    }
+                    else
+                    {
 
-                            if( $_SESSION['error_page'] !== $this->getCurrentPage() )
-                            {
-
-                                Container::getObject('session')->clearError();
-                            }
-                        }
+                        Container::getObject('session')->clearError();
                     }
                 }
             }

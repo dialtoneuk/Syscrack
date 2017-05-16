@@ -112,8 +112,6 @@
                 return false;
             }
 
-            $account = $this->finance->getByAccountNumber( $data['custom']['accountnumber'] );
-
             $computer = $this->internet->getComputer( $data['ipaddress'] );
 
             if( $computer->type !== Settings::getSetting('syscrack_computer_market_type') )
@@ -135,6 +133,8 @@
             }
 
             $item = $this->market->getStockItem( $computer->computerid, $data['custom']['itemid'] );
+
+            $account = $this->finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
             if( $this->finance->canAfford( $account->computerid, $userid, $item['price'] ) == false )
             {

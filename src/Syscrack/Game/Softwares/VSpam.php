@@ -9,6 +9,7 @@
  * @package Framework\Syscrack\Game\Softwares
  */
 
+use Framework\Application\Settings;
 use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
 use Framework\Syscrack\Game\Structures\Software as Structure;
 
@@ -29,7 +30,7 @@ class VSpam extends BaseClass implements Structure
             'extension'     => '.vspam',
             'type'          => 'virus',
             'installable'   => true,
-            'uninstallable' => false,
+            'uninstallable' => true,
             'executable'    => false,
             'removeable'    => false,
         );
@@ -49,13 +50,14 @@ class VSpam extends BaseClass implements Structure
 
     public function onUninstalled($softwareid, $userid, $computerid)
     {
-        // TODO: Implement onUninstalled() method.
+
+
     }
 
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
-        return 1.25 * $timeran;
+        return Settings::getSetting('syscrack_collector_vspam_yield') * $timeran;
     }
 
     public function getExecuteCompletionTime($softwareid, $computerid)

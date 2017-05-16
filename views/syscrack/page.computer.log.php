@@ -50,8 +50,8 @@
 
                     Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );
                 ?>
-                <div class="col-lg-8">
-                    
+                <div class="col-md-8">
+
                     <?php
                     
                         Flight::render('syscrack/templates/template.log', array( 'ipaddress' => $currentcomputer->ipaddress, 'log' => $log, 'hideoptions' => true ))

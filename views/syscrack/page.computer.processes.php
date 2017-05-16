@@ -73,7 +73,11 @@
                             foreach( $processes as $process )
                             {
 
-                                Flight::render('syscrack/templates/template.process',array('processid' => $process->processid, 'processcclass' => $operations->findProcessClass( $process->process ), 'refresh' => true ) );
+                                ?>
+                                    <div class="row">
+                                        <?php Flight::render('syscrack/templates/template.process',array('processid' => $process->processid, 'processcclass' => $operations->findProcessClass( $process->process ), 'refresh' => true ) ); ?>
+                                    </div>
+                                <?php
                             }
                         }
                         else
@@ -91,6 +95,13 @@
                             <?php
                         }
                     ?>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button style="width: 100%;" class="btn btn-info" onclick="window.location.reload()">
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
