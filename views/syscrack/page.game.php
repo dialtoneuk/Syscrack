@@ -121,21 +121,15 @@
                                             {
 
                                                 ?>
-                                                <p>
-                                                    $0 Earned
-                                                </p>
-                                                <p>
-                                                    0 BTC mined
-                                                </p>
-                                                <p>
-                                                    0 Virus Installs
-                                                </p>
-                                                <p>
-                                                    <?=$stats->getStatistic('hacks')?> Hacks
-                                                </p>
-                                                <p>
-                                                    Running for 0:24:60:60
-                                                </p>
+                                                    <p>
+                                                        <?=Settings::getSetting('syscrack_currency') . number_format( $stats->getStatistic('collected') )?> Collected
+                                                    </p>
+                                                    <p>
+                                                        <?=$stats->getStatistic('virusinstalls')?> Virus Installs
+                                                    </p>
+                                                    <p>
+                                                        <?=$stats->getStatistic('hacks')?> Hacks
+                                                    </p>
                                                 <?php
                                             }
                                         ?>

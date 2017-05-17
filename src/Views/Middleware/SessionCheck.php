@@ -9,7 +9,6 @@ namespace Framework\Views\Middleware;
  * @package Framework\Views\Middleware
  */
 
-use Flight;
 use Framework\Application\Container;
 use Framework\Application\Session;
 use Framework\Application\Settings;
@@ -31,6 +30,12 @@ class SessionCheck extends BaseClass implements Structure
 
     public function __construct()
     {
+
+        if( session_status() !== PHP_SESSION_ACTIVE )
+        {
+
+            return;
+        }
 
         if( Container::hasObject('session') == false )
         {
@@ -63,7 +68,7 @@ class SessionCheck extends BaseClass implements Structure
         if( $this->session->isLoggedIn() )
         {
 
-            if( $this->session->getLastAction() > time() - Settings::getSetting('session_timeout') )
+            if( $this->session->getLastAction() > ( time() - Settings::getSetting('session_timeout') ) )
             {
 
                 if( empty( $_SESSION ) )
@@ -90,7 +95,7 @@ class SessionCheck extends BaseClass implements Structure
     public function onSuccess()
     {
 
-        //Do nothing
+
     }
 
     /**
@@ -100,6 +105,10 @@ class SessionCheck extends BaseClass implements Structure
     public function onFailure()
     {
 
-        Flight::redirect('/framework/error/session/');
+        $this->session->cleanupSession( $this->session->getSessionUser() );
+
+        $this->session->destroySession();
+
+        $this->redirectError('Session was cleared, please login again!', 'login');
     }
 }

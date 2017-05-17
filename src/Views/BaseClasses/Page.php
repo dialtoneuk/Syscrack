@@ -89,13 +89,13 @@
                         if( isset( $_SESSION['error_page'] ) == false )
                         {
 
-                            Container::getObject('session')->clearError();
+                            //Container::getObject('session')->clearError();
                         }
                     }
                     else
                     {
 
-                        Container::getObject('session')->clearError();
+                        //Container::getObject('session')->clearError();
                     }
                 }
             }

@@ -127,8 +127,8 @@
                 $this->redirectError('Missing Information');
             }
 
-            $username = PostHelper::getPostData('username');
-            $password = PostHelper::getPostData('password');
+            $username = PostHelper::getPostData('username', true);
+            $password = PostHelper::getPostData('password', true );
 
             try
             {

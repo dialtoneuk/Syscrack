@@ -60,10 +60,10 @@ class PostHelper
         if( $escape == true )
         {
 
-            return htmlspecialchars( $_POST[ $index ], ENT_QUOTES, 'UTF-8' );
+            return htmlspecialchars( trim( $_POST[ $index ] ), ENT_QUOTES, 'UTF-8' );
         }
 
-        return $_POST[ $index ];
+        return trim( $_POST[ $index ] );
     }
 
     /**

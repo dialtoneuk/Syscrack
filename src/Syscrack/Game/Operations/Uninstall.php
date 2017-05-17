@@ -13,9 +13,16 @@
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
     use Framework\Syscrack\Game\Structures\Operation as Structure;
+    use Framework\Syscrack\Game\Viruses;
 
     class Uninstall extends BaseClass implements Structure
     {
+
+        /**
+         * @var Viruses
+         */
+
+        protected $viruses;
 
         /**
          * Uninstall constructor.
@@ -25,6 +32,12 @@
         {
 
             parent::__construct();
+
+            if( isset( $this->viruses ) == false )
+            {
+
+                $this->viruses = new Viruses();
+            }
         }
 
         /**
@@ -82,15 +95,12 @@
 
                     return false;
                 }
-                else
-                {
+            }
 
-                    if( $this->softwares->canUninstall( $data['softwareid'] ) == false )
-                    {
+            if( $this->softwares->canUninstall( $data['softwareid'] ) == false )
+            {
 
-                        return false;
-                    }
-                }
+                $this->redirectError('You cannot uninstall this software', $this->getRedirect( $data['ipaddress'] ) );
             }
 
             return true;
@@ -119,6 +129,12 @@
             {
 
                 throw new SyscrackException();
+            }
+
+            if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+            {
+
+                $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
             }
 
             if( $this->softwares->softwareExists( $data['softwareid'] ) == false )

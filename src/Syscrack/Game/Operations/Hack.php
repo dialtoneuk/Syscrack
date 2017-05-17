@@ -14,6 +14,7 @@ use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\Statistics;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
 
 class Hack extends BaseClass implements Structure
@@ -24,6 +25,12 @@ class Hack extends BaseClass implements Structure
      */
 
     protected $addressdatabase;
+
+    /**
+     * @var Statistics
+     */
+
+    protected $statistics;
 
     /**
      * Hack constructor.
@@ -38,6 +45,12 @@ class Hack extends BaseClass implements Structure
         {
 
             $this->addressdatabase = new AddressDatabase( Container::getObject('session')->getSessionUser() );
+        }
+
+        if( isset( $this->statistics ) == false )
+        {
+
+            $this->statistics = new Statistics();
         }
     }
 
@@ -137,11 +150,23 @@ class Hack extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
+        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        {
+
+            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
+        }
+
         $this->addressdatabase->addComputer( array(
             'computerid'        => $this->getComputerId( $data['ipaddress'] ),
             'ipaddress'         => $data['ipaddress'],
             'timehacked'        => time()
         ));
+
+        if( Settings::getSetting('syscrack_statistics_enabled') == true )
+        {
+
+            $this->statistics->addStatistic('hacks');
+        }
 
         if( isset( $data['redirect'] ) )
         {

@@ -1,6 +1,7 @@
 <?php
     use Framework\Application\Container;
     use Framework\Application\Settings;
+    use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Utilities\PageHelper;
@@ -9,14 +10,6 @@
     {
 
         $computer = new Computer();
-    }
-
-    $session = Container::getObject('session');
-
-    if( $session->isLoggedIn() )
-    {
-
-        $session->updateLastAction();
     }
 
     if( isset( $pagehelper ) == false )
@@ -31,12 +24,20 @@
         $finance = new Finance();
     }
 
+    $session = Container::getObject('session');
+
+    if( $session->isLoggedIn() )
+    {
+
+        $session->updateLastAction();
+    }
+
     $currentcomputer = $computer->getComputer( $computer->getCurrentUserComputer() );
 
     if( $computer->hasType( $currentcomputer->computerid, Settings::getSetting('syscrack_software_collector_type'), true ) == false )
     {
 
-        Flight::redirect('/computer');
+        throw new ViewException();
     }
 
     $collector = $pagehelper->getInstalledCollector()
@@ -182,7 +183,7 @@
 
                                                                 ?>
                                                                     <li class="list-group-item">
-                                                                        <?=$result['message']?> <span class="badge" style="float: right;"><?php if( isset( $result['profits'] ) ){ echo Settings::getSetting('syscrack_currency') . number_format( $result['profits'] ); }else{ echo 'Nothing'; }?></span>
+                                                                        <?=$result['message']?> <span class="badge" style="float: right;"><a style="color: white;" href="/game/internet/<?=$result['ipaddress']?>/"><?=$result['ipaddress']?></a></span>
                                                                     </li>
                                                                 <?php
                                                             }

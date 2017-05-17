@@ -10,6 +10,7 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Application\Settings;
+use Framework\Application\Utilities\PostHelper;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\Finance;
@@ -54,10 +55,7 @@ class RemoteAdmin extends BaseClass implements Structure
             'allowlocal'        => false,
             'requiresoftwares'  => false,
             'requireloggedin'   => false,
-            'allowpost'         => true,
-            'postrequirements'  => [
-                'action'
-            ]
+            'allowpost'         => true
         );
     }
 
@@ -93,7 +91,6 @@ class RemoteAdmin extends BaseClass implements Structure
 
             return false;
         }
-
         if( $this->finance->hasCurrentActiveAccount() == false )
         {
 
@@ -101,6 +98,18 @@ class RemoteAdmin extends BaseClass implements Structure
         }
         else
         {
+
+            if( $this->finance->accountNumberExists( $this->finance->getCurrentActiveAccount() ) == false )
+            {
+
+                if( Settings::getSetting('syscrack_operations_bank_clearonfail') )
+                {
+
+                    $this->finance->setCurrentActiveAccount( null );
+                }
+
+                $this->redirectError('The account seems to not exist anymore, maybe it has been deleted', $this->getRedirect( $data['ipaddress'] ) );
+            }
 
             if( $this->finance->getByAccountNumber( $this->finance->getCurrentActiveAccount() )->computerid !== $computer->computerid )
             {
@@ -136,6 +145,8 @@ class RemoteAdmin extends BaseClass implements Structure
 
             throw new SyscrackException();
         }
+
+
 
         $this->getRender('operations/operations.bank.adminaccount', array( 'ipaddress' => $data['ipaddress'], 'userid' => $userid, 'accountnumber' => $this->finance->getCurrentActiveAccount() ), true );
     }
@@ -184,6 +195,117 @@ class RemoteAdmin extends BaseClass implements Structure
 
     public function onPost( $data, $ipaddress, $userid )
     {
+
+        if( PostHelper::hasPostData() == false )
+        {
+
+            $this->redirect( $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+        }
+
+        if( PostHelper::checkForRequirements( ['action'] ) == false )
+        {
+
+            $this->redirectError('Missing information', $this->getRedirect( $ipaddress ) . '/remoteadmin');
+        }
+        else
+        {
+
+            if( $this->finance->hasCurrentActiveAccount() == false )
+            {
+
+                $this->redirectError('Please hack an account first', $this->getRedirect( $ipaddress ) );
+            }
+
+            if( $this->finance->accountNumberExists( $this->finance->getCurrentActiveAccount() ) == false )
+            {
+
+                if( Settings::getSetting('syscrack_operations_bank_clearonfail') )
+                {
+
+                    $this->finance->setCurrentActiveAccount( null );
+                }
+
+                $this->redirectError('The account seems to not exist anymore, maybe it has been deleted', $this->getRedirect( $data['ipaddress'] ) );
+            }
+
+            $action = PostHelper::getPostData('action');
+
+            if( $action == 'transfer' )
+            {
+
+                if( PostHelper::checkForRequirements( ['accountnumber','ipaddress','amount'] ) )
+                {
+
+                    $accountnumber = PostHelper::getPostData('accountnumber');
+                    $targetipaddress = PostHelper::getPostData('ipaddress');
+                    $amount = PostHelper::getPostData('amount');
+
+                    if( is_numeric( $amount ) == false )
+                    {
+
+                        $this->redirectError('Please enter a numeral value of cash to transfer', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                    }
+
+                    $amount = abs( $amount );
+
+                    if( empty( $amount ) || $amount == 0 )
+                    {
+
+                        $this->redirectError('Please enter an amount bigger than zero', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                    }
+
+                    if( $this->finance->accountNumberExists( $accountnumber ) == false )
+                    {
+
+                        $this->redirectError('This number does not exist', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                    }
+
+                    if( $this->internet->ipExists( $targetipaddress ) == false )
+                    {
+
+                        $this->redirectError('Failed to connect to bank of address given, 404 not found', $this->getRedirect( $ipaddress ) . '/remoteadmin');
+                    }
+
+                    $account = $this->finance->getByAccountNumber( $accountnumber );
+
+                    $activeaccount = $this->finance->getByAccountNumber( $this->finance->getCurrentActiveAccount() );
+
+                    if( $this->computer->getComputer( $account->computerid )->ipaddress !== $targetipaddress )
+                    {
+
+                        $this->redirectError('Account does not exist at remote database', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                    }
+
+                    if( $this->finance->canAfford( $activeaccount->computerid, $activeaccount->userid, $amount ) == false )
+                    {
+
+                        $this->redirectError('This account cannot afford this transaction', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                    }
+
+                    $this->finance->deposit( $account->computerid, $account->userid, $amount );
+
+                    $this->finance->withdraw( $activeaccount->computerid, $activeaccount->userid, $amount );
+
+                    $this->logActions('Transfered ' . Settings::getSetting('syscrack_currency') . number_format( $amount ) . ' from (' . $this->finance->getCurrentActiveAccount() . ') to (' . $account->accountnumber . ') to bank <' . $targetipaddress . '>',
+                        $this->computer->getCurrentUserComputer(),
+                        $ipaddress);
+
+                    $this->redirectSuccess( $this->getRedirect( $ipaddress ) . '/remoteadmin');
+                }
+                else
+                {
+
+                    $this->redirectError('Missing information', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                }
+            }
+            elseif( $action == "disconnect" )
+            {
+
+                $this->finance->setCurrentActiveAccount( null );
+
+                $this->redirect( $this->getRedirect( $ipaddress ) );
+            }
+        }
 
         return true;
     }

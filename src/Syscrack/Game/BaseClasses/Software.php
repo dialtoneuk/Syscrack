@@ -210,6 +210,18 @@
         }
 
         /**
+         * Gets the current computers ip address
+         *
+         * @return mixed
+         */
+
+        public function getCurrentAddress()
+        {
+
+            return $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress;
+        }
+
+        /**
          * Gets the current page
          *
          * @return string

@@ -41,7 +41,7 @@
             ?>
         </h5>
         <div class="embed-responsive">
-            <iframe class="embed-responsive-item" src="http://www.gameflare.com/embed/slitherio/" frameborder="0" scrolling="no"></iframe>
+            <iframe class="embed-responsive-item" src="https://www.gameflare.com/embed/slitherio/" frameborder="0" scrolling="no"></iframe>
         </div>
     </div>
 </div>

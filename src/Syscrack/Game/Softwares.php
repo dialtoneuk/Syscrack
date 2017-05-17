@@ -473,7 +473,7 @@ class Softwares
             return true;
         }
 
-        if( $softwareclass->configuration()['uninstallable'] == false )
+        if( $softwareclass->configuration()['uninstallable'] == true )
         {
 
             return false;

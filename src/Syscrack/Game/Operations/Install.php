@@ -12,6 +12,7 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\Statistics;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
 use Framework\Syscrack\Game\Viruses;
 
@@ -25,6 +26,12 @@ class Install extends BaseClass implements Structure
     protected $viruses;
 
     /**
+     * @var Statistics
+     */
+
+    protected $statistics;
+
+    /**
      * Install constructor.
      */
 
@@ -33,7 +40,17 @@ class Install extends BaseClass implements Structure
 
         parent::__construct();
 
-        $this->viruses = new Viruses();
+        if( isset( $this->viruses ) == false )
+        {
+
+            $this->viruses = new Viruses();
+        }
+
+        if( isset( $this->statistics ) == false )
+        {
+
+            $this->statistics = new Statistics();
+        }
     }
 
     /**
@@ -90,16 +107,17 @@ class Install extends BaseClass implements Structure
 
             $software = $this->softwares->getSoftware( $data['softwareid'] );
 
-            if( $this->viruses->virusAlreadyInstalled( $software->uniquename, $this->getComputerId( $data['ipaddress'] ) , $userid ) )
-            {
-
-                return false;
-            }
 
             if( $this->getComputerId( $data['ipaddress'] ) == $computerid )
             {
 
-                return false;
+                $this->redirectError('You cannot install a virus on your self, figures', $this->getRedirect( $data['ipaddress'] ) );
+            }
+
+            if( $this->viruses->virusAlreadyInstalled( $software->uniquename, $this->getComputerId( $data['ipaddress'] ) , $userid ) )
+            {
+
+                $this->redirectError('You already have a virus of this type installed', $this->getRedirect( $data['ipaddress'] ) );
             }
         }
 
@@ -131,6 +149,12 @@ class Install extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
+        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        {
+
+            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
+        }
+
         if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
         {
 
@@ -158,6 +182,16 @@ class Install extends BaseClass implements Structure
             'userid'        => $userid,
             'computerid'    => $this->getComputerId( $data['ipaddress'] )
         ));
+
+        if( $this->viruses->isVirus( $data['softwareid'] ) == true )
+        {
+
+            if( Settings::getSetting('syscrack_statistics_enabled') == true )
+            {
+
+                $this->statistics->addStatistic('virusinstalls');
+            }
+        }
 
         if( isset( $data['redirect'] ) )
         {

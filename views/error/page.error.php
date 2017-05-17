@@ -3,37 +3,97 @@
     use Framework\Application\Container;
     use Framework\Syscrack\User;
 
-    if( \Framework\Application\Settings::getSetting('error_logging') == false || \Framework\Application\Settings::getSetting('error_display_page') == false )
+
+    try
     {
 
-        Flight::notFound();
+        if( \Framework\Application\Settings::getSetting('error_logging') == false || \Framework\Application\Settings::getSetting('error_display_page') == false )
+        {
 
-        exit;
-    }
+            Flight::notFound();
 
-    $error_handler = \Framework\Application\Container::getObject('application')->getErrorHandler();
+            exit;
+        }
 
-    $user = new User();
+        $error_handler = \Framework\Application\Container::getObject('application')->getErrorHandler();
 
-    if( $error_handler->hasErrors() == false || $error_handler->hasLogFile() == false )
-    {
+        $user = new User();
 
-        Flight::redirect('/');
-    }
-
-    $last_error = $error_handler->getLastError();
-
-    if( $last_error['ip'] !== \Framework\Application\Utilities\IPAddress::getAddress() )
-    {
-
-        if(  Container::getObject('session')->isLoggedIn() !== true || $user->isAdmin( Container::getObject('session')->getSessionUser() ) == false )
+        if( $error_handler->hasErrors() == false || $error_handler->hasLogFile() == false )
         {
 
             Flight::redirect('/');
         }
-    }
 
-    unset( $user );
+        $last_error = $error_handler->getLastError();
+
+        if( $last_error['ip'] !== \Framework\Application\Utilities\IPAddress::getAddress() )
+        {
+
+            if(  Container::getObject('session')->isLoggedIn() !== true || $user->isAdmin( Container::getObject('session')->getSessionUser() ) == false )
+            {
+
+                Flight::redirect('/');
+            }
+        }
+
+        unset( $user );
+    }
+    catch( Exception $error )
+    {
+
+        ob_clean();
+
+        ?>
+        <html>
+            <head>
+                <meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+
+                <title>Critical Error</title>
+
+                <!-- Stylesheets -->
+                <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
+                <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+
+                <!--[if lt IE 9]>
+                <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+                <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+                <![endif]-->
+            </head>
+            <body>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5 style="color: #ababab" class="text-uppercase text-center">
+                            Critical Error
+                        </h5>
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <?=$error->getMessage()?> @ <?=$error->getFile()?> line <?=$error->getLine()?>
+                            </div>
+                            <div class="panel-body text-center">
+                                <p>
+                                    An error occurred outside of the framework, this is usually due to a permission error, a rewrite error, or something completely different, check out the error stack below.
+                                </p>
+
+                                <div class="well">
+    <pre>
+        <?=$error->getTraceAsString()?>
+    </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </body>
+            </html>
+        <?php
+
+        exit;
+    }
 ?>
 <html lang="en">
 

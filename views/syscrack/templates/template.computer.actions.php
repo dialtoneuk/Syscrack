@@ -47,7 +47,7 @@
         {
 
             ?>
-                <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/computer/collect'">
+                <div class="panel panel-info" style="cursor: pointer;" onclick="window.location.href = '/computer/collect'">
                     <div class="panel-body" style="padding-bottom: 0;">
                         <p>
                             <span class="glyphicon glyphicon-gbp"></span> Collect

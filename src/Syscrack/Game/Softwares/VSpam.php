@@ -16,6 +16,12 @@ use Framework\Syscrack\Game\Structures\Software as Structure;
 class VSpam extends BaseClass implements Structure
 {
 
+    public function __construct()
+    {
+
+        parent::__construct( true );
+    }
+
     /**
      * The configuration of this Structure
      *
@@ -57,7 +63,13 @@ class VSpam extends BaseClass implements Structure
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
-        return Settings::getSetting('syscrack_collector_vspam_yield') * $timeran;
+        if( $this->hardware->hasHardwareType( $computerid, Settings::getSetting('syscrack_hardware_cpu_type') ) == false )
+        {
+
+            return Settings::getSetting('syscrack_collector_vspam_yield') * $timeran;
+        }
+
+        return ( Settings::getSetting('syscrack_collector_vspam_yield') * ( $this->hardware->getCPUSpeed( $computerid ) * $timeran ) ) / Settings::getSetting('syscrack_collector_global_yield');
     }
 
     public function getExecuteCompletionTime($softwareid, $computerid)

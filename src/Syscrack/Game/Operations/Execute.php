@@ -112,6 +112,12 @@
                 throw new SyscrackException();
             }
 
+            if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+            {
+
+                $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
+            }
+
             if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
             {
 

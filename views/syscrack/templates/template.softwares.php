@@ -19,6 +19,12 @@
 
         $internet = new \Framework\Syscrack\Game\Internet();
     }
+
+    if( isset( $viruses ) == false )
+    {
+
+        $viruses = new \Framework\Syscrack\Game\Viruses();
+    }
 ?>
 <div class="row">
     <div class="col-lg-12">
@@ -191,7 +197,7 @@
                                         <td>
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Operations <span class="caret"></span>
+                                                    <span class="glyphicon glyphicon-cog"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
 
@@ -255,18 +261,26 @@
                                                         if( isset( $local ) == true && $local == true )
                                                         {
 
-                                                            ?>
+                                                            if( $softwares->canView( $value['softwareid'] ) )
+                                                            {
 
-                                                            <li><a href="/computer/actions/view/<?=$value['softwareid']?>">View</a></li>
-                                                            <?php
+
+                                                                ?>
+                                                                    <li><a href="/computer/actions/view/<?=$value['softwareid']?>">View</a></li>
+                                                                <?php
+                                                            }
                                                         }
                                                         else
                                                         {
 
-                                                            ?>
+                                                            if( $softwares->canView( $value['softwareid'] ) )
+                                                            {
 
-                                                            <li><a href="/game/internet/<?=$ipaddress?>/view/<?=$value['softwareid']?>">View</a></li>
-                                                            <?php
+
+                                                                ?>
+                                                                    <li><a href="/computer/actions/view/<?=$value['softwareid']?>">View</a></li>
+                                                                <?php
+                                                            }
                                                         }
                                                     }
 

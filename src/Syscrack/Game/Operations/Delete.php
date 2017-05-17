@@ -13,9 +13,16 @@ use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\Viruses;
 
 class Delete extends BaseClass implements Structure
 {
+
+    /**
+     * @var Viruses
+     */
+
+    protected $viruses;
 
     /**
      * Delete constructor.
@@ -25,6 +32,12 @@ class Delete extends BaseClass implements Structure
     {
 
         parent::__construct();
+
+        if( isset( $this->viruses ) == false )
+        {
+
+            $this->viruses = new Viruses();
+        }
     }
 
     /**
@@ -80,10 +93,26 @@ class Delete extends BaseClass implements Structure
         if( $this->softwares->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
         {
 
+            if( $this->viruses->isVirus( $software->softwareid ) )
+            {
+
+                $this->redirectError('You cannot remove viruses, please use an anti-virus', $this->getRedirect( $data['ipaddress'] ) );
+            }
+
+
+            $this->redirectError('You cannot delete an installed software, uninstall it first', $this->getRedirect( $data['ipaddress'] ) );
+        }
+        else
+        {
+
             if( $this->softwares->canRemove( $software->softwareid ) == false )
             {
 
-                return false;
+                if( $this->viruses->isVirus( $software->softwareid ) == false )
+                {
+
+                    $this->redirectError('This software cannot be removed, sorry');
+                }
             }
         }
 
@@ -111,6 +140,12 @@ class Delete extends BaseClass implements Structure
         {
 
             throw new SyscrackException();
+        }
+
+        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        {
+
+            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
         if( $this->softwares->softwareExists( $data['softwareid'] ) == false )

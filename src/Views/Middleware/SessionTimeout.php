@@ -67,7 +67,7 @@ class SessionTimeout extends BaseClass implements Structure
             return true;
         }
 
-        if( $this->session->getLastAction() < time() - Settings::getSetting('session_timeout') )
+        if( $this->session->getLastAction() < ( time() - Settings::getSetting('session_timeout') ) )
         {
 
             return false;

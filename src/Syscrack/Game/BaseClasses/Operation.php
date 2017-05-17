@@ -563,7 +563,7 @@ class Operation
     public function safeUnset()
     {
 
-        $unset = Settings::getSetting('syscrack_operation_safeunset');
+        $unset = Settings::getSetting('syscrack_operations_safeunset_values');
 
         foreach( $unset as $value )
         {

@@ -254,22 +254,83 @@
             }
         }
 
-        if( $current_computer->type == Settings::getSetting('syscrack_computer_bank_type') )
+        if( $current_computer->type == Settings::getSetting('syscrack_computer_isp_type') )
         {
 
             ?>
                 <p>
-                    Remote Bank Options
+                    ISP Options
                 </p>
-                <form action="/game/internet/<?= $ipaddress ?>/bank">
+                <form action="/game/internet/<?= $ipaddress ?>/resetaddress" method="post">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <button style="width: 100%;" class="btn btn-info" type="submit">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> View Your Account
-                            </button>
+
+                            <?php
+                                if (empty($finance))
+                                {
+
+                                    $finance = new Finance();
+                                }
+
+                                $accounts = $finance->getUserBankAccounts( \Framework\Application\Container::getObject('session')->getSessionUser() );
+
+                                if( empty( $accounts ) )
+                                {
+
+                                    ?>
+                                        You currently don't have any bank accounts
+                                    <?php
+                                }
+                                else
+                                {
+
+                                    ?>
+                                        <select name="accountnumber" class="combobox input-sm form-control">
+                                            <option></option>
+
+                                            <?php
+
+                                                if( empty( $accounts ) == false )
+                                                {
+
+                                                    foreach( $accounts as $account )
+                                                    {
+
+                                                        ?>
+                                                        <option value="<?=$account->accountnumber?>">#<?=$account->accountnumber?> (<?=Settings::getSetting('syscrack_currency') . number_format( $account->cash )?>) @<?=$computer->getComputer( $account->computerid )->ipaddress?></option>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                        <button style="width: 100%; margin-top: 2.5%;" class="btn btn-info" type="submit">
+                                            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Reset Address (<?=Settings::getSetting('syscrack_currency') . number_format( Settings::getSetting('syscrack_operations_resetaddress_price') )?>)
+                                        </button>
+                                    <?php
+                                }
+                            ?>
                         </div>
                     </div>
                 </form>
+            <?php
+        }
+
+        if( $current_computer->type == Settings::getSetting('syscrack_computer_bank_type') )
+        {
+
+            ?>
+            <p>
+                Remote Bank Options
+            </p>
+            <form action="/game/internet/<?= $ipaddress ?>/bank">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <button style="width: 100%;" class="btn btn-info" type="submit">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> View Account
+                        </button>
+                    </div>
+                </div>
+            </form>
             <?php
         }
 

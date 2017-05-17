@@ -108,6 +108,12 @@ class Clear extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
+        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        {
+
+            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
+        }
+
         $this->log->saveLog( $this->getComputerId( $data['ipaddress'] ), [] );
 
         if( isset( $data['redirect'] ) )

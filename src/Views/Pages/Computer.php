@@ -20,6 +20,7 @@
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Log;
     use Framework\Syscrack\Game\Operations;
+    use Framework\Syscrack\Game\Statistics;
     use Framework\Syscrack\Game\Structures\Software;
     use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Syscrack\Game\Viruses;
@@ -70,6 +71,12 @@
          */
 
         protected $log;
+
+        /**
+         * @var Statistics
+         */
+
+        protected $statistics;
 
         /**
          * Computer constructor.
@@ -132,6 +139,12 @@
             {
 
                 $this->log = new Log();
+            }
+
+            if( isset( $this->statistics ) == false )
+            {
+
+                $this->statistics = new Statistics();
             }
         }
 
@@ -215,6 +228,12 @@
         public function computerCollect()
         {
 
+            if( $this->computer->hasType( $this->computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
+            {
+
+                $this->redirect('computer');
+            }
+
             Flight::render('syscrack/page.computer.collect');
         }
 
@@ -224,6 +243,12 @@
 
         public function computerCollectProcess()
         {
+
+            if( $this->computer->hasType( $this->computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
+            {
+
+                $this->redirect('computer');
+            }
 
             if( PostHelper::hasPostData() == false )
             {
@@ -264,6 +289,7 @@
                     {
 
                         $results[ $address['ipaddress'] ] = array(
+                            'ipaddress' => 'null',
                             'message' => 'Failed to connect to address'
                         );
                     }
@@ -287,7 +313,8 @@
                             {
 
                                 $results[ $address['ipaddress'] ] = array(
-                                    'message' => 'Virus was collected too soon ago'
+                                    'ipaddress' => $address['ipaddress'],
+                                    'message'   => 'Virus needs to run for a longer period'
                                 );
                             }
                             else
@@ -307,14 +334,16 @@
                                 {
 
                                     $results[ $address['ipaddress'] ] = array(
-                                        'message' => 'Virus generated no profits'
+                                        'ipaddress' => $address['ipaddress'],
+                                        'message'   => 'Virus generated no profits'
                                     );
                                 }
                                 else
                                 {
 
                                     $results[ $address['ipaddress'] ] = array(
-                                        'message'   => 'Virus ran for ' .  ( time() - $virus->lastmodified ) . ' seconds and generated ' . Settings::getSetting('syscrack_currency') . number_format( ( $result * $this->pagehelper->getInstalledCollector()['level'] ) ),
+                                        'ipaddress' => $address['ipaddress'],
+                                        'message'   =>  $virus->softwarename . ' ran for ' . gmdate("H:i:s", ( time() - $virus->lastmodified ) ) . ' and generated ' . Settings::getSetting('syscrack_currency') . number_format( ( $result * $this->pagehelper->getInstalledCollector()['level'] ) ),
                                         'profits'   => ( $result * $this->pagehelper->getInstalledCollector()['level'] )
                                     );
 
@@ -356,10 +385,15 @@
                 if( $total != 0 )
                 {
 
+                    if( Settings::getSetting('syscrack_statistics_enabled') == true )
+                    {
+
+                        $this->statistics->addStatistic('collected', $total );
+                    }
 
                     $this->finance->deposit( $account->computerid, $this->session->getSessionUser(), $total );
 
-                    $this->log->updateLog('Deposited ' . $total . ' into account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid ) . '>', $this->computer->getCurrentUserComputer(), 'localhost');
+                    $this->log->updateLog('Deposited ' . Settings::getSetting('syscrack_currency') . number_format(  $total ) . ' into account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid ) . '>', $this->computer->getCurrentUserComputer(), 'localhost');
                 }
 
                 Flight::render('syscrack/page.computer.collect', array( 'results' => $results, 'total' => $total ));

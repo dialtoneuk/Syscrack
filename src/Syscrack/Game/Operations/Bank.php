@@ -118,6 +118,12 @@ class Bank extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
+        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        {
+
+            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
+        }
+
         $this->getRender('operations/operations.bank', array( 'ipaddress' => $data['ipaddress'], 'userid' => $userid ), true );
     }
 

@@ -31,7 +31,7 @@ class Text extends BaseClass implements Structure
             'viewable'      => true,
             'removeable'    => true,
             'installable'   => false,
-            'executable'    => false,
+            'executable'    => true,
             'keepdata'      => true
         );
     }
@@ -39,24 +39,25 @@ class Text extends BaseClass implements Structure
     public function onExecuted( $softwareid, $userid, $computerid )
     {
 
-
+        return null;
     }
 
     public function onInstalled( $softwareid, $userid, $computerid )
     {
 
-
+        return null;
     }
 
     public function onUninstalled($softwareid, $userid, $computerid)
     {
-        // TODO: Implement onUninstalled() method.
+
+        return null;
     }
 
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
-
+        return null;
     }
 
     public function getExecuteCompletionTime($softwareid, $computerid)

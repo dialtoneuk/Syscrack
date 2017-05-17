@@ -11,7 +11,6 @@
 
     use Framework\Application\Settings;
     use Framework\Application\Utilities\FileSystem;
-    use Framework\Exceptions\SyscrackException;
 
     class Statistics
     {
@@ -49,6 +48,12 @@
         public function getStatistic( $statistic )
         {
 
+            if( isset( $this->statistics[ $statistic ] ) == false )
+            {
+
+                return 0;
+            }
+
             return $this->statistics[ $statistic ];
         }
 
@@ -58,16 +63,28 @@
          * @param $statistic
          */
 
-        public function addStatistic( $statistic )
+        public function addStatistic( $statistic, $value=null )
         {
 
-            if( isset( $this->statistics[ $statistic ] ) )
+            if( isset( $this->statistics[ $statistic ] ) == false )
             {
 
-                throw new SyscrackException();
+                $this->statistics[ $statistic ] = 0;
             }
 
-            $this->statistics[ $statistic ] = 0;
+            if( $value == null )
+            {
+
+                $this->statistics[ $statistic ] = $this->statistics[ $statistic ] + 1 ;
+            }
+            else
+            {
+
+
+                $this->statistics[ $statistic ] = $this->statistics[ $statistic ] + $value;
+            }
+
+            $this->saveStatistics();
         }
 
         /**

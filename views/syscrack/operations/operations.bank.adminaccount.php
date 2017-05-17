@@ -115,17 +115,19 @@
                             </p>
                             <div class="panel panel-info">
                                 <div class="panel-body">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon" id="basic-addon1">Account</span>
-                                        <input type="text" class="form-control" name="accountnumber" placeholder="00000000" aria-describedby="basic-addon1">
-                                        <span class="input-group-addon" id="basic-addon1">@</span>
-                                        <input type="text" class="form-control" name="ipaddress" placeholder="<?=$ipaddress?>" aria-describedby="basic-addon1">
-                                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-gbp"></span></span>
-                                        <input type="text" class="form-control" name="amount" placeholder="25.0" value="<?=$account->cash?>" aria-describedby="basic-addon1">
-                                    </div>
-                                    <button style="width: 100%; margin-top: 2.5%;" class="btn btn-info" value="transfer" type="submit">
-                                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Transfer
-                                    </button>
+                                    <form method="post" style="padding: 0; margin: 0;">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-addon" id="basic-addon1">Account</span>
+                                            <input type="text" class="form-control" name="accountnumber" placeholder="00000000" aria-describedby="basic-addon1">
+                                            <span class="input-group-addon" id="basic-addon1">@</span>
+                                            <input type="text" class="form-control" name="ipaddress" placeholder="<?=$ipaddress?>" aria-describedby="basic-addon1">
+                                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-gbp"></span></span>
+                                            <input type="number" class="form-control" name="amount" placeholder="25.0" value="<?=$account->cash?>" aria-describedby="basic-addon1">
+                                        </div>
+                                        <button style="width: 100%; margin-top: 2.5%;" class="btn btn-info" name="action" value="transfer" type="submit">
+                                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Transfer
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <p>
@@ -133,9 +135,11 @@
                             </p>
                             <div class="panel panel-info">
                                 <div class="panel-body">
-                                    <button style="width: 100%;" class="btn btn-info" value="disconnect" type="submit">
-                                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Disconnect
-                                    </button>
+                                    <form style="padding: 0; margin: 0;" method="post">
+                                        <button style="width: 100%;" class="btn btn-info" name="action" value="disconnect" type="submit">
+                                            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Disconnect
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

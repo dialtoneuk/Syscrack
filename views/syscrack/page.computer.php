@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12" onclick="window.location.href = '/game/computer/'">
+                <div class="col-lg-12">
                     <h5 style="color: #ababab" class="text-uppercase">
                         <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
                     </h5>
@@ -58,7 +58,7 @@
                     Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );
                 ?>
 
-                <div class="col-lg-8">
+                <div class="col-md-8">
                     
                     <?php
                     

@@ -3,8 +3,7 @@
     use Framework\Application\Settings;
 
 ?>
-
-<footer style="margin-top: 1.5%;">
+<footer style="margin-top: 15px;">
 
     <?php
         if( isset( $breadcrumb ) )
@@ -53,6 +52,9 @@
     ?>
     <div class="row">
         <div class="col-sm-12">
+            <p class="text-center">
+                <a href="https://paypal.me/youngmusic">Donate, we are a free game after all?</a>
+            </p>
             <p class="small text-center" style="color: lightgray;">
                 Syscrack 2017 was created by <a href="http://www.github.com/dialtoneuk/">Lewis Lancaster</a> and we loaded in <?=SYSCRACK_TIME_END - SYSCRACK_TIME_START;?> seconds
             </p>
@@ -80,37 +82,17 @@
         }
     ?>
 
-    <!--Fade out any alerts which are on the page after 5 seconds-->
+    <!--Fade out any alerts which are on the page-->
     <script>
-
-        function startTime() {
-
-            <?php
-                $today = getdate()
-            ?>
-
-            if($('#clock').length !== 0) {
-
-                var d = new Date(Date.UTC(<?php echo $today['year'].",".$today['mon'].",".$today['mday'].",".$today['hours'].",".$today['minutes'].",".$today['seconds']; ?>));
-                setInterval(function() {
-                    d.setSeconds(d.getSeconds() + 1);
-                    $('#clock').text((d.getHours() +':' + d.getMinutes() + ':' + d.getSeconds() ));
-                }, 1000);
-            }
-        }
-
         if($('#alert').length !== 0) {
 
             $('#alert').delay(<?=Settings::getSetting('error_fadeout_time')?>).fadeOut(400, function(){
                 window.history.pushState("Syscrack", $(document).find("title").text(), '<?php
-                    $url = $_SERVER['REQUEST_URI']; if( empty( explode('?', $url ) ) == false ){ echo( explode('?', $url )[0 ] ); }else{ echo( $url ); }?>' );
+                    $url = $_SERVER['REQUEST_URI']; if( empty( explode('?', $url ) ) == false ){ echo( explode('?', $url )[0] ); }else{ echo( $url ); }?>' );
             });
         }
 
         $(document).ready(function(){
-
-            startTime();
-
             $('.combobox').combobox();
         });
     </script>

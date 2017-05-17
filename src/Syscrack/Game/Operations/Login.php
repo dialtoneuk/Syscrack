@@ -127,12 +127,28 @@ class Login extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
+        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        {
+
+            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
+        }
+
         $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
 
         if( $this->internet->hasCurrentConnection() == false )
         {
 
             throw new SyscrackException();
+        }
+
+        if( Settings::hasSetting('syscrack_operations_safeunset') )
+        {
+
+            if( Settings::getSetting('syscrack_operations_safeunset') == true )
+            {
+
+                $this->safeUnset();
+            }
         }
 
         $this->logActions('Logged into root <' . $data['ipaddress'] . '>', $computerid, $data['ipaddress'] );

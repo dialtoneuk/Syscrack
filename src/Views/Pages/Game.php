@@ -80,7 +80,7 @@
                     'POST /game/', 'pageProcess'
                 ],
                 [
-                    '/game/internet/', 'internet'
+                    '/game/internet/', 'internetBrowser'
                 ],
                 [
                     '/game/addressbook/', 'addressBook'
@@ -170,7 +170,7 @@
          * Default page
          */
 
-        public function internet()
+        public function internetBrowser()
         {
 
             if (PostHelper::hasPostData())
@@ -260,6 +260,16 @@
 
             if( $this->validAddress( $ipaddress ) == false )
             {
+
+                if( $this->internet->hasCurrentConnection() )
+                {
+
+                    if( $this->internet->getCurrentConnectedAddress() == $ipaddress )
+                    {
+
+                        $this->internet->setCurrentConnectedAddress( null );
+                    }
+                }
 
                 $this->redirectError('404 Not Found', $this->getRedirect() . '/internet' );
             }
@@ -383,9 +393,18 @@
         public function processSoftware( $ipaddress, $process, $softwareid )
         {
 
-
             if( $this->validAddress( $ipaddress ) == false )
             {
+
+                if( $this->internet->hasCurrentConnection() )
+                {
+
+                    if( $this->internet->getCurrentConnectedAddress() == $ipaddress )
+                    {
+
+                        $this->internet->setCurrentConnectedAddress( null );
+                    }
+                }
 
                 $this->redirectError('404 Not Found', $this->getRedirect() . '/internet' );
             }

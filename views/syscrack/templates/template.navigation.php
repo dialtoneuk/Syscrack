@@ -17,20 +17,8 @@
 
         $pagehelper = new PageHelper();
     }
-
-    if( $session->isLoggedIn() )
-    {
-
-        ?>
-            <div class="row" style="margin-top: 2.5%">
-                <div class="col-sm-12">
-                    <a href="https://www.youtube.com/watch?v=1H1agTB9xVI"><img class="img-responsive" src="/assets/img/art/update.png"></a>
-                </div>
-            </div>
-        <?php
-    }
 ?>
-<nav class="navbar navbar-default" style="margin-top: 2.5%">
+<nav class="navbar navbar-default" style="margin-top: 15px;">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -81,9 +69,6 @@
                         }
 
                         ?>
-                            <a class="navbar-brand" style="font-size: 12px">
-                                <span class="glyphicon glyphicon-time" data-toggle="tooltip" data-placement="auto" title="System Time"></span> <span id="clock">0:00:00</span>
-                            </a>
                             <a class="navbar-brand" style="font-size: 12px" href="/finances/">
                                 <span class="glyphicon glyphicon-gbp" data-toggle="tooltip" data-placement="auto" title="Cash"></span> <?=$pagehelper->getCash()?>
                             </a>

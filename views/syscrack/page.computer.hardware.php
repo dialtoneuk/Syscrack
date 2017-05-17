@@ -90,12 +90,26 @@
                                                                     </h1>
                                                                 <?php
                                                             }
+                                                            else
+                                                            {
+
+                                                                ?>
+                                                                    <h1>
+                                                                        <span class="glyphicon glyphicon-question-sign"></span>
+                                                                    </h1>
+                                                                <?php
+                                                            }
                                                         ?>
                                                     </div>
                                                     <div class="col-sm-10">
                                                         <h1>
-                                                            <?=$hardware['value']?>
                                                             <?php
+
+                                                                if( isset( $hardware[ 'value'] ) )
+                                                                {
+
+                                                                    echo $hardware['value'] ;
+                                                                }
 
                                                                 $extensions = Settings::getSetting('syscrack_hardware_extensions');
 

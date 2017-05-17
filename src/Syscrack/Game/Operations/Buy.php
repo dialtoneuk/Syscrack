@@ -170,23 +170,39 @@
                 throw new SyscrackException();
             }
 
+            if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+            {
+
+                $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
+            }
+
             if( $this->checkCustomData( $data, ['itemid','accountnumber' ] ) == false )
             {
 
                 throw new SyscrackException();
             }
 
+            if( $this->finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
+            {
+
+                $this->redirectError('Account does not exist, maybe it has been deleted?', $this->getRedirect( $data['ipaddress'] ) );
+            }
+
             $account = $this->finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
             $item = $this->market->getStockItem( $this->getComputerId( $data['ipaddress'] ), $data['custom']['itemid'] );
+
+            if( $this->finance->canAfford( $account->computerid, $account->userid, $item['price'] ) == false )
+            {
+
+                $this->redirectError('You cannot afford this transaction');
+            }
 
             if( isset( $item['hardware'] ) == false )
             {
 
                 throw new SyscrackException();
             }
-
-            $this->finance->withdraw( $account->computerid, $userid, $item['price'] );
 
             if( $this->hardware->hasHardwareType( $computerid, $item['hardware'] ) )
             {
@@ -198,6 +214,8 @@
 
                 $this->hardware->addHardware( $computerid, $item['hardware'], $item['value'] );
             }
+
+            $this->finance->withdraw( $account->computerid, $userid, $item['price'] );
 
             $this->market->addPurchase( $this->getComputerId( $data['ipaddress'] ), $computerid, $data['custom']['itemid'] );
 

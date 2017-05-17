@@ -350,7 +350,7 @@ class Finance
 
         $cash = $this->getUserCash( $computerid, $userid );
 
-        if( $cash - $amount > 0 )
+        if( $cash - $amount >= 0 )
         {
 
             return true;
