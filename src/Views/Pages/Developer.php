@@ -492,7 +492,16 @@
                     'database'  => PostHelper::getPostData('database')
                 ));
 
-                FileSystem::writeJson( Settings::getSetting('database_connection_file'), Cyphers::encryptArray( $array, null, false ) );
+                if( Settings::getSetting('database_encrypt_connection') == true )
+                {
+
+                    FileSystem::writeJson( Settings::getSetting('database_connection_file'), Cyphers::encryptArray( $array, null, false ) );
+                }
+                else
+                {
+
+                    FileSystem::writeJson( Settings::getSetting('database_connection_file'), $array );
+                }
 
                 if( FileSystem::fileExists( Settings::getSetting('database_connection_file') ) == false )
                 {

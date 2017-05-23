@@ -29,7 +29,7 @@ class Text extends BaseClass implements Structure
             'extension'     => '.txt',
             'type'          => 'text',
             'viewable'      => true,
-            'removeable'    => true,
+            'removable'    => true,
             'installable'   => false,
             'executable'    => true,
             'keepdata'      => true

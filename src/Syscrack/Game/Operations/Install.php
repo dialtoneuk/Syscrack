@@ -169,13 +169,13 @@ class Install extends BaseClass implements Structure
 
         $this->softwares->installSoftware( $data['softwareid'], $userid );
 
-        $this->computer->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
+        $this->computers->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
         $this->logInstall( $this->getSoftwareName( $data['softwareid' ] ),
             $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
 
         $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
-            $this->computer->getCurrentUserComputer(), $data['ipaddress']);
+            $this->computers->getCurrentUserComputer(), $data['ipaddress']);
 
         $this->softwares->executeSoftwareMethod( $this->softwares->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onInstalled', array(
             'softwareid'    => $data['softwareid'],
@@ -268,7 +268,7 @@ class Install extends BaseClass implements Structure
     private function logInstall( $softwarename, $computerid, $ipaddress )
     {
 
-        if( $this->computer->getCurrentUserComputer() == $computerid )
+        if( $this->computers->getCurrentUserComputer() == $computerid )
         {
 
             return;

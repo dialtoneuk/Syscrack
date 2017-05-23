@@ -83,14 +83,20 @@ class Connection
 			throw new DatabaseException();
 		}
 
-		$connection = Cyphers::decryptJsonToArray( $json );
+		if( Settings::getSetting('database_encrypt_connection') == true )
+        {
 
-		if( empty( $connection ) )
-		{
+            $connection = Cyphers::decryptJsonToArray( $json );
 
-			throw new DatabaseException();
-		}
+            if( empty( $connection ) )
+            {
 
-		return $connection;
+                throw new DatabaseException();
+            }
+
+            return $connection;
+        }
+
+		return json_decode( $json, true );
 	}
 }

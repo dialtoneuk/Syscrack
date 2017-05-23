@@ -116,6 +116,50 @@
         }
 
         /**
+         * Renders a page
+         *
+         * @param $file
+         *
+         * @param $data
+         *
+         * @param bool $obclean
+         */
+
+        public function render( $file, $data, $obclean=true )
+        {
+
+            if( $obclean == true )
+            {
+
+                ob_clean();
+            }
+
+            Flight::render( $file, $data );
+
+            exit;
+        }
+
+        /**
+         * Redirects the user to a page
+         *
+         * @param $url
+         *
+         * @param bool $exit
+         */
+
+        public function redirect( $url, $exit=false )
+        {
+
+            Flight::redirect( $url );
+
+            if( $exit )
+            {
+
+                exit;
+            }
+        }
+
+        /**
          * Gets the current page
          *
          * @return string

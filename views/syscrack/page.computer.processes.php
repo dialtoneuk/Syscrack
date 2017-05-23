@@ -1,11 +1,11 @@
 <?php
 
     use Framework\Application\Container;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Operations;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
-    $computer = new Computer();
+    $computer = new Computers();
 
     $pagehelper = new PageHelper();
 

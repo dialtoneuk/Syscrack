@@ -11,6 +11,7 @@
 
     use Flight;
     use Framework\Application\Container;
+    use Framework\Application\Mailer;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
@@ -21,6 +22,12 @@
 
     class Register extends BaseClass implements Structure
     {
+
+        /**
+         * @var Mailer
+         */
+
+        protected $mailer;
 
         /**
          * Register constructor.
@@ -36,6 +43,8 @@
 
                 Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
             }
+
+            $this->mailer = new Mailer();
         }
 
         /**
@@ -144,7 +153,24 @@
 
                 $betakeys->removeBetaKey( $key );
 
-                Flight::redirect('/verify/?token=' . $result);
+                if( Settings::getSetting('registration_verification') == true )
+                {
+
+                    $result = $this->sendEmail( $email, array('token' => $result ) );
+
+                    if( $result == false )
+                    {
+
+                        $this->redirectError( $this->mailer->getErrorInfo() );
+                    }
+
+                    $this->redirect('verify');
+                }
+                else
+                {
+
+                    $this->redirect('verify?token=' . $result );
+                }
             }
             else
             {
@@ -160,7 +186,46 @@
                     $this->redirectError( $error->getMessage() );
                 }
 
-                Flight::redirect('/verify/?token=' . $result);
+                if( Settings::getSetting('registration_verification') == true )
+                {
+
+                    $result = $this->sendEmail( $email, array('token' => $result, 'link' => Settings::getSetting('game_https_link') ) );
+
+                    if( $result == false )
+                    {
+
+                        $this->redirectError( $this->mailer->getErrorInfo() );
+                    }
+
+                    $this->redirect('verify');
+                }
+                else
+                {
+
+                    $this->redirect('verify?token=' . $result );
+                }
             }
+        }
+
+        private function sendEmail( $email, array $variables )
+        {
+
+            $body = $this->mailer->parse( $this->mailer->getTemplate('email.verify.php'), $variables );
+
+            if( empty( $body ) )
+            {
+
+                throw new SyscrackException();
+            }
+
+            $result = $this->mailer->send( $body, 'Verify your email', $email );
+
+            if( $result == false )
+            {
+
+                return false;
+            }
+
+            return true;
         }
     }

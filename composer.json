@@ -24,6 +24,7 @@
     "mikecao/flight": "^1.2",
     "facebook/graph-sdk": "*",
     "mashape/unirest-php": "3.*",
-    "erusev/parsedown":"*"
+    "erusev/parsedown":"*",
+    "phpmailer/phpmailer": "~5.2"
   }
 }

@@ -31,7 +31,7 @@ class VPhisher extends BaseClass implements Structure
             'installable'   => true,
             'uninstallable' => false,
             'executable'    => false,
-            'removeable'    => false
+            'removable'    => false
         );
     }
 

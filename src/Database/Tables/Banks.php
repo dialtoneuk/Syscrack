@@ -15,6 +15,32 @@ class Banks extends Table
 {
 
     /**
+     * Gets all the accounts
+     *
+     * @param int $pick
+     *
+     * @return \Illuminate\Support\Collection
+     */
+
+    public function getAllAccounts( $pick=32 )
+    {
+
+        return $this->getTable()->get()->take( $pick );
+    }
+
+    /**
+     * Gets the account count
+     *
+     * @return int
+     */
+
+    public function getAccountCount()
+    {
+
+        return $this->getTable()->get()->count();
+    }
+
+    /**
      * Lewis Lancaster 2017
      *
      * @param $userid

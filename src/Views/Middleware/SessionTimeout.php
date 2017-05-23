@@ -9,6 +9,7 @@ namespace Framework\Views\Middleware;
  * @package Framework\Views\Middleware
  */
 
+use Error;
 use Framework\Application\Container;
 use Framework\Application\Session;
 use Framework\Application\Settings;
@@ -34,7 +35,7 @@ class SessionTimeout extends BaseClass implements Structure
         if( Container::hasObject('session') == false )
         {
 
-            return;
+            throw new Error();
         }
 
         $this->session = Container::getObject('session');

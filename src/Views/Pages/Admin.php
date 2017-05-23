@@ -12,8 +12,11 @@
     use Flight;
     use Framework\Application\Container;
     use Framework\Application\Settings;
-    use Framework\Application\Utilities\FileSystem;
     use Framework\Application\Utilities\PostHelper;
+    use Framework\Exceptions\SyscrackException;
+    use Framework\Syscrack\Game\Finance;
+    use Framework\Syscrack\Game\Schema;
+    use Framework\Syscrack\Game\Structures\Computer;
     use Framework\Syscrack\Game\Utilities\Startup;
     use Framework\Syscrack\User;
     use Framework\Views\BaseClasses\Page as BaseClass;
@@ -35,6 +38,18 @@
         protected $startup;
 
         /**
+         * @var Schema
+         */
+
+        protected $schema;
+
+        /**
+         * @var Finance
+         */
+
+        protected $finance;
+
+        /**
          * Admin Error constructor.
          */
 
@@ -49,18 +64,30 @@
                 $this->user = new User();
             }
 
+            if ($this->user->isAdmin(Container::getObject('session')->getSessionUser()) == false)
+            {
+
+                Flight::redirect(Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page'));
+
+                exit;
+            }
+
             if( isset( $this->startup ) == false )
             {
 
                 $this->startup = new Startup( null, false );
             }
 
-            if( $this->user->isAdmin( Container::getObject('session')->getSessionUser() ) == false )
+            if (isset( $this->schema ) == false)
             {
 
-                Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+                $this->schema = new Schema();
+            }
 
-                exit;
+            if (isset($this->finance) == false)
+            {
+
+                $this->finance = new Finance();
             }
         }
 
@@ -84,10 +111,22 @@
                     'POST /admin/computer/', 'computerSearch'
                 ],
                 [
+                    'GET /admin/computer/@computerid:[0-9]{9}/', 'computerEditor'
+                ],
+                [
+                    'POST /admin/computer/@computerid:[0-9]{9}/', 'computerEditorProcess'
+                ],
+                [
                     'GET /admin/computer/creator/', 'computerCreator'
                 ],
                 [
                     'POST /admin/computer/creator/', 'computerCreatorProcess'
+                ],
+                [
+                    'GET /admin/reset/', 'reset'
+                ],
+                [
+                    'POST /admin/reset/', 'resetprocess'
                 ]
             );
         }
@@ -100,6 +139,59 @@
         {
 
             Flight::render('syscrack/page.admin');
+        }
+
+        public function computerEditor()
+        {
+
+
+        }
+
+        public function computerEditorProcess()
+        {
+
+
+        }
+
+        public function reset()
+        {
+
+            Flight::render('syscrack/page.admin.reset');
+        }
+
+        public function resetProcess()
+        {
+
+            if (PostHelper::hasPostData() == false)
+            {
+
+                $this->reset();
+            }
+            else
+            {
+
+                if( PostHelper::checkForRequirements(['resetip'] ) == true )
+                {
+
+                    $computers = $this->computers->getAllComputers( $this->computers->getComputerCount() );
+
+                    foreach( $computers as $computer )
+                    {
+
+                        $this->internet->changeAddress( $computer->computerid );
+                    }
+                }
+
+                $this->resetComputers();
+
+                if (PostHelper::checkForRequirements(['clearfinance']) == true)
+                {
+
+                    $this->cleanAccounts();
+                }
+
+                $this->redirectSuccess('admin/reset');
+            }
         }
 
         public function computerViewer()
@@ -147,13 +239,13 @@
                         $this->redirectError('Invalid query', 'admin/computer' );
                     }
 
-                    if( $this->computer->computerExists( $query ) == false )
+                    if( $this->computers->computerExists( $query ) == false )
                     {
 
                         $this->redirectError('Computer not found', 'admin/computer');
                     }
 
-                    $this->redirect('admin/computer/' . $this->computer->getComputer( $query )->computerid );
+                    $this->redirect('admin/computer/' . $this->computers->getComputer( $query )->computerid );
                 }
             }
         }
@@ -167,6 +259,10 @@
 
             Flight::render('syscrack/page.admin.computer.creator');
         }
+
+        /**
+         * Processes a post request to the computer creator
+         */
 
         public function computerCreatorProcess()
         {
@@ -209,89 +305,58 @@
                     $this->redirectError('Json Error: ' . $this->getLastJsonError(), 'admin/computer/creator');
                 }
 
-                $computerid = $this->startup->createComputer( $userid, $type, $ipaddress, [], json_decode( $hardwares, true ) );
-
-                if( $this->startup->log->hasLog( $computerid ) == false )
+                if( $this->computers->hasComputerClass( $type ) == false )
                 {
 
-                    $this->startup->createComputerLog( $computerid );
+                    $this->redirectError('Type of computer is invalid and does not exist');
                 }
 
-                $this->startup->createComputerSoftware( $userid, $computerid, json_decode( $softwares, true ) );
+                $class = $this->computers->getComputerClass( $type );
 
-                if( $this->computer->getComputerType( $computerid ) == Settings::getSetting('syscrack_computer_market_type') )
+                if( $class instanceof Computer == false )
                 {
 
-                    $this->startupMarket( $computerid );
+                    throw new SyscrackException();
                 }
 
-                if( $this->computer->getComputerType( $computerid ) == Settings::getSetting('syscrack_computer_retailer_type') )
+                $computerid = $this->computers->createComputer( $userid, $type, $ipaddress );
+
+                $class->onStartup( $computerid, $userid, json_decode( $softwares, true ), json_decode( $hardwares, true ) );
+
+                if( PostHelper::checkForRequirements( ['schema'] ) == true )
                 {
 
-                    $this->startupRetailer( $computerid );
-                }
-
-                if( PostHelper::checkForRequirements( ['schema'] ) == true  )
-                {
-
-                    if( PostHelper::getPostData('schema') == true )
+                    if( PostHelper::checkForRequirements(['name','page']) == false )
                     {
 
-                        if( PostHelper::checkForRequirements(['name']) == false )
-                        {
-
-                            $name = Settings::getSetting('syscrack_default_computer_name');
-                        }
-                        else
-                        {
-
-                            $name = PostHelper::getPostData('name');
-                        }
-
-                        if( PostHelper::checkForRequirements(['page']) == false )
-                        {
-
-                            $page = Settings::getSetting('syscrack_default_computer_page');
-                        }
-                        else
-                        {
-
-                            $page = PostHelper::getPostData('page');
-                        }
-
-                        if( PostHelper::checkForRequirements(['riddle']) == false )
-                        {
-
-                            $this->startup->createSchema( $computerid, array(
-                                'name' => $name,
-                                'page'  => $page,
-                                'softwares' => json_decode( $softwares, true ),
-                                'hardwares' => json_decode( $hardwares, true )
-                            ));
-                        }
-                        else
-                        {
-
-                            if( PostHelper::checkForRequirements( ['riddleaddress'] ) == false )
-                            {
-
-                                $riddle = null;
-                            }
-                            else
-                            {
-
-                                $riddle = PostHelper::getPostData('riddleaddress');
-                            }
-
-                            $this->startup->createSchema( $computerid, array(
-                                'name'      => $name,
-                                'page'      => $page,
-                                'riddle'    => $riddle,
-                                'softwares' => json_decode( $softwares, true ),
-                                'hardwares' => json_decode( $hardwares, true )
-                            ));
-                        }
+                        $this->redirectError('Schema failed to be created but your computer was created', 'admin/computer/creator' );
                     }
+
+                    $name = PostHelper::getPostData('name');
+
+                    $page = PostHelper::getPostData('page');
+
+                    if( PostHelper::checkForRequirements( ['riddle'] ) )
+                    {
+
+                        if( PostHelper::checkForRequirements(['riddleid','riddlecomputer'] ) == false )
+                        {
+
+                            $this->redirectError('Schema failed to be created but your computer was created', 'admin/computer/creator' );
+                        }
+
+                        $riddles = array(
+                            'riddleid'          => PostHelper::getPostData('riddleid'),
+                            'riddlecomputer'    => PostHelper::getPostData('riddlecomputer')
+                        );
+                    }
+                    else
+                    {
+
+                        $riddles = array();
+                    }
+
+                    $this->schema->createSchema( $computerid, $name, $page, $riddles, json_decode( $hardwares, true ), json_decode( $softwares, true ) );
                 }
 
                 $this->redirectSuccess('admin/computer/creator');
@@ -299,81 +364,48 @@
         }
 
         /**
-         * Start ups a market server
-         *
-         * @param $computerid
+         * Resets all the computers using the schema file if it is found
          */
 
-        private function startupMarket( $computerid )
+        private function resetComputers()
         {
 
-            if( FileSystem::directoryExists( $this->getFilePath( $computerid ) ) == false )
+            $computers = $this->computers->getAllComputers($this->computers->getComputerCount());
+
+            foreach( $computers as $computer )
             {
 
-                FileSystem::createDirectory(  $this->getFilePath( $computerid ) );
-            }
+                if( $this->computers->hasComputerClass( $computer->type ) == false )
+                {
 
-            if( FileSystem::fileExists( $this->getFilePath( $computerid, true, 'stock.json' ) ) == false )
-            {
+                    continue;
+                }
 
-                FileSystem::writeJson( $this->getFilePath( $computerid, true, 'stock.json') );
-            }
+                $class = $this->computers->getComputerClass( $computer->type );
 
-            if( FileSystem::fileExists( $this->getFilePath( $computerid, true, 'purchases.json' ) ) == false )
-            {
+                if( $class instanceof Computer == false )
+                {
 
-                FileSystem::writeJson( $this->getFilePath( $computerid, true, 'purchases.json') );
+                    throw new SyscrackException();
+                }
+
+                $class->onReset( $computer->computerid );
             }
         }
 
         /**
-         * Starts up the retailer server
-         *
-         * @param $computerid
+         * Cleans all the bank accounts in the game
          */
 
-        private function startupRetailer( $computerid )
+        private function cleanAccounts()
         {
 
-            if( FileSystem::directoryExists( $this->getFilePath( $computerid , false) ) == false )
+            $accounts = $this->finance->getAllAccounts($this->finance->getAccountCount());
+
+            foreach ($accounts as $account)
             {
 
-                FileSystem::createDirectory(  $this->getFilePath( $computerid ) );
-            }
-
-            if( FileSystem::fileExists( $this->getFilePath( $computerid, false, 'stock.json' ) ) == false )
-            {
-
-                FileSystem::writeJson( $this->getFilePath( $computerid, true, 'stock.json') );
-            }
-        }
-
-        /**
-         * Gets the filepath of both the market and retailer servers for setup
-         *
-         * //TODO: move this to an automated class based computer system
-         *
-         * @param $computerid
-         *
-         * @param bool $market
-         *
-         * @param string $file
-         *
-         * @return string
-         */
-
-        private function getFilePath( $computerid, $market=true, $file='' )
-        {
-
-            if( $market )
-            {
-
-                return Settings::getSetting('syscrack_market_location') . $computerid . '/' . $file;
-            }
-            else
-            {
-
-                return Settings::getSetting('syscrack_retailer_location') . $computerid . '/' . $file;
+                $this->finance->removeAccount($account->computerid, $account->userid);
             }
         }
 

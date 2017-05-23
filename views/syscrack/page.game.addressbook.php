@@ -2,7 +2,7 @@
 
     use Framework\Application\Container;
     use Framework\Syscrack\Game\AddressDatabase;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Syscrack\Game\Viruses;
@@ -24,7 +24,7 @@
     if( isset( $computer ) == false )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
     }
 
     if( isset( $addressbook ) == false )

@@ -1,13 +1,13 @@
 <?php
 
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Log;
-    use Framework\Syscrack\Game\NPC;
+    use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Softwares;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
-    $npc = new NPC();
+    $npc = new Schema();
 
     if( isset( $internet ) == false )
     {
@@ -21,7 +21,7 @@
         $pagehelper = new PageHelper();
     }
 
-    $computer = new Computer();
+    $computer = new Computers();
 
     $softwares = new Softwares();
 

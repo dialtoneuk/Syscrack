@@ -20,13 +20,29 @@
                 ?>
 
                     :target {
-                        animation: border-pulsate 5s;
+                        animation: border-pulsate 10s;
                         border: 1px solid #ddd;
                     }
 
                     @keyframes border-pulsate {
                         0%   { border-color: #337ab7; }
                         100% { border-color: #ddd; }
+                    }
+                <?php
+            }
+            else
+            {
+
+                ?>
+
+                    :target {
+                        animation: border-pulsate 10s;
+                        border: 1px solid rgb(40, 40, 40);
+                    }
+
+                    @keyframes border-pulsate {
+                        0%   { border-color: #337ab7; }
+                        100% { border-color:rgb(40, 40, 40); }
                     }
                 <?php
             }
@@ -105,11 +121,27 @@
                             </h5>
                             <div class="panel panel-default" id="settingsearch">
                                 <div class="panel-body">
-                                    <form method="post" style="margin-top: 2.5%;">
-                                        <div class="input-group input-group-md">
-                                            <span class="input-group-addon" id="settingname">@</span>
-                                            <input type="text" id="setting" class="form-control" placeholder="Setting Name" aria-describedby="settingname">
-                                        </div>
+                                    <form style="margin-top: 2.5%;">
+                                        <select id="setting" class="combobox input-sm form-control">
+                                            <option></option>
+
+                                            <?php
+
+                                                $settings = Settings::getSettings();
+
+                                                if( empty( $settings ) == false )
+                                                {
+
+                                                    foreach( $settings as $key=>$setting )
+                                                    {
+
+                                                        ?>
+                                                            <option value="<?=$key?>"><?=$key?></option>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
                                         <button class="btn btn-default btn-block btn-sm" type="button" onclick="window.location.href = '/developer/settings/#' + document.getElementById('setting').value" style="margin-top: 2.5%">
                                             Search
                                         </button>

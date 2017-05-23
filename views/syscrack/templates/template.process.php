@@ -13,6 +13,16 @@
 
         $process = $processclass->getProcess( $processid );
 
+        if( $processclass->canComplete( $processid ) )
+        {
+
+            if( isset( $auto ) == true )
+            {
+
+                Flight::redirect('/processes/' . $processid . '/complete');
+            }
+        }
+
         $data = json_decode( $process->data, true );
 
         ?>

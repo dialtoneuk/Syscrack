@@ -1,13 +1,13 @@
 <?php
 
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Viruses;
 
     if( isset( $computer ) == false )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
     }
 
     if( isset( $viruses ) == false )

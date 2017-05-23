@@ -15,7 +15,6 @@
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\ViewException;
-    use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Login\Account;
     use Framework\Syscrack\User;
     use Framework\Views\BaseClasses\Page as BaseClass;
@@ -49,16 +48,11 @@
         public function __construct()
         {
 
-            parent::__construct( false, true, false, true );
+            parent::__construct( true, true, false, true );
 
             if( isset( $this->session ) == false )
             {
 
-                if( Container::hasObject('session') == false )
-                {
-
-                    Container::setObject('session', new Session() );
-                }
 
                 $this->session = Container::getObject('session');
             }
@@ -127,8 +121,9 @@
                 $this->redirectError('Missing Information');
             }
 
-            $username = PostHelper::getPostData('username', true);
-            $password = PostHelper::getPostData('password', true );
+            $username = PostHelper::getPostData('username');
+
+            $password = PostHelper::getPostData('password');
 
             try
             {
@@ -152,15 +147,15 @@
                 $this->redirectError('Your userid is invalid, please tell a developer');
             }
 
-            $this->session->cleanupSession( $userid );
+            if( Settings::getSetting('login_cleanup_old_sessions') == true )
+            {
+
+                $this->session->cleanupSession( $userid );
+            }
 
             $this->session->insertSession( $userid );
 
-            if( Settings::getSetting('login_set_computer') )
-            {
-
-                $this->addConnectedComputer( $userid );
-            }
+            $this->addConnectedComputer( $userid );
 
             $this->redirect('game', false );
         }
@@ -180,14 +175,12 @@
         private function addConnectedComputer($userid)
         {
 
-            $computer = new Computer();
-
-            if ($computer->userHasComputers($userid) == false)
+            if ($this->computers->userHasComputers($userid) == false)
             {
 
                 throw new ViewException('User has no computer');
             }
 
-            $computer->setCurrentUserComputer($computer->getUserMainComputer($userid)->computerid);
+            $this->computers->setCurrentUserComputer($this->computers->getUserMainComputer($userid)->computerid);
         }
     }

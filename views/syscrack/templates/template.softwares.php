@@ -11,7 +11,7 @@
     if( isset( $computer ) == null )
     {
 
-        $computer = new \Framework\Syscrack\Game\Computer();
+        $computer = new \Framework\Syscrack\Game\Computers();
     }
 
     if( isset( $internet ) == null )

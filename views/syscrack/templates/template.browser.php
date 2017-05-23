@@ -1,10 +1,10 @@
 <?php
 
     use Framework\Syscrack\Game\Internet;
-    use Framework\Syscrack\Game\NPC;
+    use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
-    $npc = new NPC();
+    $npc = new Schema();
 
     if( isset( $internet ) == false )
     {
@@ -32,10 +32,10 @@
 
                     $computer = $internet->getComputer( $ipaddress );
 
-                    if( $npc->hasNPCFile( $computer->computerid ) && $npc->hasNPCPage( $computer->computerid ) )
+                    if( $npc->hasSchema( $computer->computerid ) && $npc->hasSchemaPage( $computer->computerid ) )
                     {
 
-                        Flight::render( $npc->getNPCPageLocation( $computer->computerid ), array( 'internet' => $internet, 'ipaddress' => $ipaddress, 'npc' => $npc ) );
+                        Flight::render( $npc->getSchemaPageLocation( $computer->computerid ), array( 'internet' => $internet, 'ipaddress' => $ipaddress, 'npc' => $npc ) );
                     }
                     else
                     {

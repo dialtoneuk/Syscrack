@@ -86,7 +86,7 @@ class RemoteAdmin extends BaseClass implements Structure
 
         $computer = $this->internet->getComputer( $data['ipaddress'] );
 
-        if( $computer->type != Settings::getSetting('syscrack_computer_bank_type') )
+        if( $computer->type != Settings::getSetting('syscrack_computers_bank_type') )
         {
 
             return false;
@@ -270,7 +270,7 @@ class RemoteAdmin extends BaseClass implements Structure
 
                     $activeaccount = $this->finance->getByAccountNumber( $this->finance->getCurrentActiveAccount() );
 
-                    if( $this->computer->getComputer( $account->computerid )->ipaddress !== $targetipaddress )
+                    if( $this->computers->getComputer( $account->computerid )->ipaddress !== $targetipaddress )
                     {
 
                         $this->redirectError('Account does not exist at remote database', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
@@ -287,7 +287,7 @@ class RemoteAdmin extends BaseClass implements Structure
                     $this->finance->withdraw( $activeaccount->computerid, $activeaccount->userid, $amount );
 
                     $this->logActions('Transfered ' . Settings::getSetting('syscrack_currency') . number_format( $amount ) . ' from (' . $this->finance->getCurrentActiveAccount() . ') to (' . $account->accountnumber . ') to bank <' . $targetipaddress . '>',
-                        $this->computer->getCurrentUserComputer(),
+                        $this->computers->getCurrentUserComputer(),
                         $ipaddress);
 
                     $this->redirectSuccess( $this->getRedirect( $ipaddress ) . '/remoteadmin');

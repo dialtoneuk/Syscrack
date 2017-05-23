@@ -25,7 +25,10 @@ if( $session->isLoggedIn() )
     ?>
     <body>
         <div class="container">
+            <?php
 
+                Flight::render('syscrack/templates/template.navigation');
+            ?>
             <div class="row" style="margin-top: 2.5%;">
                 <div class="col-lg-12">
                     <?php

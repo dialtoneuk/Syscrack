@@ -48,6 +48,12 @@ class Register
     public function register( $username, $password, $email )
     {
 
+        if( filter_var( $email, FILTER_VALIDATE_EMAIL ) == false )
+        {
+
+            throw new SyscrackException('Your email is not a valid email');
+        }
+
         if( $this->isUsernameTaken( $username ) )
         {
 
@@ -199,6 +205,6 @@ class Register
     private function saltPassword( $password, $salt )
     {
 
-        return Hashes::sha1( $salt . $password );
+        return Hashes::sha1( $salt, $password );
     }
 }

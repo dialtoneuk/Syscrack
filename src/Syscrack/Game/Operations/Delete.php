@@ -82,7 +82,7 @@ class Delete extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
+        if( $this->computers->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
         {
 
             return false;
@@ -158,9 +158,9 @@ class Delete extends BaseClass implements Structure
 
         $this->softwares->deleteSoftware( $software->softwareid );
 
-        $this->computer->removeSoftware( $this->getComputerId( $data['ipaddress'] ), $software->softwareid );
+        $this->computers->removeSoftware( $this->getComputerId( $data['ipaddress'] ), $software->softwareid );
 
-        $this->logDelete( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computer->getComputer( $computerid )->ipaddress );
+        $this->logDelete( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computers->getComputer( $computerid )->ipaddress );
 
         $this->logLocal( $software->softwarename, $data['ipaddress'] );
 
@@ -239,7 +239,7 @@ class Delete extends BaseClass implements Structure
     private function logDelete( $softwarename, $computerid, $ipaddress )
     {
 
-        if( $this->computer->getCurrentUserComputer() == $computerid )
+        if( $this->computers->getCurrentUserComputer() == $computerid )
         {
 
             return;
@@ -259,6 +259,6 @@ class Delete extends BaseClass implements Structure
     private function logLocal( $softwarename, $ipaddress )
     {
 
-        $this->logToComputer('Deleted file <' . $softwarename . '> on ' . $ipaddress, $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
+        $this->logToComputer('Deleted file <' . $softwarename . '> on ' . $ipaddress, $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->computerid, 'localhost' );
     }
 }

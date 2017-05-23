@@ -120,7 +120,7 @@ class Bitcoin
     public function getBitcoinServers()
     {
 
-        return $this->computers->getComputerByType( Settings::getSetting('syscrack_computer_bitcoin_type') );
+        return $this->computers->getComputerByType( Settings::getSetting('syscrack_computers_bitcoin_type') );
     }
 
     /**
@@ -176,7 +176,7 @@ class Bitcoin
     public function isBitcoinServer( $computerid )
     {
 
-        if( $this->computers->getComputer( $computerid )->type != Settings::getSetting('syscrack_computer_bitcoin_type') )
+        if( $this->computers->getComputer( $computerid )->type != Settings::getSetting('syscrack_computers_bitcoin_type') )
         {
 
             return false;

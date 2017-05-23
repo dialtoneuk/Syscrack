@@ -50,9 +50,9 @@
                 <label class="text-uppercase" style="color: lightgray;" for="form-<?= $element['name']?>">
                     <?= $element['name']?>
                 </label>
-                <div class="input-group" style="width: 100%; height: 22%; padding-bottom: 1%;">
+                <div class="input-group" style="width: 100%; height: 26.25%; padding-bottom: 1.25%;">
                     <div class="well" style="height: 100%;">
-                        <textarea style="resize: <?php if( isset( $element['resizeable' ] )){ echo $element['resizeable']; }else{ echo 'none'; }?>;  max-height: 400px; width: 100%; height: 100%;" name="<?= $element['name']?>" id="form-<?= $element['name']?>"><?php if( isset( $element['value'] ) ){ echo $element['value']; } ?></textarea>
+                        <textarea style="resize: <?php if( isset( $element['resizeable' ] )){ echo $element['resizeable']; }else{ echo 'none'; }?>;  max-height: 600px; width: 100%; height: 100%;" name="<?= $element['name']?>" id="form-<?= $element['name']?>"><?php if( isset( $element['value'] ) ){ echo $element['value']; } ?></textarea>
                     </div>
                 </div>
             <?php
@@ -61,10 +61,10 @@
         {
 
             ?>
-                <label class="text-uppercase" style="color: lightgray;" for="form-<?= $element['name']?>">
+                <label class="text-uppercase" style="color: lightgray; margin-bottom: 1%;" for="form-<?= $element['name']?>">
                     <?= $element['name']?>
                 </label>
-                <div class="input-group" style="padding-bottom: 1%;">
+                <div class="input-group" style="margin-bottom: 5%;">
                     <input type="<?= $element['type']?>" name="<?= $element['name']?>" id="form-<?= $element['name']?>"
                            placeholder="<?php if( isset( $element['placeholder'] )){ echo $element['placeholder']; }?>"
                     >

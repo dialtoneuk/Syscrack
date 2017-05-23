@@ -82,7 +82,7 @@ class Download extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computer->hasSoftware( $this->internet->getComputer( $data['ipaddress' ] )->computerid, $data['softwareid'] ) == false )
+        if( $this->computers->hasSoftware( $this->internet->getComputer( $data['ipaddress' ] )->computerid, $data['softwareid'] ) == false )
         {
 
             return false;
@@ -165,15 +165,15 @@ class Download extends BaseClass implements Structure
             $new_softwareid = $this->softwares->copySoftware( $software->softwareid, $computerid, $userid );
         }
 
-        $this->computer->addSoftware( $computerid, $new_softwareid, $software->type, $software->softwarename );
+        $this->computers->addSoftware( $computerid, $new_softwareid, $software->type, $software->softwarename );
 
-        if( $this->computer->hasSoftware( $computerid, $new_softwareid ) == false )
+        if( $this->computers->hasSoftware( $computerid, $new_softwareid ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $this->logDownload( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computer->getComputer( $computerid )->ipaddress );
+        $this->logDownload( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computers->getComputer( $computerid )->ipaddress );
 
         $this->logLocal( $software->softwarename, $data['ipaddress'] );
 
@@ -272,6 +272,6 @@ class Download extends BaseClass implements Structure
     private function logLocal( $softwarename, $ipaddress )
     {
 
-        $this->logToComputer('Downloaded file (' . $softwarename . ') on <' . $ipaddress . '>', $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
+        $this->logToComputer('Downloaded file (' . $softwarename . ') on <' . $ipaddress . '>', $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->computerid, 'localhost' );
     }
 }

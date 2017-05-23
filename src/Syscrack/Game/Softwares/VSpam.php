@@ -38,7 +38,7 @@ class VSpam extends BaseClass implements Structure
             'installable'   => true,
             'uninstallable' => true,
             'executable'    => false,
-            'removeable'    => false,
+            'removable'    => false,
         );
     }
 

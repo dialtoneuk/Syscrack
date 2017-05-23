@@ -162,7 +162,7 @@
 
                 $target = $this->finance->getByAccountNumber( $targetaccount );
 
-                if( $this->computer->getComputer( $target->computerid )->ipaddress !== $ipaddress )
+                if( $this->computers->getComputer( $target->computerid )->ipaddress !== $ipaddress )
                 {
 
                     $this->redirectError('Account does not exist at remote bank', 'finances/transfer');

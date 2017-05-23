@@ -228,7 +228,7 @@
         public function computerCollect()
         {
 
-            if( $this->computer->hasType( $this->computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
+            if( $this->computers->hasType( $this->computers->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
             {
 
                 $this->redirect('computer');
@@ -244,7 +244,7 @@
         public function computerCollectProcess()
         {
 
-            if( $this->computer->hasType( $this->computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
+            if( $this->computers->hasType( $this->computers->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
             {
 
                 $this->redirect('computer');
@@ -393,7 +393,7 @@
 
                     $this->finance->deposit( $account->computerid, $this->session->getSessionUser(), $total );
 
-                    $this->log->updateLog('Deposited ' . Settings::getSetting('syscrack_currency') . number_format(  $total ) . ' into account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid ) . '>', $this->computer->getCurrentUserComputer(), 'localhost');
+                    $this->log->updateLog('Deposited ' . Settings::getSetting('syscrack_currency') . number_format(  $total ) . ' into account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid ) . '>', $this->computers->getCurrentUserComputer(), 'localhost');
                 }
 
                 Flight::render('syscrack/page.computer.collect', array( 'results' => $results, 'total' => $total ));
@@ -415,7 +415,7 @@
                 $this->redirectError('Invalid action');
             }
 
-            $computerid = $this->computer->getCurrentUserComputer();
+            $computerid = $this->computers->getCurrentUserComputer();
 
             $ipaddress = $this->getCurrentComputerAddress();
 
@@ -450,7 +450,7 @@
 
             $class = $this->operations->findProcessClass($process);
 
-            $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $result = $class->onCreation(time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'custom'        => $data
             ));
@@ -461,12 +461,12 @@
                 $this->redirectError('Unable to complete process' );
             }
 
-            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $ipaddress, null );
+            $completiontime = $class->getCompletionSpeed($this->computers->getCurrentUserComputer(), $ipaddress, null );
 
             if( $completiontime !== null )
             {
 
-                $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+                $processid = $this->operations->createProcess($completiontime, $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                     'ipaddress'     => $ipaddress,
                     'custom'        => $data,
                     'redirect'      => 'computer'
@@ -475,7 +475,7 @@
                 $this->redirect('processes/' . $processid, true );
             }
 
-            $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $class->onCompletion(time(), time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'custom'        => $data,
                 'redirect'      => 'computer'
@@ -499,7 +499,7 @@
                 $this->redirectError('Invalid action');
             }
 
-            $computerid = $this->computer->getCurrentUserComputer();
+            $computerid = $this->computers->getCurrentUserComputer();
 
             $ipaddress = $this->getCurrentComputerAddress();
 
@@ -592,7 +592,7 @@
                 $data = [];
             }
 
-            $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $result = $class->onCreation(time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'softwareid'    => $software->softwareid,
                 'custom'        => $data
@@ -604,12 +604,12 @@
                 $this->redirectError('Unable to complete process' );
             }
 
-            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $ipaddress, $software->softwareid );
+            $completiontime = $class->getCompletionSpeed($this->computers->getCurrentUserComputer(), $ipaddress, $software->softwareid );
 
             if( $completiontime !== null )
             {
 
-                $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+                $processid = $this->operations->createProcess($completiontime, $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                     'ipaddress'     => $ipaddress,
                     'softwareid'    => $software->softwareid,
                     'custom'        => $data,
@@ -619,7 +619,7 @@
                 $this->redirect('processes/' . $processid, true );
             }
 
-            $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $class->onCompletion(time(), time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'softwareid'    => $software->softwareid,
                 'custom'        => $data,
@@ -674,6 +674,6 @@
         private function getCurrentComputerAddress()
         {
 
-            return $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress;
+            return $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress;
         }
     }

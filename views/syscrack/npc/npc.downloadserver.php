@@ -1,13 +1,13 @@
 <?php
 
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Softwares;
 
     if( isset( $computer ) == false )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
     }
 
     if( isset( $software ) == false )
@@ -29,10 +29,10 @@
     <div class="col-lg-12">
         <h5 style="color: #ababab" class="text-uppercase">
             <?php
-                if( $npc->hasNPCFile( $current_computer->computerid ) )
+                if( $npc->hasSchema( $current_computer->computerid ) )
                 {
 
-                    $schema = $npc->getNPCFile( $current_computer->computerid );
+                    $schema = $npc->getSchema( $current_computer->computerid );
 
                     if( isset( $schema['name'] ) )
                     {

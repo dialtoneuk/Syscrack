@@ -1,7 +1,7 @@
 <?php
 
     use Framework\Application\Container;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
     $session = Container::getObject('session');
@@ -9,7 +9,7 @@
     if( isset( $computer ) == false )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
     }
 
     if( isset( $pagehelper ) == false )
@@ -85,10 +85,21 @@
                             $user = new \Framework\Syscrack\User();
                             ?>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span> Internet</a>
+                                    <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-folder-open"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="/game/internet">Browser</a></li>
-
+                                        <li><a href="/processes/"> View</a></li>
+                                    </ul>
+                                </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-gbp"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/finances/"> Finance</a></li>
+                                    <li><a href="/finances/transfer/"> Transfer</a></li>
+                                </ul>
+                            </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span></a>
+                                    <ul class="dropdown-menu">
                                         <?php
 
                                             if( isset( $_SESSION['connected_ipaddress'] ) )
@@ -96,40 +107,42 @@
 
                                                 ?>
 
-                                                    <li><a href="/game/internet/<?=$_SESSION['connected_ipaddress']?>">Session</a></li>
+                                                <li><a href="/game/internet/<?=$_SESSION['connected_ipaddress']?>">Session</a></li>
                                                 <?php
                                             }
                                         ?>
+                                        <li><a href="/game/internet">Browser</a></li>
+                                        <li><a href="/game/computers">Computers</a>
                                         <li><a href="/game/addressbook">Address book</a>
                                         <li><a href="/game/accountbook">Account book</a></li>
                                     </ul>
                                 </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-hdd"></span> Computer</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/computer/">Desktop</a>
-                                    <li><a href="/computer/log">Log</a></li>
-                                    <li><a href="/computer/processes">Processes</a></li>
-                                    <li><a href="/computer/hardware">Hardware</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-hdd"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/computer/">Desktop</a>
+                                        <li><a href="/computer/log">Log</a></li>
+                                        <li><a href="/computer/processes">Processes</a></li>
+                                        <li><a href="/computer/hardware">Hardware</a></li>
 
-                                    <?php
-                                        if( $pagehelper->getInstalledCollector() !== null )
-                                        {
+                                        <?php
+                                            if( $pagehelper->getInstalledCollector() !== null )
+                                            {
 
-                                            ?>
-                                            <li><a href="/computer/collect">Collect</a></li>
-                                            <?php
-                                        }
-                                    ?>
-                                </ul>
-                            </li>
+                                                ?>
+                                                <li><a href="/computer/collect">Collect</a></li>
+                                                <?php
+                                            }
+                                        ?>
+                                    </ul>
+                                </li>
                                 <?php
                                     if( $user->isAdmin( $session->getSessionUser() ) )
                                     {
 
                                         ?>
                                         <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-briefcase"></span> Admin</a>
+                                            <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-briefcase"></span></a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="/admin">Home</a></li>
                                                 <li role="separator" class="divider"></li>
@@ -141,7 +154,7 @@
                                     }
                                 ?>
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span> Settings</a>
+                                    <a href="#" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="/account/settings/">Account Settings</a></li>
                                         <li><a href="/account/logout/">Logout</a></li>

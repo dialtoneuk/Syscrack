@@ -3,9 +3,9 @@
     use Framework\Application\Container;
     use Framework\Application\Settings;
     use Framework\Syscrack\Game\BankDatabase;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Finance;
-    use Framework\Syscrack\Game\NPC;
+    use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
     $session = Container::getObject('session');
@@ -25,7 +25,7 @@
     if( isset( $computer ) == false )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
     }
 
     if( isset( $pagehelper ) == false )
@@ -39,6 +39,8 @@
 
         $bankdatabase = new BankDatabase();
     }
+
+    $accounts = $finance->getUserBankAccounts( $session->getSessionUser() );
 ?>
 <!DOCTYPE html>
 <html>
@@ -79,7 +81,7 @@
                         </div>
                         <div class="panel-body text-center">
                             <h1>
-                                <?=$finance->getUserBankAccounts( $session->getSessionUser() )->count()?>
+                                <?=count( $accounts )?>
                             </h1>
                         </div>
                     </div>
@@ -120,8 +122,6 @@
                         Accounts
                     </h5>
                     <?php
-                        $accounts = $finance->getUserBankAccounts( $session->getSessionUser() );
-
                         if( empty( $accounts ) )
                         {
 
@@ -139,7 +139,7 @@
                         else
                         {
 
-                            $npc = new NPC();
+                            $npc = new Schema();
 
                             foreach( $accounts as $account )
                             {
@@ -157,10 +157,10 @@
 
                                             <span class="badge" style="float: right;">
                                                 <?php
-                                                    if( $npc->hasNPCFile( $account->computerid ) )
+                                                    if( $npc->hasSchema( $account->computerid ) )
                                                     {
 
-                                                        $schema = $npc->getNPCFile( $account->computerid );
+                                                        $schema = $npc->getSchema( $account->computerid );
 
                                                         if( isset( $schema['name'] ) == false )
                                                         {

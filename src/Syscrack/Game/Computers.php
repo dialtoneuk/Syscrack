@@ -7,19 +7,25 @@ namespace Framework\Syscrack\Game;
  * Class Computer
  *
  * @package Framework\Syscrack\Game
- *
- * //TODO: On rewrite, is the local list of softwares on the computer needed?
  */
 
 use Framework\Application\Settings;
-use Framework\Database\Tables\Computers;
+use Framework\Application\Utilities\Factory;
+use Framework\Application\Utilities\FileSystem;
+use Framework\Database\Tables\Computers as Database;
 use Framework\Exceptions\SyscrackException;
 
-class Computer
+class Computers
 {
 
     /**
-     * @var Computers
+     * @var Factory;
+     */
+
+    protected static $factory;
+
+    /**
+     * @var Database
      */
 
     protected $database;
@@ -31,7 +37,121 @@ class Computer
     public function __construct()
     {
 
-        $this->database = new Computers();
+        $this->database = new Database();
+
+        if( empty( self::$factory ) )
+        {
+
+            $this->loadComputers();
+        }
+    }
+
+    /**
+     * Loads the computers into the array
+     */
+
+    public function loadComputers()
+    {
+
+        self::$factory = new Factory( Settings::getSetting('syscrack_computers_namespace') );
+
+        foreach( FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_computers_location') ) as $file )
+        {
+
+            $name = FileSystem::getFileName( $file );
+
+            if( self::$factory->hasClass( $name ) )
+            {
+
+                continue;
+            }
+
+            self::$factory->createClass( $name );
+        }
+    }
+
+    /**
+     * Gets a computer class
+     *
+     * @param $name
+     *
+     * @return mixed|null
+     */
+
+    public function getComputerClass( $name )
+    {
+
+        if( self::$factory->hasClass( $name ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return self::$factory->findClass( $name );
+    }
+
+    /**
+     * Returns true if we have this computer class
+     *
+     * @param $name
+     *
+     * @return bool
+     */
+
+    public function hasComputerClass( $name )
+    {
+
+        if( self::$factory->hasClass( $name ) == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the computers configuration
+     *
+     * @param $name
+     *
+     * @return mixed
+     */
+
+    public function getComputerConfiguration( $name )
+    {
+
+        $configuration = self::$factory->findClass( $name )->configuration();
+
+        if( empty( $configuration ) )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $configuration;
+    }
+
+    /**
+     * Calls the computer start up method
+     *
+     * @param $name
+     *
+     * @return mixed
+     */
+
+    public function onComputerStartup( $name )
+    {
+
+        $class = self::$factory->findClass( $name );
+
+        if( empty( $class ) )
+        {
+
+            throw new SyscrackException();
+        }
+
+        return $class->onStartup();
     }
 
     /**
@@ -44,6 +164,18 @@ class Computer
     {
 
         return $this->database->getAllComputers( $pick );
+    }
+
+    /**
+     * Gets the computer count
+     *
+     * @return int
+     */
+
+    public function getComputerCount()
+    {
+
+        return $this->database->getComputerCount();
     }
 
     /**
@@ -94,14 +226,14 @@ class Computer
     {
 
         $array = array(
-            'softwares' => json_encode( Settings::getSetting('syscrack_default_software') )
+            'softwares' => json_encode([])
         );
 
         $this->database->updateComputer( $computerid, $array );
     }
 
     /**
-     * Resets the hardware of a computer to the default hardware
+     * Resets the hardware of a computer
      *
      * @param $computerid
      */
@@ -110,7 +242,25 @@ class Computer
     {
 
         $array = array(
-            'hardware' => json_encode( Settings::getSetting('syscrack_default_hardware') )
+            'hardwares' => json_encode( [] )
+        );
+
+        $this->database->updateComputer( $computerid, $array );
+    }
+
+    /**
+     * Sets the hardware of a computer
+     *
+     * @param $computerid
+     *
+     * @param array $hardware
+     */
+
+    public function setHardware( $computerid, array $hardware )
+    {
+
+        $array = array(
+            'hardwares' => json_encode( $hardware )
         );
 
         $this->database->updateComputer( $computerid, $array );
@@ -232,14 +382,13 @@ class Computer
      * @param $type
      */
 
-    public function addSoftware( $computerid, $softwareid, $type, $softwarename='My Software' )
+    public function addSoftware( $computerid, $softwareid, $type )
     {
 
         $softwares = $this->getComputerSoftware( $computerid );
 
         $softwares[] = array(
             'softwareid'        => $softwareid,
-            'softwarename'      => $softwarename,
             'type'              => $type,
             'installed'         => false,
             'timeinstalled'     => time()
@@ -595,6 +744,12 @@ class Computer
             return false;
         }
 
+        if( empty( $_SESSION['current_computer'] ) )
+        {
+
+            return false;
+        }
+
         return true;
     }
 
@@ -722,7 +877,7 @@ class Computer
     public function isBank( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_bank_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_bank_type') )
         {
 
             return false;
@@ -742,7 +897,7 @@ class Computer
     public function isBitcoin( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_bitcoin_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_bitcoin_type') )
         {
 
             return false;
@@ -762,7 +917,7 @@ class Computer
     public function isMarket( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_market_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_market_type') )
         {
 
             return false;
@@ -782,7 +937,7 @@ class Computer
     public function isNPC( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_npc_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_npc_type') )
         {
 
             return false;
@@ -802,7 +957,7 @@ class Computer
     public function isVPC( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_vpc_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_vpc_type') )
         {
 
             return false;

@@ -65,10 +65,10 @@ class Login extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computer->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )
+        if( $this->computers->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )
         {
 
-            return false;
+            $this->redirectError('You neeed a cracker to do that, maybe you should go get one?', $this->getRedirect( $data['ipaddress'] ) );
         }
 
         if( $this->getCurrentComputerAddress() == $data['ipaddress'] )
@@ -89,7 +89,7 @@ class Login extends BaseClass implements Structure
 
         $victimid = $this->getComputerId( $data['ipaddress'] );
 
-        if( $this->computer->hasType( $victimid, Settings::getSetting('syscrack_software_hasher_type'), true ) == true )
+        if( $this->computers->hasType( $victimid, Settings::getSetting('syscrack_software_hasher_type'), true ) == true )
         {
 
             if( $this->getHighestLevelSoftware( $victimid, Settings::getSetting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::getSetting('syscrack_software_cracker_type') )['level'] )
@@ -150,8 +150,6 @@ class Login extends BaseClass implements Structure
                 $this->safeUnset();
             }
         }
-
-        $this->logActions('Logged into root <' . $data['ipaddress'] . '>', $computerid, $data['ipaddress'] );
 
         $this->redirect( $this->getRedirect( $data['ipaddress'] ) );
     }

@@ -188,7 +188,7 @@
                 $this->bankdatabase->addAccountNumber( $data['custom']['accountnumber'], $data['ipaddress'] );
             }
 
-            $this->logCrack( $data['custom']['accountnumber'], $this->getComputerId( $data['ipaddress'] ), $this->computer->getComputer( $computerid )->ipaddress );
+            $this->logCrack( $data['custom']['accountnumber'], $this->getComputerId( $data['ipaddress'] ), $this->computers->getComputer( $computerid )->ipaddress );
 
             $this->logLocal( $computerid, $data['custom']['accountnumber'], $data['ipaddress'] );
 

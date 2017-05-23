@@ -148,10 +148,14 @@ class Controller
             throw new SyscrackException( $error->getMessage() );
         }
 
-        if( Settings::getSetting('middlewares_enabled') && Settings::getSetting('developer_page') !== $page )
+        if( Settings::getSetting('middlewares_enabled') )
         {
 
-            $this->processMiddlewares();
+            if( $this->canExecuteMiddlewaresOnPage( $page ) == true )
+            {
+
+                $this->processMiddlewares();
+            }
         }
     }
 
@@ -259,6 +263,30 @@ class Controller
         }
 
         $this->processFlightRoutes( $class, $class->mapping() );
+    }
+
+    /**
+     * Returns true if we can execute middlewares on the current page
+     *
+     * @param $page
+     *
+     * @return bool
+     */
+
+    private function canExecuteMiddlewaresOnPage( $page )
+    {
+
+        foreach( Settings::getSetting('middlewares_disabled_pages') as $value )
+        {
+
+            if( $page == $value )
+            {
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

@@ -62,6 +62,26 @@
                     Flight::render('syscrack/templates/template.admin.options');
                 ?>
 
+                <?php
+                    if( Settings::getSetting('database_encrypt_connection') == false )
+                    {
+
+                        ?>
+
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    Encryption is turned off
+                                </div>
+                                <div class="panel-body">
+                                    Your database encryption setting is currently turned off, this means that the information you give
+                                    below will not be encrypted and will be viewable in plain-text from anybody with root access. This
+                                    setting should only be used is mcrypt is not functioning correctly on your system.
+                                </div>
+                            </div>
+                        <?php
+                    }
+                ?>
+
                 <div class="col-sm-8">
                     <h5 style="color: #ababab" class="text-uppercase">
                         Computer Creator
@@ -119,6 +139,13 @@
                                             [
                                                 'type'          => 'checkbox',
                                                 'name'          => 'riddle',
+                                                'disabled'      => true,
+                                            ],
+                                            [
+                                                'type'          => 'number',
+                                                'name'          => 'riddleid',
+                                                'icon'          => 'glyphicon-question-sign',
+                                                'placeholder'   => '1',
                                                 'disabled'      => true,
                                             ],
                                             [

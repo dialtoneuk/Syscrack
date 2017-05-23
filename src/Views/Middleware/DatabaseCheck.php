@@ -10,7 +10,6 @@ namespace Framework\Views\Middleware;
  */
 
 use Error;
-use Flight;
 use Framework\Application\Settings;
 use Framework\Database\Manager;
 use Framework\Exceptions\DatabaseException;
@@ -84,6 +83,6 @@ class DatabaseCheck extends BaseClass implements Structure
     public function onFailure()
     {
 
-        Flight::redirect('/framework/error/database/');
+        $this->redirect('/framework/error/database/', true );
     }
 }

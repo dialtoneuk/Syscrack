@@ -257,6 +257,18 @@ class Operations
     }
 
     /**
+     * Deletes a process
+     *
+     * @param $processid
+     */
+
+    public function deleteProcess( $processid )
+    {
+
+        $this->database->trashProcess( $processid );
+    }
+
+    /**
      * Completes the process
      *
      * @param $processid
@@ -713,6 +725,32 @@ class Operations
         }
 
         if( $class->configuration()['allowlocal'] == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function localOnly( $process )
+    {
+
+        if( $this->hasProcessClass( $process ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $class = $this->findProcessClass( $process );
+
+        if( isset( $class->configuration()['localonly'] ) == false )
+        {
+
+            return false;
+        }
+
+        if( $class->configuration()['localonly'] == false )
         {
 
             return false;

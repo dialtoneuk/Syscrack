@@ -28,6 +28,7 @@
                 'uniquename'    => 'hasher',
                 'extension'     => '.hash',
                 'type'          => 'hasher',
+                'icon'          => 'glyphicon-lock',
                 'installable'   => true,
                 'executable'    => false,
             );

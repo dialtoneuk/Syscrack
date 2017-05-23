@@ -4,7 +4,7 @@
     use Framework\Application\Settings;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Internet;
-    use Framework\Syscrack\Game\NPC;
+    use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Softwares;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
@@ -31,7 +31,7 @@
     if( isset( $npc ) == false )
     {
 
-        $npc = new NPC();
+        $npc = new Schema();
     }
 
     if( isset( $internet ) == false )
@@ -82,10 +82,10 @@
                 <div class="col-md-12">
                     <h5 style="color: #ababab" class="text-uppercase">
                         <?php
-                            if( $npc->hasNPCFile( $current_computer->computerid ) )
+                            if( $npc->hasSchema( $current_computer->computerid ) )
                             {
 
-                                $schema = $npc->getNPCFile( $current_computer->computerid );
+                                $schema = $npc->getSchema( $current_computer->computerid );
 
                                 if( isset( $schema['name'] ) )
                                 {

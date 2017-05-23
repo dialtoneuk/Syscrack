@@ -42,6 +42,30 @@ class Finance
     }
 
     /**
+     * @param int $pick
+     *
+     * @return \Illuminate\Support\Collection
+     */
+
+    public function getAllAccounts( $pick = 32 )
+    {
+
+        return $this->banks->getAllAccounts( $pick = 32 );
+    }
+
+    /**
+     * Gets the number of accounts
+     *
+     * @return int
+     */
+
+    public function getAccountCount()
+    {
+
+        return $this->banks->getAccountCount();
+    }
+
+    /**
      * Gets the users cash at the specified bank
      *
      * @param $userid
@@ -98,7 +122,7 @@ class Finance
     public function getBanks()
     {
 
-        return $this->computers->getComputerByType( Settings::getSetting('syscrack_computer_bank_type') );
+        return $this->computers->getComputerByType( Settings::getSetting('syscrack_computers_bank_type') );
     }
 
     /**
@@ -390,7 +414,7 @@ class Finance
     private function isBank( $computerid )
     {
 
-        if( $this->computers->getComputer( $computerid )->type != Settings::getSetting('syscrack_computer_bank_type') )
+        if( $this->computers->getComputer( $computerid )->type != Settings::getSetting('syscrack_computers_bank_type') )
         {
 
             return false;

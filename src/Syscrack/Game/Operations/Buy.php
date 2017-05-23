@@ -9,7 +9,6 @@
      * @package Framework\Syscrack\Game\Operations
      */
 
-    use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
@@ -114,7 +113,7 @@
 
             $computer = $this->internet->getComputer( $data['ipaddress'] );
 
-            if( $computer->type !== Settings::getSetting('syscrack_computer_market_type') )
+            if( $this->computers->isMarket( $computer->computerid ) == false )
             {
 
                 return false;

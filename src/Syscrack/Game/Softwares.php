@@ -540,13 +540,13 @@ class Softwares
 
         $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
 
-        if( isset( $softwareclass->configuration()['removeable'] ) == false )
+        if( isset( $softwareclass->configuration()['removable'] ) == false )
         {
 
             return true;
         }
 
-        if( $softwareclass->configuration()['removeable'] == false )
+        if( $softwareclass->configuration()['removable'] == false )
         {
 
             return false;

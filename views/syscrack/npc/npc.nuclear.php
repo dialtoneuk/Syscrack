@@ -1,12 +1,12 @@
 <?php
 
     use Framework\Syscrack\Game\Internet;
-    use Framework\Syscrack\Game\NPC;
+    use Framework\Syscrack\Game\Schema;
 
     if( isset( $npc ) == false )
     {
 
-        $npc = new NPC();
+        $npc = new Schema();
     }
 
     if( isset( $internet ) == false )
@@ -22,10 +22,10 @@
     <div class="col-lg-12">
         <h5 style="color: #ababab" class="text-uppercase">
             <?php
-                if( $npc->hasNPCFile( $current_computer->computerid ) )
+                if( $npc->hasSchema( $current_computer->computerid ) )
                 {
 
-                    $schema = $npc->getNPCFile( $current_computer->computerid );
+                    $schema = $npc->getSchema( $current_computer->computerid );
 
                     if( isset( $schema['name'] ) )
                     {

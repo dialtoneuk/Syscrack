@@ -116,7 +116,7 @@
 
                 $computerid = PostHelper::getPostData('computerid');
 
-                if ($this->computer->computerExists($computerid) == false)
+                if ($this->computers->computerExists($computerid) == false)
                 {
 
                     $this->page();
@@ -127,7 +127,7 @@
                     if ($action == "switch")
                     {
 
-                        if ($this->computer->getComputer($computerid)->userid != Container::getObject('session')->getSessionUser())
+                        if ($this->computers->getComputer($computerid)->userid != Container::getObject('session')->getSessionUser())
                         {
 
                             $this->page();
@@ -135,7 +135,7 @@
                         else
                         {
 
-                            $this->computer->setCurrentUserComputer($computerid);
+                            $this->computers->setCurrentUserComputer($computerid);
 
                             $this->internet->setCurrentConnectedAddress( null );
 
@@ -280,7 +280,7 @@
                 $this->redirectError('Invalid action', $this->getRedirect( $ipaddress ) );
             }
 
-            $computerid = $this->computer->getCurrentUserComputer();
+            $computerid = $this->computers->getCurrentUserComputer();
 
             if( $this->operations->hasProcess( $computerid, $process, $ipaddress ) == true )
             {
@@ -291,10 +291,19 @@
             if( $this->operations->allowLocal( $process ) == false )
             {
 
-                if( $ipaddress == $this->computer->getComputer( $computerid )->ipaddress )
+                if( $ipaddress == $this->computers->getComputer( $computerid )->ipaddress )
                 {
 
                     $this->redirectError('This action must be ran on a remote computer');
+                }
+            }
+
+            if( $this->operations->localOnly( $process ) )
+            {
+                if( $ipaddress !== $this->computers->getComputer( $computerid )->ipaddress )
+                {
+
+                    $this->redirectError('This action can only be ran locally');
                 }
             }
 
@@ -350,7 +359,7 @@
                 $data = [];
             }
 
-            $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $result = $class->onCreation(time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'custom'        => $data
             ));
@@ -361,12 +370,12 @@
                 $this->redirectError('Unable to complete process', $this->getRedirect( $ipaddress ) );
             }
 
-            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process );
+            $completiontime = $class->getCompletionSpeed($this->computers->getCurrentUserComputer(), $process );
 
             if( $completiontime !== null )
             {
 
-                $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+                $processid = $this->operations->createProcess($completiontime, $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                     'ipaddress'     => $ipaddress,
                     'custom'        => $data
                 ));
@@ -374,7 +383,7 @@
                 $this->redirect('processes/' . $processid );
             }
 
-            $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $class->onCompletion(time(), time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'custom'        =>  $data
             ));
@@ -415,7 +424,7 @@
                 $this->redirectError('Invalid action', $this->getRedirect( $ipaddress ) );
             }
 
-            $computerid = $this->computer->getCurrentUserComputer();
+            $computerid = $this->computers->getCurrentUserComputer();
 
             if( $this->operations->hasProcess( $computerid, $process, $ipaddress, $softwareid ) == true )
             {
@@ -426,10 +435,19 @@
             if( $this->operations->allowLocal( $process ) == false )
             {
 
-                if( $ipaddress == $this->computer->getComputer( $computerid )->ipaddress )
+                if( $ipaddress == $this->computers->getComputer( $computerid )->ipaddress )
                 {
 
                     $this->redirectError('This action must be ran on a remote computer');
+                }
+            }
+
+            if( $this->operations->localOnly( $process ) )
+            {
+                if( $ipaddress !== $this->computers->getComputer( $computerid )->ipaddress )
+                {
+
+                    $this->redirectError('This action can only be ran locally');
                 }
             }
 
@@ -553,7 +571,7 @@
                 $data = [];
             }
 
-            $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $result = $class->onCreation(time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'softwareid'    => $softwareid,
                 'custom'        => $data
@@ -565,12 +583,12 @@
                 $this->redirectError('Unable to complete process', $this->getRedirect( $ipaddress ) );
             }
 
-            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process,  $softwareid );
+            $completiontime = $class->getCompletionSpeed($this->computers->getCurrentUserComputer(), $process,  $softwareid );
 
             if( $completiontime !== null )
             {
 
-                $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+                $processid = $this->operations->createProcess($completiontime, $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                     'ipaddress'     => $ipaddress,
                     'softwareid'    => $softwareid,
                     'custom'        => $data
@@ -579,7 +597,7 @@
                 $this->redirect('processes/' . $processid );
             }
 
-            $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $class->onCompletion(time(), time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'softwareid'    => $softwareid,
                 'custom'        => $data

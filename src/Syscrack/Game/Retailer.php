@@ -17,7 +17,7 @@
     {
 
         /**
-         * @var Computer
+         * @var Computers
          */
 
         protected $computer;
@@ -29,10 +29,10 @@
         public function __construct()
         {
 
-            if( isset( $this->computer ) == false )
+            if( isset( $this->computers ) == false )
             {
 
-                $this->computer = new Computer();
+                $this->computers = new Computers();
             }
         }
 
@@ -47,7 +47,7 @@
         public function isRetailer( $computerid )
         {
 
-            if( $this->computer->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computer_retailer_type') )
+            if( $this->computers->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_retailer_type') )
             {
 
                 return false;

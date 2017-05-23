@@ -1,7 +1,7 @@
 <?php
 
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Softwares;
@@ -22,7 +22,7 @@
     if( empty( $computer ) )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
     }
 
     if( empty( $softwares ) )
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 <?php
-                    if( $current_computer->type == Settings::getSetting('syscrack_computer_bank_type') )
+                    if( $current_computer->type == Settings::getSetting('syscrack_computers_bank_type') )
                     {
 
                         if (empty($finance))
@@ -233,7 +233,7 @@
                             <div class="panel-body">
                                 <button style="width: 100%;" class="btn btn-primary" type="submit"
                                     <?php if( $pagehelper->getInstalledCracker() == null ){ echo 'disabled'; }?> >
-                                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Hack <span class="badge"><?=$pagehelper->getSoftwareLevel( $pagehelper->getInstalledCracker()['softwareid'] )?></span>
+                                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Hack <span class="badge"><?=$pagehelper->getInstalledCracker()['level']?></span>
                                 </button>
                             </div>
                         </div>
@@ -254,7 +254,7 @@
             }
         }
 
-        if( $current_computer->type == Settings::getSetting('syscrack_computer_isp_type') )
+        if( $current_computer->type == Settings::getSetting('syscrack_computers_isp_type') )
         {
 
             ?>
@@ -315,7 +315,7 @@
             <?php
         }
 
-        if( $current_computer->type == Settings::getSetting('syscrack_computer_bank_type') )
+        if( $current_computer->type == Settings::getSetting('syscrack_computers_bank_type') )
         {
 
             ?>
@@ -334,7 +334,7 @@
             <?php
         }
 
-        if( $current_computer->type == Settings::getSetting('syscrack_computer_market_type') )
+        if( $current_computer->type == Settings::getSetting('syscrack_computers_market_type') )
         {
 
             ?>

@@ -1,9 +1,9 @@
 <?php
 
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Internet;
-    use Framework\Syscrack\Game\NPC;
+    use Framework\Syscrack\Game\Schema;
 
     if( isset( $internet ) == false )
     {
@@ -14,13 +14,13 @@
     if( isset( $computer ) == false )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
     }
 
     if( isset( $npc ) == false )
     {
 
-        $npc = new NPC();
+        $npc = new Schema();
     }
 ?>
 <div class="row">
@@ -65,10 +65,10 @@
                                     <a href="/game/internet/<?=$current_computer->ipaddress?>/">
                                         <?php
 
-                                            if( $npc->hasNPCFile( $computerid ) )
+                                            if( $npc->hasSchema( $computerid ) )
                                             {
 
-                                                $schema = $npc->getNPCFile( $computerid );
+                                                $schema = $npc->getSchema( $computerid );
 
                                                 if( isset( $schema['name'] ))
                                                 {

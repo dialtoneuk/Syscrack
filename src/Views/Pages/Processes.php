@@ -58,6 +58,9 @@
                 ],
                 [
                     '/processes/@processid/complete', 'completeProcess'
+                ],
+                [
+                    '/processes/@processid/delete', 'deleteProcess'
                 ]
             );
         }
@@ -99,7 +102,7 @@
                 else
                 {
 
-                    if ($process->computerid != $this->computer->getCurrentUserComputer())
+                    if ($process->computerid != $this->computers->getCurrentUserComputer())
                     {
 
                         $this->redirectError('You are connected as a different computer');
@@ -142,7 +145,19 @@
 
                     $data = json_decode( $process->data, true );
 
-                    if( $this->internet->getComputer( $data['ipaddress'] )->computerid != $this->computer->getCurrentUserComputer() )
+                    if( isset( $data['ipaddress'] ) == false )
+                    {
+
+                        $this->redirectError('Sorry, no ip address for this action was set, try again');
+                    }
+
+                    if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+                    {
+
+                        $this->redirectError('404 Not found, maybe this IP was changed?');
+                    }
+
+                    if( $this->internet->getComputer( $data['ipaddress'] )->computerid != $this->computers->getCurrentUserComputer() )
                     {
 
                         if( $this->operations->requireLoggedIn( $process->process ) == true )
@@ -190,6 +205,43 @@
                         }
                     }
                 }
+            }
+        }
+
+        /**
+         * Deletes a process
+         *
+         * @param $processid
+         */
+
+        public function deleteProcess( $processid )
+        {
+
+            if ($this->operations->processExists($processid) == false)
+            {
+
+                $this->redirectError('This process does not exist');
+            }
+            else
+            {
+
+                $process = $this->operations->getProcess( $processid );
+
+                if( $process->userid !== Container::getObject('session')->getSessionUser() )
+                {
+
+                    $this->redirectError('You do not own this process');
+                }
+
+                if( $process->computerid !== $this->computers->getCurrentUserComputer() )
+                {
+
+                    $this->redirectError('You need to currently be switched to the computer this process was initiated on');
+                }
+
+                $this->operations->deleteProcess( $processid );
+
+                $this->redirectSuccess();
             }
         }
     }

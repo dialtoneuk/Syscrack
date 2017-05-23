@@ -57,7 +57,7 @@
             if( empty( $viruses ) )
             {
 
-                $this->redirectError('No viruses were found', $this->getRedirect( $this->computer->getComputer( $computerid )->ipaddress ) );
+                $this->redirectError('No viruses were found', $this->getRedirect( $this->computers->getComputer( $computerid )->ipaddress ) );
             }
 
             $software = $this->softwares->getSoftware( $softwareid );
@@ -85,16 +85,16 @@
 
                 $this->softwares->deleteSoftware( $virus->softwareid );
 
-                $this->computer->removeSoftware( $computerid, $virus->softwareid );
+                $this->computers->removeSoftware( $computerid, $virus->softwareid );
             }
 
             if( empty( $results ) )
             {
 
-                $this->redirectError('No errors were deleted, this could be due to your anti-virus being too weak',  $this->getRedirect( $this->computer->getComputer( $computerid )->ipaddress ) );
+                $this->redirectError('No errors were deleted, this could be due to your anti-virus being too weak',  $this->getRedirect( $this->computers->getComputer( $computerid )->ipaddress ) );
             }
 
-            $this->redirectSuccess( $this->getRedirect( $this->computer->getComputer( $computerid )->ipaddress ) );
+            $this->redirectSuccess( $this->getRedirect( $this->computers->getComputer( $computerid )->ipaddress ) );
         }
 
         public function onInstalled( $softwareid, $userid, $computerid )

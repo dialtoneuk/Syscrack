@@ -1,7 +1,7 @@
 <?php
     use Framework\Application\Container;
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Finance;
 
     $session = Container::getObject('session');
@@ -21,7 +21,7 @@
     if( isset( $computer ) == false )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
     }
 ?>
 <!DOCTYPE html>

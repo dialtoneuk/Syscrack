@@ -14,7 +14,7 @@ use Framework\Application\Settings;
 use Framework\Application\Utilities\ArrayHelper;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
-use Framework\Syscrack\Game\Computer;
+use Framework\Syscrack\Game\Computers;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Softwares;
 use Framework\Syscrack\User;
@@ -40,8 +40,6 @@ class PageHelper
 
             return;
         }
-
-
 
         $this->session = Container::getObject('session');
     }
@@ -127,7 +125,7 @@ class PageHelper
     public function getComputerSoftware()
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
 
         if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
         {
@@ -147,7 +145,7 @@ class PageHelper
     public function getComputerHardware()
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
 
         if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
         {
@@ -167,7 +165,7 @@ class PageHelper
     public function getComputerType( $computerid )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
 
         if( $computer->getComputer( $computerid ) == null )
         {
@@ -189,7 +187,7 @@ class PageHelper
     public function getInstalledType( $type )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
 
         $softwares = new Softwares();
 
@@ -211,6 +209,12 @@ class PageHelper
 
                 if( $software['installed'] == true )
                 {
+
+                    if( $softwares->softwareExists( $software['softwareid'] ) == false )
+                    {
+
+                        continue;
+                    }
 
                     $results[] = $softwares->getSoftware( $software['softwareid'] );
                 }
@@ -243,7 +247,7 @@ class PageHelper
     public function getInstalledCollector()
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
 
         $softwares = new Softwares();
 
@@ -265,6 +269,12 @@ class PageHelper
 
                 if( $software['installed'] == true )
                 {
+
+                    if( $softwares->softwareExists( $software['softwareid'] ) == false )
+                    {
+
+                        continue;
+                    }
 
                     $results[] = $softwares->getSoftware( $software['softwareid'] );
                 }
@@ -297,7 +307,7 @@ class PageHelper
     public function getInstalledHasher()
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
 
         $softwares = new Softwares();
 
@@ -319,6 +329,12 @@ class PageHelper
 
                 if( $software['installed'] == true )
                 {
+
+                    if( $softwares->softwareExists( $software['softwareid'] ) == false )
+                    {
+
+                        continue;
+                    }
 
                     $results[] = $softwares->getSoftware( $software['softwareid'] );
                 }
@@ -351,7 +367,7 @@ class PageHelper
     public function getInstalledFirewall()
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
 
         $softwares = new Softwares();
 
@@ -373,6 +389,12 @@ class PageHelper
 
                 if( $software['installed'] == true )
                 {
+
+                    if( $softwares->softwareExists( $software['softwareid'] ) == false )
+                    {
+
+                        continue;
+                    }
 
                     $results[] = $softwares->getSoftware( $software['softwareid'] );
                 }
@@ -405,7 +427,7 @@ class PageHelper
     public function getInstalledCracker()
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
 
         $softwares = new Softwares();
 
@@ -427,6 +449,12 @@ class PageHelper
 
                 if( $software['installed'] == true )
                 {
+
+                    if( $softwares->softwareExists( $software['softwareid'] ) == false )
+                    {
+
+                        continue;
+                    }
 
                     $results[] = $softwares->getSoftware( $software['softwareid'] );
                 }

@@ -1,13 +1,14 @@
 <?php
 
     use Framework\Application\Container;
+    use Framework\Application\Settings;
+    use Framework\Application\Utilities\IPAddress;
     use Framework\Syscrack\User;
-
 
     try
     {
 
-        if( \Framework\Application\Settings::getSetting('error_logging') == false || \Framework\Application\Settings::getSetting('error_display_page') == false )
+        if(Settings::getSetting('error_logging') == false ||Settings::getSetting('error_display_page') == false )
         {
 
             Flight::notFound();
@@ -15,9 +16,7 @@
             exit;
         }
 
-        $error_handler = \Framework\Application\Container::getObject('application')->getErrorHandler();
-
-        $user = new User();
+        $error_handler = Container::getObject('application')->getErrorHandler();
 
         if( $error_handler->hasErrors() == false || $error_handler->hasLogFile() == false )
         {
@@ -27,17 +26,19 @@
 
         $last_error = $error_handler->getLastError();
 
-        if( $last_error['ip'] !== \Framework\Application\Utilities\IPAddress::getAddress() )
+        if( $last_error['ip'] != IPAddress::getAddress() )
         {
+
+            @$user = new User();
 
             if(  Container::getObject('session')->isLoggedIn() !== true || $user->isAdmin( Container::getObject('session')->getSessionUser() ) == false )
             {
 
                 Flight::redirect('/');
             }
-        }
 
-        unset( $user );
+            unset( $user );
+        }
     }
     catch( Exception $error )
     {
@@ -80,7 +81,7 @@
 
                                 <div class="well">
     <pre>
-        <?=$error->getTraceAsString()?>
+        <?=htmlspecialchars( $error->getTraceAsString(), ENT_QUOTES, 'utf-8' )?>
     </pre>
                                 </div>
                             </div>
@@ -105,14 +106,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="page-header">
-                        <h1>
-                            Exception by <?= $last_error['ip'] ?> on <?= date('Y-m-d g:i a', $last_error['timestamp'] ) ?>
-                            <span style="float:right" class="label label-<?php if( $last_error['type'] == 'frameworkerror'){ echo 'danger';}elseif( $last_error['type'] == 'rendererror'){echo 'warning';}else{ echo 'default'; }?>">
+                    <h5>
+                        Exception by <?= $last_error['ip'] ?> on <?= date('Y-m-d g:i a', $last_error['timestamp'] ) ?>
+                        <span style="float:right" class="label label-<?php if( $last_error['type'] == 'frameworkerror'){ echo 'danger';}elseif( $last_error['type'] == 'rendererror'){echo 'warning';}else{ echo 'default'; }?>">
                                 <?= $last_error['type'] ?>
                             </span>
-                        </h1>
-                    </div>
+                    </h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p style='color: #adadad' class="small text-uppercase">
@@ -126,7 +129,7 @@
                             </p>
                             <div class="well">
                                 <pre>
-<?= $last_error['details']['trace']?>
+<?=htmlspecialchars( $last_error['details']['trace'], ENT_QUOTES, 'UTF-8' )?>
                                 </pre>
                             </div>
                             <p style='color: #adadad' class="small text-uppercase">
@@ -153,7 +156,7 @@
 
                                 $_GET['redirect'] = htmlspecialchars( $_GET['redirect'], ENT_QUOTES, 'UTF-8' );
 
-                                if( strlen( $_GET['redirect'] ) < \Framework\Application\Settings::getSetting('controller_url_length') )
+                                if( strlen( $_GET['redirect'] ) <Settings::getSetting('controller_url_length') )
                                 {
 
                                     ?>

@@ -13,7 +13,7 @@ use Flight;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\ArrayHelper;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Computer;
+use Framework\Syscrack\Game\Computers;
 use Framework\Syscrack\Game\Hardware;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Log;
@@ -36,10 +36,10 @@ class Operation
     public $softwares;
 
     /**
-     * @var Computer
+     * @var Computers
      */
 
-    public $computer;
+    public $computers;
 
     /**
      * @var Internet
@@ -67,7 +67,7 @@ class Operation
 
             $this->softwares = new Softwares();
 
-            $this->computer = new Computer();
+            $this->computers = new Computers();
 
             $this->internet = new Internet();
 
@@ -109,7 +109,7 @@ class Operation
     public function hasSoftware( $softwarename, $computerid, $installed=true )
     {
 
-        $softwares = $this->computer->getComputerSoftware( $computerid );
+        $softwares = $this->computers->getComputerSoftware( $computerid );
 
         foreach( $softwares as $key=>$value )
         {
@@ -145,6 +145,12 @@ class Operation
         return false;
     }
 
+    public function getComputerClass( $computerid )
+    {
+
+
+    }
+
     /**
      * Gets the highest level of software on the users computer
      *
@@ -164,7 +170,7 @@ class Operation
             $type = Settings::getSetting('syscrack_software_cracker_type');
         }
 
-        $softwares = $this->computer->getComputerSoftware( $computerid );
+        $softwares = $this->computers->getComputerSoftware( $computerid );
 
         if( empty( $softwares ) )
         {
@@ -266,7 +272,7 @@ class Operation
     public function logActions( $message, $computerid, $ipaddress )
     {
 
-        if( $this->computer->computerExists( $computerid ) == false )
+        if( $this->computers->computerExists( $computerid ) == false )
         {
 
             throw new SyscrackException();
@@ -280,7 +286,7 @@ class Operation
             throw new SyscrackException();
         }
 
-        $this->logToComputer( $message, $victimid->computerid, $this->computer->getComputer( $computerid )->ipaddress );
+        $this->logToComputer( $message, $victimid->computerid, $this->computers->getComputer( $computerid )->ipaddress );
 
         $this->logToComputer( $message, $computerid, Settings::getSetting('syscrack_log_localhost_name'));
 
@@ -306,7 +312,7 @@ class Operation
                 array_merge( $array, [
                     'softwares' => $this->softwares,
                     'internet'  => $this->internet,
-                    'computer'  => $this->computer
+                    'computer'  => $this->computers
                 ]);
             }
         }
@@ -535,16 +541,16 @@ class Operation
     public function getRedirect( $ipaddress=null, $local=false )
     {
 
-        if( $ipaddress == $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress )
+        if( $ipaddress == $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress )
         {
 
-            return Settings::getSetting('syscrack_computer_page');
+            return Settings::getSetting('syscrack_computers_page');
         }
 
         if( $local )
         {
 
-            return Settings::getSetting('syscrack_computer_page');
+            return Settings::getSetting('syscrack_computers_page');
         }
 
         if( $ipaddress )
@@ -599,7 +605,7 @@ class Operation
     public function getCurrentComputerAddress()
     {
 
-        return $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress;
+        return $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress;
     }
 
     /**

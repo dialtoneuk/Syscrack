@@ -9,6 +9,7 @@ namespace Framework\Syscrack\Login;
  * @package Framework\Syscrack\Login
  */
 
+use Framework\Application\Settings;
 use Framework\Application\Utilities\Hashes;
 use Framework\Exceptions\LoginException;
 use Framework\Exceptions\SyscrackException;
@@ -63,6 +64,15 @@ class Account
 
 		$userid = $this->user->findByUsername( $username );
 
+		if( Settings::getSetting('login_admins_only') == true )
+        {
+
+            if( $this->user->isAdmin( $userid ) == false )
+            {
+
+                throw new LoginException('Sorry, the game is currently in admin mode, please try again later');
+            }
+        }
 
 		if( $this->checkPassword( $userid, $password, $this->user->getSalt( $userid ) ) == false )
 		{

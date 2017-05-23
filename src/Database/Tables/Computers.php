@@ -29,6 +29,18 @@ class Computers extends Table
     }
 
     /**
+     * Gets the computer count
+     *
+     * @return int
+     */
+
+    public function getComputerCount()
+    {
+
+        return $this->getTable()->get()->count();
+    }
+
+    /**
      * Gets a computer by its ID
      *
      * @param $computerid

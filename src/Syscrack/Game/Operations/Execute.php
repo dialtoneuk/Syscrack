@@ -77,7 +77,7 @@
             if( $this->softwares->localExecuteOnly( $data['softwareid'] ) )
             {
 
-                if( $this->computer->getComputer( $computerid )->ipaddress !== $data['ipaddress'] )
+                if( $this->computers->getComputer( $computerid )->ipaddress !== $data['ipaddress'] )
                 {
 
                     $this->redirectError('This action can only be executed on your local computer', $this->getRedirect( $data['ipaddress'] ) );

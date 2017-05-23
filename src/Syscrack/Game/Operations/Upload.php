@@ -54,13 +54,13 @@
 
             $software = $this->softwares->getSoftware( $data['custom']['softwareid'] );
 
-            if( $this->computer->hasSoftware( $computerid, $software->softwareid ) == false )
+            if( $this->computers->hasSoftware( $computerid, $software->softwareid ) == false )
             {
 
                 return false;
             }
 
-            if( $this->computer->isInstalled( $computerid, $software->softwareid ) == true )
+            if( $this->computers->isInstalled( $computerid, $software->softwareid ) == true )
             {
 
                 $this->redirectError('Sorry, you cannot upload an installed file', $this->getRedirect( $data['ipaddress'] ) );
@@ -123,15 +123,15 @@
                 $new_softwareid = $this->softwares->copySoftware( $software->softwareid, $this->getComputerId( $data['ipaddress'] ), $userid );
             }
 
-            $this->computer->addSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid, $software->type, $software->softwarename );
+            $this->computers->addSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid, $software->type );
 
-            if( $this->computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid ) == false )
+            if( $this->computers->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid ) == false )
             {
 
                 throw new SyscrackException();
             }
 
-            $this->logUpload( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computer->getComputer( $computerid )->ipaddress );
+            $this->logUpload( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computers->getComputer( $computerid )->ipaddress );
 
             $this->logLocal( $software->softwarename, $data['ipaddress'] );
 
@@ -203,6 +203,6 @@
         private function logLocal( $softwarename, $ipaddress )
         {
 
-            $this->logToComputer('Uploaded file (' . $softwarename . ') on <' . $ipaddress . '>', $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->computerid, 'localhost' );
+            $this->logToComputer('Uploaded file (' . $softwarename . ') on <' . $ipaddress . '>', $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->computerid, 'localhost' );
         }
     }

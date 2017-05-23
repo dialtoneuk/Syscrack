@@ -224,6 +224,12 @@ class Session
             return false;
         }
 
+        if( $this->getLastAction() < ( time() - Settings::getSetting('session_timeout') ) )
+        {
+
+            return false;
+        }
+
         return true;
     }
 

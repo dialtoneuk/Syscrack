@@ -82,7 +82,7 @@
                 return false;
             }
 
-            if( $this->internet->getComputer( $data['ipaddress'] )->type != Settings::getSetting('syscrack_computer_isp_type') )
+            if( $this->internet->getComputer( $data['ipaddress'] )->type != Settings::getSetting('syscrack_computers_isp_type') )
             {
 
                 return false;
@@ -147,8 +147,8 @@
 
             $this->internet->changeAddress( $computerid );
 
-            $this->log->updateLog('Changed ip address for ' . Settings::getSetting('syscrack_currency') . number_format( Settings::getSetting('syscrack_operations_resetaddress_price') ). 'using account ' . $account->accountnumber,
-                    $this->computer->getCurrentUserComputer(),
+            $this->log->updateLog('Changed ip address for ' . Settings::getSetting('syscrack_currency') . number_format( Settings::getSetting('syscrack_operations_resetaddress_price') ). ' using account ' . $account->accountnumber,
+                    $this->computers->getCurrentUserComputer(),
                     'localhost');
 
             $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );

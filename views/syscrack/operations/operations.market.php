@@ -1,12 +1,12 @@
 <?php
     use Framework\Application\Container;
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Hardware;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Market;
-    use Framework\Syscrack\Game\NPC;
+    use Framework\Syscrack\Game\Schema;
 
     $session = Container::getObject('session');
 
@@ -19,13 +19,13 @@
     if( isset( $computer ) == false )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
     }
 
     if( isset( $npc ) == false )
     {
 
-        $npc = new NPC();
+        $npc = new Schema();
     }
 
     if( isset( $market ) == false )
@@ -76,10 +76,10 @@
                 <div class="col-md-12">
                     <h5 style="color: #ababab" class="text-uppercase">
                         <?php
-                            if( $npc->hasNPCFile( $current_computer->computerid ) )
+                            if( $npc->hasSchema( $current_computer->computerid ) )
                             {
 
-                                $schema = $npc->getNPCFile( $current_computer->computerid );
+                                $schema = $npc->getSchema( $current_computer->computerid );
 
                                 if( isset( $schema['name'] ) )
                                 {

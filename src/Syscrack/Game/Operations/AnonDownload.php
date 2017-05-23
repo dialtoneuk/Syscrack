@@ -70,7 +70,7 @@
                 return false;
             }
 
-            if( $this->computer->getComputerType( $this->getComputerId( $data['ipaddress'] ) ) !== Settings::getSetting('syscrack_computer_download_type') )
+            if( $this->computers->getComputerType( $this->getComputerId( $data['ipaddress'] ) ) !== Settings::getSetting('syscrack_computers_download_type') )
             {
 
                 $this->redirectError('This action can only be used on a download server', $this->getRedirect( $data['ipaddress'] ) );
@@ -122,7 +122,7 @@
                 $this->redirectError('Sorry, it looks like this software might have been deleted');;
             }
 
-            $softwareid = $this->softwares->copySoftware( $data['softwareid'], $this->computer->getCurrentUserComputer(), $userid );
+            $softwareid = $this->softwares->copySoftware( $data['softwareid'], $this->computers->getCurrentUserComputer(), $userid );
 
             if( empty( $softwareid ) )
             {
@@ -138,7 +138,7 @@
                 throw new SyscrackException();
             }
 
-            $this->computer->addSoftware( $this->computer->getCurrentUserComputer(), $software->softwareid, $software->type, $software->softwarename );
+            $this->computers->addSoftware( $this->computers->getCurrentUserComputer(), $software->softwareid, $software->type, $software->softwarename );
 
             if( isset( $data['redirect'] ) )
             {

@@ -41,7 +41,7 @@ class FileSystem
 		if( file_exists( self::getFilePath( $file ) ) == false )
 		{
 
-			throw new ApplicationException();
+			throw new ApplicationException( $file . ' does not exist' );
 		}
 
 		$file = file_get_contents( self::getFilePath( $file ) );
@@ -447,12 +447,6 @@ class FileSystem
 
     public static function hasFileExtension( $file )
     {
-
-        if( empty( explode('.', $file ) ) )
-        {
-
-            return false;
-        }
 
         return true;
     }

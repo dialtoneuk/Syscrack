@@ -71,10 +71,12 @@
             if (isset($_GET['token']))
             {
 
+                $_GET['token'] = htmlspecialchars( $_GET['token'], ENT_QUOTES, 'UTF-8' );
+
                 if ($this->verification->getTokenUser($_GET['token']) == null)
                 {
 
-                    $this->redirectError('Sorry, this token is invalid...', 'login' );
+                    $this->redirectError('Sorry, this token is invalid...' );
                 }
 
                 $userid = $this->verification->getTokenUser($_GET['token']);
@@ -82,19 +84,19 @@
                 if ($userid == null)
                 {
 
-                    $this->redirectError('Sorry, this token isnt tied to a user, try again?', 'login' );
+                    $this->redirectError('Sorry, this token isnt tied to a user, try again?');
                 }
 
-                if ($this->verification->verifyUser($_GET['token']) == false)
+                if ($this->verification->verifyUser( $_GET['token'] ) == false)
                 {
 
-                    $this->redirectError('Sorry, failed to verify, try again?', 'login' );
+                    $this->redirectError('Sorry, failed to verify, try again?');
                 }
 
                 try
                 {
 
-                    if (Settings::getSetting('syscrack_startup_on_verification'))
+                    if( Settings::getSetting('syscrack_startup_on_verification') == true )
                     {
 
                         $startup = new Startup($userid);
@@ -103,13 +105,16 @@
                 catch( \Exception $error )
                 {
 
-                    $this->redirectError('Sorry, we encounted an error, please tell a developer', 'login');
+                    $this->redirectError('Sorry, your account has been verified but we encountered an error: ' . $error->getMessage() );
                 }
 
                 $this->redirectSuccess('login');
             }
+            else
+            {
 
-            Flight::notFound();
+                Flight::render('syscrack/page.verify');
+            }
         }
 
         /**
@@ -131,26 +136,26 @@
                 $this->redirectError('Please enter a token');
             }
 
-            $token = PostHelper::getPostData('token');
+            $token = PostHelper::getPostData( 'token', true );
 
             $userid = $this->verification->getTokenUser($token);
 
             if ($userid == null)
             {
 
-                $this->redirectError('Sorry, this token isnt tied to a user, try again?', 'login' );
+                $this->redirectError('Sorry, this token is not tied to a user, try again?');
             }
 
-            if ($this->verification->verifyUser($_GET['token']) == false)
+            if ($this->verification->verifyUser( $token ) == false)
             {
 
-                $this->redirectError('Sorry, failed to verify, try again?', 'Wlogin' );
+                $this->redirectError('Sorry, failed to verify, try again?');
             }
 
             try
             {
 
-                if (Settings::getSetting('syscrack_startup_on_verification'))
+                if( Settings::getSetting('syscrack_startup_on_verification') == true )
                 {
 
                     $startup = new Startup($userid);
@@ -159,7 +164,7 @@
             catch( \Exception $error )
             {
 
-                $this->redirectError('Sorry, we encounted an error, please a developer', '/login');
+                $this->redirectError('Sorry, your account has been verified but we encountered an error: ' . $error->getMessage() );
             }
 
             $this->redirectSuccess('login');

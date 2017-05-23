@@ -72,7 +72,7 @@ class Market extends BaseClass implements Structure
 
         $computer = $this->internet->getComputer( $data['ipaddress'] );
 
-        if( $computer->type != Settings::getSetting('syscrack_computer_market_type') )
+        if( $computer->type != Settings::getSetting('syscrack_computers_market_type') )
         {
 
             return false;

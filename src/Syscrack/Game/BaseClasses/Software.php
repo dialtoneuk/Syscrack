@@ -11,7 +11,7 @@
 
     use Flight;
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Hardware;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Softwares;
@@ -32,7 +32,7 @@
         public $hardware;
 
         /**
-         * @var Computer
+         * @var Computers
          */
 
         public $computer;
@@ -59,7 +59,7 @@
 
                 $this->hardware = new Hardware();
 
-                $this->computer = new Computer();
+                $this->computers = new Computers();
 
                 $this->internet = new Internet();
             }
@@ -188,16 +188,16 @@
         public function getRedirect( $ipaddress=null, $local=false )
         {
 
-            if( $ipaddress == $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress )
+            if( $ipaddress == $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress )
             {
 
-                return Settings::getSetting('syscrack_computer_page');
+                return Settings::getSetting('syscrack_computers_page');
             }
 
             if( $local )
             {
 
-                return Settings::getSetting('syscrack_computer_page');
+                return Settings::getSetting('syscrack_computers_page');
             }
 
             if( $ipaddress )
@@ -218,7 +218,7 @@
         public function getCurrentAddress()
         {
 
-            return $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress;
+            return $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress;
         }
 
         /**

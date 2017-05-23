@@ -14,7 +14,7 @@ use Framework\Application\Utilities\FileSystem;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\BankDatabase;
-use Framework\Syscrack\Game\Computer;
+use Framework\Syscrack\Game\Computers;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Log;
@@ -24,7 +24,7 @@ class Startup
 {
 
     /**
-     * @var Computer
+     * @var Computers
      */
 
     protected $computer;
@@ -74,10 +74,10 @@ class Startup
     public function __construct( $userid=null, $autorun=true )
     {
 
-        if( isset( $this->computer ) == false )
+        if( isset( $this->computers ) == false )
         {
 
-            $this->computer = new Computer();
+            $this->computers = new Computers();
         }
 
         if( isset( $this->internet ) == false )
@@ -127,13 +127,13 @@ class Startup
 
             $computerid = $this->createComputer( $userid, 'vpc', null, [], Settings::getSetting('syscrack_default_hardware') );
 
-            if( $this->computer->computerExists( $computerid ) == false )
+            if( $this->computers->computerExists( $computerid ) == false )
             {
 
                 throw new SyscrackException('Computer does not exist');
             }
 
-            $this->computer->setCurrentUserComputer( $computerid );
+            $this->computers->setCurrentUserComputer( $computerid );
 
             if( $this->addressdatabase->hasDatabase( $userid ) == false )
             {
@@ -182,12 +182,12 @@ class Startup
             if( $userid == null )
             {
 
-                return $this->computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $this->getIP(), $softwares, $hardwares  );
+                return $this->computers->createComputer( Settings::getSetting('syscrack_master_user'), $type, $this->getIP(), $softwares, $hardwares  );
             }
             else
             {
 
-                return $this->computer->createComputer( $userid, $type, $this->getIP(), $softwares, $hardwares  );
+                return $this->computers->createComputer( $userid, $type, $this->getIP(), $softwares, $hardwares  );
             }
         }
         else
@@ -196,12 +196,12 @@ class Startup
             if( $userid == null )
             {
 
-                return $this->computer->createComputer( Settings::getSetting('syscrack_master_user'), $type, $ip, $softwares, $hardwares );
+                return $this->computers->createComputer( Settings::getSetting('syscrack_master_user'), $type, $ip, $softwares, $hardwares );
             }
             else
             {
 
-                return $this->computer->createComputer( $userid, $type, $ip, $softwares, $hardwares );
+                return $this->computers->createComputer( $userid, $type, $ip, $softwares, $hardwares );
             }
         }
     }
@@ -280,7 +280,7 @@ class Startup
         if( $computerid == null )
         {
 
-            $computerid = $this->computer->getCurrentUserComputer();
+            $computerid = $this->computers->getCurrentUserComputer();
         }
 
         if( $this->log->hasCurrentLog( $computerid ) == true )
@@ -303,7 +303,7 @@ class Startup
     public function createSchema( $computerid, array $data=null )
     {
 
-        if( FileSystem::fileExists( Settings::getSetting('syscrack_npc_filepath') . $computerid . '.json' ) )
+        if( FileSystem::fileExists( Settings::getSetting('syscrack_schema_filepath') . $computerid . '.json' ) )
         {
 
             return;
@@ -312,12 +312,12 @@ class Startup
         if( $data == null )
         {
 
-            FileSystem::writeJson( Settings::getSetting('syscrack_npc_filepath') . $computerid . '.json', [] );
+            FileSystem::writeJson( Settings::getSetting('syscrack_schema_filepath') . $computerid . '.json', [] );
         }
         else
         {
 
-            FileSystem::writeJson( Settings::getSetting('syscrack_npc_filepath') . $computerid . '.json', $data );
+            FileSystem::writeJson( Settings::getSetting('syscrack_schema_filepath') . $computerid . '.json', $data );
         }
     }
 
@@ -360,7 +360,7 @@ class Startup
                 throw new SyscrackException();
             }
 
-            $this->computer->addSoftware( $computerid, $softwareid, $this->softwares->getSoftwareType( $this->softwares->getSoftwareNameFromSoftwareID( $softwareid ) ), $software['softwarename'] );
+            $this->computers->addSoftware( $computerid, $softwareid, $this->softwares->getSoftwareType( $this->softwares->getSoftwareNameFromSoftwareID( $softwareid ) ), $software['softwarename'] );
 
             if( isset( $software['installed'] ) )
             {
@@ -370,7 +370,7 @@ class Startup
 
                     $this->softwares->installSoftware( $softwareid, $userid );
 
-                    $this->computer->installSoftware( $computerid, $softwareid );
+                    $this->computers->installSoftware( $computerid, $softwareid );
                 }
             }
         }

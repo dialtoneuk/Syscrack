@@ -90,7 +90,7 @@
             else
             {
 
-                if( $this->computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
+                if( $this->computers->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
                 {
 
                     return false;
@@ -151,13 +151,13 @@
 
             $this->softwares->uninstallSoftware( $data['softwareid'] );
 
-            $this->computer->uninstallSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
+            $this->computers->uninstallSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
             $this->logUninstall( $this->getSoftwareName( $data['softwareid' ] ),
                 $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
 
             $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
-                $this->computer->getCurrentUserComputer(), $data['ipaddress']);
+                $this->computers->getCurrentUserComputer(), $data['ipaddress']);
 
             $this->softwares->executeSoftwareMethod( $this->softwares->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onUninstalled', array(
                 'softwareid'    => $data['softwareid'],
@@ -240,7 +240,7 @@
         private function logUninstall( $softwarename, $computerid, $ipaddress )
         {
 
-            if( $this->computer->getCurrentUserComputer() == $computerid )
+            if( $this->computers->getCurrentUserComputer() == $computerid )
             {
 
                 return;

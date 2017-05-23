@@ -2,14 +2,14 @@
     use Framework\Application\Container;
     use Framework\Application\Settings;
     use Framework\Exceptions\ViewException;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
     if( isset( $computer ) == false )
     {
 
-        $computer = new Computer();
+        $computer = new Computers();
     }
 
     if( isset( $pagehelper ) == false )
@@ -85,7 +85,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="panel panel-info">
-                                <div class="panel-body">
+                                <div class="panel-body text-center">
                                     <?php
                                         $accounts = $finance->getUserBankAccounts( $session->getSessionUser() );
 
@@ -93,14 +93,7 @@
                                         {
 
                                             ?>
-                                            <div class="panel panel-danger">
-                                                <div class="panel panel-heading">
-                                                    Warning
-                                                </div>
-                                                <div class="panel-body">
-                                                    You currently don't have a bank account, you should probably get one before you try and collect
-                                                </div>
-                                            </div>
+                                                You currently don't have a bank account, you should probably get one before you try and collect
                                             <?php
                                         }
                                         else

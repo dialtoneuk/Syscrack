@@ -28,6 +28,7 @@
                 'uniquename'    => 'cracker',
                 'extension'     => '.crc',
                 'type'          => 'cracker',
+                'icon'          => 'glyphicon-copyright-mark',
                 'installable'   => true,
                 'executable'    => true
             );

@@ -9,7 +9,7 @@ namespace Framework\Views\Middleware;
  * @package Framework\Views\Middleware
  */
 
-use Flight;
+use Error;
 use Framework\Application\Container;
 use Framework\Application\Session;
 use Framework\Syscrack\Verification;
@@ -31,6 +31,38 @@ class VerificationCheck extends BaseClass implements Structure
 
     protected $verification;
 
+    /**
+     * VerificationCheck constructor.
+     *
+     * @throws Error
+     */
+
+    public function __construct()
+    {
+
+        if( Container::hasObject('session') == false )
+        {
+
+            throw new Error();
+        }
+
+        $this->session = Container::getObject('session');
+
+        if( session_status() !== PHP_SESSION_ACTIVE )
+        {
+
+            session_start();
+        }
+
+        if( $this->session->isLoggedIn() == false )
+        {
+
+            throw new Error();
+        }
+
+        $this->verification = new Verification();
+    }
+
 
     /**
      * Checks if the user has verified their email
@@ -40,22 +72,6 @@ class VerificationCheck extends BaseClass implements Structure
 
     public function onRequest()
     {
-
-        if( Container::hasObject('session') == false )
-        {
-
-            return true;
-        }
-
-        $this->session = Container::getObject('session');
-
-        $this->verification = new Verification();
-
-        if( $this->session->isLoggedIn() == false )
-        {
-
-            return true;
-        }
 
         $userid = $this->session->getSessionUser();
 
@@ -85,6 +101,6 @@ class VerificationCheck extends BaseClass implements Structure
     public function onFailure()
     {
 
-        Flight::redirect('/verify/');
+        $this->redirect('/verify/');
     }
 }

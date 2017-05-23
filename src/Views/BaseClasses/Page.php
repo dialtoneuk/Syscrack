@@ -13,7 +13,7 @@
     use Framework\Application\Container;
     use Framework\Application\Session;
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computer;
+    use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Softwares;
 
@@ -33,10 +33,10 @@
         public $internet;
 
         /**
-         * @var Computer
+         * @var Computers
          */
 
-        public $computer;
+        public $computers;
 
         /**
          * Page constructor.
@@ -54,7 +54,7 @@
 
                 $this->internet = new Internet();
 
-                $this->computer = new Computer();
+                $this->computers = new Computers();
             }
 
             if( $session )
