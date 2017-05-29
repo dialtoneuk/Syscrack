@@ -120,7 +120,7 @@
                     throw new ViewException();
                 }
 
-                $this->addressdatabase = new AddressDatabase( $this->session->getSessionUser() );
+                $this->addressdatabase = new AddressDatabase();
             }
 
             if( isset ( $this->pagehelper ) == false )
@@ -175,6 +175,12 @@
                 ],
                 [
                     'POST /computer/collect', 'computerCollectProcess'
+                ],
+                [
+                    'GET /computer/research', 'computerResearch'
+                ],
+                [
+                    'POST /computer/research', 'computerResearchProcess'
                 ],
                 [
                     '/computer/actions/@process', 'computerAction'
@@ -272,7 +278,7 @@
                     $this->redirectError('This account does not exist', 'computer/collect');
                 }
 
-                $addressdatabase = $this->addressdatabase->getDatabase();
+                $addressdatabase = $this->addressdatabase->getUserAddresses( $this->session->getSessionUser() );
 
                 if( empty( $addressdatabase ) )
                 {
@@ -290,8 +296,10 @@
 
                         $results[ $address['ipaddress'] ] = array(
                             'ipaddress' => 'null',
-                            'message' => 'Failed to connect to address'
+                            'message' => 'Failed to connect to address, address removed from addressbook'
                         );
+
+                        $this->addressdatabase->deleteAddress( $address['ipaddress'], $this->session->getSessionUser() );
                     }
                     else
                     {
@@ -398,6 +406,24 @@
 
                 Flight::render('syscrack/page.computer.collect', array( 'results' => $results, 'total' => $total ));
             }
+        }
+
+        public function computerResearch()
+        {
+
+            if( $this->computers->hasType( $this->computers->getCurrentUserComputer(), Settings::getSetting('syscrack_software_research_type'), true ) == false )
+            {
+
+                $this->redirect('computer');
+            }
+
+            Flight::render('syscrack/page.computer.research');
+        }
+
+        public function computerResearchProcess()
+        {
+
+
         }
 
         /**

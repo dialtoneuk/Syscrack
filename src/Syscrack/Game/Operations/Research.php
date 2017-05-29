@@ -10,7 +10,6 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Application\Settings;
-use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
 
@@ -98,13 +97,7 @@ class Research extends BaseClass implements Structure
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
 
-            throw new SyscrackException();
-        }
-
-        $this->getRender('operations/operations.research', array('computerid' => $computerid, 'ipaddress' => $data['ipaddress'] ));
     }
 
     /**

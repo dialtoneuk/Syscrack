@@ -44,7 +44,11 @@
                 Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
             }
 
-            $this->mailer = new Mailer();
+            if( isset( $this->mailer ) == false )
+            {
+
+                $this->mailer = new Mailer();
+            }
         }
 
         /**

@@ -27,10 +27,10 @@
         $computer = new Computers();
     }
 
-    if( isset( $addressbook ) == false )
+    if( isset( $addressdatabase ) == false )
     {
 
-        $addressbook = new AddressDatabase( $session->getSessionUser(), true );
+        $addressdatabase = new AddressDatabase();
     }
 
     if( isset( $internet ) == false )
@@ -69,15 +69,15 @@
             </div>
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <span class="glyphicon glyphicon-paperclip"></span> Address Book
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <span class="glyphicon glyphicon-briefcase"></span> Account Book
-                        </div>
+                    <div class="list-group">
+                        <a href="/game/addressbook/" class="list-group-item active">
+                            <h4 class="list-group-item-heading">Address Book</h4>
+                            <p class="list-group-item-text">View all of your hacked addresses.</p>
+                        </a>
+                        <a href="/game/accountbook/" class="list-group-item">
+                            <h4 class="list-group-item-heading">Account Book</h4>
+                            <p class="list-group-item-text">View all of the accounts you have hacked.</p>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-8">
@@ -93,7 +93,7 @@
 
                         <?php
 
-                            if( $addressbook->hasDatabase( $session->getSessionUser() ) == false )
+                            if( $addressdatabase->hasDatabase( $session->getSessionUser() ) == false )
                             {
 
                                 ?>
@@ -118,7 +118,7 @@
                             else
                             {
 
-                                $addresses = $addressbook->getDatabase( $session->getSessionUser() );
+                                $addresses = $addressdatabase->getUserAddresses( $session->getSessionUser() );
 
                                 if( empty( $addresses ))
                                 {
@@ -151,15 +151,13 @@
                                                 'ipaddress' => $value['ipaddress'],
                                                 'reason'    => 'Not Responding'
                                             );
-
-                                            $addressbook->removeComputer( $value['computerid'] );
                                         }
                                     }
 
-                                    $addressbook->saveDatabase();
-
                                     if( empty( $removed ) == false )
                                     {
+
+                                        $addressdatabase->deleteMultipleAddresses( $removed, $session->getSessionUser() );
 
                                         ?>
                                         <div class="panel panel-danger">
@@ -186,7 +184,7 @@
                                         <?php
                                     }
 
-                                    $addresses = array_reverse( $addressbook->getDatabase( $session->getSessionUser() ) );
+                                    $addresses = array_reverse( $addressdatabase->getUserAddresses( $session->getSessionUser() ) );
 
                                     foreach( $addresses as $key=>$value )
                                     {

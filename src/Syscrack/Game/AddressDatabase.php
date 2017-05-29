@@ -17,157 +17,13 @@ class AddressDatabase
 {
 
     /**
-     * @var mixed
+     * @var array
      */
 
-    public $database = [];
+    protected $database = [];
 
     /**
-     * @var null
-     */
-
-    public $userid;
-
-    /**
-     * AddressDatabase constructor.
-     *
-     * @param null $userid
-     *
-     * @param bool $autoload
-     */
-
-    public function __construct( $userid=null, $autoload = true )
-    {
-
-        if( $userid != null )
-        {
-
-            if( $autoload == true )
-            {
-
-                if( $this->hasDatabase( $userid ) )
-                {
-
-                    $this->database = $this->getDatabase( $userid );
-                }
-
-                $this->userid = $userid;
-            }
-        }
-    }
-
-    /**
-     * Finds a computer by their IP address
-     *
-     * @param $ipaddress
-     *
-     * @return null
-     */
-
-    public function getComputerByIPAddress( $ipaddress )
-    {
-
-        if( empty( $this->database ) )
-        {
-
-            return null;
-        }
-
-        foreach( $this->database as $computer )
-        {
-
-            if( $computer['ipaddress'] == $ipaddress )
-            {
-
-                return $computer;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Adds a computer to the database
-     *
-     * @param array $computer
-     */
-
-    public function addComputer( array $computer, $save=true )
-    {
-
-        $this->database[] = $computer;
-
-        if( $save )
-        {
-
-            $this->saveDatabase();
-        }
-    }
-
-    /**
-     * Removes a computer from the hacked database
-     *
-     * @param $computerid
-     */
-
-    public function removeComputer( $computerid )
-    {
-
-        if( empty( $this->database ) )
-        {
-
-            return;
-        }
-
-        foreach( $this->database as $key=>$value)
-        {
-
-            if( $value['computerid'] == $computerid )
-            {
-
-                unset( $this->database[ $key ] );
-            }
-        }
-
-        $this->database = array_values( $this->database );
-    }
-
-    /**
-     * Reads the users IP database
-     *
-     * @param $userid
-     *
-     * @return mixed
-     */
-
-    public function getDatabase( $userid=null )
-    {
-
-        if( $this->userid != null && $userid == null )
-        {
-
-
-            if( $this->database !== null )
-            {
-
-                return $this->database;
-            }
-        }
-        else
-        {
-
-            if( $userid == null )
-            {
-
-                throw new SyscrackException();
-            }
-        }
-
-        return $this->readDatabase( $userid );
-    }
-
-    /**
-     * Returns true if the user has a database file
+     * Checks if the user has an address database
      *
      * @param $userid
      *
@@ -177,7 +33,7 @@ class AddressDatabase
     public function hasDatabase( $userid )
     {
 
-        if( FileSystem::fileExists( $this->getFile( $userid ) ) == false )
+        if( FileSystem::fileExists( $this->getPath() . $userid . '.json' ) == false )
         {
 
             return false;
@@ -187,52 +43,266 @@ class AddressDatabase
     }
 
     /**
-     * Saves the database
+     * Gets the users addresses
+     *
+     * @param $userid
+     *
+     * @return array|mixed
+     */
+
+    public function getUserAddresses( $userid )
+    {
+
+        if( $this->hasDatabaseSet() == false )
+        {
+
+            $this->database = $this->getUserDatabase( $userid );
+        }
+
+        return $this->database;
+    }
+
+    /**
+     * Deletes an address
+     *
+     * @param $ipaddress
      *
      * @param $userid
      */
 
-    public function saveDatabase( $userid=null )
+    public function deleteAddress( $ipaddress, $userid )
     {
 
-        if( $userid == null )
+        if( $this->hasDatabaseSet() == false )
         {
 
-            FileSystem::writeJson( $this->getFile( $this->userid ), $this->database );
+            $this->database = $this->getUserDatabase( $userid );
         }
-        else
+
+        if( $this->hasAddress( $ipaddress, $userid ) == false )
         {
 
-            FileSystem::writeJson( $this->getFile(  $userid ), $this->database );
+            throw new SyscrackException();
         }
+
+        unset( $this->database[ $this->getKeyOfAddress( $ipaddress, $userid )] );
+
+        $this->saveUserDatabase( $userid );
     }
 
     /**
-     * Reads the database file
+     * Deletes multiple addresses
+     *
+     * @param array $ipaddresses
+     *
+     * @param $userid
+     */
+
+    public function deleteMultipleAddresses( array $ipaddresses, $userid )
+    {
+
+        if( $this->hasDatabaseSet() == false )
+        {
+
+            $this->database = $this->getUserDatabase( $userid );
+        }
+
+        foreach( $ipaddresses as $address )
+        {
+
+            if( $this->hasAddress( $address['ipaddress'], $userid ) == false )
+            {
+
+                continue;
+            }
+
+            unset( $this->database[ $this->getKeyOfAddress( $address['ipaddress'], $userid )] );
+        }
+
+        $this->saveUserDatabase( $userid );
+    }
+
+    /**
+     * Adds an address
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     */
+
+    public function addAddress( $ipaddress, $userid )
+    {
+
+        if( $this->hasDatabaseSet() == false )
+        {
+
+            $this->database = $this->getUserDatabase( $userid );
+        }
+
+        $this->database[] = array(
+            'ipaddress' => $ipaddress,
+            'timehacked' => time()
+        );
+
+        $this->saveUserDatabase( $userid );
+    }
+
+    /**
+     * Adds a virus to the address database
+     *
+     * @param $ipaddress
+     *
+     * @param $softwareid
+     *
+     * @param $userid
+     */
+
+    public function addVirus( $ipaddress, $softwareid, $userid )
+    {
+
+        if( $this->hasDatabaseSet() == false )
+        {
+
+            $this->database = $this->getUserDatabase( $userid );
+        }
+
+        if( $this->hasAddress( $ipaddress, $userid ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        array_merge( $this->database[ $this->getKeyOfAddress( $ipaddress, $userid )], array(
+            'virus' => $softwareid
+        ));
+
+        $this->saveUserDatabase( $userid );
+    }
+
+    /**
+     * Returns true if we have hacked this address
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return bool
+     */
+
+    public function hasAddress( $ipaddress, $userid )
+    {
+
+        if( $this->hasDatabaseSet() == false )
+        {
+
+            $this->database =$this->getUserDatabase( $userid );
+        }
+
+        foreach( $this->database as $address )
+        {
+
+            if( $address['ipaddress'] == $ipaddress )
+            {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets the position of this address in our address database
+     *
+     * @param $ipaddress
+     *
+     * @param $userid
+     *
+     * @return int|null|string
+     */
+
+    public function getKeyOfAddress( $ipaddress, $userid )
+    {
+
+
+        if( $this->hasDatabaseSet() == false )
+        {
+
+            $this->database =$this->getUserDatabase( $userid );
+        }
+
+        foreach( $this->database as $key=>$address )
+        {
+
+            if( $address['ipaddress'] == $ipaddress )
+            {
+
+                return $key;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Saves the users database
+     *
+     * @param $userid
+     */
+
+    private function saveUserDatabase( $userid )
+    {
+
+        if( $this->hasDatabaseSet() == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        FileSystem::writeJson( $this->getPath() . $userid . '.json', $this->database );
+    }
+
+    /**
+     * Returns true if we have the database set
+     *
+     * @return bool
+     */
+
+    private function hasDatabaseSet()
+    {
+
+        if( empty( $this->database ) )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the user database
      *
      * @param $userid
      *
      * @return mixed
      */
 
-    private function readDatabase( $userid )
+    private function getUserDatabase( $userid )
     {
 
-        return FileSystem::readJson( $this->getFile( $userid ) );
+        return FileSystem::readJson( $this->getPath() . $userid . '.json' );
     }
 
     /**
-     * Gets the file path
+     * Gets the path of the address database
      *
-     * @param $userid
-     *
-     * @return string
+     * @return mixed
      */
 
-    private function getFile( $userid )
+    private function getPath()
     {
 
-        return Settings::getSetting('syscrack_addressdatabase_location') . $userid .
-            Settings::getSetting('syscrack_filedatabase_extension');
+        return Settings::getSetting('syscrack_addressdatabase_location');
     }
 }

@@ -4,7 +4,7 @@
     /**
      * Lewis Lancaster 2017
      *
-     * Class Npc
+     * Class Download
      *
      * @package Framework\Syscrack\Game\Computers
      */
@@ -15,7 +15,7 @@
     use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer as Structure;
 
-    class Npc extends BaseClass implements Structure
+    class Download extends BaseClass implements Structure
     {
 
         /**
@@ -51,7 +51,7 @@
 
             return array(
                 'installable' => false,
-                'type'        => 'schema'
+                'type'        => 'download'
             );
         }
 

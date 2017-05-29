@@ -4,18 +4,19 @@
     /**
      * Lewis Lancaster 2017
      *
-     * Class Npc
+     * Class Market
      *
      * @package Framework\Syscrack\Game\Computers
      */
 
     use Framework\Application\Settings;
+    use Framework\Application\Utilities\FileSystem;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
     use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer as Structure;
 
-    class Npc extends BaseClass implements Structure
+    class Market extends BaseClass implements Structure
     {
 
         /**
@@ -23,6 +24,12 @@
          */
 
         protected $schema;
+
+        /**
+         * @var \Framework\Syscrack\Game\Market
+         */
+
+        protected $market;
 
         /**
          * Npc constructor.
@@ -38,6 +45,12 @@
 
                 $this->schema = new Schema();
             }
+
+            if( isset( $this->market ) == false )
+            {
+
+                $this->market = new \Framework\Syscrack\Game\Market();
+            }
         }
 
         /**
@@ -51,7 +64,7 @@
 
             return array(
                 'installable' => false,
-                'type'        => 'schema'
+                'type'        => 'bank'
             );
         }
 
@@ -94,6 +107,12 @@
 
                 $this->addHardwares( $computerid, $schema['hardwares'] );
             }
+
+            if( empty( $this->market->getPurchases( $computerid ) ) == false )
+            {
+
+                $this->market->save( $computerid, [] );
+            }
         }
 
         /**
@@ -115,6 +134,24 @@
             {
 
                 $this->log->createLog( $computerid );
+            }
+
+            if( FileSystem::directoryExists( $this->market->getFilePath( $computerid ) ) == false )
+            {
+
+                FileSystem::createDirectory( $this->market->getFilePath( $computerid ) );
+            }
+
+            if( $this->market->hasStock( $computerid ) == false )
+            {
+
+                $this->market->save( $computerid, [], 'stock.json');
+            }
+
+            if( empty( $this->market->getPurchases( $computerid ) ) )
+            {
+
+                $this->market->save( $computerid, [] );
             }
 
             if( empty( $softwares ) == false )

@@ -12,7 +12,8 @@
     use Flight;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
-    use Framework\Syscrack\Game\Utilities\Startup;
+    use Framework\Exceptions\SyscrackException;
+    use Framework\Syscrack\Game\Structures\Computer;
     use Framework\Syscrack\Verification;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
@@ -33,7 +34,7 @@
         public function __construct()
         {
 
-            parent::__construct( false, true, false, true );
+            parent::__construct( true, true, false, true );
 
             if( isset( $this->verification ) == false )
             {
@@ -99,7 +100,23 @@
                     if( Settings::getSetting('syscrack_startup_on_verification') == true )
                     {
 
-                        $startup = new Startup($userid);
+                        $computerid = $this->computers->createComputer( $userid, Settings::getSetting('syscrack_startup_default_computer'), $this->internet->getIP() );
+
+                        if( empty( $computerid ) )
+                        {
+
+                            throw new SyscrackException();
+                        }
+
+                        $class = $this->computers->getComputerClass( Settings::getSetting('syscrack_startup_default_computer') );
+
+                        if( $class instanceof Computer == false )
+                        {
+
+                            throw new SyscrackException();
+                        }
+
+                        $class->onStartup( $computerid, $userid, [], Settings::getSetting('syscrack_default_hardware') );
                     }
                 }
                 catch( \Exception $error )
@@ -158,7 +175,23 @@
                 if( Settings::getSetting('syscrack_startup_on_verification') == true )
                 {
 
-                    $startup = new Startup($userid);
+                    $computerid = $this->computers->createComputer( $userid, Settings::getSetting('syscrack_startup_default_computer'), $this->internet->getIP() );
+
+                    if( empty( $computerid ) )
+                    {
+
+                        throw new SyscrackException();
+                    }
+
+                    $class = $this->computers->getComputerClass( Settings::getSetting('syscrack_startup_default_computer') );
+
+                    if( $class instanceof Computer == false )
+                    {
+
+                        throw new SyscrackException();
+                    }
+
+                    $class->onStartup( $computerid, $userid, [], Settings::getSetting('syscrack_default_hardware') );
                 }
             }
             catch( \Exception $error )

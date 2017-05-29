@@ -2,6 +2,7 @@
 
     use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Internet;
+    use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Softwares;
 
     if( isset( $computer ) == false )
@@ -22,6 +23,12 @@
         $internet = new Internet();
     }
 
+    if( isset( $schema ) )
+    {
+
+        $schema = new Schema();
+    }
+
     $current_computer = $internet->getComputer( $ipaddress );
 ?>
 
@@ -29,10 +36,10 @@
     <div class="col-lg-12">
         <h5 style="color: #ababab" class="text-uppercase">
             <?php
-                if( $npc->hasSchema( $current_computer->computerid ) )
+                if( $schema->hasSchema( $current_computer->computerid ) )
                 {
 
-                    $schema = $npc->getSchema( $current_computer->computerid );
+                    $schema = $schema->getSchema( $current_computer->computerid );
 
                     if( isset( $schema['name'] ) )
                     {

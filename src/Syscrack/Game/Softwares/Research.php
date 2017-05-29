@@ -41,7 +41,7 @@
         public function onExecuted( $softwareid, $userid, $computerid )
         {
 
-            $this->redirect('computer/actions/research');
+            $this->redirect('computer/research');
 
             return true;
         }

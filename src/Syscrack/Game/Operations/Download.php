@@ -165,7 +165,7 @@ class Download extends BaseClass implements Structure
             $new_softwareid = $this->softwares->copySoftware( $software->softwareid, $computerid, $userid );
         }
 
-        $this->computers->addSoftware( $computerid, $new_softwareid, $software->type, $software->softwarename );
+        $this->computers->addSoftware( $computerid, $new_softwareid, $software->type );
 
         if( $this->computers->hasSoftware( $computerid, $new_softwareid ) == false )
         {

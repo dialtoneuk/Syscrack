@@ -192,6 +192,12 @@
             $this->log( $computer->computerid, $message, Settings::getSetting('syscrack_log_localhost_address') );
         }
 
+        public function getCurrentComputerAddress()
+        {
+
+            return $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress;
+        }
+
         public function getComputerOwner( $computerid )
         {
 

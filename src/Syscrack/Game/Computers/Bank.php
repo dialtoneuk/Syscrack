@@ -4,7 +4,7 @@
     /**
      * Lewis Lancaster 2017
      *
-     * Class Npc
+     * Class Bank
      *
      * @package Framework\Syscrack\Game\Computers
      */
@@ -12,10 +12,11 @@
     use Framework\Application\Settings;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
+    use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer as Structure;
 
-    class Npc extends BaseClass implements Structure
+    class Bank extends BaseClass implements Structure
     {
 
         /**
@@ -23,6 +24,12 @@
          */
 
         protected $schema;
+
+        /**
+         * @var Finance
+         */
+
+        protected $finance;
 
         /**
          * Npc constructor.
@@ -38,6 +45,12 @@
 
                 $this->schema = new Schema();
             }
+
+            if( isset( $this->finance ) == false )
+            {
+
+                $this->finance = new Finance();
+            }
         }
 
         /**
@@ -51,7 +64,7 @@
 
             return array(
                 'installable' => false,
-                'type'        => 'schema'
+                'type'        => 'bank'
             );
         }
 
@@ -169,6 +182,12 @@
             {
 
                 throw new SyscrackException();
+            }
+
+            if( $this->finance->hasCurrentActiveAccount() == true )
+            {
+
+                $this->finance->setCurrentActiveAccount( null );
             }
 
             $this->internet->setCurrentConnectedAddress( null );

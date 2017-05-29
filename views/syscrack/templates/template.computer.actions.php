@@ -57,4 +57,20 @@
             <?php
         }
     ?>
+    <?php
+
+        if( $computer->hasType( $currentcomputer->computerid, Settings::getSetting('syscrack_software_research_type'), true ) )
+        {
+
+            ?>
+            <div class="panel panel-info" style="cursor: pointer;" onclick="window.location.href = '/computer/collect'">
+                <div class="panel-body" style="padding-bottom: 0;">
+                    <p>
+                        <span class="glyphicon glyphicon-search"></span> Research
+                    </p>
+                </div>
+            </div>
+            <?php
+        }
+    ?>
 </div>

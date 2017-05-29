@@ -49,7 +49,7 @@ class Schema
      * @param array $hardwares
      */
 
-    public function createSchema( $computerid, $name='Default', $page='npc.default', array $riddles, array $softwares, array $hardwares )
+    public function createSchema( $computerid, $name='Default', $page='schema.default', array $riddles, array $softwares, array $hardwares )
     {
 
         $schema = array(

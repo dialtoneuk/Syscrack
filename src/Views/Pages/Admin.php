@@ -17,7 +17,6 @@
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer;
-    use Framework\Syscrack\Game\Utilities\Startup;
     use Framework\Syscrack\User;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
@@ -30,12 +29,6 @@
          */
 
         protected $user;
-
-        /**
-         * @var Startup
-         */
-
-        protected $startup;
 
         /**
          * @var Schema
@@ -70,12 +63,6 @@
                 Flight::redirect(Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page'));
 
                 exit;
-            }
-
-            if( isset( $this->startup ) == false )
-            {
-
-                $this->startup = new Startup( null, false );
             }
 
             if (isset( $this->schema ) == false)

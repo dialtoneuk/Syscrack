@@ -44,7 +44,7 @@ class Hack extends BaseClass implements Structure
         if( isset( $this->addressdatabase ) == false )
         {
 
-            $this->addressdatabase = new AddressDatabase( Container::getObject('session')->getSessionUser() );
+            $this->addressdatabase = new AddressDatabase();
         }
 
         if( isset( $this->statistics ) == false )
@@ -100,10 +100,12 @@ class Hack extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->addressdatabase->getComputerByIPAddress( $data['ipaddress' ] ) != null )
+        $user = Container::getObject('session')->getSessionUser();
+
+        if( $this->addressdatabase->hasAddress( $data['ipaddress'], $userid ) == false )
         {
 
-            return false;
+            $this->redirectError('You have already hacked this address', $this->getRedirect( $data['ipaddress'] ) );
         }
 
         if( $this->computers->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )

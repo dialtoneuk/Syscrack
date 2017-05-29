@@ -1,8 +1,6 @@
 <?php
 namespace Framework\Application\Utilities;
 
-use Framework\Exceptions\ApplicationException;
-
 /**
  * Lewis Lancaster 2017
  *
@@ -10,6 +8,8 @@ use Framework\Exceptions\ApplicationException;
  *
  * @package Framework\Application\Utilities
  */
+
+use Framework\Exceptions\ApplicationException;
 
 class PostHelper
 {

@@ -9,7 +9,6 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
-use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
@@ -110,17 +109,15 @@ class Logout extends BaseClass implements Structure
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        $this->internet->setCurrentConnectedAddress( null );
+        $computer = $this->internet->getComputer( $data['ipaddress'] );
 
-        if( Settings::hasSetting('syscrack_operations_safeunset') )
+        if( $this->computers->hasComputerClass( $computer->type ) == false )
         {
 
-            if( Settings::getSetting('syscrack_operations_safeunset') == true )
-            {
-
-                $this->safeUnset();
-            }
+            throw new SyscrackException('Computer type not found');
         }
+
+        $this->computers->getComputerClass( $computer->type )->onLogout( $computer->computerid, $data['ipaddress'] );
 
         $this->redirectSuccess( $this->getRedirect() . '/internet' );
     }

@@ -4,44 +4,57 @@
     /**
      * Lewis Lancaster 2017
      *
-     * Class Npc
+     * Class Vpc
      *
      * @package Framework\Syscrack\Game\Computers
      */
 
     use Framework\Application\Settings;
     use Framework\Exceptions\SyscrackException;
+    use Framework\Syscrack\Game\AddressDatabase;
+    use Framework\Syscrack\Game\BankDatabase;
     use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
-    use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer as Structure;
 
-    class Npc extends BaseClass implements Structure
+    class Vpc extends BaseClass implements Structure
     {
 
         /**
-         * @var Schema
+         * @var AddressDatabase
          */
 
-        protected $schema;
+        protected $addressdatabase;
 
         /**
-         * Npc constructor.
+         * @var BankDatabase
+         */
+
+        protected $bankdatabase;
+
+        /**
+         * Vpc constructor.
          */
 
         public function __construct()
         {
 
-            parent::__construct( true );
+            parent::__construct();
 
-            if( isset( $this->schema ) == false )
+            if( isset( $this->addressdatabase ) == false )
             {
 
-                $this->schema = new Schema();
+                $this->addressdatabase = new AddressDatabase();
+            }
+
+            if( isset( $this->bankdatabase ) == false )
+            {
+
+                $this->bankdatabase = new BankDatabase();
             }
         }
 
         /**
-         * The configuration of this computer
+         * The configuration
          *
          * @return array
          */
@@ -50,54 +63,13 @@
         {
 
             return array(
-                'installable' => false,
-                'type'        => 'schema'
+                'installable'   => true,
+                'type'          => 'vpc'
             );
         }
 
         /**
-         * What to do when this computer resets
-         *
-         * @param $computerid
-         */
-
-        public function onReset( $computerid )
-        {
-
-            $userid = $this->computers->getComputer( $computerid )->userid;
-
-            if( $this->schema->hasSchema( $computerid ) == false )
-            {
-
-                $this->clearSoftwares( $computerid );
-
-                $this->computers->resetHardware( $computerid );
-
-                $this->addHardwares( $computerid, Settings::getSetting('syscrack_default_hardware') );
-            }
-            else
-            {
-
-                $schema = $this->schema->getSchema( $computerid );
-
-                if( empty( $schema['softwares'] ) || empty( $schema['hardwares'] ) )
-                {
-
-                    throw new SyscrackException();
-                }
-
-                $this->clearSoftwares( $computerid );
-
-                $this->computers->resetHardware( $computerid );
-
-                $this->addSoftwares( $computerid, $userid, $schema['softwares'] );
-
-                $this->addHardwares( $computerid, $schema['hardwares'] );
-            }
-        }
-
-        /**
-         * What to do when this computer starts up
+         * What to do on startup
          *
          * @param $computerid
          *
@@ -108,13 +80,25 @@
          * @param array $hardwares
          */
 
-        public function onStartup($computerid, $userid, array $softwares = [], array $hardwares = [] )
+        public function onStartup($computerid, $userid, array $softwares = [], array $hardwares = [])
         {
 
             if( $this->log->hasLog( $computerid ) == false )
             {
 
                 $this->log->createLog( $computerid );
+            }
+
+            if( $this->addressdatabase->hasDatabase( $userid ) == false )
+            {
+
+                $this->addressdatabase->saveDatabase( $userid );
+            }
+
+            if( $this->bankdatabase->hasDatabase( $userid ) == false )
+            {
+
+                $this->bankdatabase->saveDatabase( $userid, [] );
             }
 
             if( empty( $softwares ) == false )
@@ -131,7 +115,23 @@
         }
 
         /**
-         * What to do when you login to this computer
+         * What to do on reset
+         *
+         * @param $computerid
+         */
+
+        public function onReset($computerid)
+        {
+
+            $this->clearSoftwares( $computerid );
+
+            $this->computers->resetHardware( $computerid );
+
+            $this->addHardwares( $computerid, Settings::getSetting('syscrack_default_hardware') );
+        }
+
+        /**
+         * What to do on login
          *
          * @param $computerid
          *
@@ -155,7 +155,7 @@
         }
 
         /**
-         * What to do when you logout of a computer
+         * What do on logout
          *
          * @param $computerid
          *

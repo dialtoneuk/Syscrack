@@ -53,7 +53,6 @@
             if( isset( $this->session ) == false )
             {
 
-
                 $this->session = Container::getObject('session');
             }
 

@@ -507,7 +507,7 @@
          * @param string $file
          */
 
-        private function save($computerid, array $data = [], $file='purchases.json' )
+        public function save($computerid, array $data = [], $file='purchases.json' )
         {
 
             FileSystem::writeJson( $this->getFilePath( $computerid ) . $file, $data );
@@ -521,7 +521,7 @@
          * @return string
          */
 
-        private function getFilePath( $computerid )
+        public function getFilePath( $computerid )
         {
 
             return Settings::getSetting('syscrack_market_location') . $computerid . '/';

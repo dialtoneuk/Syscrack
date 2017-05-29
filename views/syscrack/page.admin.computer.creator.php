@@ -113,7 +113,7 @@
                                                 'type'          => 'text',
                                                 'name'          => 'type',
                                                 'icon'          => 'glyphicon-tag',
-                                                'placeholder'   => 'npc'
+                                                'placeholder'   => 'schema'
                                             ]
                                         ],'remove_submit' => true, 'remove_form' => true ));
 
@@ -134,7 +134,7 @@
                                                 'name'          => 'page',
                                                 'icon'          => 'glyphicon-book',
                                                 'disabled'      => true,
-                                                'placeholder'   => 'npc.default'
+                                                'placeholder'   => 'schema.default'
                                             ],
                                             [
                                                 'type'          => 'checkbox',
@@ -150,9 +150,9 @@
                                             ],
                                             [
                                                 'type'          => 'text',
-                                                'name'          => 'riddleaddress',
+                                                'name'          => 'riddlecomputer',
                                                 'icon'          => 'glyphicon-question-sign',
-                                                'placeholder'   => '1.2.3.5',
+                                                'placeholder'   => '1',
                                                 'disabled'      => true,
                                             ]
                                         ],'remove_submit' => true, 'remove_form' => true ));

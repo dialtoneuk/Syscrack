@@ -35,7 +35,7 @@
                     if( $npc->hasSchema( $computer->computerid ) && $npc->hasSchemaPage( $computer->computerid ) )
                     {
 
-                        Flight::render( $npc->getSchemaPageLocation( $computer->computerid ), array( 'internet' => $internet, 'ipaddress' => $ipaddress, 'npc' => $npc ) );
+                        Flight::render( $npc->getSchemaPageLocation( $computer->computerid ), array( 'internet' => $internet, 'ipaddress' => $ipaddress, 'schema' => $npc ) );
                     }
                     else
                     {

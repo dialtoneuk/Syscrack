@@ -81,9 +81,9 @@ class PageHelper
     public function alreadyHacked( $ipaddress )
     {
 
-        $addressdatabase = new AddressDatabase( $this->session->getSessionUser() );
+        $addressdatabase = new AddressDatabase();
 
-        if( $addressdatabase->getComputerByIPAddress( $ipaddress ) == false )
+        if( $addressdatabase->hasAddress( $ipaddress, $this->session->getSessionUser()  ) == false )
         {
 
             return false;

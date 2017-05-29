@@ -133,23 +133,15 @@ class Login extends BaseClass implements Structure
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        $this->internet->setCurrentConnectedAddress( $data['ipaddress'] );
+        $computer = $this->internet->getComputer( $data['ipaddress'] );
 
-        if( $this->internet->hasCurrentConnection() == false )
+        if( $this->computers->hasComputerClass( $computer->type ) == false )
         {
 
-            throw new SyscrackException();
+            throw new SyscrackException('Computer type not found');
         }
 
-        if( Settings::hasSetting('syscrack_operations_safeunset') )
-        {
-
-            if( Settings::getSetting('syscrack_operations_safeunset') == true )
-            {
-
-                $this->safeUnset();
-            }
-        }
+        $this->computers->getComputerClass( $computer->type )->onLogin( $computer->computerid, $data['ipaddress'] );
 
         $this->redirect( $this->getRedirect( $data['ipaddress'] ) );
     }

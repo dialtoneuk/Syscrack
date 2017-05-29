@@ -10,6 +10,7 @@ namespace Framework\Application\Utilities;
  */
 
 use Framework\Exceptions\ViewException;
+use Framework\Syscrack\Game\Structures\Computer;
 use Framework\Syscrack\Game\Structures\Software;
 use ReflectionClass;
 
@@ -151,7 +152,7 @@ class Factory
     /**
      * Gets all of the classes
      *
-     * @return array|\stdClass|Software
+     * @return array|\stdClass|Software|Computer
      */
 
 	public function getAllClasses()

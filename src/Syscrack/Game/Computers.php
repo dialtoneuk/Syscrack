@@ -14,6 +14,7 @@ use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
 use Framework\Database\Tables\Computers as Database;
 use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\Structures\Computer;
 
 class Computers
 {
@@ -75,7 +76,7 @@ class Computers
      *
      * @param $name
      *
-     * @return mixed|null
+     * @return Computer
      */
 
     public function getComputerClass( $name )
@@ -152,6 +153,62 @@ class Computers
         }
 
         return $class->onStartup();
+    }
+
+    /**
+     * Finds a computer by its type
+     *
+     * @param $type
+     *
+     * @return Computer|null
+     */
+
+    public function findComputerByType( $type )
+    {
+
+        $classes = self::$factory->getAllClasses();
+
+        foreach( $classes as $class )
+        {
+
+            if( $class instanceof Computer == false )
+            {
+
+                throw new SyscrackException();
+            }
+
+            /**
+             * @var $class Computer
+             */
+
+            if( $class->configuration()['type'] == $type )
+            {
+
+                return $class;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns true if we have this computer type
+     *
+     * @param $type
+     *
+     * @return bool
+     */
+
+    public function hasComputerType( $type )
+    {
+
+        if( $this->findComputerByType( $type ) == null )
+        {
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
