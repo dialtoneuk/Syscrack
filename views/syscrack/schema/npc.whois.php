@@ -11,10 +11,10 @@
         $internet = new Internet();
     }
 
-    if( isset( $computer ) == false )
+    if( isset( $computers) == false )
     {
 
-        $computer = new Computers();
+        $computers= new Computers();
     }
 
     if( isset( $npc ) == false )
@@ -55,10 +55,10 @@
                     foreach( $computers as $computerid )
                     {
 
-                        if( $computer->computerExists( $computerid ) )
+                        if( $computers->computerExists( $computerid ) )
                         {
 
-                            $current_computer = $computer->getComputer( $computerid );
+                            $current_computer = $computers->getComputer( $computerid );
 
                             ?>
                                 <li class="list-group-item">

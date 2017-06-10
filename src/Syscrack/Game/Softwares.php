@@ -160,6 +160,108 @@ class Softwares
     }
 
     /**
+     * Gets all the licensed software on a computer
+     *
+     * @param $computerid
+     *
+     * @return array
+     */
+
+    public function getLicensedSoftware( $computerid )
+    {
+
+        $softwares = $this->getSoftwaresOnComputer( $computerid );
+
+        $results = [];
+
+        foreach( $softwares as $software )
+        {
+
+            $data = json_decode( $software->data, true );
+
+            if( isset( $data['license'] ) )
+            {
+
+                $results[] = $software;
+            }
+        }
+
+        return $results;
+    }
+
+    /**
+     * Licenses a software
+     *
+     * @param $softwareid
+     *
+     * @param $userid
+     */
+
+    public function licenseSoftware( $softwareid, $userid )
+    {
+
+        $data = $this->getSoftwareData( $softwareid );
+
+        if( isset( $data['license'] ) )
+        {
+
+            if( $data['license'] == $userid )
+            {
+
+                throw new SyscrackException();
+            }
+        }
+
+        $data['license'] = $userid;
+
+        $this->updateData( $softwareid, $data );
+    }
+
+    /**
+     * Unlicenses a software
+     *
+     * @param $softwareid
+     */
+
+    public function unlicenseSoftware( $softwareid )
+    {
+
+        $data = $this->getSoftwareData( $softwareid );
+
+        if( isset( $data['license'] ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        unset( $data['license'] );
+
+        $this->updateData( $softwareid, $data );
+    }
+
+    /**
+     * Returns true if this software has a license
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
+    public function hasLicense( $softwareid )
+    {
+
+        $data = $this->getSoftwareData( $softwareid );
+
+        if( isset( $data['license'] ) == false )
+        {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Deletes the software
      *
      * @param $softwareid
@@ -378,6 +480,20 @@ class Softwares
     }
 
     /**
+     * Gets all the softwares tied to a computer id
+     *
+     * @param $computerid
+     *
+     * @return \Illuminate\Support\Collection|null
+     */
+
+    public function getSoftwaresOnComputer( $computerid )
+    {
+
+        return $this->database->getByComputer( $computerid );
+    }
+
+    /**
      * Installs a software
      *
      * @param $softwareid
@@ -405,6 +521,24 @@ class Softwares
 
         $array = array(
             'installed' => false
+        );
+
+        $this->database->updateSoftware( $softwareid, $array );
+    }
+
+    /**
+     * Updates a softwares data
+     *
+     * @param $softwareid
+     *
+     * @param array $data
+     */
+
+    public function updateData( $softwareid, array $data )
+    {
+
+        $array = array(
+            'data'  => json_encode( $data )
         );
 
         $this->database->updateSoftware( $softwareid, $array );
@@ -730,6 +864,14 @@ class Softwares
         return $data['allowanondownloads'];
     }
 
+    /**
+     * Returns true if the software has an icon
+     *
+     * @param $softwareid
+     *
+     * @return bool
+     */
+
     public function hasIcon( $softwareid )
     {
 
@@ -789,6 +931,12 @@ class Softwares
         {
 
             throw new SyscrackException();
+        }
+
+        if( isset( $softwareclass->configuration()['icon'] ) == false )
+        {
+
+            return Settings::getSetting('syscrack_software_default_icon');
         }
 
         return $softwareclass->configuration()['icon'];

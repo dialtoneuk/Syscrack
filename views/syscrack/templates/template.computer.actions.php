@@ -3,73 +3,60 @@
     use Framework\Application\Settings;
     use Framework\Views\Pages\Computer;
 
-    if( isset( $computer ) == false )
+    if( isset( $computers) == false )
     {
 
-        $computer = new Computer();
+        $computers= new Computer();
     }
 
-    $currentcomputer = $computer->getComputer( $computer->getCurrentUserComputer() );
+    $currentcomputer = $computers->getComputer( $computers->getCurrentUserComputer() );
 ?>
 <div class="col-md-4">
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/computer/'">
-        <div class="panel-body" style="padding-bottom: 0;">
-            <p>
-                <span class="glyphicon glyphicon-modal-window"></span> Desktop
-            </p>
-        </div>
+    <div class="list-group">
+        <a href="/computer/" class="list-group-item">
+            <h4 class="list-group-item-heading">Desktop</h4>
+            <p class="list-group-item-text">View your current softwares.</p>
+        </a>
+        <a href="/computer/log/" class="list-group-item">
+            <h4 class="list-group-item-heading">Log</h4>
+            <p class="list-group-item-text">View your computers system log.</p>
+        </a>
+        <a href="/computer/processes/" class="list-group-item">
+            <h4 class="list-group-item-heading">Processes</h4>
+            <p class="list-group-item-text">View whats current hogging your processor.</p>
+        </a>
+        <a href="/computer/hardware/" class="list-group-item">
+            <h4 class="list-group-item-heading">Hardware</h4>
+            <p class="list-group-item-text">View your system hardware.</p>
+        </a>
     </div>
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/computer/log'">
-        <div class="panel-body" style="padding-bottom: 0;">
-            <p>
-                <span class="glyphicon glyphicon-paperclip"></span> Log
-            </p>
-        </div>
-    </div>
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/computer/processes'">
-        <div class="panel-body" style="padding-bottom: 0;">
-            <p>
-                <span class="glyphicon glyphicon-cog"></span> Processes
-            </p>
-        </div>
-    </div>
-    <div class="panel panel-default" style="cursor: pointer;" onclick="window.location.href = '/computer/hardware'">
-        <div class="panel-body" style="padding-bottom: 0;">
-            <p>
-                <span class="glyphicon glyphicon-wrench"></span> Hardware
-            </p>
-        </div>
-    </div>
-
     <?php
 
-        if( $computer->hasType( $currentcomputer->computerid, Settings::getSetting('syscrack_software_collector_type'), true ) )
+        if( $computers->hasType( $currentcomputer->computerid, Settings::getSetting('syscrack_software_collector_type'), true ) )
         {
 
             ?>
-                <div class="panel panel-info" style="cursor: pointer;" onclick="window.location.href = '/computer/collect'">
-                    <div class="panel-body" style="padding-bottom: 0;">
-                        <p>
-                            <span class="glyphicon glyphicon-gbp"></span> Collect
-                        </p>
-                    </div>
+                <div class="list-group">
+                    <a href="/computer/collect/" class="list-group-item list-group-item-info">
+                        <h4 class="list-group-item-heading">Collect</h4>
+                        <p class="list-group-item-text">Use this computer to collect your profits from all of your viruses.</p>
+                    </a>
                 </div>
             <?php
         }
     ?>
     <?php
 
-        if( $computer->hasType( $currentcomputer->computerid, Settings::getSetting('syscrack_software_research_type'), true ) )
+        if( $computers->hasType( $currentcomputer->computerid, Settings::getSetting('syscrack_software_research_type'), true ) )
         {
 
             ?>
-            <div class="panel panel-info" style="cursor: pointer;" onclick="window.location.href = '/computer/collect'">
-                <div class="panel-body" style="padding-bottom: 0;">
-                    <p>
-                        <span class="glyphicon glyphicon-search"></span> Research
-                    </p>
+                <div class="list-group">
+                    <a href="/computer/research/" class="list-group-item list-group-item-info">
+                        <h4 class="list-group-item-heading">Research</h4>
+                        <p class="list-group-item-text">Research new and exciting software.</p>
+                    </a>
                 </div>
-            </div>
             <?php
         }
     ?>

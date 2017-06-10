@@ -15,7 +15,7 @@
 
     $pagehelper = new PageHelper();
 
-    $computer = new Computers();
+    $computers = new Computers();
 ?>
 
 <!DOCTYPE html>
@@ -220,10 +220,10 @@
                         <div class="panel-body">
                             <?php
 
-                                if( $computer->hasCurrentComputer() )
+                                if( $computers->hasCurrentComputer() )
                                 {
 
-                                    $currentcomputer = $computer->getComputer( $computer->getCurrentUserComputer() );
+                                    $currentcomputer = $computers->getComputer( $computers->getCurrentUserComputer() );
 
                                     ?>
 
@@ -243,11 +243,11 @@
                                     <?php
                                 }
 
-                                $computers =  $computer->getUserComputers( $session->getSessionUser() );
+                                $usercomputers =  $computers->getUserComputers( $session->getSessionUser() );
 
                                 $count = 0;
 
-                                foreach( $computers as $value )
+                                foreach( $usercomputers as $value )
                                 {
 
                                     if( $count >= Settings::getSetting('syscrack_vpc_viewcount') )
@@ -256,7 +256,7 @@
                                         continue;
                                     }
 
-                                    if( $computer->getCurrentUserComputer() == $value->computerid )
+                                    if( $computers->getCurrentUserComputer() == $value->computerid )
                                     {
 
                                         continue;

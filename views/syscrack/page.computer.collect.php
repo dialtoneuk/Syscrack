@@ -6,10 +6,10 @@
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
-    if( isset( $computer ) == false )
+    if( isset( $computers) == false )
     {
 
-        $computer = new Computers();
+        $computers= new Computers();
     }
 
     if( isset( $pagehelper ) == false )
@@ -32,9 +32,9 @@
         $session->updateLastAction();
     }
 
-    $currentcomputer = $computer->getComputer( $computer->getCurrentUserComputer() );
+    $currentcomputer = $computers->getComputer( $computers->getCurrentUserComputer() );
 
-    if( $computer->hasType( $currentcomputer->computerid, Settings::getSetting('syscrack_software_collector_type'), true ) == false )
+    if( $computers->hasType( $currentcomputer->computerid, Settings::getSetting('syscrack_software_collector_type'), true ) == false )
     {
 
         throw new ViewException();
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12" onclick="window.location.href = '/game/computer/'">
+                <div class="col-lg-12" onclick="window.location.href = '/computer/'">
                     <h5 style="color: #ababab" class="text-uppercase">
                         <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
                     </h5>
@@ -79,7 +79,7 @@
 
                 <?php
 
-                    Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );
+                    Flight::render('syscrack/templates/template.computer.actions', array( 'computers' => $computers) );
                 ?>
                 <div class="col-md-8">
                     <div class="row">
@@ -113,7 +113,7 @@
                                                             {
 
                                                                 ?>
-                                                                <option value="<?=$account->accountnumber?>">#<?=$account->accountnumber?> (<?=Settings::getSetting('syscrack_currency') . number_format( $account->cash )?>) @<?=$computer->getComputer( $account->computerid )->ipaddress?></option>
+                                                                <option value="<?=$account->accountnumber?>">#<?=$account->accountnumber?> (<?=Settings::getSetting('syscrack_currency') . number_format( $account->cash )?>) @<?=$computers->getComputer( $account->computerid )->ipaddress?></option>
                                                                 <?php
                                                             }
                                                         }

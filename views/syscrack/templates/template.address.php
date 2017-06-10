@@ -32,15 +32,15 @@
 
     $session = Container::getObject('session');
 
-    $computer = $internet->getComputer( $value['ipaddress'] );
+    $computers= $internet->getComputer( $value['ipaddress'] );
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="badge">address #<?=$key?></span> <?=$value['ipaddress']?> <span style="float: right;" class="badge"><?=$computer->type?></span>
+        <span class="badge">address #<?=$key?></span> <?=$value['ipaddress']?> <span style="float: right;" class="badge"><?=$computers->type?></span>
     </div>
     <div class="panel-body">
         <?php
-            if( $viruses->hasVirusesOnComputer( $computer->computerid, $session->getSessionUser() ) )
+            if( $viruses->hasVirusesOnComputer( $computers->computerid, $session->getSessionUser() ) )
             {
 
                 ?>
@@ -73,10 +73,10 @@
                 <?php
             }
         ?>
-        <button class="btn btn-default" style="width: 100%" type="button" data-toggle="collapse" data-target="#computer_<?=$computer->computerid?>" aria-expanded="false" aria-controls="computer_<?=$computer->computerid?>">
+        <button class="btn btn-default" style="width: 100%" type="button" data-toggle="collapse" data-target="#computer_<?=$computers->computerid?>" aria-expanded="false" aria-controls="computer_<?=$computers->computerid?>">
             View
         </button>
-        <div class="collapse" id="computer_<?=$computer->computerid?>">
+        <div class="collapse" id="computer_<?=$computers->computerid?>">
             <div class="panel panel-default" style="margin-top: 3.5%;">
                 <div class="panel-body">
                     <div class="row">

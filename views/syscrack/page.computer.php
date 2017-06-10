@@ -5,7 +5,7 @@
     use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
-    $computer = new Computers();
+    $computers = new Computers();
 
     $pagehelper = new PageHelper();
 
@@ -17,7 +17,7 @@
         $session->updateLastAction();
     }
 
-    $currentcomputer = $computer->getComputer( $computer->getCurrentUserComputer() );
+    $currentcomputer = $computers->getComputer( $computers->getCurrentUserComputer() );
 ?>
 
 <!DOCTYPE html>
@@ -55,14 +55,14 @@
             <div class="row" style="margin-top: 1.5%;">
                 <?php
 
-                    Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );
+                    Flight::render('syscrack/templates/template.computer.actions', array( 'computers' => $computers) );
                 ?>
 
                 <div class="col-md-8">
                     
                     <?php
                     
-                        Flight::render('syscrack/templates/template.softwares', array('ipaddress' => $currentcomputer->ipaddress, 'computer' => $computer, 'hideoptions' => false, "local" => true ) );
+                        Flight::render('syscrack/templates/template.softwares', array('ipaddress' => $currentcomputer->ipaddress, 'computers' => $computers, 'hideoptions' => false, "local" => true ) );
                     ?>
                 </div>
             </div>

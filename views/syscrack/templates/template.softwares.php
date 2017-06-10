@@ -8,10 +8,10 @@
         $softwares = new \Framework\Syscrack\Game\Softwares();
     }
 
-    if( isset( $computer ) == null )
+    if( isset( $computers) == null )
     {
 
-        $computer = new \Framework\Syscrack\Game\Computers();
+        $computers= new \Framework\Syscrack\Game\Computers();
     }
 
     if( isset( $internet ) == null )
@@ -62,7 +62,7 @@
                 <tbody>
                 <?php
 
-                    $software = $computer->getComputerSoftware( $internet->getComputer( $ipaddress )->computerid );
+                    $software = $computers->getComputerSoftware( $internet->getComputer( $ipaddress )->computerid );
 
                     foreach( $software as $key=>$value )
                     {
@@ -73,7 +73,7 @@
                             continue;
                         }
 
-                        if( $computer->hasSoftware( $internet->getComputer( $ipaddress )->computerid, $value['softwareid'] ) == false )
+                        if( $computers->hasSoftware( $internet->getComputer( $ipaddress )->computerid, $value['softwareid'] ) == false )
                         {
 
                             continue;

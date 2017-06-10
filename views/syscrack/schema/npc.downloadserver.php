@@ -5,10 +5,10 @@
     use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Softwares;
 
-    if( isset( $computer ) == false )
+    if( isset( $computers) == false )
     {
 
-        $computer = new Computers();
+        $computers= new Computers();
     }
 
     if( isset( $software ) == false )
@@ -61,7 +61,7 @@
         <ul class="list-group">
             <?php
 
-                $computersoftware = $computer->getComputerSoftware( $internet->getComputer( $ipaddress )->computerid );
+                $computersoftware = $computers->getComputerSoftware( $internet->getComputer( $ipaddress )->computerid );
 
                 if( empty( $computersoftware ) )
                 {

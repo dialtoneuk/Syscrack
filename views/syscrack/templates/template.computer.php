@@ -21,7 +21,7 @@
         $pagehelper = new PageHelper();
     }
 
-    $computer = new Computers();
+    $computers= new Computers();
 
     $softwares = new Softwares();
 
@@ -29,7 +29,7 @@
 ?>
 <div class="col-md-8">
     <?php
-        if( $internet->getComputerAddress( $computer->getCurrentUserComputer() ) == $ipaddress )
+        if( $internet->getComputerAddress( $computers->getCurrentUserComputer() ) == $ipaddress )
         {
 
             ?>
@@ -74,7 +74,7 @@
 
                     <?php
 
-                        Flight::render('syscrack/templates/template.softwares', array( 'ipaddress' => $ipaddress, 'softwares' => $softwares, 'computer' => $computer, 'internet' => $internet ));
+                        Flight::render('syscrack/templates/template.softwares', array( 'ipaddress' => $ipaddress, 'softwares' => $softwares, 'computers' => $computer, 'internet' => $internet ));
                     ?>
                 </div>
             </div>

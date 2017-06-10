@@ -182,6 +182,8 @@
         "upload": "mb\/s",
         "gpu": "mhz"
     },
+    "syscrack_riddle_location":"syscrack\/riddles.json",
+    "syscrack_research_price_multiplier":250,
     "syscrack_internet_page": "internet",
     "syscrack_log_current": "current",
     "syscrack_log_localhost_address": "localhost",
@@ -230,6 +232,7 @@
     "syscrack_software_virus_type": "virus",
     "syscrack_software_vminer_uniquename": "vminer",
     "syscrack_software_vspam_uniquename": "vspam",
+    "syscrack_software_default_icon":"glyphicon-file",
     "syscrack_startup_on_verification": true,
     "syscrack_startup_default_computer": "vpc",
     "syscrack_statistics_enabled": true,

@@ -22,10 +22,10 @@
         $finance = new Finance();
     }
 
-    if( isset( $computer ) == false )
+    if( isset( $computers) == false )
     {
 
-        $computer = new Computers();
+        $computers= new Computers();
     }
 
     if( isset( $pagehelper ) == false )
@@ -48,6 +48,15 @@
 
         Flight::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game') );
     ?>
+    <style>
+        .vertical-center {
+            min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+            min-height: 100vh; /* These two lines are counted as one :-)       */
+
+            display: flex;
+            align-items: center;
+        }
+    </style>
     <body>
         <div class="container">
             <?php
@@ -68,9 +77,28 @@
                             Total Cash
                         </div>
                         <div class="panel-body text-center">
-                            <h1>
-                                <?=Settings::getSetting('syscrack_currency') . $pagehelper->getCash()?>
-                            </h1>
+
+                            <?php
+
+                                if( $pagehelper->getRawCashValue() <= 10000000 )
+                                {
+
+                                    ?>
+                                        <h1>
+                                            <?=Settings::getSetting('syscrack_currency') . $pagehelper->getCash()?>
+                                        </h1>
+                                    <?php
+                                }
+                                else
+                                {
+
+                                    ?>
+                                        <h5>
+                                            <?=Settings::getSetting('syscrack_currency') . $pagehelper->getCash()?>
+                                        </h5>
+                                    <?php
+                                }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -144,7 +172,7 @@
                             foreach( $accounts as $account )
                             {
 
-                                if( $computer->computerExists( $account->computerid ) == false )
+                                if( $computers->computerExists( $account->computerid ) == false )
                                 {
 
                                     continue;
@@ -165,7 +193,7 @@
                                                         if( isset( $schema['name'] ) == false )
                                                         {
 
-                                                            echo( $computer->getComputer( $account->computerid )->ipaddress );
+                                                            echo( $computers->getComputer( $account->computerid )->ipaddress );
                                                         }
                                                         else
                                                         {
@@ -176,25 +204,27 @@
                                                     else
                                                     {
 
-                                                        echo( $computer->getComputer( $account->computerid )->ipaddress );
+                                                        echo( $computers->getComputer( $account->computerid )->ipaddress );
                                                     }
                                                 ?>
                                             </span>
                                         </div>
                                         <div class="panel panel-body" style="margin-bottom: 0; padding-bottom: 0;">
                                             <div class="row">
-                                                <div class="col-sm-3 text-center">
-                                                    <h3 style="padding-top: 27.5%;">
+                                                <div class="col-sm-12">
+                                                    <div class="well">
                                                         <?=Settings::getSetting('syscrack_currency') . number_format( $account->cash )?>
-                                                    </h3>
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-9">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
                                                     <ul class="list-group">
                                                         <li class="list-group-item">
                                                             Bank Address
                                                             <span class="badge right">
-                                                                <a style="color: white;" href="/game/internet/<?=$computer->getComputer( $account->computerid )->ipaddress?>">
-                                                                    <?=$computer->getComputer( $account->computerid )->ipaddress?>
+                                                                <a style="color: white;" href="/game/internet/<?=$computers->getComputer( $account->computerid )->ipaddress?>">
+                                                                    <?=$computers->getComputer( $account->computerid )->ipaddress?>
                                                                 </a>
                                                             </span>
                                                         </li>

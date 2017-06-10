@@ -233,7 +233,7 @@
                     $this->redirectError('You do not own this process');
                 }
 
-                if( $process->computerid !== $this->computers->getCurrentUserComputer() )
+                if( $process->computerid != $this->computers->getCurrentUserComputer() )
                 {
 
                     $this->redirectError('You need to currently be switched to the computer this process was initiated on');

@@ -30,12 +30,12 @@
             <div class="panel-body">
                 <?php
 
-                    $computer = $internet->getComputer( $ipaddress );
+                    $computers= $internet->getComputer( $ipaddress );
 
-                    if( $npc->hasSchema( $computer->computerid ) && $npc->hasSchemaPage( $computer->computerid ) )
+                    if( $npc->hasSchema( $computers->computerid ) && $npc->hasSchemaPage( $computers->computerid ) )
                     {
 
-                        Flight::render( $npc->getSchemaPageLocation( $computer->computerid ), array( 'internet' => $internet, 'ipaddress' => $ipaddress, 'schema' => $npc ) );
+                        Flight::render( $npc->getSchemaPageLocation( $computers->computerid ), array( 'internet' => $internet, 'ipaddress' => $ipaddress, 'schema' => $npc ) );
                     }
                     else
                     {

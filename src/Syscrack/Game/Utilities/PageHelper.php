@@ -521,6 +521,26 @@ class PageHelper
     }
 
     /**
+     * Gets the raw cash int value
+     *
+     * @return int
+     */
+
+    public function getRawCashValue()
+    {
+
+        $finance = new Finance();
+
+        if( $finance->hasAccount( $this->session->getSessionUser() ) == false )
+        {
+
+            return 0;
+        }
+
+        return $finance->getTotalUserCash( $this->session->getSessionUser() );
+    }
+
+    /**
      * Gets the username of the user
      *
      * @return string

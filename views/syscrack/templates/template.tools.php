@@ -19,10 +19,10 @@
         $pagehelper = new PageHelper();
     }
 
-    if( empty( $computer ) )
+    if( empty( $computers) )
     {
 
-        $computer = new Computers();
+        $computers= new Computers();
     }
 
     if( empty( $softwares ) )
@@ -37,7 +37,7 @@
 
     <?php
 
-        if( $computer->getComputer( $computer->getCurrentUserComputer() )->ipaddress == $ipaddress )
+        if( $computers->getComputer( $computers->getCurrentUserComputer() )->ipaddress == $ipaddress )
         {
 
             ?>
@@ -167,7 +167,7 @@
 
                                     <?php
 
-                                        $computersoftwares = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+                                        $computersoftwares = $computers->getComputerSoftware( $computers->getCurrentUserComputer() );
 
                                         if( empty( $computersoftwares ) == false )
                                         {
@@ -181,7 +181,7 @@
                                                     continue;
                                                 }
 
-                                                if( $softwares->isInstalled( $value['softwareid'], $computer->getCurrentUserComputer() ) )
+                                                if( $softwares->isInstalled( $value['softwareid'], $computers->getCurrentUserComputer() ) )
                                                 {
 
                                                     continue;
@@ -297,7 +297,7 @@
                                                     {
 
                                                         ?>
-                                                        <option value="<?=$account->accountnumber?>">#<?=$account->accountnumber?> (<?=Settings::getSetting('syscrack_currency') . number_format( $account->cash )?>) @<?=$computer->getComputer( $account->computerid )->ipaddress?></option>
+                                                        <option value="<?=$account->accountnumber?>">#<?=$account->accountnumber?> (<?=Settings::getSetting('syscrack_currency') . number_format( $account->cash )?>) @<?=$computers->getComputer( $account->computerid )->ipaddress?></option>
                                                         <?php
                                                     }
                                                 }

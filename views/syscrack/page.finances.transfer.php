@@ -18,10 +18,10 @@
         $finance = new Finance();
     }
 
-    if( isset( $computer ) == false )
+    if( isset( $computers) == false )
     {
 
-        $computer = new Computers();
+        $computers= new Computers();
     }
 ?>
 <!DOCTYPE html>
@@ -112,7 +112,7 @@
                                                         {
 
                                                             ?>
-                                                            <option value="<?=$account->accountnumber?>">#<?=$account->accountnumber?> (<?=Settings::getSetting('syscrack_currency') . number_format( $account->cash )?>) @<?=$computer->getComputer( $account->computerid )->ipaddress?></option>
+                                                            <option value="<?=$account->accountnumber?>">#<?=$account->accountnumber?> (<?=Settings::getSetting('syscrack_currency') . number_format( $account->cash )?>) @<?=$computers->getComputer( $account->computerid )->ipaddress?></option>
                                                             <?php
                                                         }
                                                     }

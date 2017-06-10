@@ -6,7 +6,7 @@
     use Framework\Syscrack\Game\Log;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
-    $computer = new Computers();
+    $computers= new Computers();
 
     $pagehelper = new PageHelper();
 
@@ -20,7 +20,7 @@
         $session->updateLastAction();
     }
 
-    $currentcomputer = $computer->getComputer( $computer->getCurrentUserComputer() );
+    $currentcomputer = $computers->getComputer( $computers->getCurrentUserComputer() );
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +38,7 @@
                 Flight::render('syscrack/templates/template.navigation');
             ?>
             <div class="row">
-                <div class="col-lg-12" onclick="window.location.href = '/game/computer/'">
+                <div class="col-lg-12" onclick="window.location.href = '/computer/'">
                     <h5 style="color: #ababab" class="text-uppercase">
                         <span class="badge"><?=$currentcomputer->type?></span> <?=$currentcomputer->ipaddress?>
                     </h5>
@@ -48,7 +48,7 @@
 
                 <?php
 
-                    Flight::render('syscrack/templates/template.computer.actions', array( 'computer' => $computer ) );
+                    Flight::render('syscrack/templates/template.computer.actions', array( 'computers' => $computers) );
                 ?>
                 <div class="col-md-8">
 

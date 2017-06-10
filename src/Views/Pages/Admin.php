@@ -104,6 +104,18 @@
                     'POST /admin/computer/@computerid:[0-9]{9}/', 'computerEditorProcess'
                 ],
                 [
+                    'GET /admin/riddles/','riddlesViewer'
+                ],
+                [
+                    'POST /admin/riddles','riddlesViewerProcess'
+                ],
+                [
+                    'GET /admin/riddles/creator/','riddlesCreator'
+                ],
+                [
+                    'POST /admin/riddles/creator','riddlesCreatorProcess'
+                ],
+                [
                     'GET /admin/computer/creator/', 'computerCreator'
                 ],
                 [
@@ -137,6 +149,29 @@
         public function computerEditorProcess()
         {
 
+
+        }
+
+        public function riddlesViewer()
+        {
+
+            Flight::render('syscrack/page.admin.riddles');
+        }
+
+        public function riddlesViewerProcess()
+        {
+
+
+        }
+
+        public function riddlesCreator()
+        {
+
+            Flight::render('syscrack/page.admin.riddles.creator');
+        }
+
+        public function riddlesCreatorProcess()
+        {
 
         }
 

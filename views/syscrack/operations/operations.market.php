@@ -16,10 +16,10 @@
         $internet = new Internet();
     }
 
-    if( isset( $computer ) == false )
+    if( isset( $computers) == false )
     {
 
-        $computer = new Computers();
+        $computers = new Computers();
     }
 
     if( isset( $npc ) == false )
@@ -173,7 +173,7 @@
                                                         <ul class="list-group">
                                                             <?php
 
-                                                                $purchases = $market->getPurchasesByComputer( $current_computer->computerid, $computer->getCurrentUserComputer() );
+                                                                $purchases = $market->getPurchasesByComputer( $current_computer->computerid, $computers->getCurrentUserComputer() );
 
                                                                 if( empty( $purchases ) )
                                                                 {
@@ -243,7 +243,7 @@
                                                                         </div>
                                                                         <div class="panel-body">
                                                                             <?php
-                                                                                if( $market->hasPurchase( $current_computer->computerid, $computer->getCurrentUserComputer(), $itemid ) )
+                                                                                if( $market->hasPurchase( $current_computer->computerid, $computers->getCurrentUserComputer(), $itemid ) )
                                                                                 {
 
                                                                                     ?>
@@ -253,10 +253,10 @@
                                                                                 else
                                                                                 {
 
-                                                                                    if( $hardware->hasHardwareType( $computer->getCurrentUserComputer(), $stock['hardware'] ) )
+                                                                                    if( $hardware->hasHardwareType( $computers->getCurrentUserComputer(), $stock['hardware'] ) )
                                                                                     {
 
-                                                                                        if( $hardware->getHardwareType( $computer->getCurrentUserComputer(), $stock['hardware'] )['value'] >= $stock['value'] )
+                                                                                        if( $hardware->getHardwareType( $computers->getCurrentUserComputer(), $stock['hardware'] )['value'] >= $stock['value'] )
                                                                                         {
 
                                                                                             ?>
@@ -292,7 +292,7 @@
                                                                                                 {
 
                                                                                                     ?>
-                                                                                                    <option value="<?=$account->accountnumber?>">#<?=$account->accountnumber?> (<?=Settings::getSetting('syscrack_currency') . number_format( $account->cash )?>) @<?=$computer->getComputer( $account->computerid )->ipaddress?></option>
+                                                                                                    <option value="<?=$account->accountnumber?>">#<?=$account->accountnumber?> (<?=Settings::getSetting('syscrack_currency') . number_format( $account->cash )?>) @<?=$computers->getComputer( $account->computerid )->ipaddress?></option>
                                                                                                     <?php
                                                                                                 }
                                                                                             }

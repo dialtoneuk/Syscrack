@@ -423,7 +423,84 @@
         public function computerResearchProcess()
         {
 
+            if( PostHelper::hasPostData() == false )
+            {
 
+                $this->computerResearch();
+            }
+            else
+            {
+
+                if( PostHelper::checkForRequirements(['action'] ) == false )
+                {
+
+                    $this->redirectError('Missing Information', 'computer/research');
+                }
+
+                $action = PostHelper::getPostData('action');
+
+                if( $action == 'licensesoftware' )
+                {
+
+                    if( PostHelper::checkForRequirements(['softwareid','accountnumber'] ) == false )
+                    {
+
+                        $this->redirectError('Missing Information','computer/research');
+                    }
+
+                    $softwareid = PostHelper::getPostData('softwareid');
+
+                    if( $this->softwares->softwareExists( $softwareid ) == false )
+                    {
+
+                        $this->redirectError('Software does not exist', 'computer/research');
+                    }
+
+                    $software = $this->softwares->getSoftware( $softwareid );
+
+                    if( $this->computers->hasSoftware( $this->computers->getCurrentUserComputer(), $softwareid ) == false )
+                    {
+
+                        $this->redirectError('This computer does not have this current software', 'computer/research');
+                    }
+
+                    $data = $this->softwares->getSoftwareData( $software->softwareid );
+
+                    if( isset( $data['license'] ) )
+                    {
+
+                        if( $data['license'] !== null )
+                        {
+
+                            $this->redirectError('This software is already licensed', 'computer/research');
+                        }
+                    }
+
+                    $accountnumber = PostHelper::getPostData('accountnumber');
+
+                    if( $this->finance->accountNumberExists( $accountnumber ) == false )
+                    {
+
+                        $this->redirectError('Account does not exist', 'computer/research');
+                    }
+
+                    $account = $this->finance->getByAccountNumber( $accountnumber );
+
+                    if( $this->finance->canAfford( $account->computerid, $account->userid, $this->getLicensePrice( $softwareid ) ) == false )
+                    {
+
+                        $this->redirectError('You cannot afford to license this software', 'computer/research' );
+                    }
+
+                    $this->finance->withdraw( $account->computerid, $account->userid, $this->getLicensePrice( $softwareid ) );
+
+                    $this->softwares->licenseSoftware( $softwareid, $this->session->getSessionUser() );
+
+                    $this->log->updateLog('Purchased license for ' . Settings::getSetting('syscrack_currency') . number_format( $this->getLicensePrice( $softwareid ) ) . ' payed with account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid ) . '>', $this->computers->getCurrentUserComputer(), 'localhost');
+
+                    $this->redirectSuccess('computer/research');
+                }
+            }
         }
 
         /**
@@ -689,6 +766,28 @@
             }
 
             return $data;
+        }
+
+        /**
+         * Gets the license price of a software
+         *
+         * @param $softwareid
+         *
+         * @return int
+         */
+
+        private function getLicensePrice( $softwareid )
+        {
+
+            $software = $this->softwares->getSoftware( $softwareid );
+
+            if( $software->level * Settings::getSetting('syscrack_research_price_multiplier') <= 0 )
+            {
+
+                return 0;
+            }
+
+            return $software->level * Settings::getSetting('syscrack_research_price_multiplier');
         }
 
         /**

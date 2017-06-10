@@ -26,10 +26,10 @@
         $pagehelper = new PageHelper();
     }
 
-    if( isset( $computer ) == false )
+    if( isset( $computers) == false )
     {
 
-        $computer = new Computers();
+        $computers= new Computers();
     }
 ?>
 <html>
@@ -83,7 +83,7 @@
                     <div class="row" style="margin-top: 1.5%;">
                         <?php
 
-                            $computers = $computer->getAllComputers( Settings::getSetting('syscrack_admin_computer_count'));
+                            $computers = $computers->getAllComputers( Settings::getSetting('syscrack_admin_computer_count'));
 
                             if( empty( $computers ) )
                             {

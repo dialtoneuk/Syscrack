@@ -550,6 +550,7 @@ class Computers
         $this->database->updateComputer( $computerid, array('softwares' => json_encode( $softwares ) ) );
     }
 
+
     /**
      * Gets the computers hardware
      *

@@ -6,10 +6,10 @@
 
     $session = Container::getObject('session');
 
-    if( isset( $computer ) == false )
+    if( isset( $computers) == false )
     {
 
-        $computer = new Computers();
+        $computers= new Computers();
     }
 
     if( isset( $pagehelper ) == false )
@@ -57,13 +57,13 @@
                 <?php
                     if( $session->isLoggedIn() )
                     {
-                        if( $computer->hasCurrentComputer() )
+                        if( $computers->hasCurrentComputer() )
                         {
 
                             ?>
 
                             <a class="navbar-brand" style="font-size: 12px" href="/computer/">
-                                <span class="glyphicon glyphicon-cloud" data-toggle="tooltip" data-placement="auto" title="Address"></span> <?=$computer->getComputer( $computer->getCurrentUserComputer() )->ipaddress?>
+                                <span class="glyphicon glyphicon-cloud" data-toggle="tooltip" data-placement="auto" title="Address"></span> <?=$computers->getComputer( $computers->getCurrentUserComputer() )->ipaddress?>
                             </a>
                             <?php
                         }

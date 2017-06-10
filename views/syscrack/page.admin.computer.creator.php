@@ -97,7 +97,7 @@
                                     <?php
                                         Flight::render('syscrack/templates/template.form', array('form_elements' => [
                                             [
-                                                'type'          => 'text',
+                                                'type'          => 'number',
                                                 'name'          => 'userid',
                                                 'placeholder'   => Settings::getSetting('syscrack_master_user'),
                                                 'icon'          => 'glyphicon-user'
@@ -113,7 +113,7 @@
                                                 'type'          => 'text',
                                                 'name'          => 'type',
                                                 'icon'          => 'glyphicon-tag',
-                                                'placeholder'   => 'schema'
+                                                'placeholder'   => 'npc'
                                             ]
                                         ],'remove_submit' => true, 'remove_form' => true ));
 
@@ -181,7 +181,7 @@
                             <div class="col-sm-12">
                                 <div class="btn-group btn-group-justified" role="group" aria-label="Submit" style="margin-top: 2.5%;">
                                     <div class="btn-group" role="group">
-                                        <button type="submit" class="btn btn-default">Submit</button>
+                                        <button type="submit" class="btn btn-default">Create</button>
                                     </div>
                                 </div>
                             </div>
@@ -215,10 +215,11 @@
                     $("#form-page").prop('disabled', true );
                     $("#form-riddle").prop('disabled', true );
 
-                    if( $('#form-riddleaddress').is(':disabled') == false )
+                    if( $('#form-riddleid').is(':disabled') == false )
                     {
 
-                        $("#form-riddleaddress").prop('disabled', true );
+                        $("#form-riddlecomputer").prop('disabled', true );
+                        $("#form-riddleid").prop('disabled', true);
                     }
 
                     if( $("#form-riddle").is(':checked') )
@@ -235,12 +236,14 @@
                 if( ckb == true )
                 {
 
-                    $("#form-riddleaddress").prop('disabled', false );
+                    $("#form-riddleid").prop('disabled', false );
+                    $("#form-riddlecomputer").prop('disabled', false );
                 }
                 else
                 {
 
-                    $("#form-riddleaddress").prop('disabled', true );
+                    $("#form-riddlecomputer").prop('disabled', true );
+                    $("#form-riddleid").prop('disabled', true );
                 }
             })
         </script>
