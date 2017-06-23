@@ -1,6 +1,8 @@
-![Syscrack](https://syscrack.net/assets/img/vibrant_green.png)
+### We have renamed to ZeroOne
 
-### AN OPEN SOURCE HACKING SIMULATOR, SIMULATED ON A VIRTUAL INTERNET
+A complete rewrite from the ground up to natively support modding on a new framework. ZeroDay will be an expansion of the Syscrack idea and focus on profit generation and software. Start your own software company and enter the stock market. Invest in new technologies and hack your competitors. Become the richest and most powerful player with a host of software and servers. Hack your local area and claim it as your own. Comming Fall 2017.
+
+#### AN OPEN SOURCE HACKING SIMULATOR, SIMULATED ON A VIRTUAL INTERNET
 
 Syscrack is a hacking simulator built from the ground up to be expandable and modded. Users are thrown into a virtual internet and are given a set of tools. The aim is simple, become the best hacker in the world.
 
