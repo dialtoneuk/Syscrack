@@ -1,0 +1,41 @@
+{
+    "name": "test",
+    "page": "npc.download",
+    "riddles": [],
+    "softwares": {
+        "cpu": {
+            "value": 100
+        },
+        "download": {
+            "value": 10
+        },
+        "gpu": {
+            "value": 500
+        },
+        "harddrive": {
+            "value": 100
+        },
+        "upload": {
+            "value": 2
+        }
+    },
+    "hardwares": [
+        {
+            "installed": true,
+            "level": 10,
+            "name": "Example Cracker",
+            "size": 10,
+            "uniquename": "cracker",
+            "data": {
+                "allowanondownloads": true
+            }
+        },
+        {
+            "installed": true,
+            "level": 1,
+            "name": "Example Hasher",
+            "size": 10,
+            "uniquename": "hasher"
+        }
+    ]
+}

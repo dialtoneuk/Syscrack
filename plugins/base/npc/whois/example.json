@@ -1,0 +1,37 @@
+{
+	"type":"whois",
+    "schema":{
+        "name": "Whois",
+        "page": "npc.whois",
+        "riddles": {
+            "riddleid": "1",
+            "riddlecomputer": "1"
+        },
+        "hardwares": {
+            "cpu": {
+                "value": 333
+            },
+            "download": {
+                "value": 20
+            },
+            "gpu": {
+                "value": 0
+            },
+            "harddrive": {
+                "value": 50
+            },
+            "upload": {
+                "value": 10
+            }
+        },
+        "softwares": [
+            {
+                "installed": true,
+                "level": 1.0,
+                "name": "Example Hasher",
+                "size": 10,
+                "uniquename": "cracker",
+            },
+        ]
+    }
+}

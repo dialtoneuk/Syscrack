@@ -102,7 +102,7 @@ class Hack extends BaseClass implements Structure
 
         $user = Container::getObject('session')->getSessionUser();
 
-        if( $this->addressdatabase->hasAddress( $data['ipaddress'], $userid ) == false )
+        if( $this->addressdatabase->hasAddress( $data['ipaddress'], $userid ) )
         {
 
             $this->redirectError('You have already hacked this address', $this->getRedirect( $data['ipaddress'] ) );
@@ -158,11 +158,7 @@ class Hack extends BaseClass implements Structure
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        $this->addressdatabase->addComputer( array(
-            'computerid'        => $this->getComputerId( $data['ipaddress'] ),
-            'ipaddress'         => $data['ipaddress'],
-            'timehacked'        => time()
-        ));
+        $this->addressdatabase->addAddress( $data['ipaddress'],  $userid );
 
         if( Settings::getSetting('syscrack_statistics_enabled') == true )
         {

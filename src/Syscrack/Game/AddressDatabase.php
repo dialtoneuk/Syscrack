@@ -195,7 +195,13 @@ class AddressDatabase
         if( $this->hasDatabaseSet() == false )
         {
 
-            $this->database =$this->getUserDatabase( $userid );
+            $this->database = $this->getUserDatabase( $userid );
+        }
+
+        if( empty( $this->database ) || $this->database == null )
+        {
+
+        	return false;
         }
 
         foreach( $this->database as $address )
@@ -250,7 +256,7 @@ class AddressDatabase
      * @param $userid
      */
 
-    private function saveUserDatabase( $userid )
+    public function saveUserDatabase( $userid )
     {
 
         if( $this->hasDatabaseSet() == false )

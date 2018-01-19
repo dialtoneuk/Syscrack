@@ -30,7 +30,7 @@
             <div class="panel-body">
                 <?php
 
-                    $computers= $internet->getComputer( $ipaddress );
+                    $computers = $internet->getComputer( $ipaddress );
 
                     if( $npc->hasSchema( $computers->computerid ) && $npc->hasSchemaPage( $computers->computerid ) )
                     {

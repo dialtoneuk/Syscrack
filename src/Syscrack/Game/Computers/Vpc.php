@@ -92,13 +92,13 @@
             if( $this->addressdatabase->hasDatabase( $userid ) == false )
             {
 
-                $this->addressdatabase->saveDatabase( $userid );
+                $this->addressdatabase->saveUserDatabase( $userid );
             }
 
             if( $this->bankdatabase->hasDatabase( $userid ) == false )
             {
 
-                $this->bankdatabase->saveDatabase( $userid, [] );
+                $this->bankdatabase->saveUserDatabase( $userid, [] );
             }
 
             if( empty( $softwares ) == false )

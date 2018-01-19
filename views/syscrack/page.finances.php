@@ -121,7 +121,20 @@
                         </div>
                         <div class="panel-body text-center">
                             <h1>
-                                <?=count( $bankdatabase->getDatabase( $session->getSessionUser() ) )?>
+                                <?php
+                                    $count = $bankdatabase->getDatabase( $session->getSessionUser() );
+
+                                    if( empty( $count ) == false )
+                                    {
+
+                                        echo count( $count );
+                                    }
+                                    else
+                                    {
+                                        
+                                        echo 0;
+                                    }
+                                ?>
                             </h1>
                         </div>
                     </div>

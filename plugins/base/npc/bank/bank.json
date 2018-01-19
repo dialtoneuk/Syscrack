@@ -1,0 +1,44 @@
+{
+	"type":"bank",
+    "schema":{
+        "name": "Central Bank",
+        "page": "npc.bank",
+        "riddles": {
+            "riddleid": "1",
+            "riddlecomputer": "1"
+        },
+        "hardwares": {
+            "cpu": {
+                "value": 666
+            },
+            "download": {
+                "value": 50
+            },
+            "gpu": {
+                "value": 0
+            },
+            "harddrive": {
+                "value": 500
+            },
+            "upload": {
+                "value": 25
+            }
+        },
+        "softwares": [
+            {
+                "installed": true,
+                "level": 5.1,
+                "name": "Advanced Cracker",
+                "size": 20,
+                "uniquename": "cracker",
+            },
+            {
+                "installed": true,
+                "level": 5,
+                "name": "Advanced Hasher",
+                "size": 20,
+                "uniquename": "hasher",
+            },
+        ]
+    }
+}

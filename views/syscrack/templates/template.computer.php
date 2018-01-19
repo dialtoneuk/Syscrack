@@ -21,7 +21,7 @@
         $pagehelper = new PageHelper();
     }
 
-    $computers= new Computers();
+    $computers = new Computers();
 
     $softwares = new Softwares();
 
@@ -74,7 +74,7 @@
 
                     <?php
 
-                        Flight::render('syscrack/templates/template.softwares', array( 'ipaddress' => $ipaddress, 'softwares' => $softwares, 'computers' => $computer, 'internet' => $internet ));
+                        Flight::render('syscrack/templates/template.softwares', array( 'ipaddress' => $ipaddress, 'softwares' => $softwares, 'computers' => $computers, 'internet' => $internet ));
                     ?>
                 </div>
             </div>

@@ -1,0 +1,38 @@
+{
+    "hardwares": {
+            "cpu": {
+                "value": 100
+            },
+            "download": {
+                "value": 10
+            },
+            "gpu": {
+                "value": 500
+            },
+            "harddrive": {
+                "value": 100
+            },
+            "upload": {
+                "value": 2
+            }
+        },
+        "name": "Downloads4U",
+        "page": "npc.download",
+        "riddle": "192.192.192.192",
+        "softwares": [
+            {
+                "installed": true,
+                "level": 1.2,
+                "name": "Example Cracker",
+                "size": 10,
+                "uniquename": "cracker"
+            },
+            {
+                "installed": true,
+                "level": 1,
+                "name": "Example Hasher",
+                "size": 10,
+                "uniquename": "hasher"
+            }
+        ]
+}

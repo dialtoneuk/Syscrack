@@ -1,0 +1,41 @@
+{
+    "name": "test",
+    "page": "npc.pinkfloyd",
+    "riddles": {
+        "riddleid": "1",
+        "riddlecomputer": "1"
+    },
+    "softwares": {
+        "cpu": {
+            "value": 100
+        },
+        "download": {
+            "value": 10
+        },
+        "gpu": {
+            "value": 500
+        },
+        "harddrive": {
+            "value": 100
+        },
+        "upload": {
+            "value": 2
+        }
+    },
+    "hardwares": [
+        {
+            "installed": true,
+            "level": 1.2,
+            "name": "Example Cracker",
+            "size": 10,
+            "uniquename": "cracker"
+        },
+        {
+            "installed": true,
+            "level": 1,
+            "name": "Example Hasher",
+            "size": 10,
+            "uniquename": "hasher"
+        }
+    ]
+}

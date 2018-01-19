@@ -24,7 +24,7 @@
     if( isset( $computers) == false )
     {
 
-        $computers= new Computers();
+        $computers = new Computers();
     }
 
     if( isset( $addressdatabase ) == false )
@@ -189,7 +189,7 @@
                                     foreach( $addresses as $key=>$value )
                                     {
 
-                                        Flight::render('syscrack/templates/template.address', array('key' => $key, 'value' => $value, 'computers' => $computer, 'internet' => $internet, 'viruses' => $viruses ) );
+                                        Flight::render('syscrack/templates/template.address', array('key' => $key, 'value' => $value, 'computers' => $computers, 'internet' => $internet, 'viruses' => $viruses ) );
                                     }
                                 }
                             }
