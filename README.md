@@ -62,7 +62,7 @@ Once done, give nginx a restart and then go to your servers address. You should 
 
 Depending on your config, you could have permission errors when Syscracks attempts to read and write data. This is mostly common on linux machines but can sometimes be present on Windows machines too.
 
-To fix, all you need to do is simply set the permissions of the following folders to the respective values using the chmod command. You can look up how to set directy permissions via the link below.
+To fix, all you need to do is simply set the permissions of the following folders to the respective values using the chmod command. You can look up how to set directory permissions via the link below.
 
 https://askubuntu.com/questions/303593/how-can-i-chmod-777-all-subfolders-of-var-www
 
