@@ -5,7 +5,7 @@
     use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Utilities\PageHelper;
 
-    $computers= new Computers();
+    $computers = new Computers();
 
     $pagehelper = new PageHelper();
 
@@ -105,10 +105,10 @@
                                                         <h1>
                                                             <?php
 
-                                                                if( isset( $hardware[ 'value'] ) )
+                                                                if( isset( $hardware['value'] ) )
                                                                 {
 
-                                                                    echo $hardware['value'] ;
+                                                                    echo (string)$hardware['value'];
                                                                 }
 
                                                                 $extensions = Settings::getSetting('syscrack_hardware_extensions');

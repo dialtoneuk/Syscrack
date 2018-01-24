@@ -94,36 +94,29 @@
                     $this->redirectError('Sorry, failed to verify, try again?');
                 }
 
-                try
+
+                if( Settings::getSetting('syscrack_startup_on_verification') == true )
                 {
 
-                    if( Settings::getSetting('syscrack_startup_on_verification') == true )
+                    $computerid = $this->computers->createComputer( $userid, Settings::getSetting('syscrack_startup_default_computer'), $this->internet->getIP() );
+
+                    if( empty( $computerid ) )
                     {
 
-                        $computerid = $this->computers->createComputer( $userid, Settings::getSetting('syscrack_startup_default_computer'), $this->internet->getIP() );
-
-                        if( empty( $computerid ) )
-                        {
-
-                            throw new SyscrackException();
-                        }
-
-                        $class = $this->computers->getComputerClass( Settings::getSetting('syscrack_startup_default_computer') );
-
-                        if( $class instanceof Computer == false )
-                        {
-
-                            throw new SyscrackException();
-                        }
-
-                        $class->onStartup( $computerid, $userid, [], Settings::getSetting('syscrack_default_hardware') );
+                        throw new SyscrackException();
                     }
-                }
-                catch( \Exception $error )
-                {
 
-                    $this->redirectError('Sorry, your account has been verified but we encountered an error: ' . $error->getMessage() );
+                    $class = $this->computers->getComputerClass( Settings::getSetting('syscrack_startup_default_computer') );
+
+                    if( $class instanceof Computer == false )
+                    {
+
+                        throw new SyscrackException();
+                    }
+
+                    $class->onStartup( $computerid, $userid, [], Settings::getSetting('syscrack_default_hardware') );
                 }
+
 
                 $this->redirectSuccess('login');
             }

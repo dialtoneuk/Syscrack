@@ -61,6 +61,9 @@
                 ],
                 [
                     '/processes/@processid/delete', 'deleteProcess'
+                ],
+                [
+                    '/processes/computer/@computerid/','machineProcess'
                 ]
             );
         }
@@ -72,7 +75,17 @@
         public function page()
         {
 
-            Flight::render('syscrack/page.processes');
+            $processes = $this->operations->getUserProcesses( Container::getObject('session')->getSessionUser() );
+
+            $array = array();
+
+            foreach( $processes as $key=>$value )
+            {
+
+                $array[ $value->computerid ][] = $value;
+            }
+
+            $this->getRender('page.process.php', array('processes' => $array, 'operations' => $this->operations, 'computerid' => $this->computers->getCurrentUserComputer() ));
         }
 
         /**
@@ -243,5 +256,27 @@
 
                 $this->redirectSuccess();
             }
+        }
+
+        public function machineProcess( $computerid )
+        {
+
+            if( $this->computers->computerExists( $computerid ) == false )
+            {
+
+                $this->redirect('This computer does not exist');
+            }
+
+            $computer = $this->computers->getComputer( $computerid );
+
+            if( $computer->userid !== Container::getObject('session')->getSessionUser() )
+            {
+
+                $this->redirect('Sorry, this computer is not yours, please try another one');
+            }
+
+            $processes = $this->operations->getComputerProcesses( $computer->computerid );
+
+            $this->getRender('page.process.machine', array('processes' => $processes, 'operations' => $this->operations, 'computerid' => $computerid, 'ipaddress' => $computer->ipaddress ));
         }
     }

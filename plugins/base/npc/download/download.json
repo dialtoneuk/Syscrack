@@ -1,53 +1,51 @@
 {
-	"type":"bank",
+	"type":"download",
     "schema":{
-        "name": "Central Bank",
-        "page": "npc.bank",
+        "name": "Example",
+        "page": "npc.example",
         "riddles": {
             "riddleid": "1",
             "riddlecomputer": "1"
         },
         "hardwares": {
             "cpu": {
-                "value": 666
+                "value": 33
             },
             "download": {
-                "value": 50
+                "value": 5
             },
             "gpu": {
                 "value": 0
             },
             "harddrive": {
-                "value": 500
+                "value": 50
             },
             "upload": {
-                "value": 25
+                "value": 2
             }
         },
         "softwares": [
             {
                 "installed": true,
-                "level": 5.1,
-                "name": "Advanced Cracker",
-                "size": 20,
+                "level": 1.5,
+                "name": "My First Cracker",
+                "size": 10,
                 "uniquename": "cracker",
                 "data":{
+                    "allowanondownloads":true,
                     "editable":false
                 }
             },
             {
                 "installed": true,
-                "level": 5,
-                "name": "Advanced Hasher",
-                "size": 20,
-                "uniquename": "hasher",
-            },
-            {
-                "installed": true,
-                "level": 5,
-                "name": "Advanced Collector",
-                "size": 20,
-                "uniquename": "collector",
+                "level": 1.0,
+                "name": "My First Spammer",
+                "size": 10,
+                "uniquename": "vspam",
+                "data":{
+                    "allowanondownloads":true,
+                    "editable":false
+                }
             }
         ]
     }

@@ -38,8 +38,8 @@
             ?>
                 <div class="list-group">
                     <a href="/computer/collect/" class="list-group-item list-group-item-info">
-                        <h4 class="list-group-item-heading">Collect</h4>
-                        <p class="list-group-item-text">Use this computer to collect your profits from all of your viruses.</p>
+                        <h4 class="list-group-item-heading">Network Collect</h4>
+                        <p class="list-group-item-text">Collect the profits from all of your viruses across your network.</p>
                     </a>
                 </div>
             <?php
@@ -53,8 +53,9 @@
             ?>
                 <div class="list-group">
                     <a href="/computer/research/" class="list-group-item list-group-item-info">
-                        <h4 class="list-group-item-heading">Research</h4>
-                        <p class="list-group-item-text">Research new and exciting software.</p>
+                        <h4 class="list-group-item-heading">Research Center</h4>
+                        <p class="list-group-item-text">View all of the licensed software currently on your computer, license
+                        new software and research software to higher levels.</p>
                     </a>
                 </div>
             <?php

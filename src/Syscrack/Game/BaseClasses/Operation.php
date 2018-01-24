@@ -529,6 +529,32 @@ class Operation
     }
 
     /**
+     * Checks if the computer has space
+     *
+     * @param $computerid
+     *
+     * @param float $needed
+     *
+     * @return bool
+     */
+
+    public function hasSpace( $computerid, $needed )
+    {
+
+        $hdd = $this->hardware->getHardwareType( $computerid, 'harddrive')['value'];
+        $softwares = json_decode( $this->computers->getComputer( $computerid )->softwares, true );
+        $usedspace = 0.0 + $needed;
+
+        foreach( $softwares as $key=>$value )
+        {
+
+            $usedspace += $this->softwares->getSoftware( $value['softwareid'] )->size;
+        }
+
+        return ( $usedspace < $hdd ) ? true : false;
+    }
+
+    /**
      * Gets the page the operation should redirect too
      *
      * @param null $ipaddress

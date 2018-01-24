@@ -14,7 +14,7 @@
     if( isset( $computers) == false )
     {
 
-        $computers= new Computers();
+        $computers = new Computers();
     }
 
     if( isset( $npc ) == false )
@@ -50,9 +50,9 @@
                 if( Settings::hasSetting('syscrack_whois_default_computers') == true )
                 {
 
-                    $computers = Settings::getSetting('syscrack_whois_default_computers');
+                    $whoiscomputers = Settings::getSetting('syscrack_whois_default_computers');
 
-                    foreach( $computers as $computerid )
+                    foreach( $whoiscomputers as $computerid )
                     {
 
                         if( $computers->computerExists( $computerid ) )

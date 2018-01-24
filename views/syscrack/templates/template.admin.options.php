@@ -10,7 +10,7 @@
     </div>
     <div class="list-group">
         <a href="/admin/computer/" class="list-group-item">
-            <h4 class="list-group-item-heading">User List</h4>
+            <h4 class="list-group-item-heading">User Index</h4>
             <p class="list-group-item-text">View all the users who are currently signed up.</p>
         </a>
         <a href="/admin/computer/creator/" class="list-group-item">
@@ -20,22 +20,24 @@
     </div>
     <div class="list-group">
         <a href="/admin/computer/" class="list-group-item">
-            <h4 class="list-group-item-heading">Computer List</h4>
-            <p class="list-group-item-text">View all the computers on your system and edit specific computers.</p>
+            <h4 class="list-group-item-heading">Computer Index</h4>
+            <p class="list-group-item-text">View and edit the various machines on the virtual network.</p>
         </a>
         <a href="/admin/computer/creator/" class="list-group-item">
             <h4 class="list-group-item-heading">Computer Creator</h4>
-            <p class="list-group-item-text">Allows you to create new computers.</p>
+            <p class="list-group-item-text">Birth new machines into life and create various different types
+            of computers.</p>
         </a>
     </div>
     <div class="list-group">
         <a href="/admin/riddles/" class="list-group-item list-group-item">
-            <h4 class="list-group-item-heading">Riddles List</h4>
-            <p class="list-group-item-text">View all of your mysterious riddles.</p>
+            <h4 class="list-group-item-heading">Riddles</h4>
+            <p class="list-group-item-text">View and edit your questions for players to answer. These can then
+                be linked with a computer you would like to send the player too when they have guessed correctly.</p>
         </a>
         <a href="/admin/riddles/creator/" class="list-group-item list-group-item">
             <h4 class="list-group-item-heading">Riddles Creator</h4>
-            <p class="list-group-item-text">Create a mysterious riddle.</p>
+            <p class="list-group-item-text">Create new questions for the player to answer.</p>
         </a>
     </div>
     <div class="list-group">

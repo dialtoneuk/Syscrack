@@ -86,6 +86,9 @@
                     '/game/addressbook/', 'addressBook'
                 ],
                 [
+                    '/game/accountbook/', 'accountBook'
+                ],
+                [
                     '/game/internet/@ipaddress/', 'viewAddress'
                 ],
                 [
@@ -164,6 +167,16 @@
         {
 
             $this->getRender('page.game.addressbook');
+        }
+
+        /**
+         * The address book
+         */
+
+        public function accountBook()
+        {
+
+            $this->getRender('page.game.accountbook');
         }
 
         /**

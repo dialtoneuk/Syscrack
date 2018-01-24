@@ -81,27 +81,52 @@
                             </div>
                         </div>
                     </div>
-                    <?php
-                        if( Settings::getSetting('developer_disabled') == false )
-                        {
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Notices
+                    </h5>
+                        <?php
+                            if( Settings::getSetting('developer_disabled') == false )
+                            {
 
-                            ?>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="panel panel-danger">
-                                            <div class="panel-heading">
-                                                Warning
-                                            </div>
-                                            <div class="panel-body">
-                                                Your developer area is still enabled, it is highly suggested that if you are currently running a live version of Syscrack that you
-                                                <strong>disable the developer area.</strong> Please <a href="/developer/disable/">click here to do so!</a>
+                                ?>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-danger">
+                                                <div class="panel-heading">
+                                                    Warning
+                                                </div>
+                                                <div class="panel-body">
+                                                    Your developer area is still enabled, it is highly suggested that if you are currently running a live version of Syscrack that you
+                                                    <strong>disable the developer area.</strong> Please <a href="/developer/disable/">click here to do so!</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php
+                            }
+                        ?>
+                    <div class="row">
+                        <?php
+                            if( Settings::getSetting('database_encrypt_connection') == false )
+                            {
+
+                                ?>
+                                    <div class="col-sm-12">
+                                        <div class="panel panel-warning">
+                                            <div class="panel-heading">
+                                                Encryption is turned off
+                                            </div>
+                                            <div class="panel-body">
+                                                Your database encryption setting is currently turned off, this means that the information you give
+                                                below will not be encrypted and will be viewable in plain-text from anybody with root access. This
+                                                setting should only be used if mcrypt is not functioning correctly on your system.
+                                            </div>
+                                        </div>
+                                    </div>
                             <?php
-                        }
-                    ?>
+                            }
+                        ?>
+                    </div>
                 </div>
             </div>
 

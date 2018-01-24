@@ -76,6 +76,12 @@
                 $this->redirectError('This action can only be used on a download server', $this->getRedirect( $data['ipaddress'] ) );
             }
 
+            if( $this->hasSpace( $this->computers->getCurrentUserComputer(), $this->softwares->getSoftware( $data['softwareid'] )->size ) == false )
+            {
+
+                $this->redirectError('Sorry, you dont have the free space for this download.', $this->getRedirect( $data['ipaddress'] ) );
+            }
+
             if( $this->softwares->isAnonDownloadSoftware( $data['softwareid'] ) == false )
             {
 

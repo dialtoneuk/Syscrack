@@ -1,8 +1,8 @@
 {
-	"type":"bank",
+	"type":"npc",
     "schema":{
-        "name": "Central Bank",
-        "page": "npc.bank",
+        "name": "Coneheads",
+        "page": "npc.chickenrun",
         "riddles": {
             "riddleid": "1",
             "riddlecomputer": "1"
@@ -27,8 +27,8 @@
         "softwares": [
             {
                 "installed": true,
-                "level": 5.1,
-                "name": "Advanced Cracker",
+                "level": 1.5,
+                "name": "Itty Bitty Cracker",
                 "size": 20,
                 "uniquename": "cracker",
                 "data":{
@@ -37,17 +37,17 @@
             },
             {
                 "installed": true,
-                "level": 5,
-                "name": "Advanced Hasher",
+                "level": 1.2,
+                "name": "Okay I guess Hasher",
                 "size": 20,
-                "uniquename": "hasher",
+                "uniquename": "hasher"
             },
             {
                 "installed": true,
-                "level": 5,
-                "name": "Advanced Collector",
+                "level": 1,
+                "name": "Dollars and Hoes",
                 "size": 20,
-                "uniquename": "collector",
+                "uniquename": "collector"
             }
         ]
     }

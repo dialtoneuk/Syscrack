@@ -25,115 +25,165 @@
 
         $data = json_decode( $process->data, true );
 
+        if( $processclass->canComplete( $processid ) )
+        {
+
+            $duration = 1;
+        }
+        else
+        {
+
+            $duration = ( $process->timecompleted - time( true ) );
+        }
         ?>
-            <div class="col-lg-12">
+            <div class="col-sm-12">
                 <div class="panel panel-primary">
                     <div class="panel-body">
-                        <p>
-                            <span class="glyphicon glyphicon-cog"></span> <?=$process->process?> at <a href="/game/internet/<?=$data['ipaddress']?>/"><?=$data['ipaddress']?></a> <span class="badge" style="float: right;"><?=date("F j, Y, g:i a", $process->timecompleted)?></span>
-                        </p>
-                        <div style="height: 5%; margin-bottom: 1.5%;">
-                            <div id="progressbar<?=$processid?>"></div>
-                        </div>
-                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="heading<?=$processid?>">
-                                    <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<?=$processid?>" aria-expanded="true" aria-controls="collapse<?=$processid?>">
-                                            Actions <span class="badge" style="float: right">Click to expand</span>
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapse<?=$processid?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="process<?=$processid?>">
-                                    <div class="panel-body" style="padding-top: 0%;">
-                                        <button style="width: 100%; margin-top: 2.5%;" class="btn btn-danger" type="button" onclick="window.location.href = '/processes/<?=$processid?>/delete'">
-                                            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Delete
-                                        </button>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <p>
+                                    <span class="glyphicon glyphicon-arrow-right"></span> <?=$process->process?> at <a href="/game/internet/<?=$data['ipaddress']?>/"><?=$data['ipaddress']?></a> <span class="badge" style="float: right;"><?=date("F j, Y, g:i a", $process->timecompleted)?></span>
+                                </p>
+                                <p>
+                                    <?php
+                                    if( $processclass->canComplete( $processid ) == false )
+                                    {
 
-                                        <?php
-
-                                            if( $processclass->canComplete( $processid ) )
-                                            {
-
-                                                ?>
-                                                    <button style="width: 100%; margin-top: 2.5%;" class="btn btn-success" type="button" onclick="window.location.href = '/processes/<?=$processid?>/complete'">
-                                                        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Complete
-                                                    </button>
-                                                <?php
-                                            }
                                         ?>
-                                    </div>
+                                        <span class="glyphicon glyphicon-time"></span> <span id="counter">0</span>
+                                        <?php
+                                    }
+                                    ?>
+                                </p>
+                                <p>
+                                    <span class="glyphicon glyphicon-flash"></span> 100%
+                                </p>
+
+                                <?php
+                                    if ( isset( $actions ) )
+                                    {
+                                        ?>
+                                            <div class="panel-group" id="accordion" role="tablist" style="margin-top: 2.5%;" aria-multiselectable="true">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" role="tab" id="heading<?=$processid?>">
+                                                    <h4 class="panel-title">
+                                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<?=$processid?>" aria-expanded="true" aria-controls="collapse<?=$processid?>">
+                                                            Control Options <span class="badge" style="float: right">Click to expand</span>
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapse<?=$processid?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="process<?=$processid?>">
+                                                    <div class="panel-body">
+                                                        <button style="width: 100%;" class="btn btn-danger" type="button" onclick="window.location.href = '/processes/<?=$processid?>/delete'">
+                                                            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Delete
+                                                        </button>
+
+                                                        <?php
+
+                                                        if( $processclass->canComplete( $processid ) )
+                                                        {
+
+                                                            ?>
+                                                            <button style="width: 100%; margin-top: 2.5%;" class="btn btn-success" type="button" onclick="window.location.href = '/processes/<?=$processid?>/complete'">
+                                                                <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Complete
+                                                            </button>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                ?>
+                            </div>
+                            <div class="col-sm-2">
+                                <div style="height: 100%; width: 100%; margin-left: auto; margin-right: auto; margin-top: 5%">
+                                    <div id="progressbar<?=$processid?>"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <script>
+            </div>
+        <?php
+            if( $processclass->canComplete( $processid ) == false )
+            {
+            ?>
+            <script>
+                var counter = document.getElementById('counter');
+                var duration = <?=$duration?>;
+
+                var intervalduration = setInterval( onTick, 1000 );
+
+                function onTick() {
+                    duration = duration - 1;
+                    counter.innerHTML = duration + " seconds";
+
+                    if( duration < -1)
+                    {
+                        clearInterval( intervalduration );
+                        counter.innerHTML = "Press refresh!"
+                    }
+                }
+            </script>
+                <?php
+                }
+                ?>
+            <script>
+                var line = new ProgressBar.Circle('#progressbar<?=$processid?>',{color: '#337ab7',
+                    strokeWidth: 4,
+                    trailWidth: 1,
+                    duration: <?=1000 * $duration?>,
+                    easing: 'easeIn'
+                });
+
+                line.animate(<?=$duration?>);
+
+                function onComplete()
+                {
 
                     <?php
 
-                        if( $processclass->canComplete( $processid ) )
+                        if( isset( $auto ) )
                         {
 
-                            $duration = 1;
-                        }
-                        else
-                        {
-
-                            $duration = ( $process->timecompleted - time() );
-                        }
-                    ?>
-
-                    var line = new ProgressBar.Line('#progressbar<?=$processid?>',{color: '#FCB03C',
-                        duration: <?=1000 * $duration?>,
-                        easing: 'easeIn'
-                    });
-
-                    line.animate(1);
-
-                    function onComplete()
-                    {
-
-                        <?php
-
-                            if( isset( $auto ) )
+                            if( $auto == true )
                             {
 
-                                if( $auto == true )
-                                {
+                            ?>
+                                window.location.href = '/processes/<?=$processid?>/complete';
+                            <?php
+                            }
+                        }
+                        else
+                    ?>
+
+                    clearTimeout( interval );
+                }
+
+                var interval = setInterval( onComplete, <?=1000 * $duration?> );
+
+                <?php
+                    if( $processclass->canComplete( $processid ) )
+                    {
+
+                        if( isset( $auto ) )
+                        {
+
+                            if( $auto == true )
+                            {
 
                                 ?>
                                     window.location.href = '/processes/<?=$processid?>/complete';
                                 <?php
-                                }
-                            }
-                            else
-                        ?>
-
-                        clearTimeout( interval );
-                    }
-
-                    var interval = setInterval( onComplete, <?=1000 * $duration?> );
-
-                    <?php
-                        if( $processclass->canComplete( $processid ) )
-                        {
-
-                            if( isset( $auto ) )
-                            {
-
-                                if( $auto == true )
-                                {
-
-                                    ?>
-                                        window.location.href = '/processes/<?=$processid?>/complete';
-                                    <?php
-                                }
                             }
                         }
-                    ?>
-                </script>
-            </div>
+                    }
+                ?>
+            </script>
         <?php
     }
     ?>
+

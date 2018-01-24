@@ -54,6 +54,14 @@
 
             $software = $this->softwares->getSoftware( $data['custom']['softwareid'] );
 
+            if( $this->hasSpace( $this->getComputerId( $data['ipaddress'] ), $software->size ) == false )
+            {
+
+                $this->redirectError('Sorry, there is no free space to upload this software!', $this->getRedirect( $data['ipaddress'] ) );
+
+                return false;
+            }
+
             if( $this->computers->hasSoftware( $computerid, $software->softwareid ) == false )
             {
 
@@ -65,6 +73,8 @@
 
                 $this->redirectError('Sorry, you cannot upload an installed file', $this->getRedirect( $data['ipaddress'] ) );
             }
+
+
 
             return true;
         }

@@ -94,14 +94,44 @@
 
     <body>
         <div class="container">
-
             <?php
 
                 Flight::render('syscrack/templates/template.navigation');
 
                 $stats = new \Framework\Syscrack\Game\Statistics();
             ?>
-
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>Internet Browser</h3>
+                            <p>Surf the internet, find new websites to hack. Maybe you'll find some sweet
+                            new software too. <b>You may also find helpful information to assist you.</b></p>
+                            <p><a href="/game/internet/" class="btn btn-primary" role="button">Open</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>Finances</h3>
+                            <p>View your finances, transfer cash between accounts anonymously. Sit meticulously
+                            counting the loads of dosh in your accounts.</p>
+                            <p><a href="/finances/" class="btn btn-primary" role="button">Open</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>Root</h3>
+                            <p>View your current systems root. Check up on your softwares and <b>view your access logs.</b> Remember to keep a close
+                            eye out for intruders!</p>
+                            <p><a href="/computer/" class="btn btn-primary" role="button">Open</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <?php
 
                 if( Settings::getSetting('syscrack_globe_enabled') )
@@ -253,11 +283,15 @@
                                     if( $count >= Settings::getSetting('syscrack_vpc_viewcount') )
                                     {
 
+                                        $count++;
+
                                         continue;
                                     }
 
                                     if( $computers->getCurrentUserComputer() == $value->computerid )
                                     {
+
+                                        $count++;
 
                                         continue;
                                     }
@@ -293,13 +327,19 @@
 
                                     ?>
 
-                                        <p class="text-center">
-                                            Some computers were removed from this list because you have too many, <a href="#">view them all?</a>
-                                        </p>
+                                        <div class="panel panel-danger">
+                                            <div class="panel-body">
+                                                Some computers have been removed from this list as it was getting too long, you can
+                                                <a href="/game/computers/">view all your virtual computers here.</a>
+                                            </div>
+                                        </div>
                                     <?php
                                 }
 
                             ?>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="badge"><?=$count?> computers in total</div>
                         </div>
                     </div>
                 </div>
@@ -316,7 +356,18 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Purchase a Virtual Computer
+                        </div>
+                        <div class="panel-body">
 
+                        </div>
+                    </div>
+                </div>
+            </div>
             <?php
 
                 Flight::render('syscrack/templates/template.footer', array('breadcrumb' => true ) );

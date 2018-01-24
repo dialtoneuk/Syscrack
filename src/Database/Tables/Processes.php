@@ -30,7 +30,7 @@ class Processes extends Table
     {
 
         $array = array(
-            'userid' > $userid
+            'userid' => $userid
         );
 
         $result = $this->getTable()->where( $array )->get();

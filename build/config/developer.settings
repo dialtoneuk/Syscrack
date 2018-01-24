@@ -41,7 +41,7 @@
     "logger_max_errors": "1024",
     "login_set_computer": true,
     "login_cleanup_old_sessions": true,
-    "login_admins_only": true,
+    "login_admins_only": false,
     "mailer_from_address": "syscrack.net@gmail.com",
     "mailer_settings": {
         "host": "smtp.gmail.com",
@@ -76,9 +76,9 @@
     "sycsrack_betakey_steps": 3,
     "syscrack_addressdatabase_location": "data\/addressdatabase\/",
     "syscrack_admin_computer_count": 128,
-    "syscrack_bank_accountnumber_length": 8,
+    "syscrack_bank_accountnumber_length": 16,
     "syscrack_bank_default_balance": 25,
-    "syscrack_bankdatabase_location": "data\/bankdatabase\/",
+    "syscrack_accountdatabase_location": "data\/accountdatabase\/",
     "syscrack_betakey_location": "conf\/betakeys.json",
     "syscrack_bitcoin_buyprice": 550,
     "syscrack_bitcoin_country": "GBP",
@@ -108,16 +108,19 @@
     "syscrack_default_computer_page": "npc.default",
     "syscrack_default_hardware": {
         "cpu": {
-            "value": 100
+            "value": 28
         },
         "download": {
-            "value": 1
+            "value": 5
+        },
+        "gpu": {
+            "value": 0
         },
         "harddrive": {
-            "value:": 100
+            "value": 150
         },
         "upload": {
-            "value": 1
+            "value": 2.5
         }
     },
     "syscrack_discord_main": "https:\/\/discordapp.com\/invite\/yezxfN3",
@@ -187,6 +190,7 @@
     "syscrack_internet_page": "internet",
     "syscrack_log_current": "current",
     "syscrack_log_localhost_address": "localhost",
+    "syscrack_log_localhost_name":"localhost",
     "syscrack_log_location": "data\/logs\/",
     "syscrack_lowest_iprange": 192,
     "syscrack_market_location": "data\/market\/",
@@ -197,7 +201,7 @@
     "syscrack_operations_safeunset_values": [
         "activeaccount"
     ],
-    "syscrack_operations_clear_speed": 18.5,
+    "syscrack_operations_clear_speed": 5.5,
     "syscrack_operations_default_processingtime": 10,
     "syscrack_operations_download_process": "download",
     "syscrack_operations_global_speed": 30,
@@ -238,20 +242,10 @@
     "syscrack_statistics_enabled": true,
     "syscrack_statistics_file": "data\/statistics.json",
     "syscrack_view_location": "syscrack\/",
-    "syscrack_vpc_viewcount": 5,
+    "syscrack_vpc_viewcount": 2,
     "syscrack_whois_computer": 2,
     "syscrack_whois_default_computers": [
-        3,
-        4,
-        5,
-        7,
-        8,
-        53,
-        60,
-        81,
-        116,
-        118,
-        133
+        1
     ],
     "theme_dark": false,
     "user_allow_registrations": true,

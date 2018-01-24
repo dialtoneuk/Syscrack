@@ -378,7 +378,7 @@
                         $riddles = array();
                     }
 
-                    $this->schema->createSchema( $computerid, $name, $page, $riddles, json_decode( $hardwares, true ), json_decode( $softwares, true ) );
+                    $this->schema->createSchema( $computerid, $name, $page, $riddles, json_decode( $softwares, true ), json_decode( $hardwares, true ) );
                 }
 
                 $this->redirectSuccess('admin/computer/creator');

@@ -60,6 +60,12 @@
             foreach( $softwares as $software )
             {
 
+                if ( isset( $software['uniquename'] ) == false )
+                {
+
+                    continue;
+                }
+
                 $class = $this->softwares->findSoftwareByUniqueName( $software['uniquename'] );
 
                 if( $class == null )
@@ -160,7 +166,7 @@
                     continue;
                 }
 
-                $hardware[ $item ] = $value;
+                $hardwares[ $item ] = $value;
             }
 
             $this->setHardwares( $computerid, $hardwares );

@@ -87,7 +87,7 @@ class AddressDatabase
 
         unset( $this->database[ $this->getKeyOfAddress( $ipaddress, $userid )] );
 
-        $this->saveUserDatabase( $userid );
+        $this->saveDatabase( $userid );
     }
 
     /**
@@ -119,7 +119,7 @@ class AddressDatabase
             unset( $this->database[ $this->getKeyOfAddress( $address['ipaddress'], $userid )] );
         }
 
-        $this->saveUserDatabase( $userid );
+        $this->saveDatabase( $userid );
     }
 
     /**
@@ -144,7 +144,7 @@ class AddressDatabase
             'timehacked' => time()
         );
 
-        $this->saveUserDatabase( $userid );
+        $this->saveDatabase( $userid );
     }
 
     /**
@@ -176,7 +176,7 @@ class AddressDatabase
             'virus' => $softwareid
         ));
 
-        $this->saveUserDatabase( $userid );
+        $this->saveDatabase( $userid );
     }
 
     /**
@@ -256,14 +256,8 @@ class AddressDatabase
      * @param $userid
      */
 
-    public function saveUserDatabase( $userid )
+    public function saveDatabase( $userid )
     {
-
-        if( $this->hasDatabaseSet() == false )
-        {
-
-            throw new SyscrackException();
-        }
 
         FileSystem::writeJson( $this->getPath() . $userid . '.json', $this->database );
     }

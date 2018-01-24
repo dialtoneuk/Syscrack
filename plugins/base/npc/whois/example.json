@@ -1,8 +1,8 @@
 {
-	"type":"whois",
+	"type":"npc",
     "schema":{
-        "name": "Whois",
-        "page": "npc.whois",
+        "name": "Example",
+        "page": "npc.default",
         "riddles": {
             "riddleid": "1",
             "riddlecomputer": "1"
@@ -24,14 +24,48 @@
                 "value": 10
             }
         },
-        "softwares": [
+        "softwares": 
+        [
             {
                 "installed": true,
-                "level": 1.0,
-                "name": "Example Hasher",
+                "level": 3.2,
+                "name": "Good Cracker",
                 "size": 10,
                 "uniquename": "cracker",
+                "data":{
+                	"editable":false
+                }
             },
+            {
+                "installed": true,
+                "level": 3.0,
+                "name": "Good Hasher",
+                "size": 10,
+                "uniquename": "cracker",
+                "data":{
+                	"editable":false
+                }
+            },
+            {
+                "installed": false,
+                "level": 2.0,
+                "name": "Infectious Spammer",
+                "size": 10,
+                "uniquename": "vspam",
+                "data":{
+                	"editable":false
+                }
+            },
+            {
+                "installed": false,
+                "level": 2.0,
+                "name": "Anti Virus",
+                "size": 10,
+                "uniquename": "vspam",
+                "data":{
+                	"editable":false
+                }
+            }
         ]
     }
 }

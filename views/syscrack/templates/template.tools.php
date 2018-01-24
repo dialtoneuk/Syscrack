@@ -77,9 +77,9 @@
             {
 
                 ?>
-                    <div class="panel panel-success">
+                    <div class="panel panel-info">
                         <div class="panel-heading">
-                            Hardwares
+                            C:// Drive
                         </div>
                         <div class="panel-body">
                             <div class="btn-group" role="group" aria-label="Options" style="width: 100%;">
@@ -87,7 +87,23 @@
                             </div>
                             <div id="collapsehardwares" class="panel-collapse collapse" role="tabpanel" aria-labelledby="hardwares">
                                 <div class="well-sm" style="margin-top: 8.75%;">
-                                    <pre style="white-space:pre-wrap; max-height: 345px;"><?=print_r( json_decode( $internet->getComputer($ipaddress)->hardwares, true ) )?></pre>
+                                    <?php
+                                        $hardwares = json_decode( $internet->getComputer($ipaddress)->hardwares, true );
+                                        $csoftwares = json_decode( $internet->getComputer($ipaddress)->softwares, true );
+                                        ?>
+
+                                        <?php
+                                        $usedspace = 0.0;
+                                        foreach( $csoftwares as $key=>$value )
+                                        {
+                                            $usedspace += $softwares->getSoftware( $value['softwareid'] )->size;
+                                        }
+                                    ?>
+                                    <pre style="white-space:pre-wrap; max-height: 345px;">
+                                        Drive size: <?=$hardwares['harddrive']['value']?>mb
+                                        Used Space: <?=$usedspace?>mb
+                                        Total Free Space: <?=$hardwares['harddrive']['value'] - $usedspace?>mb
+                                    </pre>
                                 </div>
                             </div>
                         </div>

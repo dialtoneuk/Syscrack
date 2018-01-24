@@ -14,7 +14,7 @@
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\BankDatabase;
+    use Framework\Syscrack\Game\AccountDatabase;
     use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Structures\Operation as Structure;
@@ -29,7 +29,7 @@
         protected $finance;
 
         /**
-         * @var BankDatabase;
+         * @var AccountDatabase;
          */
 
         protected $bankdatabase;
@@ -58,7 +58,7 @@
                     Container::setObject('session', new Session() );
                 }
 
-                $this->bankdatabase = new BankDatabase( Container::getObject('session')->getSessionUser() );
+                $this->bankdatabase = new AccountDatabase( Container::getObject('session')->getSessionUser() );
             }
         }
 
@@ -182,11 +182,7 @@
 
             $this->finance->setCurrentActiveAccount( $data['custom']['accountnumber'] );
 
-            if( $this->bankdatabase->hasAccountNumber( $data['custom']['accountnumber'] ) == false )
-            {
-
-                $this->bankdatabase->addAccountNumber( $data['custom']['accountnumber'], $data['ipaddress'] );
-            }
+            $this->bankdatabase->addAccountNumber( $data['custom']['accountnumber'], $data['ipaddress'] );
 
             $this->logCrack( $data['custom']['accountnumber'], $this->getComputerId( $data['ipaddress'] ), $this->computers->getComputer( $computerid )->ipaddress );
 

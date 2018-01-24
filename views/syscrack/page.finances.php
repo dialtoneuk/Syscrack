@@ -2,7 +2,7 @@
 
     use Framework\Application\Container;
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\BankDatabase;
+    use Framework\Syscrack\Game\AccountDatabase;
     use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Schema;
@@ -37,7 +37,7 @@
     if( isset( $accountdatabase ) == false )
     {
 
-        $bankdatabase = new BankDatabase();
+        $bankdatabase = new AccountDatabase();
     }
 
     $accounts = $finance->getUserBankAccounts( $session->getSessionUser() );

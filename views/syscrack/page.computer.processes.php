@@ -97,9 +97,12 @@
                     ?>
                     <div class="row">
                         <div class="col-sm-12">
-                            <button style="width: 100%;" class="btn btn-info" onclick="window.location.reload()">
-                                Refresh
-                            </button>
+                            <div class="panel panel-info">
+                                <div class="panel-body">
+                                    Head over to the <a href="/processes/">process control panel</a> to edit your current
+                                    tasks!
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

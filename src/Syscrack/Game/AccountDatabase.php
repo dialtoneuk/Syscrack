@@ -4,7 +4,7 @@ namespace Framework\Syscrack\Game;
 /**
  * Lewis Lancaster 2017
  *
- * Class BankDatabase
+ * Class AccountDatabase
  *
  * @package Framework\Syscrack\Game
  */
@@ -12,7 +12,7 @@ namespace Framework\Syscrack\Game;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\FileSystem;
 
-class BankDatabase
+class AccountDatabase
 {
 
     /**
@@ -28,7 +28,7 @@ class BankDatabase
     public $userid;
 
     /**
-     * BankDatabase constructor.
+     * AccountDatabase constructor.
      *
      * @param null $userid
      *
@@ -139,6 +139,8 @@ class BankDatabase
     public function hasAccountNumber( $accountnumber )
     {
 
+
+
         foreach( $this->database as $key=>$value )
         {
 
@@ -206,8 +208,20 @@ class BankDatabase
      * @param array $data
      */
 
-    public function saveDatabase( $userid, array $data )
+    public function saveDatabase( $userid=null , array $data=null )
     {
+
+        if ( $userid == null )
+        {
+
+            $userid = $this->userid;
+        }
+
+        if ($data == null )
+        {
+
+            $data = $this->database;
+        }
 
         FileSystem::writeJson( $this->getFile( $userid ), $data );
     }
@@ -223,7 +237,7 @@ class BankDatabase
     public function getFile( $userid )
     {
 
-        return Settings::getSetting('syscrack_bankdatabase_location') . $userid .
+        return Settings::getSetting('syscrack_accountdatabase_location') . $userid .
             Settings::getSetting('syscrack_filedatabase_extension');
     }
 }

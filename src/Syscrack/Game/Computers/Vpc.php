@@ -12,7 +12,7 @@
     use Framework\Application\Settings;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\AddressDatabase;
-    use Framework\Syscrack\Game\BankDatabase;
+    use Framework\Syscrack\Game\AccountDatabase;
     use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
     use Framework\Syscrack\Game\Structures\Computer as Structure;
 
@@ -26,10 +26,10 @@
         protected $addressdatabase;
 
         /**
-         * @var BankDatabase
+         * @var AccountDatabase
          */
 
-        protected $bankdatabase;
+        protected $accountdatabase;
 
         /**
          * Vpc constructor.
@@ -46,10 +46,10 @@
                 $this->addressdatabase = new AddressDatabase();
             }
 
-            if( isset( $this->bankdatabase ) == false )
+            if( isset( $this->accountdatabase ) == false )
             {
 
-                $this->bankdatabase = new BankDatabase();
+                $this->accountdatabase = new AccountDatabase();
             }
         }
 
@@ -92,13 +92,13 @@
             if( $this->addressdatabase->hasDatabase( $userid ) == false )
             {
 
-                $this->addressdatabase->saveUserDatabase( $userid );
+                $this->addressdatabase->saveDatabase( $userid );
             }
 
-            if( $this->bankdatabase->hasDatabase( $userid ) == false )
+            if( $this->accountdatabase->hasDatabase( $userid ) == false )
             {
 
-                $this->bankdatabase->saveUserDatabase( $userid, [] );
+                $this->accountdatabase->saveDatabase( $userid, [] );
             }
 
             if( empty( $softwares ) == false )
@@ -126,6 +126,8 @@
             $this->clearSoftwares( $computerid );
 
             $this->computers->resetHardware( $computerid );
+
+            $this->log->saveLog( $computerid, [] );
 
             $this->addHardwares( $computerid, Settings::getSetting('syscrack_default_hardware') );
         }

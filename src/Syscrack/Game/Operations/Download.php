@@ -90,6 +90,14 @@ class Download extends BaseClass implements Structure
 
         $software = $this->softwares->getSoftware( $data['softwareid'] );
 
+        if( $this->hasSpace( $this->computers->getCurrentUserComputer(), $software->size ) == false )
+        {
+
+            $this->redirectError('Sorry, you dont have the free space for this download.', $this->getRedirect( $data['ipaddress'] ) );
+
+            return false;
+        }
+
         if( $this->viruses->isVirus( $software->softwareid ) )
         {
 
