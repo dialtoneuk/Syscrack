@@ -20,9 +20,9 @@ Once composer is installed, simply run one of the various build batch scripts pr
 
 If somehow you have screwed up your settings file. You can simply run the reset-win-settings batch file provided.
 
-## Linux
+## Ubuntu
 
-Linux requires a couple of extra steps compared to the Windows version. I highly suggest if you are simply testing Syscrack to run it instead using Windows. As the installation process is far more simple and straight forward.
+Ubuntu requires a couple of extra steps compared to the Windows version. I highly suggest if you are simply testing Syscrack to run it instead using Windows. As the installation process is far more simple and straight forward.
 
 For the basis of this tutorial, I'll be using nginx. So your first step is to install the latest version of nginx. Make sure that you have ran updates on your box before you begin installing the required packages. Below is a helpful tutorial provided by digital ocean with step by step instructions on how to configure nginx with the correct version of PHP.
 
@@ -57,6 +57,14 @@ gzip_disable "MSIE [1-6]\.";
 ```
 
 Once done, give nginx a restart and then go to your servers address. You should see an error! This is because you haven't set up your database yet, check out the tutorial below on how to do that and get Syscrack configurated!
+
+### Permission Errors
+
+Depending on your config, you could have permission errors when Syscracks attempts to read and write data. This is mostly common on linux machines but can sometimes be present on Windows machines too.
+
+To fix, all you need to do is simply set the permissions of the following folders to the respective values using the chmod command. You can look up how to set directy permissions via the link below.
+
+https://askubuntu.com/questions/303593/how-can-i-chmod-777-all-subfolders-of-var-www
 
 Setting Up
 ===========
