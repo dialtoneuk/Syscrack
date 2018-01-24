@@ -1,113 +1,49 @@
-### We have renamed to ZeroOne
 
-A complete rewrite from the ground up to natively support modding on a new framework. ZeroDay will be an expansion of the Syscrack idea and focus on profit generation and software. Start your own software company and enter the stock market. Invest in new technologies and hack your competitors. Become the richest and most powerful player with a host of software and servers. Hack your local area and claim it as your own. Comming Fall 2017.
+![Image](https://i.imgur.com/9HssB8T.png)
+## An open source hacking simulated written in PHP
 
-#### AN OPEN SOURCE HACKING SIMULATOR, SIMULATED ON A VIRTUAL INTERNET
+Syscrack, to put it simply, Is a virtual hacking simulator. By which you control a virtual computer inside a simulated IP based internet. Your tasks vary depending on your play style, making the game seem more like a virtual sandbox.
 
-Syscrack is a hacking simulator built from the ground up to be expandable and modded. Users are thrown into a virtual internet and are given a set of tools. The aim is simple, become the best hacker in the world.
+Installation
+===========
 
-### Hosting & Development
+Below I'll cover the basic steps to setting up syscrack using the current github source available as of writing.
 
-Syscrack is very easy to host, and extremely straight forward to getting modding right away!
+## Windows
 
-#### Windows
+Windows is by far the easiest platform to run Syscrack on, as it was the OS used in development. You'll simply need to head over to https://www.apachefriends.org/xampp-files/7.2.1/xampp-win32-7.2.1-0-VC15-installer.exe and install the following exectable.
 
-It is suggest that for Windows development that you use XAMPP, as it is what I used to develop Syscrack, here's a list of things you'll need installed on your system.
+Once you have installed xampp, and made sure all of your services are running. Head over to https://getcomposer.org/ and install composer. It will ask for a CLI interpreter, this will be in the location of where ever you installed xampp nested in the PHP folder. You'll want to look for php.exe
 
-1. Composer ( https://getcomposer.org/ )
-2. XAMPP ( PHP 7.0 + ) with MySQL ( https://www.apachefriends.org/download.html )
-3. Memcache ( if you are using the memory cache services ) ( https://commaster.net/content/installing-memcached-windows )
+Once composer is installed, simply run one of the various build batch scripts provided. It is suggested that for your first build that you run the apache2-dev build for windows. This will automatically configure your webserver ready for Syscrack.
 
-To launch and develop Syscrack, it is a simple drag and drop operation into your htdocs folder, or equivilent. Download the latest release, or if you feel, clone the github. Move over the files into your respective apache2 website folder and then run...
+## Linux
 
-```
-composer install
-```
+I'll post a linux tutorial soon.
 
-If all your extensions are currently active, this will not produce any errors. But in the likely hood that they are not, please edit your php.ini settings and enable the plugins that composer is requesting.
+Setting Up
+===========
 
-You will then need to create a .htaccess file inside your apache2 website folder. Simply copy the code below into your .htaccess file that you have just created.
+Setting up Syscrack is a fairly easy process. Simply head to http://localhost/developer/ and you will see a wide set of tools designed to make the installation process simple.
 
-```
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [QSA,L]
+What you'll need to do first is create a mysql database. Remember the name you give it as you'll need it later for creating your database settings.
 
-<IfModule mod_mime.c>
- AddType application/x-javascript .js
- AddType text/css .css
-</IfModule>
-<IfModule mod_deflate.c>
- AddOutputFilterByType DEFLATE text/css application/x-javascript text/x-component text/html text/richtext image/svg+xml text/plain text/xsd text/xsl text/xml image/x-icon application/javascript
- <IfModule mod_setenvif.c>
-  BrowserMatch ^Mozilla/4 gzip-only-text/html
-  BrowserMatch ^Mozilla/4\.0[678] no-gzip
-  BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
- </IfModule>
- <IfModule mod_headers.c>
-  Header append Vary User-Agent env=!dont-vary
- </IfModule>
-</IfModule>
-```
+You'll need your mysql username and password handy too. Once you have all the information you need, head over to http://localhost/developer/connection/creator/ and enter your mysql username, password, the database you created before, and the host. The host should always be localhost unless you are using an external database server.
 
-If you are continuing to get an 404 error on all pages, please look if your rewriting is enabled on your current set up. Another reason could be that your .htaccess file isn't being loaded. Check for spelling mistakes, and write some 'garbage' at the top of the file to check if apache2 is accessing the file, it should give you a 503 error if so. 
+Once entered, hit submit and if you see a success message, it worked. If you do not, please check the file permissions of your environment. Please make sure chmod is set to 7777 and syscracks directories are globally readable and writable.
 
-Once you have installed composer, and set up your .htaccess file, you can fire up localhost and check out if the website is working. You should see a 'Database Error', Syscracks framework automatically encrypts and saves your database settings to a secure file for your convinence. The next step is to head to...
+Next, you are going to want to head to http://localhost/developer/migrator/, if you do not see any text in the box to your right. Please check that you have installed syscracks conf files correctly. To populate the database ready for Syscracks game engine, simply hit migrate database. If you see a success message, its all gone good.
 
-```
-http://localhost/developer/
-```
+Playing Around
+===========
 
-Here you will be able to access the developer panel, which makes your life a whole lot easier in regards to setting up the game. Using the connection creator tool, enter your database username, password, host and database. Then, using the connection status tool, check if your database has successfully been able to connect, you will see a 'Success' message, a long with a json file of the settings you are currently using to connect.
+Now that you've set up syscrack, when you go to the index you should see the homepage. Register a new account, by default the first account will always be made admin. 
 
-After you have successfully connected, the next step is to migrate your database. By default, Syscrack comes loaded with a default schema which is automatically loaded into the database migrator input box, so it should be as simple as pressing 'migrate database'. If not, please check the github for the database schema file and simply paste the json string into the box. You will recieve a success message.
+Now, you can explore! I suggest hover overing the icons in the navbar to understand what they do. Click around and try and learn the locations of all the buttons. At the right of the navigational bar next to the account dropdown box is the admin control panel. From here you can edit various game settings, and create computers into the virutal network.
 
-After you have successfully created your connection, checked the status of your database connection and migrated your database. Head to the index page, and check it out! You should see the website functioning as it should be, stylish HTML boostrap and all. If you would like to change any of the settings ( which I suggest you do ), head to..
+You'll need to create computers in order to have something to hack, right now as of writing this sucks to do and I'm changing it very soon. For now, try and understand the formatting I am using and simply change numbers, look out for syntax errors.
 
-```
-http://localhost/developer/settings/
-```
+Plans
+===========
 
-Here, you will be able to edit many of the settings of the framework, and game. But be careful, some of these settings are very important and must remain the type that they have been set as, else you might embrace errors! If you would like to disable disable registrations for testing purposes, that can be done by editing the setting...
-
-```
-http://localhost/developer/settings/#user_allow_registrations
-```
-
-Or for instance, only allow people with beta-keys to sign up...
-
-```
-http://localhost/developer/settings/#user_require_betakey
-```
-
-To enable the dark theme, you can flick this perticular setting...
-
-
-```
-http://localhost/developer/settings/#theme_dark
-```
-
-Remember, when you are finished developing you will need to disable this section. By default it is higher than the game and thus doesn't require you to login, or be an admin. This is because the developer section is meant to be a platform for development and not to be used when the website is live. To disable this section, simply head to...
-
-```
-http://localhost/developer/disable/
-```
-
-Syscrack might complain that some directories are missing in your /syscrack/ folder and will give you an error when you register a new account, if this is the case, please check that these folders exist in your roots folder.
-
-```
-/syscrack/addressdatabase/
-/syscrack/bankdatabase/
-/syscrack/logs/
-/syscrack/npc/
-```
-
-#### Linux
-
-A linux tutorial will be coming soon, as this one is a little more tricky...
-
-## Modding
-
-Modding is extremely simple, the game is built upon a dynamic framework. It is suggested that for now while the wiki is being wrote, that you check out the github and look at how the current softwares, pages and operations are being created. We use FlightPHP for our routing, so if you want to learn more about how to do URL magic, please look up the their documentation.
-
+Syscrack is by no means complete, nor a final product. There's still a lot of changes to occur, and I do appologise if the documentation is a little sucky right now. Please, bare with us!
