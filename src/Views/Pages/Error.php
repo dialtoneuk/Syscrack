@@ -9,7 +9,7 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
+    use Framework\Application\Render;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -49,6 +49,6 @@
         public function page()
         {
 
-            Flight::render('error/page.error');
+            Render::view('error/page.error');
         }
     }

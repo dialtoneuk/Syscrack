@@ -11,6 +11,7 @@
 
     use Flight;
     use Framework\Application\Container;
+    use Framework\Application\Render;
     use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Syscrack\Game\Computers;
@@ -228,7 +229,7 @@
                 ob_clean();
             }
 
-            Flight::render(Settings::getSetting('syscrack_view_location') . $file, $array);
+            Render::view(Settings::getSetting('syscrack_view_location') . $file, $array);
         }
 
         /**

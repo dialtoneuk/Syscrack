@@ -9,7 +9,7 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
+    use Framework\Application\Render;
     use Framework\Application\Settings;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
@@ -72,7 +72,7 @@
         public function notFound()
         {
 
-            Flight::render('error/page.404', array('page' => $this->getCurrentPage() ) );
+            Render::view('error/page.404', array('page' => $this->getCurrentPage() ) );
         }
 
         /**
@@ -82,7 +82,7 @@
         public function databaseError()
         {
 
-            Flight::render('error/page.database');
+            Render::view('error/page.database');
         }
 
         /**
@@ -92,6 +92,6 @@
         public function sessionError()
         {
 
-            Flight::render('error/page.session');
+            Render::view('error/page.session');
         }
     }

@@ -1,0 +1,64 @@
+{
+    "name": "whois",
+    "page": "npc.whois",
+    "riddles": [],
+    "hardwares": {
+        "cpu": {
+            "value": 100
+        },
+        "download": {
+            "value": 10
+        },
+        "gpu": {
+            "value": 500
+        },
+        "harddrive": {
+            "value": 100
+        },
+        "upload": {
+            "value": 2
+        }
+    },
+    "softwares": [
+        {
+            "installed": true,
+            "level": 3.2,
+            "name": "Good Cracker",
+            "size": 10,
+            "uniquename": "cracker",
+            "data": {
+                "editable": false
+            }
+        },
+        {
+            "installed": true,
+            "level": 3,
+            "name": "Good Hasher",
+            "size": 10,
+            "uniquename": "cracker",
+            "data": {
+                "editable": false
+            }
+        },
+        {
+            "installed": false,
+            "level": 2,
+            "name": "Infectious Spammer",
+            "size": 10,
+            "uniquename": "vspam",
+            "data": {
+                "editable": false
+            }
+        },
+        {
+            "installed": false,
+            "level": 2,
+            "name": "Anti Virus",
+            "size": 10,
+            "uniquename": "vspam",
+            "data": {
+                "editable": false
+            }
+        }
+    ]
+}

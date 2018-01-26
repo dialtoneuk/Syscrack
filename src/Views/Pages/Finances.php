@@ -9,7 +9,7 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
+    use Framework\Application\Render;
     use Framework\Application\Container;
     use Framework\Application\Session;
     use Framework\Application\Utilities\PostHelper;
@@ -89,13 +89,13 @@
         public function page()
         {
 
-            Flight::render('syscrack/page.finances');
+            Render::view('syscrack/page.finances');
         }
 
         public function transfer()
         {
 
-            Flight::render('syscrack/page.finances.transfer');
+            Render::view('syscrack/page.finances.transfer');
         }
 
         public function transferProcess()

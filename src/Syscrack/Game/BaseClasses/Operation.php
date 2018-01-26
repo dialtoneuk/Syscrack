@@ -10,6 +10,7 @@ namespace Framework\Syscrack\Game\BaseClasses;
  */
 
 use Flight;
+use Framework\Application\Render;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\ArrayHelper;
 use Framework\Exceptions\SyscrackException;
@@ -323,7 +324,7 @@ class Operation
             ob_clean();
         }
 
-        Flight::render( Settings::getSetting('syscrack_view_location') . $file, $array);
+        Render::view( Settings::getSetting('syscrack_view_location') . $file, $array);
     }
 
     /**

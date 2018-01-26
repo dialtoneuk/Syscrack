@@ -9,7 +9,7 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
+    use Framework\Application\Render;
     use Framework\Application\Container;
     use Framework\Application\Session;
     use Framework\Application\Settings;
@@ -198,7 +198,7 @@
         public function page()
         {
 
-            Flight::render('syscrack/page.computer');
+            Render::view('syscrack/page.computer');
         }
 
         /**
@@ -208,13 +208,13 @@
         public function computerLog()
         {
 
-            Flight::render('syscrack/page.computer.log');
+            Render::view('syscrack/page.computer.log');
         }
 
         public function computerHardware()
         {
 
-            Flight::render('syscrack/page.computer.hardware');
+            Render::view('syscrack/page.computer.hardware');
         }
 
         /**
@@ -224,7 +224,7 @@
         public function computerProcesses()
         {
 
-            Flight::render('syscrack/page.computer.processes');
+            Render::view('syscrack/page.computer.processes');
         }
 
         /**
@@ -240,7 +240,7 @@
                 $this->redirect('computer');
             }
 
-            Flight::render('syscrack/page.computer.collect');
+            Render::view('syscrack/page.computer.collect');
         }
 
         /**
@@ -404,7 +404,7 @@
                     $this->log->updateLog('Deposited ' . Settings::getSetting('syscrack_currency') . number_format(  $total ) . ' into account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid ) . '>', $this->computers->getCurrentUserComputer(), 'localhost');
                 }
 
-                Flight::render('syscrack/page.computer.collect', array( 'results' => $results, 'total' => $total ));
+                Render::view('syscrack/page.computer.collect', array( 'results' => $results, 'total' => $total ));
             }
         }
 
@@ -417,7 +417,7 @@
                 $this->redirect('computer');
             }
 
-            Flight::render('syscrack/page.computer.research');
+            Render::view('syscrack/page.computer.research');
         }
 
         public function computerResearchProcess()

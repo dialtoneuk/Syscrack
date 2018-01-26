@@ -9,7 +9,7 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
+    use Framework\Application\Render;
     use Framework\Application\Container;
     use Framework\Application\Mailer;
     use Framework\Application\Settings;
@@ -77,7 +77,7 @@
         public function page()
         {
 
-            Flight::render('syscrack/page.register');
+            Render::view('syscrack/page.register');
         }
 
         /**

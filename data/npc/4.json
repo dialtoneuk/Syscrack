@@ -1,0 +1,48 @@
+{
+    "name": "BigBucks",
+    "page": "npc.bank",
+    "riddles": [],
+    "hardwares": {
+        "cpu": {
+            "value": 100
+        },
+        "download": {
+            "value": 10
+        },
+        "gpu": {
+            "value": 500
+        },
+        "harddrive": {
+            "value": 100
+        },
+        "upload": {
+            "value": 2
+        }
+    },
+    "softwares": [
+        {
+            "installed": true,
+            "level": 5.1,
+            "name": "Advanced Cracker",
+            "size": 20,
+            "uniquename": "cracker",
+            "data": {
+                "editable": false
+            }
+        },
+        {
+            "installed": true,
+            "level": 5,
+            "name": "Advanced Hasher",
+            "size": 20,
+            "uniquename": "hasher"
+        },
+        {
+            "installed": true,
+            "level": 5,
+            "name": "Advanced Collector",
+            "size": 20,
+            "uniquename": "collector"
+        }
+    ]
+}

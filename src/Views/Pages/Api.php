@@ -9,7 +9,7 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
+    use Framework\Application\Render;
     use Framework\Application\Api\Controller;
     use Framework\Application\Api\Manager;
     use Framework\Application\Settings;

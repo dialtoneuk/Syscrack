@@ -14,6 +14,7 @@
     use Framework\Application\Utilities\Cyphers;
     use Framework\Application\Utilities\FileSystem;
     use Framework\Application\Utilities\PostHelper;
+    use Framework\Application\Render;
     use Framework\Database\Manager;
     use Framework\Exceptions\ViewException;
     use Framework\Views\BaseClasses\Page as BaseClass;

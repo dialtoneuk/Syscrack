@@ -383,6 +383,6 @@ class Settings
 	private static function fileLocation()
 	{
 
-		return sprintf('%s' . DIRECTORY_SEPARATOR . 'conf' . DIRECTORY_SEPARATOR . 'settings.json', $_SERVER['DOCUMENT_ROOT'] );
+		return sprintf('%s' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'settings.json', $_SERVER['DOCUMENT_ROOT'] );
 	}
 }

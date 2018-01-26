@@ -27,3 +27,7 @@ composer.phar
 
 /.idea/
 
+#Apache
+
+.htaccess
+

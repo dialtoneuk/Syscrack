@@ -9,7 +9,7 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
+    use Framework\Application\Render;
     use Framework\Application\Container;
     use Framework\Syscrack\Game\Operations;
     use Framework\Views\BaseClasses\Page as BaseClass;

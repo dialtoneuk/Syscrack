@@ -9,7 +9,7 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
+    use Framework\Application\Render;
     use Framework\Application\Container;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
@@ -98,10 +98,10 @@
                     'POST /admin/computer/', 'computerSearch'
                 ],
                 [
-                    'GET /admin/computer/@computerid:[0-9]{9}/', 'computerEditor'
+                    'GET /admin/computer/edit/@computerid/', 'computerEditor'
                 ],
                 [
-                    'POST /admin/computer/@computerid:[0-9]{9}/', 'computerEditorProcess'
+                    'POST /admin/computer/edit/@computerid/', 'computerEditorProcess'
                 ],
                 [
                     'GET /admin/riddles/','riddlesViewer'
@@ -137,16 +137,24 @@
         public function page()
         {
 
-            Flight::render('syscrack/page.admin');
+            Render::view('syscrack/page.admin');
         }
 
-        public function computerEditor()
+        public function computerEditor( $computerid )
         {
 
+            if( $this->computers->computerExists( $computerid ) == false )
+            {
 
+                $this->redirectError('This computer does not exist, please try another');
+            }
+
+            $computer = $this->computers->getComputer( $computerid );
+
+            Render::view('syscrack/page.admin.computer.edit', array( 'computers' => $this->computers, 'computer' => $computer ));
         }
 
-        public function computerEditorProcess()
+        public function computerEditorProcess( $computerid )
         {
 
 
@@ -155,7 +163,7 @@
         public function riddlesViewer()
         {
 
-            Flight::render('syscrack/page.admin.riddles');
+            Render::view('syscrack/page.admin.riddles');
         }
 
         public function riddlesViewerProcess()
@@ -167,7 +175,7 @@
         public function riddlesCreator()
         {
 
-            Flight::render('syscrack/page.admin.riddles.creator');
+            Render::view('syscrack/page.admin.riddles.creator');
         }
 
         public function riddlesCreatorProcess()
@@ -178,7 +186,7 @@
         public function reset()
         {
 
-            Flight::render('syscrack/page.admin.reset');
+            Render::view('syscrack/page.admin.reset');
         }
 
         public function resetProcess()
@@ -219,7 +227,7 @@
         public function computerViewer()
         {
 
-            Flight::render('syscrack/page.admin.computer');
+            Render::view('syscrack/page.admin.computer');
         }
 
         public function computerSearch()
@@ -279,7 +287,7 @@
         public function computerCreator()
         {
 
-            Flight::render('syscrack/page.admin.computer.creator');
+            Render::view('syscrack/page.admin.computer.creator');
         }
 
         /**

@@ -9,7 +9,7 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
+    use Framework\Application\Render;
     use Framework\Application\Container;
     use Framework\Application\Session;
     use Framework\Application\Settings;
@@ -92,7 +92,7 @@
         public function page()
         {
 
-            Flight::render('syscrack/page.login');
+            Render::view('syscrack/page.login');
         }
 
         /**

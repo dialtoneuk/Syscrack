@@ -9,7 +9,7 @@
      * @package Framework\Views\Pages
      */
 
-    use Flight;
+    use Framework\Application\Render;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
@@ -123,7 +123,7 @@
             else
             {
 
-                Flight::render('syscrack/page.verify');
+                Render::view('syscrack/page.verify');
             }
         }
 

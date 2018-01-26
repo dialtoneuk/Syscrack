@@ -10,6 +10,7 @@
      */
 
     use Flight;
+    use Framework\Application\Render;
     use Framework\Application\Settings;
 
     class Middleware
@@ -134,7 +135,7 @@
                 ob_clean();
             }
 
-            Flight::render( $file, $data );
+            Render::view( $file, $data );
 
             exit;
         }
