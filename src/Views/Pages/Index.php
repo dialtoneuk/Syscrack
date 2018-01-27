@@ -9,8 +9,11 @@
      * @package Framework\Views\Pages
      */
 
+    use Framework\Application\Container;
     use Framework\Application\Render;
     use Framework\Application\Settings;
+    use Framework\Syscrack\Game\Computers;
+    use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -57,7 +60,7 @@
         }
 
         /**
-         * Creates the MVC model for the index page
+         * Returns the MVC model for the index page when in MVC output mode
          *
          * @return bool|\stdClass
          */
@@ -72,6 +75,18 @@
             }
 
             $this->model->pagetitle = "Syscrack";
+
+            if ( Container::getObject('session')->isLoggedIn() )
+            {
+
+                if ( isset( $this->computers ) == false )
+                {
+
+                    $this->computers = new Computers();
+                }
+
+                $this->model->computer = $this->computers->getComputer( $this->computers->getCurrentUserComputer() );
+            }
 
             return parent::model();
         }

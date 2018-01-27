@@ -41,7 +41,7 @@
             if (Container::getObject('session')->isLoggedIn())
             {
 
-                Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+                Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
             }
 
             if( isset( $this->mailer ) == false )

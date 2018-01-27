@@ -1,0 +1,8 @@
+{
+  "alpha":{
+    "require_mvc": false
+  },
+  "bootstrap4":{
+    "require_mvc": true
+  }
+}

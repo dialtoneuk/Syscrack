@@ -143,7 +143,7 @@
 
                             $this->internet->setCurrentConnectedAddress( null );
 
-                            Flight::redirect('/game/');
+                            Render::redirect('/game/', [], $this->model() );
                         }
                     }
                 }

@@ -198,7 +198,7 @@
         public function page()
         {
 
-            Render::view('syscrack/page.computer');
+            Render::view('syscrack/page.computer', [], $this->model());
         }
 
         /**
@@ -208,13 +208,13 @@
         public function computerLog()
         {
 
-            Render::view('syscrack/page.computer.log');
+            Render::view('syscrack/page.computer.log', [], $this->model());
         }
 
         public function computerHardware()
         {
 
-            Render::view('syscrack/page.computer.hardware');
+            Render::view('syscrack/page.computer.hardware', [], $this->model());
         }
 
         /**
@@ -224,7 +224,7 @@
         public function computerProcesses()
         {
 
-            Render::view('syscrack/page.computer.processes');
+            Render::view('syscrack/page.computer.processes', [] , $this->model());
         }
 
         /**
@@ -240,7 +240,7 @@
                 $this->redirect('computer');
             }
 
-            Render::view('syscrack/page.computer.collect');
+            Render::view('syscrack/page.computer.collect', [], $this->model());
         }
 
         /**
@@ -404,7 +404,7 @@
                     $this->log->updateLog('Deposited ' . Settings::getSetting('syscrack_currency') . number_format(  $total ) . ' into account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid ) . '>', $this->computers->getCurrentUserComputer(), 'localhost');
                 }
 
-                Render::view('syscrack/page.computer.collect', array( 'results' => $results, 'total' => $total ));
+                Render::view('syscrack/page.computer.collect', array( 'results' => $results, 'total' => $total ), $this->model());
             }
         }
 
@@ -417,7 +417,7 @@
                 $this->redirect('computer');
             }
 
-            Render::view('syscrack/page.computer.research');
+            Render::view('syscrack/page.computer.research', [], $this->model());
         }
 
         public function computerResearchProcess()

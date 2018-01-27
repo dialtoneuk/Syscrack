@@ -60,7 +60,7 @@
             if ($this->user->isAdmin(Container::getObject('session')->getSessionUser()) == false)
             {
 
-                Flight::redirect(Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page'));
+                Render::redirect(Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page'));
 
                 exit;
             }
@@ -151,7 +151,7 @@
 
             $computer = $this->computers->getComputer( $computerid );
 
-            Render::view('syscrack/page.admin.computer.edit', array( 'computers' => $this->computers, 'computer' => $computer ));
+            Render::view('syscrack/page.admin.computer.edit', array( 'computer' => $computer ), $this->model() );
         }
 
         public function computerEditorProcess( $computerid )
@@ -163,7 +163,7 @@
         public function riddlesViewer()
         {
 
-            Render::view('syscrack/page.admin.riddles');
+            Render::view('syscrack/page.admin.riddles', [], $this->model());
         }
 
         public function riddlesViewerProcess()
@@ -175,7 +175,7 @@
         public function riddlesCreator()
         {
 
-            Render::view('syscrack/page.admin.riddles.creator');
+            Render::view('syscrack/page.admin.riddles.creator', [], $this->model());
         }
 
         public function riddlesCreatorProcess()
@@ -186,7 +186,7 @@
         public function reset()
         {
 
-            Render::view('syscrack/page.admin.reset');
+            Render::view('syscrack/page.admin.reset', [], $this->model());
         }
 
         public function resetProcess()
@@ -227,7 +227,7 @@
         public function computerViewer()
         {
 
-            Render::view('syscrack/page.admin.computer');
+            Render::view('syscrack/page.admin.computer', [], $this->model());
         }
 
         public function computerSearch()
@@ -287,7 +287,7 @@
         public function computerCreator()
         {
 
-            Render::view('syscrack/page.admin.computer.creator');
+            Render::view('syscrack/page.admin.computer.creator', [], $this->model());
         }
 
         /**

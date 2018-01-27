@@ -23,6 +23,9 @@ if (isset($computers) == false) {
 }
 ?>
 
+
+
+
 <!DOCTYPE html>
 <html>
 

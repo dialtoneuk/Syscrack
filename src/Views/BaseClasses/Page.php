@@ -17,6 +17,7 @@
     use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Softwares;
+    use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Syscrack\User;
 
     class Page
@@ -90,7 +91,7 @@
                     if (Container::getObject('session')->isLoggedIn() == false)
                     {
 
-                        Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+                        Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
 
                         exit;
                     }
@@ -130,7 +131,7 @@
         public function redirect( $path, $exit=true )
         {
 
-            Flight::redirect( Settings::getSetting('controller_index_root') . $path );
+            Render::redirect( Settings::getSetting('controller_index_root') . $path );
 
             if( $exit == true )
             {
@@ -164,6 +165,15 @@
 
                 $this->model->userid = null;
             }
+            elseif ( Container::getObject('session')->isLoggedIn() == false )
+            {
+                $this->model->session = [
+                    'active' => Container::getObject('session')->sessionActive(),
+                    'loggedin' => false,
+                ];
+
+                $this->model->userid = null;
+            }
             else
             {
 
@@ -182,6 +192,13 @@
 
                     $this->model->admin = true;
                 }
+
+                $this->model->user = [
+                    'username' => $user->getUsername( $this->model->userid ),
+                    'email' => $user->getUsername( $this->model->userid )
+                ];
+
+                $this->model->pagehelper = new PageHelper();
             }
 
             return $this->model;
@@ -294,7 +311,7 @@
                 ob_clean();
             }
 
-            Render::view(Settings::getSetting('syscrack_view_location') . $file, $array);
+            Render::view(Settings::getSetting('syscrack_view_location') . $file, $array, $this->model() );
         }
 
         /**

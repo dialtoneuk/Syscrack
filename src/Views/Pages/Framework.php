@@ -62,7 +62,7 @@
         public function redirectIndex()
         {
 
-            Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+            Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
         }
 
         /**
@@ -72,7 +72,7 @@
         public function notFound()
         {
 
-            Render::view('error/page.404', array('page' => $this->getCurrentPage() ) );
+            Render::view('error/page.404', array('page' => $this->getCurrentPage() ), $this->model());
         }
 
         /**
@@ -82,7 +82,7 @@
         public function databaseError()
         {
 
-            Render::view('error/page.database');
+            Render::view('error/page.database', $this->model());
         }
 
         /**
@@ -92,6 +92,6 @@
         public function sessionError()
         {
 
-            Render::view('error/page.session');
+            Render::view('error/page.session', $this->model());
         }
     }

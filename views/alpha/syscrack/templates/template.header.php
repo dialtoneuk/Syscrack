@@ -3,6 +3,18 @@
 use Framework\Application\Settings;
 
 ?>
+<?php
+
+/**
+ * Since this template is usually the first loaded onto every single page, I can sneak this here
+ */
+
+if ( Settings::getSetting('render_mvc_output') == true )
+{
+
+    throw new \Framework\Exceptions\ViewException('Current render folder "' . Settings::getSetting('render_folder') . '" does not support mvc output and cannot function using it. Please disable render_mvc_output in your settings to use this render folder' );
+}
+?>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -134,27 +146,3 @@ use Framework\Application\Settings;
         }
     </style>
 </head>
-<?php
-
-    /**
-     * If the render MVC setting is active then this little alert will show telling you to disable it as this uses conventional templating methods
-     */
-
-    if ( Settings::getSetting('render_mvc_output') == true )
-    {
-
-        ?>
-        <div class="container">
-            <div class="row" style="margin-top: 2.5%;">
-                <div class="col-sm-12">
-                    <div class="panel panel-danger">
-                        <div class="panel-body">
-                            This view ( <b><?=Settings::getSetting('render_folder')?></b> ) was not designed work with with the render_mvc_output setting enabled, needless processing
-                            power is being wasted. Please either switch to a view which takes advantage of the mvc output, or disable it!
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php
-    }

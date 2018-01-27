@@ -260,9 +260,10 @@
         133
     ],
     "theme_dark": false,
-    "render_mvc_output":false,
+    "render_mvc_output":true,
+    "render_json_mode":false,
     "render_log":true,
-    "render_folder":"alpha",
+    "render_folder":"bootstrap4",
     "user_allow_registrations": true,
     "user_default_group": "guest",
     "user_first_signup_admin": true,
