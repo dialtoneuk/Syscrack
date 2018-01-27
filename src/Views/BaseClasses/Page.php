@@ -17,9 +17,18 @@
     use Framework\Syscrack\Game\Computers;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Softwares;
+    use Framework\Syscrack\User;
 
     class Page
     {
+
+        /**
+         * Model
+         *
+         * @var \stdClass
+         */
+
+        public $model;
 
         /**
          * @var Softwares
@@ -47,6 +56,12 @@
 
         public function __construct($autoload = true, $session=false, $requirelogin=false, $clearerrors=true )
         {
+
+            if ( Settings::getSetting('render_mvc_output') )
+            {
+
+                $this->model = new \stdClass();
+            }
 
             if ($autoload == true)
             {
@@ -79,6 +94,8 @@
 
                         exit;
                     }
+
+                    Container::getObject('session')->updateLastAction();
                 }
 
                 if( $clearerrors )
@@ -120,6 +137,54 @@
 
                 exit;
             }
+        }
+
+        /**
+         * Creates a new model object
+         *
+         * @return \stdClass
+         */
+
+        public function model()
+        {
+
+            if ( Settings::getSetting('render_mvc_output') == false )
+            {
+
+                return null;
+            }
+
+            if ( Container::hasObject('session') == false )
+            {
+
+                $this->model->session = [
+                    'active' => false,
+                    'loggedin' => false,
+                ];
+
+                $this->model->userid = null;
+            }
+            else
+            {
+
+                $this->model->session = [
+                    'active' => Container::getObject('session')->sessionActive(),
+                    'loggedin' => Container::getObject('session')->isLoggedIn(),
+                    'data' => $_SESSION
+                ];
+
+                $this->model->userid = Container::getObject('session')->getSessionUser();
+
+                $user = new User();
+
+                if ( $user->isAdmin( $this->model->userid ) )
+                {
+
+                    $this->model->admin = true;
+                }
+            }
+
+            return $this->model;
         }
 
         /**

@@ -20,16 +20,18 @@ class Render
      */
 
     public static $stack = [];
-    
+
     /**
-     * Renders a page
-     * 
+     * Renders a template, takes a model if the mode is MVC
+     *
      * @param $template
-     * 
+     *
      * @param array $array
+     *
+     * @param mixed $model
      */
     
-    public static function view($template, $array=[] )
+    public static function view($template, $array=[], $model=null )
     {
 
         if ( Settings::getSetting('render_log') )
@@ -41,7 +43,23 @@ class Render
             ];
         }
 
-        Flight::render( self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array );
+        if ( empty( $model ) == false )
+        {
+
+            if ( Settings::getSetting('render_mvc_output') == true  )
+            {
+
+                Flight::render( self::getViewFolder() . DIRECTORY_SEPARATOR . $template, array(
+                    'model' => $model,
+                    'data' => $array
+                ));
+            }
+        }
+        else
+        {
+
+            Flight::render( self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array );
+        }
     }
 
     /**

@@ -21,6 +21,7 @@
     "database_encrypt_connection": false,
     "developer_disabled": false,
     "developer_page": "developer",
+    "default_pagetitle": "Syscrack Developer",
     "error_display_page": true,
     "error_fadeout_time": 5000,
     "error_log_location": "config\/errorlog.json",
@@ -259,6 +260,7 @@
         133
     ],
     "theme_dark": false,
+    "render_mvc_output":false,
     "render_log":true,
     "render_folder":"alpha",
     "user_allow_registrations": true,

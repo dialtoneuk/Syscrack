@@ -27,7 +27,7 @@
         {
 
             ?>
-            <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
+            <link href="/assets/alpha/css/bootstrap.dark.css" rel="stylesheet">
             <?php
         }
         else
@@ -35,11 +35,11 @@
 
             ?>
 
-            <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+            <link href="/assets/alpha/css/bootstrap.min.css" rel="stylesheet">
             <?php
         }
     ?>
-    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+    <link href="/assets/alpha/css/bootstrap-combobox.css" rel="stylesheet">
 
     <?php
         if( isset( $styles ) )

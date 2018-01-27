@@ -26,17 +26,17 @@ use Framework\Application\Settings;
     if (Settings::getSetting('theme_dark') == true) {
 
         ?>
-        <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
+        <link href="/assets/alpha/css/bootstrap.dark.css" rel="stylesheet">
         <?php
     } else {
 
         ?>
 
-        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/assets/alpha/css/bootstrap.min.css" rel="stylesheet">
         <?php
     }
     ?>
-    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+    <link href="/assets/alpha/css/bootstrap-combobox.css" rel="stylesheet">
 
     <?php
     if (isset($styles)) {
@@ -69,7 +69,7 @@ use Framework\Application\Settings;
     }
     ?>
 
-    <script src="/assets/js/progressbar.js"></script>
+    <script src="/assets/alpha/js/progressbar.js"></script>
     <style>
 
         pre, code {
@@ -134,3 +134,27 @@ use Framework\Application\Settings;
         }
     </style>
 </head>
+<?php
+
+    /**
+     * If the render MVC setting is active then this little alert will show telling you to disable it as this uses conventional templating methods
+     */
+
+    if ( Settings::getSetting('render_mvc_output') == true )
+    {
+
+        ?>
+        <div class="container">
+            <div class="row" style="margin-top: 2.5%;">
+                <div class="col-sm-12">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            This view ( <b><?=Settings::getSetting('render_folder')?></b> ) was not designed work with with the render_mvc_output setting enabled, needless processing
+                            power is being wasted. Please either switch to a view which takes advantage of the mvc output, or disable it!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    }

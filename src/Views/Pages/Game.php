@@ -18,6 +18,7 @@
     use Framework\Syscrack\Game\Operations;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
+    use Flight;
 
     class Game extends BaseClass implements Structure
     {

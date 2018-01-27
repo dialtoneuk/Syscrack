@@ -6,6 +6,7 @@ use Framework\Syscrack\Game\Log;
 use Framework\Syscrack\Game\Schema;
 use Framework\Syscrack\Game\Softwares;
 use Framework\Syscrack\Game\Utilities\PageHelper;
+use Framework\Application\Render;
 
 $npc = new Schema();
 
@@ -70,14 +71,14 @@ $log = new Log();
 
                     <?php
 
-                    Render::render('syscrack/templates/template.log', array('ipaddress' => $ipaddress, 'internet' => $internet));
+                    Render::view('syscrack/templates/template.log', array('ipaddress' => $ipaddress, 'internet' => $internet));
                     ?>
                 </div>
                 <div id="software" class="tab-pane fade" style="padding-top: 2.5%;">
 
                     <?php
 
-                    Render::render('syscrack/templates/template.softwares', array('ipaddress' => $ipaddress, 'softwares' => $softwares, 'computers' => $computers, 'internet' => $internet));
+                    Render::view('syscrack/templates/template.softwares', array('ipaddress' => $ipaddress, 'softwares' => $softwares, 'computers' => $computers, 'internet' => $internet));
                     ?>
                 </div>
             </div>
