@@ -57,7 +57,7 @@
         }
 
         /**
-         * Creates the MVC model for the index page, this will only populate if mvc output is enabled in the render options
+         * Creates the MVC model for the index page
          *
          * @return bool|\stdClass
          */
