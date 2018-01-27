@@ -26,7 +26,7 @@ $computers = new Computers();
 if (Settings::getSetting('syscrack_globe_enabled')) {
 
     Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game', 'scripts' => array(
-        '<script src="/assets/js/webglearth.js"></script>'
+        '<script src="/assets/alpha/js/webglearth.js"></script>'
     )));
 
     ?>

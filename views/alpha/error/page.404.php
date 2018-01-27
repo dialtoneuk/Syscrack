@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <img class="img-responsive" src="/assets/img/logos/vibrant_green.png">
+                    <img class="img-responsive" src="/assets/alpha/img/logos/vibrant_green.png">
                 </div>
             </div>
             <div class="row" style="margin-top: 5%;">

@@ -10,6 +10,7 @@
      */
 
     use Framework\Application\Render;
+    use Framework\Application\Settings;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -52,6 +53,26 @@
         public function page()
         {
 
-            Render::view('syscrack/page.index');
+            Render::view('syscrack/page.index', [], $this->model() );
+        }
+
+        /**
+         * Creates the MVC model for the index page
+         *
+         * @return bool|\stdClass
+         */
+
+        public function model()
+        {
+
+            if ( Settings::getSetting('render_mvc_output') == false )
+            {
+
+                return false;
+            }
+
+            $this->model->pagetitle = "Syscrack";
+
+            return parent::model();
         }
     }

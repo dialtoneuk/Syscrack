@@ -3,6 +3,7 @@
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Schema;
 use Framework\Syscrack\Game\Utilities\PageHelper;
+use Framework\Application\Render;
 
 $npc = new Schema();
 
@@ -38,7 +39,7 @@ if (isset($pagehelper) == false) {
 
                 if ($npc->hasSchema($computers->computerid) && $npc->hasSchemaPage($computers->computerid)) {
 
-                    Render::render($npc->getSchemaPageLocation($computers->computerid), array('internet' => $internet, 'ipaddress' => $ipaddress, 'schema' => $npc));
+                    Render::view($npc->getSchemaPageLocation($computers->computerid), array('internet' => $internet, 'ipaddress' => $ipaddress, 'schema' => $npc));
                 } else {
                     ?>
                     <p>

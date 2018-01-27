@@ -26,17 +26,17 @@ use Framework\Application\Settings;
     if (Settings::getSetting('theme_dark') == true) {
 
         ?>
-        <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
+        <link href="/assets/alpha/css/bootstrap.dark.css" rel="stylesheet">
         <?php
     } else {
 
         ?>
 
-        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/assets/alpha/css/bootstrap.min.css" rel="stylesheet">
         <?php
     }
     ?>
-    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+    <link href="/assets/alpha/css/bootstrap-combobox.css" rel="stylesheet">
 
     <?php
     if (isset($styles)) {
@@ -69,7 +69,7 @@ use Framework\Application\Settings;
     }
     ?>
 
-    <script src="/assets/js/progressbar.js"></script>
+    <script src="/assets/alpha/js/progressbar.js"></script>
     <style>
 
         pre, code {
