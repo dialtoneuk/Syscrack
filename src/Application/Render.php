@@ -86,12 +86,15 @@ class Render
         Flight::redirect( $url, $code );
     }
 
+<<<<<<< HEAD
     public static function getAssetsLocation()
     {
 
         return "/assets/" . Settings::getSetting('render_folder') . '/';
     }
 
+=======
+>>>>>>> 1c0aca3e10809bad2ef4fc3d7789b9044fafa2bc
     /**
      * Gets the current view folder
      *

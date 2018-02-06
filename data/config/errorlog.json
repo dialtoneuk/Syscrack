@@ -8207,6 +8207,7 @@
         },
         "timestamp": 1517029438,
         "ip": "192.168.1.187"
+<<<<<<< HEAD:data/config/errorlog.json
     },
     {
         "message": "Template file not found: .\/views\/alpha4\\syscrack\/page.index.php.",
@@ -8975,5 +8976,7 @@
         },
         "timestamp": 1517883909,
         "ip": "192.168.1.187"
+=======
+>>>>>>> 1c0aca3e10809bad2ef4fc3d7789b9044fafa2bc:config/errorlog.json
     }
 ]

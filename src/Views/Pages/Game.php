@@ -143,7 +143,11 @@
 
                             $this->internet->setCurrentConnectedAddress( null );
 
+<<<<<<< HEAD
                             Render::redirect('/game/' );
+=======
+                            Render::redirect('/game/', [], $this->model() );
+>>>>>>> 1c0aca3e10809bad2ef4fc3d7789b9044fafa2bc
                         }
                     }
                 }
