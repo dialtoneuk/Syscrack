@@ -57,7 +57,7 @@ Render::render('syscrack/templates/template.header', array('pagetitle' => 'Syscr
     Render::render('syscrack/templates/template.navigation');
     ?>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <?php
 
             if (isset($_GET['error']))
@@ -88,7 +88,7 @@ Render::render('syscrack/templates/template.header', array('pagetitle' => 'Syscr
                 ?>
             </h5>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-sm-12">
                     <div class="row">
                         <?php
 

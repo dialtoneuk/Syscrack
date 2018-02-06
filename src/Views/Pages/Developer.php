@@ -515,7 +515,7 @@
         }
 
         /**
-         * Renders the database creator
+         * Renders the database creator`
          */
 
         public function connection()

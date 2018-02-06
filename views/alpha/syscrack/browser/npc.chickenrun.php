@@ -162,7 +162,7 @@
 <div class="row rainbow">
     <iframe width="1" height="1" src="https://www.youtube.com/embed/NY8IS0ssnXQ?ecver=1&autoplay=1" frameborder="0"
             allowfullscreen></iframe>
-    <div class="col-lg-12">
+    <div class="col-sm-12">
         <marquee>
             <img class="img-responsive" src="https://media.giphy.com/media/anwMKSfnwuis0/giphy.gif">
         </marquee>

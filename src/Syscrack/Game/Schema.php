@@ -63,6 +63,12 @@ class Schema
         FileSystem::writeJson( $this->getSchemaPath( $computerid ), $schema );
     }
 
+    public function setSchema( $computerid, $schema = [] )
+    {
+
+        FileSystem::writeJson( $this->getSchemaPath( $computerid ), $schema );
+    }
+
     /**
      * Returns true if we have an NPC Page
      *

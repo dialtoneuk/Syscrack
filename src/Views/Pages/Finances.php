@@ -89,13 +89,13 @@
         public function page()
         {
 
-            Render::view('syscrack/page.finances');
+            Render::view('syscrack/page.finances', [], $this->model());
         }
 
         public function transfer()
         {
 
-            Render::view('syscrack/page.finances.transfer');
+            Render::view('syscrack/page.finances.transfer', [], $this->model());
         }
 
         public function transferProcess()

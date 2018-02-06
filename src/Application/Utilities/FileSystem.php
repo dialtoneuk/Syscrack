@@ -95,7 +95,7 @@ class FileSystem
      * @param array $array
      */
 
-    public static function writeJson( $file, array $array = [] )
+    public static function writeJson( $file, array $array=[] )
     {
 
         if( is_dir( self::getFilePath( $file ) ) )

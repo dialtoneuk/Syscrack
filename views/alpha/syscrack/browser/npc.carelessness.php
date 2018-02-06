@@ -160,7 +160,7 @@
     }
 </style>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-sm-12">
         <h5 style="color: #ababab" class="text-uppercase text-center rainbow-text">
             WELCOME TO THE SERVER OF
         </h5>

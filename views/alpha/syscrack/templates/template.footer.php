@@ -1,6 +1,7 @@
 <?php
 
 use Framework\Application\Settings;
+use Framework\Application\Render;
 
 ?>
 <footer style="margin-top: 15px;">
@@ -61,8 +62,8 @@ use Framework\Application\Settings;
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="/assets/alpha/js/bootstrap.min.js"></script>
-    <script src="/assets/alpha/js/bootstrap-combobox.js"></script>
+    <script src="<?=Render::getAssetsLocation()?>js/bootstrap.min.js"></script>
+    <script src="<?=Render::getAssetsLocation()?>js/bootstrap-combobox.js"></script>
 
     <?php
     if (isset($scripts)) {

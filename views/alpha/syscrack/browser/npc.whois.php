@@ -21,7 +21,7 @@ if (isset($npc) == false) {
 }
 ?>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-sm-6">
         <h5 style="color: #ababab" class="text-uppercase">
             Welcome
         </h5>
@@ -37,7 +37,7 @@ if (isset($npc) == false) {
             <strong>Webmaster Haskell</strong>
         </p>
     </div>
-    <div class="col-lg-6">
+    <div class="col-sm-6">
         <h5 style="color: #ababab" class="text-uppercase">
             Links
         </h5>

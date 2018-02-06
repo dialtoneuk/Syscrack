@@ -64,14 +64,14 @@
                 if ($path !== '')
                 {
 
-                    Flight::redirect( Settings::getSetting('controller_index_root') . $path . '?error');
+                    Render::redirect( Settings::getSetting('controller_index_root') . $path . '?error');
 
                     exit;
                 }
                 else
                 {
 
-                    Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error' );
+                    Render::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error' );
 
                     exit;
                 }
@@ -82,14 +82,14 @@
                 if ($path !== '')
                 {
 
-                    Flight::redirect( Settings::getSetting('controller_index_root') . $path . '?error=' . $message );
+                    Render::redirect( Settings::getSetting('controller_index_root') . $path . '?error=' . $message );
 
                     exit;
                 }
                 else
                 {
 
-                    Flight::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error=' . $message );
+                    Render::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error=' . $message );
 
                     exit;
                 }
@@ -108,11 +108,11 @@
             if ($path !== '')
             {
 
-                Flight::redirect( Settings::getSetting('controller_index_root') . $path . "?success");
+                Render::redirect( Settings::getSetting('controller_index_root') . $path . "?success");
                 exit;
             }
 
-            Flight::redirect( Settings::getSetting('controller_index_root') . $this->getCurrentPage() . '?success');
+            Render::redirect( Settings::getSetting('controller_index_root') . $this->getCurrentPage() . '?success');
             exit;
         }
 
@@ -151,7 +151,7 @@
         public function redirect( $url, $exit=false )
         {
 
-            Flight::redirect( $url );
+            Render::redirect( $url );
 
             if( $exit )
             {

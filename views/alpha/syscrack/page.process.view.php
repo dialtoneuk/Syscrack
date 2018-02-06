@@ -40,7 +40,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         ?>
     </div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <div class="panel panel-info">
                 <div class="panel-body">
                     Head over to the <a href="/processes/">process control panel</a> to edit your current
@@ -50,7 +50,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <button style="width: 100%;" class="btn btn-primary" type="button" onclick="window.location.reload()">
                 <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Refresh Page
             </button>

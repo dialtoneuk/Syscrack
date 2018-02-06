@@ -9,19 +9,19 @@ composer.phar
 
 # Syscrack
 
-/conf/database/connection.json
-/conf/activelog.json
-/conf/errorlog.json
-/conf/betakeys.json
+/config/database/connection.json
+/config/activelog.json
+/config/errorlog.json
+/config/betakeys.json
 
-/syscrack/addressdatabase/
-/syscrack/bankdatabase/
-/syscrack/logs/
-/syscrack/retailer/
-/syscrack/market/
+/data/addressdatabase/
+/data/bankdatabase/
+/data/logs/
+/data/retailer/
+/data/market/
 
 # Comment this line if you would like to share your NPC schema files
-/syscrack/npc/
+/data/npc/
 
 # PHPStorm
 

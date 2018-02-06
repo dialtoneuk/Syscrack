@@ -34,6 +34,16 @@ if (isset($computers) == false) {
 <?php
 
 Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Admin'));
+
+if ( isset( $_GET['page'] ) )
+{
+
+    if ( is_numeric( $_GET['page'] ) == false || strlen(  $_GET['page']  ) > 5 )
+    {
+
+        $_GET['page'] = null;
+    }
+}
 ?>
 <body>
 <div class="container">
@@ -43,7 +53,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <?php
 
             if (isset($_GET['error']))
@@ -58,29 +68,57 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         <?php
 
         Render::view('syscrack/templates/template.admin.options');
+
+        $computers = $computers->getAllComputers()->toArray();
         ?>
         <div class="col-md-8">
             <div class="row">
-                <div class="col-sm-12">
-                    <h5 style="color: #ababab" class="text-uppercase">
-                        Displaying <?= Settings::getSetting('syscrack_admin_computer_count') ?> latest computers
-                    </h5>
-                    <form method="post">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" name="query" placeholder="1.1.1.1" aria-label="...">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default">
-                                    Find
-                                </button>
-                            </div>
+                <div class="col-md-6">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h5>Total Virtual Computers</h5>
+                            <h3 style="font-size: 1.5em;">
+                                <?=count( $computers )?>
+                            </h3>
                         </div>
-                    </form>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <li><a href="?">0</a></li>
+                                    <?php
+
+                                        $pages = round( count( $computers ) / Settings::getSetting('syscrack_admin_computer_count') );
+
+                                        for ( $i=1; $i < $pages; $i++ )
+                                        {
+
+                                            ?>
+                                                <li><a href="?page=<?=$i?>"><?=$i?></a></li>
+                                            <?php
+                                        }
+                                    ?>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row" style="margin-top: 1.5%;">
                 <?php
 
-                $computers = $computers->getAllComputers(Settings::getSetting('syscrack_admin_computer_count'));
+                $offset = 0;
+
+                if (  isset( $_GET['page'] ) && $_GET['page'] != null )
+                {
+
+                    $offset = $_GET['page'] * Settings::getSetting('syscrack_admin_computer_count');
+                }
+
+                $computers = array_slice( array_reverse( $computers ), $offset, Settings::getSetting('syscrack_admin_computer_count'));
 
                 if (empty($computers)) {
 
@@ -98,23 +136,27 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                     <?php
                 } else {
 
-                    $computers = $computers->reverse();
-
                     foreach ($computers as $key => $value) {
 
                         ?>
                         <div class="col-sm-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <span class="badge"><?= $value->type ?></span> <a
-                                            href="/game/internet/<?= $value->ipaddress ?>"><?= $value->ipaddress ?></a><span
-                                            class="badge" style="float: right">#<?= $value->computerid ?></span>
-                                </div>
+                            <div class="panel panel-info">
                                 <div class="panel-body">
-                                    <div class="btn-grou btn-group-justified" role="group" aria-label="...">
-                                        <div class="btn-group" role="group"
-                                             onclick="window.location.href = '/admin/computer/edit/<?= $value->computerid ?>'">
-                                            <button type="button" class="btn btn-warning btn-sm">Edit</button>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <span class="badge" style="font-size: 2em;"><?=$value->computerid?></span><span class="badge" style="margin-left: 5%;"><?=$value->type?></span>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <h5>
+                                                <?=$value->ipaddress?>
+                                            </h5>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="btn-group" style="float: right;" role="group" aria-label="...">
+                                                <button type="button" onclick="window.location.href = '/game/internet/<?=$value->ipaddress?>/'" class="btn btn-warning">View</button>
+                                                <button type="button" onclick="window.location.href = '/admin/computer/edit/<?=$value->computerid?>/'"class="btn btn-success">Edit</button>
+                                                <button type="button" onclick="window.location.href = '/user/edit/<?=$value->userid?>/'" class="btn btn-info">Owner</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

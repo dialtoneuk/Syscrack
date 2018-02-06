@@ -1,0 +1,45 @@
+{
+    "name": "Tutorial",
+    "page": "npc.tutorial",
+    "riddles": [],
+    "hardwares": {
+        "cpu": {
+            "value": 100
+        },
+        "download": {
+            "value": 10
+        },
+        "gpu": {
+            "value": 500
+        },
+        "harddrive": {
+            "value": 100
+        },
+        "upload": {
+            "value": 2
+        }
+    },
+    "softwares": [
+        {
+            "installed": true,
+            "level": 3,
+            "name": "Teachers Wand",
+            "size": 10,
+            "uniquename": "cracker"
+        },
+        {
+            "installed": true,
+            "level": 2.5,
+            "name": "Swish",
+            "size": 10,
+            "uniquename": "hasher"
+        },
+        {
+            "installed": false,
+            "level": 2.5,
+            "name": "Bad Grades",
+            "size": 10,
+            "uniquename": "vspam"
+        }
+    ]
+}

@@ -42,7 +42,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <?php
 
             if (isset($_GET['error']))
@@ -68,7 +68,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 $schema = Settings::getSetting('syscrack_example_schema');
                 ?>
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-sm-4">
 
                         <?php
                         Render::view('syscrack/templates/template.form', array('form_elements' => [
@@ -134,7 +134,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                         ], 'remove_submit' => true, 'remove_form' => true));
                         ?>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-sm-8">
                         <?php
                         Render::view('syscrack/templates/template.form', array('form_elements' => [
                             [

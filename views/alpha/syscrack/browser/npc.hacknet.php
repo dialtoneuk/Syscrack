@@ -161,7 +161,7 @@
 </style>
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-sm-12">
         <h5 style="color: #ababab" class="text-uppercase rainbow">
             <marquee>Ambiguity</marquee>
         </h5>

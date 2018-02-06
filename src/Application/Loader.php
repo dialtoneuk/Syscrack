@@ -166,7 +166,7 @@ class Loader
 	private function getFileLocation()
     {
 
-        return $_SERVER['DOCUMENT_ROOT'] . '/config/autoloader.json';
+        return $_SERVER['DOCUMENT_ROOT'] . '/data/config/autoloader.json';
     }
 
 	/**

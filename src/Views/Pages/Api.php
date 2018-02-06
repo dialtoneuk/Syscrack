@@ -84,7 +84,7 @@
                     if ($this->manager->hasApiKey($this->apikey) == false)
                     {
 
-                        Flight::redirect('/api/', 401);
+                        Render::redirect('/api/', 401);
                     }
                 }
             }

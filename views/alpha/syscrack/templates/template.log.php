@@ -16,7 +16,7 @@ if (isset($log) == false) {
 ?>
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-sm-12">
         <?php
 
         $connectedcomputer = $internet->getComputer($ipaddress);

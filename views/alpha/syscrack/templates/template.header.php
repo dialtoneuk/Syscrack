@@ -1,7 +1,20 @@
 <?php
 
 use Framework\Application\Settings;
+use Framework\Application\Render;
 
+?>
+<?php
+
+/**
+ * Since this template is usually the first loaded onto every single page, I can sneak this here
+ */
+
+if ( Settings::getSetting('render_mvc_output') == true )
+{
+
+    throw new \Framework\Exceptions\ViewException('Current render folder "' . Settings::getSetting('render_folder') . '" does not support mvc output and cannot function using it. Please disable render_mvc_output in your settings to use this render folder' );
+}
 ?>
 <head>
     <meta charset="utf-8">
@@ -26,17 +39,17 @@ use Framework\Application\Settings;
     if (Settings::getSetting('theme_dark') == true) {
 
         ?>
-        <link href="/assets/alpha/css/bootstrap.dark.css" rel="stylesheet">
+        <link href="<?=Render::getAssetsLocation()?>css/bootstrap.dark.css" rel="stylesheet">
         <?php
     } else {
 
         ?>
 
-        <link href="/assets/alpha/css/bootstrap.min.css" rel="stylesheet">
+        <link href="<?=Render::getAssetsLocation()?>css/bootstrap.min.css" rel="stylesheet">
         <?php
     }
     ?>
-    <link href="/assets/alpha/css/bootstrap-combobox.css" rel="stylesheet">
+    <link href="<?=Render::getAssetsLocation()?>css/bootstrap-combobox.css" rel="stylesheet">
 
     <?php
     if (isset($styles)) {
@@ -69,7 +82,7 @@ use Framework\Application\Settings;
     }
     ?>
 
-    <script src="/assets/alpha/js/progressbar.js"></script>
+    <script src="<?=Render::getAssetsLocation()?>js/progressbar.js"></script>
     <style>
 
         pre, code {

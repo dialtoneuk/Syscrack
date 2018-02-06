@@ -29,7 +29,7 @@ $current_computer = $internet->getComputer($ipaddress);
 ?>
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-sm-12">
         <h5 style="color: #ababab" class="text-uppercase">
             <?php
             if ($schema->hasSchema($current_computer->computerid)) {

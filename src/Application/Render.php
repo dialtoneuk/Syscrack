@@ -49,10 +49,20 @@ class Render
             if ( Settings::getSetting('render_mvc_output') == true  )
             {
 
-                Flight::render( self::getViewFolder() . DIRECTORY_SEPARATOR . $template, array(
-                    'model' => $model,
-                    'data' => $array
-                ));
+                if ( Settings::getSetting('render_json_mode') == true )
+                {
+
+                    Flight::json(array(
+                        'model' => $model,
+                        'data' => $array ));
+                }
+                else
+                {
+                    Flight::render( self::getViewFolder() . DIRECTORY_SEPARATOR . $template, array(
+                        'model' => $model,
+                        'data' => $array
+                    ));
+                }
             }
         }
         else
@@ -60,6 +70,26 @@ class Render
 
             Flight::render( self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array );
         }
+    }
+
+    /**
+     * Redirects the header
+     *
+     * @param $url
+     *
+     * @param int $code
+     */
+
+    public static function redirect( $url, $code=303 )
+    {
+
+        Flight::redirect( $url, $code );
+    }
+
+    public static function getAssetsLocation()
+    {
+
+        return "/assets/" . Settings::getSetting('render_folder') . '/';
     }
 
     /**

@@ -28,7 +28,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row" style="margin-top: 2.5%;">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <?php
 
             if (isset($_GET['error']))

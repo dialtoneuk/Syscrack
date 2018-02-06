@@ -78,9 +78,6 @@
                 ],
                 [
                     'POST /login/', 'process'
-                ],
-                [
-                    'POST /login/facebook/', 'facebook'
                 ]
             );
         }
@@ -92,7 +89,7 @@
         public function page()
         {
 
-            Render::view('syscrack/page.login');
+            Render::view('syscrack/page.login', [], $this->model() );
         }
 
         /**
@@ -157,12 +154,6 @@
             $this->addConnectedComputer( $userid );
 
             $this->redirect('game', false );
-        }
-
-        public function facebook()
-        {
-
-
         }
 
         /**

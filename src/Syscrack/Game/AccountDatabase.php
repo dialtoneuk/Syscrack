@@ -19,7 +19,7 @@ class AccountDatabase
      * @var mixed
      */
 
-    protected $database;
+    protected $database = [];
 
     /**
      * @var null
@@ -208,7 +208,7 @@ class AccountDatabase
      * @param array $data
      */
 
-    public function saveDatabase( $userid=null , array $data=null )
+    public function saveDatabase( $userid=null , $data=[] )
     {
 
         if ( $userid == null )
@@ -217,7 +217,7 @@ class AccountDatabase
             $userid = $this->userid;
         }
 
-        if ($data == null )
+        if ( empty( $data ) )
         {
 
             $data = $this->database;

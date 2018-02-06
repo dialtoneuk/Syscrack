@@ -30,7 +30,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row" style="margin-top: 2.5%;">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <?php
 
             if (isset($_GET['error']))
@@ -41,7 +41,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <h5 style="color: #ababab" class="text-uppercase">
                 Register
             </h5>
@@ -103,7 +103,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 ?>
             </form>
         </div>
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <h5 style="color: #ababab" class="text-uppercase">
                 Why Cant I Play?
             </h5>

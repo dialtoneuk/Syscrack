@@ -26,7 +26,7 @@ $computers = new Computers();
 if (Settings::getSetting('syscrack_globe_enabled')) {
 
     Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game', 'scripts' => array(
-        '<script src="/assets/alpha/js/webglearth.js"></script>'
+        '<script src="<?=Render::getAssetsLocation()?>js/webglearth.js"></script>'
     )));
 
     ?>
@@ -155,7 +155,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
 
         ?>
         <div class="row" id="stats">
-            <div class="col-lg-12">
+            <div class="col-sm-12">
                 <div class="jumbotron" style="height: 375px; padding: 5px; margin: 0; box-shadow: #0f0f0f ">
                     <div style="position: absolute; width: 95%; padding-left: 2.5%; padding-right: 2.5%; height: 365px; color:white; z-index: 2;">
                         <h1>
@@ -250,7 +250,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
     }
     ?>
     <div class="row" style="margin-top: 2.5%;">
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Virtual Computers
@@ -346,7 +346,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     News
@@ -360,7 +360,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Purchase a Virtual Computer

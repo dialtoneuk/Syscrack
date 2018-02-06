@@ -51,14 +51,14 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <h5 style="color: #ababab" class="text-uppercase">
                 Account Book
             </h5>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-sm-4">
             <div class="list-group">
                 <a href="/game/addressbook/" class="list-group-item">
                     <h4 class="list-group-item-heading">Address Book</h4>
@@ -70,7 +70,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 </a>
             </div>
         </div>
-        <div class="col-lg-8">
+        <div class="col-sm-8">
             <?php
             $accounts = $accountdatabase->getDatabase($session->getSessionUser());
 

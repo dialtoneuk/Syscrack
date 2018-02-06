@@ -38,7 +38,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <?php
 
             if (isset($_GET['error']))
@@ -49,27 +49,31 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <h5 style="color: #ababab" class="text-uppercase">
                 <span class="badge"><?= $computer->type ?></span> <?= $computer->ipaddress ?>
             </h5>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <div>
 
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#softwares" aria-controls="softwares" role="tab"
                                                               data-toggle="tab">Softwares</a></li>
+                    <li role="presentation"><a href="#hardwares" aria-controls="hardwares" role="tab"
+                                                              data-toggle="tab">Hardwares</a></li>
+                    <li style="float: right;"><a href="/admin/computer/">Home <span class="glyphicon glyphicon-arrow-right"></span> </a></li>
+                    <li style="float: right;"><a href="/game/internet/<?= $computer->ipaddress ?>">View <span class="glyphicon glyphicon-search"></span> </a></li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="softwares">
                         <div class="row">
-                            <div class="col-lg-9">
+                            <div class="col-sm-9">
                                 <h5 style="color: #ababab" class="text-uppercase">
                                     Main Hard Drive
                                 </h5>
@@ -79,126 +83,128 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <form action="/admin/computer/edit/<?= $computer->computerid ?>/" method="post">
-                                            <div class="panel panel-info">
-                                                <div class="panel-heading">
-                                                    Add Software
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="row">
-                                                        <div class="col-sm-4">
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="input-group">
+                                            <button class="btn btn-success" style="width: 100%;" id="addsoftwaresbutton" type="button" data-toggle="collapse" data-target="#addsoftwares" aria-expanded="false" aria-controls="addsoftwares" onclick="$">
+                                                <span class="glyphicon glyphicon-plus-sign"></span> Add Software
+                                            </button>
+                                            <div class="collapse" id="addsoftwares" style="margin-top: 1.5%;">
+                                                <div class="panel panel-info">
+                                                    <div class="panel-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="input-group">
                                                                         <span class="input-group-addon"
                                                                               id="basic-addon1"><span
                                                                                     class="glyphicon glyphicon-font"></span></span>
-                                                                        <input type="text" class="form-control"
-                                                                               placeholder="Software Name" name="name"
-                                                                               aria-describedby="basic-addon1">
+                                                                            <input type="text" class="form-control"
+                                                                                   placeholder="Software Name" name="name"
+                                                                                   aria-describedby="basic-addon1">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row" style="margin-top: 2.5%;">
-                                                                <div class="col-sm-12">
-                                                                    <div class="input-group">
+                                                                <div class="row" style="margin-top: 2.5%;">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="input-group">
                                                                         <span class="input-group-addon"
                                                                               id="basic-addon1"><span
                                                                                     class="glyphicon glyphicon glyphicon-signal"></span></span>
-                                                                        <input type="number" step="0.1"
-                                                                               class="form-control"
-                                                                               placeholder="Software Level" name="level"
-                                                                               aria-describedby="basic-addon1">
+                                                                            <input type="number" step="0.1"
+                                                                                   class="form-control"
+                                                                                   placeholder="Software Level" name="level"
+                                                                                   aria-describedby="basic-addon1">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-top: 2.5%;">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="checkbox">
+                                                                            <label><input type="checkbox" name="schema"
+                                                                                          checked></label>
+                                                                            <span style="font-size: 10px;">Add to Schema if a schema file is present.</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="checkbox">
+                                                                            <label><input type="checkbox" name="editable"
+                                                                                          checked></label>
+                                                                            <span style="font-size: 10px;">Editable</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="checkbox">
+                                                                            <label><input type="checkbox"
+                                                                                          name="anondownloads"></label>
+                                                                            <span style="font-size: 10px;">Allow anonymous downloads (Used with download servers for serving files with out logging in)</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row" style="margin-top: 2.5%;">
-                                                                <div class="col-sm-12">
-                                                                    <div class="checkbox">
-                                                                        <label><input type="checkbox" name="schema"
-                                                                                      checked></label>
-                                                                        <span style="font-size: 10px;">Add to Schema if a schema file is present.</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="checkbox">
-                                                                        <label><input type="checkbox" name="editable"
-                                                                                      checked></label>
-                                                                        <span style="font-size: 10px;">Editable</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="checkbox">
-                                                                        <label><input type="checkbox"
-                                                                                      name="anondownloads"></label>
-                                                                        <span style="font-size: 10px;">Allow anonymous downloads (Used with download servers for serving files with out logging in)</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="well">
-                                                                        <p>
-                                                                            vpc, npc, whois, download, isp, bank, market
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="input-group">
+                                                            <div class="col-sm-4">
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="input-group">
                                                                         <span class="input-group-addon"
                                                                               id="basic-addon1"><span
                                                                                     class="glyphicon glyphicon-list"></span></span>
-                                                                        <input type="text" class="form-control"
-                                                                               placeholder="Uniquename" name="name"
-                                                                               aria-describedby="basic-addon1">
+                                                                            <input type="text" class="form-control"
+                                                                                   placeholder="Uniquename" name="uniquename"
+                                                                                   aria-describedby="basic-addon1">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row" style="margin-top: 2.5%;">
-                                                                <div class="col-sm-12">
-                                                                    <div class="input-group">
+                                                                <div class="row" style="margin-top: 5%;">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="well">
+                                                                            <p>
+                                                                                vspam, vminer, antivirus, research, cracker, hasher, text, firewall, nmap, vddos, breaker, collector
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="input-group">
                                                                         <span class="input-group-addon"
                                                                               id="basic-addon1"><span
                                                                                     class="glyphicon glyphicon-hdd"></span></span>
-                                                                        <input type="number" class="form-control"
-                                                                               placeholder="Size" name="size"
-                                                                               aria-describedby="basic-addon1">
+                                                                            <input type="number" class="form-control"
+                                                                                   placeholder="Size" name="size"
+                                                                                   aria-describedby="basic-addon1">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-sm-4" style="max-height: 310px;">
+                                                                <?php
+                                                                Render::view('syscrack/templates/template.form', array('form_elements' => [
+                                                                    [
+                                                                        'type' => 'textarea',
+                                                                        'name' => 'customdata',
+                                                                        'value' => '',
+                                                                        'resizeable' => 'vertical'
+                                                                    ]
+                                                                ], 'remove_submit' => true, 'remove_form' => true));
+                                                                ?>
+                                                                <p style="font-size: 10px;">
+                                                                    Data entered in the box above should be in a valid json
+                                                                    format.
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-sm-4" style="max-height: 310px;">
-                                                            <?php
-                                                            Render::view('syscrack/templates/template.form', array('form_elements' => [
-                                                                [
-                                                                    'type' => 'textarea',
-                                                                    'name' => 'customdata',
-                                                                    'value' => '',
-                                                                    'resizeable' => 'vertical'
-                                                                ]
-                                                            ], 'remove_submit' => true, 'remove_form' => true));
-                                                            ?>
-                                                            <p style="font-size: 10px;">
-                                                                Data entered in the box above should be in a valid json
-                                                                format.
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <button style="width: 100%; margin-top: 2.5%;"
-                                                                    class="btn btn-info" type="submit">
-                                                                <span class="glyphicon glyphicon-plus"
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <button style="width: 100%; margin-top: 2.5%;"
+                                                                        class="btn btn-default" type="submit">
+                                                                <span class="glyphicon glyphicon-check"
                                                                       aria-hidden="true"></span> Add
-                                                            </button>
-                                                            <input type="hidden" name="action" value="add">
+                                                                </button>
+                                                                <input type="hidden" name="action" value="add">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -207,9 +213,9 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-sm-3">
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-sm-12">
                                         <h5 style="color: #ababab" class="text-uppercase">
                                             Storage Details
                                         </h5>
@@ -246,6 +252,23 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                                                 <div class="panel-body">
                                                     <select name="softwareid" class="combobox input-sm form-control">
                                                         <option></option>
+                                                        <?php
+
+                                                            foreach ( json_decode( $computer->softwares, true ) as $key=>$value )
+                                                            {
+
+                                                                if ( $softwares->softwareExists( $value['softwareid'] ) )
+                                                                {
+
+                                                                    $software = $softwares->getSoftware( $value['softwareid'] );
+
+                                                                    ?>
+                                                                        <option value="<?=$value['softwareid']?>"><?=$software->softwarename . " (" . $software->level . ")"?></option>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                        ?>
+                                                        <option></option>
                                                     </select>
                                                     <button style="width: 100%; margin-top: 2.5%;"
                                                             class="btn btn-danger" type="submit">
@@ -268,14 +291,31 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                                                             <select name="softwareid"
                                                                     class="combobox input-sm form-control">
                                                                 <option></option>
+                                                                <?php
+
+                                                                foreach ( json_decode( $computer->softwares, true ) as $key=>$value )
+                                                                {
+
+                                                                    if ( $softwares->softwareExists( $value['softwareid'] ) )
+                                                                    {
+
+                                                                        $software = $softwares->getSoftware( $value['softwareid'] );
+
+                                                                        ?>
+                                                                        <option value="<?=$value['softwareid']?>"><?=$software->softwarename . " (" . $software->level . ")"?></option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="row" style="margin-top: 2.5%;">
                                                         <div class="col-sm-12">
                                                             <select name="task" class="combobox input-sm form-control">
-                                                                <option>Install</option>
-                                                                <option>Uninstall</option>
+                                                                <option></option>
+                                                                <option value="install">Install</option>
+                                                                <option value="uninstall">Uninstall</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -298,6 +338,77 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                             </div>
                         </div>
 
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="hardwares">
+                        <div class="row" style="margin-top: 2.5%;">
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <?php
+
+                                        $hardwares = json_decode( $computer->hardwares, true );
+
+                                        foreach ($hardwares as $type => $hardware) {
+
+                                            $icons = Settings::getSetting('syscrack_hardware_icons');
+
+                                            ?>
+                                            <div class="panel panel-info">
+                                                <div class="panel-heading">
+                                                    <?= $type ?>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                            <?php
+
+                                                            if (isset($icons[$type])) {
+
+                                                                ?>
+                                                                <h1>
+                                                                    <span class="glyphicon <?= $icons[$type] ?>"></span>
+                                                                </h1>
+                                                                <?php
+                                                            } else {
+
+                                                                ?>
+                                                                <h1>
+                                                                    <span class="glyphicon glyphicon-question-sign"></span>
+                                                                </h1>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <h1>
+                                                                <?php
+
+                                                                if (isset($hardware['value'])) {
+
+                                                                    echo (string)$hardware['value'];
+                                                                }
+
+                                                                $extensions = Settings::getSetting('syscrack_hardware_extensions');
+
+                                                                if (isset($extensions[$type])) {
+
+                                                                    ?>
+                                                                    <span class="small"><?= $extensions[$type] ?></span>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                            </h1>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

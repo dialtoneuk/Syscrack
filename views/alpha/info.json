@@ -1,0 +1,11 @@
+{
+  "name":"Syscrack Alpha",
+  "description":"The theme from the Alpha version of syscrack, the most basic but functional user interface",
+  "author":"Lewis Lancaster",
+  "website":"https://github.com/dialtoneuk",
+  "version": 1.0,
+  "data":{
+    "mvc":false,
+    "assets":"alpha"
+  }
+}

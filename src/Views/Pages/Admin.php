@@ -14,6 +14,7 @@
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
+    use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer;
@@ -60,7 +61,7 @@
             if ($this->user->isAdmin(Container::getObject('session')->getSessionUser()) == false)
             {
 
-                Flight::redirect(Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page'));
+                Render::redirect(Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page'));
 
                 exit;
             }
@@ -151,19 +152,183 @@
 
             $computer = $this->computers->getComputer( $computerid );
 
-            Render::view('syscrack/page.admin.computer.edit', array( 'computers' => $this->computers, 'computer' => $computer ));
+            Render::view('syscrack/page.admin.computer.edit', array( 'computer' => $computer ), $this->model() );
         }
 
         public function computerEditorProcess( $computerid )
         {
 
+            if ( $this->computers->computerExists( $computerid ) == false )
+            {
 
+                $this->redirectError('This computer does not exist, please try another', "admin/computers/edit/" . $computerid );
+            }
+
+            if ( PostHelper::hasPostData() == false )
+            {
+
+                $this->redirect('admin/computer');
+            }
+            else
+            {
+
+                if ( isset( $_POST["action"]) == false )
+                {
+
+                    $this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid );
+                }
+                else
+                {
+
+                    $action = PostHelper::getPostData('action', true );
+
+                    if ( $action == "add" )
+                    {
+
+                        $requirements = [
+                            'name',
+                            'level',
+                            'uniquename',
+                            'size'
+                        ];
+
+                        if ( PostHelper::checkForRequirements( $requirements ) == false )
+                        {
+
+                            $this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid );
+                        }
+                        else
+                        {
+
+                            if ( isset( $_POST['customdata'] ) && empty( $_POST['customdata'] ) == false )
+                            {
+
+                                $customdata = json_decode( $_POST['customdata'], true );
+
+                                if ( json_last_error() !==  JSON_ERROR_NONE )
+                                {
+
+                                    $this->redirectError('Invalid data array',"admin/computer/edit/" . $computerid );
+                                }
+                            }
+                            else
+                            {
+
+                                $customdata = [];
+                            }
+
+                            if ( isset( $_POST['editable'] ) )
+                            {
+
+                                $customdata['editable'] = true;
+                            }
+
+                            if ( isset( $_POST['anondownloads'] ) )
+                            {
+
+                                $customdata['allowanondownloads'] = true;
+                            }
+
+                            $softwareid = $this->softwares->createSoftware(
+                                $this->softwares->getNameFromClass(
+                                    $this->softwares->findSoftwareByUniqueName( PostHelper::getPostData('uniquename', true ) )),
+                                    $this->computers->getComputer( $computerid )->userid,
+                                    $computerid,
+                                    PostHelper::getPostData('name', true ),
+                                    PostHelper::getPostData('level', true ),
+                                    PostHelper::getPostData('size', true ),
+                                    $customdata
+                                );
+
+                            $software = $this->softwares->getSoftware( $softwareid );
+
+                            $this->computers->addSoftware( $computerid, $software->softwareid, $software->type);
+
+                            if ( isset( $_POST['schema'] ) )
+                            {
+
+                                $this->addToSchema( $computerid, $software );
+                            }
+
+                            $this->redirectSuccess('admin/computer/edit/' . $computerid);
+                        }
+                    }
+                    elseif ( $action == "stall")
+                    {
+
+                        $requirements = [
+                            'softwareid',
+                            'task'
+                        ];
+
+                        if ( PostHelper::checkForRequirements( $requirements ) == false )
+                        {
+
+                            $this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid );
+                        }
+                        else
+                        {
+
+                            if ( $this->softwares->softwareExists( PostHelper::getPostData('softwareid', true ) ) == false )
+                            {
+
+                                $this->redirectError('Invalid Software', "admin/computer/edit/" . $computerid );
+                            }
+
+                            if ( PostHelper::getPostData('task', true ) == 'install' )
+                            {
+
+                                $this->softwares->installSoftware( PostHelper::getPostData('softwareid', true ),
+                                    $this->computers->getComputer( $computerid )->userid );
+
+                                $this->computers->installSoftware( $computerid,  PostHelper::getPostData('softwareid', true ) );
+                            }
+                            else
+                            {
+
+                                $this->softwares->uninstallSoftware( PostHelper::getPostData('softwareid', true ) );
+
+                                $this->computers->uninstallSoftware( $computerid,  PostHelper::getPostData('softwareid', true ) );
+                            }
+
+                            $this->redirectSuccess('admin/computer/edit/' . $computerid);
+                        }
+                    }
+                    elseif ( $action == "delete")
+                    {
+
+                        $requirements = [
+                            'softwareid',
+                        ];
+
+                        if ( PostHelper::checkForRequirements( $requirements ) == false )
+                        {
+
+                            $this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid );
+                        }
+                        else
+                            {
+
+                            if ($this->softwares->softwareExists(PostHelper::getPostData('softwareid', true)) == false) {
+
+                                $this->redirectError('Invalid Software', "admin/computer/edit/" . $computerid);
+                            }
+
+                            $this->softwares->deleteSoftware(   PostHelper::getPostData('softwareid', true ) );
+
+                            $this->computers->removeSoftware( $computerid,  PostHelper::getPostData('softwareid', true ) );
+
+                            $this->redirectSuccess('admin/computer/edit/' . $computerid);
+                        }
+                    }
+                }
+            }
         }
 
         public function riddlesViewer()
         {
 
-            Render::view('syscrack/page.admin.riddles');
+            Render::view('syscrack/page.admin.riddles', [], $this->model());
         }
 
         public function riddlesViewerProcess()
@@ -175,7 +340,7 @@
         public function riddlesCreator()
         {
 
-            Render::view('syscrack/page.admin.riddles.creator');
+            Render::view('syscrack/page.admin.riddles.creator', [], $this->model());
         }
 
         public function riddlesCreatorProcess()
@@ -186,7 +351,7 @@
         public function reset()
         {
 
-            Render::view('syscrack/page.admin.reset');
+            Render::view('syscrack/page.admin.reset', [], $this->model());
         }
 
         public function resetProcess()
@@ -227,7 +392,7 @@
         public function computerViewer()
         {
 
-            Render::view('syscrack/page.admin.computer');
+            Render::view('syscrack/page.admin.computer', [], $this->model());
         }
 
         public function computerSearch()
@@ -287,7 +452,7 @@
         public function computerCreator()
         {
 
-            Render::view('syscrack/page.admin.computer.creator');
+            Render::view('syscrack/page.admin.computer.creator', [], $this->model());
         }
 
         /**
@@ -437,6 +602,37 @@
 
                 $this->finance->removeAccount($account->computerid, $account->userid);
             }
+        }
+
+        private function addToSchema( $computerid, $software )
+        {
+
+            $schema = new Schema();
+
+            if ( $schema->hasSchema( $computerid ) == false )
+            {
+
+                return null;
+            }
+
+            $computerschema = $schema->getSchema( $computerid );
+
+            if ( isset( $computerschema['softwares'] ) == false )
+            {
+
+                throw new ViewException();
+            }
+
+            $computerschema['softwares'][] = [
+                "installed"     => $software->installed,
+                "level"         => $software->level,
+                "name"          => $software->softwarename,
+                "size"          => $software->size,
+                "uniquename"    => $software->uniquename,
+                "data"          => json_decode( $software->data, true )
+            ];
+
+            $schema->setSchema( $computerid, $computerschema );
         }
 
         /**

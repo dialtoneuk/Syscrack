@@ -126,18 +126,18 @@
                                 <?= $last_error['details']['file'] ?> at line <?= $last_error['details']['line'] ?>
                             </div>
                             <p style='color: #adadad' class="small text-uppercase">
+                                Error Message
+                            </p>
+                            <div class="well">
+                                <?= $last_error['message'] ?>
+                            </div>
+                            <p style='color: #adadad' class="small text-uppercase">
                                 Trace
                             </p>
                             <div class="well">
                                 <pre>
 <?=htmlspecialchars( $last_error['details']['trace'], ENT_QUOTES, 'UTF-8' )?>
                                 </pre>
-                            </div>
-                            <p style='color: #adadad' class="small text-uppercase">
-                                Error Message
-                            </p>
-                            <div class="well">
-                                <?= $last_error['message'] ?>
                             </div>
                         </div>
                     </div>

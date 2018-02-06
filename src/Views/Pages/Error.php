@@ -49,6 +49,6 @@
         public function page()
         {
 
-            Render::view('error/page.error');
+            Render::view('error/page.error', [], []);
         }
     }

@@ -123,7 +123,7 @@
             else
             {
 
-                Render::view('syscrack/page.verify');
+                Render::view('syscrack/page.verify', [], $this->model());
             }
         }
 

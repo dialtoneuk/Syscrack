@@ -1,7 +1,4 @@
-<div class="col-lg-4">
-    <h5 style="color: #ababab" class="text-uppercase">
-        Actions
-    </h5>
+<div class="col-sm-4">
     <div class="list-group">
         <a href="/admin/" class="list-group-item">
             <h4 class="list-group-item-heading">Home</h4>

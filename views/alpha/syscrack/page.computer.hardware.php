@@ -35,7 +35,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <?php
 
             if (isset($_GET['error']))
@@ -46,7 +46,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12" onclick="window.location.href = '/computer/'">
+        <div class="col-sm-12" onclick="window.location.href = '/computer/'">
             <h5 style="color: #ababab" class="text-uppercase">
                 <span class="badge"><?= $currentcomputer->type ?></span> <?= $currentcomputer->ipaddress ?>
             </h5>

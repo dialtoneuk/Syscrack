@@ -77,14 +77,22 @@
 
             $processes = $this->operations->getUserProcesses( Container::getObject('session')->getSessionUser() );
 
-            $array = array();
-
-            foreach( $processes as $key=>$value )
+            if ( empty( $processes ) )
             {
 
-                $array[ $value->computerid ][] = $value;
+                $array = [];
             }
+            else
+            {
 
+                $array = array();
+
+                foreach( $processes as $key=>$value )
+                {
+
+                    $array[ $value->computerid ][] = $value;
+                }
+            }
             $this->getRender('page.process.php', array('processes' => $array, 'operations' => $this->operations, 'computerid' => $this->computers->getCurrentUserComputer() ));
         }
 
