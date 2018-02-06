@@ -44,16 +44,6 @@
  try_files $uri $uri/ /index.php;
  }
  }
- 
- ##Please look if gzip already exists as a line and instead change it to on instead of copy and pasting the same setting twice!
- gzip on;
- 
- ##
- gzip_vary on;
- gzip_min_length 10240;
- gzip_proxied expired no-cache no-store private auth;
- gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml;
- gzip_disable "MSIE [1-6]\.";
  ```
  
  Once done, give nginx a restart and then go to your servers address. You should see an error! This is because you haven't set up your database yet, check out the tutorial below on how to do that and get Syscrack configurated!
