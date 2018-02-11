@@ -1,6 +1,6 @@
 ![Image](https://i.imgur.com/9HssB8T.png)
 
-https://discord.gg/N3SRMbt
+OFFICIAL DISCORD * https://discord.gg/N3SRMbt
 
  ## An open source hacking simulated written in PHP
  
