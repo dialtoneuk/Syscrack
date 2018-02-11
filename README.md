@@ -1,4 +1,7 @@
 ![Image](https://i.imgur.com/9HssB8T.png)
+
+https://discord.gg/N3SRMbt
+
  ## An open source hacking simulated written in PHP
  
  Syscrack, to put it simply, Is a virtual hacking simulator. By which you control a virtual computer inside a simulated IP based internet. Your tasks vary depending on your play style, making the game seem more like a virtual sandbox.
