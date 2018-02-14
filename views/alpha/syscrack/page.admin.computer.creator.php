@@ -140,7 +140,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             [
                                 'type' => 'textarea',
                                 'name' => 'softwares',
-                                'value' => json_encode($schema['softwares'], JSON_PRETTY_PRINT),
+                                'value' => json_encode([], JSON_PRETTY_PRINT),
                                 'resizeable' => 'vertical'
                             ],
                             [

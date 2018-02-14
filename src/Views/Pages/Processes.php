@@ -262,7 +262,7 @@
 
                 $this->operations->deleteProcess( $processid );
 
-                $this->redirectSuccess();
+                $this->redirectSuccess('processes/computer/' . $this->computers->getCurrentUserComputer() );
             }
         }
 

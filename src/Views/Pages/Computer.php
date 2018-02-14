@@ -317,6 +317,12 @@
                         foreach( $viruses as $virus )
                         {
 
+                            if ( $virus->installed == false )
+                            {
+
+                                continue;
+                            }
+
                             if( ( time() - $virus->lastmodified ) <= Settings::getSetting('syscrack_collector_cooldown') )
                             {
 
@@ -500,6 +506,61 @@
 
                     $this->redirectSuccess('computer/research');
                 }
+                if ( $action == 'research' )
+                {
+
+                    if( PostHelper::checkForRequirements(['softwareid','accountnumber'] ) == false )
+                    {
+
+                        $this->redirectError('Missing Information','computer/research');
+                    }
+
+                    $softwareid = PostHelper::getPostData('softwareid');
+
+                    if( $this->softwares->softwareExists( $softwareid ) == false )
+                    {
+
+                        $this->redirectError('Software does not exist', 'computer/research');
+                    }
+
+                    $software = $this->softwares->getSoftware( $softwareid );
+
+                    if( $this->computers->hasSoftware( $this->computers->getCurrentUserComputer(), $softwareid ) == false )
+                    {
+
+                        $this->redirectError('This computer does not have this current software', 'computer/research');
+                    }
+
+                    $data = $this->softwares->getSoftwareData( $software->softwareid );
+
+                    if( isset( $data['license'] ) )
+                    {
+
+                        if( $data['license'] !== null )
+                        {
+
+                            $this->redirectError('This software is already licensed', 'computer/research');
+                        }
+                    }
+
+                    $accountnumber = PostHelper::getPostData('accountnumber');
+
+                    if( $this->finance->accountNumberExists( $accountnumber ) == false )
+                    {
+
+                        $this->redirectError('Account does not exist', 'computer/research');
+                    }
+
+                    $account = $this->finance->getByAccountNumber( $accountnumber );
+
+                    if( $this->finance->canAfford( $account->computerid, $account->userid, $this->getLicensePrice( $softwareid ) ) == false )
+                    {
+
+                        $this->redirectError('You cannot afford to research this software', 'computer/research' );
+                    }
+
+
+                }
             }
         }
 
@@ -657,6 +718,12 @@
                         $this->redirectError('Unable to complete process');
                     }
                 }
+            }
+
+            if ( $this->softwares->softwareExists( $softwareid ) == false )
+            {
+
+                $this->redirectError('Software does not exist');
             }
 
             $software = $this->softwares->getSoftware( $softwareid );

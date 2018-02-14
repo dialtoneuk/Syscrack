@@ -1,6 +1,42 @@
 [
-  {
-    "question":"What is test?",
-    "answer":"test"
-  }
+    {
+        "question": "What is measured using a Richter scale?",
+        "answer": "Earthquake"
+    },
+    {
+        "question": "What product was originally manufactured by communications giant Nokia?",
+        "answer": "Paper"
+    },
+    {
+        "question": "What year did Dark Side Of The Moon by Pink Floyd release?",
+        "answer": "1973"
+    },
+    {
+        "question": "In which country would you find the Negev desert?",
+        "answer": "Israel"
+    },
+    {
+        "question": "When was the Pioneer 10 space probe launched into space?",
+        "answer": "March 2, 1972"
+    },
+    {
+        "question": "What is the NATO phonetic alphabet word for X?",
+        "answer": "Xray"
+    },
+    {
+        "question": "What is the SI physical unit of dynamic viscosity?",
+        "answer": "Pascal-second"
+    },
+    {
+        "question": "What year was the UK an Olympic Games host for the first time?",
+        "answer": "1908"
+    },
+    {
+        "question": "How many natural satellites does Jupiter have?",
+        "answer": "67"
+    },
+    {
+        "question": "What is the capital of Arizona?",
+        "answer": "Phoenix"
+    }
 ]

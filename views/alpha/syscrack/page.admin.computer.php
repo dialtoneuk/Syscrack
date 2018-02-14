@@ -155,7 +155,7 @@ if ( isset( $_GET['page'] ) )
                                             <div class="btn-group" style="float: right;" role="group" aria-label="...">
                                                 <button type="button" onclick="window.location.href = '/game/internet/<?=$value->ipaddress?>/'" class="btn btn-warning">View</button>
                                                 <button type="button" onclick="window.location.href = '/admin/computer/edit/<?=$value->computerid?>/'"class="btn btn-success">Edit</button>
-                                                <button type="button" onclick="window.location.href = '/user/edit/<?=$value->userid?>/'" class="btn btn-info">Owner</button>
+                                                <button type="button" onclick="window.location.href = '/admin/users/edit/<?=$value->userid?>/'" class="btn btn-info">Owner</button>
                                             </div>
                                         </div>
                                     </div>

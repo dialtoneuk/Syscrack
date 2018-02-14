@@ -6,11 +6,11 @@
         </a>
     </div>
     <div class="list-group">
-        <a href="/admin/computer/" class="list-group-item">
+        <a href="/admin/users/" class="list-group-item">
             <h4 class="list-group-item-heading">User Index</h4>
             <p class="list-group-item-text">View all the users who are currently signed up.</p>
         </a>
-        <a href="/admin/computer/creator/" class="list-group-item">
+        <a href="/admin/users/creator/" class="list-group-item">
             <h4 class="list-group-item-heading">User Creator</h4>
             <p class="list-group-item-text">Create a new user account.</p>
         </a>

@@ -15,6 +15,7 @@
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
+    use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Operations;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
@@ -81,6 +82,15 @@
                     'POST /game/', 'pageProcess'
                 ],
                 [
+                    'GET /game/computers/', 'computers'
+                ],
+                [
+                    'POST /game/computers/switch/@computerid', 'switchProcess'
+                ],
+                [
+                    'POST /game/computers/', 'computersPurchase'
+                ],
+                [
                     '/game/internet/', 'internetBrowser'
                 ],
                 [
@@ -143,11 +153,7 @@
 
                             $this->internet->setCurrentConnectedAddress( null );
 
-<<<<<<< HEAD
                             Render::redirect('/game/' );
-=======
-                            Render::redirect('/game/', [], $this->model() );
->>>>>>> 1c0aca3e10809bad2ef4fc3d7789b9044fafa2bc
                         }
                     }
                 }
@@ -162,6 +168,130 @@
         {
 
             $this->getRender('page.game');
+        }
+
+        /**
+         * Computers
+         */
+
+        public function computers()
+        {
+
+            $this->getRender('page.game.computers');
+        }
+
+        public function computersPurchase()
+        {
+
+            if ( PostHelper::hasPostData() == false )
+            {
+
+                $this->redirectError('No data', 'game/computers/');
+            }
+            else
+            {
+
+                if ( PostHelper::checkForRequirements(['accountnumber']) == false )
+                {
+
+                    $this->redirectError('Account number is invalid', 'game/computers/');
+                }
+                else
+                {
+
+                    $finance = new Finance();
+
+                    if ( $finance->accountNumberExists(  PostHelper::getPostData('accountnumber', true ) ) == false )
+                    {
+
+                        $this->redirectError('Account number is invalid', 'game/computers/');
+                    }
+                    else
+                    {
+
+                        $account = $finance->getByAccountNumber( PostHelper::getPostData('accountnumber', true ) );
+
+                        if ( $account->userid !== $this->session->getSessionUser() )
+                        {
+
+                            $this->redirectError('Invalid', 'game/computers/');
+                        }
+
+                        if ( $finance->canAfford( $account->computerid, $account->userid, $this->getVPCPrice( $this->session->getSessionUser() ) ) == false )
+                        {
+
+                            $this->redirectError('Sorry, you cannot afford this transaction!', 'game/computers/');
+                        }
+                        else
+                        {
+
+                            $computerid = $this->computers->createComputer( $this->session->getSessionUser(), Settings::getSetting('syscrack_startup_default_computer'), $this->internet->getIP() );
+
+                            if( empty( $computerid ) )
+                            {
+
+                                throw new SyscrackException();
+                            }
+
+                            $class = $this->computers->getComputerClass( Settings::getSetting('syscrack_startup_default_computer') );
+
+                            $class->onStartup( $computerid, $this->session->getSessionUser(), [], Settings::getSetting('syscrack_default_hardware') );
+
+                            $finance->withdraw( $account->computerid, $account->userid, $this->getVPCPrice( $this->session->getSessionUser() ) );
+
+                            $this->redirectSuccess('game/computers/');
+                        }
+                    }
+                }
+            }
+        }
+
+        private function getVPCPrice( $userid )
+        {
+
+            $computers = $this->computers->getUserComputers( $userid );
+
+            if ( empty( $computers ) )
+            {
+
+                return 0;
+            }
+
+            return( count( $computers ) * ( Settings::getSetting('syscrack_vpc_purchase_price') * Settings::getSetting('syscrack_vpc_purchase_increase' ) ));
+        }
+
+        /**
+         * Switches a users computer
+         *
+         * @param $computerid
+         */
+
+        public function switchProcess( $computerid )
+        {
+
+            if ( $this->computers->computerExists( $computerid ) == false )
+            {
+
+                $this->redirectError('Invalid computer', 'game/computers/');
+            }
+            else
+            {
+
+                if ($this->computers->getComputer($computerid)->userid != Container::getObject('session')->getSessionUser())
+                {
+
+                    $this->page();
+                }
+                else
+                {
+
+                    $this->computers->setCurrentUserComputer($computerid);
+
+                    $this->internet->setCurrentConnectedAddress( null );
+
+                    $this->redirectSuccess('game/computers/');
+                }
+            }
         }
 
         /**

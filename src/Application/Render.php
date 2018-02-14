@@ -83,18 +83,32 @@ class Render
     public static function redirect( $url, $code=303 )
     {
 
-        Flight::redirect( $url, $code );
+        if ( Settings::getSetting('render_mvc_output') == true  )
+        {
+            if ( Settings::getSetting('render_json_mode') == true )
+            {
+
+                Flight::json( array('redirect' => $url, 'session' => $_SESSION ) );
+            }
+            else
+            {
+
+                Flight::redirect( $url, $code );
+            }
+        }
+        else
+        {
+
+            Flight::redirect( $url, $code );
+        }
     }
 
-<<<<<<< HEAD
     public static function getAssetsLocation()
     {
 
         return "/assets/" . Settings::getSetting('render_folder') . '/';
     }
 
-=======
->>>>>>> 1c0aca3e10809bad2ef4fc3d7789b9044fafa2bc
     /**
      * Gets the current view folder
      *

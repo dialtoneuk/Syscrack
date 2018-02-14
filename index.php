@@ -357,8 +357,8 @@
                     <title>Critical Error</title>
 
                     <!-- Stylesheets -->
-                    <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
-                    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+                    <link href="/assets/alpha/css/bootstrap.dark.css" rel="stylesheet">
+                    <link href="/assets/alpha/css/bootstrap-combobox.css" rel="stylesheet">
 
                     <!--[if lt IE 9]>
                     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>

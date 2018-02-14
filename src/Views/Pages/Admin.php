@@ -16,6 +16,8 @@
     use Framework\Exceptions\SyscrackException;
     use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Game\Finance;
+    use Framework\Syscrack\Game\Market;
+    use Framework\Syscrack\Game\Riddles;
     use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer;
     use Framework\Syscrack\User;
@@ -105,6 +107,18 @@
                     'POST /admin/computer/edit/@computerid/', 'computerEditorProcess'
                 ],
                 [
+                    'GET /admin/users/','usersViewer'
+                ],
+                [
+                    'POST /admin/users/','usersSearch'
+                ],
+                [
+                    'GET /admin/users/edit/@userid/','usersEdit'
+                ],
+                [
+                    'POST /admin/users/edit/@userid/','usersEditProcess'
+                ],
+                [
                     'GET /admin/riddles/','riddlesViewer'
                 ],
                 [
@@ -139,6 +153,83 @@
         {
 
             Render::view('syscrack/page.admin');
+        }
+
+        public function usersViewer()
+        {
+
+            Render::view('syscrack/page.admin.users');
+        }
+
+        public function usersSearch()
+        {
+
+
+        }
+
+        public function usersEdit( $userid )
+        {
+
+            if ( $this->user->userExists( $userid ) == false )
+            {
+
+                $this->redirectError('This user does not exist, please try another', '/admin/users/');
+            }
+            else
+            {
+
+                Render::view('syscrack/page.admin.users.edit', array('userid' => $userid, 'users' => $this->user ));
+            }
+        }
+
+        public function usersEditProcess( $userid )
+        {
+
+            if ( $this->user->userExists( $userid ) == false )
+            {
+
+                $this->redirectError('This user does not exist', "admin/users/edit/" . $userid. "/"  );
+            }
+            else
+            {
+
+                if ( PostHelper::hasPostData() == false )
+                {
+
+                    $this->redirectError( 'Post data is false', "admin/users/edit/" . $userid  );
+                }
+                else
+                {
+
+                    if ( PostHelper::checkForRequirements(['action']) == false )
+                    {
+
+                        $this->redirectError( 'Post data is false', "admin/users/edit/" . $userid  );
+                    }
+                    else
+                    {
+
+                        $action = PostHelper::getPostData('action', true );
+
+                        if ( $action == "group" )
+                        {
+
+                            if ( PostHelper::checkForRequirements(['group'] ) == false )
+                            {
+
+                                $this->redirectError( 'Post data is false', "admin/users/edit/" . $userid  );
+                            }
+                            else
+                            {
+
+                                $this->user->updateGroup( $userid, PostHelper::getPostData('group', true ) );
+
+                                $this->redirectSuccess('admin/users/edit/' . $userid );
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public function computerEditor( $computerid )
@@ -221,6 +312,11 @@
                             {
 
                                 $customdata['editable'] = true;
+                            }
+                            else
+                            {
+
+                                $customdata['editable'] = false;
                             }
 
                             if ( isset( $_POST['anondownloads'] ) )
@@ -321,6 +417,62 @@
                             $this->redirectSuccess('admin/computer/edit/' . $computerid);
                         }
                     }
+                    elseif ( $action == "stock")
+                    {
+
+                        $requirements = [
+                            'name',
+                            'type',
+                            'cost',
+                            'quantity'
+                        ];
+
+                        if ( PostHelper::checkForRequirements( $requirements ) == false )
+                        {
+
+                            $this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid );
+                        }
+                        else
+                        {
+
+                            $market = new Market();
+
+                            if ( $this->computers->isMarket( $computerid ) == false )
+                            {
+
+                                $this->redirectError('Wrong computer type', "admin/computer/edit/" . $computerid );
+                            }
+                            else
+                            {
+
+                                if ( PostHelper::getPostData('type', true ) == 'hardware' )
+                                {
+
+                                    if ( empty( $_POST['value'] ) || empty( $_POST['hardware'] ) )
+                                    {
+
+                                        $this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid );
+                                    }
+                                    else
+                                    {
+
+                                        $stock = [
+                                            'name' => PostHelper::getPostData('name', true ),
+                                            'type' => PostHelper::getPostData('type', true ),
+                                            'price' => PostHelper::getPostData('cost', true ),
+                                            'quantity' => PostHelper::getPostData('quantity', true ),
+                                            'hardware' => PostHelper::getPostData('hardware', true ),
+                                            'value' => PostHelper::getPostData('value', true )
+                                        ];
+
+                                        $market->addStockItem( $computerid, base64_encode( openssl_random_pseudo_bytes(16) ), $stock );
+
+                                        $this->redirectSuccess( "admin/computer/edit/" . $computerid );
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -346,6 +498,29 @@
         public function riddlesCreatorProcess()
         {
 
+            if ( PostHelper::hasPostData() == false )
+            {
+
+                $this->redirectError();
+            }
+            else
+            {
+
+                if ( PostHelper::checkForRequirements(['question', 'answer'] ) == false )
+                {
+
+                    $this->redirectError();
+                }
+                else
+                {
+
+                    $riddles = new Riddles();
+
+                    $riddles->addRiddle( PostHelper::getPostData('question', true), PostHelper::getPostData('answer', true ));
+
+                    $this->redirectSuccess();
+                }
+            }
         }
 
         public function reset()

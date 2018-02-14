@@ -8,6 +8,7 @@ use Framework\Syscrack\Game\Hardware;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Market;
 use Framework\Syscrack\Game\Schema;
+use Framework\Application\Render;
 
 $session = Container::getObject('session');
 
@@ -47,23 +48,23 @@ $current_computer = $internet->getComputer($ipaddress);
 
 <?php
 
-Render::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game'));
+Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game'));
 ?>
 <body>
 <div class="container">
 
     <?php
 
-    Render::render('syscrack/templates/template.navigation');
+    Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row">
         <div class="col-sm-12">
             <?php
 
             if (isset($_GET['error']))
-                Render::render('syscrack/templates/template.alert', array('message' => $_GET['error']));
+                Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::render('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
             ?>
         </div>
     </div>
@@ -154,7 +155,7 @@ Render::render('syscrack/templates/template.header', array('pagetitle' => 'Syscr
                                             you stronger.
                                         </p>
                                         <h5 style="color: #ababab" class="text-uppercase">
-                                            Recent Transactions
+                                            Your Recent Transactions
                                         </h5>
                                         <ul class="list-group">
                                             <?php
@@ -242,8 +243,8 @@ Render::render('syscrack/templates/template.header', array('pagetitle' => 'Syscr
                                                                     ?>
                                                                     <div class="panel panel-warning">
                                                                         <div class="panel-body text-center">
-                                                                            Your current hardware for this type is
-                                                                            faster than or equal to the one being sold
+                                                                            Your current hardware is
+                                                                            faster than or equal to this product.
                                                                         </div>
                                                                     </div>
                                                                     <?php
@@ -322,7 +323,7 @@ Render::render('syscrack/templates/template.header', array('pagetitle' => 'Syscr
     </div>
     <?php
 
-    Render::render('syscrack/templates/template.footer', array('breadcrumb' => true));
+    Render::view('syscrack/templates/template.footer', array('breadcrumb' => true));
     ?>
 </div>
 </body>

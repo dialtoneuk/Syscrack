@@ -57,6 +57,12 @@ class PostHelper
     public static function getPostData( $index, $escape=false )
     {
 
+        if ( isset( $_POST[ $index ] ) == false )
+        {
+
+            return null;
+        }
+
         if( $escape == true )
         {
 
@@ -96,7 +102,7 @@ class PostHelper
             else
             {
 
-                if( $post[ $requirement ] == '0' )
+                if( $post[ $requirement ] === '0' )
                 {
 
                     continue;

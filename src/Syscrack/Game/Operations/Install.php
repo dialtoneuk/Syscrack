@@ -11,6 +11,7 @@ namespace Framework\Syscrack\Game\Operations;
 
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\Statistics;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
@@ -191,6 +192,10 @@ class Install extends BaseClass implements Structure
 
                 $this->statistics->addStatistic('virusinstalls');
             }
+
+            $addressdatabase = new AddressDatabase();
+
+            $addressdatabase->addVirus( $data['ipaddress'], $data['softwareid'], $userid );
         }
 
         if( isset( $data['redirect'] ) )

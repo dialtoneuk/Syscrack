@@ -1,9 +1,6 @@
 <?php
-<<<<<<< HEAD
     use Framework\Application\Render;
 
-=======
->>>>>>> 1c0aca3e10809bad2ef4fc3d7789b9044fafa2bc
     if ( empty( $model ) )
     {
 
@@ -22,11 +19,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<<<<<<< HEAD
 <link href="<?=Render::getAssetsLocation()?>css/bootstrap.css" rel="stylesheet">
-=======
-<link href="/assets/bootstrap4/css/bootstrap.css" rel="stylesheet">
->>>>>>> 1c0aca3e10809bad2ef4fc3d7789b9044fafa2bc
 
 <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>

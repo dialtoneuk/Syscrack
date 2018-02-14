@@ -58,17 +58,27 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     <div class="row">
         <div class="col-sm-12">
             <div>
-
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#softwares" aria-controls="softwares" role="tab"
                                                               data-toggle="tab">Softwares</a></li>
                     <li role="presentation"><a href="#hardwares" aria-controls="hardwares" role="tab"
                                                               data-toggle="tab">Hardwares</a></li>
+
+                    <?php
+
+                        if ( $computer->type == Settings::getSetting('syscrack_computers_market_type') )
+                        {
+
+                            ?>
+                                <li role="presentation"><a href="#market" aria-controls="market" role="tab"
+                                                       data-toggle="tab">Market</a></li>
+                            <?php
+                        }
+                    ?>
                     <li style="float: right;"><a href="/admin/computer/">Home <span class="glyphicon glyphicon-arrow-right"></span> </a></li>
                     <li style="float: right;"><a href="/game/internet/<?= $computer->ipaddress ?>">View <span class="glyphicon glyphicon-search"></span> </a></li>
                 </ul>
-
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="softwares">
@@ -410,8 +420,138 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                             </div>
                         </div>
                     </div>
-                </div>
+                    <?php
 
+                    if ( $computer->type == Settings::getSetting('syscrack_computers_market_type') )
+                    {
+
+                        $market = new \Framework\Syscrack\Game\Market();
+
+                        $stock = $market->getStock( $computer->computerid );
+                        $purchases = $market->getPurchases( $computer->computerid );
+
+                        ?>
+                            <div role="tabpanel" class="tab-pane" id="market">
+                                <div class="row" style="margin-top: 2.5%;">
+                                    <div class="col-sm-8">
+                                        <?php
+                                            if ( empty( $stock ) )
+                                            {
+
+                                                ?>
+                                                    <div class="panel panel-danger">
+                                                        <div class="panel-body">
+                                                            No stock items found
+                                                        </div>
+                                                    </div>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                foreach ( $stock as $key=>$value )
+                                                {
+
+                                                    ?>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="panel panel-info">
+                                                                    <div class="panel-heading">
+                                                                        <?=$key?>
+                                                                    </div>
+                                                                    <div class="panel-body">
+                                                                        <div class="well">
+                                                                            <?php
+                                                                                print_r( $value );
+                                                                            ?>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php
+                                                }
+                                            }
+                                        ?>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="well">
+                                                    <?php print_r( $purchases )?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <form action="/admin/computer/edit/<?= $computer->computerid ?>/" method="post">
+                                            <button class="btn btn-success" style="width: 100%;" id="addstockbutton" type="button" data-toggle="collapse" data-target="#addstock" aria-expanded="false" aria-controls="addstock">
+                                                <span class="glyphicon glyphicon-plus-sign"></span> Add Stock Item
+                                            </button>
+                                            <div class="collapse" id="addstock" style="margin-top: 1.5%;">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="input-group input-group-lg">
+                                                                    <span class="input-group-addon" id="sizing-addon1">Name</span>
+                                                                    <input type="text" name="name" class="form-control" placeholder="My Hardware" aria-describedby="sizing-addon1">
+                                                                </div>
+                                                                <div class="input-group input-group-sm"  style="margin-top: 1.5%;">
+                                                                    <span class="input-group-addon" id="sizing-addon1">Cost</span>
+                                                                    <input type="number" name="cost" class="form-control" placeholder="100" aria-describedby="sizing-addon1">
+                                                                </div>
+                                                                <div class="input-group input-group-sm"  style="margin-top: 1.5%;">
+                                                                    <span class="input-group-addon" id="sizing-addon1">Quantity</span>
+                                                                    <input type="number" name="quantity" class="form-control" placeholder="10000" aria-describedby="sizing-addon1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="input-group input-group-sm" style="width: 100%;">
+                                                                    <select name="type" class="combobox input-sm form-control">
+                                                                        <option value="hardware">hardware</option>
+                                                                        <option value="software">software</option>
+                                                                    </select>
+                                                                </div>
+                                                                <p style="margin-top: 1.5%;">
+                                                                    <small>If this is a hardware, please choose which hardware component the user will buy, and then its power</small>
+                                                                </p>
+                                                                <div class="input-group input-group-sm" style="margin-top: 1.5%;">
+                                                                    <span class="input-group-addon" id="sizing-addon1">Hardware</span>
+                                                                    <input type="text" name="hardware" class="form-control" placeholder="cpu" aria-describedby="sizing-addon1">
+                                                                </div>
+                                                                <div class="input-group input-group-sm" style="margin-top: 1.5%;">
+                                                                    <span class="input-group-addon" id="sizing-addon1">Power</span>
+                                                                    <input type="text" name="value" class="form-control" placeholder="cpu" aria-describedby="sizing-addon1">
+                                                                </div>
+                                                                <p style="margin-top: 1.5%;">
+                                                                    <small>If instead you are selling a software, please provide a software id to copy</small>
+                                                                </p>
+                                                                <div class="input-group input-group-sm" style="margin-top: 1.5%;">
+                                                                    <span class="input-group-addon" id="sizing-addon1">Software</span>
+                                                                    <input type="text" name="softwareid" class="form-control" placeholder="1" aria-describedby="sizing-addon1">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button style="width: 100%; margin-top: 2.5%;"
+                                                                class="btn btn-info" type="submit">
+                                                                <span class="glyphicon glyphicon-arrow-up"
+                                                                      aria-hidden="true"></span> Add Stock Item
+                                                        </button>
+                                                        <input type="hidden" name="action" value="stock">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                    }
+                    ?>
+
+                </div>
             </div>
         </div>
     </div>

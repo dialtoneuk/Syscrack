@@ -96,7 +96,8 @@
                 if( empty( $schema['softwares'] ) || empty( $schema['hardwares'] ) )
                 {
 
-                    throw new SyscrackException();
+                    $schema['softwares'] = [];
+                    $schema['hardwares'] = Settings::getSetting('syscrack_default_hardware');
                 }
 
                 $this->clearSoftwares( $computerid );

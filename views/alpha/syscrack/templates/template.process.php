@@ -57,46 +57,30 @@ if (isset($processid)) {
                         <?php
                         if (isset($actions)) {
                             ?>
-                            <div class="panel-group" id="accordion" role="tablist" style="margin-top: 2.5%;"
-                                 aria-multiselectable="true">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="heading<?= $processid ?>">
-                                        <h4 class="panel-title">
-                                            <a role="button" data-toggle="collapse" data-parent="#accordion"
-                                               href="#collapse<?= $processid ?>" aria-expanded="true"
-                                               aria-controls="collapse<?= $processid ?>">
-                                                Control Options <span class="badge"
-                                                                      style="float: right">Click to expand</span>
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse<?= $processid ?>" class="panel-collapse collapse" role="tabpanel"
-                                         aria-labelledby="process<?= $processid ?>">
-                                        <div class="panel-body">
-                                            <button style="width: 100%;" class="btn btn-danger" type="button"
-                                                    onclick="window.location.href = '/processes/<?= $processid ?>/delete'">
-                                                <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-                                                Delete
-                                            </button>
+                                    <div class="panel-body">
+                                        <button style="width: 100%;" class="btn btn-danger btn-sm" type="button"
+                                                onclick="window.location.href = '/processes/<?= $processid ?>/delete'">
+                                            <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+                                            Delete
+                                        </button>
 
-                                            <?php
+                                        <?php
 
-                                            if ($processclass->canComplete($processid)) {
+                                        if ($processclass->canComplete($processid)) {
 
-                                                ?>
-                                                <button style="width: 100%; margin-top: 2.5%;" class="btn btn-success"
-                                                        type="button"
-                                                        onclick="window.location.href = '/processes/<?= $processid ?>/complete'">
-                                                    <span class="glyphicon glyphicon-arrow-up"
-                                                          aria-hidden="true"></span> Complete
+                                            ?>
+                                            <button style="width: 100%; margin-top: 2.5%;" class="btn btn-success btn-sm"
+                                                    type="button"
+                                                    onclick="window.location.href = '/processes/<?= $processid ?>/complete'">
+                                                <span class="glyphicon glyphicon-arrow-up"
+                                                      aria-hidden="true"></span> Complete
                                                 </button>
                                                 <?php
                                             }
                                             ?>
-                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             <?php
                         }
                         ?>

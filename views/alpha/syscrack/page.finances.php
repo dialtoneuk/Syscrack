@@ -37,6 +37,14 @@ if (isset($accountdatabase) == false) {
 }
 
 $accounts = $finance->getUserBankAccounts($session->getSessionUser());
+
+if ( empty( $accounts ) )
+{
+
+    Render::redirect('/game/internet/');
+
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html>

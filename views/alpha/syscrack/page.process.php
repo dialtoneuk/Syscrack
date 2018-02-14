@@ -73,57 +73,73 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         </div>
         <div class="col-sm-9">
             <?php
-            foreach ($processes as $key => $value) {
 
-                $computer = $computers->getComputer($key);
+            if ( empty( $processes ) )
+            {
 
                 ?>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h5 style="color: #ababab" class="text-uppercase">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            You currently don't have any processes on any of your machines, go do something!
+                        </div>
+                    </div>
+                <?php
+            }
+            else
+            {
+
+                foreach ($processes as $key => $value) {
+
+                    $computer = $computers->getComputer($key);
+
+                    ?>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5 style="color: #ababab" class="text-uppercase">
+                                <?php
+
+                                if ($computers->getCurrentUserComputer() == $computer->computerid) {
+
+                                    ?>
+                                    <p><a href="/processes/computer/<?= $computerid ?>" class="btn btn-primary"
+                                          role="button">Task Manager</a> <span>This is your current computer</span></p>
+                                    <?php
+                                } else {
+
+                                    ?>
+                                    <?= $computer->ipaddress ?> <span class="badge"
+                                                                      style="float: right;"><a href="/game/computers/#<?= $computer->ipaddress ?>">Switch to VPC</a></span>
+                                    <?php
+                                }
+                                ?>
+
+                            </h5>
+
                             <?php
+                            foreach ($value as $item => $process) {
 
-                            if ($computers->getCurrentUserComputer() == $computer->computerid) {
+                                if ($computers->getCurrentUserComputer() == $computer->computerid) {
 
-                                ?>
-                                <p><a href="/processes/computer/<?= $computerid ?>" class="btn btn-primary"
-                                      role="button">Task Manager</a> <span>This is your current computer</span></p>
-                                <?php
-                            } else {
+                                    ?>
+                                    <div class="row">
+                                        <?php Render::view('syscrack/templates/template.process', array('processid' => $process->processid, 'processcclass' => $operations->findProcessClass($process->process))); ?>
+                                    </div>
+                                    <?php
+                                } else {
 
-                                ?>
-                                <?= $computer->ipaddress ?> <span class="badge"
-                                                                  style="float: right;">Switch to VPC</span>
-                                <?php
+                                    ?>
+                                    <div class="row" style="opacity: 0.25;">
+                                        <?php Render::view('syscrack/templates/template.process', array('processid' => $process->processid, 'processcclass' => $operations->findProcessClass($process->process))); ?>
+                                    </div>
+                                    <?php
+                                }
                             }
                             ?>
-
-                        </h5>
-
-                        <?php
-                        foreach ($value as $item => $process) {
-
-                            if ($computers->getCurrentUserComputer() == $computer->computerid) {
-
-                                ?>
-                                <div class="row">
-                                    <?php Render::view('syscrack/templates/template.process', array('processid' => $process->processid, 'processcclass' => $operations->findProcessClass($process->process))); ?>
-                                </div>
-                                <?php
-                            } else {
-
-                                ?>
-                                <div class="row" style="opacity: 0.25;">
-                                    <?php Render::view('syscrack/templates/template.process', array('processid' => $process->processid, 'processcclass' => $operations->findProcessClass($process->process))); ?>
-                                </div>
-                                <?php
-                            }
-                        }
-                        ?>
-                        <p style="margin-top: -5%; font-size: 10px;"><?= count($value) ?> processes in total.</p>
+                            <p style="margin-top: -5%; font-size: 10px;"><?= count($value) ?> processes in total.</p>
+                        </div>
                     </div>
-                </div>
-                <?php
+                    <?php
+                }
             }
             ?>
         </div>

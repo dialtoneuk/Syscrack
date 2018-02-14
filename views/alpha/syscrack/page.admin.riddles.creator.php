@@ -89,20 +89,22 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     Create riddle
                                 </div>
                                 <div class="panel-body">
-                                    <div class="input-group input-group" style="margin-top: 2.5%;">
-                                        <span class="input-group-addon" id="basic-addon1"><span
-                                                    class="glyphicon glyphicon-question-sign"></span></span>
-                                        <input type="text" class="form-control" name="question"
-                                               placeholder="What is 2+2?" aria-describedby="basic-addon1">
-                                        <span class="input-group-addon" id="basic-addon1"><span
-                                                    class="glyphicon glyphicon-thumbs-up"></span></span>
-                                        <input type="text" class="form-control" name="answer" placeholder="4"
-                                               aria-describedby="basic-addon1">
-                                    </div>
-                                    <button style="width: 100%; margin-top: 2.5%;" class="btn btn-info" name="action"
-                                            value="transfer" type="submit">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Create
-                                    </button>
+                                    <form method="post">
+                                        <div class="input-group input-group" style="margin-top: 2.5%;">
+                                            <span class="input-group-addon" id="basic-addon1"><span
+                                                        class="glyphicon glyphicon-question-sign"></span></span>
+                                            <input type="text" class="form-control" name="question"
+                                                   placeholder="What is 2+2?" aria-describedby="basic-addon1">
+                                            <span class="input-group-addon" id="basic-addon1"><span
+                                                        class="glyphicon glyphicon-thumbs-up"></span></span>
+                                            <input type="text" class="form-control" name="answer" placeholder="4"
+                                                   aria-describedby="basic-addon1">
+                                        </div>
+                                        <button style="width: 100%; margin-top: 2.5%;" class="btn btn-info" name="action"
+                                                value="transfer" type="submit">
+                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Create
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

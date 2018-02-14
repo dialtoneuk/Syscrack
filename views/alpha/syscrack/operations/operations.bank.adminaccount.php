@@ -4,6 +4,7 @@ use Framework\Application\Settings;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Schema;
+use Framework\Application\Render;
 
 if (isset($internet) == false) {
 
@@ -34,23 +35,23 @@ $account = $finance->getByAccountNumber($accountnumber);
 
 <?php
 
-Render::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game'));
+Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game'));
 ?>
 <body>
 <div class="container">
 
     <?php
 
-    Render::render('syscrack/templates/template.navigation');
+    Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row">
         <div class="col-sm-12">
             <?php
 
             if (isset($_GET['error']))
-                Render::render('syscrack/templates/template.alert', array('message' => $_GET['error']));
+                Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::render('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
             ?>
         </div>
     </div>
@@ -152,7 +153,7 @@ Render::render('syscrack/templates/template.header', array('pagetitle' => 'Syscr
     </div>
     <?php
 
-    Render::render('syscrack/templates/template.footer', array('breadcrumb' => true));
+    Render::view('syscrack/templates/template.footer', array('breadcrumb' => true));
     ?>
 </div>
 </body>

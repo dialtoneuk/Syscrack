@@ -135,15 +135,35 @@ if ( Settings::getSetting('render_mvc_output') == true )
             width: 150px !important;
             height: 150px !important;
         }
-
         <?php
     }
 ?>
 
-        @media (max-width: 992px) {
+        @media (max-width: 980px) {
             .navbar-fix {
                 display: none;
             }
         }
+
+        <?php
+
+        if (  Settings::getSetting('theme_fullscreen') == true )
+        {
+            ?>
+
+                .container
+                {
+                    width: 100%;
+                    overflow-x: hidden;
+                }
+
+                body, html{
+                    padding: 0.05%;
+                    margin: 0;
+                    overflow-x: hidden;
+                }
+            <?php
+        }
+        ?>
     </style>
 </head>

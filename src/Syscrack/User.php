@@ -247,6 +247,30 @@ class User
 		$this->database->updateUser( $userid, $array );
 	}
 
+    /**
+     * Updates the users group
+     *
+     * @param $userid
+     *
+     * @param $group
+     */
+
+    public function updateGroup( $userid, $group )
+    {
+
+        if( $this->userExists( $userid ) == false )
+        {
+
+            throw new SyscrackException();
+        }
+
+        $array = array(
+            'group' => $group
+        );
+
+        $this->database->updateUser( $userid, $array );
+    }
+
 	/**
 	 * Updates the users salt
 	 *

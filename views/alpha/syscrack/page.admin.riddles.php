@@ -94,32 +94,18 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            Riddle <span class="badge" style="float: right;"><?= $key ?></span>
-                                        </div>
                                         <div class="panel-body">
                                             <div class="row">
-                                                <div class="col-sm-12">
-                                                    <h5>
-                                                        <?= $value['question'] ?>
-                                                    </h5>
-                                                    <div class="well">
-                                                        <?= $value['answer'] ?>
-                                                    </div>
+                                                <div class="col-sm-4">
+                                                    <h2>
+                                                        <?=$key?>
+                                                    </h2>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <form method="post">
-                                                        <div class="btn-group btn-group-justified" role="group"
-                                                             aria-label="...">
-                                                            <div class="btn-group" role="group">
-                                                                <button type="submit" name="action" value="delete"
-                                                                        class="btn btn-danger">Delete
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                <div class="col-sm-8">
+                                                    <h4>
+                                                        <i><?= $value['question'] ?></i>
+                                                    </h4>
+                                                    <?= $value['answer'] ?>
                                                 </div>
                                             </div>
                                         </div>

@@ -39,29 +39,38 @@ $computers = $internet->getComputer($value['ipaddress']);
         <?php
         if ($viruses->hasVirusesOnComputer($computers->computerid, $session->getSessionUser())) {
 
+            $virus = $viruses->getVirusesOnComputer( $computers->computerid, $session->getSessionUser());
+
             ?>
-            <p class="text-center">
                 <?php
 
-                if (isset($value['virus']) == false) {
+                if (empty( $virus ) ) {
 
-                    ?>
-                    You currently have a virus installed on this computer
-                    <?php
                 } else {
 
-                    if ($softwares->softwareExists($value['virus'])) {
+                    foreach ( $virus as $key=>$penis )
+                    {
+                        if ($softwares->softwareExists($penis->softwareid)) {
 
-                        $software = $softwares->getSoftware($value['softwareid']);
+                            $software = $softwares->getSoftware($penis->softwareid);
 
-                        ?>
-                        You currently have a <?= $software->softwarename ?> (<?= $software->level ?>) installed on this computer, it was
-                        last collected on <?= date('Y:m:d', $software->lastmodified) ?>
-                        <?php
+                            if ( $software->installed == false )
+                            {
+
+                                continue;
+                            }
+
+                            ?>
+                            <p class="text-center">
+                                You currently have a <?= $software->softwarename ?> (<?= $software->level ?>) installed on this computer, it was
+                                last collected <?= date('D M j G:i:s Y', $software->lastmodified) ?>
+                            </p>
+                            <?php
+                        }
                     }
                 }
                 ?>
-            </p>
+            </>
             <?php
         }
         ?>

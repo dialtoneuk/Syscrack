@@ -91,6 +91,7 @@ class Operation
             'requireloggedin'   => true,
             'allowpost'         => false,
             'allowcustomdata'   => false,
+            'jsonoutput'        => false,
             'postrequirements'  => []
         );
     }
@@ -146,10 +147,31 @@ class Operation
         return false;
     }
 
-    public function getComputerClass( $computerid )
+    /**
+     * Returns true if to return all outputs in Json format for those post operations
+     *
+     * @return bool
+     */
+
+    public function isJsonOutput()
     {
 
+        if ( isset( $this->configuration()['jsonoutput'] ) )
+        {
 
+            if ( $this->configuration()['jsonoutput'] == true )
+            {
+
+                return true;
+            }
+
+            return false;
+        }
+        else
+        {
+
+            return false;
+        }
     }
 
     /**
@@ -382,7 +404,7 @@ class Operation
     public function redirect( $path, $exit=true )
     {
 
-        Flight::redirect( Settings::getSetting('controller_index_root') . $path );
+        Render::redirect( Settings::getSetting('controller_index_root') . $path );
 
         if( $exit == true )
         {
@@ -442,15 +464,47 @@ class Operation
                 $_SESSION['error_page'] = $this->getCurrentPage();
             }
 
-            if ($path !== '')
+
+            if ( $this->isJsonOutput() )
             {
 
-                $this->redirect( $path . '?error' );
+                if ( $path !== '' )
+                {
+
+                    Flight::json([
+                       'error' => [
+                           'redirect' => $path,
+                           'message' => $message
+                       ]
+                    ]);
+
+                    die();
+                }
+                else
+                {
+
+                    Flight::json([
+                        'error' => [
+                            'message' => $message
+                        ]
+                    ]);
+
+                    die();
+                }
             }
             else
             {
 
-                $this->redirect( $this->getCurrentPage() . '?error' );
+                if ($path !== '')
+                {
+
+                    $this->redirect( $path . '?error' );
+                }
+                else
+                {
+
+                    $this->redirect( $this->getCurrentPage() . '?error' );
+                }
             }
         }
         else
@@ -478,13 +532,40 @@ class Operation
     public function redirectSuccess($path = '')
     {
 
-        if ($path !== '')
+        if ( $this->isJsonOutput() )
         {
 
-            $this->redirect( $path . '?success' );
-        }
+            if ( $path !== '' )
+            {
 
-        $this->redirect( $this->getCurrentPage() . '?success', true );
+                Flight::json([
+                    'redirect' => $path,
+                    'success' => true
+                ]);
+
+                die();
+            }
+            else
+            {
+
+                Flight::json([
+                    'success' => true
+                ]);
+
+                die();
+            }
+        }
+        else
+        {
+
+            if ($path !== '')
+            {
+
+                $this->redirect( $path . '?success' );
+            }
+
+            $this->redirect( $this->getCurrentPage() . '?success', true );
+        }
     }
 
     /**

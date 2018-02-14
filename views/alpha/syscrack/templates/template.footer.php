@@ -50,9 +50,6 @@ use Framework\Application\Render;
     ?>
     <div class="row">
         <div class="col-sm-12">
-            <p class="text-center">
-                <a href="https://paypal.me/youngmusic">Donate, we are a free game after all?</a>
-            </p>
             <p class="small text-center" style="color: lightgray;">
                 Syscrack 2017 was created by <a href="http://www.github.com/dialtoneuk/">Lewis Lancaster</a> and we
                 loaded in <?= SYSCRACK_TIME_END - SYSCRACK_TIME_START; ?> seconds

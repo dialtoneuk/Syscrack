@@ -129,7 +129,7 @@
 
             $riddle = $this->getRiddle( $riddleid );
 
-            if( $riddle['answer'] == $answer )
+            if( strtolower( $riddle['answer'] ) == strtolower( $answer ) )
             {
 
                 return true;
@@ -184,28 +184,14 @@
         public function addRiddle( string $question, string $answer )
         {
 
-            if( $this->hasRiddles() == false )
-            {
+            $riddles = $this->getRiddles();
 
-                $riddles = $this->getRiddles();
+            $riddles[] = array(
+                'question'  => $question,
+                'answer'    => $answer
+            );
 
-                $riddles[] = array(
-                    'question'  => $question,
-                    'answer'    => $answer
-                );
-
-                $this->saveRiddles( $riddles );
-            }
-            else
-            {
-
-                $this->riddles[] = array(
-                    'question'  => $question,
-                    'answer'    => $answer
-                );
-
-                $this->saveRiddles();
-            }
+            $this->saveRiddles( $riddles );
         }
 
         /**
@@ -214,10 +200,10 @@
          * @param array $data
          */
 
-        private function saveRiddles( array $data=[] )
+        private function saveRiddles( $data )
         {
 
-            if( $data !== null )
+            if( $data != null )
             {
 
                 FileSystem::writeJson( Settings::getSetting('syscrack_riddle_location'), $data );

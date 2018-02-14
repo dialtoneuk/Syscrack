@@ -40,14 +40,14 @@ $software = $softwares->getSoftware($softwareid);
 
 <?php
 
-Render::render('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game'));
+Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game'));
 ?>
 <body>
 <div class="container">
 
     <?php
 
-    Render::render('syscrack/templates/template.navigation');
+    Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row">
         <div class="col-md-12">
@@ -119,7 +119,7 @@ Render::render('syscrack/templates/template.header', array('pagetitle' => 'Syscr
 
     <?php
 
-    Render::render('syscrack/templates/template.footer', array('breadcrumb' => true));
+    Render::view('syscrack/templates/template.footer', array('breadcrumb' => true));
     ?>
 </div>
 </body>

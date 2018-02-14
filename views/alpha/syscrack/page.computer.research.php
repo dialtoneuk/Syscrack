@@ -278,20 +278,111 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 <div id="researchsoftware" class="tab-pane fade" style="padding-top: 2.5%;">
                     <div class="row">
                         <div class="col-md-12">
-                            <h5>
-                                Research Software
-                            </h5>
+                            <div class="panel panel-danger">
+                                <div class="panel-body">
+                                    This is currently a little buggy as the current feature used isn't really designed for this
+                                    front end. Please wait for the front end rewrite for a more fluid experience and please
+                                    check your <a href="/processes/">for a research process.</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <p>
-                                Here you can research a software to a desired level of your choice. Simply choose which
-                                licensed software you would
-                                like to research and the level of which you'd like to research it too. Researching is
-                                completely free, the only thing
-                                you pay in is your time.
-                            </p>
+                                <p>
+                                    Software
+                                </p>
+                                <select name="softwareid" id="softwareid" class="combobox input-sm form-control">
+                                    <option></option>
+                                    <?php
+
+                                    $computersoftwares = $computers->getComputerSoftware($computers->getCurrentUserComputer());
+
+                                    if (empty($computersoftwares) == false) {
+
+                                        foreach ($computersoftwares as $key => $value) {
+
+                                            if ($softwares->softwareExists($value['softwareid']) == false) {
+
+                                                continue;
+                                            }
+
+                                            if ($softwares->hasLicense($value['softwareid']) == false ) {
+
+                                                continue;
+                                            }
+
+                                            $software = $softwares->getSoftware($value['softwareid']);
+
+                                            $extension = $softwares->getSoftwareExtension($softwares->getSoftwareNameFromSoftwareID($value['softwareid']));
+
+                                            $price = Settings::getSetting('syscrack_research_price_multiplier') * $software->level;
+
+                                            echo('<option value="' . $software->softwareid . '">' . $software->softwarename . $extension . ' ' . $software->size . 'mb (' . $software->level . ') ' . Settings::getSetting('syscrack_currency') . $price . '</option>');
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <p style="margin-top: 1.5%;">
+                                    Software Name
+                                </p>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">
+                                        <span class="glyphicon glyphicon-user" aria-hidden="true">
+                                        </span>
+                                    </span>
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="my software" aria-describedby="basic-addon1">
+                                </div
+                                <p style="margin-top: 1.5%;">
+                                    Account Number
+                                </p>
+                                <select name="accountnumber" id="accountnumber" class="combobox input-sm form-control">
+                                    <option></option>
+
+                                    <?php
+
+                                    if (empty($accounts) == false) {
+
+                                        foreach ($accounts as $account) {
+
+                                            ?>
+                                            <option value="<?= $account->accountnumber ?>">
+                                                #<?= $account->accountnumber ?>
+                                                (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
+                                                )
+                                                @<?= $computers->getComputer($account->computerid)->ipaddress ?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <button style="width: 100%; margin-top: 2.5%;" class="btn btn-primary"
+                                        name="action" value="licensesoftware" onclick="sendPost()">
+                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Research Software
+                                </button>
+                                <script>
+
+                                    function sendPost()
+                                    {
+
+                                        var softwareid = $("#softwareid").val();
+                                        var name = $("#name").val();
+                                        var accountnumber =  $("#accountnumber").val();
+
+                                        $.ajax({
+                                            url: '/computer/actions/research/' + softwareid,
+                                            type: "POST",
+                                            data: {
+                                                name: name,
+                                                accountnumber: accountnumber
+                                            },
+                                            success: function(data){
+                                                console.log( data );
+                                                window.location.reload();
+                                            }
+                                        });
+                                    }
+                                </script>
                         </div>
                     </div>
                 </div>

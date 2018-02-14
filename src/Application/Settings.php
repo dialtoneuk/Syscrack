@@ -160,11 +160,10 @@ class Settings
 		return true;
 	}
 
-	/**
-	 * Preloads the settings.
-	 *
-	 * @return string
-	 */
+    /**
+     * @return array
+     *
+     */
 
 	public static function preloadSettings()
 	{
