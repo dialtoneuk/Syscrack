@@ -1,4 +1,4 @@
-![Image](https://i.imgur.com/9HssB8T.png)
+![Image](https://i.imgur.com/UVz5BSc.png)
 
 OFFICIAL DISCORD * https://discord.gg/N3SRMbt
 
