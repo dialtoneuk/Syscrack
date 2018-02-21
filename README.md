@@ -1,10 +1,8 @@
 ![Image](https://i.imgur.com/UVz5BSc.png)
 
-![Image](https://vignette.wikia.nocookie.net/dbz-dokkanbattle/images/d/d0/Discord_logo.png/revision/latest?cb=20170830065553) https://discord.gg/N3SRMbt
-
- ## An open source hacking simulated written in PHP
+ # A virtual online crime simulator, written in PHP
  
- Syscrack, to put it simply, Is a virtual hacking simulator. By which you control a virtual computer inside a simulated IP based internet. Your tasks vary depending on your play style, making the game seem more like a virtual sandbox.
+ Syscrack, to put it simply, is a virtual online crime simulator focused on hacking and the internet. By which you control a virtual computer inside a simulated IP based internet. Your tasks vary depending on your play style, making the game seem more like a virtual sandbox.
  
  Installation
  ===========
