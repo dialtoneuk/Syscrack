@@ -1,6 +1,6 @@
 ![Image](https://i.imgur.com/UVz5BSc.png)
 
-OFFICIAL DISCORD * https://discord.gg/N3SRMbt
+![Image](https://vignette.wikia.nocookie.net/dbz-dokkanbattle/images/d/d0/Discord_logo.png/revision/latest?cb=20170830065553) https://discord.gg/N3SRMbt
 
  ## An open source hacking simulated written in PHP
  
@@ -18,6 +18,8 @@ OFFICIAL DISCORD * https://discord.gg/N3SRMbt
  Once you have installed xampp, and made sure all of your services are running. Head over to https://getcomposer.org/ and install composer. It will ask for a CLI interpreter, this will be in the location of where ever you installed xampp nested in the PHP folder. You'll want to look for php.exe
  
  Once composer is installed, simply run one of the various build batch scripts provided. It is suggested that for your first build that you run the apache2-dev build for windows. This will automatically configure your webserver ready for Syscrack.
+ 
+ If for some reason running these batch files has no effect, please look into the build folder to see if it has created files. If not, simply navigate to the build/win/conf folder and copy the htaccess.windows file and rename it to .htaccess. Make sure it doesn't have a file name and it is simply '.htaccess'.
  
  ### Starting Fresh On Windows
  
