@@ -480,10 +480,10 @@
                     $this->redirectError('Missing information', $this->getRedirect('connection/creator') );
                 }
 
-                if( FileSystem::directoryExists('conf/database/') == false )
+                if( FileSystem::directoryExists('config/database/') == false )
                 {
 
-                    FileSystem::createDirectory('conf/database/');
+                    FileSystem::createDirectory('config/database/');
                 }
 
                 $array = $this->mergeDatabaseArrays( array(
