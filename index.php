@@ -8,10 +8,10 @@
      \___ \| | | / __|/ __| '__/ _` |/ __| |/ /
      ____) | |_| \__ \ (__| | | (_| | (__|   <
     |_____/ \__, |___/\___|_|  \__,_|\___|_|\_\
-            __/ | 2015/2018 - Alpha
+            __/ | 2015/2018 - Alpha / Prototype
            |___/
      *
-     * Written by Lewis Lancaster
+     * Written by Lewis Lancaster 2017.
      */
 
     define('SYSCRACK_TIME_START', microtime( true ) );
