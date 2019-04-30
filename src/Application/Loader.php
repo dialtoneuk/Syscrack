@@ -9,6 +9,7 @@ namespace Framework\Application;
  * @package Framework
  */
 
+use Framework\Application\UtilitiesV2\Debug;
 use Framework\Exceptions\ApplicationException;
 use ReflectionMethod;
 use Exception;
@@ -22,15 +23,6 @@ class Loader
 
 	protected $classes = [];
 
-    /**
-     * Loader constructor.
-     */
-
-	public function __construct()
-	{
-
-		$this->loadPaypload();
-	}
 
     /**
      * Loads the payload

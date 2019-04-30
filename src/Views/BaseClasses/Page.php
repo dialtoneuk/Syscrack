@@ -311,7 +311,7 @@
                 ob_clean();
             }
 
-            Render::view(Settings::getSetting('syscrack_view_location') . $file, $array, $this->model() );
+            Render::view($file, $array, $this->model() );
         }
 
         /**

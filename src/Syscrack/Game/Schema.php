@@ -108,7 +108,7 @@ class Schema
     public function SchemaPageExists($computerid )
     {
 
-        if( FileSystem::fileExists( '/views/' .   Settings::getSetting('render_folder' ) . DIRECTORY_SEPARATOR . $this->getSchemaPageLocation( $computerid ) ) == false )
+        if( FileSystem::fileExists( '/themes/' .   Settings::getSetting('render_folder' ) . DIRECTORY_SEPARATOR . $this->getSchemaPageLocation( $computerid ) ) == false )
         {
 
             return false;

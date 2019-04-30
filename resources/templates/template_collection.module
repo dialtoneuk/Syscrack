@@ -1,0 +1,43 @@
+<?php
+namespace _namespace_;
+
+/**
+ * Class _classname_
+ *
+ * Automatically created at: _time_
+ */
+
+use Framework\Application\UtilitiesV2\Collection;
+use Framework\Application\UtilitiesV2\Convention;
+use Framework\Application\UtilitiesV2\Conventions\AmbiguousData;
+
+class _classname_ extends Collection
+{
+
+    /**
+     * _classname_ constructor.
+     * @param $filepath
+     * @param $namespace
+     * @param bool $auto_create
+     */
+
+    public function __construct( $filepath , $namespace, bool $auto_create = true)
+    {
+
+        parent::__construct( $filepath , $namespace, $auto_create);
+    }
+
+    /**
+     * Returns a new convention class.
+     * Remember to change the return type to the correct convention.
+     *
+     * @param array $values
+     * @return Convention
+     */
+
+    public static function dataInstance( array $values )
+    {
+
+        return( new AmbiguousData( $values ) );
+    }
+}

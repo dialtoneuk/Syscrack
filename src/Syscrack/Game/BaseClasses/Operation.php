@@ -346,7 +346,7 @@ class Operation
             ob_clean();
         }
 
-        Render::view( Settings::getSetting('syscrack_view_location') . $file, $array);
+        Render::view( 'syscrack/' . $file, $array);
     }
 
     /**

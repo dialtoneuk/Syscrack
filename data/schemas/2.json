@@ -1,0 +1,26 @@
+{
+    "name": "Whois",
+    "page": "npc.whois",
+    "riddles": {
+        "riddleid": "1",
+        "riddlecomputer": "1"
+    },
+    "softwares": [],
+    "hardwares": {
+        "cpu": {
+            "value": 100
+        },
+        "download": {
+            "value": 10
+        },
+        "gpu": {
+            "value": 500
+        },
+        "harddrive": {
+            "value": 100
+        },
+        "upload": {
+            "value": 2
+        }
+    }
+}

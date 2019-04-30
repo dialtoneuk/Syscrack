@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":262:{a:2:{s:7:"defects";a:2:{s:39:"Framework\Tests\ThemesTest::testFolders";i:4;s:42:"Framework\Tests\ThemesTest::testGetFolders";i:4;}s:5:"times";a:2:{s:39:"Framework\Tests\ThemesTest::testFolders";d:0.062;s:42:"Framework\Tests\ThemesTest::testGetFolders";d:0.007;}}}

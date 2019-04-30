@@ -382,6 +382,6 @@ class Settings
 	private static function fileLocation()
 	{
 
-		return sprintf('%s' . DIRECTORY_SEPARATOR . 'data/config' . DIRECTORY_SEPARATOR . 'settings.json', $_SERVER['DOCUMENT_ROOT'] );
+		return sprintf('%s' . DIRECTORY_SEPARATOR . 'data/config' . DIRECTORY_SEPARATOR . 'settings.json', SYSCRACK_ROOT );
 	}
 }

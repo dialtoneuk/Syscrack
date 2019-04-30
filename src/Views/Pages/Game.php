@@ -167,7 +167,7 @@
         public function page()
         {
 
-            $this->getRender('page.game');
+            $this->getRender('syscrack/page.game');
         }
 
         /**
@@ -177,7 +177,7 @@
         public function computers()
         {
 
-            $this->getRender('page.game.computers');
+            $this->getRender('syscrack/page.game.computers');
         }
 
         public function computersPurchase()
@@ -301,7 +301,7 @@
         public function addressBook()
         {
 
-            $this->getRender('page.game.addressbook');
+            $this->getRender('syscrack/page.game.addressbook');
         }
 
         /**
@@ -311,7 +311,7 @@
         public function accountBook()
         {
 
-            $this->getRender('page.game.accountbook');
+            $this->getRender('syscrack/page.game.accountbook');
         }
 
         /**
@@ -335,7 +335,7 @@
             else
             {
 
-                $this->getRender('page.game.internet', array('ipaddress' => $this->internet->getComputerAddress( Settings::getSetting('syscrack_whois_computer') ) ) );
+                $this->getRender('syscrack/page.game.internet', array('ipaddress' => $this->internet->getComputerAddress( Settings::getSetting('syscrack_whois_computer') ) ) );
             }
         }
 
@@ -354,7 +354,7 @@
                 $this->redirectError('404 Not Found', $this->getRedirect() . '/internet' );
             }
 
-            $this->getRender('page.game.internet', array('ipaddress' => $ipaddress));
+            $this->getRender('syscrack/page.game.internet', array('ipaddress' => $ipaddress));
         }
 
         /**

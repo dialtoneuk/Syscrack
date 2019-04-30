@@ -14,6 +14,7 @@ use Framework\Application\Loader;
 use Framework\Exceptions\ApplicationException;
 use Framework\Views\Controller;
 use Framework\Application\Container;
+use Framework\Application\UtilitiesV2\Debug;
 use Flight;
 
 class Application
@@ -144,7 +145,23 @@ class Application
 	private function createLoader( $callback=null )
 	{
 
-		return new Loader( $callback );
+		$loader = new Loader();
+
+        try
+        {
+
+            $loader->loadPaypload();
+        }
+        catch( \RuntimeException $error )
+        {
+
+            if( Debug::isCMD() )
+                Debug::echo("[ ERROR IN LOADER ] " . $error->getMessage() );
+            else
+                throw $error;
+        }
+
+        return $loader;
 	}
 
     /**

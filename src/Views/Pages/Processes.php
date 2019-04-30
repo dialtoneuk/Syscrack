@@ -93,7 +93,7 @@
                     $array[ $value->computerid ][] = $value;
                 }
             }
-            $this->getRender('page.process.php', array('processes' => $array, 'operations' => $this->operations, 'computerid' => $this->computers->getCurrentUserComputer() ));
+            $this->getRender('syscrack/page.process.php', array('processes' => $array, 'operations' => $this->operations, 'computerid' => $this->computers->getCurrentUserComputer() ));
         }
 
         /**
@@ -131,7 +131,7 @@
                     else
                     {
 
-                        $this->getRender('page.process.view', array('processid' => $processid, 'processclass' => $this->operations, 'auto' => true));
+                        $this->getRender('syscrack/page.process.view', array('processid' => $processid, 'processclass' => $this->operations, 'auto' => true));
                     }
                 }
             }
@@ -285,6 +285,6 @@
 
             $processes = $this->operations->getComputerProcesses( $computer->computerid );
 
-            $this->getRender('page.process.machine', array('processes' => $processes, 'operations' => $this->operations, 'computerid' => $computerid, 'ipaddress' => $computer->ipaddress ));
+            $this->getRender('syscrack/page.process.machine', array('processes' => $processes, 'operations' => $this->operations, 'computerid' => $computerid, 'ipaddress' => $computer->ipaddress ));
         }
     }

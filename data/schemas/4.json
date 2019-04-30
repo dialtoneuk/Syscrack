@@ -1,0 +1,61 @@
+{
+    "name": "Download Shit Here",
+    "page": "npc.download",
+    "riddles": {
+        "riddleid": "2",
+        "riddlecomputer": "3"
+    },
+    "softwares": [
+        {
+            "installed": 0,
+            "level": 1,
+            "name": "Free Cracker",
+            "size": 10,
+            "uniquename": "cracker",
+            "data": {
+                "editable": true,
+                "allowanondownloads": true
+            }
+        },
+        {
+            "installed": 0,
+            "level": 1.1,
+            "name": "Free Hasher",
+            "size": 10,
+            "uniquename": "hasher",
+            "data": {
+                "editable": true,
+                "allowanondownloads": true
+            }
+        },
+        {
+            "installed": 0,
+            "level": 10,
+            "name": "Test",
+            "size": 100,
+            "uniquename": "riddle",
+            "data": {
+                "riddleid": 1,
+                "computerid": 2,
+                "editable": true
+            }
+        }
+    ],
+    "hardwares": {
+        "cpu": {
+            "value": 10000
+        },
+        "download": {
+            "value": 10000
+        },
+        "gpu": {
+            "value": 50000
+        },
+        "harddrive": {
+            "value": 10000
+        },
+        "upload": {
+            "value": 2000
+        }
+    }
+}

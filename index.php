@@ -1,5 +1,5 @@
 <?php
-
+    require_once "vendor/autoload.php";
     /**
      *
      _____                                _
@@ -14,116 +14,302 @@
      * Written by Lewis Lancaster 2017.
      */
 
+    use Framework\Application\UtilitiesV2\Debug;
+
+    if (empty( $_SERVER["DOCUMENT_ROOT"] ) )
+        $root = getcwd();
+    else
+        $root = $_SERVER["DOCUMENT_ROOT"];
+
+    if( substr( $root, -1 ) !== DIRECTORY_SEPARATOR )
+        $root = $root . DIRECTORY_SEPARATOR;
+
+    if( version_compare(PHP_VERSION, '7.0.0') == -1 )
+        die('Please upgrade to PHP 7.0.0+ to run this web application. Your current PHP version is ' . PHP_VERSION );
+
+    if( php_sapi_name() === 'cli' && Debug::isCMD() == false )
+        die('Please run this web application through your web browser. It wont work via the console!');
+
+
+//<editor-fold defaultstate="collapsed" desc="Application Settings">
+
+    /**
+     * Written by Lewis 'mkultra2018' Lancaster
+     * in 2018 (June to August)
+     * =======================================
+     */
+
+    //Syscrack
+
+    if( defined("SYSCRACK_ROOT") == false )
+        define("SYSCRACK_ROOT", $root );
+    define("SYSCRACK_URL_ROOT", "/");
+    define("SYSCRACK_NAMESPACE_ROOT", "Framework\\");
+    define("SYSCRACK_URL_ADDRESS", "http://localhost");
+    define("SYSCRACK_VERSION_PHASE","alpha");
+    define("SYSCRACK_VERSION_NUMBER","0.1.5");
+
+    //Framework
+    define("FRAMEWORK_BASECLASS", "base");  //This ties to a few of the instance builders and won't build a direct instance of any class called "Base". This is useful in the
+    //Util namespace for not directly invoking my interfaces and leaving them easily modifiable. If you want to load the base, even
+    //though it could potentially crash the system. Change "base" to "".
+    //Website
+    define("WEBSITE_TITLE", "Syscrack");
+    define("WEBSITE_JQUERY", "jquery-3.3.1.min.js");
+    define("WEBSITE_BOOTSTRAP4", "bootstrap.js");
+
+    //User Accounts
+    define("ACCOUNT_PREFIX", "user");
+    define("ACCOUNT_DIGITS", 8);
+    define("ACCOUNT_RND_MIN", 1);
+    define("ACCOUNT_RND_MAX", 8);
+    define("ACCOUNT_PASSWORD_MIN", 8);
+    define("ACCOUNT_PASSWORD_STRICT", false );
+
+    //Tracks
+    define("TRACK_PRIVACY_PUBLIC", "public");
+    define("TRACK_PRIVACY_PRIVATE", "private");
+    define("TRACK_PRIVACY_PERSONAL", "personal");
+    define("TRACK_PREFIX", "track");
+    define("TRACK_NAME_MAXLENGTH", 64);
+    define("TRACK_DIGITS", 12);
+    define("TRACK_RND_MIN", 0);
+    define("TRACK_RND_MAX", 9);
+
+    //Global Upload Settings
+    define("UPLOADS_TEMPORARY_DIRECTORY", "files/temp/");
+    define("UPLOADS_FILEPATH","src/Framework/Uploads/");
+    define("UPLOADS_NAMESPACE","Framework\\Application\\Uploads\\");
+    define("UPLOADS_LOCAL", true ); //Will keep files in the temporary directory instead of uploading them ( should only be used for testing )
+    define("UPLOADS_WAVEFORMS_LOCAL", true ); //Will keep wave forms in the temporary directory instead of uploading them. Use with global above to completely turn off the data handler.
+    define("UPLOADS_POST_KEY", "track");
+    define("UPLOADS_MAX_SIZE_GLOBAL", 500); //Used to define the max applicable size anybody can upload
+    define("UPLOADS_ERROR_NOT_FOUND", 1 );
+    define("UPLOADS_ERROR_FILENAME", 2 );
+    define("UPLOADS_ERROR_EXTENSION", 3 );
+    define("UPLOADS_ERROR_TOO_LARGE", 4 );
+    define("UPLOADS_ERROR_CANCELLED", 5 );
+
+
+    define("SCRIPTS_ROOT","src/Application/UtilitiesV2/Scripts/");
+    define("SCRIPTS_NAMESPACE", "Framework\\Application\\UtilitiesV2\\Scripts\\");
+    define("SCRIPTS_REQUIRE_CMD", true );
+
+    //ffmeg
+    define("FFMPEG_CONFIG_FILE","config/framework/ffmpeg.json");
+
+    //Verification
+    define("VERIFICATIONS_NAMESPACE", "Framework\\Application\\Verifications\\");
+    define("VERIFICATIONS_ROOT", "src/Framework/Verifications/");
+    define("VERIFICATIONS_TYPE_EMAIL", "email");
+    define("VERIFICATIONS_TYPE_MOBILE", "mobile");
+
+    //Amazon
+    define("AMAZON_BUCKET_URL", "https://s3.eu-west-2.amazonaws.com/colourspace/");
+    define("AMAZON_CREDENTIALS_FILE", "config/storage/amazon.json");
+    define("AMAZON_S3_BUCKET", "colourspace");
+    define("AMAZON_LOCATION_US_WEST", "us-west-1");
+    define("AMAZON_LOCATION_US_WEST_2", "us-west-2");
+    define("AMAZON_LOCATION_US_EAST", "us-east-1");
+    define("AMAZON_LOCATION_US_EAST_2", "us-east-2");
+    define("AMAZON_LOCATION_CA_CENTRAL", "ca-central-1");
+    define("AMAZON_LOCATION_EU_WEST", "eu-west-1");
+    define("AMAZON_LOCATION_EU_WEST_2", "eu-west-2");
+    define("AMAZON_LOCATION_EU_CENTRAL", "eu-central-1");
+
+    //Google recaptcha
+    define("GOOGLE_RECAPTCHA_ENABLED", false );
+    define("GOOGLE_RECAPTCHA_CREDENTIALS", "config/framework/google_recaptcha.json" );
+
+    //Google Cloud Storage
+    define("GOOGLE_CLOUD_CREDENTIALS",  "config/storage/google.json");
+
+    //Cloud Storage
+    define("STORAGE_CONFIG_ROOT","config/storage/");
+    define("STORAGE_SETTINGS_FILE","settings.json");
+
+    //Syscrack
     define('SYSCRACK_TIME_START', microtime( true ) );
 
-    /**
-     * Checks if composer exists
-     */
+    //Flight
+    define("FLIGHT_JQUERY_FILE", "jquery-3.3.1.min.js");
+    define("FLIGHT_CONTENT_OBJECT", true ); //Instead, convert $model into an object ( which is cleaner )
+    define("FLIGHT_MODEL_DEFINITION", "model" );
+    define("FLIGHT_PAGE_DEFINITION", "page" );
+    define("FLIGHT_SET_GLOBALS", true );
+    define("FLIGHT_VIEW_FOLDER", "views/original/" );
 
-    if( version_compare(phpversion(), '7.0.0', '<' ) )
-    {
+    ///Twig
+    define("TWIG_VIEW_FOLDER", "views/rework/");
 
-        ob_clean();
+    //Setups
+    define("SETUP_ROOT", "src/Application/UtilitiesV2/Setups/");
+    define("SETUP_NAMESPACE", "Framework\\Application\\UtilityV2\\Setups\\");
 
-        ?>
+    //MVC
+    define("MVC_NAMESPACE", "Framework\\Application\\");
+    define("MVC_NAMESPACE_MODELS", "Models");
+    define("MVC_NAMESPACE_VIEWS", "Views");
+    define("MVC_NAMESPACE_CONTROLLERS", "Controllers");
+    define("MVC_TYPE_MODEL", "model");
+    define("MVC_TYPE_VIEW", "view");
+    define("MVC_TYPE_CONTROLLER", "controller");
+    define("MVC_REQUEST_POST", "POST");
+    define("MVC_REQUEST_GET", "GET");
+    define("MVC_REQUEST_PUT", "PUT");
+    define("MVC_REQUEST_DELETE", "DELETE");
+    define('MVC_ROUTE_FILE', 'config/routes.json');
+    define("MVC_ROOT", "src/Framework/");
 
-            <html>
-                <head>
-                    <meta charset="utf-8">
-                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                    <meta name="viewport" content="width=device-width, initial-scale=1">
+    //Makers
+    define("MAKER_FILEPATH", "src/Application/UtilitiesV2/Makers/");
+    define("MAKER_NAMESPACE", "Framework\\Application\\UtilitiesV2\\Makers\\");
 
-                    <title>PHP Version Error</title>
+    //Pages
+    define("PAGE_SIZE", 6 ); //Default page size: 6 objects wide
 
-                    <!-- Stylesheets -->
-                    <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
-                    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+    //Form
+    define("FORM_ERROR_GENERAL", "general_error");
+    define("FORM_ERROR_INCORRECT", "incorrect_information");
+    define("FORM_ERROR_MISSING", "missing_information");
+    define("FORM_MESSAGE_SUCCESS", "success_message");
+    define("FORM_MESSAGE_INFO", "info_message");
+    define("FORM_DATA", "data");
 
-                    <!--[if lt IE 9]>
-                    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-                    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-                    <![endif]-->
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h5 style="color: #ababab" class="text-uppercase text-center">
-                                    Critical Error
-                                </h5>
-                                <div class="panel panel-danger">
-                                    <div class="panel-heading">
-                                        Major error
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        Your PHP version is currently <?=phpversion()?> and needs to be version 7.0.0 or higher, if you are having troubles, please refer to our <a href="https://github.com/dialtoneuk/Syscrack2017/">github</a>.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </body>
-            </html>
-        <?php
+    //Resource combiner
 
-        exit;
-    }
+    define("RESOURCE_COMBINER_ROOT", "config/");
+    define("RESOURCE_COMBINER_CHMOD", true );
+    define("RESOURCE_COMBINER_CHMOD_PERM", 0755 );
+    define("RESOURCE_COMBINER_PRETTY", true );
+    define("RESOURCE_COMBINER_FILEPATH", "config/resources" );
 
-    if( file_exists( $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php' ) == false )
-    {
+    //Fields
+    define("FIELD_TYPE_INCREMENTS","increments");
+    define("FIELD_TYPE_STRING","string");
+    define("FIELD_TYPE_INT","integer");
+    define("FIELD_TYPE_PRIMARY","primary");
+    define("FIELD_TYPE_TIMESTAMP","timestamp");
+    define("FIELD_TYPE_DECIMAL","decimal");
+    define("FIELD_TYPE_JSON","json");
+    define("FIELD_TYPE_IPADDRESS","ipAddress");
 
-        ob_clean();
+    //Columns
+    define("COLUMN_USERID", "userid");
+    define("COLUMN_SESSIONID", "sessionid");
+    define("COLUMN_CREATION", "creation");
+    define("COLUMN_METAINFO", "metainfo");
+    define("COLUMN_TRACKID", "trackid");
 
-        ?>
+    //Tables
+    define("TABLES_NAMESPACE", "Framework\\Database\\Tables\\");
+    define("TABLES_ROOT", "src/Database/Tables/");
 
-            <html>
-                <head>
-                    <meta charset="utf-8">
-                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                    <meta name="viewport" content="width=device-width, initial-scale=1">
+    //Tests
+    define("TESTS_NAMESPACE", "Framework\\Application\\UtilityV2\\Tests\\");
+    define("TESTS_ROOT", "src/Application/UtilitiesV2/Tests/");
 
-                    <title>Composer Error</title>
+    //Audit (Moderation)
+    define("AUDIT_TYPE_BAN","ban");
+    define("AUDIT_TYPE_WARNING","warning");
+    define("AUDIT_TYPE_GROUPCHANGE","groupchange");
 
-                    <!-- Stylesheets -->
-                    <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
-                    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
+    //Log
+    define("LOG_ROOT","/config/debug/log.json");
+    define("LOG_TYPE_GENERAL", "general");
+    define("LOG_TYPE_WARNING", "warning");
+    define("LOG_TYPE_DEFAULT", "default");
 
-                    <!--[if lt IE 9]>
-                    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-                    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-                    <![endif]-->
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <<h5 style="color: #ababab" class="text-uppercase text-center">
-                                    Critical Error
-                                </h5>
-                                <div class="panel panel-danger">
-                                    <div class="panel-heading">
-                                        Major error
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        Composer was unable to be loaded, this usually means you haven't ran 'composer install' on your htdocs directory. If you are still having troubles,
-                                        please check out <a href="https://github.com/dialtoneuk/Syscrack2017/">the github.</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </body>
-            </html>
-        <?php
+    //Auto Execute
+    define("AUTOEXEC_ROOT", "src/Application/UtilitiesV2/AutoExecs/");
+    define("AUTOEXEC_NAMESPACE", "Framework\\Application\\UtilityV2\\AutoExecs\\");
+    define("AUTOEXEC_SCRIPTS_ROOT","config/autoexec/");
+    define("AUTOEXEC_LOG_REFRESH", 12 ); //In hours
+    define("AUTOEXEC_LOG_LOCATION","config/debug/log/");
 
-        exit;
-    }
+    //Database Settings
+    define("DATABASE_ENCRYPTION", false);
+    define("DATABSAE_ENCRYPTION_KEY", null ); //Replace null with a string of a key to not use a rand gen key.
+    define("DATABASE_CREDENTIALS", "config/database/credentials.json");
+    define("DATABASE_MAP", "config/database/map.json");
 
-    /**
-     * Requires the vendor
-     */
+    //Groups
+    define("GROUPS_ROOT", "config/groups/");
+    define("GROUPS_DEFAULT", "default");
+    define("GROUPS_FLAG_MAXLENGTH", "uploadmaxlength");
+    define("GROUPS_FLAG_MAXSIZE", "uploadmaxsize");
+    define("GROUPS_FLAG_LOSSLESS", "lossless");
+    define("GROUPS_FLAG_ADMIN", "admin");
+    define("GROUPS_FLAG_DEVELOPER", "developer");
 
-    require_once "vendor/autoload.php";
+    //User Permissions
+    define("USER_PERMISSIONS_ROOT", "config/groups/user/");
+
+
+    //Featured
+    define("FEATURED_ROOT", "config/featured/");
+    define("FEATURED_ARTISTS", "artists");
+    define("FEATURED_TRACKS", "tracks");
+
+    //Stream audio codec types
+    define("STREAMS_MP3", "mp3");
+    define("STREAMS_FLAC", "flac");
+    define("STREAMS_OGG", "ogg");
+    define("STREAMS_WAV", "wav");
+
+    //Debugging Options
+    define("DEBUG_ENABLED", true ); //Will write debug messages and echo them inside the terminal instance
+    define("DEBUG_WRITE_FILE", true );
+    define("DEBUG_MESSAGES_FILE", 'config/debug/messages.json');
+    define("DEBUG_TIMERS_FILE", 'config/debug/timers.json');
+
+    //Mailer
+    define("MAILER_CONFIGURATION_FILE", "config/framework/templates.json");
+    define("MAILER_TEMPLATES_ROOT", "config/templates/");
+    define("MAILER_IS_HTML", true );
+    define("MAILER_IS_SMTP", true );
+    define("MAILER_FROM_ADDRESS", "user00000001@Syscrack.io" );
+    define("MAILER_FROM_USER", "user00000001" );
+    define("MAILER_CONTACT_ADDRESS", "support@Syscrack.io" );
+    define("MAILER_VERIFY_TEMPLATE", "email" );
+    define("MAILER_BANNED_TEMPLATE", "banned" );
+    define("MAILER_REMOVED_TEMPLATE", "removed" );
+    define("MAILER_POSTED_TEMPLATE", "posted" );
+    define("MAILER_COMMENTS_TEMPLATE", "comments" );
+
+    //Javascript Builder
+    define("SCRIPT_BUILDER_ENABLED", true ); //It isnt recommended you turn this on unless your compiled.js for some reason is missing or you are developing.
+    define("SCRIPT_BUILDER_ROOT", "assets/scripts/");
+    define("SCRIPT_BUILDER_FREQUENCY", 60 * 60 * 2); //Change the last digit for hours. Remove a "* 60" for minutes.
+    define("SCRIPT_BUILDER_COMPILED", "compiled.js");
+    define("SCRIPT_BUILDER_FORCED", false ) ;//Compiles a fresh build each request regardless of frequency setting.
+
+    //Misc
+    define("COLLECTOR_DEFAULT_NAMESPACE", "Framework\\Application\\");
+
+    //Colours
+    define("COLOURS_OUTPUT_HEX", 1);
+    define("COLOURS_OUTPUT_RGB", 2);
+
+    //Shop
+    define("SHOP_ROOT","src/Framework/Items/");
+    define("SHOP_NAMESPACE","Framework\\Application\\Items\\");
+    define("SHOP_INVENTORY","config/shop/items.json");
+
+    //Balance
+    define("BALANCE_DEFAULT_AMOUNT", 100 );
+
+    //Transactions
+    define("TRANSACTION_TYPE_WITHDRAW", "withdraw" );
+    define("TRANSACTION_TYPE_DEPOSIT", "deposit" );
+
+    //Migrator Util
+    define("MIGRATOR_ROOT", "src/Application/UtilitiesV2/Migrators/");
+    define("MIGRATOR_NAMESPACE","Framework\\Application\\UtilityV2\\Migrators\\");
+
+    //</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Syscrack Initialization">
 
     /**
      * Check if the framework application class exists
@@ -239,6 +425,15 @@
 
         $application = new Application( false );
 
+        if( Debug::isCMD() )
+            Application\UtilitiesV2\Container::add("application", $application );
+
+        /**
+         * Set the view path for flight
+         */
+
+        Flight::set('flight.views.path', Settings::getSetting("syscrack_view_location"));
+
         /**
          * Handles an error with the render engine
          */
@@ -297,20 +492,26 @@
         try
         {
 
-            $application->runController();
+            if( Debug::isCMD() == false )
+            {
 
-            /**
-             * Set the application to be global
-             */
 
-            $application->addToGlobalContainer();
+                $application->runController();
 
-            /**
-             * Set the application to be global
-             */
+                /**
+                 * Set the application to be global
+                 */
 
-            $application->runFlight();
+                $application->addToGlobalContainer();
 
+                /**
+                 * Set the application to be global
+                 */
+
+                $application->runFlight();
+            }
+            else
+                Debug::echo("Syscrack has loaded but did not start the engine due to being in command line interface mode");
         }
         catch( Exception $error )
         {
@@ -395,3 +596,5 @@
             </html>
         <?php
     }
+
+//</editor-fold>

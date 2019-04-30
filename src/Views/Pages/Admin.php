@@ -140,7 +140,13 @@
                     'GET /admin/reset/', 'reset'
                 ],
                 [
-                    'POST /admin/reset/', 'resetprocess'
+                    'POST /admin/reset/', 'resetProcess'
+                ],
+                [
+                    'GET /admin/themes/', 'themes'
+                ],
+                [
+                    'POST /admin/themes/', 'themesProcess'
                 ]
             );
         }
@@ -230,6 +236,18 @@
                     }
                 }
             }
+        }
+
+        public function themes()
+        {
+
+            Render::view('syscrack/page.admin.themes');
+        }
+
+        public function themesProcess( $theme )
+        {
+
+
         }
 
         public function computerEditor( $computerid )

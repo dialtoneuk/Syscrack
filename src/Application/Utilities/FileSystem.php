@@ -288,6 +288,36 @@ class FileSystem
         return $files;
     }
 
+    /**
+     * @param $path
+     * @return array|false|null
+     */
+
+    public static function getDirectories( $path )
+    {
+
+        if( substr( $path, -1 ) !== Settings::getSetting("filesystem_separator") )
+            $path = $path . Settings::getSetting("filesystem_separator");
+
+        if( self::directoryExists( $path ) == false )
+        {
+
+            throw new ApplicationException();
+        }
+
+        $files = glob( self::getFilePath( $path ) . "*", GLOB_ONLYDIR );
+
+        if( empty( $files ) )
+        {
+
+            return null;
+        }
+
+        foreach( $files as $key=>$file )
+            $files[ $key ] = str_replace( self::getFilePath( $path ), "", $file );
+        return $files;
+    }
+
 	/**
 	 * Creates a directory
 	 *

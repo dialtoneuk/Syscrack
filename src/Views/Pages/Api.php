@@ -104,7 +104,7 @@
         }
 
         /**
-         * The views mapping
+         * The themes mapping
          *
          * @return array
          */
