@@ -156,7 +156,7 @@
         public function index()
         {
 
-            $this->getRender('../developer/page.developer');
+            $this->getRender('developer/page.developer');
         }
 
         /**
@@ -178,7 +178,7 @@
                 $this->redirectError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer' );
             }
 
-            $this->getRender('../developer/page.migrator');
+            $this->getRender('developer/page.migrator');
         }
 
         /**
@@ -254,7 +254,7 @@
             else
             {
 
-                $this->getRender('../developer/page.routes', array( 'routes' => $routes ) );
+                $this->getRender('developer/page.routes', array( 'routes' => $routes ) );
             }
         }
 
@@ -265,7 +265,7 @@
         public function errors()
         {
 
-            $this->getRender('../developer/page.errors');
+            $this->getRender('developer/page.errors');
         }
 
         /**
@@ -323,7 +323,7 @@
             else
             {
 
-                $this->getRender( '../developer/page.errors.view', array( 'id' => $id ) );
+                $this->getRender( 'developer/page.errors.view', array( 'id' => $id ) );
             }
         }
 
@@ -334,7 +334,7 @@
         public function disable()
         {
 
-            $this->getRender('../developer/page.disable');
+            $this->getRender('developer/page.disable');
         }
 
         public function disableProcess()
@@ -373,7 +373,7 @@
         public function settings()
         {
 
-            $this->getRender('../developer/page.settings');
+            $this->getRender('developer/page.settings');
         }
 
         /**
@@ -456,7 +456,7 @@
         public function connectionCreator()
         {
 
-            $this->getRender('../developer/page.connection.creator');
+            $this->getRender('developer/page.connection.creator');
         }
 
         /**
@@ -527,7 +527,7 @@
                 $this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
             }
 
-            $this->getRender('../developer/page.connection');
+            $this->getRender('developer/page.connection');
         }
 
         /**

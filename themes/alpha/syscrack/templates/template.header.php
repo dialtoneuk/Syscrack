@@ -4,18 +4,6 @@ use Framework\Application\Settings;
 use Framework\Application\Render;
 
 ?>
-<?php
-
-/**
- * Since this template is usually the first loaded onto every single page, I can sneak this here
- */
-
-if ( Settings::getSetting('render_mvc_output') == true )
-{
-
-    throw new \Framework\Exceptions\ViewException('Current render folder "' . Settings::getSetting('render_folder') . '" does not support mvc output and cannot function using it. Please disable render_mvc_output in your settings to use this render folder' );
-}
-?>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

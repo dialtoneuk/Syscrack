@@ -16,4 +16,4 @@ But do not fear! I will be frequently posting patches and small fixes and you wi
 
 ## More updates coming soon & our official syscrack host to follow
 
-![Image](https://i.imgur.com/sAaVdHB.png)
+![Image](https://i.imgur.com/PQ000An.png)

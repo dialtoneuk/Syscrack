@@ -35,6 +35,8 @@ class Help extends Base
             "php -f cmd/execute.php [script] [arguments]\n" => 0,
             " Scripts take arguments in the form of an associative array" => 0,
             "php -f cmd/execute.php [script] arg1=value arg2=value arg3=value (blank/null values can be set using key= followed by no value )\n" => 0,
+            " Your arguments may also contain spaces but only if instead of a normal space you double dot, like the example that follows" => 0,
+            "php -f cmd/execute.php settings action=update setting=syscrack_default_computer_name value=Windows..Linux..Mac..98\n" => 0,
             " You can view all the available scripts, by executing the index script, The pretty argument is optional." => 0,
             "php -f cmd/execute.php commands pretty=true\n" => 0,
             " You can also view specific help on a script by using a special case" => 0,

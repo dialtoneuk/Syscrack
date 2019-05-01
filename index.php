@@ -11,7 +11,7 @@
             __/ | 2015/2018 - Alpha / Prototype
            |___/
      *
-     * Written by Lewis Lancaster 2017.
+     * Written by Lewis Lancaster 2019.
      */
 
     use Framework\Application\UtilitiesV2\Debug;
@@ -558,8 +558,8 @@
                     <title>Critical Error</title>
 
                     <!-- Stylesheets -->
-                    <link href="/assets/alpha/css/bootstrap.dark.css" rel="stylesheet">
-                    <link href="/assets/alpha/css/bootstrap-combobox.css" rel="stylesheet">
+                    <link href="/themes/alpha/css/bootstrap.dark.css" rel="stylesheet">
+                    <link href="/themes/alpha/css/bootstrap-combobox.css" rel="stylesheet">
 
                     <!--[if lt IE 9]>
                     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>

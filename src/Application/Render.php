@@ -106,7 +106,11 @@ class Render
     public static function getAssetsLocation()
     {
 
-        return "/assets/" . Settings::getSetting('render_folder') . '/';
+        return '/'
+            . Settings::getSetting('syscrack_view_location')
+            . '/'
+            . Settings::getSetting('render_folder')
+            . '/';
     }
 
     /**

@@ -26,6 +26,10 @@ class ThemesTest extends BaseTestCase
         parent::setUpBeforeClass();
     }
 
+    /**
+     * Tests the folder get function
+     */
+
     public function testGetFolders()
     {
 

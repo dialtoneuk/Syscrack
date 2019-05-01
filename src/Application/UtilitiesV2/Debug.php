@@ -333,25 +333,35 @@ class Debug
         if( self::$supressed )
             return;
 
-        if( $tabs == 0 )
+        if( is_array( $message ) )
+            foreach( $message as $key=>$value )
+                if( is_array( $value ) )
+                    self::echo( $value );
+                else
+                    self::echo( $key . " => " . $value, $tabs );
+        else
         {
 
-            if( is_string( $message ) == false )
-                $message = print_r( $message );
+            if( $tabs == 0 )
+            {
 
-            echo( $message . "\n" );
-            return;
+                if( is_string( $message ) == false )
+                    $message = print_r( $message );
+
+                echo( $message . "\n" );
+                return;
+            }
+
+            $prefix = "-";
+
+            for( $i = 0; $i < $tabs; $i++ )
+                $prefix = $prefix . "-";
+
+            if( $tabs !== 1 )
+                $prefix .= ">";
+
+            echo( $prefix . " " . $message . "\n");
         }
-
-        $prefix = "-";
-
-        for( $i = 0; $i < $tabs; $i++ )
-            $prefix = $prefix . "-";
-
-        if( $tabs !== 1 )
-            $prefix .= ">";
-
-        echo( $prefix . " " . $message . "\n");
     }
 
     /**

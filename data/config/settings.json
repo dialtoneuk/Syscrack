@@ -18,11 +18,11 @@
     "database_prefix": "",
     "database_schema_file": "data\/config\/database\/databaseschema.json",
     "database_show_decrypted": true,
-    "database_encrypt_connection": false,
-    "developer_disabled": true,
+    "database_encrypt_connection": "<DATABASE_ENCRYPTION>",
+    "developer_disabled": false,
     "developer_page": "developer",
     "default_pagetitle": "Syscrack Developer",
-    "php_test_root":"E:\/Webservers\/XAMPP\/htdocs\/",
+    "php_test_root": "E:\/Webservers\/XAMPP\/htdocs\/",
     "error_display_page": true,
     "error_fadeout_time": 5000,
     "error_log_location": "data\/config\/errorlog.json",
@@ -265,7 +265,7 @@
         118,
         133
     ],
-    "theme_dark": false,
+    "theme_dark": true,
     "theme_fullscreen": true,
     "render_mvc_output": false,
     "render_json_mode": false,
@@ -276,5 +276,5 @@
     "user_first_signup_admin": true,
     "user_group_admin": "admin",
     "user_group_developer": "developer",
-    "user_require_betakey": false
+    "user_require_betakey": true
 }

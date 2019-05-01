@@ -141,7 +141,19 @@ class Scripts
         if( $this->requiresArguments( $script ) )
         {
             if( $this->checkArguments( $script->requiredArguments() ) == false )
-                throw new \RuntimeException("Invalid arguments");
+            {
+
+                Debug::echo("[ERROR] Missing arguments! Please check below for brief help advice on this command.");
+                Debug::echo("");
+                Debug::echo( $this->help( $name ) );
+                Debug::echo("");
+                Debug::echo("! Please use 'help " . $name . "'' for more detail. !");
+
+                if( $exit )
+                    exit( 0 );
+                else
+                    return true;
+            }
         }
 
         if( Debug::isCMD() )
@@ -322,7 +334,14 @@ class Scripts
             if( count( $element ) == 1 )
                 $result[ $element[0] ] = null;
             else
+            {
+
+                if( strstr( $element[1], ".." ) )
+                    $element[1] = str_replace("..", " ", $element[1]);
+
                 $result[ $element[0] ] = $element[1];
+            }
+
         }
 
         return( $result );
