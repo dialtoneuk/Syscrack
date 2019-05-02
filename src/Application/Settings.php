@@ -379,7 +379,7 @@ class Settings
 	 * @return string
 	 */
 
-	private static function fileLocation()
+	public static function fileLocation()
 	{
 
 		return sprintf('%s' . DIRECTORY_SEPARATOR . 'data/config' . DIRECTORY_SEPARATOR . 'settings.json', SYSCRACK_ROOT );

@@ -16,19 +16,28 @@
 
     use Framework\Application\UtilitiesV2\Debug;
 
-    if (empty( $_SERVER["DOCUMENT_ROOT"] ) )
-        $root = getcwd();
+    if( defined("TEST_ROOT") == false )
+    {
+
+        if (empty( $_SERVER["DOCUMENT_ROOT"] ) )
+            $root = getcwd();
+        else
+            $root = $_SERVER["DOCUMENT_ROOT"];
+
+        if( substr( $root, -1 ) !== DIRECTORY_SEPARATOR )
+            $root = $root . DIRECTORY_SEPARATOR;
+
+        if( version_compare(PHP_VERSION, '7.0.0') == -1 )
+            die('Please upgrade to PHP 7.0.0+ to run this web application. Your current PHP version is ' . PHP_VERSION );
+    }
     else
-        $root = $_SERVER["DOCUMENT_ROOT"];
+    {
 
-    if( substr( $root, -1 ) !== DIRECTORY_SEPARATOR )
-        $root = $root . DIRECTORY_SEPARATOR;
+        //Maybe we are PHP Unit
+        $root = TEST_ROOT;
+        $_SERVER["DOCUMENT_ROOT"] = TEST_ROOT;
+    }
 
-    if( version_compare(PHP_VERSION, '7.0.0') == -1 )
-        die('Please upgrade to PHP 7.0.0+ to run this web application. Your current PHP version is ' . PHP_VERSION );
-
-    if( php_sapi_name() === 'cli' && Debug::isCMD() == false )
-        die('Please run this web application through your web browser. It wont work via the console!');
 
 
 //<editor-fold defaultstate="collapsed" desc="Application Settings">
@@ -96,7 +105,7 @@
     define("SCRIPTS_REQUIRE_CMD", true );
 
     //ffmeg
-    define("FFMPEG_CONFIG_FILE","config/framework/ffmpeg.json");
+    define("FFMPEG_CONFIG_FILE","data/config/ffmpeg.json");
 
     //Verification
     define("VERIFICATIONS_NAMESPACE", "Framework\\Application\\Verifications\\");
@@ -106,7 +115,7 @@
 
     //Amazon
     define("AMAZON_BUCKET_URL", "https://s3.eu-west-2.amazonaws.com/colourspace/");
-    define("AMAZON_CREDENTIALS_FILE", "config/storage/amazon.json");
+    define("AMAZON_CREDENTIALS_FILE", "data/config/storage/amazon.json");
     define("AMAZON_S3_BUCKET", "colourspace");
     define("AMAZON_LOCATION_US_WEST", "us-west-1");
     define("AMAZON_LOCATION_US_WEST_2", "us-west-2");
@@ -119,13 +128,13 @@
 
     //Google recaptcha
     define("GOOGLE_RECAPTCHA_ENABLED", false );
-    define("GOOGLE_RECAPTCHA_CREDENTIALS", "config/framework/google_recaptcha.json" );
+    define("GOOGLE_RECAPTCHA_CREDENTIALS", "data/config/google_recaptcha.json" );
 
     //Google Cloud Storage
-    define("GOOGLE_CLOUD_CREDENTIALS",  "config/storage/google.json");
+    define("GOOGLE_CLOUD_CREDENTIALS",  "data/config/storage/google.json");
 
     //Cloud Storage
-    define("STORAGE_CONFIG_ROOT","config/storage/");
+    define("STORAGE_CONFIG_ROOT","cdata/config/storage/");
     define("STORAGE_SETTINGS_FILE","settings.json");
 
     //Syscrack
@@ -137,17 +146,17 @@
     define("FLIGHT_MODEL_DEFINITION", "model" );
     define("FLIGHT_PAGE_DEFINITION", "page" );
     define("FLIGHT_SET_GLOBALS", true );
-    define("FLIGHT_VIEW_FOLDER", "views/original/" );
+    define("FLIGHT_VIEW_FOLDER", "themes" );
 
     ///Twig
-    define("TWIG_VIEW_FOLDER", "views/rework/");
+    define("TWIG_VIEW_FOLDER", "themes");
 
     //Setups
     define("SETUP_ROOT", "src/Application/UtilitiesV2/Setups/");
     define("SETUP_NAMESPACE", "Framework\\Application\\UtilityV2\\Setups\\");
 
     //MVC
-    define("MVC_NAMESPACE", "Framework\\Application\\");
+    define("MVC_NAMESPACE", "Framework\\Application\\MVC\\");
     define("MVC_NAMESPACE_MODELS", "Models");
     define("MVC_NAMESPACE_VIEWS", "Views");
     define("MVC_NAMESPACE_CONTROLLERS", "Controllers");
@@ -159,7 +168,7 @@
     define("MVC_REQUEST_PUT", "PUT");
     define("MVC_REQUEST_DELETE", "DELETE");
     define('MVC_ROUTE_FILE', 'config/routes.json');
-    define("MVC_ROOT", "src/Framework/");
+    define("MVC_ROOT", "src/Views/MVC/");
 
     //Makers
     define("MAKER_FILEPATH", "src/Application/UtilitiesV2/Makers/");
@@ -178,11 +187,11 @@
 
     //Resource combiner
 
-    define("RESOURCE_COMBINER_ROOT", "config/");
+    define("RESOURCE_COMBINER_ROOT", "data/config/");
     define("RESOURCE_COMBINER_CHMOD", true );
     define("RESOURCE_COMBINER_CHMOD_PERM", 0755 );
     define("RESOURCE_COMBINER_PRETTY", true );
-    define("RESOURCE_COMBINER_FILEPATH", "config/resources" );
+    define("RESOURCE_COMBINER_FILEPATH", "data/resources.bundle" );
 
     //Fields
     define("FIELD_TYPE_INCREMENTS","increments");
@@ -215,7 +224,7 @@
     define("AUDIT_TYPE_GROUPCHANGE","groupchange");
 
     //Log
-    define("LOG_ROOT","/config/debug/log.json");
+    define("LOG_ROOT","data/config/");
     define("LOG_TYPE_GENERAL", "general");
     define("LOG_TYPE_WARNING", "warning");
     define("LOG_TYPE_DEFAULT", "default");
@@ -223,18 +232,18 @@
     //Auto Execute
     define("AUTOEXEC_ROOT", "src/Application/UtilitiesV2/AutoExecs/");
     define("AUTOEXEC_NAMESPACE", "Framework\\Application\\UtilityV2\\AutoExecs\\");
-    define("AUTOEXEC_SCRIPTS_ROOT","config/autoexec/");
+    define("AUTOEXEC_SCRIPTS_ROOT","data/config/autoexec/");
     define("AUTOEXEC_LOG_REFRESH", 12 ); //In hours
-    define("AUTOEXEC_LOG_LOCATION","config/debug/log/");
+    define("AUTOEXEC_LOG_LOCATION","data/config/log/");
 
     //Database Settings
     define("DATABASE_ENCRYPTION", false);
     define("DATABSAE_ENCRYPTION_KEY", null ); //Replace null with a string of a key to not use a rand gen key.
-    define("DATABASE_CREDENTIALS", "config/database/credentials.json");
-    define("DATABASE_MAP", "config/database/map.json");
+    define("DATABASE_CREDENTIALS", "data/config/database/connection.json");
+    define("DATABASE_MAP", "data/config/database/databaseschema.json");
 
     //Groups
-    define("GROUPS_ROOT", "config/groups/");
+    define("GROUPS_ROOT", "data/config/groups/");
     define("GROUPS_DEFAULT", "default");
     define("GROUPS_FLAG_MAXLENGTH", "uploadmaxlength");
     define("GROUPS_FLAG_MAXSIZE", "uploadmaxsize");
@@ -243,11 +252,11 @@
     define("GROUPS_FLAG_DEVELOPER", "developer");
 
     //User Permissions
-    define("USER_PERMISSIONS_ROOT", "config/groups/user/");
+    define("USER_PERMISSIONS_ROOT", "data/config/user/");
 
 
     //Featured
-    define("FEATURED_ROOT", "config/featured/");
+    define("FEATURED_ROOT", "data/featured/");
     define("FEATURED_ARTISTS", "artists");
     define("FEATURED_TRACKS", "tracks");
 
@@ -260,12 +269,12 @@
     //Debugging Options
     define("DEBUG_ENABLED", true ); //Will write debug messages and echo them inside the terminal instance
     define("DEBUG_WRITE_FILE", true );
-    define("DEBUG_MESSAGES_FILE", 'config/debug/messages.json');
-    define("DEBUG_TIMERS_FILE", 'config/debug/timers.json');
+    define("DEBUG_MESSAGES_FILE", 'data/config/debug/messages.json');
+    define("DEBUG_TIMERS_FILE", 'cdata/config/debug/timers.json');
 
     //Mailer
-    define("MAILER_CONFIGURATION_FILE", "config/framework/templates.json");
-    define("MAILER_TEMPLATES_ROOT", "config/templates/");
+    define("MAILER_CONFIGURATION_FILE", "data/config/templates.json");
+    define("MAILER_TEMPLATES_ROOT", "resources/email/");
     define("MAILER_IS_HTML", true );
     define("MAILER_IS_SMTP", true );
     define("MAILER_FROM_ADDRESS", "user00000001@Syscrack.io" );
@@ -279,7 +288,7 @@
 
     //Javascript Builder
     define("SCRIPT_BUILDER_ENABLED", true ); //It isnt recommended you turn this on unless your compiled.js for some reason is missing or you are developing.
-    define("SCRIPT_BUILDER_ROOT", "assets/scripts/");
+    define("SCRIPT_BUILDER_ROOT", "resources/scripts/");
     define("SCRIPT_BUILDER_FREQUENCY", 60 * 60 * 2); //Change the last digit for hours. Remove a "* 60" for minutes.
     define("SCRIPT_BUILDER_COMPILED", "compiled.js");
     define("SCRIPT_BUILDER_FORCED", false ) ;//Compiles a fresh build each request regardless of frequency setting.
@@ -294,7 +303,7 @@
     //Shop
     define("SHOP_ROOT","src/Framework/Items/");
     define("SHOP_NAMESPACE","Framework\\Application\\Items\\");
-    define("SHOP_INVENTORY","config/shop/items.json");
+    define("SHOP_INVENTORY","data/config/shop/items.json");
 
     //Balance
     define("BALANCE_DEFAULT_AMOUNT", 100 );
@@ -308,6 +317,9 @@
     define("MIGRATOR_NAMESPACE","Framework\\Application\\UtilityV2\\Migrators\\");
 
     //</editor-fold>
+
+    if( php_sapi_name() === 'cli' && Debug::isCMD() == false )
+        die('Please run this web application through your web browser. It wont work via the console!');
 
 //<editor-fold defaultstate="collapsed" desc="Syscrack Initialization">
 
@@ -403,7 +415,7 @@
                                         Major error
                                     </div>
                                     <div class="panel-body text-center">
-                                        The framework was unable to find your settings file, this could be because of a few reasons. We suggest you check out <a href="https://github.com/dialtoneuk/Syscrack2017/">the github.</a>
+                                        The framework was unable to find your settings file located at <?=Settings::fileLocation()?>, this could be because of a few reasons. We suggest you check out <a href="https://github.com/dialtoneuk/Syscrack2017/">the github.</a>
                                     </div>
                                 </div>
                             </div>

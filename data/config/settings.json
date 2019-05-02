@@ -276,5 +276,6 @@
     "user_first_signup_admin": true,
     "user_group_admin": "admin",
     "user_group_developer": "developer",
-    "user_require_betakey": true
+    "user_require_betakey": true,
+    "theme_info_file": "info"
 }
