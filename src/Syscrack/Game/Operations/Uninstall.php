@@ -50,9 +50,9 @@
         {
 
             return array(
-                'allowsoftwares'    => true,
+                'allowsoftware'    => true,
                 'allowlocal'        => true,
-                'requiresoftwares'  => true,
+                'requiresoftware'  => true,
                 'requireloggedin'   => true
             );
         }
@@ -82,7 +82,7 @@
                 return false;
             }
 
-            if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+            if( $this->software->softwareExists( $data['softwareid'] ) == false )
             {
 
                 return false;
@@ -97,7 +97,7 @@
                 }
             }
 
-            if( $this->softwares->canUninstall( $data['softwareid'] ) == false )
+            if( $this->software->canUninstall( $data['softwareid'] ) == false )
             {
 
                 $this->redirectError('You cannot uninstall this software', $this->getRedirect( $data['ipaddress'] ) );
@@ -137,19 +137,19 @@
                 $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
             }
 
-            if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+            if( $this->software->softwareExists( $data['softwareid'] ) == false )
             {
 
                 $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->softwares->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
+            if( $this->software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
             {
 
                 $this->redirectError('Sorry, it looks like this software got uninstalled already', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $this->softwares->uninstallSoftware( $data['softwareid'] );
+            $this->software->uninstallSoftware( $data['softwareid'] );
 
             $this->computers->uninstallSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
@@ -159,7 +159,7 @@
             $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
                 $this->computers->getCurrentUserComputer(), $data['ipaddress']);
 
-            $this->softwares->executeSoftwareMethod( $this->softwares->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onUninstalled', array(
+            $this->software->executeSoftwareMethod( $this->software->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onUninstalled', array(
                 'softwareid'    => $data['softwareid'],
                 'userid'        => $userid,
                 'computerid'    => $this->getComputerId( $data['ipaddress'] )

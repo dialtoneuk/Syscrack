@@ -12,16 +12,16 @@ namespace Framework\Syscrack\Game;
 
 use Framework\Application\Settings;
 use Framework\Application\Utilities\FileSystem;
-use Framework\Database\Tables\Computers;
+use Framework\Database\Tables\Computer;
 
 class Schema
 {
 
     /**
-     * @var Computers
+     * @var Computer
      */
 
-    protected $computers;
+    protected $computer;
 
     /**
      * NPC constructor.
@@ -30,7 +30,7 @@ class Schema
     public function __construct()
     {
 
-        $this->computers = new Computers();
+        $this->computer = new Computer();
     }
 
     /**
@@ -44,20 +44,20 @@ class Schema
      *
      * @param array $riddles
      *
-     * @param array $softwares
+     * @param array $software
      *
-     * @param array $hardwares
+     * @param array $hardware
      */
 
-    public function createSchema( $computerid, $name='Default', $page='schema.default', array $riddles, array $softwares, array $hardwares )
+    public function createSchema( $computerid, $name='Default', $page='schema.default', array $riddles, array $software, array $hardware )
     {
 
         $schema = array(
             'name'      => $name,
             'page'      => $page,
             'riddles'   => $riddles,
-            'softwares' => $softwares,
-            'hardwares' => $hardwares
+            'software' => $software,
+            'hardware' => $hardware
         );
 
         FileSystem::writeJson( $this->getSchemaPath( $computerid ), $schema );
@@ -118,7 +118,7 @@ class Schema
     }
 
     /**
-     * Gets the location of this computers page
+     * Gets the location of this computer page
      *
      * @param $computerid
      *

@@ -7,7 +7,7 @@
             "riddleid": "1",
             "riddlecomputer": "1"
         },
-        "hardwares": {
+        "hardware": {
             "cpu": {
                 "value": 333
             },
@@ -24,7 +24,7 @@
                 "value": 10
             }
         },
-        "softwares": 
+        "software":
         [
             {
                 "installed": true,

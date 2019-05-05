@@ -6,7 +6,7 @@
      *
      * Class Vpc
      *
-     * @package Framework\Syscrack\Game\Computers
+     * @package Framework\Syscrack\Game\Computer
      */
 
     use Framework\Application\Settings;
@@ -38,19 +38,14 @@
         public function __construct()
         {
 
-            parent::__construct();
-
             if( isset( $this->addressdatabase ) == false )
-            {
-
                 $this->addressdatabase = new AddressDatabase();
-            }
+
 
             if( isset( $this->accountdatabase ) == false )
-            {
-
                 $this->accountdatabase = new AccountDatabase();
-            }
+
+            parent::__construct( true );
         }
 
         /**
@@ -75,43 +70,22 @@
          *
          * @param $userid
          *
-         * @param array $softwares
+         * @param array $software
          *
-         * @param array $hardwares
+         * @param array $hardware
          */
 
-        public function onStartup($computerid, $userid, array $softwares = [], array $hardwares = [])
+        public function onStartup($computerid, $userid, array $software = [], array $hardware = [])
         {
 
-            if( $this->log->hasLog( $computerid ) == false )
-            {
-
-                $this->log->createLog( $computerid );
-            }
-
             if( $this->addressdatabase->hasDatabase( $userid ) == false )
-            {
-
                 $this->addressdatabase->saveDatabase( $userid );
-            }
+
 
             if( $this->accountdatabase->hasDatabase( $userid ) == false )
-            {
-
                 $this->accountdatabase->saveDatabase( $userid, [] );
-            }
 
-            if( empty( $softwares ) == false )
-            {
-
-                $this->addSoftwares( $computerid, $userid, $softwares );
-            }
-
-            if( empty( $hardwares ) == false )
-            {
-
-                $this->addHardwares( $computerid, $hardwares );
-            }
+            parent::onStartup( $computerid, $userid, $software, $hardware );
         }
 
         /**
@@ -123,13 +97,7 @@
         public function onReset($computerid)
         {
 
-            $this->clearSoftwares( $computerid );
-
-            $this->computers->resetHardware( $computerid );
-
-            $this->log->saveLog( $computerid, [] );
-
-            $this->addHardwares( $computerid, Settings::getSetting('syscrack_default_hardware') );
+            parent::onReset( $computerid );
         }
 
         /**
@@ -144,15 +112,12 @@
         {
 
             if( $this->internet->ipExists( $ipaddress ) == false )
-            {
-
                 throw new SyscrackException();
-            }
+
 
             $this->internet->setCurrentConnectedAddress( $ipaddress );
 
             $this->log( $computerid, 'Logged in as root', $this->getCurrentComputerAddress() );
-
             $this->logToIP( $this->getCurrentComputerAddress(), 'Logged in as root at <' . $ipaddress . '>');
         }
 
@@ -168,10 +133,7 @@
         {
 
             if( $this->internet->ipExists( $ipaddress ) == false )
-            {
-
                 throw new SyscrackException();
-            }
 
             $this->internet->setCurrentConnectedAddress( null );
         }

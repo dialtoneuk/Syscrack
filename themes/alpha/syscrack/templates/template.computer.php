@@ -1,10 +1,10 @@
 <?php
 
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Log;
 use Framework\Syscrack\Game\Schema;
-use Framework\Syscrack\Game\Softwares;
+use Framework\Syscrack\Game\Software;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 use Framework\Application\Render;
 
@@ -20,15 +20,15 @@ if (isset($pagehelper) == false) {
     $pagehelper = new PageHelper();
 }
 
-$computers = new Computers();
+$computer_controller = new Computer();
 
-$softwares = new Softwares();
+$softwares = new Software();
 
 $log = new Log();
 ?>
 <div class="col-md-8">
     <?php
-    if ($internet->getComputerAddress($computers->getCurrentUserComputer()) == $ipaddress) {
+    if ($internet->getComputerAddress($computer_controller->getCurrentUserComputer()) == $ipaddress) {
 
         ?>
 
@@ -78,7 +78,7 @@ $log = new Log();
 
                     <?php
 
-                    Render::view('syscrack/templates/template.softwares', array('ipaddress' => $ipaddress, 'softwares' => $softwares, 'computers' => $computers, 'internet' => $internet));
+                    Render::view('syscrack/templates/template.softwares', array('ipaddress' => $ipaddress, 'softwares' => $softwares, 'computer_controller' => $computer_controller, 'internet' => $internet));
                     ?>
                 </div>
             </div>

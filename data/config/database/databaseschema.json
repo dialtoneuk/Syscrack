@@ -8,14 +8,14 @@
     "cash":"float",
     "timecreated":"integer"
   },
-  "computers":
+  "computer":
   {
     "computerid":"increments",
     "userid":"integer",
     "type":"string",
     "ipaddress":"string",
-    "softwares":"longText",
-    "hardwares":"longText"
+    "software":"longText",
+    "hardware":"longText"
   },
   "processes":
   {
@@ -35,7 +35,7 @@
     "ipaddress":"string",
     "lastaction":"integer"
   },
-  "softwares":
+  "software":
   {
     "softwareid":"increments",
     "userid":"integer",

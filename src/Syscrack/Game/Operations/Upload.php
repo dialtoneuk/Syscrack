@@ -22,9 +22,9 @@
         {
 
             return array(
-                'allowsoftwares'    => false,
+                'allowsoftware'    => false,
                 'allowlocal'        => false,
-                'requiresoftwares'  => false,
+                'requiresoftware'  => false,
                 'requireloggedin'   => true,
                 'allowpost'         => false,
                 'allowcustomdata'   => true,
@@ -46,13 +46,13 @@
                 return false;
             }
 
-            if( $this->softwares->softwareExists( $data['custom']['softwareid'] ) == false )
+            if( $this->software->softwareExists( $data['custom']['softwareid'] ) == false )
             {
 
                 return false;
             }
 
-            $software = $this->softwares->getSoftware( $data['custom']['softwareid'] );
+            $software = $this->software->getSoftware( $data['custom']['softwareid'] );
 
             if( $this->hasSpace( $this->getComputerId( $data['ipaddress'] ), $software->size ) == false )
             {
@@ -100,37 +100,37 @@
                 throw new SyscrackException();
             }
 
-            if( $this->softwares->softwareExists( $data['custom']['softwareid'] ) == false )
+            if( $this->software->softwareExists( $data['custom']['softwareid'] ) == false )
             {
 
                 $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $software = $this->softwares->getSoftware( $data['custom']['softwareid'] );
+            $software = $this->software->getSoftware( $data['custom']['softwareid'] );
 
-            if( $this->softwares->hasData( $software->softwareid ) == true && $this->softwares->keepData( $software->softwareid ) )
+            if( $this->software->hasData( $software->softwareid ) == true && $this->software->keepData( $software->softwareid ) )
             {
 
-                $softwaredata = $this->softwares->getSoftwareData( $software->softwareid );
+                $softwaredata = $this->software->getSoftwareData( $software->softwareid );
 
-                if( $this->softwares->checkSoftwareData( $software->softwareid, ['allowanondownloads'] ) == true )
+                if( $this->software->checkSoftwareData( $software->softwareid, ['allowanondownloads'] ) == true )
                 {
 
                     unset( $softwaredata['allowanondownloads'] );
                 }
 
-                if( $this->softwares->checkSoftwareData( $software->softwareid, ['editable'] ) == true )
+                if( $this->software->checkSoftwareData( $software->softwareid, ['editable'] ) == true )
                 {
 
                     unset( $softwaredata['editable'] );
                 }
 
-                $new_softwareid = $this->softwares->copySoftware( $software->softwareid, $this->getComputerId( $data['ipaddress'] ), $userid, false, $softwaredata );
+                $new_softwareid = $this->software->copySoftware( $software->softwareid, $this->getComputerId( $data['ipaddress'] ), $userid, false, $softwaredata );
             }
             else
             {
 
-                $new_softwareid = $this->softwares->copySoftware( $software->softwareid, $this->getComputerId( $data['ipaddress'] ), $userid );
+                $new_softwareid = $this->software->copySoftware( $software->softwareid, $this->getComputerId( $data['ipaddress'] ), $userid );
             }
 
             $this->computers->addSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid, $software->type );

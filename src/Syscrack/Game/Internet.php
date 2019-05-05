@@ -11,14 +11,14 @@ namespace Framework\Syscrack\Game;
 
 use Framework\Application\Container;
 use Framework\Application\Utilities\Hashes;
-use Framework\Database\Tables\Computers;
+use Framework\Database\Tables\Computer;
 use Framework\Exceptions\SyscrackException;
 
 class Internet
 {
 
     /**
-     * @var Computers
+     * @var Computer
      */
 
     protected $computers;
@@ -30,7 +30,7 @@ class Internet
     public function __construct()
     {
 
-        $this->computers = new Computers();
+        $this->computers = new Computer();
     }
 
     /**

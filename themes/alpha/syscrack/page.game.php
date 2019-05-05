@@ -3,7 +3,7 @@
 use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 
 $session = Container::getObject('session');
@@ -15,7 +15,7 @@ if ($session->isLoggedIn()) {
 
 $pagehelper = new PageHelper();
 
-$computers = new Computers();
+$computer_controller = new Computer();
 ?>
 
 <!DOCTYPE html>
@@ -253,14 +253,14 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
         <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Virtual Computers
+                    Virtual Computer
                 </div>
                 <div class="panel-body">
                     <?php
 
-                    if ($computers->hasCurrentComputer()) {
+                    if ($computer_controller->hasCurrentComputer()) {
 
-                        $currentcomputer = $computers->getComputer($computers->getCurrentUserComputer());
+                        $currentcomputer = $computer_controller->getComputer($computer_controller->getCurrentUserComputer());
 
                         ?>
 
@@ -281,7 +281,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
                         <?php
                     }
 
-                    $usercomputers = $computers->getUserComputers($session->getSessionUser());
+                    $usercomputers = $computer_controller->getUserComputers($session->getSessionUser());
 
                     $count = 0;
 
@@ -294,7 +294,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
                             continue;
                         }
 
-                        if ($computers->getCurrentUserComputer() == $value->computerid) {
+                        if ($computer_controller->getCurrentUserComputer() == $value->computerid) {
 
                             $count++;
 
@@ -342,7 +342,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
                     ?>
                 </div>
                 <div class="panel-footer">
-                    <div class="badge"><?= $count ?> computers in total</div>
+                    <div class="badge"><?= $count ?> computers in total</div> <small>Click <a href="/game/computer">here to buy a new computer</a></small>
                 </div>
             </div>
         </div>
@@ -355,18 +355,6 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
                     <p>
                         There is no news to report...
                     </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Purchase a Virtual Computer
-                </div>
-                <div class="panel-body">
-
                 </div>
             </div>
         </div>

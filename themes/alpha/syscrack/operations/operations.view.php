@@ -1,7 +1,7 @@
 <?php
 
 use Framework\Application\Container;
-use Framework\Syscrack\Game\Softwares;
+use Framework\Syscrack\Game\Software;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 use Framework\Syscrack\User;
 
@@ -16,7 +16,7 @@ $pagehelper = new PageHelper();
 
 if (isset($softwares) == false) {
 
-    $softwares = new Softwares();
+    $softwares = new Software();
 }
 
 if (isset($parsedown) == false) {

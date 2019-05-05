@@ -139,13 +139,13 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                         Render::view('syscrack/templates/template.form', array('form_elements' => [
                             [
                                 'type' => 'textarea',
-                                'name' => 'softwares',
+                                'name' => 'software',
                                 'value' => json_encode([], JSON_PRETTY_PRINT),
                                 'resizeable' => 'vertical'
                             ],
                             [
                                 'type' => 'textarea',
-                                'name' => 'hardwares',
+                                'name' => 'hardware',
                                 'value' => json_encode($schema['hardwares'], JSON_PRETTY_PRINT),
                                 'resizeable' => 'vertical'
                             ]

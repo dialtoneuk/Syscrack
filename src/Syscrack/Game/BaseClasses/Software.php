@@ -11,19 +11,19 @@
 
     use Flight;
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computers;
+    use Framework\Syscrack\Game\computer;
     use Framework\Syscrack\Game\Hardware;
     use Framework\Syscrack\Game\Internet;
-    use Framework\Syscrack\Game\Softwares;
+    use Framework\Syscrack\Game\Software as SoftwareController;
 
     class Software
     {
 
         /**
-         * @var Softwares
+         * @var SoftwareController
          */
 
-        public $softwares;
+        public $software;
 
         /**
          * @var Hardware
@@ -32,7 +32,7 @@
         public $hardware;
 
         /**
-         * @var Computers
+         * @var Comput
          */
 
         public $computer;
@@ -55,11 +55,11 @@
             if( $createclasses )
             {
 
-                $this->softwares = new Softwares();
+                $this->software = new SoftwareController();
 
                 $this->hardware = new Hardware();
 
-                $this->computers = new Computers();
+                $this->computer = new computer();
 
                 $this->internet = new Internet();
             }
@@ -188,7 +188,7 @@
         public function getRedirect( $ipaddress=null, $local=false )
         {
 
-            if( $ipaddress == $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress )
+            if( $ipaddress == $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress )
             {
 
                 return Settings::getSetting('syscrack_computers_page');
@@ -210,7 +210,7 @@
         }
 
         /**
-         * Gets the current computers ip address
+         * Gets the current computer ip address
          *
          * @return mixed
          */
@@ -218,7 +218,7 @@
         public function getCurrentAddress()
         {
 
-            return $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress;
+            return $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress;
         }
 
         /**

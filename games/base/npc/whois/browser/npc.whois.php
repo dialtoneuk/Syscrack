@@ -1,7 +1,7 @@
 <?php
 
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computers;
+    use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Schema;
 
@@ -14,7 +14,7 @@
     if( isset( $computers) == false )
     {
 
-        $computers= new Computers();
+        $computers= new Computer();
     }
 
     if( isset( $npc ) == false )

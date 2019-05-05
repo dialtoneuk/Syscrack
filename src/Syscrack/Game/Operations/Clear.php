@@ -35,7 +35,7 @@ class Clear extends BaseClass implements Structure
     {
 
         return array(
-            'allowsoftwares'    => false,
+            'allowsoftware'    => false,
             'allowlocal'        => true,
             'requireloggedin'   => true
         );

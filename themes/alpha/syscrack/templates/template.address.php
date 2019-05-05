@@ -1,14 +1,14 @@
 <?php
 
 use Framework\Application\Container;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Softwares;
+use Framework\Syscrack\Game\Software;
 use Framework\Syscrack\Game\Viruses;
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (isset($viruses) == false) {
@@ -18,7 +18,7 @@ if (isset($viruses) == false) {
 
 if (isset($softwares) == false) {
 
-    $softwares = new Softwares();
+    $softwares = new Software();
 }
 
 if (isset($internet) == false) {
@@ -28,18 +28,18 @@ if (isset($internet) == false) {
 
 $session = Container::getObject('session');
 
-$computers = $internet->getComputer($value['ipaddress']);
+$computer = $internet->getComputer($value['ipaddress']);
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="badge">address #<?= $key ?></span> <?= $value['ipaddress'] ?> <span style="float: right;"
-                                                                                         class="badge"><?= $computers->type ?></span>
+                                                                                         class="badge"><?= $computer_controller->type ?></span>
     </div>
     <div class="panel-body">
         <?php
-        if ($viruses->hasVirusesOnComputer($computers->computerid, $session->getSessionUser())) {
+        if ($viruses->hasVirusesOnComputer($computer_controller->computerid, $session->getSessionUser())) {
 
-            $virus = $viruses->getVirusesOnComputer( $computers->computerid, $session->getSessionUser());
+            $virus = $viruses->getVirusesOnComputer( $computer_controller->computerid, $session->getSessionUser());
 
             ?>
                 <?php
@@ -75,11 +75,11 @@ $computers = $internet->getComputer($value['ipaddress']);
         }
         ?>
         <button class="btn btn-default" style="width: 100%" type="button" data-toggle="collapse"
-                data-target="#computer_<?= $computers->computerid ?>" aria-expanded="false"
-                aria-controls="computer_<?= $computers->computerid ?>">
+                data-target="#computer_<?= $computer_controller->computerid ?>" aria-expanded="false"
+                aria-controls="computer_<?= $computer_controller->computerid ?>">
             View
         </button>
-        <div class="collapse" id="computer_<?= $computers->computerid ?>">
+        <div class="collapse" id="computer_<?= $computer_controller->computerid ?>">
             <div class="panel panel-default" style="margin-top: 3.5%;">
                 <div class="panel-body">
                     <div class="row">

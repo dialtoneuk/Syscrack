@@ -4,7 +4,7 @@ use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
 use Framework\Syscrack\Game\AccountDatabase;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Schema;
 use Framework\Syscrack\Game\Utilities\PageHelper;
@@ -21,9 +21,9 @@ if (isset($finance) == false) {
     $finance = new Finance();
 }
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (isset($pagehelper) == false) {
@@ -180,7 +180,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                 foreach ($accounts as $account) {
 
-                    if ($computers->computerExists($account->computerid) == false) {
+                    if ($computer_controller->computerExists($account->computerid) == false) {
 
                         continue;
                     }
@@ -198,14 +198,14 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                                                     if (isset($schema['name']) == false) {
 
-                                                        echo($computers->getComputer($account->computerid)->ipaddress);
+                                                        echo($computer_controller->getComputer($account->computerid)->ipaddress);
                                                     } else {
 
                                                         echo($schema['name']);
                                                     }
                                                 } else {
 
-                                                    echo($computers->getComputer($account->computerid)->ipaddress);
+                                                    echo($computer_controller->getComputer($account->computerid)->ipaddress);
                                                 }
                                                 ?>
                                             </span>
@@ -225,8 +225,8 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                             Bank Address
                                             <span class="badge right">
                                                                 <a style="color: white;"
-                                                                   href="/game/internet/<?= $computers->getComputer($account->computerid)->ipaddress ?>">
-                                                                    <?= $computers->getComputer($account->computerid)->ipaddress ?>
+                                                                   href="/game/internet/<?= $computer_controller->getComputer($account->computerid)->ipaddress ?>">
+                                                                    <?= $computer_controller->getComputer($account->computerid)->ipaddress ?>
                                                                 </a>
                                                             </span>
                                         </li>

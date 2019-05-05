@@ -3,10 +3,10 @@
 use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 
-$computers = new Computers();
+$computer_controller = new Computer();
 
 $pagehelper = new PageHelper();
 
@@ -17,7 +17,7 @@ if ($session->isLoggedIn()) {
     $session->updateLastAction();
 }
 
-$currentcomputer = $computers->getComputer($computers->getCurrentUserComputer());
+$currentcomputer = $computer_controller->getComputer($computer_controller->getCurrentUserComputer());
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +55,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     <div class="row" style="margin-top: 1.5%;">
         <?php
 
-        Render::view('syscrack/templates/template.computer.actions', array('computers' => $computers));
+        Render::view('syscrack/templates/template.computer.actions', array('computer_controller' => $computer_controller));
         ?>
 
         <div class="col-md-8">
@@ -64,7 +64,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 <div class="col-sm-12">
                     <?php
 
-                    $hardwares = $computers->getComputerHardware($currentcomputer->computerid);
+                    $hardwares = $computer_controller->getComputerHardware($currentcomputer->computerid);
 
                     foreach ($hardwares as $type => $hardware) {
 

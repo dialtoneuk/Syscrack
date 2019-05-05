@@ -4,10 +4,10 @@ use Framework\Application\Render;
 use Framework\Application\Container;
 use Framework\Application\Settings;
 
-if ( isset( $computers ) == false )
+if ( isset( $computer_controller ) == false )
 {
 
-    $computers = new \Framework\Syscrack\Game\Computers();
+    $computer_controller = new \Framework\Syscrack\Game\Computer();
 }
 
 if ( isset( $finance ) == false )
@@ -20,7 +20,7 @@ $session = Container::getObject('session');
 
 $accounts = $finance->getUserBankAccounts( $session->getSessionUser() );
 
-$allcomputers = $computers->getUserComputers( $session->getSessionUser() )
+$allcomputers = $computer_controller->getUserComputers( $session->getSessionUser() )
 
 ?>
 <!DOCTYPE html>
@@ -66,7 +66,7 @@ $allcomputers = $computers->getUserComputers( $session->getSessionUser() )
                                     {
 
                                         ?>
-                                        <form method="post" action="/game/computers/">
+                                        <form method="post" action="/game/computer/">
                                             <p>
                                                 You may purchase a band new computer for <?= number_format( count( $allcomputers ) * ( Settings::getSetting('syscrack_vpc_purchase_price') * Settings::getSetting('syscrack_vpc_purchase_increase' ) ) ) ?>
                                             </p>
@@ -83,7 +83,7 @@ $allcomputers = $computers->getUserComputers( $session->getSessionUser() )
                                                             #<?= $account->accountnumber ?>
                                                             (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
                                                             )
-                                                            @<?= $computers->getComputer($account->computerid)->ipaddress ?></option>
+                                                            @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                                         <?php
                                                     }
                                                 }
@@ -147,7 +147,7 @@ $allcomputers = $computers->getUserComputers( $session->getSessionUser() )
                 <div class="col-sm-8">
                     <?php
 
-                        $currentcomputer = $computers->getComputer( $computers->getCurrentUserComputer() );
+                        $currentcomputer = $computer_controller->getComputer( $computer_controller->getCurrentUserComputer() );
                     ?>
                     <div class="row">
                         <div class="col-sm-12">
@@ -185,7 +185,7 @@ $allcomputers = $computers->getUserComputers( $session->getSessionUser() )
                     foreach ( $allcomputers as $key=>$value )
                     {
 
-                        if ( $computers->getCurrentUserComputer() == $value->computerid)
+                        if ( $computer_controller->getCurrentUserComputer() == $value->computerid)
                         {
                             continue;
                         }

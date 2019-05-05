@@ -372,14 +372,14 @@ class Operations
     }
 
     /**
-     * Returns true if this operation allows softwares
+     * Returns true if this operation allows software
      *
      * @param $process
      *
      * @return bool
      */
 
-    public function allowSoftwares( $process )
+    public function allowSoftware( $process )
     {
 
         if( $this->hasProcessClass( $process ) == false )
@@ -390,13 +390,13 @@ class Operations
 
         $class = $this->findProcessClass( $process );
 
-        if( isset( $class->configuration()['allowsoftwares'] ) == false )
+        if( isset( $class->configuration()['allowsoftware'] ) == false )
         {
 
             return false;
         }
 
-        if( $class->configuration()['allowsoftwares'] == false )
+        if( $class->configuration()['allowsoftware'] == false )
         {
 
             return false;
@@ -406,14 +406,14 @@ class Operations
     }
 
     /**
-     * Returns true if this process requires softwares
+     * Returns true if this process requires software
      *
      * @param $process
      *
      * @return bool
      */
 
-    public function requireSoftwares( $process )
+    public function requireSoftware( $process )
     {
 
         if( $this->hasProcessClass( $process ) == false )
@@ -424,13 +424,13 @@ class Operations
 
         $class = $this->findProcessClass( $process );
 
-        if( isset( $class->configuration()['requiresoftwares'] ) == false )
+        if( isset( $class->configuration()['requiresoftware'] ) == false )
         {
 
             return false;
         }
 
-        if( $class->configuration()['requiresoftwares'] == false )
+        if( $class->configuration()['requiresoftware'] == false )
         {
 
             return false;
@@ -666,7 +666,7 @@ class Operations
     }
 
     /**
-     * Returns true if this action can be preformed with out logging in ( used when dealing with softwares )
+     * Returns true if this action can be preformed with out logging in ( used when dealing with software )
      *
      * @param $process
      *

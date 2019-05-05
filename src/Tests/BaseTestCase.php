@@ -30,12 +30,16 @@ class BaseTestCase extends TestCase
     {
 
 
-        Debug::setCMD();
-            include( "../index.php");
-        Settings::preloadSettings();
+        if( defined("PHPUNIT_FINISHED") == false )
+        {
 
-        self::$application = new Application( false );
-        self::$application->addToGlobalContainer();
+            Debug::setCMD();
+            include( "../index.php");
+            Settings::preloadSettings();
+
+            self::$application = new Application( false );
+            self::$application->addToGlobalContainer();
+        }
 
         parent::setUpBeforeClass();
     }

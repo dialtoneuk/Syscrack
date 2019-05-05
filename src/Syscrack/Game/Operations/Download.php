@@ -50,9 +50,9 @@ class Download extends BaseClass implements Structure
     {
 
         return array(
-            'allowsoftwares'    => true,
+            'allowsoftware'    => true,
             'allowlocal'        => false,
-            'requiresoftwares'  => true,
+            'requiresoftware'  => true,
             'requireloggedin'   => true
         );
     }
@@ -88,7 +88,7 @@ class Download extends BaseClass implements Structure
             return false;
         }
 
-        $software = $this->softwares->getSoftware( $data['softwareid'] );
+        $software = $this->software->getSoftware( $data['softwareid'] );
 
         if( $this->hasSpace( $this->computers->getCurrentUserComputer(), $software->size ) == false )
         {
@@ -101,7 +101,7 @@ class Download extends BaseClass implements Structure
         if( $this->viruses->isVirus( $software->softwareid ) )
         {
 
-            if( $this->softwares->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
+            if( $this->software->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
             {
 
                 return false;
@@ -140,37 +140,37 @@ class Download extends BaseClass implements Structure
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+        if( $this->software->softwareExists( $data['softwareid'] ) == false )
         {
 
             $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        $software = $this->softwares->getSoftware( $data['softwareid'] );
+        $software = $this->software->getSoftware( $data['softwareid'] );
 
-        if( $this->softwares->hasData( $software->softwareid ) == true && $this->softwares->keepData( $software->softwareid ) )
+        if( $this->software->hasData( $software->softwareid ) == true && $this->software->keepData( $software->softwareid ) )
         {
 
-            $softwaredata = $this->softwares->getSoftwareData( $software->softwareid );
+            $softwaredata = $this->software->getSoftwareData( $software->softwareid );
 
-            if( $this->softwares->checkSoftwareData( $software->softwareid, ['allowanondownloads'] ) == true )
+            if( $this->software->checkSoftwareData( $software->softwareid, ['allowanondownloads'] ) == true )
             {
 
                 unset( $softwaredata['allowanondownloads'] );
             }
 
-            if( $this->softwares->checkSoftwareData( $software->softwareid, ['editable'] ) == true )
+            if( $this->software->checkSoftwareData( $software->softwareid, ['editable'] ) == true )
             {
 
                 unset( $softwaredata['editable'] );
             }
 
-            $new_softwareid = $this->softwares->copySoftware( $software->softwareid, $computerid, $userid, false, $softwaredata );
+            $new_softwareid = $this->software->copySoftware( $software->softwareid, $computerid, $userid, false, $softwaredata );
         }
         else
         {
 
-            $new_softwareid = $this->softwares->copySoftware( $software->softwareid, $computerid, $userid );
+            $new_softwareid = $this->software->copySoftware( $software->softwareid, $computerid, $userid );
         }
 
         $this->computers->addSoftware( $computerid, $new_softwareid, $software->type );
@@ -212,13 +212,13 @@ class Download extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
-        if( $this->softwares->softwareExists( $softwareid ) == false )
+        if( $this->software->softwareExists( $softwareid ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_download_type'), $this->softwares->getSoftware( $softwareid )->size / 5, $softwareid );
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_download_type'), $this->software->getSoftware( $softwareid )->size / 5, $softwareid );
     }
 
     /**

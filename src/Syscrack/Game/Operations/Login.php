@@ -35,7 +35,7 @@ class Login extends BaseClass implements Structure
     {
 
         return array(
-            'allowsoftwares'    => false,
+            'allowsoftware'    => false,
             'allowlocal'        => false
         );
     }

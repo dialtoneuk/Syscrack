@@ -62,19 +62,19 @@
                 return false;
             }
 
-            if( $this->softwares->canExecute( $data['softwareid'] ) == false )
+            if( $this->software->canExecute( $data['softwareid'] ) == false )
             {
 
                 $this->redirectError('Sorry, this software cannot be executed', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->softwares->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
+            if( $this->software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
             {
 
                 return false;
             }
 
-            if( $this->softwares->localExecuteOnly( $data['softwareid'] ) )
+            if( $this->software->localExecuteOnly( $data['softwareid'] ) )
             {
 
                 if( $this->computers->getComputer( $computerid )->ipaddress !== $data['ipaddress'] )
@@ -118,13 +118,13 @@
                 $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
             }
 
-            if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+            if( $this->software->softwareExists( $data['softwareid'] ) == false )
             {
 
                 $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $class = $this->softwares->getSoftwareClassFromID( $data['softwareid'] );
+            $class = $this->software->getSoftwareClassFromID( $data['softwareid'] );
 
             if( $class instanceof Software == false )
             {
@@ -164,13 +164,13 @@
                 throw new SyscrackException();
             }
 
-            if( $this->softwares->softwareExists( $softwareid ) == false )
+            if( $this->software->softwareExists( $softwareid ) == false )
             {
 
                 throw new SyscrackException();
             }
 
-            $class = $this->softwares->getSoftwareClassFromID( $softwareid );
+            $class = $this->software->getSoftwareClassFromID( $softwareid );
 
             if( $class instanceof Software == false )
             {

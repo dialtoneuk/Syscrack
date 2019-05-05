@@ -1,18 +1,18 @@
 <?php
 
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Schema;
-use Framework\Syscrack\Game\Softwares;
+use Framework\Syscrack\Game\Software;
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (isset($software) == false) {
 
-    $software = new Softwares();
+    $software = new Software();
 }
 
 if (isset($internet) == false) {
@@ -53,9 +53,9 @@ $current_computer = $internet->getComputer($ipaddress);
         <ul class="list-group">
             <?php
 
-            $computersoftware = $computers->getComputerSoftware($internet->getComputer($ipaddress)->computerid);
+            $computeroftware = $computer_controller->getComputerSoftware($internet->getComputer($ipaddress)->computerid);
 
-            if (empty($computersoftware)) {
+            if (empty($computeroftware)) {
 
                 ?>
                 <div class="panel panel-warning">
@@ -66,7 +66,7 @@ $current_computer = $internet->getComputer($ipaddress);
                 <?php
             } else {
 
-                foreach ($computersoftware as $key => $value) {
+                foreach ($computeroftware as $key => $value) {
 
                     if ($software->softwareExists($value['softwareid']) == false) {
 

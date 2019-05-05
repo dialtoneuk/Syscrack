@@ -3,7 +3,7 @@
 use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Syscrack\Game\AddressDatabase;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 use Framework\Syscrack\Game\Viruses;
@@ -20,9 +20,9 @@ if (isset($pagehelper) == false) {
     $pagehelper = new PageHelper();
 }
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (isset($addressdatabase) == false) {
@@ -174,7 +174,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                         foreach ($addresses as $key => $value) {
 
-                            Render::view('syscrack/templates/template.address', array('key' => $key, 'value' => $value, 'computers' => $computers, 'internet' => $internet, 'viruses' => $viruses));
+                            Render::view('syscrack/templates/template.address', array('key' => $key, 'value' => $value, 'computer_controller' => $computer_controller, 'internet' => $internet, 'viruses' => $viruses));
                         }
                     }
                 }

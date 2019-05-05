@@ -193,7 +193,7 @@ class Settings
 		if( isset( $settings[ $setting ] ) == false )
 		{
 
-			throw new ApplicationException('Setting does not exist');
+			throw new ApplicationException('Setting does not exist: ' . $setting );
 		}
 
 		$setting = $settings[ $setting ];

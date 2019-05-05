@@ -4,12 +4,12 @@ use Framework\Application\Settings;
 
 if (isset($softwares) == null) {
 
-    $softwares = new \Framework\Syscrack\Game\Softwares();
+    $softwares = new \Framework\Syscrack\Game\Software();
 }
 
-if (isset($computers) == null) {
+if (isset($computer_controller) == null) {
 
-    $computers = new \Framework\Syscrack\Game\Computers();
+    $computer_controller = new \Framework\Syscrack\Game\Computer();
 }
 
 if (isset($internet) == null) {
@@ -56,7 +56,7 @@ if (isset($viruses) == false) {
                 <tbody>
                 <?php
 
-                $software = $computers->getComputerSoftware($internet->getComputer($ipaddress)->computerid);
+                $software = $computer_controller->getComputerSoftware($internet->getComputer($ipaddress)->computerid);
 
                 foreach ($software as $key => $value) {
 
@@ -65,7 +65,7 @@ if (isset($viruses) == false) {
                         continue;
                     }
 
-                    if ($computers->hasSoftware($internet->getComputer($ipaddress)->computerid, $value['softwareid']) == false) {
+                    if ($computer_controller->hasSoftware($internet->getComputer($ipaddress)->computerid, $value['softwareid']) == false) {
 
                         continue;
                     }

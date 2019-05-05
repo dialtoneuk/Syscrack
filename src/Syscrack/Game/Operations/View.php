@@ -36,9 +36,9 @@ class View extends BaseClass implements Structure
     {
 
         return array(
-            'allowsoftwares'    => true,
+            'allowsoftware'    => true,
             'allowlocal'        => true,
-            'requiresoftwares'  => true,
+            'requiresoftware'  => true,
             'requireloggedin'   => true
         );
     }
@@ -68,7 +68,7 @@ class View extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->softwares->hasData( $data['softwareid'] ) == false )
+        if( $this->software->hasData( $data['softwareid'] ) == false )
         {
 
             return false;
@@ -108,19 +108,19 @@ class View extends BaseClass implements Structure
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+        if( $this->software->softwareExists( $data['softwareid'] ) == false )
         {
 
             $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        if( $this->softwares->hasData( $data['softwareid'] ) == false )
+        if( $this->software->hasData( $data['softwareid'] ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $this->getRender('operations/operations.view', array('softwareid' => $data['softwareid'], 'ipaddress' => $data['ipaddress'], 'data' => $this->softwares->getSoftwareData( $data['softwareid'] ) ) );
+        $this->getRender('operations/operations.view', array('softwareid' => $data['softwareid'], 'ipaddress' => $data['ipaddress'], 'data' => $this->software->getSoftwareData( $data['softwareid'] ) ) );
     }
 
     /**

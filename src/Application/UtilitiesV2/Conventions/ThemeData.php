@@ -9,6 +9,16 @@ namespace Framework\Application\UtilitiesV2\Conventions;
 
 use Framework\Application\UtilitiesV2\Convention;
 
+/**
+ * Class ThemeData
+ * @package Framework\Application\UtilitiesV2\Conventions
+ * @property string name
+ * @property string description
+ * @property string author
+ * @property int version
+ * @property array data
+ */
+
 class ThemeData extends Convention
 {
 
@@ -30,7 +40,7 @@ class ThemeData extends Convention
     protected $requirements = [
         "name"          => "string",
         "description"   => "string",
-        "author"        => "author",
+        "author"        => "string",
         "website"       => "string",
         "version"       => "int",
         "data"          => "array"

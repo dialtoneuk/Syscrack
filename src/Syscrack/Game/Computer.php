@@ -12,11 +12,11 @@ namespace Framework\Syscrack\Game;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
-use Framework\Database\Tables\Computers as Database;
+use Framework\Database\Tables\Computer as Database;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Computer;
+use Framework\Syscrack\Game\Structures\Computer as Structure;
 
-class Computers
+class Computer
 {
 
     /**
@@ -171,14 +171,14 @@ class Computers
         foreach( $classes as $class )
         {
 
-            if( $class instanceof Computer == false )
+            if( $class instanceof Structure  == false )
             {
 
                 throw new SyscrackException();
             }
 
             /**
-             * @var $class Computer
+             * @var $class Structure
              */
 
             if( $class->configuration()['type'] == $type )
@@ -212,8 +212,7 @@ class Computers
     }
 
     /**
-     * Gets all the computers
-     *
+     * @param int $pick
      * @return \Illuminate\Support\Collection|mixed
      */
 
@@ -283,7 +282,7 @@ class Computers
     {
 
         $array = array(
-            'softwares' => json_encode([])
+            'software' => json_encode([])
         );
 
         $this->database->updateComputer( $computerid, $array );
@@ -299,7 +298,7 @@ class Computers
     {
 
         $array = array(
-            'hardwares' => json_encode( [] )
+            'hardware' => json_encode( [] )
         );
 
         $this->database->updateComputer( $computerid, $array );
@@ -317,7 +316,7 @@ class Computers
     {
 
         $array = array(
-            'hardwares' => json_encode( $hardware )
+            'hardware' => json_encode( $hardware )
         );
 
         $this->database->updateComputer( $computerid, $array );
@@ -348,7 +347,7 @@ class Computers
     public function getComputerSoftware( $computerid )
     {
 
-        return json_decode( $this->getComputer( $computerid )->softwares, true );
+        return json_decode( $this->getComputer( $computerid )->software, true );
     }
 
     /**
@@ -384,12 +383,12 @@ class Computers
     public function hasSoftware( $computerid, $softwareid )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        foreach( $softwares as $software )
+        foreach( $software as $softwares )
         {
 
-            if( $software['softwareid'] == $softwareid )
+            if( $softwares['softwareid'] == $softwareid )
             {
 
                 return true;
@@ -408,22 +407,22 @@ class Computers
      *
      * @param $ipaddress
      *
-     * @param array $softwares
+     * @param array $software
      *
-     * @param array $hardwares
+     * @param array $hardware
      *
      * @return int
      */
 
-    public function createComputer( $userid, $type, $ipaddress, $softwares = [], $hardwares = [] )
+    public function createComputer( $userid, $type, $ipaddress, $software = [], $hardware = [] )
     {
 
         $array = array(
             'userid'    => $userid,
             'type'      => $type,
             'ipaddress' => $ipaddress,
-            'softwares' => json_encode( $softwares ),
-            'hardwares' => json_encode( $hardwares )
+            'software' => json_encode( $software ),
+            'hardware' => json_encode( $hardware )
         );
 
         return $this->database->insertComputer( $array );
@@ -442,16 +441,16 @@ class Computers
     public function addSoftware( $computerid, $softwareid, $type )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        $softwares[] = array(
+        $software[] = array(
             'softwareid'        => $softwareid,
             'type'              => $type,
             'installed'         => false,
             'timeinstalled'     => time()
         );
 
-        $this->database->updateComputer( $computerid, array('softwares' => json_encode( $softwares ) ) );
+        $this->database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
     }
 
     /**
@@ -465,25 +464,25 @@ class Computers
     public function removeSoftware( $computerid, $softwareid )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        if( empty( $softwares ) )
+        if( empty( $software ) )
         {
 
             throw new SyscrackException();
         }
 
-        foreach( $softwares as $key=>$software )
+        foreach( $software as $key=>$softwares )
         {
 
-            if( $software['softwareid'] == $softwareid )
+            if( $softwares['softwareid'] == $softwareid )
             {
 
                 unset( $softwares[ $key ] );
             }
         }
 
-        $this->database->updateComputer( $computerid, array('softwares' => json_encode( $softwares ) ) );
+        $this->database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
     }
 
     /**
@@ -497,25 +496,25 @@ class Computers
     public function installSoftware( $computerid, $softwareid )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        if( empty( $softwares ) )
+        if( empty( $software ) )
         {
 
             throw new SyscrackException();
         }
 
-        foreach( $softwares as $key=>$software )
+        foreach( $software as $key=>$softwares )
         {
 
-            if( $software['softwareid'] == $softwareid )
+            if( $softwares['softwareid'] == $softwareid )
             {
 
-                $softwares[ $key ]['installed'] = true;
+                $software[ $key ]['installed'] = true;
             }
         }
 
-        $this->database->updateComputer( $computerid, array('softwares' => json_encode( $softwares ) ) );
+        $this->database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
     }
 
     /**
@@ -529,25 +528,25 @@ class Computers
     public function uninstallSoftware( $computerid, $softwareid )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        if( empty( $softwares ) )
+        if( empty( $software ) )
         {
 
             throw new SyscrackException();
         }
 
-        foreach( $softwares as $key=>$software )
+        foreach( $software as $key=>$softwares )
         {
 
-            if( $software['softwareid'] == $softwareid )
+            if( $softwares['softwareid'] == $softwareid )
             {
 
-                $softwares[ $key ]['installed'] = false;
+                $software[ $key ]['installed'] = false;
             }
         }
 
-        $this->database->updateComputer( $computerid, array('softwares' => json_encode( $softwares ) ) );
+        $this->database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
     }
 
 
@@ -562,7 +561,7 @@ class Computers
     public function getComputerHardware( $computerid )
     {
 
-        return json_decode( $this->database->getComputer( $computerid )->hardwares, true );
+        return json_decode( $this->database->getComputer( $computerid )->hardware, true );
     }
 
     /**
@@ -618,11 +617,11 @@ class Computers
     public function getInstalledSoftware( $computerid )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
         $result = array();
 
-        foreach( $softwares as $key=>$value )
+        foreach( $software as $key=>$value )
         {
 
             if( $value['installed'] == true )
@@ -646,21 +645,21 @@ class Computers
     public function getCracker( $computerid )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        foreach( $softwares as $software )
+        foreach( $software as $softwares )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_software_cracker_type') )
+            if( $softwares['type'] == Settings::getSetting('syscrack_software_cracker_type') )
             {
 
-                if( $software['installed'] == false )
+                if( $softwares['installed'] == false )
                 {
 
                     continue;
                 }
 
-                return $software['softwareid'];
+                return $softwares['softwareid'];
             }
         }
 
@@ -678,21 +677,21 @@ class Computers
     public function getFirewall( $computerid )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        foreach( $softwares as $software )
+        foreach( $software as $softwares )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_software_hasher_type') )
+            if( $softwares['type'] == Settings::getSetting('syscrack_software_hasher_type') )
             {
 
-                if( $software['installed'] == false )
+                if( $softwares['installed'] == false )
                 {
 
                     continue;
                 }
 
-                return $software['softwareid'];
+                return $softwares['softwareid'];
             }
         }
 
@@ -710,21 +709,21 @@ class Computers
     public function getHasher( $computerid )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        foreach( $softwares as $software )
+        foreach( $software as $softwares )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_software_hasher_type') )
+            if( $softwares['type'] == Settings::getSetting('syscrack_software_hasher_type') )
             {
 
-                if( $software['installed'] == false )
+                if( $softwares['installed'] == false )
                 {
 
                     continue;
                 }
 
-                return $software['softwareid'];
+                return $softwares['softwareid'];
             }
         }
 
@@ -742,21 +741,21 @@ class Computers
     public function getCollector( $computerid )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        foreach( $softwares as $software )
+        foreach( $software as $softwares )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_software_collector_type') )
+            if( $softwares['type'] == Settings::getSetting('syscrack_software_collector_type') )
             {
 
-                if( $software['installed'] == false )
+                if( $softwares['installed'] == false )
                 {
 
                     continue;
                 }
 
-                return $software['softwareid'];
+                return $softwares['softwareid'];
             }
         }
 
@@ -826,15 +825,15 @@ class Computers
     public function hasType( $computerid, $type, $checkinstall=true )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        foreach( $softwares as $software )
+        foreach( $software as $softwares )
         {
 
-            if( $software['type'] == $type )
+            if( $softwares['type'] == $type )
             {
 
-                if( $software['installed'] == false )
+                if( $checkinstall && $softwares['installed'] == false )
                 {
 
                     continue;
@@ -862,27 +861,27 @@ class Computers
     public function getSoftwareByName( $computerid, $softwarename, $checkinstalled=true )
     {
         
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        foreach( $softwares as $software )
+        foreach( $software as $softwares )
         {
 
-            if( $software['softwarename'] == $softwarename )
+            if( $softwares['softwarename'] == $softwarename )
             {
 
                 if( $checkinstalled )
                 {
 
-                    if( $software['installed'] == true )
+                    if( $softwares['installed'] == true )
                     {
 
-                        return $software;
+                        return $softwares;
                     }
                 }
                 else
                 {
 
-                    return $software;
+                    return $softwares;
                 }
             }
         }
@@ -903,21 +902,21 @@ class Computers
     public function isInstalled( $computerid, $softwareid )
     {
 
-        $softwares = $this->getComputerSoftware( $computerid );
+        $software = $this->getComputerSoftware( $computerid );
 
-        if( empty( $softwares ) )
+        if( empty( $software ) )
         {
 
             return false;
         }
 
-        foreach( $softwares as $software )
+        foreach( $software as $softwares )
         {
 
-            if( $software['softwareid'] == $softwareid )
+            if( $softwares['softwareid'] == $softwareid )
             {
 
-                return $software['installed'];
+                return $softwares['installed'];
             }
         }
 

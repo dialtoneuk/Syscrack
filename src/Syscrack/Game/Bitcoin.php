@@ -12,7 +12,7 @@ namespace Framework\Syscrack\Game;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Hashes;
 use Framework\Database\Tables\Bitcoin as Database;
-use Framework\Database\Tables\Computers;
+use Framework\Database\Tables\Computer;
 use Framework\Exceptions\SyscrackException;
 use Unirest\Request;
 
@@ -26,7 +26,7 @@ class Bitcoin
     protected $database;
 
     /**
-     * @var Computers
+     * @var Computer
      */
 
     protected $computers;
@@ -40,7 +40,7 @@ class Bitcoin
 
         $this->database = new Database();
 
-        $this->computers = new Computers();
+        $this->computers = new Computer();
     }
 
     /**

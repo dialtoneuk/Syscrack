@@ -12,7 +12,7 @@
     use Framework\Application\Container;
     use Framework\Application\Render;
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computers;
+    use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
@@ -79,13 +79,13 @@
             if ( Container::getObject('session')->isLoggedIn() )
             {
 
-                if ( isset( $this->computers ) == false )
+                if ( isset( $this->computer ) == false )
                 {
 
-                    $this->computers = new Computers();
+                    $this->computer = new Computer();
                 }
 
-                $this->model->computer = $this->computers->getComputer( $this->computers->getCurrentUserComputer() );
+                $this->model->computer = $this->computer->getComputer( $this->computer->getCurrentUserComputer() );
             }
 
             return parent::model();

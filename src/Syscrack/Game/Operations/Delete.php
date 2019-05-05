@@ -50,9 +50,9 @@ class Delete extends BaseClass implements Structure
     {
 
         return array(
-            'allowsoftwares'    => true,
+            'allowsoftware'    => true,
             'allowlocal'        => true,
-            'requiresoftwares'  => true,
+            'requiresoftware'  => true,
             'requireloggedin'   => true
         );
     }
@@ -88,9 +88,9 @@ class Delete extends BaseClass implements Structure
             return false;
         }
 
-        $software = $this->softwares->getSoftware( $data['softwareid'] );
+        $software = $this->software->getSoftware( $data['softwareid'] );
 
-        if( $this->softwares->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
+        if( $this->software->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
         {
 
             if( $this->viruses->isVirus( $software->softwareid ) )
@@ -105,7 +105,7 @@ class Delete extends BaseClass implements Structure
         else
         {
 
-            if( $this->softwares->canRemove( $software->softwareid ) == false )
+            if( $this->software->canRemove( $software->softwareid ) == false )
             {
 
                 if( $this->viruses->isVirus( $software->softwareid ) == false )
@@ -148,15 +148,15 @@ class Delete extends BaseClass implements Structure
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+        if( $this->software->softwareExists( $data['softwareid'] ) == false )
         {
 
             $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        $software = $this->softwares->getSoftware( $data['softwareid'] );
+        $software = $this->software->getSoftware( $data['softwareid'] );
 
-        $this->softwares->deleteSoftware( $software->softwareid );
+        $this->software->deleteSoftware( $software->softwareid );
 
         $this->computers->removeSoftware( $this->getComputerId( $data['ipaddress'] ), $software->softwareid );
 

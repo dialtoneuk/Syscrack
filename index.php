@@ -316,6 +316,8 @@
     define("MIGRATOR_ROOT", "src/Application/UtilitiesV2/Migrators/");
     define("MIGRATOR_NAMESPACE","Framework\\Application\\UtilityV2\\Migrators\\");
 
+    define("PHPUNIT_FINISHED", true );
+
     //</editor-fold>
 
     if( php_sapi_name() === 'cli' && Debug::isCMD() == false )

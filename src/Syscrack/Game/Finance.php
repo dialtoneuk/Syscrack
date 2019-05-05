@@ -11,14 +11,14 @@ namespace Framework\Syscrack\Game;
 
 use Framework\Application\Settings;
 use Framework\Database\Tables\Banks;
-use Framework\Database\Tables\Computers;
+use Framework\Database\Tables\Computer;
 use Framework\Exceptions\SyscrackException;
 
 class Finance
 {
 
     /**
-     * @var Computers
+     * @var Computer
      */
 
     protected $computers;
@@ -36,7 +36,7 @@ class Finance
     public function __construct()
     {
 
-        $this->computers = new Computers();
+        $this->computers = new Computer();
 
         $this->banks = new Banks();
     }

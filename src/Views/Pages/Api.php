@@ -54,7 +54,7 @@
                 $this->manager = new Manager();
             }
 
-            if( isset( $this->computers ) == false )
+            if( isset( $this->computer ) == false )
             {
 
                 $this->controller = new Controller();

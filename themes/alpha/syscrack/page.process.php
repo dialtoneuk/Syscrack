@@ -17,9 +17,9 @@ if (isset($operations) == false) {
     $operations = new \Framework\Syscrack\Game\Operations();
 }
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new \Framework\Syscrack\Game\Computers();
+    $computer_controller = new \Framework\Syscrack\Game\Computer();
 }
 ?>
 
@@ -90,7 +90,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                 foreach ($processes as $key => $value) {
 
-                    $computer = $computers->getComputer($key);
+                    $computer = $computer_controller->getComputer($key);
 
                     ?>
                     <div class="row">
@@ -98,7 +98,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             <h5 style="color: #ababab" class="text-uppercase">
                                 <?php
 
-                                if ($computers->getCurrentUserComputer() == $computer->computerid) {
+                                if ($computer_controller->getCurrentUserComputer() == $computer_controller->computerid) {
 
                                     ?>
                                     <p><a href="/processes/computer/<?= $computerid ?>" class="btn btn-primary"
@@ -107,8 +107,8 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                 } else {
 
                                     ?>
-                                    <?= $computer->ipaddress ?> <span class="badge"
-                                                                      style="float: right;"><a href="/game/computers/#<?= $computer->ipaddress ?>">Switch to VPC</a></span>
+                                    <?= $computer_controller->ipaddress ?> <span class="badge"
+                                                                      style="float: right;"><a href="/game/computers/#<?= $computer_controller->ipaddress ?>">Switch to VPC</a></span>
                                     <?php
                                 }
                                 ?>
@@ -118,7 +118,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             <?php
                             foreach ($value as $item => $process) {
 
-                                if ($computers->getCurrentUserComputer() == $computer->computerid) {
+                                if ($computer_controller->getCurrentUserComputer() == $computer_controller->computerid) {
 
                                     ?>
                                     <div class="row">

@@ -4,13 +4,13 @@ use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
 use Framework\Exceptions\ViewException;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (isset($pagehelper) == false) {
@@ -30,9 +30,9 @@ if ($session->isLoggedIn()) {
     $session->updateLastAction();
 }
 
-$currentcomputer = $computers->getComputer($computers->getCurrentUserComputer());
+$currentcomputer = $computer_controller->getComputer($computer_controller->getCurrentUserComputer());
 
-if ($computers->hasType($currentcomputer->computerid, Settings::getSetting('syscrack_software_collector_type'), true) == false) {
+if ($computer_controller->hasType($currentcomputer->computerid, Settings::getSetting('syscrack_software_collector_type'), true) == false) {
 
     throw new ViewException();
 }
@@ -76,7 +76,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
         <?php
 
-        Render::view('syscrack/templates/template.computer.actions', array('computers' => $computers));
+        Render::view('syscrack/templates/template.computer.actions', array('computer_controller' => $computer_controller));
         ?>
         <div class="col-md-8">
             <div class="row">
@@ -109,7 +109,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                     #<?= $account->accountnumber ?>
                                                     (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
                                                     )
-                                                    @<?= $computers->getComputer($account->computerid)->ipaddress ?></option>
+                                                    @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                                 <?php
                                             }
                                         }

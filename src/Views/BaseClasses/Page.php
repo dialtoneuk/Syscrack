@@ -14,9 +14,9 @@
     use Framework\Application\Render;
     use Framework\Application\Session;
     use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computers;
+    use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Internet;
-    use Framework\Syscrack\Game\Softwares;
+    use Framework\Syscrack\Game\Software;
     use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Syscrack\User;
 
@@ -32,10 +32,10 @@
         public $model;
 
         /**
-         * @var Softwares
+         * @var Software
          */
 
-        public $softwares;
+        public $software;
 
         /**
          * @var Internet
@@ -44,10 +44,16 @@
         public $internet;
 
         /**
-         * @var Computers
+         * @var Computer
          */
 
-        public $computers;
+        public $computer;
+
+        /**
+         * @var Session
+         */
+
+        public $session;
 
         /**
          * @var User
@@ -57,19 +63,22 @@
 
         /**
          * Page constructor.
-         *
          * @param bool $autoload
+         * @param bool $session
+         * @param bool $requirelogin
+         * @param bool $clearerrors
+         * @param bool $admin_only
          */
 
         public function __construct($autoload = true, $session=false, $requirelogin=false, $clearerrors=true, $admin_only=false )
         {
 
-            if ($autoload == true)
+            if ($autoload )
             {
 
-                $this->softwares = new Softwares();
+                $this->software = new Software();
                 $this->internet = new Internet();
-                $this->computers = new Computers();
+                $this->computer = new Computer();
                 $this->user = new User();
             }
 
@@ -82,24 +91,28 @@
                 if (session_status() !== PHP_SESSION_ACTIVE )
                     session_start();
 
-                Container::setObject('session', new Session());
+                $this->session = new Session();
+                Container::setObject('session', $this->session );
             }
 
-            if( $requirelogin )
+            if( $requirelogin && $session )
                 if ( $this->isLoggedIn()  == false)
                     Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
                 else
-                    Container::getObject('session')->updateLastAction();
+                    $this->session->updateLastAction();
 
-            if( $clearerrors )
-                if( $this->isLoggedIn() )
-                    if( ( microtime( true ) - Container::getObject('session')->getLastAction() ) <= ( 60 * 2 ) )
+            /**
+            if( $clearerrors && $session )
+                if( $this->isLoggedIn() && isset( $_SESSION["error_time"]) )
+                    if( ( microtime( true ) - $_SESSION["error_time"] ) <= microtime( true ) + ( 60 * 60 * 2 ) )
                     {
                         $_SESSION["error"] = null;
                         $_SESSION["error_page"] = null;
+                        $_SESSION["error_time"] = null;
                     }
+            **/
 
-            if( $admin_only )
+            if( $admin_only && $session )
                 if( $this->isAdmin() == false )
                     Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
         }
@@ -126,6 +139,20 @@
                     return true;
 
             return false;
+        }
+
+        /**
+         * @param $userid
+         * @return bool
+         */
+
+        public function isUser( $userid )
+        {
+
+            if( is_numeric( $userid ) == false )
+                return false;
+
+            return( $this->user->userExists( $userid ) );
         }
 
         /**
@@ -227,6 +254,7 @@
             {
 
                 $_SESSION['error'] = $message;
+                $_SESSION['error_time'] = microtime( true );
 
                 if( $path !== '' )
                 {
@@ -318,6 +346,9 @@
 
                 ob_clean();
             }
+
+            if( isset( $array["computer_controller"] ) == false )
+                $array["computer_controller"] = $this->computer;
 
             Render::view($file, $array, $this->model() );
         }

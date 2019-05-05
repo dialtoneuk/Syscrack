@@ -10,7 +10,7 @@ namespace Framework\Syscrack\Game;
  */
 
 use Framework\Application\Settings;
-use Framework\Database\Tables\Computers;
+use Framework\Database\Tables\Computer;
 use Framework\Exceptions\SyscrackException;
 
 class Hardware
@@ -21,7 +21,7 @@ class Hardware
     public function __construct()
     {
 
-        $this->computers = new Computers();
+        $this->computers = new Computer();
     }
 
     public function getDownloadSpeed( $computerid )
@@ -51,40 +51,40 @@ class Hardware
     public function updateHardware( $computerid, $type, $value )
     {
 
-        $hardwares = $this->getHardware( $computerid );
+        $hardware = $this->getHardware( $computerid );
 
-        if( isset( $hardwares[ $type ] ) == false )
+        if( isset( $hardware[ $type ] ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $hardwares[ $type ] = array(
+        $hardware[ $type ] = array(
             'value' => $value
         );
 
         $this->computers->updateComputer( $computerid, array(
-            'hardwares' => json_encode( $hardwares, JSON_PRETTY_PRINT )
+            'hardware' => json_encode( $hardware, JSON_PRETTY_PRINT )
         ));
     }
 
     public function addHardware( $computerid, $type, $value )
     {
 
-        $hardwares = $this->getHardware( $computerid );
+        $hardware = $this->getHardware( $computerid );
 
-        if( isset( $hardwares[ $type ] ) )
+        if( isset( $hardware[ $type ] ) )
         {
 
             throw new SyscrackException();
         }
 
-        $hardwares[ $type ] = array(
+        $hardware[ $type ] = array(
             'value' => $value
         );
 
         $this->computers->updateComputer( $computerid, array(
-            'hardwares' => json_encode( $hardwares, JSON_PRETTY_PRINT )
+            'hardware' => json_encode( $hardware, JSON_PRETTY_PRINT )
         ));
     }
 
@@ -123,6 +123,6 @@ class Hardware
     public function getHardware( $computerid )
     {
 
-        return json_decode( $this->computers->getComputer( $computerid )->hardwares, true );
+        return json_decode( $this->computers->getComputer( $computerid )->hardware, true );
     }
 }

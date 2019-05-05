@@ -1,10 +1,10 @@
 <?php
 
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Softwares;
+use Framework\Syscrack\Game\Software;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 
 if (empty($internet)) {
@@ -17,14 +17,14 @@ if (empty($pagehelper)) {
     $pagehelper = new PageHelper();
 }
 
-if (empty($computers)) {
+if (empty($computer)) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (empty($softwares)) {
 
-    $softwares = new Softwares();
+    $softwares = new Software();
 }
 
 $current_computer = $internet->getComputer($ipaddress);
@@ -33,7 +33,7 @@ $current_computer = $internet->getComputer($ipaddress);
 
     <?php
 
-    if ($computers->getComputer($computers->getCurrentUserComputer())->ipaddress == $ipaddress) {
+    if ($computer_controller->getComputer($computer_controller->getCurrentUserComputer())->ipaddress == $ipaddress) {
 
         ?>
 
@@ -169,18 +169,18 @@ $current_computer = $internet->getComputer($ipaddress);
 
                             <?php
 
-                            $computersoftwares = $computers->getComputerSoftware($computers->getCurrentUserComputer());
+                            $computeroftwares = $computer_controller->getComputerSoftware($computer_controller->getCurrentUserComputer());
 
-                            if (empty($computersoftwares) == false) {
+                            if (empty($computeroftwares) == false) {
 
-                                foreach ($computersoftwares as $key => $value) {
+                                foreach ($computeroftwares as $key => $value) {
 
                                     if ($softwares->softwareExists($value['softwareid']) == false) {
 
                                         continue;
                                     }
 
-                                    if ($softwares->isInstalled($value['softwareid'], $computers->getCurrentUserComputer())) {
+                                    if ($softwares->isInstalled($value['softwareid'], $computer_controller->getCurrentUserComputer())) {
 
                                         continue;
                                     }
@@ -288,7 +288,7 @@ $current_computer = $internet->getComputer($ipaddress);
                                     ?>
                                     <option value="<?= $account->accountnumber ?>">#<?= $account->accountnumber ?>
                                         (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
-                                        ) @<?= $computers->getComputer($account->computerid)->ipaddress ?></option>
+                                        ) @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                     <?php
                                 }
                             }

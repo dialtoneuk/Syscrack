@@ -51,9 +51,9 @@ class RemoteAdmin extends BaseClass implements Structure
     {
 
         return array(
-            'allowsoftwares'    => false,
+            'allowsoftware'    => false,
             'allowlocal'        => false,
-            'requiresoftwares'  => false,
+            'requiresoftware'  => false,
             'requireloggedin'   => false,
             'allowpost'         => true
         );

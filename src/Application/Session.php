@@ -120,6 +120,9 @@ class Session
     public function getSessionUser()
     {
 
+        if( isset( $this->getDatabaseSession()->userid ) == false )
+            return null;
+
         return $this->getDatabaseSession()->userid;
     }
 

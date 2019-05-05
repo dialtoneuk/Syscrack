@@ -1,9 +1,8 @@
 <?php
-
 namespace Framework\Application\UtilitiesV2;
+
 use Framework\Application\UtilitiesV2\Conventions\FileData;
 use Framework\Application\UtilitiesV2\Conventions\TokenData;
-use http\Exception\RuntimeException;
 
 /**
  * Created by PhpStorm.
@@ -15,7 +14,7 @@ class TokenReader
 {
 
     /**
-     * @var RuntimeException|null
+     * @var \Error|null
      */
 
     protected static $last_error = null;
@@ -62,9 +61,9 @@ class TokenReader
             $this->save( $contents, $path );
 
             if( file_exists( SYSCRACK_ROOT . $path ) == false )
-                throw new \RuntimeException("Failed to save file");
+                throw new \Error("Failed to save file");
         }
-        catch ( \Exception $exception )
+        catch ( \Error $exception )
         {
 
             self::setLastError( $exception );
@@ -104,7 +103,7 @@ class TokenReader
      * @return TokenData
      */
 
-    public static function dataInstance( array $values ): TokenData
+    public static function dataInstance( $values ): TokenData
     {
 
         return( new TokenData( $values ) );
@@ -124,20 +123,20 @@ class TokenReader
     }
 
     /**
-     * @param RuntimeException|null $exception
+     * @param \Error|null $exception
      */
 
-    public static function setLastError( RuntimeException $exception=null )
+    public static function setLastError( \Error $exception=null )
     {
 
         self::$last_error = $exception;
     }
 
     /**
-     * @return RuntimeException
+     * @return \Error
      */
 
-    public static function getLastError(): RuntimeException
+    public static function getLastError(): \Error
     {
 
         return( self::$last_error );

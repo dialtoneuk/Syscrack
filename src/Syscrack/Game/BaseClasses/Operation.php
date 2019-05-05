@@ -14,11 +14,11 @@ use Framework\Application\Render;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\ArrayHelper;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Hardware;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Log;
-use Framework\Syscrack\Game\Softwares;
+use Framework\Syscrack\Game\Software;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
 
 class Operation
@@ -31,13 +31,13 @@ class Operation
     public $log;
 
     /**
-     * @var Softwares
+     * @var Software
      */
 
-    public $softwares;
+    public $software;
 
     /**
-     * @var Computers
+     * @var Computer
      */
 
     public $computers;
@@ -66,9 +66,9 @@ class Operation
 
             $this->log = new Log();
 
-            $this->softwares = new Softwares();
+            $this->software = new Software();
 
-            $this->computers = new Computers();
+            $this->computers = new Computer();
 
             $this->internet = new Internet();
 
@@ -84,10 +84,10 @@ class Operation
     {
 
         return array(
-            'allowsoftwares'    => true,
+            'allowsoftware'    => true,
             'allowlocal'        => true,
             'allowanonymous'    => false,
-            'requiresoftwares'  => true,
+            'requiresoftware'  => true,
             'requireloggedin'   => true,
             'allowpost'         => false,
             'allowcustomdata'   => false,
@@ -111,18 +111,18 @@ class Operation
     public function hasSoftware( $softwarename, $computerid, $installed=true )
     {
 
-        $softwares = $this->computers->getComputerSoftware( $computerid );
+        $software = $this->computers->getComputerSoftware( $computerid );
 
-        foreach( $softwares as $key=>$value )
+        foreach( $software as $key=>$value )
         {
 
-            if( $this->softwares->softwareExists( $value['softwareid'] ) == false )
+            if( $this->software->softwareExists( $value['softwareid'] ) == false )
             {
 
                 continue;
             }
 
-            $software = $this->softwares->getSoftware( $value['softwareid'] );
+            $software = $this->software->getSoftware( $value['softwareid'] );
 
             if( $software->softwarename == $softwarename )
             {
@@ -193,9 +193,9 @@ class Operation
             $type = Settings::getSetting('syscrack_software_cracker_type');
         }
 
-        $softwares = $this->computers->getComputerSoftware( $computerid );
+        $software = $this->computers->getComputerSoftware( $computerid );
 
-        if( empty( $softwares ) )
+        if( empty( $software ) )
         {
 
             return null;
@@ -203,7 +203,7 @@ class Operation
 
         $results = [];
 
-        foreach( $softwares as $key=>$value )
+        foreach( $software as $key=>$value )
         {
 
             if( $value['type'] == $type )
@@ -212,7 +212,7 @@ class Operation
                 if( $value['installed'] == true )
                 {
 
-                    $results[] = $this->softwares->getSoftware( $value['softwareid'] );
+                    $results[] = $this->software->getSoftware( $value['softwareid'] );
                 }
             }
         }
@@ -333,7 +333,7 @@ class Operation
             {
 
                 array_merge( $array, [
-                    'softwares' => $this->softwares,
+                    'software' => $this->software,
                     'internet'  => $this->internet,
                     'computer'  => $this->computers
                 ]);
@@ -375,7 +375,7 @@ class Operation
         if( $softwareid !== null )
         {
 
-            if( $this->softwares->softwareExists( $softwareid ) == false )
+            if( $this->software->softwareExists( $softwareid ) == false )
             {
 
                 throw new SyscrackException();
@@ -383,7 +383,7 @@ class Operation
 
             $hardware = $this->hardware->getHardwareType( $computerid, $hardwaretype );
 
-            $software = $this->softwares->getSoftware( $softwareid );
+            $software = $this->software->getSoftware( $softwareid );
 
             return TimeHelper::getSecondsInFuture( floor( ( sqrt( $software->level / $hardware['value'] ) * $speedness ) * ( Settings::getSetting('syscrack_operations_global_speed' ) ) ) );
         }
@@ -624,13 +624,13 @@ class Operation
     {
 
         $hdd = $this->hardware->getHardwareType( $computerid, 'harddrive')['value'];
-        $softwares = json_decode( $this->computers->getComputer( $computerid )->softwares, true );
+        $software = json_decode( $this->computers->getComputer( $computerid )->software, true );
         $usedspace = 0.0 + $needed;
 
-        foreach( $softwares as $key=>$value )
+        foreach( $software as $key=>$value )
         {
 
-            $usedspace += $this->softwares->getSoftware( $value['softwareid'] )->size;
+            $usedspace += $this->software->getSoftware( $value['softwareid'] )->size;
         }
 
         return ( $usedspace < $hdd ) ? true : false;
@@ -727,13 +727,13 @@ class Operation
     public function getSoftwareName( $softwareid )
     {
 
-        if( $this->softwares->softwareExists( $softwareid ) == false )
+        if( $this->software->softwareExists( $softwareid ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        return $this->softwares->getSoftware( $softwareid )->softwarename;
+        return $this->software->getSoftware( $softwareid )->softwarename;
     }
 
     /**

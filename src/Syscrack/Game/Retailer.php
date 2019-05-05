@@ -17,7 +17,7 @@
     {
 
         /**
-         * @var Computers
+         * @var Computer
          */
 
         protected $computer;
@@ -32,7 +32,7 @@
             if( isset( $this->computers ) == false )
             {
 
-                $this->computers = new Computers();
+                $this->computers = new Computer();
             }
         }
 

@@ -305,10 +305,12 @@ class Controller
         foreach( $array as $route )
         {
 
+
+
             if( method_exists( $class, $route[1] ) == false )
             {
 
-                throw new ViewException('Method does not exist in class');
+                throw new ViewException('Method does not exist in class: ' . $route[0] . " => " . $route[1] );
             }
 
             Flight::route( $route[0], array( $class, $route[1] ) );

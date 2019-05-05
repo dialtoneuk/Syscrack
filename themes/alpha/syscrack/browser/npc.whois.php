@@ -1,7 +1,7 @@
 <?php
 
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Schema;
 
@@ -10,9 +10,9 @@ if (isset($internet) == false) {
     $internet = new Internet();
 }
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (isset($npc) == false) {
@@ -44,15 +44,15 @@ if (isset($npc) == false) {
         <ul class="list-group">
             <?php
 
-            if (Settings::hasSetting('syscrack_whois_default_computers') == true) {
+            if (Settings::hasSetting('syscrack_whois_default_computers_controller') == true) {
 
-                $whoiscomputers = Settings::getSetting('syscrack_whois_default_computers');
+                $whoiscomputers = Settings::getSetting('syscrack_whois_default_computers_controller');
 
                 foreach ($whoiscomputers as $computerid) {
 
-                    if ($computers->computerExists($computerid)) {
+                    if ($computer_controller->computerExists($computerid)) {
 
-                        $current_computer = $computers->getComputer($computerid);
+                        $current_computer = $computer_controller->getComputer($computerid);
 
                         ?>
                         <li class="list-group-item">

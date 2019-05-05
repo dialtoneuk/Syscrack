@@ -202,7 +202,10 @@ class Settings extends Base
                 "setting",
                 "value"
             ],
-            "help" => "Hello World"
+            "help" => [
+                "Actions",
+                "   new, search, update, delete"
+            ]
         ]);
     }
 

@@ -4,14 +4,14 @@ namespace Framework\Database\Tables;
 /**
  * Lewis Lancaster 2017
  *
- * Class Computers
+ * Class Computer
  *
  * @package Framework\Database\Tables
  */
 
 use Framework\Database\Table;
 
-class Computers extends Table
+class Computer extends Table
 {
 
     /**

@@ -67,8 +67,13 @@ class FileSystem
         $result = "";
 
         foreach( $paths as $value )
-            if( $value !== null && substr( $value, -1 ) !== DIRECTORY_SEPARATOR && self::hasFileExtension( $value ) == false )
-                $result = $result . $value . DIRECTORY_SEPARATOR;
+            if( $value !== null  )
+                if( substr( $value, -1 ) !== "\/" && self::hasFileExtension( $value ) == false )
+                    $result = $result . $value . DIRECTORY_SEPARATOR;
+                else
+                    $result = $result . $value;
+            else
+                $result = $result . $value;
 
         return( $result );
     }
@@ -148,7 +153,7 @@ class FileSystem
         if( is_dir( self::getFilePath( $file ) ) )
         {
 
-            throw new ApplicationException();
+            throw new ApplicationException("file is dir: " . $file );
         }
 
         if( self::hasFileExtension( $file ) == false )
@@ -162,7 +167,7 @@ class FileSystem
 	    if( self::directoryExists( $directories ) == false )
         {
 
-            throw new ApplicationException( 'Directory does not exist: ' . $directories );
+            throw new ApplicationException( 'Directory does not exist: ' . self::getFilePath( $directories ) );
         }
 
         if( is_string( $data ) == false )

@@ -30,12 +30,6 @@
         protected $session;
 
         /**
-         * @var User
-         */
-
-        protected $user;
-
-        /**
          * @var Account
          */
 
@@ -165,12 +159,12 @@
         private function addConnectedComputer($userid)
         {
 
-            if ($this->computers->userHasComputers($userid) == false)
+            if ($this->computer->userHasComputers($userid) == false)
             {
 
                 throw new ViewException('User has no computer');
             }
 
-            $this->computers->setCurrentUserComputer($this->computers->getUserMainComputer($userid)->computerid);
+            $this->computer->setCurrentUserComputer($this->computer->getUserMainComputer($userid)->computerid);
         }
     }

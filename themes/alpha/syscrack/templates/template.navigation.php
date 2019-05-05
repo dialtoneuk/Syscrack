@@ -2,14 +2,14 @@
 
 use Framework\Application\Container;
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 
 $session = Container::getObject('session');
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (isset($pagehelper) == false) {
@@ -67,14 +67,14 @@ if ( empty( $_SESSION['current_computer'] ) )
                     if ( empty( $_SESSION['current_computer'] )  == false )
                     {
 
-                        if ($computers->hasCurrentComputer()) {
+                        if ($computer_controller->hasCurrentComputer()) {
 
                             ?>
 
-                            <a class="navbar-brand" style="font-size: 12px" href="/game/computers/" ata-toggle="tooltip"
+                            <a class="navbar-brand" style="font-size: 12px" href="/game/computer/" ata-toggle="tooltip"
                                data-placement="auto" title="Current IP Address">
                             <span class="glyphicon glyphicon-arrow-down" data-toggle="tooltip" data-placement="auto"
-                                  title="Address"></span> <?= $computers->getComputer($computers->getCurrentUserComputer())->ipaddress ?>
+                                  title="Address"></span> <?= $computer_controller->getComputer($computer_controller->getCurrentUserComputer())->ipaddress ?>
                             </a>
                             <?php
                         }
@@ -117,7 +117,7 @@ if ( empty( $_SESSION['current_computer'] ) )
                                aria-expanded="false">Procs</a>
                             <ul class="dropdown-menu">
                                 <li><a href="/processes/">All Processes</a></li>
-                                <li><a href="/processes/computer/<?= $computers->getCurrentUserComputer() ?>">Current
+                                <li><a href="/processes/computer/<?= $computer_controller->getCurrentUserComputer() ?>">Current
                                         Machine Processes</a></li>
                             </ul>
                         </li>
@@ -179,7 +179,7 @@ if ( empty( $_SESSION['current_computer'] ) )
                                     <?php
                                 }
 
-                                if ($computers->hasType($computers->getCurrentUserComputer(), Settings::getSetting('syscrack_software_research_type'), true)) {
+                                if ($computer_controller->hasType($computer_controller->getCurrentUserComputer(), Settings::getSetting('syscrack_software_research_type'), true)) {
 
                                     ?>
                                     <li role="separator" class="divider"></li>

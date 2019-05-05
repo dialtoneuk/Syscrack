@@ -3,10 +3,10 @@
 use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 
-$computers = new Computers();
+$computer_controller = new Computer();
 
 $pagehelper = new PageHelper();
 
@@ -19,7 +19,7 @@ if ($session->isLoggedIn()) {
 
 if (isset($softwares) == false) {
 
-    $softwares = new \Framework\Syscrack\Game\Softwares();
+    $softwares = new \Framework\Syscrack\Game\Software();
 }
 ?>
 
@@ -61,7 +61,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#softwares" aria-controls="softwares" role="tab"
-                                                              data-toggle="tab">Softwares</a></li>
+                                                              data-toggle="tab">Software</a></li>
                     <li role="presentation"><a href="#hardwares" aria-controls="hardwares" role="tab"
                                                               data-toggle="tab">Hardwares</a></li>
 
@@ -88,7 +88,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     Main Hard Drive
                                 </h5>
                                 <?php
-                                Render::view('syscrack/templates/template.softwares', array('ipaddress' => $computer->ipaddress, 'computers' => $computers, 'hideoptions' => true, "local" => true));
+                                Render::view('syscrack/templates/template.softwares', array('computer_controller' => $computer_controller, 'hideoptions' => true, "local" => true));
                                 ?>
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -231,8 +231,8 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                         </h5>
                                         <div class="well-lg">
                                             <?php
-                                            $hardwares = json_decode($computer->hardwares, true);
-                                            $csoftwares = json_decode($computer->softwares, true);
+                                            $hardwares = json_decode($computer->hardware, true);
+                                            $csoftwares = json_decode($computer->software, true);
                                             ?>
                                             <?php
                                             $usedspace = 0.0;
@@ -264,7 +264,7 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                                                         <option></option>
                                                         <?php
 
-                                                            foreach ( json_decode( $computer->softwares, true ) as $key=>$value )
+                                                            foreach ( json_decode( $computer->software, true ) as $key=>$value )
                                                             {
 
                                                                 if ( $softwares->softwareExists( $value['softwareid'] ) )
@@ -303,7 +303,7 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                                                                 <option></option>
                                                                 <?php
 
-                                                                foreach ( json_decode( $computer->softwares, true ) as $key=>$value )
+                                                                foreach ( json_decode( $computer->software, true ) as $key=>$value )
                                                                 {
 
                                                                     if ( $softwares->softwareExists( $value['softwareid'] ) )
@@ -356,7 +356,7 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                                     <div class="col-sm-12">
                                         <?php
 
-                                        $hardwares = json_decode( $computer->hardwares, true );
+                                        $hardwares = json_decode( $computer->hardware, true );
 
                                         foreach ($hardwares as $type => $hardware) {
 
@@ -427,8 +427,8 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
 
                         $market = new \Framework\Syscrack\Game\Market();
 
-                        $stock = $market->getStock( $computer->computerid );
-                        $purchases = $market->getPurchases( $computer->computerid );
+                        $stock = $market->getStock( $computer_controller->computerid );
+                        $purchases = $market->getPurchases( $computer_controller->computerid );
 
                         ?>
                             <div role="tabpanel" class="tab-pane" id="market">

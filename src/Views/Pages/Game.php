@@ -31,11 +31,6 @@
 
         protected $operations;
 
-        /**
-         * @var Session
-         */
-
-        protected $session;
 
         /**
          * Game constructor.
@@ -44,25 +39,10 @@
         public function __construct()
         {
 
-            parent::__construct( true, true, true, true );
-
             if( isset( $this->operations ) == false )
-            {
-
                 $this->operations = new Operations();
-            }
 
-            if( isset( $this->session ) == false )
-            {
-
-                if( Container::hasObject('session') == false )
-                {
-
-                    Container::setObject('session', new Session() );
-                }
-
-                $this->session = Container::getObject('session');
-            }
+            parent::__construct( true, true, true, true );
         }
 
         /**
@@ -82,13 +62,13 @@
                     'POST /game/', 'pageProcess'
                 ],
                 [
-                    'GET /game/computers/', 'computers'
+                    'GET /game/computer/', 'computer'
                 ],
                 [
-                    'POST /game/computers/switch/@computerid', 'switchProcess'
+                    'POST /game/computer/switch/@computerid', 'switchProcess'
                 ],
                 [
-                    'POST /game/computers/', 'computersPurchase'
+                    'POST /game/computer/', 'computerPurchase'
                 ],
                 [
                     '/game/internet/', 'internetBrowser'
@@ -119,40 +99,28 @@
         {
 
             if (PostHelper::hasPostData() == false || PostHelper::checkForRequirements(['action', 'computerid']) == false)
-            {
-
                 $this->page();
-            }
             else
             {
 
                 $action = PostHelper::getPostData('action');
-
                 $computerid = PostHelper::getPostData('computerid');
 
-                if ($this->computers->computerExists($computerid) == false)
-                {
-
+                if ($this->computer->computerExists($computerid) == false)
                     $this->page();
-                }
                 else
                 {
 
                     if ($action == "switch")
                     {
 
-                        if ($this->computers->getComputer($computerid)->userid != Container::getObject('session')->getSessionUser())
-                        {
-
+                        if ($this->computer->getComputer($computerid)->userid != Container::getObject('session')->getSessionUser())
                             $this->page();
-                        }
                         else
                         {
 
-                            $this->computers->setCurrentUserComputer($computerid);
-
+                            $this->computer->setCurrentUserComputer($computerid);
                             $this->internet->setCurrentConnectedAddress( null );
-
                             Render::redirect('/game/' );
                         }
                     }
@@ -171,30 +139,31 @@
         }
 
         /**
-         * Computers
+         * Computer
          */
 
-        public function computers()
+        public function computer()
         {
 
-            $this->getRender('syscrack/page.game.computers');
+            $this->getRender('syscrack/page.game.computer');
         }
 
-        public function computersPurchase()
+        /**
+         *
+         */
+
+        public function computerPurchase()
         {
 
             if ( PostHelper::hasPostData() == false )
-            {
-
-                $this->redirectError('No data', 'game/computers/');
-            }
+                $this->redirectError('Missing Information', 'game/computer/');
             else
             {
 
                 if ( PostHelper::checkForRequirements(['accountnumber']) == false )
                 {
 
-                    $this->redirectError('Account number is invalid', 'game/computers/');
+                    $this->redirectError('Account number is invalid', 'game/computer/');
                 }
                 else
                 {
@@ -204,7 +173,7 @@
                     if ( $finance->accountNumberExists(  PostHelper::getPostData('accountnumber', true ) ) == false )
                     {
 
-                        $this->redirectError('Account number is invalid', 'game/computers/');
+                        $this->redirectError('Account number is invalid', 'game/computer/');
                     }
                     else
                     {
@@ -214,18 +183,18 @@
                         if ( $account->userid !== $this->session->getSessionUser() )
                         {
 
-                            $this->redirectError('Invalid', 'game/computers/');
+                            $this->redirectError('Invalid', 'game/computer/');
                         }
 
                         if ( $finance->canAfford( $account->computerid, $account->userid, $this->getVPCPrice( $this->session->getSessionUser() ) ) == false )
                         {
 
-                            $this->redirectError('Sorry, you cannot afford this transaction!', 'game/computers/');
+                            $this->redirectError('Sorry, you cannot afford this transaction!', 'game/computer/');
                         }
                         else
                         {
 
-                            $computerid = $this->computers->createComputer( $this->session->getSessionUser(), Settings::getSetting('syscrack_startup_default_computer'), $this->internet->getIP() );
+                            $computerid = $this->computer->createComputer( $this->session->getSessionUser(), Settings::getSetting('syscrack_startup_default_computer'), $this->internet->getIP() );
 
                             if( empty( $computerid ) )
                             {
@@ -233,13 +202,13 @@
                                 throw new SyscrackException();
                             }
 
-                            $class = $this->computers->getComputerClass( Settings::getSetting('syscrack_startup_default_computer') );
+                            $class = $this->computer->getComputerClass( Settings::getSetting('syscrack_startup_default_computer') );
 
                             $class->onStartup( $computerid, $this->session->getSessionUser(), [], Settings::getSetting('syscrack_default_hardware') );
 
                             $finance->withdraw( $account->computerid, $account->userid, $this->getVPCPrice( $this->session->getSessionUser() ) );
 
-                            $this->redirectSuccess('game/computers/');
+                            $this->redirectSuccess('game/computer/');
                         }
                     }
                 }
@@ -249,15 +218,15 @@
         private function getVPCPrice( $userid )
         {
 
-            $computers = $this->computers->getUserComputers( $userid );
+            $computer = $this->computer->getUserComputers( $userid );
 
-            if ( empty( $computers ) )
+            if ( empty( $computer ) )
             {
 
                 return 0;
             }
 
-            return( count( $computers ) * ( Settings::getSetting('syscrack_vpc_purchase_price') * Settings::getSetting('syscrack_vpc_purchase_increase' ) ));
+            return( count( $computer ) * ( Settings::getSetting('syscrack_vpc_purchase_price') * Settings::getSetting('syscrack_vpc_purchase_increase' ) ));
         }
 
         /**
@@ -269,15 +238,15 @@
         public function switchProcess( $computerid )
         {
 
-            if ( $this->computers->computerExists( $computerid ) == false )
+            if ( $this->computer->computerExists( $computerid ) == false )
             {
 
-                $this->redirectError('Invalid computer', 'game/computers/');
+                $this->redirectError('Invalid computer', 'game/computer/');
             }
             else
             {
 
-                if ($this->computers->getComputer($computerid)->userid != Container::getObject('session')->getSessionUser())
+                if ($this->computer->getComputer($computerid)->userid != Container::getObject('session')->getSessionUser())
                 {
 
                     $this->page();
@@ -285,11 +254,11 @@
                 else
                 {
 
-                    $this->computers->setCurrentUserComputer($computerid);
+                    $this->computer->setCurrentUserComputer($computerid);
 
                     $this->internet->setCurrentConnectedAddress( null );
 
-                    $this->redirectSuccess('game/computers/');
+                    $this->redirectSuccess('game/computer/');
                 }
             }
         }
@@ -428,7 +397,7 @@
                 $this->redirectError('Invalid action', $this->getRedirect( $ipaddress ) );
             }
 
-            $computerid = $this->computers->getCurrentUserComputer();
+            $computerid = $this->computer->getCurrentUserComputer();
 
             if( $this->operations->hasProcess( $computerid, $process, $ipaddress ) == true )
             {
@@ -439,7 +408,7 @@
             if( $this->operations->allowLocal( $process ) == false )
             {
 
-                if( $ipaddress == $this->computers->getComputer( $computerid )->ipaddress )
+                if( $ipaddress == $this->computer->getComputer( $computerid )->ipaddress )
                 {
 
                     $this->redirectError('This action must be ran on a remote computer');
@@ -448,14 +417,14 @@
 
             if( $this->operations->localOnly( $process ) )
             {
-                if( $ipaddress !== $this->computers->getComputer( $computerid )->ipaddress )
+                if( $ipaddress !== $this->computer->getComputer( $computerid )->ipaddress )
                 {
 
                     $this->redirectError('This action can only be ran locally');
                 }
             }
 
-            if( $this->operations->requireSoftwares( $process ) )
+            if( $this->operations->requireSoftware( $process ) )
             {
 
                 $this->redirectError('A software is required to preform this action', $this->getRedirect( $ipaddress ) );
@@ -507,7 +476,7 @@
                 $data = [];
             }
 
-            $result = $class->onCreation(time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'custom'        => $data
             ));
@@ -518,12 +487,12 @@
                 $this->redirectError('Unable to complete process', $this->getRedirect( $ipaddress ) );
             }
 
-            $completiontime = $class->getCompletionSpeed($this->computers->getCurrentUserComputer(), $process );
+            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process );
 
             if( $completiontime !== null )
             {
 
-                $processid = $this->operations->createProcess($completiontime, $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+                $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                     'ipaddress'     => $ipaddress,
                     'custom'        => $data
                 ));
@@ -531,7 +500,7 @@
                 $this->redirect('processes/' . $processid );
             }
 
-            $class->onCompletion(time(), time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'custom'        =>  $data
             ));
@@ -572,7 +541,7 @@
                 $this->redirectError('Invalid action', $this->getRedirect( $ipaddress ) );
             }
 
-            $computerid = $this->computers->getCurrentUserComputer();
+            $computerid = $this->computer->getCurrentUserComputer();
 
             if( $this->operations->hasProcess( $computerid, $process, $ipaddress, $softwareid ) == true )
             {
@@ -583,7 +552,7 @@
             if( $this->operations->allowLocal( $process ) == false )
             {
 
-                if( $ipaddress == $this->computers->getComputer( $computerid )->ipaddress )
+                if( $ipaddress == $this->computer->getComputer( $computerid )->ipaddress )
                 {
 
                     $this->redirectError('This action must be ran on a remote computer');
@@ -592,14 +561,14 @@
 
             if( $this->operations->localOnly( $process ) )
             {
-                if( $ipaddress !== $this->computers->getComputer( $computerid )->ipaddress )
+                if( $ipaddress !== $this->computer->getComputer( $computerid )->ipaddress )
                 {
 
                     $this->redirectError('This action can only be ran locally');
                 }
             }
 
-            if( $this->operations->allowSoftwares( $process ) == false )
+            if( $this->operations->allowSoftware( $process ) == false )
             {
 
                 $this->redirect( $this->getRedirect( $ipaddress ) . $process );
@@ -620,7 +589,7 @@
 
                 //Hides the software exists error
 
-                if ($this->softwares->softwareExists($softwareid) == false)
+                if ($this->software->softwareExists($softwareid) == false)
                 {
 
                     $this->redirectError('Unable to preform action', $this->getRedirect( $ipaddress ) );
@@ -629,7 +598,7 @@
             else
             {
 
-                if ($this->softwares->softwareExists($softwareid) == false)
+                if ($this->software->softwareExists($softwareid) == false)
                 {
 
                     $this->redirectError('Software does not exist', $this->getRedirect( $ipaddress ) );
@@ -638,7 +607,7 @@
 
             $target = $this->internet->getComputer( $ipaddress );
 
-            $software = $this->softwares->getSoftware( $softwareid );
+            $software = $this->software->getSoftware( $softwareid );
 
             if( $target->computerid !== $software->computerid )
             {
@@ -646,13 +615,13 @@
                 $this->redirectError('Software does not exist', $this->getRedirect( $ipaddress ) );
             }
 
-            if( $this->softwares->isEditable( $software->softwareid ) == false )
+            if( $this->software->isEditable( $software->softwareid ) == false )
             {
 
                 if( $process == Settings::getSetting('syscrack_operations_view_process') || $process == Settings::getSetting('syscrack_operations_download_process') )
                 {
 
-                    if( $this->softwares->canView( $software->softwareid ) == false )
+                    if( $this->software->canView( $software->softwareid ) == false )
                     {
 
                         if( $process != Settings::getSetting('syscrack_operations_download_process') )
@@ -719,7 +688,7 @@
                 $data = [];
             }
 
-            $result = $class->onCreation(time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'softwareid'    => $softwareid,
                 'custom'        => $data
@@ -731,12 +700,12 @@
                 $this->redirectError('Unable to complete process', $this->getRedirect( $ipaddress ) );
             }
 
-            $completiontime = $class->getCompletionSpeed($this->computers->getCurrentUserComputer(), $process,  $softwareid );
+            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $process,  $softwareid );
 
             if( $completiontime !== null )
             {
 
-                $processid = $this->operations->createProcess($completiontime, $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+                $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                     'ipaddress'     => $ipaddress,
                     'softwareid'    => $softwareid,
                     'custom'        => $data
@@ -745,7 +714,7 @@
                 $this->redirect('processes/' . $processid );
             }
 
-            $class->onCompletion(time(), time(), $this->computers->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'softwareid'    => $softwareid,
                 'custom'        => $data

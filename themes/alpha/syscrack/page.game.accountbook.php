@@ -4,7 +4,7 @@ use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
 use Framework\Syscrack\Game\AccountDatabase;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 
@@ -20,9 +20,9 @@ if (isset($pagehelper) == false) {
     $pagehelper = new PageHelper();
 }
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (isset($addressdatabase) == false) {

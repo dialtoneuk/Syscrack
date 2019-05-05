@@ -12,136 +12,221 @@
 
     use Framework\Application\Settings;
     use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\Computers;
+    use Framework\Syscrack\Game\Computer as ComputerController;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Log;
-    use Framework\Syscrack\Game\Softwares;
+    use Framework\Syscrack\Game\Metadata;
+    use Framework\Syscrack\Game\Software;
+    use Framework\Application\UtilitiesV2\Conventions\ComputerData;
 
     class Computer
     {
 
-        protected $computers;
+        /**
+         * @var ComputerController
+         */
 
-        protected $softwares;
+        protected $computer;
+
+        /**
+         * @var Software
+         */
+
+        protected $software;
+
+        /**
+         * @var Internet
+         */
 
         protected $internet;
 
+        /**
+         * @var Log
+         */
+
         protected $log;
+
+        /**
+         * @var Metadata
+         */
+
+        protected static $metadata;
+
+        /**
+         * Computer constructor.
+         * @param bool $createclasses
+         */
 
         public function __construct( $createclasses = true )
         {
 
+            if( isset( self::$metadata ) == false )
+                self::$metadata = new Metadata();
+
             if( $createclasses == true )
             {
 
-                $this->computers = new Computers();
-
-                $this->softwares = new Softwares();
-
+                $this->computer = new ComputerController();
+                $this->software = new Software();
                 $this->internet = new Internet();
-
                 $this->log = new Log();
             }
         }
 
         /**
-         * Adds the softwares
+         * @return Metadata
+         */
+
+        public function metadata() : Metadata
+        {
+
+            return( self::$metadata );
+        }
+
+        /**
+         * @param $computerid
+         * @param ComputerData $metadata
+         */
+
+        public function reload($computerid, ComputerData $metadata )
+        {
+
+            $this->addHardwares( $computerid, $metadata->hardware );
+            $this->addSoftware( $computerid, null, $metadata->software );
+
+            $array = $metadata->info;
+            $array["reset"] = microtime( true );
+            $this->metadata()->update( $computerid, array("info" => $array ) );
+        }
+
+
+        /**
+         * Adds the software
          *
          * @param $computerid
          *
          * @param int $userid
          *
-         * @param array $softwares
+         * @param array $software
          */
 
-        public function addSoftwares( $computerid, $userid=1, array $softwares )
+        public function addSoftware( $computerid, $userid=null, array $software=[] )
         {
 
-            foreach( $softwares as $software )
+            if( $userid == null )
+                $userid = Settings::getSetting("syscrack_master_user");
+
+            foreach( $software as $softwares )
             {
 
                 if ( isset( $software['uniquename'] ) == false )
-                {
-
                     continue;
-                }
 
-                $class = $this->softwares->findSoftwareByUniqueName( $software['uniquename'] );
+                $class = $this->software->findSoftwareByUniqueName( $software['uniquename'] );
 
                 if( $class == null )
-                {
-
                     continue;
-                }
 
-                $name = $this->softwares->getNameFromClass( $class );
+                $name = $this->software->getNameFromClass( $class );
 
                 if( isset( $software['data'] ) == false )
-                {
-
                     $software['data'] = [];
-                }
 
-                $softwareid = $this->softwares->createSoftware( $name, $userid, $computerid, $software['name'], $software['level'], $software['size'], $software['data'] );
+                $softwareid = $this->software->createSoftware(
+                    $name,
+                    $userid,
+                    $computerid,
+                    $software['name'],
+                    $software['level'],
+                    $software['size'],
+                    $software['data'] );
 
-                if( $this->softwares->softwareExists( $softwareid ) == false )
+                $this->computer->addSoftware(
+                    $computerid,
+                    $softwareid,
+                    $this->software->getSoftwareType( $name )
+                );
+
+
+                if( isset( $software['installed'] ) && $software['installed'] )
                 {
 
-                    throw new SyscrackException();
-                }
-
-                $this->computers->addSoftware( $computerid, $softwareid, $this->softwares->getSoftwareType( $name ) );
-
-                if( isset( $software['installed'] ) )
-                {
-
-                    if( $software['installed'] == true )
-                    {
-
-                        $this->computers->installSoftware( $computerid, $softwareid );
-
-                        $this->softwares->installSoftware( $softwareid, $userid );
-                    }
+                    $this->computer->installSoftware( $computerid, $softwareid );
+                    $this->software->installSoftware( $softwareid, $userid );
                 }
             }
         }
 
         /**
-         * Clears the softwares
+         * @param $computerid
+         */
+
+        public function onReset($computerid)
+        {
+
+            $this->clearSoftware( $computerid );
+            $this->computer->resetHardware( $computerid );
+
+            if( $this->log->hasLog( $computerid ) )
+                $this->log->saveLog( $computerid, [] );
+
+            if( $this->metadata()->exists( $computerid ) )
+                $this->reload( $computerid, $this->metadata()->get( $computerid ) );
+            else
+                $this->addHardwares( $computerid, Settings::getSetting('syscrack_default_hardware' ) );
+        }
+
+        /**
+         * @param $computerid
+         * @param $userid
+         * @param array $software
+         * @param array $hardware
+         */
+
+        public function onStartup($computerid, $userid, array $software = [], array $hardware = [] )
+        {
+
+            if( $this->log->hasLog( $computerid ) == false )
+                $this->log->createLog( $computerid );
+
+            $this->addSoftware( $computerid, $userid, $software );
+            $this->addHardwares( $computerid, $hardware );
+
+            $this->metadata()->create( $computerid, Metadata::generateData( "Computer_" . $computerid, $this->configuration()["type"], $software, $hardware, [] ) );
+        }
+
+        /**
+         * Clears the software
          *
          * @param $computerid
          */
 
-        public function clearSoftwares( $computerid )
+        public function clearSoftware( $computerid )
         {
 
-            $softwares = $this->computers->getComputerSoftware( $computerid );
+            $software = $this->computer->getComputerSoftware( $computerid );
 
-            foreach( $softwares as $software )
+            foreach( $software as $softwares )
             {
+                if( $this->software->softwareExists( $software['softwareid'] ) )
+                    $this->software->deleteSoftware( $software['softwareid'] );
 
-                if( $this->softwares->softwareExists( $software['softwareid'] ) )
-                {
-
-                    $this->softwares->deleteSoftware( $software['softwareid'] );
-                }
-
-                $this->computers->removeSoftware( $computerid, $software['softwareid'] );
+                $this->computer->removeSoftware( $computerid, $software['softwareid'] );
             }
         }
 
         /**
-         * Sets the computers hardware
+         * Sets the computer hardware
          *
          * @param $computerid
          *
-         * @param array $hardwares
+         * @param array $hardware
          */
 
-        public function setHardwares( $computerid, array $hardwares )
+        public function setHardwares( $computerid, array $hardware )
         {
 
-            $this->computers->setHardware( $computerid, $hardwares );
+            $this->computer->setHardware( $computerid, $hardware );
         }
 
         /**
@@ -155,28 +240,36 @@
         public function addHardwares( $computerid, array $hardware )
         {
 
-            $hardwares = $this->computers->getComputerHardware( $computerid );
+            $hardware = $this->computer->getComputerHardware( $computerid );
 
             foreach( $hardware as $item=>$value )
             {
 
-                if( isset( $hardwares[ $item ] ) )
-                {
-
+                if( isset( $hardware[ $item ] ) )
                     continue;
-                }
 
-                $hardwares[ $item ] = $value;
+                $hardware[ $item ] = $value;
             }
 
-            $this->setHardwares( $computerid, $hardwares );
+            $this->setHardwares( $computerid, $hardware );
         }
+
+        /**
+         * @param $uniquename
+         * @return \Framework\Syscrack\Game\Structures\Software
+         */
 
         public function getSoftwareClass( $uniquename )
         {
 
-            return $this->softwares->findSoftwareByUniqueName( $uniquename );
+            return $this->software->findSoftwareByUniqueName( $uniquename );
         }
+
+        /**
+         * @param $computerid
+         * @param $message
+         * @param $ipaddress
+         */
 
         public function log( $computerid, $message, $ipaddress )
         {
@@ -184,29 +277,40 @@
             $this->log->updateLog( $message, $computerid, $ipaddress );
         }
 
+        /**
+         * @param $ipaddress
+         * @param $message
+         */
+
         public function logToIP( $ipaddress, $message )
         {
 
             $computer = $this->internet->getComputer( $ipaddress );
 
             if( $computer == null )
-            {
-
                 throw new SyscrackException();
-            }
 
             $this->log( $computer->computerid, $message, Settings::getSetting('syscrack_log_localhost_address') );
         }
 
+        /**
+         * @return mixed
+         */
+
         public function getCurrentComputerAddress()
         {
 
-            return $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress;
+            return $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress;
         }
+
+        /**
+         * @param $computerid
+         * @return mixed
+         */
 
         public function getComputerOwner( $computerid )
         {
 
-            return $this->computers->getComputer( $computerid )->userid;
+            return $this->computer->getComputer( $computerid )->userid;
         }
     }

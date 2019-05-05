@@ -197,7 +197,7 @@ class FileOperator
      * @return FileData
      */
 
-    public static function dataInstance( array $values )
+    public static function dataInstance( $values )
     {
 
         return( new FileData( $values ) );

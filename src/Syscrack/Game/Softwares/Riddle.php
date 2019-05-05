@@ -45,7 +45,7 @@ class Riddle extends BaseClass implements Structure
         if ( PostHelper::hasPostData() == false )
         {
 
-            $software = $this->softwares->getSoftware( $softwareid );
+            $software = $this->software->getSoftware( $softwareid );
 
             if ( empty( $software->data ) )
             {
@@ -96,7 +96,7 @@ class Riddle extends BaseClass implements Structure
                     {
 
 
-                        $software = $this->softwares->getSoftware( $softwareid );
+                        $software = $this->software->getSoftware( $softwareid );
                         $data = json_decode( $software->data, true );
                         $computer = $this->computers->getComputer( $data['computerid'] );
 

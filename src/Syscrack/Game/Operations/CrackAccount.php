@@ -72,9 +72,9 @@
         {
 
             return array(
-                'allowsoftwares'    => false,
+                'allowsoftware'    => false,
                 'allowlocal'        => false,
-                'requiresoftwares'  => false,
+                'requiresoftware'  => false,
                 'requireloggedin'   => true,
                 'allowpost'         => false,
                 'allowcustomdata'   => true,

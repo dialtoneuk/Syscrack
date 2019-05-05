@@ -64,9 +64,9 @@ class Install extends BaseClass implements Structure
     {
 
         return array(
-            'allowsoftwares'    => true,
+            'allowsoftware'    => true,
             'allowlocal'        => true,
-            'requiresoftwares'  => true,
+            'requiresoftware'  => true,
             'requireloggedin'   => true
         );
     }
@@ -97,7 +97,7 @@ class Install extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->softwares->canInstall( $data['softwareid'] ) == false )
+        if( $this->software->canInstall( $data['softwareid'] ) == false )
         {
 
             return false;
@@ -106,7 +106,7 @@ class Install extends BaseClass implements Structure
         if( $this->viruses->isVirus( $data['softwareid'] ) )
         {
 
-            $software = $this->softwares->getSoftware( $data['softwareid'] );
+            $software = $this->software->getSoftware( $data['softwareid'] );
 
 
             if( $this->getComputerId( $data['ipaddress'] ) == $computerid )
@@ -156,19 +156,19 @@ class Install extends BaseClass implements Structure
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+        if( $this->software->softwareExists( $data['softwareid'] ) == false )
         {
 
             $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        if( $this->softwares->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
+        if( $this->software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
         {
 
             $this->redirectError('Sorry, it looks like this software got installed already', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        $this->softwares->installSoftware( $data['softwareid'], $userid );
+        $this->software->installSoftware( $data['softwareid'], $userid );
 
         $this->computers->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
@@ -178,7 +178,7 @@ class Install extends BaseClass implements Structure
         $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
             $this->computers->getCurrentUserComputer(), $data['ipaddress']);
 
-        $this->softwares->executeSoftwareMethod( $this->softwares->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onInstalled', array(
+        $this->software->executeSoftwareMethod( $this->software->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onInstalled', array(
             'softwareid'    => $data['softwareid'],
             'userid'        => $userid,
             'computerid'    => $this->getComputerId( $data['ipaddress'] )

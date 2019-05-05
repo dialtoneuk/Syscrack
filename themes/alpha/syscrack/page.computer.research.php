@@ -3,19 +3,19 @@
 use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
-use Framework\Syscrack\Game\Softwares;
+use Framework\Syscrack\Game\Software;
 use Framework\Syscrack\User;
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (isset($softwares) == false) {
 
-    $softwares = new Softwares();
+    $softwares = new Software();
 }
 
 if (isset($user) == false) {
@@ -35,7 +35,7 @@ if ($session->isLoggedIn()) {
     $session->updateLastAction();
 }
 
-$currentcomputer = $computers->getComputer($computers->getCurrentUserComputer());
+$currentcomputer = $computer_controller->getComputer($computer_controller->getCurrentUserComputer());
 ?>
 
 <!DOCTYPE html>
@@ -75,12 +75,12 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     <div class="row" style="margin-top: 1.5%;">
         <?php
 
-        Render::view('syscrack/templates/template.computer.actions', array('computers' => $computers));
+        Render::view('syscrack/templates/template.computer.actions', array('computer_controller' => $computer_controller));
         ?>
         <div class="col-md-8">
             <?php
 
-            $licensed = $softwares->getLicensedSoftware($computers->getCurrentUserComputer());
+            $licensed = $softwares->getLicensedSoftware($computer_controller->getCurrentUserComputer());
 
             $accounts = $finance->getUserBankAccounts($session->getSessionUser());
             ?>
@@ -211,11 +211,11 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                 <option></option>
                                                 <?php
 
-                                                $computersoftwares = $computers->getComputerSoftware($computers->getCurrentUserComputer());
+                                                $computeroftwares = $computer_controller->getComputerSoftware($computer_controller->getCurrentUserComputer());
 
-                                                if (empty($computersoftwares) == false) {
+                                                if (empty($computeroftwares) == false) {
 
-                                                    foreach ($computersoftwares as $key => $value) {
+                                                    foreach ($computeroftwares as $key => $value) {
 
                                                         if ($softwares->softwareExists($value['softwareid']) == false) {
 
@@ -255,7 +255,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                             #<?= $account->accountnumber ?>
                                                             (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
                                                             )
-                                                            @<?= $computers->getComputer($account->computerid)->ipaddress ?></option>
+                                                            @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                                         <?php
                                                     }
                                                 }
@@ -296,11 +296,11 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     <option></option>
                                     <?php
 
-                                    $computersoftwares = $computers->getComputerSoftware($computers->getCurrentUserComputer());
+                                    $computeroftwares = $computer_controller->getComputerSoftware($computer_controller->getCurrentUserComputer());
 
-                                    if (empty($computersoftwares) == false) {
+                                    if (empty($computeroftwares) == false) {
 
-                                        foreach ($computersoftwares as $key => $value) {
+                                        foreach ($computeroftwares as $key => $value) {
 
                                             if ($softwares->softwareExists($value['softwareid']) == false) {
 
@@ -350,7 +350,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                 #<?= $account->accountnumber ?>
                                                 (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
                                                 )
-                                                @<?= $computers->getComputer($account->computerid)->ipaddress ?></option>
+                                                @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                             <?php
                                         }
                                     }

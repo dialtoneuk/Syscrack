@@ -4,14 +4,14 @@ namespace Framework\Database\Tables;
 /**
  * Lewis Lancaster 2016
  *
- * Class Softwares
+ * Class Software
  *
  * @package Framework\Database\Tables
  */
 
 use Framework\Database\Table;
 
-class Softwares extends Table
+class Software extends Table
 {
 
     /**
@@ -20,6 +20,7 @@ class Softwares extends Table
      * @param $softwareid
      *
      * @return mixed|null
+     *
      */
 
     public function getSoftware( $softwareid )
@@ -40,6 +41,7 @@ class Softwares extends Table
      * @param $userid
      *
      * @return mixed|null
+     *
      */
 
     public function getUserSoftware( $userid )
@@ -55,13 +57,14 @@ class Softwares extends Table
     }
 
     /**
-     * Gets softwares by type and computerid
+     * Gets software by type and computerid
      *
      * @param $type
      *
      * @param $computerid
      *
      * @return \Illuminate\Support\Collection|null
+     *
      */
 
     public function getTypeOnComputer( $type, $computerid )
@@ -83,6 +86,7 @@ class Softwares extends Table
      * @param $computerid
      *
      * @return \Illuminate\Support\Collection|null
+     *
      */
 
     public function getByComputer( $computerid )
@@ -103,6 +107,7 @@ class Softwares extends Table
      * @param $computerid
      *
      * @return \Illuminate\Support\Collection|null
+     *
      */
 
     public function getInstalledSoftware( $computerid )
@@ -119,11 +124,12 @@ class Softwares extends Table
     }
 
     /**
-     * Gets the softwares by their type
+     * Gets the software by their type
      *
      * @param $type
      *
      * @return mixed|null
+     *
      */
 
     public function getSoftwareByType( $type )
@@ -139,13 +145,14 @@ class Softwares extends Table
     }
 
     /**
-     * Gets the last modified softwares
+     * Gets the last modified software
      *
      * @param $computerid
      *
      * @param $time
      *
      * @return mixed|null
+     *
      */
 
     public function getLastModified( $computerid, $time, $type )
@@ -168,6 +175,7 @@ class Softwares extends Table
      * @param $softwareid
      *
      * @param $values
+     *
      */
 
     public function updateSoftware( $softwareid, $values )
@@ -181,9 +189,10 @@ class Softwares extends Table
     }
 
     /**
-     * Deletes the softwares by the computer
+     * Deletes the software by the computer
      *
      * @param $computerid
+     *
      */
 
     public function deleteSoftwareByComputer( $computerid )
@@ -200,6 +209,7 @@ class Softwares extends Table
      * Deletes a software
      *
      * @param $softwareid
+     *
      */
 
     public function deleteSoftware( $softwareid )
@@ -218,6 +228,7 @@ class Softwares extends Table
      * @param $array
      *
      * @return int
+     *
      */
 
     public function insertSoftware( $array )

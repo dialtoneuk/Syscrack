@@ -16,7 +16,16 @@ use Framework\Exceptions\ApplicationException;
 class Themes
 {
 
+    /**
+     * @var array
+     */
+
     protected $themes;
+
+    /**
+     * Themes constructor.
+     * @param bool $autoread
+     */
 
     public function __construct( $autoread=false )
     {
@@ -25,11 +34,19 @@ class Themes
             $this->getThemes();
     }
 
+    /**
+     * @return mixed
+     */
+
     public function currentTheme()
     {
 
         return( Settings::getSetting("render_folder") );
     }
+
+    /**
+     * @param $theme
+     */
 
     public function set( $theme )
     {
@@ -58,6 +75,11 @@ class Themes
         return( (bool)Settings::getSetting( "render_mvc_output" ) );
     }
 
+    /**
+     * @param $theme
+     * @return bool
+     */
+
     public function requiresMVC( $theme )
     {
 
@@ -71,19 +93,33 @@ class Themes
         return false;
     }
 
+    /**
+     * @param $theme
+     * @return mixed
+     */
+
     public function getData( $theme )
     {
 
         return( $this->themes[ $theme ]["data"] );
     }
 
+    /**
+     * @param $theme
+     * @param ThemeData $object
+     */
+
     public function modifyInfo( $theme, ThemeData $object )
     {
 
-        FileSystem::writeJson( Settings::getSetting("syscrack_view_location")
-            . $theme
-            . Settings::getSetting("theme_info_file "), $object->contents() );
+        FileSystem::writeJson( $this->path( $theme ), $object->contents() );
     }
+
+    /**
+     * @param $theme
+     * @param bool $object
+     * @return ThemeData|mixed
+     */
 
     public function getTheme( $theme, $object=true )
     {
@@ -99,11 +135,21 @@ class Themes
             return(  $themes[ $theme ] );
     }
 
+    /**
+     * @param $theme
+     * @return bool
+     */
+
     public function themeExists( $theme )
     {
 
         return( isset( $this->themes[ $theme ] ) );
     }
+
+    /**
+     * @param bool $read
+     * @return array
+     */
 
     public function getThemes( $read=true )
     {
@@ -126,18 +172,27 @@ class Themes
             return( $this->themes );
     }
 
+    /**
+     * @param $folders
+     * @return array
+     */
+
     public function gather( $folders )
     {
 
         $info = array();
 
         foreach( $folders as $folder )
-            $info[ $folder ] = FileSystem::readJson( Settings::getSetting("syscrack_view_location")
-                . DIRECTORY_SEPARATOR . $folder
-                . DIRECTORY_SEPARATOR . Settings::getSetting("theme_info_file") );
+            $info[ $folder ] = FileSystem::readJson(
+                $this->path( $folder )
+            );
 
         return( $info );
     }
+
+    /**
+     * @return array|false|null
+     */
 
     public function getFolders()
     {
@@ -149,11 +204,26 @@ class Themes
     }
 
     /**
+     * @param null $folder
+     * @return string
+     */
+
+    public function path( $folder=null )
+    {
+
+        return(FileSystem::separate(
+            Settings::getSetting("syscrack_view_location"),
+            $folder,
+            Settings::getSetting("theme_info_file")
+        ));
+    }
+
+    /**
      * @param array $values
      * @return ThemeData
      */
 
-    public static function dataInstance( array $values )
+    public static function dataInstance( $values )
     {
 
         return( new ThemeData( $values ) );

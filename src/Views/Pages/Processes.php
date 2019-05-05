@@ -93,7 +93,7 @@
                     $array[ $value->computerid ][] = $value;
                 }
             }
-            $this->getRender('syscrack/page.process.php', array('processes' => $array, 'operations' => $this->operations, 'computerid' => $this->computers->getCurrentUserComputer() ));
+            $this->getRender('syscrack/page.process.php', array('processes' => $array, 'operations' => $this->operations, 'computerid' => $this->computer->getCurrentUserComputer() ));
         }
 
         /**
@@ -123,7 +123,7 @@
                 else
                 {
 
-                    if ($process->computerid != $this->computers->getCurrentUserComputer())
+                    if ($process->computerid != $this->computer->getCurrentUserComputer())
                     {
 
                         $this->redirectError('You are connected as a different computer');
@@ -178,7 +178,7 @@
                         $this->redirectError('404 Not found, maybe this IP was changed?');
                     }
 
-                    if( $this->internet->getComputer( $data['ipaddress'] )->computerid != $this->computers->getCurrentUserComputer() )
+                    if( $this->internet->getComputer( $data['ipaddress'] )->computerid != $this->computer->getCurrentUserComputer() )
                     {
 
                         if( $this->operations->requireLoggedIn( $process->process ) == true )
@@ -254,7 +254,7 @@
                     $this->redirectError('You do not own this process');
                 }
 
-                if( $process->computerid != $this->computers->getCurrentUserComputer() )
+                if( $process->computerid != $this->computer->getCurrentUserComputer() )
                 {
 
                     $this->redirectError('You need to currently be switched to the computer this process was initiated on');
@@ -262,20 +262,20 @@
 
                 $this->operations->deleteProcess( $processid );
 
-                $this->redirectSuccess('processes/computer/' . $this->computers->getCurrentUserComputer() );
+                $this->redirectSuccess('processes/computer/' . $this->computer->getCurrentUserComputer() );
             }
         }
 
         public function machineProcess( $computerid )
         {
 
-            if( $this->computers->computerExists( $computerid ) == false )
+            if( $this->computer->computerExists( $computerid ) == false )
             {
 
                 $this->redirect('This computer does not exist');
             }
 
-            $computer = $this->computers->getComputer( $computerid );
+            $computer = $this->computer->getComputer( $computerid );
 
             if( $computer->userid !== Container::getObject('session')->getSessionUser() )
             {

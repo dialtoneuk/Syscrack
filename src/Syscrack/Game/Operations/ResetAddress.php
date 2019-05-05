@@ -51,8 +51,8 @@
 
             return array(
                 'allowlocal'        => false,
-                'allowsoftwares'    => false,
-                'requiresoftwares'  => false,
+                'allowsoftware'    => false,
+                'requiresoftware'  => false,
                 'requireloggedin'   => false,
                 'allowcustomdata'   => true
             );

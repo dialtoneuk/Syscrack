@@ -35,11 +35,11 @@ if (isset($pagehelper) == false) {
             <div class="panel-body">
                 <?php
 
-                $computers = $internet->getComputer($ipaddress);
+                $computer = $internet->getComputer($ipaddress);
 
-                if ($npc->hasSchema($computers->computerid) && $npc->hasSchemaPage($computers->computerid)) {
+                if ($npc->hasSchema($computer->computerid) && $npc->hasSchemaPage($computer->computerid)) {
 
-                    Render::view($npc->getSchemaPageLocation($computers->computerid), array('internet' => $internet, 'ipaddress' => $ipaddress, 'schema' => $npc));
+                    Render::view($npc->getSchemaPageLocation($computer->computerid), array('internet' => $internet, 'ipaddress' => $ipaddress, 'schema' => $npc));
                 } else {
                     ?>
                     <p>

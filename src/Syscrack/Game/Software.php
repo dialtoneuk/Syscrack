@@ -4,7 +4,7 @@ namespace Framework\Syscrack\Game;
 /**
  * Lewis Lancaster 2017
  *
- * Class Softwares
+ * Class Software
  *
  * @package Framework\Syscrack\Game
  *
@@ -14,12 +14,11 @@ namespace Framework\Syscrack\Game;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
-use Framework\Database\Tables\Softwares as Database;
+use Framework\Database\Tables\Software as Database;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Software;
 use Framework\Syscrack\Game\Structures\Software as Structure;
 
-class Softwares
+class Software
 {
 
     /**
@@ -40,7 +39,7 @@ class Softwares
     protected $database;
 
     /**
-     * Softwares constructor.
+     * Software constructor.
      *
      * @param bool $autoload
      */
@@ -58,7 +57,7 @@ class Softwares
 
                 self::$factory = new Factory( Settings::getSetting('syscrack_software_namespace') );
 
-                $this->loadSoftwares();
+                $this->loadSoftware();
             }
         }
     }
@@ -67,22 +66,22 @@ class Softwares
      * Loads all the software classes into the factory
      */
 
-    private function loadSoftwares()
+    private function loadSoftware()
     {
 
-        $softwares = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_software_location') );
+        $software = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_software_location') );
 
-        foreach( $softwares as $software )
+        foreach( $software as $softwares )
         {
 
 
-            if( self::$factory->hasClass( FileSystem::getFileName( $software ) ) )
+            if( self::$factory->hasClass( FileSystem::getFileName( $softwares ) ) )
             {
 
                 continue;
             }
 
-            self::$factory->createClass( FileSystem::getFileName( $software ) );
+            self::$factory->createClass( FileSystem::getFileName( $softwares ) );
         }
     }
 
@@ -117,7 +116,7 @@ class Softwares
      *
      * @param $softwareid
      *
-     * @return Software
+     * @return Structure
      */
 
     public function getSoftwareClassFromID( $softwareid )
@@ -170,19 +169,19 @@ class Softwares
     public function getLicensedSoftware( $computerid )
     {
 
-        $softwares = $this->getSoftwaresOnComputer( $computerid );
+        $software = $this->getSoftwareOnComputer( $computerid );
 
         $results = [];
 
-        foreach( $softwares as $software )
+        foreach( $software as $softwares )
         {
 
-            $data = json_decode( $software->data, true );
+            $data = json_decode( $softwares->data, true );
 
             if( isset( $data['license'] ) )
             {
 
-                $results[] = $software;
+                $results[] = $softwares;
             }
         }
 
@@ -279,7 +278,7 @@ class Softwares
      * @param $computerid
      */
 
-    public function deleteSoftwaresByComputer( $computerid )
+    public function deleteSoftwareByComputer( $computerid )
     {
 
         $this->database->deleteSoftwareByComputer( $computerid );
@@ -298,14 +297,14 @@ class Softwares
      *
      * @param float $softwarelevel
      *
-     * @param float $softwaresize
+     * @param float $softwareize
      *
      * @param array $data
      *
      * @return int
      */
 
-    public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software', float $softwarelevel = 1.0, float $softwaresize = 10.0, $data=[] )
+    public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software', float $softwarelevel = 1.0, float $softwareize = 10.0, $data=[] )
     {
 
         if( $this->hasSoftwareClass( $software ) == false )
@@ -328,7 +327,7 @@ class Softwares
             'userid'        => $userid,
             'computerid'    => $computerid,
             'level'         => $softwarelevel,
-            'size'          => $softwaresize,
+            'size'          => $softwareize,
             'uniquename'    => $configuration['uniquename'],
             'type'          => $configuration['type'],
             'softwarename'  => $softwarename,
@@ -480,23 +479,22 @@ class Softwares
     }
 
     /**
-     * Gets all the softwares tied to a computer id
+     * Gets all the software tied to a computer id
      *
      * @param $computerid
      *
      * @return \Illuminate\Support\Collection|null
      */
 
-    public function getSoftwaresOnComputer( $computerid )
+    public function getSoftwareOnComputer( $computerid )
     {
 
         return $this->database->getByComputer( $computerid );
     }
 
     /**
-     * Installs a software
-     *
      * @param $softwareid
+     * @param $userid
      */
 
     public function installSoftware( $softwareid, $userid )
@@ -527,7 +525,7 @@ class Softwares
     }
 
     /**
-     * Updates a softwares data
+     * Updates a software data
      *
      * @param $softwareid
      *
@@ -907,7 +905,7 @@ class Softwares
     }
 
     /**
-     * Gets the softwares icon
+     * Gets the software icon
      *
      * @param $softwareid
      *
@@ -943,9 +941,8 @@ class Softwares
     }
 
     /**
-     * Gets the softwares type
-     *
      * @param $software
+     * @return mixed
      */
 
     public function getSoftwareType( $software )
@@ -955,11 +952,9 @@ class Softwares
     }
 
     /**
-     * Gets the software extension
-     *
      * @param $software
+     * @return mixed
      */
-
     public function getSoftwareExtension( $software )
     {
 
@@ -967,7 +962,7 @@ class Softwares
     }
 
     /**
-     * Gets the softwares unique name
+     * Gets the software unique name
      *
      * @param $software
      *
@@ -995,7 +990,7 @@ class Softwares
     }
 
     /**
-     * Gets the softwares default file size on the users system
+     * Gets the software default file size on the users system
      *
      * @param $software
      *
@@ -1009,7 +1004,7 @@ class Softwares
     }
 
     /**
-     * Gets the softwares default level
+     * Gets the software default level
      *
      * @param $software
      *
@@ -1057,7 +1052,7 @@ class Softwares
     }
 
     /**
-     * Checks the softwares data
+     * Checks the software data
      *
      * @param $softwareid
      *
@@ -1092,19 +1087,26 @@ class Softwares
      * @param string $method
      *
      * @param array $parameters
-     *
      * @return mixed|null
      */
 
-    public function executeSoftwareMethod( $software, $method='onExecute', array $parameters )
+    public function executeSoftwareMethod( $software, $method='onExecute', array $parameters = [] )
     {
 
         $software = $this->getSoftwareClass( $software );
 
-        if( $this->isCallable( $software, $method ) == false )
+        try
         {
 
-            return null;
+            if( $this->isCallable( $software, $method ) == false )
+            {
+
+                return null;
+            }
+        }
+        catch ( \ReflectionException $exception )
+        {
+
         }
 
         if( empty( $parameters ) == false )
@@ -1117,13 +1119,10 @@ class Softwares
     }
 
     /**
-     * Returns true if the method is callable
-     *
-     * @param $software
-     *
-     * @param $method
-     *
+     * @param Structure $software
+     * @param string $method
      * @return bool
+     * @throws \ReflectionException
      */
 
     private function isCallable( Structure $software, string $method )

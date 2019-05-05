@@ -49,53 +49,48 @@ class Table
         }
 	}
 
-	/**
-	 * Gets the table
-	 *
-	 * @param null $table
-	 *
-	 * @return \Illuminate\Database\Query\Builder
-	 */
+    /**
+     * @param null $table
+     * @return \Illuminate\Database\Query\Builder
+     *
+     */
 
 	final protected function getTable( $table=null )
 	{
 
-		if( $table === null )
-		{
+	    try
+        {
 
-			$table = strtolower( self::getShortName( new ReflectionClass( $this ) ) );
-		}
+            if( $table === null )
+                $table = strtolower( self::getShortName( new ReflectionClass( $this ) ) );
 
-		if( $this->database->table( $table )->exists() == false )
-		{
+            if( $this->database->table( $table )->exists() == false )
+            {
+                if( $this->database->table( $table )->exists() == false )
+                {
+                    try {
 
-			if( $this->database->table( $table )->exists() == false )
-			{
+                        $this->database->table($table)->get();
+                    } catch (Exception $error) {
 
-				try
-				{
+                        throw new DatabaseException();
+                    }
 
-					$this->database->table( $table )->get();
-				}
-				catch( Exception $error )
-				{
+                    return $this->database->table($table);
+                }
+                else
 
-					throw new DatabaseException();
-				}
+                    return $this->database->table( $table );
+            }
+            else
+                return $this->database->table( $table );
 
-				return $this->database->table( $table );
-			}
-			else
-			{
+        }
+        catch ( \ReflectionException $exception )
+        {
 
-				return $this->database->table( $table );
-			}
-		}
-		else
-		{
-
-			return $this->database->table( $table );
-		}
+            throw new DatabaseException();
+        }
 	}
 
 	/**

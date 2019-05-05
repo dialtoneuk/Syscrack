@@ -3,7 +3,7 @@
 use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 use Framework\Syscrack\User;
 
@@ -24,9 +24,9 @@ if (isset($pagehelper) == false) {
     $pagehelper = new PageHelper();
 }
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 ?>
 <html>
@@ -69,16 +69,16 @@ if ( isset( $_GET['page'] ) )
 
         Render::view('syscrack/templates/template.admin.options');
 
-        $computers = $computers->getAllComputers()->toArray();
+        $computer = $computer_controller->getAllComputers()->toArray();
         ?>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-6">
                     <div class="thumbnail">
                         <div class="caption">
-                            <h5>Total Virtual Computers</h5>
+                            <h5>Total Virtual Computer</h5>
                             <h3 style="font-size: 1.5em;">
-                                <?=count( $computers )?>
+                                <?=count( $computer )?>
                             </h3>
                         </div>
                     </div>
@@ -91,7 +91,7 @@ if ( isset( $_GET['page'] ) )
                                     <li><a href="?">0</a></li>
                                     <?php
 
-                                        $pages = round( count( $computers ) / Settings::getSetting('syscrack_admin_computer_count') );
+                                        $pages = round( count( $computer ) / Settings::getSetting('syscrack_admin_computer_count') );
 
                                         for ( $i=1; $i < $pages; $i++ )
                                         {
@@ -118,15 +118,15 @@ if ( isset( $_GET['page'] ) )
                     $offset = $_GET['page'] * Settings::getSetting('syscrack_admin_computer_count');
                 }
 
-                $computers = array_slice( array_reverse( $computers ), $offset, Settings::getSetting('syscrack_admin_computer_count'));
+                $computer = array_slice( array_reverse( $computer ), $offset, Settings::getSetting('syscrack_admin_computer_count'));
 
-                if (empty($computers)) {
+                if (empty($computer)) {
 
                     ?>
                     <div class="col-sm-12">
                         <div class="panel panel-danger">
                             <div class="panel-heading">
-                                No Computers Found
+                                No Computer Found
                             </div>
                             <div class="panel-body">
                                 It appears that no computers were found on your system... this is strange?
@@ -136,7 +136,7 @@ if ( isset( $_GET['page'] ) )
                     <?php
                 } else {
 
-                    foreach ($computers as $key => $value) {
+                    foreach ($computer as $key => $value) {
 
                         ?>
                         <div class="col-sm-12">

@@ -52,19 +52,14 @@
         public function __construct()
         {
 
-            parent::__construct( false );
+
 
             if( isset( $this->errorhandler ) == false )
-            {
-
                 $this->errorhandler = new ErrorHandler();
-            }
 
             if( isset( $this->controller ) == false )
-            {
-
                 $this->controller = new Controller();
-            }
+
 
             if( isset( $this->database ) == false )
             {
@@ -81,13 +76,12 @@
                 }
             }
 
+            parent::__construct( false, false );
+
             //Used to display errors
 
             if( session_status() !== PHP_SESSION_ACTIVE )
-            {
-
                 session_start();
-            }
         }
 
         /**

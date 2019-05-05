@@ -2,7 +2,7 @@
 
 use Framework\Application\Container;
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Hardware;
 use Framework\Syscrack\Game\Internet;
@@ -17,9 +17,9 @@ if (isset($internet) == false) {
     $internet = new Internet();
 }
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 
 if (isset($npc) == false) {
@@ -160,7 +160,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                         <ul class="list-group">
                                             <?php
 
-                                            $purchases = $market->getPurchasesByComputer($current_computer->computerid, $computers->getCurrentUserComputer());
+                                            $purchases = $market->getPurchasesByComputer($current_computer->computerid, $computer_controller->getCurrentUserComputer());
 
                                             if (empty($purchases)) {
 
@@ -228,7 +228,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                     </div>
                                                     <div class="panel-body">
                                                         <?php
-                                                        if ($market->hasPurchase($current_computer->computerid, $computers->getCurrentUserComputer(), $itemid)) {
+                                                        if ($market->hasPurchase($current_computer->computerid, $computer_controller->getCurrentUserComputer(), $itemid)) {
 
                                                             ?>
                                                             <p style="margin: 0;" class="text-center">You have already
@@ -236,9 +236,9 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                             <?php
                                                         } else {
 
-                                                            if ($hardware->hasHardwareType($computers->getCurrentUserComputer(), $stock['hardware'])) {
+                                                            if ($hardware->hasHardwareType($computer_controller->getCurrentUserComputer(), $stock['hardware'])) {
 
-                                                                if ($hardware->getHardwareType($computers->getCurrentUserComputer(), $stock['hardware'])['value'] >= $stock['value']) {
+                                                                if ($hardware->getHardwareType($computer_controller->getCurrentUserComputer(), $stock['hardware'])['value'] >= $stock['value']) {
 
                                                                     ?>
                                                                     <div class="panel panel-warning">
@@ -280,7 +280,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                                             #<?= $account->accountnumber ?>
                                                                             (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
                                                                             )
-                                                                            @<?= $computers->getComputer($account->computerid)->ipaddress ?></option>
+                                                                            @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                                                         <?php
                                                                     }
                                                                 }

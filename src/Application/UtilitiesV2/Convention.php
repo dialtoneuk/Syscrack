@@ -24,14 +24,15 @@ abstract class Convention
 
     /**
      * Convention constructor.
-     * @param array $array
+     * @param mixed $array
      */
 
-    public function __construct( array $array )
+    public function __construct( $array )
     {
 
-        if( $this->parse( $array ) == false )
-            throw new \RuntimeException("invalid array given to convention, does not meet requirements");
+        if( $array !== null )
+            if( $this->parse( $array ) == false )
+                throw new \RuntimeException("invalid array given to convention, does not meet requirements: " . print_r( $array ));
 
         $this->array = $array;
     }
@@ -170,11 +171,21 @@ abstract class Convention
     }
 
     /**
+     * @return array
+     */
+
+    public function getRequirements()
+    {
+
+        return( $this->requirements );
+    }
+
+    /**
      * @param $array
      * @return bool
      */
 
-    private function parse( $array )
+    public function parse( $array )
     {
 
         //Empty requirements kinda defaults the point
@@ -201,11 +212,18 @@ abstract class Convention
                             return false;
                         break;
                     case "bool"||"boolean":
-                        //Todo: fix
+                            continue;
                         break;
                     case "int"||"integer":
                         if( is_int( $array[ $key ] ) == false )
                             return false;
+                        break;
+                    case "float":
+                        if( is_float( $array[ $key ] ) == false )
+                            return false;
+                        break;
+                    case "dynamic":
+                            continue;
                         break;
                     default:
                         if( is_null( $array[ $key ] ) == false )

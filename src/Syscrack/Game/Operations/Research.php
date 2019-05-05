@@ -48,11 +48,11 @@ class Research extends BaseClass implements Structure
     {
 
         return array(
-            'allowsoftwares'    => true,
+            'allowsoftware'    => true,
             'allowlocal'        => true,
             'allowcustomdata'   => true,
             'localonly'         => true,
-            'requiresoftwares'  => true,
+            'requiresoftware'  => true,
             'requireloggedin'   => false,
             'jsonoutput'        => true
         );
@@ -95,7 +95,7 @@ class Research extends BaseClass implements Structure
             $this->redirectError('You need to install a research executable in order to preform this action');
         }
 
-        $software = $this->softwares->getSoftware( $data['softwareid'] );
+        $software = $this->software->getSoftware( $data['softwareid'] );
         $price = Settings::getSetting('syscrack_research_price_multiplier') * $software->level;
 
         if ( $this->finance->accountNumberExists( PostHelper::getPostData('accountnumber' ) ) == false )
@@ -134,13 +134,13 @@ class Research extends BaseClass implements Structure
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
-        $software = $this->softwares->getSoftware( $data['softwareid'] );
+        $software = $this->software->getSoftware( $data['softwareid'] );
         $price = Settings::getSetting('syscrack_research_price_multiplier') * $software->level;
         $account = $this->finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
         $this->finance->withdraw( $account->computerid, $account->userid, $price );
 
-        $newsoftware = $this->softwares->createSoftware( $this->softwares->getSoftwareNameFromSoftwareID(
+        $newsoftware = $this->software->createSoftware( $this->software->getSoftwareNameFromSoftwareID(
             $data['softwareid'] ),
             $userid,
             $computerid,

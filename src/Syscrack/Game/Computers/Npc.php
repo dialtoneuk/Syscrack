@@ -6,23 +6,17 @@
      *
      * Class Npc
      *
-     * @package Framework\Syscrack\Game\Computers
+     * @package Framework\Syscrack\Game\Computer
      */
 
-    use Framework\Application\Settings;
+    use Framework\Application\UtilitiesV2\Conventions\ComputerData;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
-    use Framework\Syscrack\Game\Schema;
+    use Framework\Syscrack\Game\Metadata;
     use Framework\Syscrack\Game\Structures\Computer as Structure;
 
     class Npc extends BaseClass implements Structure
     {
-
-        /**
-         * @var Schema
-         */
-
-        protected $schema;
 
         /**
          * Npc constructor.
@@ -32,12 +26,6 @@
         {
 
             parent::__construct( true );
-
-            if( isset( $this->schema ) == false )
-            {
-
-                $this->schema = new Schema();
-            }
         }
 
         /**
@@ -61,39 +49,10 @@
          * @param $computerid
          */
 
-        public function onReset( $computerid )
+        public function onReset($computerid)
         {
 
-            $userid = $this->computers->getComputer( $computerid )->userid;
-
-            if( $this->schema->hasSchema( $computerid ) == false )
-            {
-
-                $this->clearSoftwares( $computerid );
-
-                $this->computers->resetHardware( $computerid );
-
-                $this->addHardwares( $computerid, Settings::getSetting('syscrack_default_hardware') );
-            }
-            else
-            {
-
-                $schema = $this->schema->getSchema( $computerid );
-
-                if( empty( $schema['softwares'] ) || empty( $schema['hardwares'] ) )
-                {
-
-                    throw new SyscrackException();
-                }
-
-                $this->clearSoftwares( $computerid );
-
-                $this->computers->resetHardware( $computerid );
-
-                $this->addSoftwares( $computerid, $userid, $schema['softwares'] );
-
-                $this->addHardwares( $computerid, $schema['hardwares'] );
-            }
+            parent::onReset($computerid);
         }
 
         /**
@@ -103,31 +62,15 @@
          *
          * @param $userid
          *
-         * @param array $softwares
+         * @param array $software
          *
-         * @param array $hardwares
+         * @param array $hardware
          */
 
-        public function onStartup($computerid, $userid, array $softwares = [], array $hardwares = [] )
+        public function onStartup($computerid, $userid, array $software = [], array $hardware = [])
         {
 
-            if( $this->log->hasLog( $computerid ) == false )
-            {
-
-                $this->log->createLog( $computerid );
-            }
-
-            if( empty( $softwares ) == false )
-            {
-
-                $this->addSoftwares( $computerid, $userid, $softwares );
-            }
-
-            if( empty( $hardwares ) == false )
-            {
-
-                $this->addHardwares( $computerid, $hardwares );
-            }
+            parent::onStartup($computerid, $userid, $software, $hardware);
         }
 
         /**
@@ -142,15 +85,11 @@
         {
 
             if( $this->internet->ipExists( $ipaddress ) == false )
-            {
-
                 throw new SyscrackException();
-            }
 
             $this->internet->setCurrentConnectedAddress( $ipaddress );
 
             $this->log( $computerid, 'Logged in as root', $this->getCurrentComputerAddress() );
-
             $this->logToIP( $this->getCurrentComputerAddress(), 'Logged in as root at <' . $ipaddress . '>');
         }
 
@@ -166,10 +105,7 @@
         {
 
             if( $this->internet->ipExists( $ipaddress ) == false )
-            {
-
                 throw new SyscrackException();
-            }
 
             $this->internet->setCurrentConnectedAddress( null );
         }

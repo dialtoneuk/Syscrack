@@ -5,7 +5,7 @@ use Framework\Application\Settings;
 use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Schema;
-use Framework\Syscrack\Game\Softwares;
+use Framework\Syscrack\Game\Software;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 use Framework\Application\Render;
 
@@ -23,7 +23,7 @@ if (isset($pagehelper) == false) {
 
 if (isset($softwares) == false) {
 
-    $softwares = new Softwares();
+    $softwares = new Software();
 }
 
 if (isset($npc) == false) {

@@ -1,14 +1,14 @@
 <?php
 
 use Framework\Application\Settings;
-use Framework\Views\Pages\Computer;
+use Framework\Syscrack\Game\Computer;
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computer();
+    $computer_controller = new Computer();
 }
 
-$currentcomputer = $computers->getComputer($computers->getCurrentUserComputer());
+$currentcomputer = $computer_controller->getComputer($computer_controller->getCurrentUserComputer());
 ?>
 <div class="col-md-4">
     <div class="list-group">
@@ -31,7 +31,7 @@ $currentcomputer = $computers->getComputer($computers->getCurrentUserComputer())
     </div>
     <?php
 
-    if ($computers->hasType($currentcomputer->computerid, Settings::getSetting('syscrack_software_collector_type'), true)) {
+    if ($computer_controller->hasType($currentcomputer->computerid, Settings::getSetting('syscrack_software_collector_type'), true)) {
 
         ?>
         <div class="list-group">
@@ -45,7 +45,7 @@ $currentcomputer = $computers->getComputer($computers->getCurrentUserComputer())
     ?>
     <?php
 
-    if ($computers->hasType($currentcomputer->computerid, Settings::getSetting('syscrack_software_research_type'), true)) {
+    if ($computer_controller->hasType($currentcomputer->computerid, Settings::getSetting('syscrack_software_research_type'), true)) {
 
         ?>
         <div class="list-group">

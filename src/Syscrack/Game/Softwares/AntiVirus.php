@@ -60,7 +60,7 @@
                 $this->redirectError('No viruses were found', $this->getRedirect( $this->computers->getComputer( $computerid )->ipaddress ) );
             }
 
-            $software = $this->softwares->getSoftware( $softwareid );
+            $software = $this->software->getSoftware( $softwareid );
 
             $results = [];
 
@@ -83,7 +83,7 @@
                     'softwareid' => $virus->softwareid
                 );
 
-                $this->softwares->deleteSoftware( $virus->softwareid );
+                $this->software->deleteSoftware( $virus->softwareid );
 
                 $this->computers->removeSoftware( $computerid, $virus->softwareid );
             }

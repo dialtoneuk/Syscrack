@@ -9,10 +9,10 @@
         $users = new User();
     }
 
-    if ( isset( $computers ) == false )
+    if ( isset( $computer_controller ) == false )
     {
 
-        $computers = new \Framework\Syscrack\Game\Computers();
+        $computer_controller = new \Framework\Syscrack\Game\Computer();
     }
 
     if ( isset( $userid ) == false )
@@ -22,7 +22,7 @@
     }
 
     $user = $users->getUser( $userid );
-    $computers = $computers->getUserComputers( $userid );
+    $computer = $computer_controller->getUserComputers( $userid );
 ?>
 <html>
 
@@ -57,9 +57,9 @@
             <div class="col-sm-4">
                 <div class="thumbnail">
                     <div class="caption">
-                        <h5>Total Virtual Computers</h5>
+                        <h5>Total Virtual Computer</h5>
                         <h3 style="font-size: 1.5em;">
-                            <?=count( $computers )?>
+                            <?=count( $computer )?>
                         </h3>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                                     <a href="#options" aria-controls="options" role="tab" data-toggle="tab">Options</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#computers" aria-controls="computers" role="tab" data-toggle="tab">Computers</a>
+                                    <a href="#computers" aria-controls="computers" role="tab" data-toggle="tab">Computer</a>
                                 </li>
                                 <li style="float: right;"><a href="/admin/users/">Home <span class="glyphicon glyphicon-arrow-right"></span> </a></li>
                             </ul>
@@ -131,7 +131,7 @@
                                 <div role="tabpanel" class="tab-pane" id="computers" style="padding-top: 2.5%;">
                                     <?php
 
-                                        foreach ( $computers as $key=>$value )
+                                        foreach ( $computer as $key=>$value )
                                         {
                                             ?>
                                                 <div class="row">

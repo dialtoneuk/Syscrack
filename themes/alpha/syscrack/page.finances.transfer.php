@@ -3,7 +3,7 @@
 use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computers;
+use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Finance;
 
 $session = Container::getObject('session');
@@ -18,9 +18,9 @@ if (isset($finance) == false) {
     $finance = new Finance();
 }
 
-if (isset($computers) == false) {
+if (isset($computer_controller) == false) {
 
-    $computers = new Computers();
+    $computer_controller = new Computer();
 }
 ?>
 <!DOCTYPE html>
@@ -109,7 +109,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                         ?>
                                         <option value="<?= $account->accountnumber ?>">#<?= $account->accountnumber ?>
                                             (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
-                                            ) @<?= $computers->getComputer($account->computerid)->ipaddress ?></option>
+                                            ) @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                         <?php
                                     }
                                 }

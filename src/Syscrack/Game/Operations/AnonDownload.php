@@ -38,9 +38,9 @@
 
             return array(
                 'allowlocal'        => false,
-                'allowsoftwares'    => true,
+                'allowsoftware'    => true,
                 'allowanonymous'    => true,
-                'requiresoftwares'  => true,
+                'requiresoftware'  => true,
                 'requireloggedin'   => false,
             );
         }
@@ -76,13 +76,13 @@
                 $this->redirectError('This action can only be used on a download server', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->hasSpace( $this->computers->getCurrentUserComputer(), $this->softwares->getSoftware( $data['softwareid'] )->size ) == false )
+            if( $this->hasSpace( $this->computers->getCurrentUserComputer(), $this->software->getSoftware( $data['softwareid'] )->size ) == false )
             {
 
                 $this->redirectError('Sorry, you dont have the free space for this download.', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->softwares->isAnonDownloadSoftware( $data['softwareid'] ) == false )
+            if( $this->software->isAnonDownloadSoftware( $data['softwareid'] ) == false )
             {
 
                 return false;
@@ -122,13 +122,13 @@
                 $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
             }
 
-            if( $this->softwares->softwareExists( $data['softwareid'] ) == false )
+            if( $this->software->softwareExists( $data['softwareid'] ) == false )
             {
 
                 $this->redirectError('Sorry, it looks like this software might have been deleted');;
             }
 
-            $softwareid = $this->softwares->copySoftware( $data['softwareid'], $this->computers->getCurrentUserComputer(), $userid );
+            $softwareid = $this->software->copySoftware( $data['softwareid'], $this->computers->getCurrentUserComputer(), $userid );
 
             if( empty( $softwareid ) )
             {
@@ -136,7 +136,7 @@
                 throw new SyscrackException();
             }
 
-            $software = $this->softwares->getSoftware( $softwareid );
+            $software = $this->software->getSoftware( $softwareid );
 
             if( $software == null )
             {
@@ -173,13 +173,13 @@
         public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
         {
 
-            if( $this->softwares->softwareExists( $softwareid ) == false )
+            if( $this->software->softwareExists( $softwareid ) == false )
             {
 
                 throw new SyscrackException();
             }
 
-            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_download_type'), $this->softwares->getSoftware( $softwareid )->size / 5, $softwareid );
+            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_download_type'), $this->software->getSoftware( $softwareid )->size / 5, $softwareid );
         }
 
         /**

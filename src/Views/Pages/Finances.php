@@ -26,11 +26,6 @@
 
         protected $finance;
 
-        /**
-         * @var Session
-         */
-
-        protected $session;
 
         /**
          * Finances constructor.
@@ -39,25 +34,10 @@
         public function __construct()
         {
 
-            parent::__construct( true, true, true, true );
-
             if( isset( $this->finance ) == false )
-            {
-
                 $this->finance = new Finance();
-            }
 
-            if( isset( $this->session ) == false )
-            {
-
-                if( Container::hasObject('session') == false )
-                {
-
-                    Container::setObject('session', new Session() );
-                }
-
-                $this->session = Container::getObject('session');
-            }
+            parent::__construct( true, true, true, true );
         }
 
         /**
@@ -162,7 +142,7 @@
 
                 $target = $this->finance->getByAccountNumber( $targetaccount );
 
-                if( $this->computers->getComputer( $target->computerid )->ipaddress !== $ipaddress )
+                if( $this->computer->getComputer( $target->computerid )->ipaddress !== $ipaddress )
                 {
 
                     $this->redirectError('Account does not exist at remote bank', 'finances/transfer');
