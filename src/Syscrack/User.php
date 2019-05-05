@@ -71,6 +71,18 @@ class User
 		return true;
 	}
 
+    /**
+     * Should only be used in tests
+     *
+     * @param $userid
+     */
+
+	public function delete( $userid )
+    {
+
+        $this->database->deleteUser( $userid );
+    }
+
 	/**
 	 * Finds a user by their username
 	 *

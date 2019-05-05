@@ -21,6 +21,7 @@
     use Framework\Syscrack\Game\Riddles;
     use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer;
+    use Framework\Syscrack\Game\Types;
     use Framework\Syscrack\User;
     use Framework\Syscrack\Game\Themes;
     use Framework\Views\BaseClasses\Page as BaseClass;
@@ -649,10 +650,15 @@
 
         private $path = 'admin/computer/creator';
 
+        /**
+         *
+         */
+
         public function computerCreator()
         {
 
-            Render::view('syscrack/page.admin.computer.creator', [], $this->model());
+            $types = new Types();
+            Render::view('syscrack/page.admin.computer.creator', ["types" => $types->get() ], $this->model());
         }
 
         /**

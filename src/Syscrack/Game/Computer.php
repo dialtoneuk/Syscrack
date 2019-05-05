@@ -92,6 +92,16 @@ class Computer
     }
 
     /**
+     * @return array|Structure|Structures\Software|\stdClass
+     */
+
+    public function getComputerClasses()
+    {
+
+        return( self::$factory->getAllClasses() );
+    }
+
+    /**
      * Returns true if we have this computer class
      *
      * @param $name

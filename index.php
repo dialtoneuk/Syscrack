@@ -16,7 +16,7 @@
 
     use Framework\Application\UtilitiesV2\Debug;
 
-    if( defined("TEST_ROOT") == false )
+    if( Debug::isPHPUnitTest() == false )
     {
 
         if (empty( $_SERVER["DOCUMENT_ROOT"] ) )
@@ -34,8 +34,8 @@
     {
 
         //Maybe we are PHP Unit
-        $root = TEST_ROOT;
-        $_SERVER["DOCUMENT_ROOT"] = TEST_ROOT;
+        $root = PHPUNIT_ROOT;
+        $_SERVER["DOCUMENT_ROOT"] = PHPUNIT_ROOT;
     }
 
 

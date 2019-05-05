@@ -68,86 +68,69 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 $schema = Settings::getSetting('syscrack_example_schema');
                 ?>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-lg-4">
+                        <div class="panel panel-info">
+                            <div class="panel-body">
+                                When you create your new machine you'll be able to edit it in more detail. Don't worry about
+                                filling anything in as you can change it later. If you'd like to read up more about what
+                                each type does, please <a href="">check out our github.</a>
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-body">
+                                <?php
+                                Render::view('syscrack/templates/template.form', array('form_elements' => [
+                                    [
+                                        'type' => 'number',
+                                        'name' => 'userid',
+                                        'placeholder' => 1,
+                                        'value' => Settings::getSetting('syscrack_master_user'),
+                                        'icon' => 'glyphicon-user'
+                                    ],
+                                    [
+                                        'type' => 'text',
+                                        'name' => 'ipaddress',
+                                        'icon' => 'glyphicon-globe',
+                                        'placeholder' => '1.2.3.4',
+                                        'value' => $internet->getIP()
+                                    ]
+                                ], 'remove_submit' => true, 'remove_form' => true));
+                                ?>
+                                <label class="text-uppercase" style="color: lightgray;" for="form-type">Types</label>
+                                <select name="type" class="combobox input-sm form-control">
+                                    <?php
 
+                                    if( empty( $types ) == false )
+                                    {
+
+                                        foreach( $types as $type )
+                                        {
+                                            ?>
+                                            <option value="<?=$type?>"><?=$type?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
                         <?php
                         Render::view('syscrack/templates/template.form', array('form_elements' => [
                             [
-                                'type' => 'number',
-                                'name' => 'userid',
-                                'placeholder' => Settings::getSetting('syscrack_master_user'),
-                                'icon' => 'glyphicon-user'
-                            ],
-                            [
-                                'type' => 'text',
-                                'name' => 'ipaddress',
-                                'icon' => 'glyphicon-globe',
-                                'placeholder' => '1.2.3.4',
-                                'value' => $internet->getIP()
-                            ],
-                            [
-                                'type' => 'text',
-                                'name' => 'type',
-                                'icon' => 'glyphicon-tag',
-                                'placeholder' => 'npc'
-                            ]
-                        ], 'remove_submit' => true, 'remove_form' => true));
-
-                        Render::view('syscrack/templates/template.form', array('form_elements' => [
-                            [
-                                'type' => 'checkbox',
-                                'name' => 'schema',
-                            ],
-                            [
-                                'type' => 'text',
-                                'name' => 'name',
-                                'placeholder' => 'Whois',
-                                'icon' => 'glyphicon-text-size',
-                                'disabled' => true,
-                            ],
-                            [
-                                'type' => 'text',
-                                'name' => 'page',
-                                'icon' => 'glyphicon-book',
-                                'disabled' => true,
-                                'placeholder' => 'schema.default'
-                            ],
-                            [
-                                'type' => 'checkbox',
-                                'name' => 'riddle',
-                                'disabled' => true,
-                            ],
-                            [
-                                'type' => 'number',
-                                'name' => 'riddleid',
-                                'icon' => 'glyphicon-question-sign',
-                                'placeholder' => '1',
-                                'disabled' => true,
-                            ],
-                            [
-                                'type' => 'text',
-                                'name' => 'riddlecomputer',
-                                'icon' => 'glyphicon-question-sign',
-                                'placeholder' => '1',
-                                'disabled' => true,
+                                'type' => 'textarea',
+                                'name' => 'hardware',
+                                'value' => json_encode($schema['hardwares'], JSON_PRETTY_PRINT)
                             ]
                         ], 'remove_submit' => true, 'remove_form' => true));
                         ?>
-                    </div>
-                    <div class="col-sm-8">
                         <?php
                         Render::view('syscrack/templates/template.form', array('form_elements' => [
                             [
                                 'type' => 'textarea',
                                 'name' => 'software',
-                                'value' => json_encode([], JSON_PRETTY_PRINT),
-                                'resizeable' => 'vertical'
-                            ],
-                            [
-                                'type' => 'textarea',
-                                'name' => 'hardware',
-                                'value' => json_encode($schema['hardwares'], JSON_PRETTY_PRINT),
-                                'resizeable' => 'vertical'
+                                'value' => json_encode([], JSON_PRETTY_PRINT)
                             ]
                         ], 'remove_submit' => true, 'remove_form' => true));
                         ?>
@@ -155,8 +138,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="btn-group btn-group-justified" role="group" aria-label="Submit"
-                             style="margin-top: 2.5%;">
+                        <div class="btn-group btn-group-justified" role="group" aria-label="Submit">
                             <div class="btn-group" role="group">
                                 <button type="submit" class="btn btn-default">Create</button>
                             </div>

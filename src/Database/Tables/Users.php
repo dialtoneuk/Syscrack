@@ -46,6 +46,24 @@ class Users extends Table
 		return ( $result->isEmpty() ) ? null : $result[0];
 	}
 
+
+    /**
+     * Deletes a software
+     *
+     * @param $softwareid
+     *
+     */
+
+    public function deleteUser( $userid )
+    {
+
+        $array = array(
+            'userid' => $userid
+        );
+
+        $this->getTable()->where( $array )->delete();
+    }
+
 	/**
 	 * Gets a user by their username
 	 *

@@ -61,6 +61,16 @@ class Debug
     }
 
     /**
+     * @return bool
+     */
+
+    public static function isPHPUnitTest()
+    {
+
+        return( defined("PHPUNIT_ROOT") );
+    }
+
+    /**
      * Shorthand msg
      *
      * @param string $msg

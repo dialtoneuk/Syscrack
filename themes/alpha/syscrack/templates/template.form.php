@@ -47,11 +47,11 @@ if ($remove_form == false)
             if ($element['type'] == "textarea") {
 
                 ?>
-                <label class="text-uppercase" style="color: lightgray;" for="form-<?= $element['name'] ?>">
+                <label class="text-uppercase" style="color: lightgray;" for="<?= $element['name'] ?>">
                     <?= $element['name'] ?>
                 </label>
-                <div class="input-group" style="width: 100%; height: 26.25%; padding-bottom: 1.25%;">
-                    <div class="well" style="height: 100%;">
+                <div class="input-group" style="width: 100%;">
+                    <div class="well" style="padding-top: 24px;">
                         <textarea style="resize: <?php if (isset($element['resizeable'])) {
                             echo $element['resizeable'];
                         } else {
@@ -68,7 +68,7 @@ if ($remove_form == false)
 
                 ?>
                 <label class="text-uppercase" style="color: lightgray; margin-bottom: 1%;"
-                       for="form-<?= $element['name'] ?>">
+                       for="<?= $element['name'] ?>">
                     <?= $element['name'] ?>
                 </label>
                 <div class="input-group" style="margin-bottom: 5%;">
@@ -85,7 +85,7 @@ if ($remove_form == false)
 
                 ?>
 
-                <label class="text-uppercase" style="color: lightgray;" for="form-<?= $element['name'] ?>">
+                <label class="text-uppercase" style="color: lightgray;" for="<?= $element['name'] ?>">
                     <?= $element['name'] ?>
                 </label>
                 <div class="input-group" style="padding-bottom: 1.5%;">

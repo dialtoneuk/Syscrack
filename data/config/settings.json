@@ -278,5 +278,6 @@
     "user_group_developer": "developer",
     "user_require_betakey": "",
     "theme_info_file": "info.json",
-    "metadata_filepath": "data\\\/metadata"
+    "metadata_filepath": "data\\\/metadata",
+    "computer_types_filepath": "data\\\/metadata\\\/types.json"
 }

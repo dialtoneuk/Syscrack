@@ -333,7 +333,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
                         <div class="panel panel-danger">
                             <div class="panel-body">
                                 Some computers have been removed from this list as it was getting too long, you can
-                                <a href="/game/computers/">view all your virtual computers here.</a>
+                                <a href="/game/computer">view all your virtual computers here.</a>
                             </div>
                         </div>
                         <?php

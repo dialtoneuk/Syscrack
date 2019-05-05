@@ -14,6 +14,7 @@
     use Framework\Application\Render;
     use Framework\Application\Session;
     use Framework\Application\Settings;
+    use Framework\Application\UtilitiesV2\Debug;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Software;
@@ -166,12 +167,18 @@
         public function redirect( $path, $exit=true )
         {
 
-            Render::redirect( Settings::getSetting('controller_index_root') . $path );
-
-            if( $exit == true )
+            if( Debug::isPHPUnitTest() )
+                Debug::echo("Redirecting to: " . $path );
+            else
             {
 
-                exit;
+                Render::redirect( Settings::getSetting('controller_index_root') . $path );
+
+                if( $exit == true )
+                {
+
+                   exit;
+                }
             }
         }
 
