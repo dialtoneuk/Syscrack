@@ -42,6 +42,8 @@ class Themes
 
         if( $this->requiresMVC( $theme ) && $this->mvcOutput() == false )
             Settings::updateSetting("render_mvc_output", true );
+        elseif( $this->requiresMVC( $theme ) == false && $this->mvcOutput() )
+            Settings::updateSetting("render_mvc_output", true );
 
         Settings::updateSetting("render_folder", $theme );
     }
@@ -115,6 +117,7 @@ class Themes
                 throw new \Error("No theme information found please check your theme directories");
 
             $this->themes = $result;
+
             return( $result );
         }
         elseif( empty( $this->themes ) )
@@ -130,8 +133,8 @@ class Themes
 
         foreach( $folders as $folder )
             $info[ $folder ] = FileSystem::readJson( Settings::getSetting("syscrack_view_location")
-                . $folder
-                . Settings::getSetting("theme_info_file") );
+                . DIRECTORY_SEPARATOR . $folder
+                . DIRECTORY_SEPARATOR . Settings::getSetting("theme_info_file") );
 
         return( $info );
     }

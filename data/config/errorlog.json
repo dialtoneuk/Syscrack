@@ -12719,5 +12719,77 @@
         },
         "timestamp": 1556661699,
         "ip": "192.168.56.1"
+    },
+    {
+        "message": "Call to a member function isAdmin() on null",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/admin",
+            "line": 148,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Controller.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(110): Framework\\Views\\Controller->run()\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(511): Framework\\Application->runController()\n#2 {main}"
+        },
+        "timestamp": 1557019585,
+        "ip": "192.168.56.1"
+    },
+    {
+        "message": "Call to a member function getThemes() on null",
+        "type": "rendererror",
+        "details": {
+            "url": "\/admin\/themes",
+            "line": 221,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Admin.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Admin->themes()\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(100): Flight::__callStatic('start', Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(523): Framework\\Application->runFlight()\n#11 {main}"
+        },
+        "timestamp": 1557020013,
+        "ip": "192.168.56.1"
+    },
+    {
+        "message": "Trying to get property 'name' of non-object",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/admin\/themes",
+            "line": 78,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\themes\\alpha\\syscrack\\page.admin.themes.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\themes\\alpha\\syscrack\\page.admin.themes.php(78): flight\\Engine->handleError(8, 'Trying to get p...', 'E:\\\\Webservers\\\\X...', 78, Array)\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\template\\View.php(125): include('E:\\\\Webservers\\\\X...')\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(484): flight\\template\\View->render('alpha\\\\syscrack\/...', Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(206): flight\\Engine->_render('alpha\\\\syscrack\/...', Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('render', Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(206): flight\\Engine->__call('render', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Render.php(71): Flight::__callStatic('render', Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Admin.php(230): Framework\\Application\\Render::view('syscrack\/page.a...', Array, NULL)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Admin->themes()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#13 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#14 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#15 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#16 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#17 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#18 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#19 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#20 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(100): Flight::__callStatic('start', Array)\n#21 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(523): Framework\\Application->runFlight()\n#22 {main}"
+        },
+        "timestamp": 1557020344,
+        "ip": "192.168.56.1"
+    },
+    {
+        "message": "Too few arguments to function Framework\\Views\\Pages\\Admin::themesProcess(), 0 passed in E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php on line 198 and exactly 1 expected",
+        "type": "rendererror",
+        "details": {
+            "url": "\/admin\/themes\/",
+            "line": 235,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Admin.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Admin->themesProcess()\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(100): Flight::__callStatic('start', Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(523): Framework\\Application->runFlight()\n#11 {main}"
+        },
+        "timestamp": 1557021309,
+        "ip": "192.168.56.1"
+    },
+    {
+        "message": "Too few arguments to function Framework\\Views\\Pages\\Admin::themesProcess(), 0 passed in E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php on line 198 and exactly 1 expected",
+        "type": "rendererror",
+        "details": {
+            "url": "\/admin\/themes\/",
+            "line": 235,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Admin.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Admin->themesProcess()\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(100): Flight::__callStatic('start', Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(523): Framework\\Application->runFlight()\n#11 {main}"
+        },
+        "timestamp": 1557021329,
+        "ip": "192.168.56.1"
+    },
+    {
+        "message": "Too few arguments to function Framework\\Views\\Pages\\Admin::themesProcess(), 0 passed in E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php on line 198 and exactly 1 expected",
+        "type": "rendererror",
+        "details": {
+            "url": "\/admin\/themes\/",
+            "line": 235,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Admin.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Admin->themesProcess()\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(100): Flight::__callStatic('start', Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(523): Framework\\Application->runFlight()\n#11 {main}"
+        },
+        "timestamp": 1557021366,
+        "ip": "192.168.56.1"
     }
 ]

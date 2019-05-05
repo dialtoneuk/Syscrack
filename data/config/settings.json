@@ -267,7 +267,7 @@
     ],
     "theme_dark": true,
     "theme_fullscreen": true,
-    "render_mvc_output": false,
+    "render_mvc_output": "",
     "render_json_mode": false,
     "render_log": true,
     "render_folder": "alpha",

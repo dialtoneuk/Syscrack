@@ -10,6 +10,7 @@ namespace Framework\Application\Utilities;
  */
 
 use Framework\Application\Settings;
+use Framework\Application\UtilitiesV2\Debug;
 use Framework\Exceptions\ApplicationException;
 
 class FileSystem
@@ -56,6 +57,23 @@ class FileSystem
 	}
 
     /**
+     * @param mixed ...$paths
+     * @return string
+     */
+
+	public static function separate(...$paths )
+    {
+
+        $result = "";
+
+        foreach( $paths as $value )
+            if( $value !== null && substr( $value, -1 ) !== DIRECTORY_SEPARATOR && self::hasFileExtension( $value ) == false )
+                $result = $result . $value . DIRECTORY_SEPARATOR;
+
+        return( $result );
+    }
+
+    /**
      * Reads Json
      *
      * @param $file
@@ -80,6 +98,9 @@ class FileSystem
 
         if( self::fileExists( $file ) == false )
         {
+
+            if( Debug::isEnabled() )
+                Debug::echo("file does not exist: " . self::getFilePath( $file ) );
 
             return null;
         }
@@ -477,6 +498,9 @@ class FileSystem
 
     public static function hasFileExtension( $file )
     {
+
+        if( count( explode(".", $file ) ) === 1 )
+            return false;
 
         return true;
     }

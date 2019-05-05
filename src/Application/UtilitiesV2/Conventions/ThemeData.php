@@ -32,7 +32,7 @@ class ThemeData extends Convention
         "description"   => "string",
         "author"        => "author",
         "website"       => "string",
-        "version"       => null,
+        "version"       => "int",
         "data"          => "array"
     ];
 }

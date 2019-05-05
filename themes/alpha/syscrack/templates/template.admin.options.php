@@ -38,6 +38,12 @@
         </a>
     </div>
     <div class="list-group">
+        <a href="/admin/themes/" class="list-group-item list-group-item">
+            <h4 class="list-group-item-heading">Themes</h4>
+            <p class="list-group-item-text">Change the look and feel of Syscrack.</p>
+        </a>
+    </div>
+    <div class="list-group">
         <a href="/admin/reset/" class="list-group-item list-group-item-danger">
             <h4 class="list-group-item-heading">Reset</h4>
             <p class="list-group-item-text">Resets the game back to square one.</p>

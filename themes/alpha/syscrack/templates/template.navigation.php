@@ -209,6 +209,9 @@ if ( empty( $_SESSION['current_computer'] ) )
                                     <li><a href="/admin/riddles/">Riddles</a></li>
                                     <li><a href="/admin/riddles/creator">Riddle Creator</a></li>
                                     <li role="separator" class="divider"></li>
+                                    <li><a href="/admin/themes/">Themes</a></li>
+                                    <li><a href="/admin/settings/">Settings</a></li>
+                                    <li role="separator" class="divider"></li>
                                     <li><a href="/admin/reset/">Reset</a></li>
                                 </ul>
                             </li>

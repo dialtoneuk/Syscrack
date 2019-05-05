@@ -60,9 +60,13 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         Render::view('syscrack/templates/template.admin.options');
         ?>
         <div class="col-sm-8">
-            <h5 style="color: #ababab" class="text-uppercase">
-                Riddles
-            </h5>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5 style="color: #ababab" class="text-uppercase">
+                        Riddles
+                    </h5>
+                </div>
+            </div>
             <div class="row">
                 <?php
 

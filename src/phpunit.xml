@@ -17,6 +17,6 @@
     </testsuites>
 
     <php>
-        <const name="TEST_ROOT" value="E:\Webservers\XAMPP\htdocs_git"/>
+        <const name="TEST_ROOT" value="E:\/Webservers\/XAMPP\/htdocs_git"/>
     </php>
 </phpunit>

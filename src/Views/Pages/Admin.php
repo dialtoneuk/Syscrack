@@ -21,17 +21,12 @@
     use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer;
     use Framework\Syscrack\User;
+    use Framework\Syscrack\Game\Themes;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
     class Admin extends BaseClass implements Structure
     {
-
-        /**
-         * @var User
-         */
-
-        protected $user;
 
         /**
          * @var Schema
@@ -46,39 +41,28 @@
         protected $finance;
 
         /**
+         * @var Themes
+         */
+
+        protected $themes;
+
+        /**
          * Admin Error constructor.
          */
 
         public function __construct()
         {
 
-            parent::__construct( true, true, true, true  );
-
-            if( isset( $this->user ) == false )
-            {
-
-                $this->user = new User();
-            }
-
-            if ($this->user->isAdmin(Container::getObject('session')->getSessionUser()) == false)
-            {
-
-                Render::redirect(Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page'));
-
-                exit;
-            }
-
             if (isset( $this->schema ) == false)
-            {
-
                 $this->schema = new Schema();
-            }
 
             if (isset($this->finance) == false)
-            {
-
                 $this->finance = new Finance();
-            }
+
+            if( isset( $this->themes ) == false )
+                $this->themes = new Themes( true );
+
+            parent::__construct( true, true, true, true, true );
         }
 
         /**
@@ -161,11 +145,19 @@
             Render::view('syscrack/page.admin');
         }
 
+        /**
+         *
+         */
+
         public function usersViewer()
         {
 
             Render::view('syscrack/page.admin.users');
         }
+
+        /**
+         *
+         */
 
         public function usersSearch()
         {
@@ -173,63 +165,51 @@
 
         }
 
+        /**
+         * @param $userid
+         */
+
         public function usersEdit( $userid )
         {
 
             if ( $this->user->userExists( $userid ) == false )
-            {
-
                 $this->redirectError('This user does not exist, please try another', '/admin/users/');
-            }
             else
-            {
-
                 Render::view('syscrack/page.admin.users.edit', array('userid' => $userid, 'users' => $this->user ));
-            }
         }
+
+        /**
+         * @param $userid
+         */
 
         public function usersEditProcess( $userid )
         {
 
             if ( $this->user->userExists( $userid ) == false )
-            {
-
                 $this->redirectError('This user does not exist', "admin/users/edit/" . $userid. "/"  );
-            }
             else
             {
 
                 if ( PostHelper::hasPostData() == false )
-                {
-
                     $this->redirectError( 'Post data is false', "admin/users/edit/" . $userid  );
-                }
                 else
                 {
 
                     if ( PostHelper::checkForRequirements(['action']) == false )
-                    {
-
                         $this->redirectError( 'Post data is false', "admin/users/edit/" . $userid  );
-                    }
                     else
                     {
 
                         $action = PostHelper::getPostData('action', true );
-
                         if ( $action == "group" )
                         {
 
                             if ( PostHelper::checkForRequirements(['group'] ) == false )
-                            {
-
                                 $this->redirectError( 'Post data is false', "admin/users/edit/" . $userid  );
-                            }
                             else
                             {
 
                                 $this->user->updateGroup( $userid, PostHelper::getPostData('group', true ) );
-
                                 $this->redirectSuccess('admin/users/edit/' . $userid );
                             }
                         }
@@ -238,54 +218,64 @@
             }
         }
 
+        /**
+         * Themes View
+         */
+
         public function themes()
         {
 
-            Render::view('syscrack/page.admin.themes');
+            Render::view('syscrack/page.admin.themes', array("themes" => $this->themes->getThemes( false ) ), $this->model() );
         }
 
-        public function themesProcess( $theme )
+        /**
+         * @param $theme
+         */
+
+        public function themesProcess()
         {
 
+            if( PostHelper::checkForRequirements(['theme']) == false )
+                $this->redirectError("This theme does not exist");
+            else
+                $theme = PostHelper::getPostData('theme', true );
 
+            if( $this->themes->themeExists( $theme ) == false )
+                $this->redirectError("This theme does not exist");
+            else
+                $this->themes->set( $theme );
         }
+
+        /**
+         * @param $computerid
+         */
 
         public function computerEditor( $computerid )
         {
 
             if( $this->computers->computerExists( $computerid ) == false )
-            {
-
                 $this->redirectError('This computer does not exist, please try another');
-            }
-
-            $computer = $this->computers->getComputer( $computerid );
-
-            Render::view('syscrack/page.admin.computer.edit', array( 'computer' => $computer ), $this->model() );
+            else
+                Render::view('syscrack/page.admin.computer.edit', array( 'computer' => $this->computers->getComputer( $computerid ) ), $this->model() );
         }
+
+        /**
+         * @param $computerid
+         */
 
         public function computerEditorProcess( $computerid )
         {
 
             if ( $this->computers->computerExists( $computerid ) == false )
-            {
-
                 $this->redirectError('This computer does not exist, please try another', "admin/computers/edit/" . $computerid );
-            }
 
             if ( PostHelper::hasPostData() == false )
-            {
-
                 $this->redirect('admin/computer');
-            }
             else
             {
 
                 if ( isset( $_POST["action"]) == false )
-                {
-
                     $this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid );
-                }
                 else
                 {
 
@@ -302,10 +292,7 @@
                         ];
 
                         if ( PostHelper::checkForRequirements( $requirements ) == false )
-                        {
-
                             $this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid );
-                        }
                         else
                         {
 
@@ -315,33 +302,18 @@
                                 $customdata = json_decode( $_POST['customdata'], true );
 
                                 if ( json_last_error() !==  JSON_ERROR_NONE )
-                                {
-
                                     $this->redirectError('Invalid data array',"admin/computer/edit/" . $computerid );
-                                }
                             }
                             else
-                            {
-
                                 $customdata = [];
-                            }
 
                             if ( isset( $_POST['editable'] ) )
-                            {
-
                                 $customdata['editable'] = true;
-                            }
                             else
-                            {
-
                                 $customdata['editable'] = false;
-                            }
 
                             if ( isset( $_POST['anondownloads'] ) )
-                            {
-
                                 $customdata['allowanondownloads'] = true;
-                            }
 
                             $softwareid = $this->softwares->createSoftware(
                                 $this->softwares->getNameFromClass(
@@ -359,10 +331,7 @@
                             $this->computers->addSoftware( $computerid, $software->softwareid, $software->type);
 
                             if ( isset( $_POST['schema'] ) )
-                            {
-
                                 $this->addToSchema( $computerid, $software );
-                            }
 
                             $this->redirectSuccess('admin/computer/edit/' . $computerid);
                         }
@@ -495,11 +464,19 @@
             }
         }
 
+        /**
+         *
+         */
+
         public function riddlesViewer()
         {
 
             Render::view('syscrack/page.admin.riddles', [], $this->model());
         }
+
+        /**
+         *
+         */
 
         public function riddlesViewerProcess()
         {
@@ -507,11 +484,19 @@
 
         }
 
+        /**
+         *
+         */
+
         public function riddlesCreator()
         {
 
             Render::view('syscrack/page.admin.riddles.creator', [], $this->model());
         }
+
+        /**
+         *
+         */
 
         public function riddlesCreatorProcess()
         {
@@ -541,11 +526,19 @@
             }
         }
 
+        /**
+         *
+         */
+
         public function reset()
         {
 
             Render::view('syscrack/page.admin.reset', [], $this->model());
         }
+
+        /**
+         *
+         */
 
         public function resetProcess()
         {
@@ -582,11 +575,19 @@
             }
         }
 
+        /**
+         *
+         */
+
         public function computerViewer()
         {
 
             Render::view('syscrack/page.admin.computer', [], $this->model());
         }
+
+        /**
+         *
+         */
 
         public function computerSearch()
         {

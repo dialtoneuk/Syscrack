@@ -37,6 +37,7 @@ class ThemesTest extends BaseTestCase
     public function testRequiresMVC()
     {
 
+        self::$themes->getThemes();
         $this->assertTrue( self::$themes->requiresMVC( self::$theme ));
     }
 
@@ -47,8 +48,6 @@ class ThemesTest extends BaseTestCase
 
         $this->assertNotEmpty( $folders );
         $this->assertNotEmpty( self::$themes->gather( $folders) );
-
-        Debug::echo( $folders );
     }
 
     public function testGetTheme()
@@ -76,14 +75,6 @@ class ThemesTest extends BaseTestCase
 
         $result = self::$themes->getThemes();
         $this->assertNotEmpty( $result );
-
-        Debug::echo( $result );
-    }
-
-    public function testModifyInfo()
-    {
-
-        //TODO
     }
 
     public function testThemeExists()
@@ -91,12 +82,6 @@ class ThemesTest extends BaseTestCase
 
         self::$themes->getThemes();
         $this->assertTrue( self::$themes->themeExists( self::$theme ) );
-    }
-
-    public function testSet()
-    {
-
-        //TODO
     }
 
     public function testGetFolders()

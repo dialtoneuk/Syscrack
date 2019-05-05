@@ -50,74 +50,82 @@
         public $computers;
 
         /**
+         * @var User
+         */
+
+        public $user;
+
+        /**
          * Page constructor.
          *
          * @param bool $autoload
          */
 
-        public function __construct($autoload = true, $session=false, $requirelogin=false, $clearerrors=true )
+        public function __construct($autoload = true, $session=false, $requirelogin=false, $clearerrors=true, $admin_only=false )
         {
-
-            if ( Settings::getSetting('render_mvc_output') )
-            {
-
-                $this->model = new \stdClass();
-            }
 
             if ($autoload == true)
             {
 
                 $this->softwares = new Softwares();
-
                 $this->internet = new Internet();
-
                 $this->computers = new Computers();
+                $this->user = new User();
             }
+
+            if ( Settings::getSetting('render_mvc_output') )
+                $this->model = new \stdClass();
 
             if( $session )
             {
 
                 if (session_status() !== PHP_SESSION_ACTIVE )
-                {
-
                     session_start();
-                }
 
                 Container::setObject('session', new Session());
-
-                if( $requirelogin )
-                {
-
-                    if (Container::getObject('session')->isLoggedIn() == false)
-                    {
-
-                        Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
-
-                        exit;
-                    }
-
-                    Container::getObject('session')->updateLastAction();
-                }
-
-                if( $clearerrors )
-                {
-
-                    if( isset( $_GET['error'] ) == true )
-                    {
-
-                        if( isset( $_SESSION['error_page'] ) == false )
-                        {
-
-                            //Container::getObject('session')->clearError();
-                        }
-                    }
-                    else
-                    {
-
-                        //Container::getObject('session')->clearError();
-                    }
-                }
             }
+
+            if( $requirelogin )
+                if ( $this->isLoggedIn()  == false)
+                    Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+                else
+                    Container::getObject('session')->updateLastAction();
+
+            if( $clearerrors )
+                if( $this->isLoggedIn() )
+                    if( ( microtime( true ) - Container::getObject('session')->getLastAction() ) <= ( 60 * 2 ) )
+                    {
+                        $_SESSION["error"] = null;
+                        $_SESSION["error_page"] = null;
+                    }
+
+            if( $admin_only )
+                if( $this->isAdmin() == false )
+                    Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+        }
+
+        /**
+         * @return bool
+         */
+
+        public function isLoggedIn()
+        {
+
+            return( Container::getObject('session')->isLoggedIn() );
+        }
+
+        /**
+         * @return bool
+         */
+
+        public function isAdmin()
+        {
+
+            if( Container::getObject('session')->isLoggedIn() )
+                if( $this->user->isAdmin( Container::getObject('session')->getSessionUser() ) )
+                    return true;
+
+            return false;
         }
 
         /**

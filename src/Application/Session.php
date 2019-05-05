@@ -114,7 +114,7 @@ class Session
     /**
      * Gets the session user
      *
-     * @return string
+     * @return int
      */
 
     public function getSessionUser()
