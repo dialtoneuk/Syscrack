@@ -47,7 +47,7 @@ $allcomputers = $computer_controller->getUserComputers( $session->getSessionUser
                     if (isset($_GET['error']))
                         Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
                     elseif (isset($_GET['success']))
-                        Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                        Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success') );
                     ?>
                 </div>
             </div>
@@ -68,7 +68,7 @@ $allcomputers = $computer_controller->getUserComputers( $session->getSessionUser
                                         ?>
                                         <form method="post" action="/game/computer/">
                                             <p>
-                                                You may purchase a band new computer for <?= number_format( count( $allcomputers ) * ( Settings::getSetting('syscrack_vpc_purchase_price') * Settings::getSetting('syscrack_vpc_purchase_increase' ) ) ) ?>
+                                                You may purchase a band new computer for <?= number_format( count( $allcomputers ) * ( $settings['syscrack_vpc_purchase_price'] * $settings['syscrack_vpc_purchase_increase'] ) ) ?>
                                             </p>
                                             <select name="accountnumber" id="accountnumber" class="combobox input-sm form-control">
                                                 <option></option>
@@ -81,7 +81,7 @@ $allcomputers = $computer_controller->getUserComputers( $session->getSessionUser
                                                         ?>
                                                         <option value="<?= $account->accountnumber ?>">
                                                             #<?= $account->accountnumber ?>
-                                                            (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
+                                                            (<?= $settings['syscrack_currency'] . number_format($account->cash) ?>
                                                             )
                                                             @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                                         <?php
@@ -201,7 +201,7 @@ $allcomputers = $computer_controller->getUserComputers( $session->getSessionUser
                                                 </h5>
                                             </div>
                                             <div class="col-sm-8">
-                                                <form method="post" action="/game/computers/switch/<?=$value->computerid?>">
+                                                <form method="post" action="/game/computer/switch/<?=$value->computerid?>">
                                                     <button style="width: 100%;" class="btn btn-default"
                                                             name="action" value="licensesoftware" type="submit">
                                                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Switch

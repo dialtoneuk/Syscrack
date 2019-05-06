@@ -20,7 +20,7 @@ use Framework\Application\Render;
                 if( isset( $_GET['error'] ) )
                     Render::view('developer/templates/template.alert', array( 'message' => $_GET['error'] ) );
                 elseif( isset( $_GET['success'] ) )
-                    Render::view('developer/templates/template.alert', array( 'message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success' ) );
+                    Render::view('developer/templates/template.alert', array( 'message' => $settings['alert_success_message'], 'alert_type' => 'alert-success' ) );
             ?>
             <div class="row">
                 <div class="col-md-6">
@@ -33,7 +33,7 @@ use Framework\Application\Render;
                     </p>
 
                     <p>
-                        If found, by default the framework will read the file <strong><?=Settings::getSetting('database_schema_file')?></strong> and
+                        If found, by default the framework will read the file <strong><?=$settings['database_schema_file']?></strong> and
                         output it into field to your right. So all you need to do is press 'migrate database' to populate your database ready
                         for your current configuration.
                     </p>
@@ -65,11 +65,11 @@ use Framework\Application\Render;
                             <div class="panel-body">
                                 <?php
 
-                                    if( FileSystem::fileExists( Settings::getSetting('database_schema_file') ) )
+                                    if( FileSystem::fileExists( $settings['database_schema_file'] ) )
                                     {
 
                                         ?>
-<textarea style='resize: none; width: 100%; height: 42.5%;' name="json"><?=json_encode( FileSystem::readJson( Settings::getSetting('database_schema_file') ), JSON_PRETTY_PRINT )?></textarea>
+<textarea style='resize: none; width: 100%; height: 42.5%;' name="json"><?=json_encode( FileSystem::readJson( $settings['database_schema_file'] ), JSON_PRETTY_PRINT )?></textarea>
                                         <?php
                                     }
                                     else

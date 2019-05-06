@@ -17,7 +17,11 @@ use Framework\Syscrack\Game\Structures\Operation as Structure;
 class Bank extends BaseClass implements Structure
 {
 
-    protected $finance;
+    /**
+     * @var Finance
+     */
+
+    protected static $finance;
 
     /**
      * View constructor.
@@ -26,13 +30,10 @@ class Bank extends BaseClass implements Structure
     public function __construct()
     {
 
+        if( isset( self::$finance ) == false )
+            self::$finance = new Finance();
+
         parent::__construct( true );
-
-        if( isset( $this->finance ) == false )
-        {
-
-            $this->finance = new Finance();
-        }
     }
 
     /**
@@ -81,9 +82,9 @@ class Bank extends BaseClass implements Structure
             return false;
         }
 
-        $computer = $this->internet->getComputer( $data['ipaddress'] );
+        $computer = self::$internet->getComputer( $data['ipaddress'] );
 
-        if( $this->computers->isBank( $computer->computerid ) == false )
+        if( self::$computers->isBank( $computer->computerid ) == false )
         {
 
             return false;
@@ -117,7 +118,7 @@ class Bank extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
         {
 
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
@@ -161,41 +162,40 @@ class Bank extends BaseClass implements Structure
     }
 
     /**
-     * Calls when the operation receives a post request
-     *
      * @param $data
-     *
+     * @param $ipaddress
+     * @param $userid
      * @return bool
      */
 
     public function onPost( $data, $ipaddress, $userid )
     {
 
-        $computer = $this->internet->getComputer( $ipaddress );
+        $computer = self::$internet->getComputer( $ipaddress );
 
         if( $data['action'] == 'create' )
         {
 
-            if( $this->finance->hasAccountAtComputer( $computer->computerid, $userid ) == true )
+            if( self::$finance->hasAccountAtComputer( $computer->computerid, $userid ) == true )
             {
 
                 $this->redirectError('You already have an account at this bank', $this->getRedirect( $ipaddress ) . '/bank' );
             }
 
-            $this->finance->createAccount( $computer->computerid, $userid );
+            self::$finance->createAccount( $computer->computerid, $userid );
 
             $this->redirectSuccess( $this->getRedirect( $ipaddress ) . '/bank' );
         }
         elseif( $data['action'] == "delete" )
         {
 
-            if( $this->finance->hasAccountAtComputer( $computer->computerid, $userid ) == false )
+            if( self::$finance->hasAccountAtComputer( $computer->computerid, $userid ) == false )
             {
 
                 $this->redirectError('You do not have a bank account at this bank', $this->getRedirect( $ipaddress ) . '/bank' );
             }
 
-            $this->finance->removeAccount( $computer->computerid, $userid );
+            self::$finance->removeAccount( $computer->computerid, $userid );
 
             $this->redirectSuccess( $this->getRedirect( $ipaddress ) . '/bank' );
         }

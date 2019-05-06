@@ -9,7 +9,7 @@
 
     <?php
 
-        if( Settings::getSetting('theme_dark') )
+        if( $settings['theme_dark') )
         {
 
             Render::view('developer/templates/template.header', array( 'pagetitle' => 'Developer / Connection',
@@ -41,7 +41,7 @@
                         if( isset( $_GET['error'] ) )
                             Render::view('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
                         elseif( isset( $_GET['success'] ) )
-                            Render::view('syscrack/templates/template.alert', array( 'message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success' ) );
+                            Render::view('syscrack/templates/template.alert', array( 'message' => $settings['alert_success_message'), 'alert_type' => 'alert-success' ) );
                     ?>
                 </div>
             </div>
@@ -111,10 +111,10 @@
                                         <pre style="width 100%; margin: 0; padding: 0;">
                                                 <code class="json hljs">
 <?php
-    if( Settings::getSetting('database_show_decrypted') == false )
+    if( $settings['database_show_decrypted') == false )
     {
 
-        echo ( FileSystem::read( Settings::getSetting('database_connection_file') ) );
+        echo ( FileSystem::read( $settings['database_connection_file') ) );
     }
     else
     {
@@ -143,10 +143,10 @@
                                         <pre style="width 100%; margin: 0; padding: 0;">
                                                 <code class="json hljs">
 <?php
-    if( Settings::getSetting('database_show_decrypted') == false )
+    if( $settings['database_show_decrypted') == false )
     {
 
-        echo ( FileSystem::read( Settings::getSetting('database_connection_file') ) );
+        echo ( FileSystem::read( $settings['database_connection_file') ) );
     }
     else
     {

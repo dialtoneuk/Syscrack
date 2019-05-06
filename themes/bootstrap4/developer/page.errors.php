@@ -26,7 +26,7 @@
                         if( isset( $_GET['error'] ) )
                             Render::view('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
                         elseif( isset( $_GET['success'] ) )
-                            Render::view('syscrack/templates/template.alert', array( 'message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success' ) );
+                            Render::view('syscrack/templates/template.alert', array( 'message' => $settings['alert_success_message'), 'alert_type' => 'alert-success' ) );
                     ?>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                 </div>
 
                 <?php
-                    if( \Framework\Application\Settings::getSetting('error_logging') == false )
+                    if( \Framework\Application\$settings['error_logging') == false )
                     {
                         ?>
 
@@ -111,11 +111,11 @@
 
                                             $value = $error_log[ $key - 1 ];
 
-                                            if( $count > Settings::getSetting('logger_max_errors') )
+                                            if( $count > $settings['logger_max_errors') )
                                                 continue;
                                             ?>
 
-                                            <div style='cursor: hand' class="panel panel-default" onclick="window.location.href='/<?=Settings::getSetting('developer_page') . '/errors/' . ( $key - 1 )?>'">
+                                            <div style='cursor: hand' class="panel panel-default" onclick="window.location.href='/<?=$settings['developer_page') . '/errors/' . ( $key - 1 )?>'">
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title"><span class="badge"><?=array_search($value,$error_log, true)?></span> <?=$value['message']?></h3>
                                                 </div>
@@ -129,13 +129,13 @@
                                             <?php
                                         }
 
-                                        if( count( $error_log ) > Settings::getSetting('logger_max_errors') )
+                                        if( count( $error_log ) > $settings['logger_max_errors') )
                                         {
 
                                             ?>
                                             <p class="text-center">
                                                 Some errors were removed from this list due to your max errors setting, currently
-                                                it will only display <?=Settings::getSetting('logger_max_errors')?> entrys.
+                                                it will only display <?=$settings['logger_max_errors')?> entrys.
                                             </p>
                                             <?php
                                         }

@@ -7,7 +7,7 @@ use Framework\Application\Render;
     if( isset( $id ) == false )
     {
 
-        Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('developer_page') );
+        Flight::redirect( $settings['controller_index_root') . $settings['developer_page') );
     }
 
     $error = Container::getObject('application')->getErrorHandler()->getErrorLog()[ $id ];

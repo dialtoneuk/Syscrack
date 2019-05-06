@@ -189,7 +189,7 @@
                         else
                         {
 
-                            $computerid = self::$computer->createComputer( self::$session->getSessionUser(), Settings::getSetting('syscrack_startup_default_computer'), self::$internet->getIP() );
+                            $computerid = self::$computer->createComputer( self::$session->getSessionUser(), Settings::getSetting('syscrack_startup_default_computer'), self::$internet->getIP(), [], Settings::getSetting('syscrack_default_hardware') );
 
                             if( empty( $computerid ) )
                                 throw new SyscrackException();

@@ -42,7 +42,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'), 'alert_type' => 'alert-success'));
             ?>
         </div>
     </div>
@@ -108,7 +108,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                                         ?>
                                         <option value="<?= $account->accountnumber ?>">#<?= $account->accountnumber ?>
-                                            (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
+                                            (<?= $settings['syscrack_currency') . number_format($account->cash) ?>
                                             ) @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                         <?php
                                     }

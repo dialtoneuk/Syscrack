@@ -24,7 +24,7 @@
          * @var Finance
          */
 
-        protected $finance;
+        protected static $finance;
 
         /**
          * ResetAddress constructor.
@@ -33,13 +33,10 @@
         public function __construct()
         {
 
+            if( isset( self::$finance ) == false )
+                self::$finance = new Finance();
+
             parent::__construct(true);
-
-            if( isset( $this->finance ) == false )
-            {
-
-                $this->finance = new Finance();
-            }
         }
 
         /**
@@ -82,21 +79,21 @@
                 return false;
             }
 
-            if( $this->internet->getComputer( $data['ipaddress'] )->type != Settings::getSetting('syscrack_computers_isp_type') )
+            if( self::$internet->getComputer( $data['ipaddress'] )->type != Settings::getSetting('syscrack_computers_isp_type') )
             {
 
                 return false;
             }
 
-            if( $this->finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
+            if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
             {
 
                 $this->redirectError('Account does not exist', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $account = $this->finance->getByAccountNumber( $data['custom']['accountnumber'] );
+            $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
-            if( $this->finance->canAfford( $account->computerid, $account->userid, Settings::getSetting('syscrack_operations_resetaddress_price') ) == false )
+            if( self::$finance->canAfford( $account->computerid, $account->userid, Settings::getSetting('syscrack_operations_resetaddress_price') ) == false )
             {
 
                 $this->redirectError('You cannot afford this transaction');
@@ -129,26 +126,26 @@
                 throw new SyscrackException();
             }
 
-            if( $this->finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
+            if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
             {
 
                 $this->redirectError('Account does not exist, maybe it has been deleted?', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $account = $this->finance->getByAccountNumber( $data['custom']['accountnumber'] );
+            $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
-            if( $this->finance->canAfford( $account->computerid, $account->userid, Settings::getSetting('syscrack_operations_resetaddress_price') ) == false )
+            if( self::$finance->canAfford( $account->computerid, $account->userid, Settings::getSetting('syscrack_operations_resetaddress_price') ) == false )
             {
 
                 $this->redirectError('You cannot afford this transaction');
             }
 
-            $this->finance->withdraw( $account->computerid, $account->userid, Settings::getSetting('syscrack_operations_resetaddress_price') );
+            self::$finance->withdraw( $account->computerid, $account->userid, Settings::getSetting('syscrack_operations_resetaddress_price') );
 
-            $this->internet->changeAddress( $computerid );
+            self::$internet->changeAddress( $computerid );
 
-            $this->log->updateLog('Changed ip address for ' . Settings::getSetting('syscrack_currency') . number_format( Settings::getSetting('syscrack_operations_resetaddress_price') ). ' using account ' . $account->accountnumber,
-                    $this->computers->getCurrentUserComputer(),
+            self::$log->updateLog('Changed ip address for ' . Settings::getSetting('syscrack_currency') . number_format( Settings::getSetting('syscrack_operations_resetaddress_price') ). ' using account ' . $account->accountnumber,
+                    self::$computers->getCurrentUserComputer(),
                     'localhost');
 
             $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );

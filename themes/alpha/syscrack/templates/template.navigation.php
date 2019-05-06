@@ -29,7 +29,7 @@ if ( empty( $_SESSION['current_computer'] ) )
     }
 }
 ?>
-<nav class="navbar navbar-default" style="margin-top: 15px;">
+<nav class="navbar navbar-default" style="margin-top: 12px;">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -179,7 +179,7 @@ if ( empty( $_SESSION['current_computer'] ) )
                                     <?php
                                 }
 
-                                if ($computer_controller->hasType($computer_controller->getCurrentUserComputer(), Settings::getSetting('syscrack_software_research_type'), true)) {
+                                if ($computer_controller->hasType($computer_controller->getCurrentUserComputer(), $settings['syscrack_software_research_type'], true)) {
 
                                     ?>
                                     <li role="separator" class="divider"></li>

@@ -23,7 +23,7 @@
     <!-- Stylesheets -->
 
     <?php
-        if( Settings::getSetting('theme_dark') == true )
+        if( $settings['theme_dark'] == true )
         {
 
             ?>
@@ -83,7 +83,7 @@
             white-space: pre-line;
             <?php
 
-                if( Settings::getSetting('theme_dark') )
+                if( $settings['theme_dark'] )
                 {
 
                     ?>
@@ -97,7 +97,7 @@
 
         <?php
 
-            if( Settings::getSetting('theme_dark') )
+            if( $settings['theme_dark'] )
             {
 
                 ?>
@@ -125,6 +125,28 @@
                     {
                         background: #151515;
                     }
+                <?php
+            }
+
+
+        ?>
+
+        <?php
+            if (  $settings['theme_fullscreen'] == true )
+            {
+                ?>
+
+                .container
+                {
+                    width: 100%;
+                    overflow-x: hidden;
+                }
+
+                body, html{
+                    padding: 0.05%;
+                    margin: 0;
+                    overflow-x: hidden;
+                }
                 <?php
             }
         ?>

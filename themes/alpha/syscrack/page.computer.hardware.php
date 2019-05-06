@@ -41,7 +41,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success') );
             ?>
         </div>
     </div>
@@ -68,7 +68,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                     foreach ($hardwares as $type => $hardware) {
 
-                        $icons = Settings::getSetting('syscrack_hardware_icons');
+                        $icons = $settings['syscrack_hardware_icons'];
 
                         ?>
                         <div class="panel panel-info">
@@ -106,7 +106,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                 echo (string)$hardware['value'];
                                             }
 
-                                            $extensions = Settings::getSetting('syscrack_hardware_extensions');
+                                            $extensions = $settings['syscrack_hardware_extensions'];
 
                                             if (isset($extensions[$type])) {
 

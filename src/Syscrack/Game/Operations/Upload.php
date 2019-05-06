@@ -46,13 +46,13 @@
                 return false;
             }
 
-            if( $this->software->softwareExists( $data['custom']['softwareid'] ) == false )
+            if( self::$software->softwareExists( $data['custom']['softwareid'] ) == false )
             {
 
                 return false;
             }
 
-            $software = $this->software->getSoftware( $data['custom']['softwareid'] );
+            $software = self::$software->getSoftware( $data['custom']['softwareid'] );
 
             if( $this->hasSpace( $this->getComputerId( $data['ipaddress'] ), $software->size ) == false )
             {
@@ -62,13 +62,13 @@
                 return false;
             }
 
-            if( $this->computers->hasSoftware( $computerid, $software->softwareid ) == false )
+            if( self::$computers->hasSoftware( $computerid, $software->softwareid ) == false )
             {
 
                 return false;
             }
 
-            if( $this->computers->isInstalled( $computerid, $software->softwareid ) == true )
+            if( self::$computers->isInstalled( $computerid, $software->softwareid ) == true )
             {
 
                 $this->redirectError('Sorry, you cannot upload an installed file', $this->getRedirect( $data['ipaddress'] ) );
@@ -88,7 +88,7 @@
                 throw new SyscrackException();
             }
 
-            if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+            if( self::$internet->ipExists( $data['ipaddress'] ) == false )
             {
 
                 $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
@@ -100,48 +100,48 @@
                 throw new SyscrackException();
             }
 
-            if( $this->software->softwareExists( $data['custom']['softwareid'] ) == false )
+            if( self::$software->softwareExists( $data['custom']['softwareid'] ) == false )
             {
 
                 $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $software = $this->software->getSoftware( $data['custom']['softwareid'] );
+            $software = self::$software->getSoftware( $data['custom']['softwareid'] );
 
-            if( $this->software->hasData( $software->softwareid ) == true && $this->software->keepData( $software->softwareid ) )
+            if( self::$software->hasData( $software->softwareid ) == true && self::$software->keepData( $software->softwareid ) )
             {
 
-                $softwaredata = $this->software->getSoftwareData( $software->softwareid );
+                $softwaredata = self::$software->getSoftwareData( $software->softwareid );
 
-                if( $this->software->checkSoftwareData( $software->softwareid, ['allowanondownloads'] ) == true )
+                if( self::$software->checkSoftwareData( $software->softwareid, ['allowanondownloads'] ) == true )
                 {
 
                     unset( $softwaredata['allowanondownloads'] );
                 }
 
-                if( $this->software->checkSoftwareData( $software->softwareid, ['editable'] ) == true )
+                if( self::$software->checkSoftwareData( $software->softwareid, ['editable'] ) == true )
                 {
 
                     unset( $softwaredata['editable'] );
                 }
 
-                $new_softwareid = $this->software->copySoftware( $software->softwareid, $this->getComputerId( $data['ipaddress'] ), $userid, false, $softwaredata );
+                $new_softwareid = self::$software->copySoftware( $software->softwareid, $this->getComputerId( $data['ipaddress'] ), $userid, false, $softwaredata );
             }
             else
             {
 
-                $new_softwareid = $this->software->copySoftware( $software->softwareid, $this->getComputerId( $data['ipaddress'] ), $userid );
+                $new_softwareid = self::$software->copySoftware( $software->softwareid, $this->getComputerId( $data['ipaddress'] ), $userid );
             }
 
-            $this->computers->addSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid, $software->type );
+            self::$computers->addSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid, $software->type );
 
-            if( $this->computers->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid ) == false )
+            if( self::$computers->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid ) == false )
             {
 
                 throw new SyscrackException();
             }
 
-            $this->logUpload( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computers->getComputer( $computerid )->ipaddress );
+            $this->logUpload( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), self::$computers->getComputer( $computerid )->ipaddress );
 
             $this->logLocal( $software->softwarename, $data['ipaddress'] );
 
@@ -189,10 +189,8 @@
         }
 
         /**
-         * Logs a login action to the computers log
-         *
+         * @param $softwarename
          * @param $computerid
-         *
          * @param $ipaddress
          */
 
@@ -213,6 +211,6 @@
         private function logLocal( $softwarename, $ipaddress )
         {
 
-            $this->logToComputer('Uploaded file (' . $softwarename . ') on <' . $ipaddress . '>', $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->computerid, 'localhost' );
+            $this->logToComputer('Uploaded file (' . $softwarename . ') on <' . $ipaddress . '>', self::$computers->getComputer( self::$computers->getCurrentUserComputer() )->computerid, 'localhost' );
         }
     }

@@ -43,7 +43,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success'));
             ?>
         </div>
     </div>
@@ -272,7 +272,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                         Join our discord and chat to other players and show off your ego.
                     </p>
                     <button style="width: 100%;" class="btn btn-info"
-                            onclick="window.location.href = '<?= Settings::getSetting('syscrack_discord_main') ?>'">
+                            onclick="window.location.href = '<?= $settings['syscrack_discord_main'] ?>'">
                         Join Discord
                     </button>
                 </div>
@@ -288,7 +288,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                         Join the modders discord and get help with modding the game.
                     </p>
                     <button style="width: 100%;" class="btn btn-info"
-                            onclick="window.location.href = '<?= Settings::getSetting('syscrack_discord_modders') ?>'">
+                            onclick="window.location.href = '<?= $settings['syscrack_discord_modders'] ?>'">
                         Join Discord
                     </button>
                 </div>
@@ -304,7 +304,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                         Like us on facebook and message us with your suggestions.
                     </p>
                     <button style="width: 100%;" class="btn btn-info"
-                            onclick="window.location.href = '<?= Settings::getSetting('syscrack_facebook_page') ?>'">
+                            onclick="window.location.href = '<?= $settings['syscrack_facebook_page'] ?>'">
                         Facebook
                     </button>
                 </div>

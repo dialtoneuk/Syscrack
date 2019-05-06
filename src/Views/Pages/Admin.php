@@ -21,6 +21,8 @@
     use Framework\Syscrack\Game\Structures\Computer;
     use Framework\Syscrack\Game\Types;
     use Framework\Syscrack\Game\Themes;
+    use Framework\Application\Utilities\FileSystem;
+    use Framework\Application\Settings;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -31,13 +33,13 @@
          * @var Finance
          */
 
-        protected $finance;
+        protected static $finance;
 
         /**
          * @var Themes
          */
 
-        protected $themes;
+        protected static $themes;
 
         /**
          * @var Metadata
@@ -64,11 +66,11 @@
         public function __construct()
         {
 
-            if (isset( $this->finance) == false)
-                $this->finance = new Finance();
+            if (isset( self::$finance) == false)
+                self::$finance = new Finance();
 
-            if( isset( $this->themes ) == false )
-                $this->themes = new Themes( true );
+            if( isset( self::$themes ) == false )
+                self::$themes = new Themes( true );
 
             if( isset( self::$metadata ) == false )
                 self::$metadata = new Metadata();
@@ -148,6 +150,12 @@
                 ],
                 [
                     'POST /admin/themes/', 'themesProcess'
+                ],
+                [
+                    'GET /admin/settings/', 'settings'
+                ],
+                [
+                    'POST /admin/settings/', 'settingsProcess'
                 ]
             );
         }
@@ -242,7 +250,7 @@
         public function themes()
         {
 
-            Render::view('syscrack/page.admin.themes', array("themes" => $this->themes->getThemes( false ) ), $this->model() );
+            Render::view('syscrack/page.admin.themes', array("themes" => self::$themes->getThemes( false ) ), $this->model() );
         }
 
         /**
@@ -259,10 +267,10 @@
 
                 $theme = PostHelper::getPostData('theme', true );
 
-                if( $this->themes->themeExists( $theme ) == false )
+                if( self::$themes->themeExists( $theme ) == false )
                     $this->redirectError("This theme does not exist");
                 else
-                    $this->themes->set( $theme );
+                    self::$themes->set( $theme );
             }
         }
 
@@ -319,13 +327,11 @@
                         else
                         {
 
-                            if ( isset( $_POST['customdata'] ) && empty( $_POST['customdata'] ) == false )
+                            if ( isset( $_POST['text'] ) && empty( $_POST['text'] ) == false )
                             {
 
-                                $customdata = json_decode( $_POST['customdata'], true );
-
-                                if ( json_last_error() !==  JSON_ERROR_NONE )
-                                    $this->redirectError('Invalid data array',"admin/computer/edit/" . $computerid );
+                                $customdata = [];
+                                $customdata["text"] = PostHelper::getPostData('text', true );
                             }
                             else
                                 $customdata = [];
@@ -758,6 +764,54 @@
             }
         }
 
+        public function settings()
+        {
+
+            Render::view("syscrack/page.admin.settings", array( "admin_settings" => $this->getSettings() ), $this->model() );
+        }
+
+        public function settingsProcess()
+        {
+
+            if( PostHelper::checkForRequirements(["setting"] ) == false )
+                $this->redirectError("Missing information", 'admin/settings/');
+            else
+            {
+
+                $value = @PostHelper::getPostData('value', true );
+
+                if( $value == false )
+                    return;
+
+                if( $this->isValidJson( $value ))
+                    $value = json_decode( $value, true );
+
+                Settings::updateSetting( PostHelper::getPostData('setting', true ), $value );
+            }
+
+            $this->redirectSuccess('admin/settings/');
+        }
+
+        /**
+         * @return array
+         */
+
+        private function getSettings() : array
+        {
+
+            if( FileSystem::fileExists( Settings::getSetting("admin_settings_filepath") ) == false )
+                return [];
+
+            $settings = FileSystem::readJson( Settings::getSetting("admin_settings_filepath") );
+            $results = [];
+
+            foreach( $settings as $setting )
+                if( Settings::hasSetting( $setting ) )
+                    $results[ $setting ] = Settings::getSetting( $setting );
+
+            return( $results );
+        }
+
         /**
          * Resets all the computer using the schema file if it is found
          */
@@ -771,10 +825,7 @@
             {
 
                 if( parent::$computer->hasComputerClass( $computers->type ) == false )
-                {
-
                     continue;
-                }
 
                 /**
                  * @var $class Computer
@@ -783,10 +834,8 @@
                 $class = parent::$computer->getComputerClass( $computers->type );
 
                 if( $class instanceof Computer == false )
-                {
-
                     throw new SyscrackException();
-                }
+
 
                 $class->onReset( $computers->computerid );
             }
@@ -799,10 +848,10 @@
         private function cleanAccounts()
         {
 
-            $accounts = $this->finance->getAllAccounts($this->finance->getAccountCount());
+            $accounts = self::$finance->getAllAccounts(self::$finance->getAccountCount());
 
             foreach ($accounts as $account)
-                $this->finance->removeAccount($account->computerid, $account->userid);
+                self::$finance->removeAccount($account->computerid, $account->userid);
         }
 
         /**

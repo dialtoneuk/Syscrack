@@ -1,27 +1,6 @@
 <?php
 
-use Framework\Application\Container;
 use Framework\Application\Render;
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\Utilities\PageHelper;
-use Framework\Syscrack\User;
-
-$session = Container::getObject('session');
-
-if ($session->isLoggedIn()) {
-
-    $session->updateLastAction();
-}
-
-if (isset($user) == false) {
-
-    $user = new User();
-}
-
-if (isset($pagehelper) == false) {
-
-    $pagehelper = new PageHelper();
-}
 ?>
 <html>
 
@@ -43,7 +22,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success') );
             ?>
         </div>
     </div>

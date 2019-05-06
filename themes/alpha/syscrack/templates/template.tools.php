@@ -102,7 +102,7 @@ $current_computer = $internet->getComputer($ipaddress);
                 </div>
             </div>
             <?php
-            if ($current_computer->type == Settings::getSetting('syscrack_computers_bank_type')) {
+            if ($current_computer->type == $settings['syscrack_computers_bank_type']) {
 
                 if (empty($finance)) {
 
@@ -250,7 +250,7 @@ $current_computer = $internet->getComputer($ipaddress);
         }
     }
 
-    if ($current_computer->type == Settings::getSetting('syscrack_computers_isp_type')) {
+    if ($current_computer->type == $settings['syscrack_computers_isp_type']) {
 
         ?>
         <p>
@@ -287,7 +287,7 @@ $current_computer = $internet->getComputer($ipaddress);
 
                                     ?>
                                     <option value="<?= $account->accountnumber ?>">#<?= $account->accountnumber ?>
-                                        (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
+                                        (<?= $settings['syscrack_currency'] . number_format($account->cash) ?>
                                         ) @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                     <?php
                                 }
@@ -296,7 +296,7 @@ $current_computer = $internet->getComputer($ipaddress);
                         </select>
                         <button style="width: 100%; margin-top: 2.5%;" class="btn btn-info" type="submit">
                             <span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Reset Address
-                            (<?= Settings::getSetting('syscrack_currency') . number_format(Settings::getSetting('syscrack_operations_resetaddress_price')) ?>
+                            (<?= $settings['syscrack_currency'] . number_format($settings['syscrack_operations_resetaddress_price']) ?>
                             )
                         </button>
                         <?php
@@ -308,7 +308,7 @@ $current_computer = $internet->getComputer($ipaddress);
         <?php
     }
 
-    if ($current_computer->type == Settings::getSetting('syscrack_computers_bank_type')) {
+    if ($current_computer->type == $settings['syscrack_computers_bank_type']) {
 
         ?>
         <p>
@@ -326,7 +326,7 @@ $current_computer = $internet->getComputer($ipaddress);
         <?php
     }
 
-    if ($current_computer->type == Settings::getSetting('syscrack_computers_market_type')) {
+    if ($current_computer->type == $settings['syscrack_computers_market_type']) {
 
         ?>
         <p>

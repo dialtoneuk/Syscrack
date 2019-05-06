@@ -23,12 +23,12 @@
                         if( isset( $_GET['error'] ) )
                             Render::view('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
                         elseif( isset( $_GET['success'] ) )
-                            Render::view('syscrack/templates/template.alert', array( 'message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success' ) );
+                            Render::view('syscrack/templates/template.alert', array( 'message' => $settings['alert_success_message'], 'alert_type' => 'alert-success' ) );
                     ?>
                 </div>
             </div>
             <?php
-                if( Settings::getSetting('database_encrypt_connection') == false )
+                if( $settings['database_encrypt_connection'] == false )
                 {
 
                     ?>

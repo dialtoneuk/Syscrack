@@ -74,7 +74,7 @@ class Computer
      *
      * @param $name
      *
-     * @return Computer
+     * @return \Framework\Syscrack\Game\Structures\Computer
      */
 
     public function getComputerClass( $name )

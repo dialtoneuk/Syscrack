@@ -42,6 +42,10 @@
             <h4 class="list-group-item-heading">Themes</h4>
             <p class="list-group-item-text">Change the look and feel of Syscrack.</p>
         </a>
+        <a href="/admin/settings/" class="list-group-item list-group-item">
+            <h4 class="list-group-item-heading">Settings</h4>
+            <p class="list-group-item-text">Edit the settings.</p>
+        </a>
     </div>
     <div class="list-group">
         <a href="/admin/reset/" class="list-group-item list-group-item-danger">

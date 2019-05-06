@@ -79,7 +79,7 @@
     "syscrack_addressdatabase_location": "data\/addressdatabase\/",
     "syscrack_admin_computer_count": 100,
     "syscrack_bank_accountnumber_length": 16,
-    "syscrack_bank_default_balance": 25,
+    "syscrack_bank_default_balance": "30",
     "syscrack_accountdatabase_location": "data\/accountdatabase\/",
     "syscrack_betakey_location": "config\/betakeys.json",
     "syscrack_bitcoin_buyprice": 550,
@@ -198,7 +198,7 @@
     "syscrack_log_location": "data\/logs\/",
     "syscrack_lowest_iprange": 192,
     "syscrack_market_location": "data\/market\/",
-    "syscrack_master_user": 1,
+    "syscrack_master_user": "11",
     "syscrack_schema_filepath": "data\/schemas\/",
     "syscrack_schema_page_location": "syscrack\/browser\/",
     "syscrack_operations_safeunset": true,
@@ -260,13 +260,13 @@
         8,
         9,
         10,
-        81,
+        84,
         116,
         118,
         133
     ],
     "theme_dark": true,
-    "theme_fullscreen": true,
+    "theme_fullscreen": "1",
     "render_mvc_output": "",
     "render_json_mode": false,
     "render_log": true,
@@ -281,5 +281,6 @@
     "metadata_filepath": "data\\\/metadata",
     "computer_types_filepath": "data\\\/metadata\\\/types.json",
     "browser_pages_filepath": "data\\\/metadata\\\/browserpages.json",
-    "browser_pages_root": "resources\\\/browser\\\/"
+    "browser_pages_root": "resources\\\/browser\\\/",
+    "admin_settings_filepath": "data\\\/metadata\\\/settings.json"
 }

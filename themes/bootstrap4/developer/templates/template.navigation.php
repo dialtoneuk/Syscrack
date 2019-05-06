@@ -11,7 +11,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/developer/">Framework <?=Settings::getSetting('framework_version')?></a>
+            <a class="navbar-brand" href="/developer/">Framework <?=$settings['framework_version')?></a>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar">

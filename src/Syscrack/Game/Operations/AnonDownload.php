@@ -48,7 +48,7 @@
         /**
          * Called when the operation is created
          *
-         * @param $timecompleted
+         * @param self::$financeimecompleted
          *
          * @param $computerid
          *
@@ -70,19 +70,19 @@
                 return false;
             }
 
-            if( $this->computers->getComputerType( $this->getComputerId( $data['ipaddress'] ) ) !== Settings::getSetting('syscrack_computers_download_type') )
+            if( self::$computers->getComputerType( $this->getComputerId( $data['ipaddress'] ) ) !== Settings::getSetting('syscrack_computers_download_type') )
             {
 
                 $this->redirectError('This action can only be used on a download server', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->hasSpace( $this->computers->getCurrentUserComputer(), $this->software->getSoftware( $data['softwareid'] )->size ) == false )
+            if( $this->hasSpace( self::$computers->getCurrentUserComputer(), self::$software->getSoftware( $data['softwareid'] )->size ) == false )
             {
 
                 $this->redirectError('Sorry, you dont have the free space for this download.', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->software->isAnonDownloadSoftware( $data['softwareid'] ) == false )
+            if( self::$software->isAnonDownloadSoftware( $data['softwareid'] ) == false )
             {
 
                 return false;
@@ -116,19 +116,19 @@
                 throw new SyscrackException();
             }
 
-            if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+            if( self::$internet->ipExists( $data['ipaddress'] ) == false )
             {
 
                 $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
             }
 
-            if( $this->software->softwareExists( $data['softwareid'] ) == false )
+            if( self::$software->softwareExists( $data['softwareid'] ) == false )
             {
 
                 $this->redirectError('Sorry, it looks like this software might have been deleted');;
             }
 
-            $softwareid = $this->software->copySoftware( $data['softwareid'], $this->computers->getCurrentUserComputer(), $userid );
+            $softwareid = self::$software->copySoftware( $data['softwareid'], self::$computers->getCurrentUserComputer(), $userid );
 
             if( empty( $softwareid ) )
             {
@@ -136,7 +136,7 @@
                 throw new SyscrackException();
             }
 
-            $software = $this->software->getSoftware( $softwareid );
+            $software = self::$software->getSoftware( $softwareid );
 
             if( $software == null )
             {
@@ -144,7 +144,7 @@
                 throw new SyscrackException();
             }
 
-            $this->computers->addSoftware( $this->computers->getCurrentUserComputer(), $software->softwareid, $software->type, $software->softwarename );
+            self::$computers->addSoftware( self::$computers->getCurrentUserComputer(), $software->softwareid, $software->type );
 
             if( isset( $data['redirect'] ) )
             {
@@ -173,13 +173,13 @@
         public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
         {
 
-            if( $this->software->softwareExists( $softwareid ) == false )
+            if( self::$software->softwareExists( $softwareid ) == false )
             {
 
                 throw new SyscrackException();
             }
 
-            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_download_type'), $this->software->getSoftware( $softwareid )->size / 5, $softwareid );
+            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_download_type'), self::$software->getSoftware( $softwareid )->size / 5, $softwareid );
         }
 
         /**

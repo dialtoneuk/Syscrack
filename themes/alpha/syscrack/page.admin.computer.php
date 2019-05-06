@@ -59,7 +59,7 @@ if ( isset( $_GET['page'] ) )
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success') );
             ?>
         </div>
     </div>
@@ -91,7 +91,7 @@ if ( isset( $_GET['page'] ) )
                                     <li><a href="?">0</a></li>
                                     <?php
 
-                                        $pages = round( count( $computer ) / Settings::getSetting('syscrack_admin_computer_count') );
+                                        $pages = round( count( $computer ) / $settings['syscrack_admin_computer_count'] );
 
                                         for ( $i=1; $i < $pages; $i++ )
                                         {
@@ -115,10 +115,10 @@ if ( isset( $_GET['page'] ) )
                 if (  isset( $_GET['page'] ) && $_GET['page'] != null )
                 {
 
-                    $offset = $_GET['page'] * Settings::getSetting('syscrack_admin_computer_count');
+                    $offset = $_GET['page'] * $settings['syscrack_admin_computer_count'];
                 }
 
-                $computer = array_slice( array_reverse( $computer ), $offset, Settings::getSetting('syscrack_admin_computer_count'));
+                $computer = array_slice( array_reverse( $computer ), $offset, $settings['syscrack_admin_computer_count']);
 
                 if (empty($computer)) {
 

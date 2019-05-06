@@ -34,7 +34,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success') );
             ?>
         </div>
     </div>
@@ -117,7 +117,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                     <div class="btn-group btn-group-justified" role="group" aria-label="...">
                         <div class="btn-group" role="group">
                             <button type="button"
-                                    onclick="window.location.href = '<?= Settings::getSetting('syscrack_discord_main') ?>'"
+                                    onclick="window.location.href = '<?= $settings['syscrack_discord_main'] ?>'"
                                     class="btn btn-info">Join Discord
                             </button>
                         </div>

@@ -20,9 +20,17 @@ use Framework\Syscrack\Game\Utilities\TimeHelper;
 class Research extends BaseClass implements Structure
 {
 
-    protected $pagehelper;
+    /**
+     * @var PageHelper
+     */
 
-    protected $finance;
+    protected static $pagehelper;
+
+    /**
+     * @var Finance
+     */
+
+    protected static $finance;
 
     /**
      * View constructor.
@@ -31,9 +39,11 @@ class Research extends BaseClass implements Structure
     public function __construct()
     {
 
-        $this->pagehelper = new PageHelper();
+        if( isset( self::$pagehelper ) == false )
+            self::$pagehelper = new PageHelper();
 
-        $this->finance = new Finance();
+        if( isset( self::$finance ) == false )
+            self::$finance = new Finance();
 
         parent::__construct();
     }
@@ -89,24 +99,24 @@ class Research extends BaseClass implements Structure
             $this->redirectError('Missing Data' );
         }
 
-        if( $this->computers->hasType( $computerid, Settings::getSetting('syscrack_software_research_type'), true ) == false )
+        if( self::$computers->hasType( $computerid, Settings::getSetting('syscrack_software_research_type'), true ) == false )
         {
 
             $this->redirectError('You need to install a research executable in order to preform this action');
         }
 
-        $software = $this->software->getSoftware( $data['softwareid'] );
+        $software = self::$software->getSoftware( $data['softwareid'] );
         $price = Settings::getSetting('syscrack_research_price_multiplier') * $software->level;
 
-        if ( $this->finance->accountNumberExists( PostHelper::getPostData('accountnumber' ) ) == false )
+        if ( self::$finance->accountNumberExists( PostHelper::getPostData('accountnumber' ) ) == false )
         {
 
             $this->redirectError('Sorry, this account is invalid' . PostHelper::getPostData('accountnumber' )  );
         }
 
-        $account = $this->finance->getByAccountNumber( PostHelper::getPostData('accountnumber') );
+        $account = self::$finance->getByAccountNumber( PostHelper::getPostData('accountnumber') );
 
-        if ( $this->finance->canAfford( $account->computerid, $account->userid, $price ) == false )
+        if ( self::$finance->canAfford( $account->computerid, $account->userid, $price ) == false )
         {
 
             $this->redirectError('Sorry, you cannot afford this');
@@ -134,13 +144,13 @@ class Research extends BaseClass implements Structure
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
-        $software = $this->software->getSoftware( $data['softwareid'] );
+        $software = self::$software->getSoftware( $data['softwareid'] );
         $price = Settings::getSetting('syscrack_research_price_multiplier') * $software->level;
-        $account = $this->finance->getByAccountNumber( $data['custom']['accountnumber'] );
+        $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
-        $this->finance->withdraw( $account->computerid, $account->userid, $price );
+        self::$finance->withdraw( $account->computerid, $account->userid, $price );
 
-        $newsoftware = $this->software->createSoftware( $this->software->getSoftwareNameFromSoftwareID(
+        $newsoftware = self::$software->createSoftware( self::$software->getSoftwareNameFromSoftwareID(
             $data['softwareid'] ),
             $userid,
             $computerid,
@@ -150,7 +160,7 @@ class Research extends BaseClass implements Structure
             json_decode( $software->data, true )
         );
 
-        $this->computers->addSoftware( $computerid, $newsoftware, $software->type);
+        self::$computers->addSoftware( $computerid, $newsoftware, $software->type);
 
         $this->redirectSuccess();
     }
@@ -207,7 +217,7 @@ class Research extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
     {
 
-        $research = $this->pagehelper->getInstalledType('research');
+        $research = self::$pagehelper->getInstalledType('research');
 
         return ( TimeHelper::getSecondsInFuture( Settings::getSetting("syscrack_operations_research_speed") / $research['level'] ) );
     }

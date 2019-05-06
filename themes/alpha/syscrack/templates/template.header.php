@@ -1,6 +1,5 @@
 <?php
 
-use Framework\Application\Settings;
 use Framework\Application\Render;
 
 ?>
@@ -24,7 +23,7 @@ use Framework\Application\Render;
     <!-- Stylesheets -->
 
     <?php
-    if (Settings::getSetting('theme_dark') == true) {
+    if ( $settings ) {
 
         ?>
         <link href="<?=Render::getAssetsLocation()?>css/bootstrap.dark.css" rel="stylesheet">
@@ -77,7 +76,7 @@ use Framework\Application\Render;
             white-space: pre-line;
         <?php
 
-            if( Settings::getSetting('theme_dark') )
+            if( $settings['theme_dark'] )
             {
 
                 ?> background-color: #19171c;
@@ -90,7 +89,7 @@ use Framework\Application\Render;
 
         <?php
 
-            if( Settings::getSetting('theme_dark') )
+            if( $settings['theme_dark'] )
             {
 
                 ?>
@@ -135,7 +134,7 @@ use Framework\Application\Render;
 
         <?php
 
-        if (  Settings::getSetting('theme_fullscreen') == true )
+        if (  $settings['theme_fullscreen'] == true )
         {
             ?>
 

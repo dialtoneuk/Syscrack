@@ -9,7 +9,6 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
-use Framework\Application\Container;
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
@@ -24,13 +23,13 @@ class Hack extends BaseClass implements Structure
      * @var AddressDatabase;
      */
 
-    protected $addressdatabase;
+    protected static $addressdatabase;
 
     /**
      * @var Statistics
      */
 
-    protected $statistics;
+    protected static $statistics;
 
     /**
      * Hack constructor.
@@ -39,19 +38,15 @@ class Hack extends BaseClass implements Structure
     public function __construct()
     {
 
+        if( isset( self::$addressdatabase ) == false )
+            self::$addressdatabase = new AddressDatabase();
+
+
+        if( isset( self::$statistics ) == false )
+            self::$statistics = new Statistics();
+        
+
         parent::__construct();
-
-        if( isset( $this->addressdatabase ) == false )
-        {
-
-            $this->addressdatabase = new AddressDatabase();
-        }
-
-        if( isset( $this->statistics ) == false )
-        {
-
-            $this->statistics = new Statistics();
-        }
     }
 
     /**
@@ -94,21 +89,21 @@ class Hack extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computers->getComputer( $computerid )->ipaddress == $data['ipaddress'] )
+        if( self::$computers->getComputer( $computerid )->ipaddress == $data['ipaddress'] )
         {
 
             return false;
         }
 
-        $user = Container::getObject('session')->getSessionUser();
+        //$user = Container::getObject('session')->getSessionUser();
 
-        if( $this->addressdatabase->hasAddress( $data['ipaddress'], $userid ) )
+        if( self::$addressdatabase->hasAddress( $data['ipaddress'], $userid ) )
         {
 
             $this->redirectError('You have already hacked this address', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        if( $this->computers->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )
+        if( self::$computers->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )
         {
 
             return false;
@@ -116,7 +111,7 @@ class Hack extends BaseClass implements Structure
 
         $victimid = $this->getComputerId( $data['ipaddress'] );
 
-        if( $this->computers->hasType( $victimid, Settings::getSetting('syscrack_software_hasher_type'), true ) == true )
+        if( self::$computers->hasType( $victimid, Settings::getSetting('syscrack_software_hasher_type'), true ) == true )
         {
 
             if( $this->getHighestLevelSoftware( $victimid, Settings::getSetting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::getSetting('syscrack_software_cracker_type') )['level'] )
@@ -130,16 +125,11 @@ class Hack extends BaseClass implements Structure
     }
 
     /**
-     * Called when this process request is created
-     *
      * @param $timecompleted
-     *
+     * @param $timestarted
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
      */
 
@@ -152,18 +142,18 @@ class Hack extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
         {
 
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        $this->addressdatabase->addAddress( $data['ipaddress'],  $userid );
+        self::$addressdatabase->addAddress( $data['ipaddress'],  $userid );
 
         if( Settings::getSetting('syscrack_statistics_enabled') == true )
         {
 
-            $this->statistics->addStatistic('hacks');
+            self::$statistics->addStatistic('hacks');
         }
 
         if( isset( $data['redirect'] ) )

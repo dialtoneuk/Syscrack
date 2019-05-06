@@ -11,7 +11,7 @@
             return;
         }
 
-        if( Settings::getSetting('error_use_session') == true )
+        if( $settings['error_use_session') == true )
         {
 
             if( isset( $_SESSION['error'] ) == false || $_SESSION['error'] == null || $_SESSION['error'] == "" )
@@ -33,7 +33,7 @@
                 return;
             }
 
-            if( Settings::getSetting('error_use_session') == true )
+            if( $settings['error_use_session') == true )
             {
 
                 if( isset( $_SESSION['error'] ) == false || $_SESSION['error'] == null || $_SESSION['error'] == "" )
@@ -59,7 +59,7 @@
         else
         {
 
-            if( Settings::getSetting('error_use_session') )
+            if( $settings['error_use_session') )
             {
                 if( isset( $_SESSION['error'] ) )
                 {

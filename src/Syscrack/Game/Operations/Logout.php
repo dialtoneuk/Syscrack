@@ -23,7 +23,7 @@ class Logout extends BaseClass implements Structure
     public function __construct()
     {
 
-        parent::__construct();
+        parent::__construct( true );
     }
 
     /**
@@ -65,13 +65,13 @@ class Logout extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->internet->hasCurrentConnection() == false )
+        if( self::$internet->hasCurrentConnection() == false )
         {
 
             return false;
         }
 
-        if( $this->internet->getCurrentConnectedAddress() !== $data['ipaddress'] )
+        if( self::$internet->getCurrentConnectedAddress() !== $data['ipaddress'] )
         {
 
             return false;
@@ -81,16 +81,11 @@ class Logout extends BaseClass implements Structure
     }
 
     /**
-     * Called when this process request is created
-     *
      * @param $timecompleted
-     *
+     * @param $timestarted
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
      */
 
@@ -103,21 +98,21 @@ class Logout extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
         {
 
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        $computer = $this->internet->getComputer( $data['ipaddress'] );
+        $computer = self::$internet->getComputer( $data['ipaddress'] );
 
-        if( $this->computers->hasComputerClass( $computer->type ) == false )
+        if( self::$computers->hasComputerClass( $computer->type ) == false )
         {
 
             throw new SyscrackException('Computer type not found');
         }
 
-        $this->computers->getComputerClass( $computer->type )->onLogout( $computer->computerid, $data['ipaddress'] );
+        self::$computers->getComputerClass( $computer->type )->onLogout( $computer->computerid, $data['ipaddress'] );
 
         $this->redirectSuccess( $this->getRedirect() . '/internet' );
     }

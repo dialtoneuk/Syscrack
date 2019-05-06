@@ -88,14 +88,14 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                         ?>
                         <h1>
-                            <?= Settings::getSetting('syscrack_currency') . $pagehelper->getCash() ?>
+                            <?= $settings['syscrack_currency'] . $pagehelper->getCash() ?>
                         </h1>
                         <?php
                     } else {
 
                         ?>
                         <h5>
-                            <?= Settings::getSetting('syscrack_currency') . $pagehelper->getCash() ?>
+                            <?= $settings['syscrack_currency'] . $pagehelper->getCash() ?>
                         </h5>
                         <?php
                     }
@@ -214,7 +214,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="well">
-                                        <?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
+                                        <?= $settings['syscrack_currency'] . number_format($account->cash) ?>
                                     </div>
                                 </div>
                             </div>

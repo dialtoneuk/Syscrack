@@ -31,7 +31,7 @@ $currentcomputer = $computer_controller->getComputer($computer_controller->getCu
     </div>
     <?php
 
-    if ($computer_controller->hasType($currentcomputer->computerid, Settings::getSetting('syscrack_software_collector_type'), true)) {
+    if ($computer_controller->hasType($currentcomputer->computerid, $settings['syscrack_software_collector_type'], true)) {
 
         ?>
         <div class="list-group">
@@ -45,7 +45,7 @@ $currentcomputer = $computer_controller->getComputer($computer_controller->getCu
     ?>
     <?php
 
-    if ($computer_controller->hasType($currentcomputer->computerid, Settings::getSetting('syscrack_software_research_type'), true)) {
+    if ($computer_controller->hasType($currentcomputer->computerid, $settings['syscrack_software_research_type'], true)) {
 
         ?>
         <div class="list-group">

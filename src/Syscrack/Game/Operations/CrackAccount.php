@@ -9,8 +9,6 @@
      * @package Framework\Syscrack\Game\Operations
      */
 
-    use Framework\Application\Container;
-    use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
@@ -26,13 +24,13 @@
          * @var Finance
          */
 
-        protected $finance;
+        protected static $finance;
 
         /**
          * @var AccountDatabase;
          */
 
-        protected $bankdatabase;
+        protected static $bankdatabase;
 
         /**
          * CrackAccount constructor.
@@ -41,25 +39,14 @@
         public function __construct()
         {
 
+            if( isset( self::$finance ) == false )
+                self::$finance = new Finance();
+
+
+            if( isset( self::$bankdatabase ) == false )
+                self::$bankdatabase = new AccountDatabase();
+
             parent::__construct( true );
-
-            if( isset( $this->finance ) == false )
-            {
-
-                $this->finance = new Finance();
-            }
-
-            if( isset( $this->bankdatabase ) == false )
-            {
-
-                if( Container::hasObject('session') == false )
-                {
-
-                    Container::setObject('session', new Session() );
-                }
-
-                $this->bankdatabase = new AccountDatabase( Container::getObject('session')->getSessionUser() );
-            }
         }
 
         /**
@@ -100,6 +87,8 @@
         public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
         {
 
+            self::$bankdatabase->loadDatabase( $userid );
+
             if( $this->checkData( $data, ['ipaddress','custom'] ) == false )
             {
 
@@ -112,29 +101,29 @@
                 return false;
             }
 
-            if( $this->finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
+            if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
             {
 
                 $this->redirectError('Account does not exist', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->finance->hasCurrentActiveAccount() )
+            if( self::$finance->hasCurrentActiveAccount() )
             {
 
-                if( $this->finance->getCurrentActiveAccount() == $data['custom']['accountnumber'] )
+                if( self::$finance->getCurrentActiveAccount() == $data['custom']['accountnumber'] )
                 {
 
                     $this->redirectError('You have already hacked this bank account', $this->getRedirect( $data['ipaddress'] ) );
                 }
             }
 
-            if( $this->finance->getByAccountNumber( $data['custom']['accountnumber'] )->computerid !== $this->getComputerId( $data['ipaddress'] ) )
+            if( self::$finance->getByAccountNumber( $data['custom']['accountnumber'] )->computerid !== $this->getComputerId( $data['ipaddress'] ) )
             {
 
                 $this->redirectError('This account does not exist in this banks database', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->finance->getByAccountNumber( $data['custom']['accountnumber'] )->userid == $userid )
+            if( self::$finance->getByAccountNumber( $data['custom']['accountnumber'] )->userid == $userid )
             {
 
                 $this->redirectError('You cant crack your own account, stupid', $this->getRedirect( $data['ipaddress'] ) );
@@ -168,7 +157,7 @@
                 throw new SyscrackException();
             }
 
-            if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+            if( self::$internet->ipExists( $data['ipaddress'] ) == false )
             {
 
                 $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
@@ -180,11 +169,11 @@
                 throw new SyscrackException();
             }
 
-            $this->finance->setCurrentActiveAccount( $data['custom']['accountnumber'] );
+            self::$finance->setCurrentActiveAccount( $data['custom']['accountnumber'] );
 
-            $this->bankdatabase->addAccountNumber( $data['custom']['accountnumber'], $data['ipaddress'] );
+            self::$bankdatabase->addAccountNumber( $data['custom']['accountnumber'], $data['ipaddress'] );
 
-            $this->logCrack( $data['custom']['accountnumber'], $this->getComputerId( $data['ipaddress'] ), $this->computers->getComputer( $computerid )->ipaddress );
+            $this->logCrack( $data['custom']['accountnumber'], $this->getComputerId( $data['ipaddress'] ), self::$computers->getComputer( $computerid )->ipaddress );
 
             $this->logLocal( $computerid, $data['custom']['accountnumber'], $data['ipaddress'] );
 
@@ -274,11 +263,9 @@
         }
 
         /**
-         * Logs a local crack action
-         *
          * @param $computerid
-         *
          * @param $accountnumber
+         * @param $ipaddress
          */
 
         private function logLocal( $computerid, $accountnumber, $ipaddress )

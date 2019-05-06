@@ -24,13 +24,13 @@ class Install extends BaseClass implements Structure
      * @var Viruses
      */
 
-    protected $viruses;
+    protected static $viruses;
 
     /**
      * @var Statistics
      */
 
-    protected $statistics;
+    protected static $statistics;
 
     /**
      * Install constructor.
@@ -39,19 +39,15 @@ class Install extends BaseClass implements Structure
     public function __construct()
     {
 
-        parent::__construct();
+        if( isset( self::$viruses ) == false )
+            self::$viruses = new Viruses();
 
-        if( isset( $this->viruses ) == false )
-        {
 
-            $this->viruses = new Viruses();
-        }
+        if( isset( self::$statistics ) == false )
+            self::$statistics = new Statistics();
 
-        if( isset( $this->statistics ) == false )
-        {
 
-            $this->statistics = new Statistics();
-        }
+        parent::__construct( true );
     }
 
     /**
@@ -97,16 +93,16 @@ class Install extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->software->canInstall( $data['softwareid'] ) == false )
+        if( self::$software->canInstall( $data['softwareid'] ) == false )
         {
 
             return false;
         }
 
-        if( $this->viruses->isVirus( $data['softwareid'] ) )
+        if( self::$viruses->isVirus( $data['softwareid'] ) )
         {
 
-            $software = $this->software->getSoftware( $data['softwareid'] );
+            $software = self::$software->getSoftware( $data['softwareid'] );
 
 
             if( $this->getComputerId( $data['ipaddress'] ) == $computerid )
@@ -115,7 +111,7 @@ class Install extends BaseClass implements Structure
                 $this->redirectError('You cannot install a virus on your self, figures', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->viruses->virusAlreadyInstalled( $software->uniquename, $this->getComputerId( $data['ipaddress'] ) , $userid ) )
+            if( self::$viruses->virusAlreadyInstalled( $software->uniquename, $this->getComputerId( $data['ipaddress'] ) , $userid ) )
             {
 
                 $this->redirectError('You already have a virus of this type installed', $this->getRedirect( $data['ipaddress'] ) );
@@ -150,47 +146,47 @@ class Install extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
         {
 
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        if( $this->software->softwareExists( $data['softwareid'] ) == false )
+        if( self::$software->softwareExists( $data['softwareid'] ) == false )
         {
 
             $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        if( $this->software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
+        if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
         {
 
             $this->redirectError('Sorry, it looks like this software got installed already', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        $this->software->installSoftware( $data['softwareid'], $userid );
+        self::$software->installSoftware( $data['softwareid'], $userid );
 
-        $this->computers->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
+        self::$computers->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
         $this->logInstall( $this->getSoftwareName( $data['softwareid' ] ),
             $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
 
         $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
-            $this->computers->getCurrentUserComputer(), $data['ipaddress']);
+            self::$computers->getCurrentUserComputer(), $data['ipaddress']);
 
-        $this->software->executeSoftwareMethod( $this->software->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onInstalled', array(
+        self::$software->executeSoftwareMethod( self::$software->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onInstalled', array(
             'softwareid'    => $data['softwareid'],
             'userid'        => $userid,
             'computerid'    => $this->getComputerId( $data['ipaddress'] )
         ));
 
-        if( $this->viruses->isVirus( $data['softwareid'] ) == true )
+        if( self::$viruses->isVirus( $data['softwareid'] ) == true )
         {
 
             if( Settings::getSetting('syscrack_statistics_enabled') == true )
             {
 
-                $this->statistics->addStatistic('virusinstalls');
+                self::$statistics->addStatistic('virusinstalls');
             }
 
             $addressdatabase = new AddressDatabase();
@@ -263,17 +259,15 @@ class Install extends BaseClass implements Structure
     }
 
     /**
-     * Logs a login action to the computers log
-     *
+     * @param $softwarename
      * @param $computerid
-     *
      * @param $ipaddress
      */
 
     private function logInstall( $softwarename, $computerid, $ipaddress )
     {
 
-        if( $this->computers->getCurrentUserComputer() == $computerid )
+        if( self::$computers->getCurrentUserComputer() == $computerid )
         {
 
             return;
@@ -283,10 +277,8 @@ class Install extends BaseClass implements Structure
     }
 
     /**
-     * Logs to the computer
-     *
+     * @param $softwarename
      * @param $computerid
-     *
      * @param $ipaddress
      */
 

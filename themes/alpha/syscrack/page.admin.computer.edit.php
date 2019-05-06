@@ -44,7 +44,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success') );
             ?>
         </div>
     </div>
@@ -67,7 +67,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                     <?php
 
-                        if ( $computer->type == Settings::getSetting('syscrack_computers_market_type') )
+                        if ( $computer->type == $settings['syscrack_computers_market_type'] )
                         {
 
                             ?>
@@ -106,9 +106,9 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                                         <div class="input-group">
                                                                         <span class="input-group-addon"
                                                                               id="basic-addon1"><span
-                                                                                    class="glyphicon glyphicon-font"></span></span>
+                                                                                    class="glyphicon glyphicon-tags"></span></span>
                                                                             <input type="text" class="form-control"
-                                                                                   placeholder="Software Name" name="name"
+                                                                                   placeholder="LOIC" name="name"
                                                                                    aria-describedby="basic-addon1">
                                                                         </div>
                                                                     </div>
@@ -118,10 +118,10 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                                         <div class="input-group">
                                                                         <span class="input-group-addon"
                                                                               id="basic-addon1"><span
-                                                                                    class="glyphicon glyphicon glyphicon-signal"></span></span>
+                                                                                    class="glyphicon glyphicon glyphicon-asterisk"></span></span>
                                                                             <input type="number" step="0.1"
                                                                                    class="form-control"
-                                                                                   placeholder="Software Level" name="level"
+                                                                                   placeholder="1.0" name="level"
                                                                                    aria-describedby="basic-addon1">
                                                                         </div>
                                                                     </div>
@@ -129,27 +129,16 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                                 <div class="row" style="margin-top: 2.5%;">
                                                                     <div class="col-sm-12">
                                                                         <div class="checkbox">
-                                                                            <label><input type="checkbox" name="schema"
-                                                                                          checked></label>
+                                                                            <label><input type="checkbox" name="schema" checked></label>
                                                                             <span style="font-size: 10px;">Add to Schema if a schema file is present.</span>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
                                                                         <div class="checkbox">
-                                                                            <label><input type="checkbox" name="editable"
-                                                                                          checked></label>
+                                                                            <label><input type="checkbox" name="editable" checked></label>
                                                                             <span style="font-size: 10px;">Editable</span>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
                                                                         <div class="checkbox">
-                                                                            <label><input type="checkbox"
-                                                                                          name="anondownloads"></label>
-                                                                            <span style="font-size: 10px;">Allow anonymous downloads (Used with download servers for serving files with out logging in)</span>
+                                                                            <label><input type="checkbox" name="anondownloads"></label>
+                                                                            <span style="font-size: 10px;">Public Downloads</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -160,55 +149,49 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                                         <div class="input-group">
                                                                         <span class="input-group-addon"
                                                                               id="basic-addon1"><span
-                                                                                    class="glyphicon glyphicon-list"></span></span>
+                                                                                    class="glyphicon glyphicon-hdd"></span></span>
                                                                             <input type="text" class="form-control"
-                                                                                   placeholder="Uniquename" name="uniquename"
+                                                                                   placeholder="vspam" name="uniquename"
                                                                                    aria-describedby="basic-addon1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row" style="margin-top: 5%;">
-                                                                    <div class="col-sm-12">
-                                                                        <div class="well">
-                                                                            <p>
-                                                                                vspam, vminer, antivirus, research, cracker, hasher, text, firewall, nmap, vddos, breaker, collector
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
+                                                                <div class="row" style="margin-top: 12px;">
                                                                     <div class="col-sm-12">
                                                                         <div class="input-group">
                                                                         <span class="input-group-addon"
                                                                               id="basic-addon1"><span
-                                                                                    class="glyphicon glyphicon-hdd"></span></span>
+                                                                                    class="glyphicon glyphicon-folder-close"></span></span>
                                                                             <input type="number" class="form-control"
-                                                                                   placeholder="Size" name="size"
+                                                                                   placeholder="20" name="size"
                                                                                    aria-describedby="basic-addon1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="row" style="margin-top: 12px;">
+                                                                    <div class="col-sm-12">
+                                                                        <p>
+                                                                            vspam, vminer, antivirus, research, cracker, hasher, text, firewall, nmap, vddos, breaker, collector
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-sm-4" style="max-height: 310px;">
+                                                            <div class="col-sm-4">
                                                                 <?php
-                                                                Render::view('syscrack/templates/template.form', array('form_elements' => [
-                                                                    [
-                                                                        'type' => 'textarea',
-                                                                        'name' => 'customdata',
-                                                                        'value' => '',
-                                                                        'resizeable' => 'vertical'
-                                                                    ]
-                                                                ], 'remove_submit' => true, 'remove_form' => true));
+                                                                    Render::view('syscrack/templates/template.form', array('form_elements' => [
+                                                                        [
+                                                                            'type' => 'textarea',
+                                                                            'name' => 'text',
+                                                                            'value' => '',
+                                                                            'resizeable' => 'vertical'
+                                                                        ]
+                                                                    ], 'remove_submit' => true, 'remove_form' => true));
                                                                 ?>
-                                                                <p style="font-size: 10px;">
-                                                                    Data entered in the box above should be in a valid json
-                                                                    format.
-                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-sm-12">
-                                                                <button style="width: 100%; margin-top: 2.5%;"
+                                                                <button style="width: 100%;"
                                                                         class="btn btn-default" type="submit">
                                                                 <span class="glyphicon glyphicon-check"
                                                                       aria-hidden="true"></span> Add
@@ -364,7 +347,7 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
 
                                         foreach ($hardwares as $type => $hardware) {
 
-                                            $icons = Settings::getSetting('syscrack_hardware_icons');
+                                            $icons = $settings['syscrack_hardware_icons'];
 
                                             ?>
                                             <div class="panel panel-info">
@@ -402,7 +385,7 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                                                                     echo (string)$hardware['value'];
                                                                 }
 
-                                                                $extensions = Settings::getSetting('syscrack_hardware_extensions');
+                                                                $extensions = $settings['syscrack_hardware_extensions'];
 
                                                                 if (isset($extensions[$type])) {
 
@@ -426,13 +409,13 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                     </div>
                     <?php
 
-                    if ( $computer->type == Settings::getSetting('syscrack_computers_market_type') )
+                    if ( $computer->type == $settings['syscrack_computers_market_type'] )
                     {
 
                         $market = new \Framework\Syscrack\Game\Market();
 
-                        $stock = $market->getStock( $computer_controller->computerid );
-                        $purchases = $market->getPurchases( $computer_controller->computerid );
+                        $stock = $market->getStock( $computer->computerid );
+                        $purchases = $market->getPurchases( $computer->computerid );
 
                         ?>
                             <div role="tabpanel" class="tab-pane" id="market">
@@ -460,13 +443,26 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                                                             <div class="col-sm-12">
                                                                 <div class="panel panel-info">
                                                                     <div class="panel-heading">
-                                                                        <?=$key?>
+                                                                        <?=@$value["name"]?> <span class="badge bage-primary" style="float: right;"><?=@$key?></span>
                                                                     </div>
                                                                     <div class="panel-body">
                                                                         <div class="well">
-                                                                            <?php
-                                                                                print_r( $value );
-                                                                            ?>
+                                                                            <div class="row">
+                                                                                <div class="col-lg-4">
+                                                                                    <div class="panel panel-info">
+                                                                                        <div class="panel-body">
+                                                                                            <h1 style="margin-top: 16px;"><span class="glyphicon glyphicon-gbp"></span><?=@$value["price"]?></h1>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-8">
+                                                                                    <ul class="list-group">
+                                                                                        <li class="list-group-item"><?=@$value["hardware"]?></li>
+                                                                                        <li class="list-group-item"><?=@$value["quantity"]?></li>
+                                                                                        <li class="list-group-item list-group-item-warning"><?=@$value["value"]?></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -480,9 +476,30 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                                     <div class="col-sm-4">
                                         <div class="panel panel-default">
                                             <div class="panel-body">
-                                                <div class="well">
-                                                    <?php print_r( $purchases )?>
-                                                </div>
+                                                    <?php
+                                                        if( empty( $purchases ) )
+                                                        {
+                                                            ?>No purchases found<?php
+                                                        }
+                                                        else
+                                                        {
+
+                                                            foreach( $purchases as $purchase)
+                                                            {
+                                                                ?>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="panel panel-default">
+                                                                            <div class="panel-body">
+                                                                                <span class="glyphicon glyphicon-gbp"></span> <?=@$stock[ $purchase["itemid"] ]["name"]?> <span class="badge bage-primary" style="float: right;"><?=date("F j, Y, g:i a",$purchase["timepurchased"])?></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <?php
+                                                            }
+                                                        }
+                                                    ?>
                                             </div>
                                         </div>
                                     </div>
@@ -497,48 +514,74 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                                                 <div class="panel panel-default">
                                                     <div class="panel-body">
                                                         <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="input-group input-group-lg">
-                                                                    <span class="input-group-addon" id="sizing-addon1">Name</span>
-                                                                    <input type="text" name="name" class="form-control" placeholder="My Hardware" aria-describedby="sizing-addon1">
+                                                            <div class="col-sm-4">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="panel panel-info">
+                                                                            <div class="panel-body">
+                                                                                The items you add here will persist though a reset unless the hard reset mode is
+                                                                                implicitly specified. If you are a little confused about some of the keys here, check
+                                                                                out our github wiki for a tutorial.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="input-group input-group-sm"  style="margin-top: 1.5%;">
-                                                                    <span class="input-group-addon" id="sizing-addon1">Cost</span>
-                                                                    <input type="number" name="cost" class="form-control" placeholder="100" aria-describedby="sizing-addon1">
-                                                                </div>
-                                                                <div class="input-group input-group-sm"  style="margin-top: 1.5%;">
-                                                                    <span class="input-group-addon" id="sizing-addon1">Quantity</span>
-                                                                    <input type="number" name="quantity" class="form-control" placeholder="10000" aria-describedby="sizing-addon1">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="panel panel-warning">
+                                                                            <div class="panel-body">
+                                                                                Be sure to double check that you are supplying a valid software id of a software present on the
+                                                                                local machine if you plan to make a software listing.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="input-group input-group-sm" style="width: 100%;">
+                                                            <div class="col-sm-4">
+                                                                <div class="input-group input-group-md">
+                                                                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-tags"></span></span>
+                                                                    <input type="text" name="name" class="form-control" placeholder="Intel i3" aria-describedby="sizing-addon1">
+                                                                </div>
+                                                                <div class="input-group input-group-md"  style="margin-top: 1.5%;">
+                                                                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-gbp"></span></span>
+                                                                    <input type="number" name="cost" class="form-control" placeholder="100" aria-describedby="sizing-addon1">
+                                                                </div>
+                                                                <div class="input-group input-group-md"  style="margin-top: 1.5%;">
+                                                                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-shopping-cart"></span></span>
+                                                                    <input type="number" name="quantity" class="form-control" placeholder="10000" aria-describedby="sizing-addon1">
+                                                                </div>
+                                                                <div class="input-group input-group-md" style="margin-top: 8px; width: 100%;">
+                                                                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-hdd"></span></span>
                                                                     <select name="type" class="combobox input-sm form-control">
                                                                         <option value="hardware">hardware</option>
                                                                         <option value="software">software</option>
                                                                     </select>
                                                                 </div>
-                                                                <p style="margin-top: 1.5%;">
-                                                                    <small>If this is a hardware, please choose which hardware component the user will buy, and then its power</small>
-                                                                </p>
-                                                                <div class="input-group input-group-sm" style="margin-top: 1.5%;">
-                                                                    <span class="input-group-addon" id="sizing-addon1">Hardware</span>
-                                                                    <input type="text" name="hardware" class="form-control" placeholder="cpu" aria-describedby="sizing-addon1">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="panel panel-default">
+                                                                    <div class="panel-body">
+                                                                        <div class="input-group input-group-sm" style="margin-top: 1.5%;">
+                                                                            <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-wrench"></span></span>
+                                                                            <input type="text" name="hardware" class="form-control" placeholder="cpu" aria-describedby="sizing-addon1">
+                                                                        </div>
+                                                                        <div class="input-group input-group-sm" style="margin-top: 1.5%;">
+                                                                            <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-flash"></span></span>
+                                                                            <input type="text" name="value" class="form-control" placeholder="250" aria-describedby="sizing-addon1">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="input-group input-group-sm" style="margin-top: 1.5%;">
-                                                                    <span class="input-group-addon" id="sizing-addon1">Power</span>
-                                                                    <input type="text" name="value" class="form-control" placeholder="cpu" aria-describedby="sizing-addon1">
-                                                                </div>
-                                                                <p style="margin-top: 1.5%;">
-                                                                    <small>If instead you are selling a software, please provide a software id to copy</small>
-                                                                </p>
-                                                                <div class="input-group input-group-sm" style="margin-top: 1.5%;">
-                                                                    <span class="input-group-addon" id="sizing-addon1">Software</span>
-                                                                    <input type="text" name="softwareid" class="form-control" placeholder="1" aria-describedby="sizing-addon1">
+                                                                <div class="panel panel-info">
+                                                                    <div class="panel-body">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-cog"></span></span>
+                                                                            <input type="text" name="softwareid" class="form-control" placeholder="1" aria-describedby="sizing-addon1">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <button style="width: 100%; margin-top: 2.5%;"
+                                                        <button style="width: 100%;"
                                                                 class="btn btn-info" type="submit">
                                                                 <span class="glyphicon glyphicon-arrow-up"
                                                                       aria-hidden="true"></span> Add Stock Item

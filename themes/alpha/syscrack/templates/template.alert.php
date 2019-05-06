@@ -9,7 +9,7 @@ if (isset($_GET['success']) == false && isset($_GET['error']) == true) {
         return;
     }
 
-    if (Settings::getSetting('error_use_session') == true) {
+    if ($settings['error_use_session'] == true) {
 
         if (isset($_SESSION['error']) == false || $_SESSION['error'] == null || $_SESSION['error'] == "") {
 
@@ -25,7 +25,7 @@ if (isset($_GET['success']) == false && isset($_GET['error']) == true) {
             return;
         }
 
-        if (Settings::getSetting('error_use_session') == true) {
+        if ($settings['error_use_session'] == true) {
 
             if (isset($_SESSION['error']) == false || $_SESSION['error'] == null || $_SESSION['error'] == "") {
 
@@ -54,7 +54,7 @@ if (isset($_GET['success']) == false && isset($_GET['error']) == true) {
         echo(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
     } else {
 
-        if (Settings::getSetting('error_use_session')) {
+        if ($settings['error_use_session']) {
             if (isset($_SESSION['error'])) {
 
                 echo(htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'));

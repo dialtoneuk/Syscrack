@@ -48,7 +48,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success') );
             ?>
         </div>
     </div>
@@ -65,7 +65,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             <form class="form-group" method="post">
 
                 <?php
-                $schema = Settings::getSetting('syscrack_example_schema');
+                $schema = $settings['syscrack_example_schema'];
                 ?>
                 <div class="row">
                     <div class="col-lg-4">
@@ -84,7 +84,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                         'type' => 'number',
                                         'name' => 'userid',
                                         'placeholder' => 1,
-                                        'value' => Settings::getSetting('syscrack_master_user'),
+                                        'value' => $settings['syscrack_master_user'],
                                         'icon' => 'glyphicon-user'
                                     ],
                                     [

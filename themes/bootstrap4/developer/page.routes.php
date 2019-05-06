@@ -6,7 +6,7 @@
     if( isset( $routes ) == false )
     {
 
-        Flight::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('developer_page') );
+        Flight::redirect( $settings['controller_index_root') . $settings['developer_page') );
     }
 ?>
 <html lang="en">
@@ -46,13 +46,13 @@
                                 Controller Namespace
                             </h5>
                             <p>
-                                <?=Settings::getSetting('controller_namespace')?>
+                                <?=$settings['controller_namespace')?>
                             </p>
                             <h5 style="color: #ababab" class="text-uppercase">
                                 Controller Page Folder
                             </h5>
                             <p>
-                                <?=Settings::getSetting('controller_page_folder')?>
+                                <?=$settings['controller_page_folder')?>
                             </p>
                             <h5 style="color: #ababab" class="text-uppercase">
                                 Number Of Routes

@@ -64,7 +64,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success'));
             ?>
         </div>
     </div>
@@ -72,20 +72,8 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         <div class="col-md-12">
             <h5 style="color: #ababab" class="text-uppercase">
                 <?php
-                if ($npc->hasSchema($current_computer->computerid)) {
-
-                    $schema = $npc->getSchema($current_computer->computerid);
-
-                    if (isset($schema['name'])) {
-
-                        echo $schema['name'];
-                    }
-                } else {
-
-                    ?>
-                    Market
-                    <?php
-                }
+                    if( isset( $metadata ) )
+                        echo @$metadata->custom["name"]
                 ?>
             </h5>
             <div class="row">
@@ -188,7 +176,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                         ?>
                                                         <li class="list-group-item">
                                                             <?= $item['name'] ?>
-                                                            for <?= Settings::getSetting('syscrack_currency') . number_format($item['price']) ?>
+                                                            for <?= $settings['syscrack_currency'] . number_format($item['price']) ?>
                                                             <span class="badge"
                                                                   style="float: right"><?= date("F j, Y, g:i a", $purchase['timepurchased']) ?></span>
                                                         </li>
@@ -263,7 +251,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                                 </li>
                                                                 <li class="list-group-item">
                                                                     Price <span
-                                                                            class="badge right"><?= Settings::getSetting('syscrack_currency') . number_format($stock['price']) ?></span>
+                                                                            class="badge right"><?= $settings['syscrack_currency'] . number_format($stock['price']) ?></span>
                                                                 </li>
                                                             </ul>
                                                             <select name="accountnumber"
@@ -278,7 +266,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                                         ?>
                                                                         <option value="<?= $account->accountnumber ?>">
                                                                             #<?= $account->accountnumber ?>
-                                                                            (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
+                                                                            (<?= $settings['syscrack_currency'] . number_format($account->cash) ?>
                                                                             )
                                                                             @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                                                         <?php

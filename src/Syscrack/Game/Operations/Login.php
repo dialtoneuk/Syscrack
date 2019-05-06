@@ -24,7 +24,7 @@ class Login extends BaseClass implements Structure
     public function __construct()
     {
 
-        parent::__construct();
+        parent::__construct( true );
     }
 
     /**
@@ -65,7 +65,7 @@ class Login extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computers->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )
+        if( self::$computers->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )
         {
 
             $this->redirectError('You neeed a cracker to do that, maybe you should go get one?', $this->getRedirect( $data['ipaddress'] ) );
@@ -77,10 +77,10 @@ class Login extends BaseClass implements Structure
             $this->redirectError('Logging into your self is dangerous... do you want to break the space time continuum?', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        if( $this->internet->hasCurrentConnection() == true )
+        if( self::$internet->hasCurrentConnection() == true )
         {
 
-            if( $this->internet->getCurrentConnectedAddress() == $data['ipaddress'] )
+            if( self::$internet->getCurrentConnectedAddress() == $data['ipaddress'] )
             {
 
                 return false;
@@ -89,7 +89,7 @@ class Login extends BaseClass implements Structure
 
         $victimid = $this->getComputerId( $data['ipaddress'] );
 
-        if( $this->computers->hasType( $victimid, Settings::getSetting('syscrack_software_hasher_type'), true ) == true )
+        if( self::$computers->hasType( $victimid, Settings::getSetting('syscrack_software_hasher_type'), true ) == true )
         {
 
             if( $this->getHighestLevelSoftware( $victimid, Settings::getSetting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::getSetting('syscrack_software_cracker_type') )['level'] )
@@ -127,21 +127,21 @@ class Login extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
         {
 
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        $computer = $this->internet->getComputer( $data['ipaddress'] );
+        $computer = self::$internet->getComputer( $data['ipaddress'] );
 
-        if( $this->computers->hasComputerClass( $computer->type ) == false )
+        if( self::$computers->hasComputerClass( $computer->type ) == false )
         {
 
             throw new SyscrackException('Computer type not found');
         }
 
-        $this->computers->getComputerClass( $computer->type )->onLogin( $computer->computerid, $data['ipaddress'] );
+        self::$computers->getComputerClass( $computer->type )->onLogin( $computer->computerid, $data['ipaddress'] );
 
         $this->redirect( $this->getRedirect( $data['ipaddress'] ) );
     }
@@ -196,33 +196,5 @@ class Login extends BaseClass implements Structure
     {
 
         return true;
-    }
-
-    /**
-     * Logs a login action to the computers log
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     */
-
-    private function logAccess( $computerid, $ipaddress )
-    {
-
-        $this->logToComputer('Logged in as root', $computerid, $ipaddress );
-    }
-
-    /**
-     * Logs to the computer
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     */
-
-    private function logLocal( $computerid, $ipaddress )
-    {
-
-        $this->logToComputer('Logged into <' . $ipaddress . '> as root', $computerid, 'localhost' );
     }
 }

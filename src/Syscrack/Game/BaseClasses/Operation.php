@@ -28,34 +28,35 @@ class Operation
      * @var Log
      */
 
-    public $log;
+    public static $log;
 
     /**
      * @var Software
      */
 
-    public $software;
+    public static $software;
 
     /**
      * @var Computer
      */
 
-    public $computers;
+    public static $computers;
 
     /**
      * @var Internet
      */
 
-    public $internet;
+    public static $internet;
 
     /**
      * @var Hardware
      */
 
-    public $hardware;
+    public static $hardware;
 
     /**
      * Operation constructor.
+     * @param bool $createclasses
      */
 
     public function __construct( $createclasses = true )
@@ -64,15 +65,20 @@ class Operation
         if( $createclasses )
         {
 
-            $this->log = new Log();
+            if( isset( self::$log ) == false )
+                self::$log = new Log();
 
-            $this->software = new Software();
+            if( isset( self::$software ) == false )
+                self::$software = new Software();
 
-            $this->computers = new Computer();
+            if( isset( self::$computers ) == false )
+                self::$computers = new Computer();
 
-            $this->internet = new Internet();
+            if( isset( self::$internet ) == false )
+                self::$internet = new Internet();
 
-            $this->hardware = new Hardware();
+            if( isset( self::$hardware ) == false )
+                self::$hardware = new Hardware();
         }
     }
 
@@ -111,18 +117,18 @@ class Operation
     public function hasSoftware( $softwarename, $computerid, $installed=true )
     {
 
-        $software = $this->computers->getComputerSoftware( $computerid );
+        $software = self::$computers->getComputerSoftware( $computerid );
 
         foreach( $software as $key=>$value )
         {
 
-            if( $this->software->softwareExists( $value['softwareid'] ) == false )
+            if( self::$software->softwareExists( $value['softwareid'] ) == false )
             {
 
                 continue;
             }
 
-            $software = $this->software->getSoftware( $value['softwareid'] );
+            $software = self::$software->getSoftware( $value['softwareid'] );
 
             if( $software->softwarename == $softwarename )
             {
@@ -193,7 +199,7 @@ class Operation
             $type = Settings::getSetting('syscrack_software_cracker_type');
         }
 
-        $software = $this->computers->getComputerSoftware( $computerid );
+        $software = self::$computers->getComputerSoftware( $computerid );
 
         if( empty( $software ) )
         {
@@ -212,7 +218,7 @@ class Operation
                 if( $value['installed'] == true )
                 {
 
-                    $results[] = $this->software->getSoftware( $value['softwareid'] );
+                    $results[] = self::$software->getSoftware( $value['softwareid'] );
                 }
             }
         }
@@ -279,7 +285,7 @@ class Operation
     public function logToComputer($message, $computerid, $ipaddress )
     {
 
-        $this->log->updateLog( $message, $computerid, $ipaddress );
+        self::$log->updateLog( $message, $computerid, $ipaddress );
     }
 
     /**
@@ -295,21 +301,21 @@ class Operation
     public function logActions( $message, $computerid, $ipaddress )
     {
 
-        if( $this->computers->computerExists( $computerid ) == false )
+        if( self::$computers->computerExists( $computerid ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $victimid = $this->internet->getComputer( $ipaddress );
+        $victimid = self::$internet->getComputer( $ipaddress );
 
-        if( $this->log->hasLog( $victimid->computerid ) == false || $this->log->hasLog( $computerid ) == false )
+        if( self::$log->hasLog( $victimid->computerid ) == false || self::$log->hasLog( $computerid ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $this->logToComputer( $message, $victimid->computerid, $this->computers->getComputer( $computerid )->ipaddress );
+        $this->logToComputer( $message, $victimid->computerid, self::$computers->getComputer( $computerid )->ipaddress );
 
         $this->logToComputer( $message, $computerid, Settings::getSetting('syscrack_log_localhost_name'));
 
@@ -332,9 +338,9 @@ class Operation
             {
 
                 array_merge( $array, [
-                    'software' => $this->software,
-                    'internet'  => $this->internet,
-                    'computer'  => $this->computers
+                    'software' => self::$software,
+                    'internet'  => self::$internet,
+                    'computer'  => self::$computers
                 ]);
             }
         }
@@ -365,7 +371,7 @@ class Operation
     public function calculateProcessingTime( $computerid, $hardwaretype="cpu", $speedness=5.5, $softwareid=null )
     {
 
-        if( $this->hardware->hasHardwareType( $computerid, $hardwaretype ) == false )
+        if( self::$hardware->hasHardwareType( $computerid, $hardwaretype ) == false )
         {
 
             return TimeHelper::getSecondsInFuture( Settings::getSetting('syscrack_operations_default_processingtime') );
@@ -374,20 +380,20 @@ class Operation
         if( $softwareid !== null )
         {
 
-            if( $this->software->softwareExists( $softwareid ) == false )
+            if( self::$software->softwareExists( $softwareid ) == false )
             {
 
                 throw new SyscrackException();
             }
 
-            $hardware = $this->hardware->getHardwareType( $computerid, $hardwaretype );
+            $hardware = self::$hardware->getHardwareType( $computerid, $hardwaretype );
 
-            $software = $this->software->getSoftware( $softwareid );
+            $software = self::$software->getSoftware( $softwareid );
 
             return TimeHelper::getSecondsInFuture( floor( ( sqrt( $software->level / $hardware['value'] ) * $speedness ) * ( Settings::getSetting('syscrack_operations_global_speed' ) ) ) );
         }
 
-        $hardware = $this->hardware->getHardwareType( $computerid, $hardwaretype );
+        $hardware = self::$hardware->getHardwareType( $computerid, $hardwaretype );
 
         return TimeHelper::getSecondsInFuture( floor( sqrt( $speedness / $hardware['value'] ) * ( Settings::getSetting('syscrack_operations_global_speed' ) ) ) );
     }
@@ -622,14 +628,14 @@ class Operation
     public function hasSpace( $computerid, $needed )
     {
 
-        $hdd = $this->hardware->getHardwareType( $computerid, 'harddrive')['value'];
-        $software = json_decode( $this->computers->getComputer( $computerid )->software, true );
+        $hdd = self::$hardware->getHardwareType( $computerid, 'harddrive')['value'];
+        $software = json_decode( self::$computers->getComputer( $computerid )->software, true );
         $usedspace = 0.0 + $needed;
 
         foreach( $software as $key=>$value )
         {
 
-            $usedspace += $this->software->getSoftware( $value['softwareid'] )->size;
+            $usedspace += self::$software->getSoftware( $value['softwareid'] )->size;
         }
 
         return ( $usedspace < $hdd ) ? true : false;
@@ -648,7 +654,7 @@ class Operation
     public function getRedirect( $ipaddress=null, $local=false )
     {
 
-        if( $ipaddress == $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress )
+        if( $ipaddress == self::$computers->getComputer( self::$computers->getCurrentUserComputer() )->ipaddress )
         {
 
             return Settings::getSetting('syscrack_computers_page');
@@ -700,7 +706,7 @@ class Operation
     public function getComputerId( $ipaddress )
     {
 
-        return $this->internet->getComputer( $ipaddress )->computerid;
+        return self::$internet->getComputer( $ipaddress )->computerid;
     }
 
     /**
@@ -712,7 +718,7 @@ class Operation
     public function getCurrentComputerAddress()
     {
 
-        return $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->ipaddress;
+        return self::$computers->getComputer( self::$computers->getCurrentUserComputer() )->ipaddress;
     }
 
     /**
@@ -726,13 +732,13 @@ class Operation
     public function getSoftwareName( $softwareid )
     {
 
-        if( $this->software->softwareExists( $softwareid ) == false )
+        if( self::$software->softwareExists( $softwareid ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        return $this->software->getSoftware( $softwareid )->softwarename;
+        return self::$software->getSoftware( $softwareid )->softwarename;
     }
 
     /**
@@ -753,17 +759,5 @@ class Operation
         }
 
         return $page[0];
-    }
-
-    /**
-     * Gets the entire path in the form of an array
-     *
-     * @return array
-     */
-
-    private function getPageSplat()
-    {
-
-        return array_values(array_filter(explode('/', strip_tags( $_SERVER['REQUEST_URI'] ))));
     }
 }

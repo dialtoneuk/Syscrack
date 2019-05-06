@@ -14,7 +14,7 @@
 
         <?php
 
-            if( Settings::getSetting('theme_dark') == false )
+            if( $settings['theme_dark') == false )
             {
 
                 ?>
@@ -63,7 +63,7 @@
                         if( isset( $_GET['error'] ) )
                             Render::view('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
                         elseif( isset( $_GET['success'] ) )
-                            Render::view('syscrack/templates/template.alert', array( 'message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success' ) );
+                            Render::view('syscrack/templates/template.alert', array( 'message' => $settings['alert_success_message'), 'alert_type' => 'alert-success' ) );
                     ?>
                 </div>
             </div>

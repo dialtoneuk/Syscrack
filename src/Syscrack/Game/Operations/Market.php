@@ -70,7 +70,7 @@ class Market extends BaseClass implements Structure
             return false;
         }
 
-        $computer = $this->internet->getComputer( $data['ipaddress'] );
+        $computer = self::$internet->getComputer( $data['ipaddress'] );
 
         if( $computer->type != Settings::getSetting('syscrack_computers_market_type') )
         {
@@ -106,7 +106,7 @@ class Market extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
         {
 
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
@@ -150,10 +150,9 @@ class Market extends BaseClass implements Structure
     }
 
     /**
-     * Calls when the operation receives a post request
-     *
      * @param $data
-     *
+     * @param $ipaddress
+     * @param $userid
      * @return bool
      */
 

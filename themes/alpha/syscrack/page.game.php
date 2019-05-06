@@ -23,7 +23,7 @@ $computer_controller = new Computer();
 
 <?php
 
-if (Settings::getSetting('syscrack_globe_enabled')) {
+if ($settings['syscrack_globe_enabled']) {
 
     Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game', 'scripts' => array(
         '<script src="http://www.webglearth.com/v2/api.js"></script>'
@@ -151,7 +151,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
     </div>
     <?php
 
-    if (Settings::getSetting('syscrack_globe_enabled')) {
+    if ($settings['syscrack_globe_enabled']) {
 
         ?>
         <div class="row" id="stats">
@@ -159,7 +159,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
                 <div class="jumbotron" style="height: 375px; padding: 5px; margin: 0; box-shadow: #0f0f0f ">
                     <div style="position: absolute; width: 95%; padding-left: 2.5%; padding-right: 2.5%; height: 365px; color:white; z-index: 2;">
                         <h1>
-                            SC:\\<?= \Framework\Application\Settings::getSetting('syscrack_game_name') ?>
+                            SC:\\<?=@$settings['syscrack_game_name'] ?>
                         </h1>
 
                         <?php
@@ -167,7 +167,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
 
                             ?>
                             <p>
-                                <?= Settings::getSetting('syscrack_currency') . number_format($stats->getStatistic('collected')) ?>
+                                <?= $settings['syscrack_currency'] . number_format($stats->getStatistic('collected')) ?>
                                 Collected
                             </p>
                             <p>
@@ -287,7 +287,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
 
                     foreach ($usercomputers as $value) {
 
-                        if ($count >= Settings::getSetting('syscrack_vpc_viewcount')) {
+                        if ($count >= $settings['syscrack_vpc_viewcount']) {
 
                             $count++;
 
@@ -326,7 +326,7 @@ if (Settings::getSetting('syscrack_globe_enabled')) {
                         $count++;
                     }
 
-                    if ($count >= Settings::getSetting('syscrack_vpc_viewcount')) {
+                    if ($count >= $settings['syscrack_vpc_viewcount']) {
 
                         ?>
 

@@ -3,7 +3,7 @@
     use Framework\Application\Settings;
 
 ?>
-<nav class="navbar navbar-default" style="margin-top: 2.5%">
+<nav class="navbar navbar-default" style="margin-top: 12px">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -11,7 +11,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/developer/">Framework <?=Settings::getSetting('framework_version')?></a>
+            <a class="navbar-brand" href="/developer/">Framework <?=$settings['framework_version']?></a>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar">

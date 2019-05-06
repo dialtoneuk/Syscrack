@@ -61,7 +61,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success'));
             ?>
         </div>
     </div>
@@ -231,9 +231,9 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                                                         $extension = $softwares->getSoftwareExtension($softwares->getSoftwareNameFromSoftwareID($value['softwareid']));
 
-                                                        $price = Settings::getSetting('syscrack_research_price_multiplier') * $software->level;
+                                                        $price = $settings['syscrack_research_price_multiplier'] * $software->level;
 
-                                                        echo('<option value="' . $software->softwareid . '">' . $software->softwarename . $extension . ' ' . $software->size . 'mb (' . $software->level . ') ' . Settings::getSetting('syscrack_currency') . $price . '</option>');
+                                                        echo('<option value="' . $software->softwareid . '">' . $software->softwarename . $extension . ' ' . $software->size . 'mb (' . $software->level . ') ' . $settings['syscrack_currency'] . $price . '</option>');
                                                     }
                                                 }
                                                 ?>
@@ -253,7 +253,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                         ?>
                                                         <option value="<?= $account->accountnumber ?>">
                                                             #<?= $account->accountnumber ?>
-                                                            (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
+                                                            (<?= $settings['syscrack_currency'] . number_format($account->cash) ?>
                                                             )
                                                             @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                                         <?php
@@ -316,9 +316,9 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                                             $extension = $softwares->getSoftwareExtension($softwares->getSoftwareNameFromSoftwareID($value['softwareid']));
 
-                                            $price = Settings::getSetting('syscrack_research_price_multiplier') * $software->level;
+                                            $price = $settings['syscrack_research_price_multiplier'] * $software->level;
 
-                                            echo('<option value="' . $software->softwareid . '">' . $software->softwarename . $extension . ' ' . $software->size . 'mb (' . $software->level . ') ' . Settings::getSetting('syscrack_currency') . $price . '</option>');
+                                            echo('<option value="' . $software->softwareid . '">' . $software->softwarename . $extension . ' ' . $software->size . 'mb (' . $software->level . ') ' . $settings['syscrack_currency'] . $price . '</option>');
                                         }
                                     }
                                     ?>
@@ -348,7 +348,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                             ?>
                                             <option value="<?= $account->accountnumber ?>">
                                                 #<?= $account->accountnumber ?>
-                                                (<?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?>
+                                                (<?= $settings['syscrack_currency'] . number_format($account->cash) ?>
                                                 )
                                                 @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
                                             <?php

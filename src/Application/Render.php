@@ -43,6 +43,8 @@ class Render
             ];
         }
 
+        $array["settings"] = Settings::getSettings();
+
         if ( empty( $model ) == false )
         {
 

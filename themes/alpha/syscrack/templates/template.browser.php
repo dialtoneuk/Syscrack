@@ -37,7 +37,7 @@ if (isset($pagehelper) == false) {
                 {
                     ?>
                         <div class="panel-heading">
-                            <?=$metadata->custom["name"]?>
+                            <?=@$metadata->custom["name"]?>
                         </div>
                     <?php
                 }

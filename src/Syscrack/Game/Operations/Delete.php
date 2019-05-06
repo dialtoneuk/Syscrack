@@ -22,7 +22,7 @@ class Delete extends BaseClass implements Structure
      * @var Viruses
      */
 
-    protected $viruses;
+    protected static $viruses;
 
     /**
      * Delete constructor.
@@ -31,13 +31,11 @@ class Delete extends BaseClass implements Structure
     public function __construct()
     {
 
-        parent::__construct();
+        if( isset( self::$viruses ) == false )
+            self::$viruses = new Viruses();
 
-        if( isset( $this->viruses ) == false )
-        {
 
-            $this->viruses = new Viruses();
-        }
+        parent::__construct( true );
     }
 
     /**
@@ -82,18 +80,18 @@ class Delete extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computers->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
+        if( self::$computers->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
         {
 
             return false;
         }
 
-        $software = $this->software->getSoftware( $data['softwareid'] );
+        $software = self::$software->getSoftware( $data['softwareid'] );
 
-        if( $this->software->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
+        if( self::$software->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
         {
 
-            if( $this->viruses->isVirus( $software->softwareid ) )
+            if( self::$viruses->isVirus( $software->softwareid ) )
             {
 
                 $this->redirectError('You cannot remove viruses, please use an anti-virus', $this->getRedirect( $data['ipaddress'] ) );
@@ -105,10 +103,10 @@ class Delete extends BaseClass implements Structure
         else
         {
 
-            if( $this->software->canRemove( $software->softwareid ) == false )
+            if( self::$software->canRemove( $software->softwareid ) == false )
             {
 
-                if( $this->viruses->isVirus( $software->softwareid ) == false )
+                if( self::$viruses->isVirus( $software->softwareid ) == false )
                 {
 
                     $this->redirectError('This software cannot be removed, sorry');
@@ -120,16 +118,11 @@ class Delete extends BaseClass implements Structure
     }
 
     /**
-     * Called when this process request is created
-     *
      * @param $timecompleted
-     *
+     * @param $timestarted
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
      */
 
@@ -142,25 +135,25 @@ class Delete extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
         {
 
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        if( $this->software->softwareExists( $data['softwareid'] ) == false )
+        if( self::$software->softwareExists( $data['softwareid'] ) == false )
         {
 
             $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        $software = $this->software->getSoftware( $data['softwareid'] );
+        $software = self::$software->getSoftware( $data['softwareid'] );
 
-        $this->software->deleteSoftware( $software->softwareid );
+        self::$software->deleteSoftware( $software->softwareid );
 
-        $this->computers->removeSoftware( $this->getComputerId( $data['ipaddress'] ), $software->softwareid );
+        self::$computers->removeSoftware( $this->getComputerId( $data['ipaddress'] ), $software->softwareid );
 
-        $this->logDelete( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computers->getComputer( $computerid )->ipaddress );
+        $this->logDelete( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), self::$computers->getComputer( $computerid )->ipaddress );
 
         $this->logLocal( $software->softwarename, $data['ipaddress'] );
 
@@ -229,17 +222,15 @@ class Delete extends BaseClass implements Structure
     }
 
     /**
-     * Logs a login action to the computers log
-     *
+     * @param $softwarename
      * @param $computerid
-     *
      * @param $ipaddress
      */
 
     private function logDelete( $softwarename, $computerid, $ipaddress )
     {
 
-        if( $this->computers->getCurrentUserComputer() == $computerid )
+        if( self::$computers->getCurrentUserComputer() == $computerid )
         {
 
             return;
@@ -259,6 +250,6 @@ class Delete extends BaseClass implements Structure
     private function logLocal( $softwarename, $ipaddress )
     {
 
-        $this->logToComputer('Deleted file <' . $softwarename . '> on ' . $ipaddress, $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->computerid, 'localhost' );
+        $this->logToComputer('Deleted file <' . $softwarename . '> on ' . $ipaddress, self::$computers->getComputer( self::$computers->getCurrentUserComputer() )->computerid, 'localhost' );
     }
 }

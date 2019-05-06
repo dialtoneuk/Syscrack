@@ -24,7 +24,7 @@ use Framework\Application\Render;
                         if( isset( $_GET['error'] ) )
                             Render::view('syscrack/templates/template.alert', array( 'message' => $_GET['error'] ) );
                         elseif( isset( $_GET['success'] ) )
-                            Render::view('syscrack/templates/template.alert', array( 'message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success' ) );
+                            Render::view('syscrack/templates/template.alert', array( 'message' => $settings['alert_success_message'), 'alert_type' => 'alert-success' ) );
                     ?>
                 </div>
             </div>
@@ -34,7 +34,7 @@ use Framework\Application\Render;
                         Hello, <?=IPAddress::getAddress()?>
                     </h5>
                     <p class="lead">
-                        Welcome to Framework <?=Settings::getSetting('framework_version')?>, you have reached the developer section...
+                        Welcome to Framework <?=$settings['framework_version')?>, you have reached the developer section...
                     </p>
                     <p>
                         The developer area can be used to access useful tools which modify and edit the framework to your
@@ -57,36 +57,36 @@ use Framework\Application\Render;
                     </h5>
                     <div class="list-group">
                         <div class="list-group">
-                            <a href="/<?=Settings::getSetting('developer_page')?>/connection/" class="list-group-item">
+                            <a href="/<?=$settings['developer_page')?>/connection/" class="list-group-item">
                                 <h4 class="list-group-item-heading">Connection Status</h4>
                                 <p class="list-group-item-text">Check your connection status and make sure your database is working.</p>
                             </a>
-                            <a href="/<?=Settings::getSetting('developer_page')?>/connection/creator/" class="list-group-item">
+                            <a href="/<?=$settings['developer_page')?>/connection/creator/" class="list-group-item">
                                 <h4 class="list-group-item-heading">Connection Creator</h4>
                                 <p class="list-group-item-text">Create your connection file and link your database to the framework.</p>
                             </a>
                         </div>
                     </div>
                     <div class="list-group">
-                        <a href="/<?=Settings::getSetting('developer_page')?>/migrator/" class="list-group-item">
+                        <a href="/<?=$settings['developer_page')?>/migrator/" class="list-group-item">
                             <h4 class="list-group-item-heading">Migrator</h4>
                             <p class="list-group-item-text">Migrate using json and populate your database with data.</p>
                         </a>
-                        <a href="/<?=Settings::getSetting('developer_page')?>/errors/" class="list-group-item">
+                        <a href="/<?=$settings['developer_page')?>/errors/" class="list-group-item">
                             <h4 class="list-group-item-heading">Errors</h4>
                             <p class="list-group-item-text">View the errors which have occurred.</p>
                         </a>
-                        <a href="/<?=Settings::getSetting('developer_page')?>/settings/" class="list-group-item">
+                        <a href="/<?=$settings['developer_page')?>/settings/" class="list-group-item">
                             <h4 class="list-group-item-heading">Settings</h4>
                             <p class="list-group-item-text">Make changes to the frameworks settings as well as create new ones.</p>
                         </a>
-                        <a href="/<?=Settings::getSetting('developer_page')?>/routes/" class="list-group-item">
+                        <a href="/<?=$settings['developer_page')?>/routes/" class="list-group-item">
                             <h4 class="list-group-item-heading">Routes</h4>
                             <p class="list-group-item-text">View the current routes of your page classes.</p>
                         </a>
                     </div>
                     <div class="list-group">
-                        <a href="/<?=Settings::getSetting('developer_page')?>/disable/" class="list-group-item list-group-item-danger">
+                        <a href="/<?=$settings['developer_page')?>/disable/" class="list-group-item list-group-item-danger">
                             <h4 class="list-group-item-heading">Disable</h4>
                             <p class="list-group-item-text">Disable the developer section, this is recommended if you are currently live!</p>
                         </a>

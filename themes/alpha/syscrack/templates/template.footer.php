@@ -22,7 +22,7 @@ use Framework\Application\Render;
 
         echo '<ol class="breadcrumb">';
 
-        echo '<li><a href="/' . Settings::getSetting('controller_index_page') . '">Home</a></li>';
+        echo '<li><a href="/' . $settings['controller_index_page'] . '">Home</a></li>';
 
         foreach ($paths as $path) {
 
@@ -31,7 +31,7 @@ use Framework\Application\Render;
                 $path = explode('?', $path)[0];
             }
 
-            if (empty($path) || $path == Settings::getSetting('controller_index_page')) {
+            if (empty($path) || $path == $settings['controller_index_page']) {
 
                 continue;
             }
@@ -79,7 +79,7 @@ use Framework\Application\Render;
     <script>
         if ($('#alert').length !== 0) {
 
-            $('#alert').delay(<?=Settings::getSetting('error_fadeout_time')?>).fadeOut(400, function () {
+            $('#alert').delay(<?=$settings['error_fadeout_time']?>).fadeOut(400, function () {
                 window.history.pushState("Syscrack", $(document).find("title").text(), '<?php
                     $url = $_SERVER['REQUEST_URI']; if (empty(explode('?', $url)) == false) {
                     echo(explode('?', $url)[0]);
@@ -90,7 +90,7 @@ use Framework\Application\Render;
         }
 
         $(document).ready(function () {
-            $('.combobox').combobox();
+            //$('.combobox').combobox();
         });
     </script>
 </footer>

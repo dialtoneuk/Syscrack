@@ -24,14 +24,14 @@
          * @var Market
          */
 
-        protected $market;
+        protected static $market;
 
 
         /**
          * @var Finance
          */
 
-        protected $finance;
+        protected static $finance;
 
         /**
          * View constructor.
@@ -40,19 +40,15 @@
         public function __construct()
         {
 
+            if( isset( self::$market ) == false )
+                self::$market = new Market();
+
+
+            if( isset( self::$finance ) == false )
+                self::$finance = new Finance();
+
+
             parent::__construct();
-
-            if( isset( $this->market ) == false )
-            {
-
-                $this->market = new Market();
-            }
-
-            if( isset( $this->finance ) == false )
-            {
-
-                $this->finance = new Finance();
-            }
         }
 
         /**
@@ -105,37 +101,37 @@
                 return false;
             }
 
-            if( $this->finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
+            if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
             {
 
                 return false;
             }
 
-            $computer = $this->internet->getComputer( $data['ipaddress'] );
+            $computer = self::$internet->getComputer( $data['ipaddress'] );
 
-            if( $this->computers->isMarket( $computer->computerid ) == false )
+            if( self::$computers->isMarket( $computer->computerid ) == false )
             {
 
                 return false;
             }
 
-            if( $this->market->checkMarket( $computer->computerid ) == false )
+            if( self::$market->checkMarket( $computer->computerid ) == false )
             {
 
                 return false;
             }
 
-            if( $this->market->hasStockItem( $computer->computerid, $data['custom']['itemid'] ) == false )
+            if( self::$market->hasStockItem( $computer->computerid, $data['custom']['itemid'] ) == false )
             {
 
                 $this->redirectError('Sorry, this stock item does not exist', $this->getRedirect( $data['ipaddress'] ) . '/market' );
             }
 
-            $item = $this->market->getStockItem( $computer->computerid, $data['custom']['itemid'] );
+            $item = self::$market->getStockItem( $computer->computerid, $data['custom']['itemid'] );
 
-            $account = $this->finance->getByAccountNumber( $data['custom']['accountnumber'] );
+            $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
-            if( $this->finance->canAfford( $account->computerid, $userid, $item['price'] ) == false )
+            if( self::$finance->canAfford( $account->computerid, $userid, $item['price'] ) == false )
             {
 
                 $this->redirectError('Sorry, you cannot afford this purchase', $this->getRedirect( $data['ipaddress'] ) . '/market' );
@@ -169,7 +165,7 @@
                 throw new SyscrackException();
             }
 
-            if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+            if( self::$internet->ipExists( $data['ipaddress'] ) == false )
             {
 
                 $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
@@ -181,17 +177,17 @@
                 throw new SyscrackException();
             }
 
-            if( $this->finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
+            if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
             {
 
                 $this->redirectError('Account does not exist, maybe it has been deleted?', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $account = $this->finance->getByAccountNumber( $data['custom']['accountnumber'] );
+            $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
-            $item = $this->market->getStockItem( $this->getComputerId( $data['ipaddress'] ), $data['custom']['itemid'] );
+            $item = self::$market->getStockItem( $this->getComputerId( $data['ipaddress'] ), $data['custom']['itemid'] );
 
-            if( $this->finance->canAfford( $account->computerid, $account->userid, $item['price'] ) == false )
+            if( self::$finance->canAfford( $account->computerid, $account->userid, $item['price'] ) == false )
             {
 
                 $this->redirectError('You cannot afford this transaction');
@@ -214,9 +210,9 @@
                 $this->hardware->addHardware( $computerid, $item['hardware'], $item['value'] );
             }
 
-            $this->finance->withdraw( $account->computerid, $userid, $item['price'] );
+            self::$finance->withdraw( $account->computerid, $userid, $item['price'] );
 
-            $this->market->addPurchase( $this->getComputerId( $data['ipaddress'] ), $computerid, $data['custom']['itemid'] );
+            self::$market->addPurchase( $this->getComputerId( $data['ipaddress'] ), $computerid, $data['custom']['itemid'] );
 
             $this->logLocal( $computerid, $data['custom']['accountnumber'], $data['ipaddress'] );
 
@@ -291,11 +287,9 @@
         }
 
         /**
-         * Logs a local crack action
-         *
          * @param $computerid
-         *
          * @param $accountnumber
+         * @param $ipaddress
          */
 
         private function logLocal( $computerid, $accountnumber, $ipaddress )

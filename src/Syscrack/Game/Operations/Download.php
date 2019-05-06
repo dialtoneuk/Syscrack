@@ -19,10 +19,10 @@ class Download extends BaseClass implements Structure
 {
 
     /**
-     * @var Viruses;
+     * @var Viruses
      */
 
-    protected $viruses;
+    protected static $viruses;
 
     /**
      * Download constructor.
@@ -31,13 +31,11 @@ class Download extends BaseClass implements Structure
     public function __construct()
     {
 
-        parent::__construct();
+        if( isset( self::$viruses ) == false )
+            self::$viruses = new Viruses();
 
-        if( isset( $this->viruses ) == false )
-        {
 
-            $this->viruses = new Viruses();
-        }
+        parent::__construct( true );
     }
 
     /**
@@ -82,15 +80,15 @@ class Download extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->computers->hasSoftware( $this->internet->getComputer( $data['ipaddress' ] )->computerid, $data['softwareid'] ) == false )
+        if( self::$computers->hasSoftware( self::$internet->getComputer( $data['ipaddress' ] )->computerid, $data['softwareid'] ) == false )
         {
 
             return false;
         }
 
-        $software = $this->software->getSoftware( $data['softwareid'] );
+        $software = self::$software->getSoftware( $data['softwareid'] );
 
-        if( $this->hasSpace( $this->computers->getCurrentUserComputer(), $software->size ) == false )
+        if( $this->hasSpace( self::$computers->getCurrentUserComputer(), $software->size ) == false )
         {
 
             $this->redirectError('Sorry, you dont have the free space for this download.', $this->getRedirect( $data['ipaddress'] ) );
@@ -98,10 +96,10 @@ class Download extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->viruses->isVirus( $software->softwareid ) )
+        if( self::$viruses->isVirus( $software->softwareid ) )
         {
 
-            if( $this->software->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
+            if( self::$software->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
             {
 
                 return false;
@@ -112,16 +110,11 @@ class Download extends BaseClass implements Structure
     }
 
     /**
-     * Called when this process request is created
-     *
      * @param $timecompleted
-     *
+     * @param $timestarted
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
      */
 
@@ -134,54 +127,54 @@ class Download extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
         {
 
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        if( $this->software->softwareExists( $data['softwareid'] ) == false )
+        if( self::$software->softwareExists( $data['softwareid'] ) == false )
         {
 
             $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        $software = $this->software->getSoftware( $data['softwareid'] );
+        $software = self::$software->getSoftware( $data['softwareid'] );
 
-        if( $this->software->hasData( $software->softwareid ) == true && $this->software->keepData( $software->softwareid ) )
+        if( self::$software->hasData( $software->softwareid ) == true && self::$software->keepData( $software->softwareid ) )
         {
 
-            $softwaredata = $this->software->getSoftwareData( $software->softwareid );
+            $softwaredata = self::$software->getSoftwareData( $software->softwareid );
 
-            if( $this->software->checkSoftwareData( $software->softwareid, ['allowanondownloads'] ) == true )
+            if( self::$software->checkSoftwareData( $software->softwareid, ['allowanondownloads'] ) == true )
             {
 
                 unset( $softwaredata['allowanondownloads'] );
             }
 
-            if( $this->software->checkSoftwareData( $software->softwareid, ['editable'] ) == true )
+            if( self::$software->checkSoftwareData( $software->softwareid, ['editable'] ) == true )
             {
 
                 unset( $softwaredata['editable'] );
             }
 
-            $new_softwareid = $this->software->copySoftware( $software->softwareid, $computerid, $userid, false, $softwaredata );
+            $new_softwareid = self::$software->copySoftware( $software->softwareid, $computerid, $userid, false, $softwaredata );
         }
         else
         {
 
-            $new_softwareid = $this->software->copySoftware( $software->softwareid, $computerid, $userid );
+            $new_softwareid = self::$software->copySoftware( $software->softwareid, $computerid, $userid );
         }
 
-        $this->computers->addSoftware( $computerid, $new_softwareid, $software->type );
+        self::$computers->addSoftware( $computerid, $new_softwareid, $software->type );
 
-        if( $this->computers->hasSoftware( $computerid, $new_softwareid ) == false )
+        if( self::$computers->hasSoftware( $computerid, $new_softwareid ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $this->logDownload( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), $this->computers->getComputer( $computerid )->ipaddress );
+        $this->logDownload( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), self::$computers->getComputer( $computerid )->ipaddress );
 
         $this->logLocal( $software->softwarename, $data['ipaddress'] );
 
@@ -212,13 +205,13 @@ class Download extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
-        if( $this->software->softwareExists( $softwareid ) == false )
+        if( self::$software->softwareExists( $softwareid ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_download_type'), $this->software->getSoftware( $softwareid )->size / 5, $softwareid );
+        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_download_type'), self::$software->getSoftware( $softwareid )->size / 5, $softwareid );
     }
 
     /**
@@ -256,10 +249,8 @@ class Download extends BaseClass implements Structure
     }
 
     /**
-     * Logs a login action to the computers log
-     *
+     * @param $softwarename
      * @param $computerid
-     *
      * @param $ipaddress
      */
 
@@ -280,6 +271,6 @@ class Download extends BaseClass implements Structure
     private function logLocal( $softwarename, $ipaddress )
     {
 
-        $this->logToComputer('Downloaded file (' . $softwarename . ') on <' . $ipaddress . '>', $this->computers->getComputer( $this->computers->getCurrentUserComputer() )->computerid, 'localhost' );
+        $this->logToComputer('Downloaded file (' . $softwarename . ') on <' . $ipaddress . '>', self::$computers->getComputer( self::$computers->getCurrentUserComputer() )->computerid, 'localhost' );
     }
 }

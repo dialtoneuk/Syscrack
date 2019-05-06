@@ -12,9 +12,12 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
 use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\User;
 
 class View extends BaseClass implements Structure
 {
+
+    protected static $user;
 
     /**
      * View constructor.
@@ -23,7 +26,10 @@ class View extends BaseClass implements Structure
     public function __construct()
     {
 
-        parent::__construct();
+        if( isset( self::$user ) == false )
+            self::$user = new User();
+
+        parent::__construct( true );
     }
 
     /**
@@ -68,7 +74,7 @@ class View extends BaseClass implements Structure
             return false;
         }
 
-        if( $this->software->hasData( $data['softwareid'] ) == false )
+        if( self::$software->hasData( $data['softwareid'] ) == false )
         {
 
             return false;
@@ -102,25 +108,33 @@ class View extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
         {
 
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        if( $this->software->softwareExists( $data['softwareid'] ) == false )
+        if( self::$software->softwareExists( $data['softwareid'] ) == false )
         {
 
             $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
         }
 
-        if( $this->software->hasData( $data['softwareid'] ) == false )
+        if( self::$software->hasData( $data['softwareid'] ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $this->getRender('operations/operations.view', array('softwareid' => $data['softwareid'], 'ipaddress' => $data['ipaddress'], 'data' => $this->software->getSoftwareData( $data['softwareid'] ) ) );
+        $software = self::$software->getSoftware( $data['softwareid']);
+
+        $this->getRender('operations/operations.view', array(
+            'software'  => $software,
+            'ipaddress' => self::$internet->getCurrentConnectedAddress(),
+            'username'  => self::$user->getUsername( $software->userid ),
+            'data'      => json_decode( $software->data),
+            'metadata'  => self::$software->getSoftwareData( $data['softwareid'] )
+        ) );
     }
 
     /**

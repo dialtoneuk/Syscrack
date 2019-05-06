@@ -43,7 +43,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success'));
             ?>
         </div>
     </div>
@@ -83,7 +83,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 Notices
             </h5>
             <?php
-            if (Settings::getSetting('developer_disabled') == false) {
+            if ($settings['developer_disabled'] == false) {
 
                 ?>
                 <div class="row">
@@ -106,7 +106,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             ?>
             <div class="row">
                 <?php
-                if (Settings::getSetting('database_encrypt_connection') == false) {
+                if ($settings['database_encrypt_connection'] == false) {
 
                     ?>
                     <div class="col-sm-12">

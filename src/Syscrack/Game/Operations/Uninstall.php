@@ -22,7 +22,7 @@
          * @var Viruses
          */
 
-        protected $viruses;
+        protected static $viruses;
 
         /**
          * Uninstall constructor.
@@ -31,13 +31,10 @@
         public function __construct()
         {
 
+            if( isset( self::$viruses ) == false )
+                self::$viruses = new Viruses();
+
             parent::__construct();
-
-            if( isset( $this->viruses ) == false )
-            {
-
-                $this->viruses = new Viruses();
-            }
         }
 
         /**
@@ -82,7 +79,7 @@
                 return false;
             }
 
-            if( $this->software->softwareExists( $data['softwareid'] ) == false )
+            if( self::$software->softwareExists( $data['softwareid'] ) == false )
             {
 
                 return false;
@@ -90,14 +87,14 @@
             else
             {
 
-                if( $this->computers->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
+                if( self::$computers->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
                 {
 
                     return false;
                 }
             }
 
-            if( $this->software->canUninstall( $data['softwareid'] ) == false )
+            if( self::$software->canUninstall( $data['softwareid'] ) == false )
             {
 
                 $this->redirectError('You cannot uninstall this software', $this->getRedirect( $data['ipaddress'] ) );
@@ -131,35 +128,35 @@
                 throw new SyscrackException();
             }
 
-            if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+            if( self::$internet->ipExists( $data['ipaddress'] ) == false )
             {
 
                 $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
             }
 
-            if( $this->software->softwareExists( $data['softwareid'] ) == false )
+            if( self::$software->softwareExists( $data['softwareid'] ) == false )
             {
 
                 $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
+            if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
             {
 
                 $this->redirectError('Sorry, it looks like this software got uninstalled already', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $this->software->uninstallSoftware( $data['softwareid'] );
+            self::$software->uninstallSoftware( $data['softwareid'] );
 
-            $this->computers->uninstallSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
+            self::$computers->uninstallSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
             $this->logUninstall( $this->getSoftwareName( $data['softwareid' ] ),
                 $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
 
             $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
-                $this->computers->getCurrentUserComputer(), $data['ipaddress']);
+                self::$computers->getCurrentUserComputer(), $data['ipaddress']);
 
-            $this->software->executeSoftwareMethod( $this->software->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onUninstalled', array(
+            self::$software->executeSoftwareMethod( self::$software->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onUninstalled', array(
                 'softwareid'    => $data['softwareid'],
                 'userid'        => $userid,
                 'computerid'    => $this->getComputerId( $data['ipaddress'] )
@@ -230,17 +227,15 @@
         }
 
         /**
-         * Logs a login action to the computers log
-         *
+         * @param $softwarename
          * @param $computerid
-         *
          * @param $ipaddress
          */
 
         private function logUninstall( $softwarename, $computerid, $ipaddress )
         {
 
-            if( $this->computers->getCurrentUserComputer() == $computerid )
+            if( self::$computers->getCurrentUserComputer() == $computerid )
             {
 
                 return;
@@ -250,10 +245,8 @@
         }
 
         /**
-         * Logs to the computer
-         *
+         * @param $softwarename
          * @param $computerid
-         *
          * @param $ipaddress
          */
 

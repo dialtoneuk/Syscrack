@@ -51,7 +51,7 @@ $log = new Log();
                    placeholder="<?php if (isset($ipaddress)) {
                        echo $ipaddress;
                    } else {
-                       echo $internet->getComputerAddress(\Framework\Application\Settings::getSetting('syscrack_whois_computer'));
+                       echo $internet->getComputerAddress( $settings['syscrack_whois_computer'] );
                    } ?>">
             <span class="input-group-btn">
                 <button class="btn btn-default"

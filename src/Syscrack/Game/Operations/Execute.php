@@ -62,22 +62,22 @@
                 return false;
             }
 
-            if( $this->software->canExecute( $data['softwareid'] ) == false )
+            if( self::$software->canExecute( $data['softwareid'] ) == false )
             {
 
                 $this->redirectError('Sorry, this software cannot be executed', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            if( $this->software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
+            if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
             {
 
                 return false;
             }
 
-            if( $this->software->localExecuteOnly( $data['softwareid'] ) )
+            if( self::$software->localExecuteOnly( $data['softwareid'] ) )
             {
 
-                if( $this->computers->getComputer( $computerid )->ipaddress !== $data['ipaddress'] )
+                if( self::$computers->getComputer( $computerid )->ipaddress !== $data['ipaddress'] )
                 {
 
                     $this->redirectError('This action can only be executed on your local computer', $this->getRedirect( $data['ipaddress'] ) );
@@ -112,19 +112,19 @@
                 throw new SyscrackException();
             }
 
-            if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+            if( self::$internet->ipExists( $data['ipaddress'] ) == false )
             {
 
                 $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
             }
 
-            if( $this->software->softwareExists( $data['softwareid'] ) == false )
+            if( self::$software->softwareExists( $data['softwareid'] ) == false )
             {
 
                 $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
             }
 
-            $class = $this->software->getSoftwareClassFromID( $data['softwareid'] );
+            $class = self::$software->getSoftwareClassFromID( $data['softwareid'] );
 
             if( $class instanceof Software == false )
             {
@@ -164,13 +164,13 @@
                 throw new SyscrackException();
             }
 
-            if( $this->software->softwareExists( $softwareid ) == false )
+            if( self::$software->softwareExists( $softwareid ) == false )
             {
 
                 throw new SyscrackException();
             }
 
-            $class = $this->software->getSoftwareClassFromID( $softwareid );
+            $class = self::$software->getSoftwareClassFromID( $softwareid );
 
             if( $class instanceof Software == false )
             {

@@ -26,11 +26,6 @@ if (isset($softwares) == false) {
     $softwares = new Software();
 }
 
-if (isset($npc) == false) {
-
-    $npc = new Schema();
-}
-
 if (isset($internet) == false) {
 
     $internet = new Internet();
@@ -68,7 +63,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => Settings::getSetting('alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'), 'alert_type' => 'alert-success'));
             ?>
         </div>
     </div>
@@ -76,20 +71,8 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         <div class="col-md-12">
             <h5 style="color: #ababab" class="text-uppercase">
                 <?php
-                if ($npc->hasSchema($current_computer->computerid)) {
-
-                    $schema = $npc->getSchema($current_computer->computerid);
-
-                    if (isset($schema['name'])) {
-
-                        echo $schema['name'];
-                    }
-                } else {
-
-                    ?>
-                    Bank
-                    <?php
-                }
+                if( isset( $metadata ) )
+                    echo @$metadata->custom["name"]
                 ?>
             </h5>
             <div class="row">
@@ -112,7 +95,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                         Account Number
                                     </li>
                                     <li class="list-group-item">
-                                        <span class="badge"><?= Settings::getSetting('syscrack_currency') . number_format($account->cash) ?></span>
+                                        <span class="badge"><?= $settings['syscrack_currency') . number_format($account->cash) ?></span>
                                         Balance
                                     </li>
                                 </ul>
@@ -148,7 +131,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     You currently don't have an account at this bank, but its free to create one! There
                                     is also a signup bonus
                                     of
-                                    <strong><?= Settings::getSetting('syscrack_currency') . number_format(Settings::getSetting('syscrack_bank_default_balance')) ?></strong>
+                                    <strong><?= $settings['syscrack_currency') . number_format($settings['syscrack_bank_default_balance')) ?></strong>
                                 </p>
 
                                 <form method="post" style="width: 100%;">

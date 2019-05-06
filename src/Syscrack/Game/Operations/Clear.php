@@ -24,7 +24,7 @@ class Clear extends BaseClass implements Structure
     public function __construct()
     {
 
-        parent::__construct();
+        parent::__construct( true );
     }
 
     /**
@@ -66,15 +66,15 @@ class Clear extends BaseClass implements Structure
             return false;
         }
 
-        $computer = $this->internet->getComputer( $data['ipaddress'] );
+        $computer = self::$internet->getComputer( $data['ipaddress'] );
 
-        if( $this->log->hasLog( $computer->computerid ) == false )
+        if( self::$log->hasLog( $computer->computerid ) == false )
         {
 
             return false;
         }
 
-        if( empty( $this->log->getCurrentLog( $computer->computerid ) ) )
+        if( empty( self::$log->getCurrentLog( $computer->computerid ) ) )
         {
 
             $this->redirectError('The log is currently already empty', $this->getRedirect( $data['ipaddress'] ) );
@@ -108,13 +108,13 @@ class Clear extends BaseClass implements Structure
             throw new SyscrackException();
         }
 
-        if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
         {
 
             $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
         }
 
-        $this->log->saveLog( $this->getComputerId( $data['ipaddress'] ), [] );
+        self::$log->saveLog( $this->getComputerId( $data['ipaddress'] ), [] );
 
         if( isset( $data['redirect'] ) )
         {
