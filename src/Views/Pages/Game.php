@@ -422,8 +422,6 @@
                                         'ipaddress'     => $ipaddress,
                                         'custom'        => $data
                                     )) );
-
-                            $this->redirectSuccess('game/internet/' . $ipaddress );
                         }
                     }
                 }

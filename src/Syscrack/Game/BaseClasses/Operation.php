@@ -316,11 +316,10 @@ class Operation
     }
 
     /**
-     * Renders a page
-     *
      * @param $file
-     *
      * @param array|null $array
+     * @param bool $default_classes
+     * @param bool $cleanob
      */
 
     public function getRender( $file, array $array = null, $default_classes = false, $cleanob=true  )
