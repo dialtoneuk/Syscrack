@@ -96,7 +96,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     ]
                                 ], 'remove_submit' => true, 'remove_form' => true));
                                 ?>
-                                <label class="text-uppercase" style="color: lightgray;" for="form-type">Types</label>
+                                <label class="text-uppercase" style="color: lightgray;" for="type">Types</label>
                                 <select name="type" class="combobox input-sm form-control">
                                     <?php
 
@@ -134,6 +134,40 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             ]
                         ], 'remove_submit' => true, 'remove_form' => true));
                         ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <?php
+                                Render::view('syscrack/templates/template.form', array('form_elements' => [
+                                    [
+                                        'type' => 'string',
+                                        'name' => 'name',
+                                        'placeholder' => "",
+                                        'icon' => 'glyphicon-user'
+                                    ]
+                                ], 'remove_submit' => true, 'remove_form' => true));
+                                ?>
+                                <label class="text-uppercase" style="color: lightgray;" for="browserpages">Page</label>
+                                <select name="browserpages" class="combobox input-sm form-control">
+                                    <?php
+
+                                    if( empty( $browserpages ) == false )
+                                    {
+
+                                        foreach( $browserpages as $page )
+                                        {
+                                            ?>
+                                            <option value="<?=$page?>"><?=$page?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

@@ -7,6 +7,9 @@ if (isset($processclass) == false) {
     $processclass = new Operations();
 }
 
+if( isset( $panel ) == false )
+    $panel = "panel-primary";
+
 if (isset($processid)) {
 
     $process = $processclass->getProcess($processid);
@@ -30,7 +33,7 @@ if (isset($processid)) {
     }
     ?>
     <div class="col-sm-12">
-        <div class="panel panel-primary">
+        <div class="panel <?=$panel?>">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-10">

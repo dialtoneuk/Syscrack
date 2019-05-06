@@ -182,26 +182,10 @@ class Internet
      * Sets the current connected address of the user
      *
      * @param $ipaddress
-     *
-     * @return null
      */
 
     public function setCurrentConnectedAddress( $ipaddress )
     {
-
-        if( Container::hasObject('session') == false )
-        {
-
-            return null;
-        }
-
-        $session = Container::getObject('session');
-
-        if( $session->isLoggedIn() == false )
-        {
-
-            return null;
-        }
 
         $_SESSION['connected_ipaddress'] = $ipaddress;
     }

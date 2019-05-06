@@ -145,7 +145,7 @@ class Controller
         catch( Error $error )
         {
 
-            throw new SyscrackException( $error->getMessage() );
+            throw new SyscrackException( $page . " =>" . $error->getMessage() . " at line " . $error->getLine() );
         }
 
         if( Settings::getSetting('middlewares_enabled') )

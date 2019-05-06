@@ -29,7 +29,7 @@ class Computer
      * @var Database
      */
 
-    protected $database;
+    protected static $database;
 
     /**
      * Computer constructor.
@@ -38,13 +38,11 @@ class Computer
     public function __construct()
     {
 
-        $this->database = new Database();
+        if( isset( self::$database ) == false )
+            self::$database = new Database();
 
         if( empty( self::$factory ) )
-        {
-
             $this->loadComputers();
-        }
     }
 
     /**
@@ -229,7 +227,7 @@ class Computer
     public function getAllComputers( $pick=32 )
     {
 
-        return $this->database->getAllComputers( $pick );
+        return self::$database->getAllComputers( $pick );
     }
 
     /**
@@ -241,7 +239,7 @@ class Computer
     public function getComputerCount()
     {
 
-        return $this->database->getComputerCount();
+        return self::$database->getComputerCount();
     }
 
     /**
@@ -255,7 +253,7 @@ class Computer
     public function userHasComputers( $userid )
     {
 
-        if( $this->database->getComputersByUser( $userid ) == null )
+        if( self::$database->getComputersByUser( $userid ) == null )
         {
 
             return false;
@@ -279,7 +277,7 @@ class Computer
             'ipaddress' => $address
         );
 
-        $this->database->updateComputer( $computerid, $array );
+        self::$database->updateComputer( $computerid, $array );
     }
 
     /**
@@ -295,7 +293,7 @@ class Computer
             'software' => json_encode([])
         );
 
-        $this->database->updateComputer( $computerid, $array );
+        self::$database->updateComputer( $computerid, $array );
     }
 
     /**
@@ -311,7 +309,7 @@ class Computer
             'hardware' => json_encode( [] )
         );
 
-        $this->database->updateComputer( $computerid, $array );
+        self::$database->updateComputer( $computerid, $array );
     }
 
     /**
@@ -329,7 +327,7 @@ class Computer
             'hardware' => json_encode( $hardware )
         );
 
-        $this->database->updateComputer( $computerid, $array );
+        self::$database->updateComputer( $computerid, $array );
     }
 
     /**
@@ -343,7 +341,7 @@ class Computer
     public function getComputer( $computerid )
     {
 
-        return $this->database->getComputer( $computerid );
+        return self::$database->getComputer( $computerid );
     }
 
     /**
@@ -371,7 +369,7 @@ class Computer
     public function computerExists( $computerid )
     {
 
-        if( $this->database->getComputer( $computerid ) == null )
+        if( self::$database->getComputer( $computerid ) == null )
         {
 
             return false;
@@ -435,7 +433,7 @@ class Computer
             'hardware' => json_encode( $hardware )
         );
 
-        return $this->database->insertComputer( $array );
+        return self::$database->insertComputer( $array );
     }
 
     /**
@@ -460,7 +458,7 @@ class Computer
             'timeinstalled'     => time()
         );
 
-        $this->database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
+        self::$database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
     }
 
     /**
@@ -492,7 +490,7 @@ class Computer
             }
         }
 
-        $this->database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
+        self::$database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
     }
 
     /**
@@ -524,7 +522,7 @@ class Computer
             }
         }
 
-        $this->database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
+        self::$database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
     }
 
     /**
@@ -556,7 +554,7 @@ class Computer
             }
         }
 
-        $this->database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
+        self::$database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
     }
 
 
@@ -571,7 +569,7 @@ class Computer
     public function getComputerHardware( $computerid )
     {
 
-        return json_decode( $this->database->getComputer( $computerid )->hardware, true );
+        return json_decode( self::$database->getComputer( $computerid )->hardware, true );
     }
 
     /**
@@ -585,7 +583,7 @@ class Computer
     public function getUserMainComputer( $userid )
     {
 
-        return $this->database->getComputersByUser( $userid )[0];
+        return self::$database->getComputersByUser( $userid )[0];
     }
 
     /**
@@ -599,7 +597,7 @@ class Computer
     public function getUserComputers( $userid )
     {
 
-        return $this->database->getComputersByUser( $userid );
+        return self::$database->getComputersByUser( $userid );
     }
 
     /**
@@ -613,7 +611,7 @@ class Computer
     public function getComputerType( $computerid )
     {
 
-        return $this->database->getComputer( $computerid )->type;
+        return self::$database->getComputer( $computerid )->type;
     }
 
     /**

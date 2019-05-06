@@ -64,28 +64,23 @@
         }
 
         /**
-         * What to do on startup
-         *
          * @param $computerid
-         *
          * @param $userid
-         *
          * @param array $software
-         *
          * @param array $hardware
+         * @param array $custom
          */
 
-        public function onStartup($computerid, $userid, array $software = [], array $hardware = [])
+        public function onStartup($computerid, $userid, array $software = [], array $hardware = [], array $custom = [])
         {
 
             if( $this->addressdatabase->hasDatabase( $userid ) == false )
                 $this->addressdatabase->saveDatabase( $userid );
 
-
             if( $this->accountdatabase->hasDatabase( $userid ) == false )
                 $this->accountdatabase->saveDatabase( $userid, [] );
 
-            parent::onStartup( $computerid, $userid, $software, $hardware );
+            parent::onStartup( $computerid, $userid, $software, $hardware, $custom );
         }
 
         /**
@@ -96,6 +91,14 @@
 
         public function onReset($computerid)
         {
+
+            $userid = $this->computer->getComputer( $computerid )->userid;
+
+            if( $this->addressdatabase->hasDatabase( $userid ) == false )
+                $this->addressdatabase->saveDatabase( $userid, [] );
+
+            if( $this->accountdatabase->hasDatabase( $userid ) == false )
+                $this->accountdatabase->saveDatabase( $userid, [] );
 
             parent::onReset( $computerid );
         }
@@ -113,7 +116,6 @@
 
             if( $this->internet->ipExists( $ipaddress ) == false )
                 throw new SyscrackException();
-
 
             $this->internet->setCurrentConnectedAddress( $ipaddress );
 

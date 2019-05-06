@@ -201,22 +201,22 @@ class PageHelper
 
         $results = [];
 
-        foreach( $computersoftware as $software )
+        foreach( $computersoftware as $csoftware )
         {
 
-            if( $software['type'] == $type )
+            if( $csoftware['type'] == $type )
             {
 
-                if( $software['installed'] == true )
+                if( $csoftware['installed'] == true )
                 {
 
-                    if( $software->softwareExists( $software['softwareid'] ) == false )
+                    if( $software->softwareExists( $csoftware['softwareid'] ) == false )
                     {
 
                         continue;
                     }
 
-                    $results[] = $software->getSoftware( $software['softwareid'] );
+                    $results[] = $software->getSoftware( $csoftware['softwareid'] );
                 }
             }
         }
@@ -261,22 +261,22 @@ class PageHelper
 
         $results = [];
 
-        foreach( $computersoftware as $software )
+        foreach( $computersoftware as $csoftware )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_software_collector_type') )
+            if( $csoftware['type'] == Settings::getSetting('syscrack_software_collector_type') )
             {
 
-                if( $software['installed'] == true )
+                if( $csoftware['installed'] == true )
                 {
 
-                    if( $software->softwareExists( $software['softwareid'] ) == false )
+                    if( $software->softwareExists( $csoftware['softwareid'] ) == false )
                     {
 
                         continue;
                     }
 
-                    $results[] = $software->getSoftware( $software['softwareid'] );
+                    $results[] = $software->getSoftware( $csoftware['softwareid'] );
                 }
             }
         }
@@ -321,22 +321,22 @@ class PageHelper
 
         $results = [];
 
-        foreach( $computersoftware as $software )
+        foreach( $computersoftware as $csoftware )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_software_hasher_type') )
+            if( $csoftware['type'] == Settings::getSetting('syscrack_software_hasher_type') )
             {
 
-                if( $software['installed'] == true )
+                if( $csoftware['installed'] == true )
                 {
 
-                    if( $software->softwareExists( $software['softwareid'] ) == false )
+                    if( $software->softwareExists( $csoftware['softwareid'] ) == false )
                     {
 
                         continue;
                     }
 
-                    $results[] = $software->getSoftware( $software['softwareid'] );
+                    $results[] = $software->getSoftware( $csoftware['softwareid'] );
                 }
             }
         }
@@ -381,22 +381,22 @@ class PageHelper
 
         $results = [];
 
-        foreach( $computersoftware as $software )
+        foreach( $computersoftware as $csoftware )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_software_firewall_type') )
+            if( $csoftware['type'] == Settings::getSetting('syscrack_software_firewall_type') )
             {
 
-                if( $software['installed'] == true )
+                if( $csoftware['installed'] == true )
                 {
 
-                    if( $software->softwareExists( $software['softwareid'] ) == false )
+                    if( $software->softwareExists( $csoftware['softwareid'] ) == false )
                     {
 
                         continue;
                     }
 
-                    $results[] = $software->getSoftware( $software['softwareid'] );
+                    $results[] = $software->getSoftware( $csoftware['softwareid'] );
                 }
             }
         }
@@ -441,22 +441,22 @@ class PageHelper
 
         $results = [];
 
-        foreach( $computersoftware as $software )
+        foreach( $computersoftware as $csoftware )
         {
 
-            if( $software['type'] == Settings::getSetting('syscrack_software_cracker_type') )
+            if( $csoftware['type'] == Settings::getSetting('syscrack_software_cracker_type') )
             {
 
-                if( $software['installed'] == true )
+                if( $csoftware['installed'] == true )
                 {
 
-                    if( $software->softwareExists( $software['softwareid'] ) == false )
+                    if( $software->softwareExists( $csoftware['softwareid'] ) == false )
                     {
 
                         continue;
                     }
 
-                    $results[] = $software->getSoftware( $software['softwareid'] );
+                    $results[] = $software->getSoftware( $csoftware['softwareid'] );
                 }
             }
         }

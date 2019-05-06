@@ -14,7 +14,7 @@
 
         public function configuration();
 
-        public function onStartup( $computerid, $userid, array $software = [], array $hardware = [] );
+        public function onStartup( $computerid, $userid, array $software = [], array $hardware = [], array $custom = [] );
 
         public function onReset( $computerid );
 

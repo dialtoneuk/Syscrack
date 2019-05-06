@@ -98,17 +98,17 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             <h5 style="color: #ababab" class="text-uppercase">
                                 <?php
 
-                                if ($computer_controller->getCurrentUserComputer() == $computer_controller->computerid) {
+                                if ($computer_controller->getCurrentUserComputer() == $computer->computerid) {
 
                                     ?>
-                                    <p><a href="/processes/computer/<?= $computerid ?>" class="btn btn-primary"
-                                          role="button">Task Manager</a> <span>This is your current computer</span></p>
+                                    <p><span>This is your current computer</span> <a href="/processes/computer/<?= $computerid ?>" class="btn btn-info"
+                                                                                     role="button" style="float: right; margin-top: -10px; padding-bottom: 5px;">Open Task Manager</a></p>
                                     <?php
                                 } else {
 
                                     ?>
-                                    <?= $computer_controller->ipaddress ?> <span class="badge"
-                                                                      style="float: right;"><a href="/game/computers/#<?= $computer_controller->ipaddress ?>">Switch to VPC</a></span>
+                                    <?= $computer->ipaddress ?> <span class="badge"
+                                                                      style="float: right;"><a href="/game/computers/#<?= $computer->ipaddress ?>">Switch to VPC</a></span>
                                     <?php
                                 }
                                 ?>
@@ -118,11 +118,11 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             <?php
                             foreach ($value as $item => $process) {
 
-                                if ($computer_controller->getCurrentUserComputer() == $computer_controller->computerid) {
+                                if ($computer_controller->getCurrentUserComputer() == $computer->computerid) {
 
                                     ?>
                                     <div class="row">
-                                        <?php Render::view('syscrack/templates/template.process', array('processid' => $process->processid, 'processcclass' => $operations->findProcessClass($process->process))); ?>
+                                        <?php Render::view('syscrack/templates/template.process', array('panel' => 'panel-info', 'processid' => $process->processid, 'processcclass' => $operations->findProcessClass($process->process))); ?>
                                     </div>
                                     <?php
                                 } else {

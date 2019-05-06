@@ -54,36 +54,6 @@
         }
 
         /**
-         * What to do when this computer resets
-         *
-         * @param $computerid
-         */
-
-        public function onReset($computerid)
-        {
-
-            parent::onReset($computerid);
-        }
-
-        /**
-         * What to do when this computer starts up
-         *
-         * @param $computerid
-         *
-         * @param $userid
-         *
-         * @param array $software
-         *
-         * @param array $hardware
-         */
-
-        public function onStartup($computerid, $userid, array $software = [], array $hardware = [])
-        {
-
-            parent::onStartup($computerid, $userid, $software, $hardware);
-        }
-
-        /**
          * What to do when you login to this computer
          *
          * @param $computerid

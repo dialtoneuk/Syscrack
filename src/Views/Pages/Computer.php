@@ -189,7 +189,7 @@
         public function computerCollect()
         {
 
-            if( $this->computer->hasType( $this->computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
+            if( parent::$computer->hasType( parent::$computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
                 $this->redirect('computer');
 
             Render::view('syscrack/page.computer.collect', [], $this->model());
@@ -202,7 +202,7 @@
         public function computerCollectProcess()
         {
 
-            if( $this->computer->hasType( $this->computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
+            if( parent::$computer->hasType( parent::$computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
                 $this->redirect('computer');
             else
                 if( PostHelper::hasPostData() == false )
@@ -220,7 +220,7 @@
                         if( $this->finance->accountNumberExists( $accountnumber ) )
                         {
 
-                            $addresses = $this->getAddresses( $this->session->getSessionUser() );
+                            $addresses = $this->getAddresses( self::$session->getSessionUser() );
                             $information = array();
                             $collection = 0;
 
@@ -251,8 +251,8 @@
             $this->log->updateLog('Deposited '
                 . Settings::getSetting('syscrack_currency')
                 . number_format(  $collection ) .
-                ' into account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid )
-                . '>', $this->computer->getCurrentUserComputer(), 'localhost');
+                ' into account (' . $accountnumber . ') at bank <' . self::$internet->getComputerAddress( $account->computerid )
+                . '>', parent::$computer->getCurrentUserComputer(), 'localhost');
         }
 
         private function calculateProfit( $software, $ipaddress, &$collection, &$information )
@@ -262,7 +262,7 @@
              * @var $class Software;
              */
 
-            $class = $this->software->getSoftwareClassFromID( $software->softwareid );
+            $class = self::$software->getSoftwareClassFromID( $software->softwareid );
             $collection += $class->onCollect( $software->softwareid, $software->userid, $software->computerid, time() - $software->lastmodified );
 
             $information[ $ipaddress ] = [
@@ -282,12 +282,12 @@
                 return null;
 
             foreach( $addresses as $address )
-                if( $this->internet->ipExists( $address["ipaddress"] ) == false )
+                if( self::$internet->ipExists( $address["ipaddress"] ) == false )
                     $results[] = [ "status" => 0, $address ];
                 else
                 {
 
-                    $computerid = $this->internet->getComputer( $address["ipaddress"] )->computerid;
+                    $computerid = self::$internet->getComputer( $address["ipaddress"] )->computerid;
 
                     if( $this->viruses->hasVirusesOnComputer( $computerid, $userid ) == false )
                         $results[] = [ "status" => 1, $address ];
@@ -311,12 +311,12 @@
         public function computerCollectProcess()
         {
 
-            if( $this->computer->hasType( $this->computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
+            if( parent::$computer->hasType( parent::$computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
                 $this->redirect('computer');
 
 
             if( PostHelper::hasPostData() == false )
-                $this->computerCollect();
+                parent::$computerCollect();
 
             else
             {
@@ -330,7 +330,7 @@
                     $this->redirectError('This account does not exist', 'computer/collect');
 
 
-                $addressdatabase = $this->addressdatabase->getUserAddresses( $this->session->getSessionUser() );
+                $addressdatabase = $this->addressdatabase->getUserAddresses( self::$session->getSessionUser() );
 
                 if( empty( $addressdatabase ) )
                 {
@@ -343,7 +343,7 @@
                 foreach( $addressdatabase as $address )
                 {
 
-                    if( $this->internet->ipExists( $address['ipaddress'] ) == false )
+                    if( self::$internet->ipExists( $address['ipaddress'] ) == false )
                     {
 
                         $results[ $address['ipaddress'] ] = array(
@@ -351,20 +351,20 @@
                             'message' => 'Failed to connect to address, address removed from addressbook'
                         );
 
-                        $this->addressdatabase->deleteAddress( $address['ipaddress'], $this->session->getSessionUser() );
+                        $this->addressdatabase->deleteAddress( $address['ipaddress'], self::$session->getSessionUser() );
                     }
                     else
                     {
 
-                        $computer = $this->internet->getComputer( $address['ipaddress'] );
+                        $computer = self::$internet->getComputer( $address['ipaddress'] );
 
-                        if( $this->viruses->hasVirusesOnComputer( $computer->computerid, $this->session->getSessionUser() ) == false )
+                        if( $this->viruses->hasVirusesOnComputer( $computer->computerid, self::$session->getSessionUser() ) == false )
                         {
 
                             continue;
                         }
 
-                        $viruses = $this->viruses->getVirusesOnComputer( $computer->computerid, $this->session->getSessionUser() );
+                        $viruses = $this->viruses->getVirusesOnComputer( $computer->computerid, self::$session->getSessionUser() );
 
                         foreach( $viruses as $virus )
                         {
@@ -386,7 +386,7 @@
                             else
                             {
 
-                                $class = $this->software->getSoftwareClassFromID( $virus->softwareid );
+                                $class = self::$software->getSoftwareClassFromID( $virus->softwareid );
 
                                 if( $class instanceof Software == false )
                                 {
@@ -394,7 +394,7 @@
                                     throw new SyscrackException();
                                 }
 
-                                $result = $class->onCollect( $virus->softwareid, $this->session->getSessionUser(), $computer->computerid, time() - $virus->lastmodified );
+                                $result = $class->onCollect( $virus->softwareid, self::$session->getSessionUser(), $computer->computerid, time() - $virus->lastmodified );
 
                                 if( empty( $result ) | $result == null )
                                 {
@@ -457,9 +457,9 @@
                         $this->statistics->addStatistic('collected', $total );
                     }
 
-                    $this->finance->deposit( $account->computerid, $this->session->getSessionUser(), $total );
+                    $this->finance->deposit( $account->computerid, self::$session->getSessionUser(), $total );
 
-                    $this->log->updateLog('Deposited ' . Settings::getSetting('syscrack_currency') . number_format(  $total ) . ' into account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid ) . '>', $this->computer->getCurrentUserComputer(), 'localhost');
+                    $this->log->updateLog('Deposited ' . Settings::getSetting('syscrack_currency') . number_format(  $total ) . ' into account (' . $accountnumber . ') at bank <' . self::$internet->getComputerAddress( $account->computerid ) . '>', parent::$computer->getCurrentUserComputer(), 'localhost');
                 }
 
                 Render::view('syscrack/page.computer.collect', array( 'results' => $results, 'total' => $total ), $this->model());
@@ -470,7 +470,7 @@
         public function computerResearch()
         {
 
-            if( $this->computer->hasType( $this->computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_research_type'), true ) == false )
+            if( parent::$computer->hasType( parent::$computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_research_type'), true ) == false )
             {
 
                 $this->redirect('computer');
@@ -509,21 +509,21 @@
 
                     $softwareid = PostHelper::getPostData('softwareid');
 
-                    if( $this->software->softwareExists( $softwareid ) == false )
+                    if( self::$software->softwareExists( $softwareid ) == false )
                     {
 
                         $this->redirectError('Software does not exist', 'computer/research');
                     }
 
-                    $software = $this->software->getSoftware( $softwareid );
+                    $software = self::$software->getSoftware( $softwareid );
 
-                    if( $this->computer->hasSoftware( $this->computer->getCurrentUserComputer(), $softwareid ) == false )
+                    if( parent::$computer->hasSoftware( parent::$computer->getCurrentUserComputer(), $softwareid ) == false )
                     {
 
                         $this->redirectError('This computer does not have this current software', 'computer/research');
                     }
 
-                    $data = $this->software->getSoftwareData( $software->softwareid );
+                    $data = self::$software->getSoftwareData( $software->softwareid );
 
                     if( isset( $data['license'] ) )
                     {
@@ -553,9 +553,9 @@
 
                     $this->finance->withdraw( $account->computerid, $account->userid, $this->getLicensePrice( $softwareid ) );
 
-                    $this->software->licenseSoftware( $softwareid, $this->session->getSessionUser() );
+                    self::$software->licenseSoftware( $softwareid, self::$session->getSessionUser() );
 
-                    $this->log->updateLog('Purchased license for ' . Settings::getSetting('syscrack_currency') . number_format( $this->getLicensePrice( $softwareid ) ) . ' payed with account (' . $accountnumber . ') at bank <' . $this->internet->getComputerAddress( $account->computerid ) . '>', $this->computer->getCurrentUserComputer(), 'localhost');
+                    $this->log->updateLog('Purchased license for ' . Settings::getSetting('syscrack_currency') . number_format( $this->getLicensePrice( $softwareid ) ) . ' payed with account (' . $accountnumber . ') at bank <' . self::$internet->getComputerAddress( $account->computerid ) . '>', parent::$computer->getCurrentUserComputer(), 'localhost');
 
                     $this->redirectSuccess('computer/research');
                 }
@@ -570,21 +570,21 @@
 
                     $softwareid = PostHelper::getPostData('softwareid');
 
-                    if( $this->software->softwareExists( $softwareid ) == false )
+                    if( self::$software->softwareExists( $softwareid ) == false )
                     {
 
                         $this->redirectError('Software does not exist', 'computer/research');
                     }
 
-                    $software = $this->software->getSoftware( $softwareid );
+                    $software = self::$software->getSoftware( $softwareid );
 
-                    if( $this->computer->hasSoftware( $this->computer->getCurrentUserComputer(), $softwareid ) == false )
+                    if( parent::$computer->hasSoftware( parent::$computer->getCurrentUserComputer(), $softwareid ) == false )
                     {
 
                         $this->redirectError('This computer does not have this current software', 'computer/research');
                     }
 
-                    $data = $this->software->getSoftwareData( $software->softwareid );
+                    $data = self::$software->getSoftwareData( $software->softwareid );
 
                     if( isset( $data['license'] ) )
                     {
@@ -632,7 +632,7 @@
                 $this->redirectError('Invalid action');
             }
 
-            $computerid = $this->computer->getCurrentUserComputer();
+            $computerid = parent::$computer->getCurrentUserComputer();
 
             $ipaddress = $this->getCurrentComputerAddress();
 
@@ -657,7 +657,7 @@
             if( $this->operations->allowCustomData( $process ) == true )
             {
 
-                $data = $this->getCustomData( $process, $ipaddress, $this->session->getSessionUser() );
+                $data = $this->getCustomData( $process, $ipaddress, self::$session->getSessionUser() );
             }
             else
             {
@@ -667,7 +667,7 @@
 
             $class = $this->operations->findProcessClass($process);
 
-            $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $result = $class->onCreation(time(), parent::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'custom'        => $data
             ));
@@ -678,12 +678,12 @@
                 $this->redirectError('Unable to complete process' );
             }
 
-            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $ipaddress, null );
+            $completiontime = $class->getCompletionSpeed(parent::$computer->getCurrentUserComputer(), $ipaddress, null );
 
             if( $completiontime !== null )
             {
 
-                $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+                $processid = $this->operations->createProcess($completiontime, parent::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
                     'ipaddress'     => $ipaddress,
                     'custom'        => $data,
                     'redirect'      => 'computer'
@@ -692,7 +692,7 @@
                 $this->redirect('processes/' . $processid, true );
             }
 
-            $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $class->onCompletion(time(), time(), parent::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'custom'        => $data,
                 'redirect'      => 'computer'
@@ -716,7 +716,7 @@
                 $this->redirectError('Invalid action');
             }
 
-            $computerid = $this->computer->getCurrentUserComputer();
+            $computerid = parent::$computer->getCurrentUserComputer();
 
             $ipaddress = $this->getCurrentComputerAddress();
 
@@ -757,12 +757,12 @@
                             $this->redirectError('Missing information');
                     }
 
-                        $result = $class->onPost( PostHelper::returnRequirements( $requirements ), $ipaddress, $this->session->getSessionUser() );
+                        $result = $class->onPost( PostHelper::returnRequirements( $requirements ), $ipaddress, self::$session->getSessionUser() );
                     }
                     else
                     {
 
-                        $result = $class->onPost( PostHelper::getPost(), $ipaddress, $this->session->getSessionUser() );
+                        $result = $class->onPost( PostHelper::getPost(), $ipaddress, self::$session->getSessionUser() );
                     }
 
                     if( $result == false )
@@ -773,21 +773,21 @@
                 }
             }
 
-            if ( $this->software->softwareExists( $softwareid ) == false )
+            if ( self::$software->softwareExists( $softwareid ) == false )
             {
 
                 $this->redirectError('Software does not exist');
             }
 
-            $software = $this->software->getSoftware( $softwareid );
+            $software = self::$software->getSoftware( $softwareid );
 
-            if( $this->software->isEditable( $software->softwareid ) == false )
+            if( self::$software->isEditable( $software->softwareid ) == false )
             {
 
                 if( $process == Settings::getSetting('syscrack_operations_view_process') )
                 {
 
-                    if( $this->software->canView( $software->softwareid ) == false )
+                    if( self::$software->canView( $software->softwareid ) == false )
                     {
 
                         $this->redirectError('This software cannot be modified or edited' );
@@ -807,7 +807,7 @@
             if( $this->operations->allowCustomData( $process ) == true )
             {
 
-                $data = $this->getCustomData( $process, $ipaddress, $this->session->getSessionUser() );
+                $data = $this->getCustomData( $process, $ipaddress, self::$session->getSessionUser() );
             }
             else
             {
@@ -815,7 +815,7 @@
                 $data = [];
             }
 
-            $result = $class->onCreation(time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $result = $class->onCreation(time(), parent::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'softwareid'    => $software->softwareid,
                 'custom'        => $data
@@ -827,12 +827,12 @@
                 $this->redirectError('Unable to complete process' );
             }
 
-            $completiontime = $class->getCompletionSpeed($this->computer->getCurrentUserComputer(), $ipaddress, $software->softwareid );
+            $completiontime = $class->getCompletionSpeed(parent::$computer->getCurrentUserComputer(), $ipaddress, $software->softwareid );
 
             if( $completiontime !== null )
             {
 
-                $processid = $this->operations->createProcess($completiontime, $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+                $processid = $this->operations->createProcess($completiontime, parent::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
                     'ipaddress'     => $ipaddress,
                     'softwareid'    => $software->softwareid,
                     'custom'        => $data,
@@ -842,7 +842,7 @@
                 $this->redirect('processes/' . $processid, true );
             }
 
-            $class->onCompletion(time(), time(), $this->computer->getCurrentUserComputer(), $this->session->getSessionUser(), $process, array(
+            $class->onCompletion(time(), time(), parent::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'softwareid'    => $software->softwareid,
                 'custom'        => $data,
@@ -899,7 +899,7 @@
         private function getLicensePrice( $softwareid )
         {
 
-            $software = $this->software->getSoftware( $softwareid );
+            $software = self::$software->getSoftware( $softwareid );
 
             if( $software->level * Settings::getSetting('syscrack_research_price_multiplier') <= 0 )
             {
@@ -919,6 +919,6 @@
         private function getCurrentComputerAddress()
         {
 
-            return $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress;
+            return parent::$computer->getComputer( parent::$computer->getCurrentUserComputer() )->ipaddress;
         }
     }

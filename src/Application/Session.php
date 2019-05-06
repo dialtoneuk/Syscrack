@@ -19,7 +19,7 @@ class Session
      * @var Database
      */
 
-    protected $database;
+    protected static $database;
 
     /**
      * Capsule constructor.
@@ -28,7 +28,8 @@ class Session
     public function __construct()
     {
 
-        $this->database = new Database();
+        if( isset( self::$database ) == false )
+            self::$database = new Database();
     }
 
     /**
@@ -38,7 +39,7 @@ class Session
     public function updateLastAction()
     {
 
-        $this->database->updateSession( session_id(), array('lastaction' => microtime( true ) ) );
+        self::$database->updateSession( session_id(), array('lastaction' => microtime( true ) ) );
     }
 
     /**
@@ -96,7 +97,7 @@ class Session
     public function getLastAction()
     {
 
-        return $this->database->getSession( session_id() )->lastaction;
+        return self::$database->getSession( session_id() )->lastaction;
     }
 
     /**
@@ -108,7 +109,7 @@ class Session
     public function getDatabaseSession()
     {
 
-        return $this->database->getSession( session_id() );
+        return self::$database->getSession( session_id() );
     }
 
     /**
@@ -169,7 +170,7 @@ class Session
     public function cleanupSession( $userid )
     {
 
-        $this->database->trashUserSessions( $userid );
+        self::$database->trashUserSessions( $userid );
     }
 
     /**
@@ -197,7 +198,7 @@ class Session
             'lastaction'    => microtime( true )
         );
 
-        $this->database->insertSession( $array );
+        self::$database->insertSession( $array );
     }
 
     /**
@@ -209,7 +210,7 @@ class Session
     public function getActiveSessions()
     {
 
-        return $this->database->getSessionsByLastAction( time() - Settings::getSetting('online_timeframe') );
+        return self::$database->getSessionsByLastAction( time() - Settings::getSetting('online_timeframe') );
     }
 
     /**
@@ -221,7 +222,7 @@ class Session
     public function isLoggedIn()
     {
 
-        if( $this->database->getSession( session_id() ) == null )
+        if( self::$database->getSession( session_id() ) == null )
         {
 
             return false;

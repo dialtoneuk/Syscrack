@@ -19,7 +19,7 @@ class User
 	 * @var Database
 	 */
 
-	protected $database;
+	protected static $database;
 
 	/**
 	 * User constructor.
@@ -27,8 +27,8 @@ class User
 
 	public function __construct ()
 	{
-
-		$this->database = new Database();
+        if( isset( self::$database ) == false )
+		    self::$database = new Database();
 	}
 
 	/**
@@ -42,7 +42,7 @@ class User
 	public function userExists( $userid )
 	{
 
-		if( $this->database->getUser( $userid ) == null )
+		if( self::$database->getUser( $userid ) == null )
 		{
 
 			return false;
@@ -62,7 +62,7 @@ class User
 	public function usernameExists( $username )
 	{
 
-		if( $this->database->getByUsername( $username ) == null )
+		if( self::$database->getByUsername( $username ) == null )
 		{
 
 			return false;
@@ -80,7 +80,7 @@ class User
 	public function delete( $userid )
     {
 
-        $this->database->deleteUser( $userid );
+        self::$database->deleteUser( $userid );
     }
 
 	/**
@@ -94,7 +94,7 @@ class User
 	public function findByUsername( $username )
 	{
 
-		$result = $this->database->getByUsername( $username );
+		$result = self::$database->getByUsername( $username );
 
 		if( $result == null )
 		{
@@ -122,7 +122,7 @@ class User
 			throw new SyscrackException();
 		}
 
-		return $this->database->getUser( $userid );
+		return self::$database->getUser( $userid );
 	}
 
 	/**
@@ -232,7 +232,7 @@ class User
 			'email' => $email
 		);
 
-		$this->database->updateUser( $userid, $array );
+		self::$database->updateUser( $userid, $array );
 	}
 
 	/**
@@ -256,7 +256,7 @@ class User
 			'password' => $password
 		);
 
-		$this->database->updateUser( $userid, $array );
+		self::$database->updateUser( $userid, $array );
 	}
 
     /**
@@ -280,7 +280,7 @@ class User
             'group' => $group
         );
 
-        $this->database->updateUser( $userid, $array );
+        self::$database->updateUser( $userid, $array );
     }
 
 	/**
@@ -304,7 +304,7 @@ class User
 			'salt' => $salt
 		);
 
-		$this->database->updateUser( $userid, $array );
+		self::$database->updateUser( $userid, $array );
 	}
 
 	/**
@@ -342,7 +342,7 @@ class User
 	public function getAllUsers()
     {
 
-        return $this->database->getUsers();
+        return self::$database->getUsers();
     }
 
     /**
@@ -354,7 +354,7 @@ class User
 	public function getUsersCount()
     {
 
-        return $this->database->getUsers()->count();
+        return self::$database->getUsers()->count();
     }
 
 	/**

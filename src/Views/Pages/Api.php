@@ -17,6 +17,7 @@
     use Framework\Exceptions\ViewException;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
+    use Flight;
 
     class Api extends BaseClass implements Structure
     {

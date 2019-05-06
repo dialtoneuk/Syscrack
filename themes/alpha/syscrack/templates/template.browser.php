@@ -5,8 +5,6 @@ use Framework\Syscrack\Game\Schema;
 use Framework\Syscrack\Game\Utilities\PageHelper;
 use Framework\Application\Render;
 
-$npc = new Schema();
-
 if (isset($internet) == false) {
 
     $internet = new Internet();
@@ -16,6 +14,10 @@ if (isset($pagehelper) == false) {
 
     $pagehelper = new PageHelper();
 }
+
+/**
+ * @var $metadata \Framework\Application\UtilitiesV2\Conventions\CreatorData
+ */
 ?>
 <div class="col-md-8">
     <form method="post" action="/game/internet/">
@@ -23,18 +25,51 @@ if (isset($pagehelper) == false) {
             <input type="text" class="form-control" id="ipaddress" name="ipaddress"
                    placeholder="<?php if (isset($ipaddress)) {
                        echo $ipaddress;
-                   } else {
-                       echo $internet->getComputerAddress(\Framework\Application\Settings::getSetting('syscrack_whois_computer'));
-                   } ?>">
+                   }?>">
             <span class="input-group-btn">
                 <button class="btn btn-default"
                         onclick="window.location.href = '/game/internet/' . $('#ipaddress').value()">Connect</button>
             </span>
         </div><!-- /input-group -->
         <div class="panel panel-default" style="margin-top: 2.5%">
+            <?php
+                if( isset( $metadata ) && empty( $metadata->custom ) == false || isset( $metadata->custom["name"] ) )
+                {
+                    ?>
+                        <div class="panel-heading">
+                            <?=$metadata->custom["name"]?>
+                        </div>
+                    <?php
+                }
+
+            ?>
             <div class="panel-body">
                 <?php
+                    if( isset( $metadata ) == false && empty( $metadata->custom ) || isset( $metadata->custom["browserpage"] ) == false )
+                    {
 
+                        ?>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-info">
+                                    <div class="panel-body">
+                                        Successfully connected to <?=$ipaddress?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    else
+                    {
+
+                        Render::view("../../" . \Framework\Application\Settings::getSetting("browser_pages_root") . $metadata->custom["browserpage"], array("internet" => $internet, 'ipaddress' => $ipaddress, 'metadata' => $metadata));
+                    }
+
+                ?>
+                <?php
+
+                /**
                 $computer = $internet->getComputer($ipaddress);
 
                 if ($npc->hasSchema($computer->computerid) && $npc->hasSchemaPage($computer->computerid)) {
@@ -46,7 +81,7 @@ if (isset($pagehelper) == false) {
                         Connection success
                     </p>
                     <?php
-                }
+                }**/
                 ?>
             </div>
             <div class="panel-footer">

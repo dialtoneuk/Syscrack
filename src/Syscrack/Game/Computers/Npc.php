@@ -56,21 +56,17 @@
         }
 
         /**
-         * What to do when this computer starts up
-         *
          * @param $computerid
-         *
          * @param $userid
-         *
          * @param array $software
-         *
          * @param array $hardware
+         * @param array $custom
          */
 
-        public function onStartup($computerid, $userid, array $software = [], array $hardware = [])
+        public function onStartup($computerid, $userid, array $software = [], array $hardware = [], array $custom = [])
         {
 
-            parent::onStartup($computerid, $userid, $software, $hardware);
+            parent::onStartup($computerid, $userid, $software, $hardware, $custom );
         }
 
         /**

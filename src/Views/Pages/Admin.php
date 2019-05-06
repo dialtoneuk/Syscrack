@@ -10,31 +10,22 @@
      */
 
     use Framework\Application\Render;
-    use Framework\Application\Container;
-    use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Application\UtilitiesV2\Conventions\CreatorData;
     use Framework\Exceptions\SyscrackException;
-    use Framework\Exceptions\ViewException;
+    use Framework\Syscrack\Game\BrowserPages;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Market;
+    use Framework\Syscrack\Game\Metadata;
     use Framework\Syscrack\Game\Riddles;
-    use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer;
     use Framework\Syscrack\Game\Types;
-    use Framework\Syscrack\User;
     use Framework\Syscrack\Game\Themes;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
     class Admin extends BaseClass implements Structure
     {
-
-        /**
-         * @var Schema
-         */
-
-        protected $schema;
 
         /**
          * @var Finance
@@ -49,20 +40,44 @@
         protected $themes;
 
         /**
+         * @var Metadata
+         */
+
+        protected static $metadata;
+
+        /**
+         * @var Types
+         */
+
+        protected static $types;
+
+        /**
+         * @var BrowserPages
+         */
+
+        protected static $browserpages;
+
+        /**
          * Admin Error constructor.
          */
 
         public function __construct()
         {
 
-            if (isset( $this->schema ) == false)
-                $this->schema = new Schema();
-
-            if (isset($this->finance) == false)
+            if (isset( $this->finance) == false)
                 $this->finance = new Finance();
 
             if( isset( $this->themes ) == false )
                 $this->themes = new Themes( true );
+
+            if( isset( self::$metadata ) == false )
+                self::$metadata = new Metadata();
+
+            if( isset( self::$types ) == false )
+                self::$types = new Types();
+
+            if( isset( self::$browserpages ) == false )
+                self::$browserpages = new BrowserPages();
 
             parent::__construct( true, true, true, false, true );
         }
@@ -84,7 +99,7 @@
                     'GET /admin/computer/', 'computerViewer'
                 ],
                 [
-                    'POST /admin/computer/', 'computerearch'
+                    'POST /admin/computer/', 'computerViewerProcess'
                 ],
                 [
                     'GET /admin/computer/edit/@computerid/', 'computerEditor'
@@ -175,7 +190,7 @@
         {
 
             if ( $this->isUser( $userid ) )
-                Render::view('syscrack/page.admin.users.edit', array('userid' => $userid, 'users' => $this->user ));
+                Render::view('syscrack/page.admin.users.edit', array('userid' => $userid, 'users' => self::$user ));
             else
                 $this->redirectError('This user does not exist, please try another', 'admin/users/');
         }
@@ -211,7 +226,7 @@
                             else
                             {
 
-                                $this->user->updateGroup( $userid, PostHelper::getPostData('group', true ) );
+                                self::$user->updateGroup( $userid, PostHelper::getPostData('group', true ) );
                                 $this->redirectSuccess('admin/users/edit/' . $userid );
                             }
                         }
@@ -231,7 +246,7 @@
         }
 
         /**
-         * @param $theme
+         *
          */
 
         public function themesProcess()
@@ -240,12 +255,15 @@
             if( PostHelper::checkForRequirements(['theme']) == false )
                 $this->redirectError("This theme does not exist");
             else
+            {
+
                 $theme = PostHelper::getPostData('theme', true );
 
-            if( $this->themes->themeExists( $theme ) == false )
-                $this->redirectError("This theme does not exist");
-            else
-                $this->themes->set( $theme );
+                if( $this->themes->themeExists( $theme ) == false )
+                    $this->redirectError("This theme does not exist");
+                else
+                    $this->themes->set( $theme );
+            }
         }
 
         /**
@@ -255,11 +273,11 @@
         public function computerEditor( $computerid )
         {
 
-            if( $this->computer->computerExists( $computerid ) == false )
+            if( parent::$computer->computerExists( $computerid ) == false )
                 $this->redirectError('This computer does not exist, please try another');
             else
             {
-                $computer = $this->computer->getComputer($computerid);
+                $computer = parent::$computer->getComputer($computerid);
                 Render::view('syscrack/page.admin.computer.edit', array('computer' => $computer, 'ipaddress' => $computer->ipaddress), $this->model());
             }
         }
@@ -271,7 +289,7 @@
         public function computerEditorProcess( $computerid )
         {
 
-            if ( $this->computer->computerExists( $computerid ) == false )
+            if ( parent::$computer->computerExists( $computerid ) == false )
                 $this->redirectError('This computer does not exist, please try another', "admin/computer/edit/" . $computerid );
 
             if ( PostHelper::hasPostData() == false )
@@ -320,10 +338,10 @@
                             if ( isset( $_POST['anondownloads'] ) )
                                 $customdata['allowanondownloads'] = true;
 
-                            $softwareid = $this->software->createSoftware(
-                                $this->software->getNameFromClass(
-                                    $this->software->findSoftwareByUniqueName( PostHelper::getPostData('uniquename', true ) )),
-                                    $this->computer->getComputer( $computerid )->userid,
+                            $softwareid = self::$software->createSoftware(
+                                self::$software->getNameFromClass(
+                                    self::$software->findSoftwareByUniqueName( PostHelper::getPostData('uniquename', true ) )),
+                                    parent::$computer->getComputer( $computerid )->userid,
                                     $computerid,
                                     PostHelper::getPostData('name', true ),
                                     PostHelper::getPostData('level', true ),
@@ -331,9 +349,9 @@
                                     $customdata
                                 );
 
-                            $software = $this->software->getSoftware( $softwareid );
+                            $software = self::$software->getSoftware( $softwareid );
 
-                            $this->computer->addSoftware( $computerid, $software->softwareid, $software->type);
+                            parent::$computer->addSoftware( $computerid, $software->softwareid, $software->type);
 
                             if ( isset( $_POST['schema'] ) )
                                 $this->addToSchema( $computerid, $software );
@@ -357,7 +375,7 @@
                         else
                         {
 
-                            if ( $this->software->softwareExists( PostHelper::getPostData('softwareid', true ) ) == false )
+                            if ( self::$software->softwareExists( PostHelper::getPostData('softwareid', true ) ) == false )
                             {
 
                                 $this->redirectError('Invalid Software', "admin/computer/edit/" . $computerid );
@@ -366,17 +384,17 @@
                             if ( PostHelper::getPostData('task', true ) == 'install' )
                             {
 
-                                $this->software->installSoftware( PostHelper::getPostData('softwareid', true ),
-                                    $this->computer->getComputer( $computerid )->userid );
+                                self::$software->installSoftware( PostHelper::getPostData('softwareid', true ),
+                                    parent::$computer->getComputer( $computerid )->userid );
 
-                                $this->computer->installSoftware( $computerid,  PostHelper::getPostData('softwareid', true ) );
+                                parent::$computer->installSoftware( $computerid,  PostHelper::getPostData('softwareid', true ) );
                             }
                             else
                             {
 
-                                $this->software->uninstallSoftware( PostHelper::getPostData('softwareid', true ) );
+                                self::$software->uninstallSoftware( PostHelper::getPostData('softwareid', true ) );
 
-                                $this->computer->uninstallSoftware( $computerid,  PostHelper::getPostData('softwareid', true ) );
+                                parent::$computer->uninstallSoftware( $computerid,  PostHelper::getPostData('softwareid', true ) );
                             }
 
                             $this->redirectSuccess('admin/computer/edit/' . $computerid);
@@ -397,14 +415,14 @@
                         else
                             {
 
-                            if ($this->software->softwareExists(PostHelper::getPostData('softwareid', true)) == false) {
+                            if (self::$software->softwareExists(PostHelper::getPostData('softwareid', true)) == false) {
 
                                 $this->redirectError('Invalid Software', "admin/computer/edit/" . $computerid);
                             }
 
-                            $this->software->deleteSoftware(   PostHelper::getPostData('softwareid', true ) );
+                            self::$software->deleteSoftware(   PostHelper::getPostData('softwareid', true ) );
 
-                            $this->computer->removeSoftware( $computerid,  PostHelper::getPostData('softwareid', true ) );
+                            parent::$computer->removeSoftware( $computerid,  PostHelper::getPostData('softwareid', true ) );
 
                             $this->redirectSuccess('admin/computer/edit/' . $computerid);
                         }
@@ -429,7 +447,7 @@
 
                             $market = new Market();
 
-                            if ( $this->computer->isMarket( $computerid ) == false )
+                            if ( parent::$computer->isMarket( $computerid ) == false )
                             {
 
                                 $this->redirectError('Wrong computer type', "admin/computer/edit/" . $computerid );
@@ -559,16 +577,16 @@
                 if( PostHelper::checkForRequirements(['resetip'] ) == true )
                 {
 
-                    $computer = $this->computer->getAllComputers( $this->computer->getComputerCount() );
+                    $computer = parent::$computer->getAllComputers( parent::$computer->getComputerCount() );
 
                     foreach( $computer as $computers )
                     {
 
-                        $this->internet->changeAddress( $computers->computerid );
+                        self::$internet->changeAddress( $computers->computerid );
                     }
                 }
 
-                $this->resetcomputer();
+                $this->resetComputer();
 
                 if (PostHelper::checkForRequirements(['clearfinance']) == true)
                 {
@@ -594,7 +612,7 @@
          *
          */
 
-        public function computerearch()
+        public function computerViewerProcess()
         {
 
             if( PostHelper::hasPostData() == false )
@@ -616,13 +634,13 @@
                 if( filter_var( $query, FILTER_VALIDATE_IP) )
                 {
 
-                    if( $this->internet->ipExists( $query ) == false )
+                    if( self::$internet->ipExists( $query ) == false )
                     {
 
                         $this->redirectError('Address is invalid', 'admin/computer');
                     }
 
-                    $this->redirect('admin/computer/' . $this->internet->getComputer( $query )->computerid );
+                    $this->redirect('admin/computer/' . self::$internet->getComputer( $query )->computerid );
                 }
                 else
                 {
@@ -633,13 +651,13 @@
                         $this->redirectError('Invalid query', 'admin/computer' );
                     }
 
-                    if( $this->computer->computerExists( $query ) == false )
+                    if( parent::$computer->computerExists( $query ) == false )
                     {
 
                         $this->redirectError('Computer not found', 'admin/computer');
                     }
 
-                    $this->redirect('admin/computer/' . $this->computer->getComputer( $query )->computerid );
+                    $this->redirect('admin/computer/' . parent::$computer->getComputer( $query )->computerid );
                 }
             }
         }
@@ -651,14 +669,31 @@
         private $path = 'admin/computer/creator';
 
         /**
+         * @return array
+         */
+
+        private function custom()
+        {
+
+            $array = [];
+
+            if( PostHelper::checkForRequirements(["name"] ) )
+                $array["name"] = PostHelper::getPostData("name");
+
+            if( PostHelper::checkForRequirements( ["browserpages"] ) )
+                $array["browserpage"] = PostHelper::getPostData("browserpages");
+
+            return( $array );
+        }
+
+        /**
          *
          */
 
         public function computerCreator()
         {
 
-            $types = new Types();
-            Render::view('syscrack/page.admin.computer.creator', ["types" => $types->get() ], $this->model());
+            Render::view('syscrack/page.admin.computer.creator', ["types" => self::$types->get(), "browserpages" => self::$browserpages->get() ], $this->model());
         }
 
         /**
@@ -703,17 +738,21 @@
                             $this->redirectError("Userid is invalid", $this->path );
                         elseif( $this->validAddress( $object->ipaddress ) == false )
                             $this->redirectError("Address is invalid", $this->path);
-                        elseif( $this->computer->hasComputerClass( $object->type ) == false )
+                        elseif( parent::$computer->hasComputerClass( $object->type ) == false )
                             $this->redirectError("Unknown type of computer");
 
-                        $computerid = $this->computer->createComputer( $object->userid,  $object->type,  $object->ipaddress, $object->software, $object->hardware );
-                        $class      = $this->computer->getComputerClass( $object->type );
+                        $computerid = parent::$computer->createComputer( $object->userid,  $object->type,  $object->ipaddress, $object->software, $object->hardware );
+
+                        /**
+                         * @var $class Computer
+                         */
+                        $class      = parent::$computer->getComputerClass( $object->type );
 
                         if( $class instanceof Computer == false )
                             throw new \Error("Instanceof check returned false");
 
-                        $class->onStartup( $computerid, $object->userid, $object->software, $object->hardware );
-                        $this->redirectSuccess( $this->path );
+                        $class->onStartup( $computerid, $object->userid, $object->software, $object->hardware, $this->custom() );
+                        $this->redirectSuccess( 'admin/computer/edit/' . $computerid );
                     }
                 }
             }
@@ -723,21 +762,25 @@
          * Resets all the computer using the schema file if it is found
          */
 
-        private function resetcomputer()
+        private function resetComputer()
         {
 
-            $computer = $this->computer->getAllComputers($this->computer->getComputerCount());
+            $computer = parent::$computer->getAllComputers(parent::$computer->getComputerCount());
 
             foreach( $computer as $computers )
             {
 
-                if( $this->computer->hasComputerClass( $computers->type ) == false )
+                if( parent::$computer->hasComputerClass( $computers->type ) == false )
                 {
 
                     continue;
                 }
 
-                $class = $this->computer->getComputerClass( $computers->type );
+                /**
+                 * @var $class Computer
+                 */
+
+                $class = parent::$computer->getComputerClass( $computers->type );
 
                 if( $class instanceof Computer == false )
                 {
@@ -759,32 +802,19 @@
             $accounts = $this->finance->getAllAccounts($this->finance->getAccountCount());
 
             foreach ($accounts as $account)
-            {
-
                 $this->finance->removeAccount($account->computerid, $account->userid);
-            }
         }
+
+        /**
+         * @param $computerid
+         * @param $software
+         */
 
         private function addToSchema( $computerid, $software )
         {
 
-            $schema = new Schema();
-
-            if ( $schema->hasSchema( $computerid ) == false )
-            {
-
-                return null;
-            }
-
-            $computerchema = $schema->getSchema( $computerid );
-
-            if ( isset( $computerchema['software'] ) == false )
-            {
-
-                throw new ViewException();
-            }
-
-            $computerchema['software'][] = [
+            $object = self::$metadata->get( $computerid )->contents();
+            $object["software"][] = [
                 "installed"     => $software->installed,
                 "level"         => $software->level,
                 "name"          => $software->softwarename,
@@ -793,19 +823,8 @@
                 "data"          => json_decode( $software->data, true )
             ];
 
-            $schema->setSchema( $computerid, $computerchema );
-        }
 
-        /**
-         * Gets the last json error
-         *
-         * @return string
-         */
-
-        private function getLastJsonError()
-        {
-
-            return json_last_error_msg();
+            self::$metadata->update( $computerid, array("software" => $object["software"] ) );
         }
 
         /**
@@ -820,16 +839,9 @@
         {
 
             if (filter_var($ipaddress, FILTER_VALIDATE_IP) == false)
-            {
-
                 return false;
-            }
-
-            if ($this->internet->ipExists($ipaddress) == true)
-            {
-
+            elseif (self::$internet->ipExists($ipaddress) == true)
                 return false;
-            }
 
             return true;
         }
@@ -845,13 +857,11 @@
         private function isValidJson( $data )
         {
 
-            $array = json_decode( $data, true );
+            json_decode( $data, true );
 
             if( json_last_error() !== JSON_ERROR_NONE )
-            {
-
                 return false;
-            }
+
 
             return true;
         }

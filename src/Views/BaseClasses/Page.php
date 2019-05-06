@@ -9,7 +9,6 @@
      * @package Framework\Views
      */
 
-    use Flight;
     use Framework\Application\Container;
     use Framework\Application\Render;
     use Framework\Application\Session;
@@ -20,6 +19,7 @@
     use Framework\Syscrack\Game\Software;
     use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Syscrack\User;
+    use Illuminate\Support\Collection;
 
     class Page
     {
@@ -36,31 +36,31 @@
          * @var Software
          */
 
-        public $software;
+        public static $software;
 
         /**
          * @var Internet
          */
 
-        public $internet;
+        public static $internet;
 
         /**
          * @var Computer
          */
 
-        public $computer;
+        public static $computer;
 
         /**
          * @var Session
          */
 
-        public $session;
+        public static $session;
 
         /**
          * @var User
          */
 
-        public $user;
+        public static $user;
 
         /**
          * Page constructor.
@@ -77,10 +77,10 @@
             if ($autoload )
             {
 
-                $this->software = new Software();
-                $this->internet = new Internet();
-                $this->computer = new Computer();
-                $this->user = new User();
+                self::$software = new Software();
+                self::$internet = new Internet();
+                self::$computer = new Computer();
+                self::$user = new User();
             }
 
             if ( Settings::getSetting('render_mvc_output') )
@@ -92,15 +92,15 @@
                 if (session_status() !== PHP_SESSION_ACTIVE )
                     session_start();
 
-                $this->session = new Session();
-                Container::setObject('session', $this->session );
+                self::$session = new Session();
+                Container::setObject('session', self::$session);
             }
 
             if( $requirelogin && $session )
                 if ( $this->isLoggedIn()  == false)
                     Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
                 else
-                    $this->session->updateLastAction();
+                    self::$session->updateLastAction();
 
             /**
             if( $clearerrors && $session )
@@ -129,6 +129,17 @@
         }
 
         /**
+         * @param $ipaddress
+         * @return Collection
+         */
+
+        public function getComputerByAddress( $ipaddress )
+        {
+
+            return( self::$internet->getComputer( $ipaddress ) );
+        }
+
+        /**
          * @return bool
          */
 
@@ -136,7 +147,7 @@
         {
 
             if( Container::getObject('session')->isLoggedIn() )
-                if( $this->user->isAdmin( Container::getObject('session')->getSessionUser() ) )
+                if( self::$user->isAdmin( Container::getObject('session')->getSessionUser() ) )
                     return true;
 
             return false;
@@ -153,7 +164,7 @@
             if( is_numeric( $userid ) == false )
                 return false;
 
-            return( $this->user->userExists( $userid ) );
+            return( self::$user->userExists( $userid ) );
         }
 
         /**
@@ -164,7 +175,7 @@
          * @param bool $exit
          */
 
-        public function redirect( $path, $exit=true )
+        public function redirect( $path, $exit=true)
         {
 
             if( Debug::isPHPUnitTest() )
@@ -175,10 +186,7 @@
                 Render::redirect( Settings::getSetting('controller_index_root') . $path );
 
                 if( $exit == true )
-                {
-
                    exit;
-                }
             }
         }
 
@@ -261,61 +269,31 @@
             {
 
                 $_SESSION['error'] = $message;
-                $_SESSION['error_time'] = microtime( true );
-
-                if( $path !== '' )
-                {
-
-                    if( empty( explode('/', $path ) ) )
-                    {
-
-                        $_SESSION['error_page'] = explode('/', $path)[0];
-                    }
-                    else
-                    {
-
-                        if( substr( $path, 0, 1 ) == '/' )
-                        {
-
-                            $_SESSION['error_page'] = substr( $path, 1);
-                        }
-                        else
-                        {
-
-                            $_SESSION['error_page'] = $path;
-                        }
-                    }
-                }
-                else
-                {
-
-                    $_SESSION['error_page'] = $this->getCurrentPage();
-                }
 
                 if ($path !== '')
                 {
 
-                    $this->redirect( $path . '?error' );
+                    if (empty(explode('/', $path)))
+                        $_SESSION['error_page'] = explode('/', $path)[0];
+                    else
+                        if (substr($path, 0, 1) == '/')
+                            $_SESSION['error_page'] = substr($path, 1);
+                        else
+                            $_SESSION['error_page'] = $path;
                 }
-                else
-                {
 
-                    $this->redirect( $this->getCurrentPage() . '?error' );
-                }
+                if ($path !== '')
+                    $this->redirect($path . '?error');
+                else
+                    $this->redirect($this->getCurrentPage() . '?error');
             }
             else
             {
 
                 if ($path !== '')
-                {
-
                     $this->redirect( $path . '?error=' . $message );
-                }
                 else
-                {
-
                     $this->redirect( $this->getCurrentPage() . '?error=' . $message );
-                }
             }
         }
 
@@ -338,11 +316,9 @@
         }
 
         /**
-         * Renders a page
-         *
          * @param $file
-         *
          * @param array|null $array
+         * @param bool $obclean
          */
 
         public function getRender($file, array $array = null, $obclean=true )
@@ -355,7 +331,7 @@
             }
 
             if( isset( $array["computer_controller"] ) == false )
-                $array["computer_controller"] = $this->computer;
+                $array["computer_controller"] = self::$computer;
 
             Render::view($file, $array, $this->model() );
         }

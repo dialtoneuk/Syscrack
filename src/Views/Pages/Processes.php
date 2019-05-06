@@ -9,7 +9,6 @@
      * @package Framework\Views\Pages
      */
 
-    use Framework\Application\Render;
     use Framework\Application\Container;
     use Framework\Syscrack\Game\Operations;
     use Framework\Views\BaseClasses\Page as BaseClass;
@@ -22,7 +21,7 @@
          * @var Operations
          */
 
-        protected $operations;
+        protected static $operations;
 
         /**
          * Processes constructor.
@@ -31,13 +30,10 @@
         public function __construct()
         {
 
-            parent::__construct( true, true, true, true );
+            if( isset( self::$operations ) == false )
+                self::$operations = new Operations();
 
-            if( isset( $this->operations ) == false )
-            {
-
-                $this->operations = new Operations();
-            }
+            parent::__construct( true, true, true, false );
         }
 
         /**
@@ -75,7 +71,7 @@
         public function page()
         {
 
-            $processes = $this->operations->getUserProcesses( Container::getObject('session')->getSessionUser() );
+            $processes = self::$operations->getUserProcesses( Container::getObject('session')->getSessionUser() );
 
             if ( empty( $processes ) )
             {
@@ -93,7 +89,7 @@
                     $array[ $value->computerid ][] = $value;
                 }
             }
-            $this->getRender('syscrack/page.process.php', array('processes' => $array, 'operations' => $this->operations, 'computerid' => $this->computer->getCurrentUserComputer() ));
+            $this->getRender('syscrack/page.process.php', array('processes' => $array, 'operations' => self::$operations, 'computerid' => self::$computer->getCurrentUserComputer() ));
         }
 
         /**
@@ -105,7 +101,7 @@
         public function viewProcess($processid)
         {
 
-            if ($this->operations->processExists($processid) == false)
+            if (self::$operations->processExists($processid) == false)
             {
 
                 $this->redirectError('This process does not exist');
@@ -113,7 +109,7 @@
             else
             {
 
-                $process = $this->operations->getProcess($processid);
+                $process = self::$operations->getProcess($processid);
 
                 if ($process->userid != Container::getObject('session')->getSessionUser())
                 {
@@ -123,7 +119,7 @@
                 else
                 {
 
-                    if ($process->computerid != $this->computer->getCurrentUserComputer())
+                    if ($process->computerid != self::$computer->getCurrentUserComputer())
                     {
 
                         $this->redirectError('You are connected as a different computer');
@@ -131,7 +127,7 @@
                     else
                     {
 
-                        $this->getRender('syscrack/page.process.view', array('processid' => $processid, 'processclass' => $this->operations, 'auto' => true));
+                        $this->getRender('syscrack/page.process.view', array('processid' => $processid, 'processclass' => self::$operations, 'auto' => true));
                     }
                 }
             }
@@ -146,7 +142,7 @@
         public function completeProcess($processid)
         {
 
-            if ($this->operations->processExists($processid) == false)
+            if (self::$operations->processExists($processid) == false)
             {
 
                 $this->redirectError('This process does not exist');
@@ -154,7 +150,7 @@
             else
             {
 
-                $process = $this->operations->getProcess($processid);
+                $process = self::$operations->getProcess($processid);
 
                 if ($process->userid != Container::getObject('session')->getSessionUser())
                 {
@@ -172,19 +168,19 @@
                         $this->redirectError('Sorry, no ip address for this action was set, try again');
                     }
 
-                    if( $this->internet->ipExists( $data['ipaddress'] ) == false )
+                    if( self::$internet->ipExists( $data['ipaddress'] ) == false )
                     {
 
                         $this->redirectError('404 Not found, maybe this IP was changed?');
                     }
 
-                    if( $this->internet->getComputer( $data['ipaddress'] )->computerid != $this->computer->getCurrentUserComputer() )
+                    if( self::$internet->getComputer( $data['ipaddress'] )->computerid != self::$computer->getCurrentUserComputer() )
                     {
 
-                        if( $this->operations->requireLoggedIn( $process->process ) == true )
+                        if( self::$operations->requireLoggedIn( $process->process ) == true )
                         {
 
-                            if( $this->internet->hasCurrentConnection() == false )
+                            if( self::$internet->hasCurrentConnection() == false )
                             {
 
                                 $this->redirectError('You must be connected to the computer this process was initiated on');
@@ -192,7 +188,7 @@
                             else
                             {
 
-                                if( $data['ipaddress'] != $this->internet->getCurrentConnectedAddress() )
+                                if( $data['ipaddress'] != self::$internet->getCurrentConnectedAddress() )
                                 {
 
                                     $this->redirectError('You must be connected to the computer this process was initiated on');
@@ -200,7 +196,7 @@
                             }
                         }
 
-                        if ($this->operations->canComplete($processid) == false)
+                        if (self::$operations->canComplete($processid) == false)
                         {
 
                             $this->redirectError('Process has not yet completed');
@@ -208,13 +204,13 @@
                         else
                         {
 
-                            $this->operations->completeProcess($processid);
+                            self::$operations->completeProcess($processid);
                         }
                     }
                     else
                     {
 
-                        if ($this->operations->canComplete($processid) == false)
+                        if (self::$operations->canComplete($processid) == false)
                         {
 
                             $this->redirectError('Process has not yet completed');
@@ -222,7 +218,7 @@
                         else
                         {
 
-                            $this->operations->completeProcess($processid);
+                            self::$operations->completeProcess($processid);
                         }
                     }
                 }
@@ -238,7 +234,7 @@
         public function deleteProcess( $processid )
         {
 
-            if ($this->operations->processExists($processid) == false)
+            if (self::$operations->processExists($processid) == false)
             {
 
                 $this->redirectError('This process does not exist');
@@ -246,7 +242,7 @@
             else
             {
 
-                $process = $this->operations->getProcess( $processid );
+                $process = self::$operations->getProcess( $processid );
 
                 if( $process->userid !== Container::getObject('session')->getSessionUser() )
                 {
@@ -254,28 +250,28 @@
                     $this->redirectError('You do not own this process');
                 }
 
-                if( $process->computerid != $this->computer->getCurrentUserComputer() )
+                if( $process->computerid != self::$computer->getCurrentUserComputer() )
                 {
 
                     $this->redirectError('You need to currently be switched to the computer this process was initiated on');
                 }
 
-                $this->operations->deleteProcess( $processid );
+                self::$operations->deleteProcess( $processid );
 
-                $this->redirectSuccess('processes/computer/' . $this->computer->getCurrentUserComputer() );
+                $this->redirectSuccess('processes/computer/' . self::$computer->getCurrentUserComputer() );
             }
         }
 
         public function machineProcess( $computerid )
         {
 
-            if( $this->computer->computerExists( $computerid ) == false )
+            if( self::$computer->computerExists( $computerid ) == false )
             {
 
                 $this->redirect('This computer does not exist');
             }
 
-            $computer = $this->computer->getComputer( $computerid );
+            $computer = self::$computer->getComputer( $computerid );
 
             if( $computer->userid !== Container::getObject('session')->getSessionUser() )
             {
@@ -283,8 +279,8 @@
                 $this->redirect('Sorry, this computer is not yours, please try another one');
             }
 
-            $processes = $this->operations->getComputerProcesses( $computer->computerid );
+            $processes = self::$operations->getComputerProcesses( $computer->computerid );
 
-            $this->getRender('syscrack/page.process.machine', array('processes' => $processes, 'operations' => $this->operations, 'computerid' => $computerid, 'ipaddress' => $computer->ipaddress ));
+            $this->getRender('syscrack/page.process.machine', array('processes' => $processes, 'operations' => self::$operations, 'computerid' => $computerid, 'ipaddress' => $computer->ipaddress ));
         }
     }

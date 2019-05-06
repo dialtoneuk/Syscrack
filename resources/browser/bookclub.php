@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-sm-12">
         <h5 style="color: #ababab" class="text-uppercase">
-            Book Club
+            <?=$metadata->custom["name"]?>
         </h5>
 
         <img class="img-responsive" src="https://headlong.co.uk/media/media/images/1984_Branding.png">

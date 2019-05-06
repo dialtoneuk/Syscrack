@@ -31,6 +31,5 @@ class TypesTest extends BaseTestCase
     {
 
         $this->assertNotEmpty( self::$types->get() );
-        Debug::echo( self::$types->get() );
     }
 }

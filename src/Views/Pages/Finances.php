@@ -10,8 +10,6 @@
      */
 
     use Framework\Application\Render;
-    use Framework\Application\Container;
-    use Framework\Application\Session;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Syscrack\Game\Finance;
     use Framework\Views\BaseClasses\Page as BaseClass;
@@ -134,7 +132,7 @@
 
                 $account = $this->finance->getByAccountNumber( $accountnumber );
 
-                if( $account->userid !== $this->session->getSessionUser() )
+                if( $account->userid !== self::$session->getSessionUser() )
                 {
 
                     $this->redirectError('You do not own this account', 'finances/transfer');
@@ -148,7 +146,7 @@
                     $this->redirectError('Account does not exist at remote bank', 'finances/transfer');
                 }
 
-                if( $this->finance->canAfford( $account->computerid, $this->session->getSessionUser(), $amount ) == false )
+                if( $this->finance->canAfford( $account->computerid, self::$session->getSessionUser(), $amount ) == false )
                 {
 
                     $this->redirectError('You cannot afford this transaction', 'finances/transfer' );

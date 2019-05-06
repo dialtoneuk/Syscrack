@@ -74,16 +74,16 @@ $current_computer = $internet->getComputer($ipaddress);
                 <div class="panel-body">
                     <div class="btn-group" role="group" aria-label="Options" style="width: 100%;">
                         <button type="button" class="btn btn-default" style="width: 100%;" data-toggle="collapse"
-                                data-parent="#accordion" href="#collapsehardwares" aria-expanded="true"
-                                aria-controls="collapsehardwares">Show
+                                data-parent="#accordion" href="#collapsehardware" aria-expanded="true"
+                                aria-controls="collapsehardware">Show
                         </button>
                     </div>
-                    <div id="collapsehardwares" class="panel-collapse collapse" role="tabpanel"
-                         aria-labelledby="hardwares">
+                    <div id="collapsehardware" class="panel-collapse collapse" role="tabpanel"
+                         aria-labelledby="hardware">
                         <div class="well-sm" style="margin-top: 8.75%;">
                             <?php
-                            $hardwares = json_decode($internet->getComputer($ipaddress)->hardwares, true);
-                            $csoftwares = json_decode($internet->getComputer($ipaddress)->softwares, true);
+                            $hardware = json_decode($internet->getComputer($ipaddress)->hardware, true);
+                            $csoftwares = json_decode($internet->getComputer($ipaddress)->software, true);
                             ?>
 
                             <?php
@@ -93,9 +93,9 @@ $current_computer = $internet->getComputer($ipaddress);
                             }
                             ?>
                             <pre style="white-space:pre-wrap; max-height: 345px;">
-                                        Drive size: <?= $hardwares['harddrive']['value'] ?>mb
+                                        Drive size: <?=@$hardware['harddrive']['value'] ?>mb
                                         Used Space: <?= $usedspace ?>mb
-                                        Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
+                                        Total Free Space: <?=@$hardware['harddrive']['value'] - $usedspace ?>mb
                                     </pre>
                         </div>
                     </div>

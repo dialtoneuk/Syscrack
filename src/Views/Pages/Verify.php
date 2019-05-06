@@ -98,7 +98,7 @@
                 if( Settings::getSetting('syscrack_startup_on_verification') == true )
                 {
 
-                    $computerid = $this->computer->createComputer( $userid, Settings::getSetting('syscrack_startup_default_computer'), $this->internet->getIP() );
+                    $computerid = $this->computer->createComputer( $userid, Settings::getSetting('syscrack_startup_default_computer'), self::$internet->getIP() );
 
                     if( empty( $computerid ) )
                     {
@@ -168,7 +168,7 @@
                 if( Settings::getSetting('syscrack_startup_on_verification') == true )
                 {
 
-                    $computerid = $this->computer->createComputer( $userid, Settings::getSetting('syscrack_startup_default_computer'), $this->internet->getIP() );
+                    $computerid = $this->computer->createComputer( $userid, Settings::getSetting('syscrack_startup_default_computer'), self::$internet->getIP() );
 
                     if( empty( $computerid ) )
                     {

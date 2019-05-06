@@ -251,15 +251,17 @@ class AddressDatabase
     }
 
     /**
-     * Saves the users database
-     *
      * @param $userid
+     * @param array $data
      */
 
-    public function saveDatabase( $userid )
+    public function saveDatabase( $userid, array $data = [] )
     {
 
-        FileSystem::writeJson( $this->getPath() . $userid . '.json', $this->database );
+        if( empty( $data ) )
+            $data = $this->database;
+
+        FileSystem::writeJson( $this->getPath() . $userid . '.json',$data );
     }
 
     /**

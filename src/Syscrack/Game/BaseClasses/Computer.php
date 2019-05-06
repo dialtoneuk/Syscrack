@@ -19,7 +19,7 @@
     use Framework\Syscrack\Game\Software;
     use Framework\Application\UtilitiesV2\Conventions\ComputerData;
 
-    class Computer
+    class Computer implements \Framework\Syscrack\Game\Structures\Computer
     {
 
         /**
@@ -71,6 +71,40 @@
                 $this->internet = new Internet();
                 $this->log = new Log();
             }
+        }
+
+        /**
+         * @return bool
+         */
+
+        public function configuration()
+        {
+
+            return( true );
+        }
+
+        /**
+         * @param $computerid
+         * @param $ipaddress
+         * @return bool
+         */
+
+        public function onLogin($computerid, $ipaddress)
+        {
+
+            return( true );
+        }
+
+        /**
+         * @param $computerid
+         * @param $ipaddress
+         * @return bool
+         */
+
+        public function onLogout($computerid, $ipaddress)
+        {
+
+            return( true );
         }
 
         /**
@@ -181,9 +215,10 @@
          * @param $userid
          * @param array $software
          * @param array $hardware
+         * @param array $custom
          */
 
-        public function onStartup($computerid, $userid, array $software = [], array $hardware = [] )
+        public function onStartup($computerid, $userid, array $software = [], array $hardware = [], array $custom = [])
         {
 
             if( $this->log->hasLog( $computerid ) == false )
@@ -192,7 +227,7 @@
             $this->addSoftware( $computerid, $userid, $software );
             $this->addHardwares( $computerid, $hardware );
 
-            $this->metadata()->create( $computerid, Metadata::generateData( "Computer_" . $computerid, $this->configuration()["type"], $software, $hardware, [] ) );
+            $this->metadata()->create( $computerid, Metadata::generateData( "Computer_" . $computerid, $this->configuration()["type"], $software, $hardware, $custom ) );
         }
 
         /**

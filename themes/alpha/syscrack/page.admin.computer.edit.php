@@ -88,7 +88,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     Main Hard Drive
                                 </h5>
                                 <?php
-                                Render::view('syscrack/templates/template.softwares', array('computer_controller' => $computer_controller, 'hideoptions' => true, "local" => true));
+                                    Render::view('syscrack/templates/template.softwares', array('computer_controller' => $computer_controller, 'hideoptions' => true, "local" => true));
                                 ?>
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -237,6 +237,10 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                             <?php
                                             $usedspace = 0.0;
                                             foreach ($csoftwares as $key => $value) {
+
+                                                if( $softwares->softwareExists( $value["softwareid"] ) == false )
+                                                    continue;
+
                                                 $usedspace += $softwares->getSoftware($value['softwareid'])->size;
                                             }
                                             ?>

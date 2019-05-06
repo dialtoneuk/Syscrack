@@ -20,34 +20,15 @@ if (isset($internet) == false) {
     $internet = new Internet();
 }
 
-if (isset($schema)) {
-
-    $schema = new Schema();
-}
-
-$current_computer = $internet->getComputer($ipaddress);
 ?>
 
 <div class="row">
     <div class="col-sm-12">
         <h5 style="color: #ababab" class="text-uppercase">
-            <?php
-            if ($schema->hasSchema($current_computer->computerid)) {
-
-                $schema = $schema->getSchema($current_computer->computerid);
-
-                if (isset($schema['name'])) {
-
-                    echo $schema['name'];
-                }
-            } else {
-
-                echo 'Download Server';
-            }
-            ?>
+            <?=$metadata->custom["name"]?>
         </h5>
         <p>
-            Free anonymous downloads! Download away!
+            Anything that you download here won't be logged!
         </p>
 
         <ul class="list-group">

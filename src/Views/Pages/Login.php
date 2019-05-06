@@ -10,13 +10,10 @@
      */
 
     use Framework\Application\Render;
-    use Framework\Application\Container;
-    use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\ViewException;
     use Framework\Syscrack\Login\Account;
-    use Framework\Syscrack\User;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -24,16 +21,10 @@
     {
 
         /**
-         * @var Session
-         */
-
-        protected $session;
-
-        /**
          * @var Account
          */
 
-        protected $login;
+        protected static $login;
 
         /**
          * Login constructor.
@@ -42,19 +33,11 @@
         public function __construct()
         {
 
+            if( isset( self::$login ) == false )
+                self::$login = new Account();
+
             parent::__construct( true, true, false, true );
 
-            if( isset( $this->session ) == false )
-            {
-
-                $this->session = Container::getObject('session');
-            }
-
-            if( isset( $this->user ) == false )
-            {
-
-                $this->user = new User();
-            }
         }
 
         /**
@@ -93,61 +76,33 @@
         public function process()
         {
 
-            if( isset( $this->login ) == false )
-            {
-
-                $this->login = new Account();
-            }
-
             if (PostHelper::hasPostData() == false)
-            {
-
                 $this->redirectError('Blank Form');
-            }
-
-            if (PostHelper::checkForRequirements(['username', 'password']) == false)
-            {
-
+            elseif (PostHelper::checkForRequirements(['username', 'password']) == false)
                 $this->redirectError('Missing Information');
-            }
-
-            $username = PostHelper::getPostData('username');
-
-            $password = PostHelper::getPostData('password');
-
-            try
+            else
             {
 
-                if ($this->login->loginAccount($username, $password) == false)
+                $username = PostHelper::getPostData('username');
+                $password = PostHelper::getPostData('password');
+
+                $result = @self::$login->loginAccount( $username, $password );
+
+                if( $result === false )
+                    $this->redirectError( self::$login::$error->getMessage() );
+                else
                 {
 
-                    $this->redirectError('Failed to login');
+                    $userid = self::$login->getUserID( $username );
+
+                    if( Settings::getSetting('login_cleanup_old_sessions') == true )
+                        self::$session->cleanupSession( $userid );
+
+                    self::$session->insertSession( $userid );
+                    $this->addConnectedComputer( $userid );
+                    $this->redirectSuccess('game', false );
                 }
-            } catch (\Exception $error)
-            {
-
-                $this->redirectError($error->getMessage());
             }
-
-            $userid = $this->login->getUserID( $username );
-
-            if( $this->user->userExists( $userid ) == false )
-            {
-
-                $this->redirectError('Your userid is invalid, please tell a developer');
-            }
-
-            if( Settings::getSetting('login_cleanup_old_sessions') == true )
-            {
-
-                $this->session->cleanupSession( $userid );
-            }
-
-            $this->session->insertSession( $userid );
-
-            $this->addConnectedComputer( $userid );
-
-            $this->redirect('game', false );
         }
 
         /**
@@ -159,12 +114,9 @@
         private function addConnectedComputer($userid)
         {
 
-            if ($this->computer->userHasComputers($userid) == false)
-            {
+            if (self::$computer->userHasComputers($userid) == false)
+                throw new ViewException('User has no computers');
 
-                throw new ViewException('User has no computer');
-            }
-
-            $this->computer->setCurrentUserComputer($this->computer->getUserMainComputer($userid)->computerid);
+            self::$computer->setCurrentUserComputer(self::$computer->getUserMainComputer($userid)->computerid);
         }
     }
