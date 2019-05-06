@@ -87,7 +87,7 @@
     "syscrack_bitcoin_live": true,
     "syscrack_bitcoin_sellprice": 500,
     "syscrack_bitcoin_url": "https:\/\/blockchain.info\/ticker",
-    "syscrack_collector_global_yield": 1000,
+    "syscrack_collector_global_yield": "100",
     "syscrack_collector_amount": 1000,
     "syscrack_collector_btc_amount": 0.5,
     "syscrack_collector_cooldown": "<60 * 2>",

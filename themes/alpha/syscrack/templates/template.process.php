@@ -48,7 +48,7 @@ if (isset($processid)) {
                             if ($processclass->canComplete($processid) == false) {
 
                                 ?>
-                                <span class="glyphicon glyphicon-time"></span> <span id="counter">0</span>
+                                <span class="glyphicon glyphicon-time"></span> <span id="counter<?=$processid?>">0</span>
                                 <?php
                             }
                             ?>
@@ -101,18 +101,18 @@ if (isset($processid)) {
     if ($processclass->canComplete($processid) == false) {
         ?>
         <script>
-            var counter = document.getElementById('counter');
-            var duration = <?=$duration?>;
+            var counter<?=$processid?> = document.getElementById('counter<?=$processid?>');
+            var duration<?=$processid?> = <?=$duration?>;
 
-            var intervalduration = setInterval(onTick, 1000);
+            var intervalduration<?=$processid?> = setInterval(onTick<?=$processid?>, 1000);
 
-            function onTick() {
-                duration = duration - 1;
-                counter.innerHTML = duration + " seconds";
+            function onTick<?=$processid?>() {
+                duration<?=$processid?> = duration<?=$processid?> - 1;
+                counter<?=$processid?>.innerHTML = duration<?=$processid?> + " seconds";
 
-                if (duration < -1) {
-                    clearInterval(intervalduration);
-                    counter.innerHTML = "Press refresh!"
+                if (duration<?=$processid?> <= -1) {
+                    clearInterval(intervalduration<?=$processid?>);
+                    counter<?=$processid?>.innerHTML = "Press refresh!"
                 }
             }
         </script>

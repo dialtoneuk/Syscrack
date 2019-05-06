@@ -64,10 +64,8 @@ class VSpam extends BaseClass implements Structure
     {
 
         if( $this->hardware->hasHardwareType( $computerid, Settings::getSetting('syscrack_hardware_cpu_type') ) == false )
-        {
-
             return Settings::getSetting('syscrack_collector_vspam_yield') * $timeran;
-        }
+
 
         return ( Settings::getSetting('syscrack_collector_vspam_yield') * ( $this->hardware->getCPUSpeed( $computerid ) * $timeran ) ) / Settings::getSetting('syscrack_collector_global_yield');
     }

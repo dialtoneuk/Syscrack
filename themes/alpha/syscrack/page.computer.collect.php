@@ -80,6 +80,24 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         ?>
         <div class="col-md-8">
             <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                        <?php
+                            if( empty( $collector ) )
+                            {
+                                ?>Unable to find your collector, you'll probably be getting some sweet bonuses though<?php
+                            }
+                            else
+                            {
+                        ?>Your current collector ( <?=$collector["softwarename"]?> ) will give you a <b><?=$collector["level"]?></b> times bonus on all profits<?php
+                            }
+                        ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-12">
                     <div class="panel panel-info">
                         <div class="panel-body text-center">

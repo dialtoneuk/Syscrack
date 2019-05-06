@@ -285,6 +285,19 @@ class Software
     }
 
     /**
+     * @param $softwareid
+     * @param null $time
+     */
+
+    public function updateLastModified( $softwareid, $time=null )
+    {
+
+        if( $time === null )
+            $time = microtime( true );
+
+        $this->database->updateSoftware( $softwareid, array( "lastmodified" => $time ) );
+    }
+    /**
      * Creates a new software
      *
      * @param $software
