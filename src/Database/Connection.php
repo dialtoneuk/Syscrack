@@ -66,7 +66,7 @@ class Connection
         if( $file == null )
         {
 
-            $file = Settings::getSetting('database_connection_file');
+            $file = Settings::setting('database_connection_file');
         }
 
 		if( file_exists( FileSystem::getFilePath( $file ) ) == false )
@@ -83,7 +83,7 @@ class Connection
 			throw new DatabaseException();
 		}
 
-		if( Settings::getSetting('database_encrypt_connection') == true )
+		if( DATABASE_ENCRYPTION == true )
         {
 
             $connection = Cyphers::decryptJsonToArray( $json );

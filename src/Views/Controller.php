@@ -47,7 +47,7 @@ class Controller
 	public function __construct()
     {
 
-        $this->factory = new Factory( Settings::getSetting('controller_namespace') );
+        $this->factory = new Factory( Settings::setting('controller_namespace') );
     }
 
     /**
@@ -72,17 +72,17 @@ class Controller
         if( empty( $page ) )
         {
 
-            $page = Settings::getSetting('controller_index_page');
+            $page = Settings::setting('controller_index_page');
         }
         else
         {
 
             //TODO: Make the index root work.. kinda works now but...
 
-            if( Settings::getSetting('controller_index_root') !== '/' )
+            if( Settings::setting('controller_index_root') !== '/' )
             {
 
-                if( '/' . $page[0] == Settings::getSetting('controller_index_root') )
+                if( '/' . $page[0] == Settings::setting('controller_index_root') )
                 {
 
                     if( isset( $page[1] ) == false )
@@ -112,17 +112,17 @@ class Controller
         if( $this->isIndex( $page ))
         {
 
-            $page = Settings::getSetting('controller_index_page');
+            $page = Settings::setting('controller_index_page');
         }
 
         $this->page = $page;
 
         //Disables the developer page from the root
 
-        if( Settings::getSetting('developer_disabled') == true )
+        if( Settings::setting('developer_disabled') == true )
         {
 
-            if( $page == Settings::getSetting('developer_page') )
+            if( $page == Settings::setting('developer_page') )
             {
 
                 Flight::notFound();
@@ -148,7 +148,7 @@ class Controller
             throw new SyscrackException( $page . " =>" . $error->getMessage() . " at line " . $error->getLine() );
         }
 
-        if( Settings::getSetting('middlewares_enabled') )
+        if( Settings::setting('middlewares_enabled') )
         {
 
             if( $this->canExecuteMiddlewaresOnPage( $page ) == true )
@@ -206,10 +206,10 @@ class Controller
     private function isIndex( $page )
     {
 
-        if( Settings::getSetting('controller_index_root') !== '/' )
+        if( Settings::setting('controller_index_root') !== '/' )
         {
 
-            if( '/' . $page == Settings::getSetting('controller_index_root') )
+            if( '/' . $page == Settings::setting('controller_index_root') )
             {
 
                 return true;
@@ -218,7 +218,7 @@ class Controller
         else
         {
 
-            if( $page == Settings::getSetting('controller_index_root') )
+            if( $page == Settings::setting('controller_index_root') )
             {
 
                 return true;
@@ -276,7 +276,7 @@ class Controller
     private function canExecuteMiddlewaresOnPage( $page )
     {
 
-        foreach( Settings::getSetting('middlewares_disabled_pages') as $value )
+        foreach(Settings::setting('middlewares_disabled_pages') as $value )
         {
 
             if( $page == $value )
@@ -386,7 +386,7 @@ class Controller
     private function checkURL( $url )
     {
 
-        if( strlen( $url ) > Settings::getSetting('controller_url_length') )
+        if( strlen( $url ) > Settings::setting('controller_url_length') )
         {
 
             return false;

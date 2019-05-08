@@ -56,7 +56,7 @@ class Log
     public static function saveLogToFile()
     {
 
-        FileSystem::writeJson( Settings::getSetting('active_log_location'), self::getActiveLog() );
+        FileSystem::writeJson( Settings::setting('active_log_location'), self::getActiveLog() );
     }
 
     /**
@@ -68,7 +68,7 @@ class Log
     public static function readActiveLog()
     {
 
-        return FileSystem::readJson( Settings::getSetting('active_log_location') );
+        return FileSystem::readJson( Settings::setting('active_log_location') );
     }
 
     /**

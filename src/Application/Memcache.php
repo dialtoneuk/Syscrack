@@ -30,7 +30,7 @@
         public function __construct( $autoconnect=true )
         {
 
-            if( Settings::getSetting('memcache_enabled') == false )
+            if( Settings::setting('memcache_enabled') == false )
             {
 
                 return;
@@ -71,7 +71,7 @@
             if( $lifespan = null )
             {
 
-                $lifespan = Settings::getSetting('memcache_default_lifespan');
+                $lifespan = Settings::setting('memcache_default_lifespan');
             }
 
             $this->memcache->set( $variable, $value, MEMCACHE_COMPRESSED, $lifespan );
@@ -148,7 +148,7 @@
                 return;
             }
 
-            $this->memcache->connect( Settings::getSetting('memcache_address'), Settings::getSetting('memcache_port'), Settings::getSetting('memcache_timeout') );
+            $this->memcache->connect( Settings::setting('memcache_address'), Settings::setting('memcache_port'), Settings::setting('memcache_timeout') );
         }
 
         /**
@@ -162,13 +162,13 @@
 
             $stats = $this->memcache->getStats();
 
-            if( isset( $stats[ Settings::getSetting('memcache_address') . ':' . Settings::getSetting('memcache_port') ] ) == false )
+            if( isset( $stats[ Settings::setting('memcache_address') . ':' . Settings::setting('memcache_port') ] ) == false )
             {
 
                 return false;
             }
 
-            if( $stats[ Settings::getSetting('memcache_address') . ':' . Settings::getSetting('memcache_port') ]['uptime'] > 1 )
+            if( $stats[ Settings::setting('memcache_address') . ':' . Settings::setting('memcache_port') ]['uptime'] > 1 )
             {
 
                 return false;

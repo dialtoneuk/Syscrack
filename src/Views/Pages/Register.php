@@ -45,7 +45,7 @@
             if( isset( self::$mailer ) == false )
                 self::$mailer = new Mailer();
 
-            if( Settings::getSetting('user_require_betakey') )
+            if( Settings::setting('user_require_betakey') )
                 self::$betakeys = new BetaKeys();
 
             parent::__construct( false, true, false, true );
@@ -78,7 +78,7 @@
         {
 
             if (Container::getObject('session')->isLoggedIn())
-                Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+                Render::redirect( Settings::setting('controller_index_root') . Settings::setting('controller_index_page') );
 
             Render::view('syscrack/page.register');
         }
@@ -91,11 +91,11 @@
         {
 
             if (Container::getObject('session')->isLoggedIn())
-                Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+                Render::redirect( Settings::setting('controller_index_root') . Settings::setting('controller_index_page') );
 
             if (PostHelper::hasPostData() == false)
                 $this->redirectError('Missing Information');
-            elseif (Settings::getSetting('user_allow_registrations') == false)
+            elseif (Settings::setting('user_allow_registrations') == false)
                 $this->redirectError('Registration is currently disabled, sorry...');
             elseif (PostHelper::checkForRequirements(['username', 'password', 'email']) == false)
                 $this->redirectError('Missing Information');
@@ -106,20 +106,20 @@
 
             if (empty($username) || empty($password) || empty($email))
                 $this->redirectError('Missing Information');
-            elseif (strlen($password) < Settings::getSetting('registration_password_length'))
-                $this->redirectError('Your password is too small, it needs to be longer than ' . Settings::getSetting('registration_password_length') . ' characters');
+            elseif (strlen($password) < Settings::setting('registration_password_length'))
+                $this->redirectError('Your password is too small, it needs to be longer than ' . Settings::setting('registration_password_length') . ' characters');
             else
             {
 
                 $register = new Account();
 
-                if ( Settings::getSetting('user_require_betakey') && PostHelper::checkForRequirements(['betakey']) == false
+                if ( Settings::setting('user_require_betakey') && PostHelper::checkForRequirements(['betakey']) == false
                     && self::$betakeys->hasBetaKey(PostHelper::getPostData('betakey')) == false )
                     $this->redirectError('Invalid key, please check for any white spaces or errors in the key and try again');
                 else
                 {
 
-                    if( Settings::getSetting('user_require_betakey') )
+                    if( Settings::setting('user_require_betakey') )
                         self::$betakeys->removeBetaKey( PostHelper::getPostData('betakey') );
 
                     $result = @$register->register($username, $password, $email);
@@ -129,7 +129,7 @@
                     else
                     {
 
-                        if( Settings::getSetting('registration_verification') )
+                        if( Settings::setting('registration_verification') )
                         {
                             $this->sendEmail( $email, array('token' => $result ) );
                             $this->redirect('verify');

@@ -10,17 +10,11 @@
  */
 
 use Framework\Application\Settings;
-use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
-use Framework\Syscrack\Game\Structures\Software as Structure;
+use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 
-class VSpam extends BaseClass implements Structure
+
+class VSpam extends BaseSoftware
 {
-
-    public function __construct()
-    {
-
-        parent::__construct( true );
-    }
 
     /**
      * The configuration of this Structure
@@ -42,61 +36,21 @@ class VSpam extends BaseClass implements Structure
         );
     }
 
-    public function onExecuted( $softwareid, $userid, $computerid )
-    {
-
-
-    }
-
-    public function onInstalled( $softwareid, $userid, $computerid )
-    {
-
-
-    }
-
-    public function onUninstalled($softwareid, $userid, $computerid)
-    {
-
-
-    }
+    /**
+     * @param $softwareid
+     * @param $userid
+     * @param $computerid
+     * @param $timeran
+     * @return float|int
+     */
 
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
-        if( $this->hardware->hasHardwareType( $computerid, Settings::getSetting('syscrack_hardware_cpu_type') ) == false )
-            return Settings::getSetting('syscrack_collector_vspam_yield') * $timeran;
+        if( parent::$hardware->hasHardwareType( $computerid, Settings::setting('syscrack_hardware_cpu_type') ) == false )
+            return Settings::setting('syscrack_collector_vspam_yield') * $timeran;
 
 
-        return ( Settings::getSetting('syscrack_collector_vspam_yield') * ( $this->hardware->getCPUSpeed( $computerid ) * $timeran ) ) / Settings::getSetting('syscrack_collector_global_yield');
-    }
-
-    public function getExecuteCompletionTime($softwareid, $computerid)
-    {
-
-        return null;
-    }
-
-    /**
-     * Default size of 10.0
-     *
-     * @return float
-     */
-
-    public function getDefaultSize()
-    {
-
-        return 10.0;
-    }
-
-    /**
-     * Default level of 1.0
-     *
-     * @return float
-     */
-
-    public function getDefaultLevel()
-    {
-
-        return 1.0;
+        return ( Settings::setting('syscrack_collector_vspam_yield') * ( parent::$hardware->getCPUSpeed( $computerid ) * $timeran ) ) / Settings::setting('syscrack_collector_global_yield');
     }
 }

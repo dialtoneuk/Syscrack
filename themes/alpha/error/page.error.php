@@ -32,7 +32,7 @@
 
             @$user = new User();
 
-            if(  Container::getObject('session')->isLoggedIn() !== true || $user->isAdmin( Container::getObject('session')->getSessionUser() ) == false )
+            if(  Container::getObject('session')->isLoggedIn() !== true || $user->isAdmin( Container::getObject('session')->userid() ) == false )
             {
 
                 Flight::redirect('/');

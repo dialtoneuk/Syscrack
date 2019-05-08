@@ -11,11 +11,11 @@
 
     use Framework\Application\Settings;
     use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
-    use Framework\Syscrack\Game\Structures\Operation as Structure;
+    use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+
     use Framework\Syscrack\Game\Viruses;
 
-    class Uninstall extends BaseClass implements Structure
+    class Uninstall extends BaseOperation
     {
 
         /**
@@ -87,7 +87,7 @@
             else
             {
 
-                if( self::$computers->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
+                if( self::$computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
                 {
 
                     return false;
@@ -148,13 +148,13 @@
 
             self::$software->uninstallSoftware( $data['softwareid'] );
 
-            self::$computers->uninstallSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
+            self::$computer->uninstallSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
             $this->logUninstall( $this->getSoftwareName( $data['softwareid' ] ),
                 $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
 
             $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
-                self::$computers->getCurrentUserComputer(), $data['ipaddress']);
+                self::$computer->computerid(), $data['ipaddress']);
 
             self::$software->executeSoftwareMethod( self::$software->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onUninstalled', array(
                 'softwareid'    => $data['softwareid'],
@@ -189,7 +189,7 @@
         public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
         {
 
-            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), 20, $softwareid );
+            return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), 20, $softwareid );
         }
 
         /**
@@ -235,7 +235,7 @@
         private function logUninstall( $softwarename, $computerid, $ipaddress )
         {
 
-            if( self::$computers->getCurrentUserComputer() == $computerid )
+            if( self::$computer->computerid() == $computerid )
             {
 
                 return;

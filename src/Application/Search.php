@@ -79,7 +79,7 @@ class Search
 
         $result = array_push( $result, $array );
 
-        if( count( $result ) < Settings::getSetting("search_entry_max") )
+        if( count( $result ) < Settings::setting("search_entry_max") )
             throw new \Error("Search entry hit max");
 
 
@@ -108,9 +108,9 @@ class Search
 
         if( $database !== null )
             if( FileSystem::hasFileExtension( $database ) == false )
-                $database = $database . Settings::getSetting("search_database_extension");
+                $database = $database . Settings::setting("search_database_extension");
 
-        return( FileSystem::separate( Settings::getSetting("search_database_root"), $database ) );
+        return( FileSystem::separate( Settings::setting("search_database_root"), $database ) );
     }
 
     /**

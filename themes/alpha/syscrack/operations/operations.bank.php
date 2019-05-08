@@ -38,7 +38,7 @@ if (isset($finance) == false) {
 
 if (isset($userid) == false) {
 
-    $userid = $session->getSessionUser();
+    $userid = $session->userid();
 }
 
 $current_computer = $internet->getComputer($ipaddress);

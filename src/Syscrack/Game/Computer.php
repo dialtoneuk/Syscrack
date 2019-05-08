@@ -52,9 +52,9 @@ class Computer
     public function loadComputers()
     {
 
-        self::$factory = new Factory( Settings::getSetting('syscrack_computers_namespace') );
+        self::$factory = new Factory( Settings::setting('syscrack_computers_namespace') );
 
-        foreach( FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_computers_location') ) as $file )
+        foreach(FileSystem::getFilesInDirectory( Settings::setting('syscrack_computers_location') ) as $file )
         {
 
             $name = FileSystem::getFileName( $file );
@@ -658,7 +658,7 @@ class Computer
         foreach( $software as $softwares )
         {
 
-            if( $softwares['type'] == Settings::getSetting('syscrack_software_cracker_type') )
+            if( $softwares['type'] == Settings::setting('syscrack_software_cracker_type') )
             {
 
                 if( $softwares['installed'] == false )
@@ -690,7 +690,7 @@ class Computer
         foreach( $software as $softwares )
         {
 
-            if( $softwares['type'] == Settings::getSetting('syscrack_software_hasher_type') )
+            if( $softwares['type'] == Settings::setting('syscrack_software_hasher_type') )
             {
 
                 if( $softwares['installed'] == false )
@@ -722,7 +722,7 @@ class Computer
         foreach( $software as $softwares )
         {
 
-            if( $softwares['type'] == Settings::getSetting('syscrack_software_hasher_type') )
+            if( $softwares['type'] == Settings::setting('syscrack_software_hasher_type') )
             {
 
                 if( $softwares['installed'] == false )
@@ -754,7 +754,7 @@ class Computer
         foreach( $software as $softwares )
         {
 
-            if( $softwares['type'] == Settings::getSetting('syscrack_software_collector_type') )
+            if( $softwares['type'] == Settings::setting('syscrack_software_collector_type') )
             {
 
                 if( $softwares['installed'] == false )
@@ -788,7 +788,7 @@ class Computer
      * @return mixed
      */
 
-    public function getCurrentUserComputer()
+    public function computerid()
     {
 
         return $_SESSION['current_computer'];
@@ -942,7 +942,7 @@ class Computer
     public function isBank( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_bank_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_bank_type') )
         {
 
             return false;
@@ -962,7 +962,7 @@ class Computer
     public function isBitcoin( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_bitcoin_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_bitcoin_type') )
         {
 
             return false;
@@ -982,7 +982,7 @@ class Computer
     public function isMarket( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_market_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_market_type') )
         {
 
             return false;
@@ -1002,7 +1002,7 @@ class Computer
     public function isNPC( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_npc_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_npc_type') )
         {
 
             return false;
@@ -1022,7 +1022,7 @@ class Computer
     public function isVPC( $computerid )
     {
 
-        if( $this->getComputerType( $computerid ) !== Settings::getSetting('syscrack_computers_vpc_type') )
+        if( $this->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_vpc_type') )
         {
 
             return false;

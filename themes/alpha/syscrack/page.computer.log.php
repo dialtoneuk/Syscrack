@@ -19,7 +19,7 @@ if ($session->isLoggedIn()) {
     $session->updateLastAction();
 }
 
-$currentcomputer = $computer_controller->getComputer($computer_controller->getCurrentUserComputer());
+$currentcomputer = $computer_controller->getComputer($computer_controller->computerid());
 ?>
 
 <!DOCTYPE html>

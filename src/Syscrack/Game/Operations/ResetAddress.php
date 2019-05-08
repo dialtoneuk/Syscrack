@@ -12,12 +12,12 @@
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+    use Framework\Syscrack\Game\BaseClasses\BaseOperation;
     use Framework\Syscrack\Game\Finance;
-    use Framework\Syscrack\Game\Structures\Operation as Structure;
+
     use Framework\Syscrack\Game\Utilities\TimeHelper;
 
-    class ResetAddress extends BaseClass implements Structure
+    class ResetAddress extends BaseOperation
     {
 
         /**
@@ -79,7 +79,7 @@
                 return false;
             }
 
-            if( self::$internet->getComputer( $data['ipaddress'] )->type != Settings::getSetting('syscrack_computers_isp_type') )
+            if( self::$internet->getComputer( $data['ipaddress'] )->type != Settings::setting('syscrack_computers_isp_type') )
             {
 
                 return false;
@@ -93,7 +93,7 @@
 
             $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
-            if( self::$finance->canAfford( $account->computerid, $account->userid, Settings::getSetting('syscrack_operations_resetaddress_price') ) == false )
+            if( self::$finance->canAfford( $account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price') ) == false )
             {
 
                 $this->redirectError('You cannot afford this transaction');
@@ -134,18 +134,18 @@
 
             $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
-            if( self::$finance->canAfford( $account->computerid, $account->userid, Settings::getSetting('syscrack_operations_resetaddress_price') ) == false )
+            if( self::$finance->canAfford( $account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price') ) == false )
             {
 
                 $this->redirectError('You cannot afford this transaction');
             }
 
-            self::$finance->withdraw( $account->computerid, $account->userid, Settings::getSetting('syscrack_operations_resetaddress_price') );
+            self::$finance->withdraw( $account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price') );
 
             self::$internet->changeAddress( $computerid );
 
-            self::$log->updateLog('Changed ip address for ' . Settings::getSetting('syscrack_currency') . number_format( Settings::getSetting('syscrack_operations_resetaddress_price') ). ' using account ' . $account->accountnumber,
-                    self::$computers->getCurrentUserComputer(),
+            self::$log->updateLog('Changed ip address for ' . Settings::setting('syscrack_currency') . number_format( Settings::setting('syscrack_operations_resetaddress_price') ). ' using account ' . $account->accountnumber,
+                    self::$computer->computerid(),
                     'localhost');
 
             $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
@@ -161,7 +161,7 @@
         public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
         {
 
-            return TimeHelper::getSecondsInFuture( Settings::getSetting('syscrack_operations_resetaddress_time') );
+            return TimeHelper::getSecondsInFuture( Settings::setting('syscrack_operations_resetaddress_time') );
         }
 
         /**

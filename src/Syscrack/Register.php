@@ -158,15 +158,15 @@ class Register
 
         $password = $this->saltPassword( $password, $salt );
 
-        if( $this->database->getUsers()->isEmpty() && Settings::getSetting('user_first_signup_admin') )
+        if( $this->database->getUsers()->isEmpty() && Settings::setting('user_first_signup_admin') )
         {
 
-            $group = Settings::getSetting('user_group_admin');
+            $group = Settings::setting('user_group_admin');
         }
         else
         {
 
-            $group = Settings::getSetting('user_default_group');
+            $group = Settings::setting('user_default_group');
         }
 
         $array = array(

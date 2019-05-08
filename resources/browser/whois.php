@@ -46,7 +46,7 @@ if (isset($npc) == false) {
 
             if (Settings::hasSetting('syscrack_whois_default_computers_controller') == true) {
 
-                $whoiscomputers = Settings::getSetting('syscrack_whois_default_computers_controller');
+                $whoiscomputers = Settings::setting('syscrack_whois_default_computers_controller');
 
                 foreach ($whoiscomputers as $computerid) {
 

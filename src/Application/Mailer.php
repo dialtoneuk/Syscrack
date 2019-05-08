@@ -60,7 +60,7 @@
         public function send($body, $subject = 'Verify your email', $recipient )
         {
 
-            $this->mailer->setFrom( Settings::getSetting('mailer_from_address' ) );
+            $this->mailer->setFrom( Settings::setting('mailer_from_address' ) );
 
             if( filter_var( $recipient, FILTER_VALIDATE_EMAIL ) == false )
             {
@@ -74,7 +74,7 @@
 
             $this->mailer->Body = $body;
 
-            if( Settings::getSetting('mailer_html') == true )
+            if( Settings::setting('mailer_html') == true )
             {
 
                 $this->mailer->isHTML( true );
@@ -127,7 +127,7 @@
         public function initializeMailer()
         {
 
-            $settings = Settings::getSetting('mailer_settings');
+            $settings = Settings::setting('mailer_settings');
 
             foreach( $settings as $key=>$value )
             {
@@ -143,7 +143,7 @@
                 $this->mailer->{ $key } = $value;
             }
 
-            if( Settings::getSetting('mailer_use_stmp') == true )
+            if( Settings::setting('mailer_use_stmp') == true )
             {
 
                 $this->mailer->isSMTP();
@@ -191,6 +191,6 @@
         private function getFilePath()
         {
 
-            return Settings::getSetting('mailer_template_location');
+            return Settings::setting('mailer_template_location');
         }
     }

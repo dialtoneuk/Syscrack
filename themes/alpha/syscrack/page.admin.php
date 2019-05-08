@@ -105,27 +105,6 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             }
             ?>
             <div class="row">
-                <?php
-                if ($settings['database_encrypt_connection'] == false) {
-
-                    ?>
-                    <div class="col-sm-12">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
-                                Encryption is turned off
-                            </div>
-                            <div class="panel-body">
-                                Your database encryption setting is currently turned off, this means that the
-                                information you give
-                                below will not be encrypted and will be viewable in plain-text from anybody with root
-                                access. This
-                                setting should only be used if mcrypt is not functioning correctly on your system.
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
             </div>
         </div>
     </div>

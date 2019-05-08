@@ -38,10 +38,10 @@ class Types
     public function get()
     {
 
-        if( FileSystem::fileExists( Settings::getSetting("computer_types_filepath") ) == false )
+        if( FileSystem::fileExists( Settings::setting("computer_types_filepath") ) == false )
             $this->generate();
 
-        return ( FileSystem::readJson( Settings::getSetting("computer_types_filepath") ) );
+        return ( FileSystem::readJson( Settings::setting("computer_types_filepath") ) );
     }
 
     /**
@@ -62,6 +62,6 @@ class Types
             $types[] = $class->configuration()["type"];
         }
 
-        FileSystem::writeJson( Settings::getSetting("computer_types_filepath"), $types );
+        FileSystem::writeJson( Settings::setting("computer_types_filepath"), $types );
     }
 }

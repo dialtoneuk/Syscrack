@@ -18,9 +18,9 @@ if ( isset( $finance ) == false )
 
 $session = Container::getObject('session');
 
-$accounts = $finance->getUserBankAccounts( $session->getSessionUser() );
+$accounts = $finance->getUserBankAccounts( $session->userid() );
 
-$allcomputers = $computer_controller->getUserComputers( $session->getSessionUser() )
+$allcomputers = $computer_controller->getUserComputers( $session->userid() )
 
 ?>
 <!DOCTYPE html>
@@ -147,7 +147,7 @@ $allcomputers = $computer_controller->getUserComputers( $session->getSessionUser
                 <div class="col-sm-8">
                     <?php
 
-                        $currentcomputer = $computer_controller->getComputer( $computer_controller->getCurrentUserComputer() );
+                        $currentcomputer = $computer_controller->getComputer( $computer_controller->computerid() );
                     ?>
                     <div class="row">
                         <div class="col-sm-12">
@@ -185,7 +185,7 @@ $allcomputers = $computer_controller->getUserComputers( $session->getSessionUser
                     foreach ( $allcomputers as $key=>$value )
                     {
 
-                        if ( $computer_controller->getCurrentUserComputer() == $value->computerid)
+                        if ( $computer_controller->computerid() == $value->computerid)
                         {
                             continue;
                         }

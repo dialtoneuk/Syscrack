@@ -9,10 +9,10 @@
  * @package Framework\Syscrack\Game\Softwares
  */
 
-use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
-use Framework\Syscrack\Game\Structures\Software as Structure;
+use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 
-class VPhisher extends BaseClass implements Structure
+
+class VPhisher extends BaseSoftware
 {
 
     /**

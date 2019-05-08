@@ -73,7 +73,7 @@ class Account
 
             $userid = $this->user->findByUsername( $username );
 
-            if( Settings::getSetting('login_admins_only') == true )
+            if( Settings::setting('login_admins_only') == true )
             {
 
                 if( $this->user->isAdmin( $userid ) == false )

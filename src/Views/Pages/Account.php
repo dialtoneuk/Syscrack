@@ -70,7 +70,7 @@
         public function logout()
         {
 
-            parent::$session->cleanupSession( parent::$session->getSessionUser() );
+            parent::$session->cleanupSession( parent::$session->userid() );
             parent::$session->destroySession( true );
 
             $this->redirectSuccess('login');

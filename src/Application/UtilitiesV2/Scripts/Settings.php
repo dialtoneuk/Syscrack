@@ -60,7 +60,7 @@ class Settings extends Base
     public function all()
     {
 
-        $settings = ApplicationSettings::getSettings();
+        $settings = ApplicationSettings::settings();
 
         Debug::echo("");
         Debug::echo("Displaying all " . count( $settings ) . " settings...");
@@ -86,7 +86,7 @@ class Settings extends Base
         Debug::echo("Search term: " . $arguments["setting"] );
 
         $results = [];
-        $settings = ApplicationSettings::getSettings();
+        $settings = ApplicationSettings::settings();
 
         foreach( $settings as $item=>$value )
             if( strstr( $item, $arguments["setting"] ) !== false )

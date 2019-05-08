@@ -50,7 +50,7 @@
                 if( Settings::hasSetting('syscrack_whois_default_computers') == true )
                 {
 
-                    $computers = Settings::getSetting('syscrack_whois_default_computers');
+                    $computers = Settings::setting('syscrack_whois_default_computers');
 
                     foreach( $computers as $computerid )
                     {

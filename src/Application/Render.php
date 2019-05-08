@@ -34,7 +34,7 @@ class Render
     public static function view($template, $array=[], $model=null )
     {
 
-        if ( Settings::getSetting('render_log') )
+        if ( Settings::setting('render_log') )
         {
 
             self::$stack[] = [
@@ -43,15 +43,15 @@ class Render
             ];
         }
 
-        $array["settings"] = Settings::getSettings();
+        $array["settings"] = Settings::settings();
 
         if ( empty( $model ) == false )
         {
 
-            if ( Settings::getSetting('render_mvc_output') == true  )
+            if ( Settings::setting('render_mvc_output') == true  )
             {
 
-                if ( Settings::getSetting('render_json_mode') == true )
+                if ( Settings::setting('render_json_mode') == true )
                 {
 
                     Flight::json(array(
@@ -85,9 +85,9 @@ class Render
     public static function redirect( $url, $code=303 )
     {
 
-        if ( Settings::getSetting('render_mvc_output') == true  )
+        if ( Settings::setting('render_mvc_output') == true  )
         {
-            if ( Settings::getSetting('render_json_mode') == true )
+            if ( Settings::setting('render_json_mode') == true )
             {
 
                 Flight::json( array('redirect' => $url, 'session' => $_SESSION ) );
@@ -109,9 +109,9 @@ class Render
     {
 
         return '/'
-            . Settings::getSetting('syscrack_view_location')
+            . Settings::setting('syscrack_view_location')
             . '/'
-            . Settings::getSetting('render_folder')
+            . Settings::setting('render_folder')
             . '/';
     }
 
@@ -124,6 +124,6 @@ class Render
     private static function getViewFolder()
     {
 
-        return Settings::getSetting('render_folder');
+        return Settings::setting('render_folder');
     }
 }

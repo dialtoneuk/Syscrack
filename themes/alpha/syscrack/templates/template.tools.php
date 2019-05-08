@@ -33,7 +33,7 @@ $current_computer = $internet->getComputer($ipaddress);
 
     <?php
 
-    if ($computer_controller->getComputer($computer_controller->getCurrentUserComputer())->ipaddress == $ipaddress) {
+    if ($computer_controller->getComputer($computer_controller->computerid())->ipaddress == $ipaddress) {
 
         ?>
 
@@ -169,7 +169,7 @@ $current_computer = $internet->getComputer($ipaddress);
 
                             <?php
 
-                            $computeroftwares = $computer_controller->getComputerSoftware($computer_controller->getCurrentUserComputer());
+                            $computeroftwares = $computer_controller->getComputerSoftware($computer_controller->computerid());
 
                             if (empty($computeroftwares) == false) {
 
@@ -180,7 +180,7 @@ $current_computer = $internet->getComputer($ipaddress);
                                         continue;
                                     }
 
-                                    if ($softwares->isInstalled($value['softwareid'], $computer_controller->getCurrentUserComputer())) {
+                                    if ($softwares->isInstalled($value['softwareid'], $computer_controller->computerid())) {
 
                                         continue;
                                     }
@@ -266,7 +266,7 @@ $current_computer = $internet->getComputer($ipaddress);
                         $finance = new Finance();
                     }
 
-                    $accounts = $finance->getUserBankAccounts(\Framework\Application\Container::getObject('session')->getSessionUser());
+                    $accounts = $finance->getUserBankAccounts(\Framework\Application\Container::getObject('session')->userid());
 
                     if (empty($accounts)) {
 

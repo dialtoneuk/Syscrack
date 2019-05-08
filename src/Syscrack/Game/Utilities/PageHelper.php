@@ -83,7 +83,7 @@ class PageHelper
 
         $addressdatabase = new AddressDatabase();
 
-        if( $addressdatabase->hasAddress( $ipaddress, $this->session->getSessionUser()  ) == false )
+        if( $addressdatabase->hasAddress( $ipaddress, $this->session->userid()  ) == false )
         {
 
             return false;
@@ -101,7 +101,7 @@ class PageHelper
     public function getUserID()
     {
 
-        return $this->session->getSessionUser();
+        return $this->session->userid();
     }
 
     /**
@@ -127,13 +127,13 @@ class PageHelper
 
         $computer = new Computer();
 
-        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        if( $computer->userHasComputers( $this->session->userid() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        return $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+        return $computer->getComputerSoftware( $computer->computerid() );
     }
 
     /**
@@ -147,13 +147,13 @@ class PageHelper
 
         $computer = new Computer();
 
-        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        if( $computer->userHasComputers( $this->session->userid() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        return $computer->getComputerHardware( $computer->getCurrentUserComputer() );
+        return $computer->getComputerHardware( $computer->computerid() );
     }
 
     /**
@@ -191,13 +191,13 @@ class PageHelper
 
         $software = new Software();
 
-        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        if( $computer->userHasComputers( $this->session->userid() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $computersoftware = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+        $computersoftware = $computer->getComputerSoftware( $computer->computerid() );
 
         $results = [];
 
@@ -251,20 +251,20 @@ class PageHelper
 
         $software = new Software();
 
-        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        if( $computer->userHasComputers( $this->session->userid() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $computersoftware = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+        $computersoftware = $computer->getComputerSoftware( $computer->computerid() );
 
         $results = [];
 
         foreach( $computersoftware as $csoftware )
         {
 
-            if( $csoftware['type'] == Settings::getSetting('syscrack_software_collector_type') )
+            if( $csoftware['type'] == Settings::setting('syscrack_software_collector_type') )
             {
 
                 if( $csoftware['installed'] == true )
@@ -311,20 +311,20 @@ class PageHelper
 
         $software = new Software();
 
-        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        if( $computer->userHasComputers( $this->session->userid() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $computersoftware = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+        $computersoftware = $computer->getComputerSoftware( $computer->computerid() );
 
         $results = [];
 
         foreach( $computersoftware as $csoftware )
         {
 
-            if( $csoftware['type'] == Settings::getSetting('syscrack_software_hasher_type') )
+            if( $csoftware['type'] == Settings::setting('syscrack_software_hasher_type') )
             {
 
                 if( $csoftware['installed'] == true )
@@ -371,20 +371,20 @@ class PageHelper
 
         $software = new Software();
 
-        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        if( $computer->userHasComputers( $this->session->userid() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $computersoftware = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+        $computersoftware = $computer->getComputerSoftware( $computer->computerid() );
 
         $results = [];
 
         foreach( $computersoftware as $csoftware )
         {
 
-            if( $csoftware['type'] == Settings::getSetting('syscrack_software_firewall_type') )
+            if( $csoftware['type'] == Settings::setting('syscrack_software_firewall_type') )
             {
 
                 if( $csoftware['installed'] == true )
@@ -431,20 +431,20 @@ class PageHelper
 
         $software = new Software();
 
-        if( $computer->userHasComputers( $this->session->getSessionUser() ) == false )
+        if( $computer->userHasComputers( $this->session->userid() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        $computersoftware = $computer->getComputerSoftware( $computer->getCurrentUserComputer() );
+        $computersoftware = $computer->getComputerSoftware( $computer->computerid() );
 
         $results = [];
 
         foreach( $computersoftware as $csoftware )
         {
 
-            if( $csoftware['type'] == Settings::getSetting('syscrack_software_cracker_type') )
+            if( $csoftware['type'] == Settings::setting('syscrack_software_cracker_type') )
             {
 
                 if( $csoftware['installed'] == true )
@@ -511,13 +511,13 @@ class PageHelper
 
         $finance = new Finance();
 
-        if( $finance->hasAccount( $this->session->getSessionUser() ) == false )
+        if( $finance->hasAccount( $this->session->userid() ) == false )
         {
 
             return number_format( 0.0 );
         }
 
-        return number_format( $finance->getTotalUserCash( $this->session->getSessionUser() ) );
+        return number_format( $finance->getTotalUserCash( $this->session->userid() ) );
     }
 
     /**
@@ -531,13 +531,13 @@ class PageHelper
 
         $finance = new Finance();
 
-        if( $finance->hasAccount( $this->session->getSessionUser() ) == false )
+        if( $finance->hasAccount( $this->session->userid() ) == false )
         {
 
             return 0;
         }
 
-        return $finance->getTotalUserCash( $this->session->getSessionUser() );
+        return $finance->getTotalUserCash( $this->session->userid() );
     }
 
     /**
@@ -551,12 +551,12 @@ class PageHelper
 
         $user = new User();
 
-        if( $user->userExists( $this->session->getSessionUser() ) == false )
+        if( $user->userExists( $this->session->userid() ) == false )
         {
 
             throw new SyscrackException();
         }
 
-        return $user->getUsername( $this->session->getSessionUser() );
+        return $user->getUsername( $this->session->userid() );
     }
 }

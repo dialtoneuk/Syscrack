@@ -36,7 +36,7 @@ class FileSystem
         if( self::hasFileExtension( $file ) == false )
         {
 
-            $file = $file . Settings::getSetting('filesystem_default_extension');
+            $file = $file . Settings::setting('filesystem_default_extension');
         }
 
 		if( file_exists( self::getFilePath( $file ) ) == false )
@@ -159,7 +159,7 @@ class FileSystem
         if( self::hasFileExtension( $file ) == false )
         {
 
-            $file = $file . Settings::getSetting('filesystem_default_extension');
+            $file = $file . Settings::setting('filesystem_default_extension');
         }
 
 	    $directories = self::getDirectoriesFromPath( $file );
@@ -199,7 +199,7 @@ class FileSystem
         if( self::hasFileExtension( $file ) == false )
         {
 
-            $file = $file . Settings::getSetting('filesystem_default_extension');
+            $file = $file . Settings::setting('filesystem_default_extension');
         }
 
 		if( file_exists( self::getFilePath( $file ) ) == false )
@@ -257,7 +257,7 @@ class FileSystem
 	    if( self::hasFileExtension( $file ) == false )
         {
 
-            $file = $file . Settings::getSetting('filesystem_default_extension');
+            $file = $file . Settings::setting('filesystem_default_extension');
         }
 
 		if( file_exists( self::getFilePath( $file ) ) == false )
@@ -322,8 +322,8 @@ class FileSystem
     public static function getDirectories( $path )
     {
 
-        if( substr( $path, -1 ) !== Settings::getSetting("filesystem_separator") )
-            $path = $path . Settings::getSetting("filesystem_separator");
+        if( substr( $path, -1 ) !== Settings::setting("filesystem_separator") )
+            $path = $path . Settings::setting("filesystem_separator");
 
         if( self::directoryExists( $path ) == false )
         {
@@ -376,7 +376,7 @@ class FileSystem
         if( $access == null )
         {
 
-            $access = Settings::getSetting('filesystem_default_access');
+            $access = Settings::setting('filesystem_default_access');
         }
 
         chmod( self::getFilePath( $file ), $access );
@@ -393,7 +393,7 @@ class FileSystem
 	    if( self::hasFileExtension( $file ) == false )
         {
 
-            $file = $file . Settings::getSetting('filesystem_default_extension');
+            $file = $file . Settings::setting('filesystem_default_extension');
         }
 
 		if( file_exists( self::getFilePath( $file ) ) == false )
@@ -416,7 +416,7 @@ class FileSystem
 	public static function getFilePath( $file )
 	{
 
-		return sprintf('%s'.Settings::getSetting('filesystem_separator').'%s', self::getRoot(), $file );
+		return sprintf('%s'.Settings::setting('filesystem_separator').'%s', self::getRoot(), $file );
 	}
 
 	/**
@@ -430,7 +430,7 @@ class FileSystem
 	public static function getDirectoriesFromPath( $file )
 	{
 
-		$path = explode( Settings::getSetting('filesystem_separator'), $file );
+		$path = explode( Settings::setting('filesystem_separator'), $file );
 
 		if( empty( $path ) )
 		{
@@ -440,7 +440,7 @@ class FileSystem
 
 		array_pop( $path );
 
-		return implode( Settings::getSetting('filesystem_separator'), $path );
+		return implode( Settings::setting('filesystem_separator'), $path );
 	}
 
     /**
@@ -482,7 +482,7 @@ class FileSystem
             $file = self::removeFileExtension( $file );
         }
 
-        $file = explode( Settings::getSetting('filesystem_separator'), $file );
+        $file = explode( Settings::setting('filesystem_separator'), $file );
 
         if( empty( $file ) )
         {
@@ -535,7 +535,7 @@ class FileSystem
 	private static function getRoot()
 	{
 
-		return Settings::getSetting('filesystem_root');
+		return SYSCRACK_ROOT;
 	}
 
 	/**
@@ -551,6 +551,6 @@ class FileSystem
 	private function stitchPattern( $path, $pattern )
 	{
 
-		return sprintf("%s" . Settings::getSetting('filesystem_separator') . "%s", $path, $pattern);
+		return sprintf("%s" . Settings::setting('filesystem_separator') . "%s", $path, $pattern);
 	}
 }

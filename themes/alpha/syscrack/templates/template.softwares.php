@@ -97,7 +97,7 @@ if (isset($viruses) == false) {
 
                             if ($software->installed) {
 
-                                if ($software->userid == \Framework\Application\Container::getObject('session')->getSessionUser()) {
+                                if ($software->userid == \Framework\Application\Container::getObject('session')->userid()) {
 
                                     ?>
                                     <strong><u><?= $software->softwarename . $softwareclass->configuration()['extension'] ?></u></strong>
@@ -110,7 +110,7 @@ if (isset($viruses) == false) {
                                 }
                             } else {
 
-                                if ($software->userid == \Framework\Application\Container::getObject('session')->getSessionUser()) {
+                                if ($software->userid == \Framework\Application\Container::getObject('session')->userid()) {
 
                                     ?>
                                     <span style="color: grey"><u><?= $software->softwarename . $softwareclass->configuration()['extension'] ?></u></span>

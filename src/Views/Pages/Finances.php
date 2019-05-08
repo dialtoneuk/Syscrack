@@ -132,7 +132,7 @@
 
                 $account = $this->finance->getByAccountNumber( $accountnumber );
 
-                if( $account->userid !== self::$session->getSessionUser() )
+                if( $account->userid !== self::$session->userid() )
                 {
 
                     $this->redirectError('You do not own this account', 'finances/transfer');
@@ -146,7 +146,7 @@
                     $this->redirectError('Account does not exist at remote bank', 'finances/transfer');
                 }
 
-                if( $this->finance->canAfford( $account->computerid, self::$session->getSessionUser(), $amount ) == false )
+                if( $this->finance->canAfford( $account->computerid, self::$session->userid(), $amount ) == false )
                 {
 
                     $this->redirectError('You cannot afford this transaction', 'finances/transfer' );

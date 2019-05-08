@@ -13,11 +13,10 @@
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\AccountDatabase;
-    use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+    use Framework\Syscrack\Game\BaseClasses\BaseOperation;
     use Framework\Syscrack\Game\Finance;
-    use Framework\Syscrack\Game\Structures\Operation as Structure;
 
-    class CrackAccount extends BaseClass implements Structure
+    class CrackAccount extends BaseOperation
     {
 
         /**
@@ -41,7 +40,6 @@
 
             if( isset( self::$finance ) == false )
                 self::$finance = new Finance();
-
 
             if( isset( self::$bankdatabase ) == false )
                 self::$bankdatabase = new AccountDatabase();
@@ -90,93 +88,53 @@
             self::$bankdatabase->loadDatabase( $userid );
 
             if( $this->checkData( $data, ['ipaddress','custom'] ) == false )
-            {
-
                 return false;
-            }
 
             if( $this->checkCustomData( $data, ['accountnumber'] ) == false )
-            {
-
                 return false;
-            }
 
             if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
-            {
-
-                $this->redirectError('Account does not exist', $this->getRedirect( $data['ipaddress'] ) );
-            }
+                return false;
 
             if( self::$finance->hasCurrentActiveAccount() )
-            {
-
                 if( self::$finance->getCurrentActiveAccount() == $data['custom']['accountnumber'] )
-                {
-
-                    $this->redirectError('You have already hacked this bank account', $this->getRedirect( $data['ipaddress'] ) );
-                }
-            }
+                    return false;
 
             if( self::$finance->getByAccountNumber( $data['custom']['accountnumber'] )->computerid !== $this->getComputerId( $data['ipaddress'] ) )
-            {
-
-                $this->redirectError('This account does not exist in this banks database', $this->getRedirect( $data['ipaddress'] ) );
-            }
+                return false;
 
             if( self::$finance->getByAccountNumber( $data['custom']['accountnumber'] )->userid == $userid )
-            {
-
-                $this->redirectError('You cant crack your own account, stupid', $this->getRedirect( $data['ipaddress'] ) );
-            }
+                return false;
 
             return true;
         }
 
         /**
-         * Called when the process is completed
-         *
          * @param $timecompleted
-         *
          * @param $timestarted
-         *
          * @param $computerid
-         *
          * @param $userid
-         *
          * @param $process
-         *
          * @param array $data
+         * @return bool
          */
 
         public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
         {
 
             if( $this->checkData( $data, ['ipaddress','custom'] ) == false )
-            {
-
-                throw new SyscrackException();
-            }
+                return false;
 
             if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            {
-
-                $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
-            }
+                return false;
 
             if( $this->checkCustomData( $data, ['accountnumber'] ) == false )
-            {
-
-                throw new SyscrackException();
-            }
+                return false;
 
             self::$finance->setCurrentActiveAccount( $data['custom']['accountnumber'] );
-
             self::$bankdatabase->addAccountNumber( $data['custom']['accountnumber'], $data['ipaddress'] );
-
-            $this->logCrack( $data['custom']['accountnumber'], $this->getComputerId( $data['ipaddress'] ), self::$computers->getComputer( $computerid )->ipaddress );
-
+            $this->logCrack( $data['custom']['accountnumber'], $this->getComputerId( $data['ipaddress'] ), self::$computer->getComputer( $computerid )->ipaddress );
             $this->logLocal( $computerid, $data['custom']['accountnumber'], $data['ipaddress'] );
-
             $this->redirectSuccess( $this->getRedirect($data['ipaddress'] ) );
         }
 
@@ -195,7 +153,7 @@
         public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
         {
 
-            return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), Settings::getSetting('syscrack_operations_hack_speed') );
+            return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), Settings::setting('syscrack_operations_hack_speed') );
         }
 
         /**
@@ -226,24 +184,6 @@
             return array(
                 'accountnumber' => PostHelper::getPostData('accountnumber')
             );
-        }
-
-        /**
-         * Called when the operation has a post request
-         *
-         * @param $data
-         *
-         * @param $ipaddress
-         *
-         * @param $userid
-         *
-         * @return bool
-         */
-
-        public function onPost($data, $ipaddress, $userid)
-        {
-
-            return false;
         }
 
         /**

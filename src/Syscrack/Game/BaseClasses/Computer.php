@@ -29,7 +29,7 @@
         protected $computer;
 
         /**
-         * @var Software
+         * @var BaseSoftware
          */
 
         protected $software;
@@ -148,7 +148,7 @@
         {
 
             if( $userid == null )
-                $userid = Settings::getSetting("syscrack_master_user");
+                $userid = Settings::setting("syscrack_master_user");
 
             foreach( $software as $softwares )
             {
@@ -207,7 +207,7 @@
             if( $this->metadata()->exists( $computerid ) )
                 $this->reload( $computerid, $this->metadata()->get( $computerid ) );
             else
-                $this->addHardwares( $computerid, Settings::getSetting('syscrack_default_hardware' ) );
+                $this->addHardwares( $computerid, Settings::setting('syscrack_default_hardware' ) );
         }
 
         /**
@@ -325,7 +325,7 @@
             if( $computer == null )
                 throw new SyscrackException();
 
-            $this->log( $computer->computerid, $message, Settings::getSetting('syscrack_log_localhost_address') );
+            $this->log( $computer->computerid, $message, Settings::setting('syscrack_log_localhost_address') );
         }
 
         /**
@@ -335,7 +335,7 @@
         public function getCurrentComputerAddress()
         {
 
-            return $this->computer->getComputer( $this->computer->getCurrentUserComputer() )->ipaddress;
+            return $this->computer->getComputer( $this->computer->computerid() )->ipaddress;
         }
 
         /**

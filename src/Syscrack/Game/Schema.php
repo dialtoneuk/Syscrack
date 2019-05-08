@@ -108,7 +108,7 @@ class Schema
     public function SchemaPageExists($computerid )
     {
 
-        if( FileSystem::fileExists( '/themes/' .   Settings::getSetting('render_folder' ) . DIRECTORY_SEPARATOR . $this->getSchemaPageLocation( $computerid ) ) == false )
+        if( FileSystem::fileExists( '/themes/' .   Settings::setting('render_folder' ) . DIRECTORY_SEPARATOR . $this->getSchemaPageLocation( $computerid ) ) == false )
         {
 
             return false;
@@ -128,7 +128,7 @@ class Schema
     public function getSchemaPageLocation($computerid )
     {
 
-        return Settings::getSetting('syscrack_schema_page_location') . $this->getSchema( $computerid )['page'] . '.php';
+        return Settings::setting('syscrack_schema_page_location') . $this->getSchema( $computerid )['page'] . '.php';
     }
 
     /**
@@ -142,7 +142,7 @@ class Schema
     public function getSchema($computerid )
     {
 
-        return FileSystem::readJson( Settings::getSetting('syscrack_schema_filepath') . $computerid . '.json' );
+        return FileSystem::readJson( Settings::setting('syscrack_schema_filepath') . $computerid . '.json' );
     }
 
     /**
@@ -156,7 +156,7 @@ class Schema
     public function getSchemaPath( $computerid )
     {
 
-        return Settings::getSetting('syscrack_schema_filepath') . $computerid . '.json';
+        return Settings::setting('syscrack_schema_filepath') . $computerid . '.json';
     }
 
     /**

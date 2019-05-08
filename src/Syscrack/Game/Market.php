@@ -47,7 +47,7 @@
         public function isMarket( $computerid )
         {
 
-            if( $this->computers->getComputerType( $computerid ) != Settings::getSetting('syscrack_computers_market_type') )
+            if( $this->computers->getComputerType( $computerid ) != Settings::setting('syscrack_computers_market_type') )
             {
 
                 return false;
@@ -524,6 +524,6 @@
         public function getFilePath( $computerid )
         {
 
-            return Settings::getSetting('syscrack_market_location') . $computerid . '/';
+            return Settings::setting('syscrack_market_location') . $computerid . '/';
         }
     }

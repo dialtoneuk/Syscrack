@@ -73,7 +73,7 @@ class VerificationCheck extends BaseClass implements Structure
     public function onRequest()
     {
 
-        $userid = $this->session->getSessionUser();
+        $userid = $this->session->userid();
 
         if( $this->verification->isVerified( $userid ) == false )
         {

@@ -37,9 +37,9 @@ $computer = $internet->getComputer($value['ipaddress']);
     </div>
     <div class="panel-body">
         <?php
-        if ($viruses->hasVirusesOnComputer($computer->computerid, $session->getSessionUser())) {
+        if ($viruses->hasVirusesOnComputer($computer->computerid, $session->userid())) {
 
-            $virus = $viruses->getVirusesOnComputer( $computer->computerid, $session->getSessionUser());
+            $virus = $viruses->getVirusesOnComputer( $computer->computerid, $session->userid());
 
             ?>
                 <?php

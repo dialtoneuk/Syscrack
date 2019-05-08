@@ -11,13 +11,13 @@ namespace Framework\Syscrack\Game\Operations;
 
 use Framework\Application\Settings;
 use Framework\Application\Utilities\PostHelper;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 use Framework\Syscrack\Game\Finance;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
+
 use Framework\Syscrack\Game\Utilities\PageHelper;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
 
-class Research extends BaseClass implements Structure
+class Research extends BaseOperation
 {
 
     /**
@@ -99,14 +99,14 @@ class Research extends BaseClass implements Structure
             $this->redirectError('Missing Data' );
         }
 
-        if( self::$computers->hasType( $computerid, Settings::getSetting('syscrack_software_research_type'), true ) == false )
+        if( self::$computer->hasType( $computerid, Settings::setting('syscrack_software_research_type'), true ) == false )
         {
 
             $this->redirectError('You need to install a research executable in order to preform this action');
         }
 
         $software = self::$software->getSoftware( $data['softwareid'] );
-        $price = Settings::getSetting('syscrack_research_price_multiplier') * $software->level;
+        $price = Settings::setting('syscrack_research_price_multiplier') * $software->level;
 
         if ( self::$finance->accountNumberExists( PostHelper::getPostData('accountnumber' ) ) == false )
         {
@@ -145,7 +145,7 @@ class Research extends BaseClass implements Structure
     {
 
         $software = self::$software->getSoftware( $data['softwareid'] );
-        $price = Settings::getSetting('syscrack_research_price_multiplier') * $software->level;
+        $price = Settings::setting('syscrack_research_price_multiplier') * $software->level;
         $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
         self::$finance->withdraw( $account->computerid, $account->userid, $price );
@@ -155,12 +155,12 @@ class Research extends BaseClass implements Structure
             $userid,
             $computerid,
             $data['custom']['name'],
-            $software->level + Settings::getSetting('syscrack_research_increase'),
-            $software->size * Settings::getSetting('syscrack_research_size_multiplyer'),
+            $software->level + Settings::setting('syscrack_research_increase'),
+            $software->size * Settings::setting('syscrack_research_size_multiplyer'),
             json_decode( $software->data, true )
         );
 
-        self::$computers->addSoftware( $computerid, $newsoftware, $software->type);
+        self::$computer->addSoftware( $computerid, $newsoftware, $software->type);
 
         $this->redirectSuccess();
     }
@@ -219,6 +219,6 @@ class Research extends BaseClass implements Structure
 
         $research = self::$pagehelper->getInstalledType('research');
 
-        return ( TimeHelper::getSecondsInFuture( Settings::getSetting("syscrack_operations_research_speed") / $research['level'] ) );
+        return ( TimeHelper::getSecondsInFuture( Settings::setting("syscrack_operations_research_speed") / $research['level'] ) );
     }
 }

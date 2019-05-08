@@ -1,6 +1,8 @@
 <?php
 namespace Framework\Syscrack\Game\Structures;
 
+use Framework\Syscrack\Game\Tool;
+
 /**
  * Lewis Lancaster 2017
  *
@@ -91,18 +93,11 @@ interface Software
     public function getExecuteCompletionTime( $softwareid, $computerid );
 
     /**
-     * Gets the default size in megabytes of the software
-     *
-     * @return float
+     * @param $userid
+     * @param $sofwareid
+     * @param $computerid
+     * @return Tool
      */
 
-    public function getDefaultSize();
-
-    /**
-     * Gets the default level of the software
-     *
-     * @return float
-     */
-
-    public function getDefaultLevel();
+    public function tool( $userid, $sofwareid, $computerid ) : Tool;
 }

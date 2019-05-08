@@ -122,7 +122,7 @@ class Finance
     public function getBanks()
     {
 
-        return $this->computers->getComputerByType( Settings::getSetting('syscrack_computers_bank_type') );
+        return $this->computers->getComputerByType( Settings::setting('syscrack_computers_bank_type') );
     }
 
     /**
@@ -314,7 +314,7 @@ class Finance
             'computerid'        => $computerid,
             'userid'            => $userid,
             'accountnumber'     => $this->getAccountNumber(),
-            'cash'              => Settings::getSetting('syscrack_bank_default_balance'),
+            'cash'              => Settings::setting('syscrack_bank_default_balance'),
             'timecreated'       => time()
         ));
 
@@ -394,7 +394,7 @@ class Finance
 
         $number = 0;
 
-        for ($i = 0; $i < Settings::getSetting('syscrack_bank_accountnumber_length'); $i++)
+        for ($i = 0; $i < Settings::setting('syscrack_bank_accountnumber_length'); $i++)
         {
 
             $number = $number . rand(0,9);
@@ -414,7 +414,7 @@ class Finance
     private function isBank( $computerid )
     {
 
-        if( $this->computers->getComputer( $computerid )->type != Settings::getSetting('syscrack_computers_bank_type') )
+        if( $this->computers->getComputer( $computerid )->type != Settings::setting('syscrack_computers_bank_type') )
         {
 
             return false;

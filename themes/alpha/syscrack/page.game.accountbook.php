@@ -27,7 +27,7 @@ if (isset($computer_controller) == false) {
 
 if (isset($addressdatabase) == false) {
 
-    $accountdatabase = new AccountDatabase($session->getSessionUser());
+    $accountdatabase = new AccountDatabase($session->userid());
 }
 
 if (isset($finance) == false) {
@@ -72,7 +72,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         </div>
         <div class="col-sm-8">
             <?php
-            $accounts = $accountdatabase->getDatabase($session->getSessionUser());
+            $accounts = $accountdatabase->getDatabase($session->userid());
 
             if (empty($accounts)) {
 

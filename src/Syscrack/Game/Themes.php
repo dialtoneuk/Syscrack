@@ -41,7 +41,7 @@ class Themes
     public function currentTheme()
     {
 
-        return( Settings::getSetting("render_folder") );
+        return( Settings::setting("render_folder") );
     }
 
     /**
@@ -72,7 +72,7 @@ class Themes
     public function mvcOutput() : bool
     {
 
-        return( (bool)Settings::getSetting( "render_mvc_output" ) );
+        return( (bool)Settings::setting( "render_mvc_output" ) );
     }
 
     /**
@@ -197,10 +197,10 @@ class Themes
     public function getFolders()
     {
 
-        if( FileSystem::directoryExists( Settings::getSetting("syscrack_view_location") ) == false )
+        if( FileSystem::directoryExists( Settings::setting("syscrack_view_location") ) == false )
             throw new ApplicationException("Themes folder does not exist");
 
-        return( FileSystem::getDirectories( Settings::getSetting("syscrack_view_location")  ) );
+        return( FileSystem::getDirectories( Settings::setting("syscrack_view_location")  ) );
     }
 
     /**
@@ -212,9 +212,9 @@ class Themes
     {
 
         return(FileSystem::separate(
-            Settings::getSetting("syscrack_view_location"),
+            Settings::setting("syscrack_view_location"),
             $folder,
-            Settings::getSetting("theme_info_file")
+            Settings::setting("theme_info_file")
         ));
     }
 

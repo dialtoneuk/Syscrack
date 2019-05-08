@@ -71,7 +71,7 @@
         public function page()
         {
 
-            $processes = self::$operations->getUserProcesses( Container::getObject('session')->getSessionUser() );
+            $processes = self::$operations->getUserProcesses( Container::getObject('session')->userid() );
 
             if ( empty( $processes ) )
             {
@@ -89,7 +89,7 @@
                     $array[ $value->computerid ][] = $value;
                 }
             }
-            $this->getRender('syscrack/page.process.php', array('processes' => $array, 'operations' => self::$operations, 'computerid' => self::$computer->getCurrentUserComputer() ));
+            $this->getRender('syscrack/page.process.php', array('processes' => $array, 'operations' => self::$operations, 'computerid' => self::$computer->computerid() ));
         }
 
         /**
@@ -111,7 +111,7 @@
 
                 $process = self::$operations->getProcess($processid);
 
-                if ($process->userid != Container::getObject('session')->getSessionUser())
+                if ($process->userid != Container::getObject('session')->userid())
                 {
 
                     $this->redirectError('This process isnt yours');
@@ -119,7 +119,7 @@
                 else
                 {
 
-                    if ($process->computerid != self::$computer->getCurrentUserComputer())
+                    if ($process->computerid != self::$computer->computerid())
                     {
 
                         $this->redirectError('You are connected as a different computer');
@@ -151,8 +151,9 @@
             {
 
                 $process = self::$operations->getProcess($processid);
+                $class = self::$operations->findProcessClass( $process->process );
 
-                if ($process->userid != Container::getObject('session')->getSessionUser())
+                if ($process->userid != Container::getObject('session')->userid())
                 {
 
                     $this->redirectError('This process isnt yours');
@@ -174,7 +175,7 @@
                         $this->redirectError('404 Not found, maybe this IP was changed?');
                     }
 
-                    if( self::$internet->getComputer( $data['ipaddress'] )->computerid != self::$computer->getCurrentUserComputer() )
+                    if( self::$internet->getComputer( $data['ipaddress'] )->computerid != self::$computer->computerid() )
                     {
 
                         if( self::$operations->requireLoggedIn( $process->process ) == true )
@@ -204,7 +205,18 @@
                         else
                         {
 
-                            self::$operations->completeProcess($processid);
+                            $result = self::$operations->completeProcess($processid);
+
+                            if( is_string( $result ) )
+                                $this->redirectSuccess( $result );
+                            elseif( $result === null )
+                                exit;
+                            elseif( is_bool( $result ) && $result == false )
+                                $this->redirectError("Error creating process", $class->url( $data['ipaddress'] ) );
+                            elseif(  is_bool( $result ) && $result == true )
+                                $this->redirectSuccess( $class->url( $data['ipaddress']));
+                            else
+                                throw new \Error("Unknown result from process: " . $process . " => " . print_r( $result ) );
                         }
                     }
                     else
@@ -218,7 +230,18 @@
                         else
                         {
 
-                            self::$operations->completeProcess($processid);
+                            $result = self::$operations->completeProcess($processid);
+
+                            if( is_string( $result ) )
+                                $this->redirectSuccess( $result );
+                            elseif( $result === null )
+                                exit;
+                            elseif( is_bool( $result ) && $result == false )
+                                $this->redirectError("Error creating process", $class->url( $data['ipaddress'] ) );
+                            elseif(  is_bool( $result ) && $result == true )
+                                $this->redirectSuccess( $class->url( $data['ipaddress'] ));
+                            else
+                                throw new \Error("Unknown result from process: " . $process . " => " . print_r( $result ) );
                         }
                     }
                 }
@@ -244,13 +267,13 @@
 
                 $process = self::$operations->getProcess( $processid );
 
-                if( $process->userid !== Container::getObject('session')->getSessionUser() )
+                if( $process->userid !== Container::getObject('session')->userid() )
                 {
 
                     $this->redirectError('You do not own this process');
                 }
 
-                if( $process->computerid != self::$computer->getCurrentUserComputer() )
+                if( $process->computerid != self::$computer->computerid() )
                 {
 
                     $this->redirectError('You need to currently be switched to the computer this process was initiated on');
@@ -258,7 +281,7 @@
 
                 self::$operations->deleteProcess( $processid );
 
-                $this->redirectSuccess('processes/computer/' . self::$computer->getCurrentUserComputer() );
+                $this->redirectSuccess('processes/computer/' . self::$computer->computerid() );
             }
         }
 
@@ -273,7 +296,7 @@
 
             $computer = self::$computer->getComputer( $computerid );
 
-            if( $computer->userid !== Container::getObject('session')->getSessionUser() )
+            if( $computer->userid !== Container::getObject('session')->userid() )
             {
 
                 $this->redirect('Sorry, this computer is not yours, please try another one');

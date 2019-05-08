@@ -11,20 +11,40 @@ namespace Framework\Syscrack\Game\Operations;
 
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+use Framework\Syscrack\Game\Market as Database;
+use Framework\Syscrack\Game\Metadata;
 
-class Market extends BaseClass implements Structure
+class Market extends BaseOperation
 {
 
     /**
-     * View constructor.
+     * @var Database
      */
 
-    public function __construct()
+    protected static $market;
+
+    /**
+     * @var Metadata
+     */
+
+    protected static $metadata;
+
+    /**
+     * Market constructor.
+     * @param bool $createclasses
+     */
+
+    public function __construct(bool $createclasses = true)
     {
 
-        parent::__construct( true );
+        if( isset( self::$market ) == false  )
+            self::$market = new Database();
+
+        if( isset( self::$metadata ) == false )
+            self::$metadata = new Metadata();
+
+        parent::__construct($createclasses);
     }
 
     /**
@@ -43,6 +63,17 @@ class Market extends BaseClass implements Structure
             'requireloggedin'   => false,
             'allowpost'         => false
         );
+    }
+
+    /**
+     * @param null $ipaddress
+     * @return string
+     */
+
+    public function url($ipaddress = null)
+    {
+
+        return('game/internet/' . $ipaddress . "/market");
     }
 
     /**
@@ -65,54 +96,43 @@ class Market extends BaseClass implements Structure
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             return false;
-        }
 
         $computer = self::$internet->getComputer( $data['ipaddress'] );
 
-        if( $computer->type != Settings::getSetting('syscrack_computers_market_type') )
-        {
-
+        if( $computer->type != Settings::setting('syscrack_computers_market_type') )
             return false;
-        }
 
         return true;
     }
 
     /**
-     * Renders the view page
-     *
      * @param $timecompleted
-     *
      * @param $timestarted
-     *
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
+     * @return bool|null
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             throw new SyscrackException();
-        }
 
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-        {
+            return false;
 
-            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
-        }
+        $computer = self::$internet->getComputer( $data["ipaddress"] );
 
-        $this->getRender('operations/operations.market', array( 'ipaddress' => $data['ipaddress'], 'userid' => $userid ), true );
+        $this->render('operations/operations.market', array( 'ipaddress' => $data['ipaddress'],
+            'metadata'  => self::$metadata->get( $computer->computerid ),
+            'items'     => self::$market->getStock( $computer->computerid ),
+            'purchases' => self::$market->getPurchases( $computer->computerid ) ), true );
+
+        return null;
     }
 
     /**

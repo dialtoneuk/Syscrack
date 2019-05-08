@@ -27,25 +27,25 @@ class Hardware
     public function getDownloadSpeed( $computerid )
     {
 
-        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_internet_download_type') ]['value'];
+        return $this->getHardware( $computerid )[ Settings::setting('syscrack_internet_download_type') ]['value'];
     }
 
     public function getUploadSpeed( $computerid )
     {
 
-        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_internet_upload_type') ]['value'];
+        return $this->getHardware( $computerid )[ Settings::setting('syscrack_internet_upload_type') ]['value'];
     }
 
     public function getCPUSpeed( $computerid )
     {
 
-        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_hardware_cpu_type') ]['value'];
+        return $this->getHardware( $computerid )[ Settings::setting('syscrack_hardware_cpu_type') ]['value'];
     }
 
     public function getGPUSpeed( $computerid )
     {
 
-        return $this->getHardware( $computerid )[ Settings::getSetting('syscrack_gpu_type') ]['value'];
+        return $this->getHardware( $computerid )[ Settings::setting('syscrack_gpu_type') ]['value'];
     }
 
     public function updateHardware( $computerid, $type, $value )

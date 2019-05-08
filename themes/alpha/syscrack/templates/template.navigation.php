@@ -74,7 +74,7 @@ if ( empty( $_SESSION['current_computer'] ) )
                             <a class="navbar-brand" style="font-size: 12px" href="/game/computer/" ata-toggle="tooltip"
                                data-placement="auto" title="Current IP Address">
                             <span class="glyphicon glyphicon-arrow-down" data-toggle="tooltip" data-placement="auto"
-                                  title="Address"></span> <?= $computer_controller->getComputer($computer_controller->getCurrentUserComputer())->ipaddress ?>
+                                  title="Address"></span> <?= $computer_controller->getComputer($computer_controller->computerid())->ipaddress ?>
                             </a>
                             <?php
                         }
@@ -117,7 +117,7 @@ if ( empty( $_SESSION['current_computer'] ) )
                                aria-expanded="false">Procs</a>
                             <ul class="dropdown-menu">
                                 <li><a href="/processes/">All Processes</a></li>
-                                <li><a href="/processes/computer/<?= $computer_controller->getCurrentUserComputer() ?>">Current
+                                <li><a href="/processes/computer/<?= $computer_controller->computerid() ?>">Current
                                         Machine Processes</a></li>
                             </ul>
                         </li>
@@ -179,7 +179,7 @@ if ( empty( $_SESSION['current_computer'] ) )
                                     <?php
                                 }
 
-                                if ($computer_controller->hasType($computer_controller->getCurrentUserComputer(), $settings['syscrack_software_research_type'], true)) {
+                                if ($computer_controller->hasType($computer_controller->computerid(), $settings['syscrack_software_research_type'], true)) {
 
                                     ?>
                                     <li role="separator" class="divider"></li>
@@ -190,7 +190,7 @@ if ( empty( $_SESSION['current_computer'] ) )
                             </ul>
                         </li>
                         <?php
-                        if ($user->isAdmin($session->getSessionUser())) {
+                        if ($user->isAdmin($session->userid())) {
 
                             ?>
                             <li class="dropdown">

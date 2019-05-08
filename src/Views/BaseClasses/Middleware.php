@@ -27,7 +27,7 @@
         public function redirectError($message = '', $path = '')
         {
 
-            if( Settings::getSetting('error_use_session') )
+            if( Settings::setting('error_use_session') )
             {
 
                 $_SESSION['error'] = $message;
@@ -64,14 +64,14 @@
                 if ($path !== '')
                 {
 
-                    Render::redirect( Settings::getSetting('controller_index_root') . $path . '?error');
+                    Render::redirect( Settings::setting('controller_index_root') . $path . '?error');
 
                     exit;
                 }
                 else
                 {
 
-                    Render::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error' );
+                    Render::redirect( Settings::setting('controller_index_root') .  $this->getCurrentPage() . '?error' );
 
                     exit;
                 }
@@ -82,14 +82,14 @@
                 if ($path !== '')
                 {
 
-                    Render::redirect( Settings::getSetting('controller_index_root') . $path . '?error=' . $message );
+                    Render::redirect( Settings::setting('controller_index_root') . $path . '?error=' . $message );
 
                     exit;
                 }
                 else
                 {
 
-                    Render::redirect( Settings::getSetting('controller_index_root') .  $this->getCurrentPage() . '?error=' . $message );
+                    Render::redirect( Settings::setting('controller_index_root') .  $this->getCurrentPage() . '?error=' . $message );
 
                     exit;
                 }
@@ -108,11 +108,11 @@
             if ($path !== '')
             {
 
-                Render::redirect( Settings::getSetting('controller_index_root') . $path . "?success");
+                Render::redirect( Settings::setting('controller_index_root') . $path . "?success");
                 exit;
             }
 
-            Render::redirect( Settings::getSetting('controller_index_root') . $this->getCurrentPage() . '?success');
+            Render::redirect( Settings::setting('controller_index_root') . $this->getCurrentPage() . '?success');
             exit;
         }
 
@@ -174,7 +174,7 @@
             if( empty( $page ) )
             {
 
-                return Settings::getSetting('controller_index_page');
+                return Settings::setting('controller_index_page');
             }
 
             if( empty( explode('?', $page[0] ) ) == false )

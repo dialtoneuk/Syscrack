@@ -12,11 +12,11 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\PostHelper;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 use Framework\Syscrack\Game\Finance;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
 
-class RemoteAdmin extends BaseClass implements Structure
+
+class RemoteAdmin extends BaseOperation
 {
 
     /**
@@ -83,7 +83,7 @@ class RemoteAdmin extends BaseClass implements Structure
 
         $computer = self::$internet->getComputer( $data['ipaddress'] );
 
-        if( $computer->type != Settings::getSetting('syscrack_computers_bank_type') )
+        if( $computer->type != Settings::setting('syscrack_computers_bank_type') )
         {
 
             return false;
@@ -99,7 +99,7 @@ class RemoteAdmin extends BaseClass implements Structure
             if( self::$finance->accountNumberExists( self::$finance->getCurrentActiveAccount() ) == false )
             {
 
-                if( Settings::getSetting('syscrack_operations_bank_clearonfail') )
+                if( Settings::setting('syscrack_operations_bank_clearonfail') )
                 {
 
                     self::$finance->setCurrentActiveAccount( null );
@@ -165,7 +165,7 @@ class RemoteAdmin extends BaseClass implements Structure
         $ipaddresses = [];
 
         foreach( $accounts as $account )
-            $ipaddresses[] = ["accountnumber" => $account->accountnumber , "ipaddress" => self::$computers->getComputer( $account->computerid )->ipaddress];
+            $ipaddresses[] = ["accountnumber" => $account->accountnumber , "ipaddress" => self::$computer->getComputer( $account->computerid )->ipaddress];
 
         return( $ipaddresses );
     }
@@ -237,7 +237,7 @@ class RemoteAdmin extends BaseClass implements Structure
             if( self::$finance->accountNumberExists( self::$finance->getCurrentActiveAccount() ) == false )
             {
 
-                if( Settings::getSetting('syscrack_operations_bank_clearonfail') )
+                if( Settings::setting('syscrack_operations_bank_clearonfail') )
                 {
 
                     self::$finance->setCurrentActiveAccount( null );
@@ -288,7 +288,7 @@ class RemoteAdmin extends BaseClass implements Structure
 
                     $activeaccount = self::$finance->getByAccountNumber( self::$finance->getCurrentActiveAccount() );
 
-                    if( self::$computers->getComputer( $account->computerid )->ipaddress !== $targetipaddress )
+                    if( self::$computer->getComputer( $account->computerid )->ipaddress !== $targetipaddress )
                     {
 
                         $this->redirectError('Account does not exist at remote database', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
@@ -304,8 +304,8 @@ class RemoteAdmin extends BaseClass implements Structure
 
                     self::$finance->withdraw( $activeaccount->computerid, $activeaccount->userid, $amount );
 
-                    $this->logActions('Transfered ' . Settings::getSetting('syscrack_currency') . number_format( $amount ) . ' from (' . self::$finance->getCurrentActiveAccount() . ') to (' . $account->accountnumber . ') to bank <' . $targetipaddress . '>',
-                        self::$computers->getCurrentUserComputer(),
+                    $this->logActions('Transfered ' . Settings::setting('syscrack_currency') . number_format( $amount ) . ' from (' . self::$finance->getCurrentActiveAccount() . ') to (' . $account->accountnumber . ') to bank <' . $targetipaddress . '>',
+                        self::$computer->computerid(),
                         $ipaddress);
 
                     $this->redirectSuccess( $this->getRedirect( $ipaddress ) . '/remoteadmin');

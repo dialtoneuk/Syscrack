@@ -10,11 +10,10 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 use Framework\Syscrack\Game\Finance;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
 
-class Bank extends BaseClass implements Structure
+class Bank extends BaseOperation
 {
 
     /**
@@ -77,88 +76,39 @@ class Bank extends BaseClass implements Structure
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             return false;
-        }
+
 
         $computer = self::$internet->getComputer( $data['ipaddress'] );
 
-        if( self::$computers->isBank( $computer->computerid ) == false )
-        {
-
+        if( self::$computer->isBank( $computer->computerid ) == false )
             return false;
-        }
 
         return true;
     }
 
     /**
-     * Renders the view page
-     *
      * @param $timecompleted
-     *
      * @param $timestarted
-     *
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
+     * @return bool
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
+            return false;
 
-            throw new SyscrackException();
-        }
 
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-        {
-
-            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
-        }
+            return false;
 
         $this->getRender('operations/operations.bank', array( 'ipaddress' => $data['ipaddress'], 'userid' => $userid ), true );
-    }
-
-    /**
-     * Gets the completion time
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return null
-     */
-
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
-    {
-
         return null;
-    }
-
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array
-     */
-
-    public function getCustomData($ipaddress, $userid)
-    {
-
-        return array();
     }
 
     /**
@@ -175,31 +125,20 @@ class Bank extends BaseClass implements Structure
 
         if( $data['action'] == 'create' )
         {
-
             if( self::$finance->hasAccountAtComputer( $computer->computerid, $userid ) == true )
-            {
-
-                $this->redirectError('You already have an account at this bank', $this->getRedirect( $ipaddress ) . '/bank' );
-            }
-
-            self::$finance->createAccount( $computer->computerid, $userid );
-
-            $this->redirectSuccess( $this->getRedirect( $ipaddress ) . '/bank' );
+                return false;
+            else
+                self::$finance->createAccount( $computer->computerid, $userid );
         }
         elseif( $data['action'] == "delete" )
         {
 
             if( self::$finance->hasAccountAtComputer( $computer->computerid, $userid ) == false )
-            {
-
-                $this->redirectError('You do not have a bank account at this bank', $this->getRedirect( $ipaddress ) . '/bank' );
-            }
-
-            self::$finance->removeAccount( $computer->computerid, $userid );
-
-            $this->redirectSuccess( $this->getRedirect( $ipaddress ) . '/bank' );
+                return false;
+            else
+                self::$finance->removeAccount( $computer->computerid, $userid );
         }
 
-        return true;
+        return null;
     }
 }

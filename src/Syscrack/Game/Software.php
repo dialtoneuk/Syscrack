@@ -36,7 +36,7 @@ class Software
      * @var Database
      */
 
-    protected $database;
+    protected static $database;
 
     /**
      * Software constructor.
@@ -47,19 +47,16 @@ class Software
     public function __construct( $autoload=true )
     {
 
-        $this->database = new Database();
+        if( isset( self::$database ) == false )
+            self::$database= new Database();
 
         if( $autoload )
-        {
-
             if( empty( self::$factory ) )
             {
 
-                self::$factory = new Factory( Settings::getSetting('syscrack_software_namespace') );
-
+                self::$factory = new Factory( Settings::setting('syscrack_software_namespace') );
                 $this->loadSoftware();
             }
-        }
     }
 
     /**
@@ -69,17 +66,14 @@ class Software
     private function loadSoftware()
     {
 
-        $software = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_software_location') );
+        $software = FileSystem::getFilesInDirectory( Settings::setting('syscrack_software_location') );
 
         foreach( $software as $softwares )
         {
 
 
             if( self::$factory->hasClass( FileSystem::getFileName( $softwares ) ) )
-            {
-
                 continue;
-            }
 
             self::$factory->createClass( FileSystem::getFileName( $softwares ) );
         }
@@ -97,16 +91,11 @@ class Software
     {
 
         if( $softwareid == null )
-        {
-
             return false;
-        }
 
-        if( $this->database->getSoftware( $softwareid ) == null )
-        {
 
+        if( self::$database->getSoftware( $softwareid ) == null )
             return false;
-        }
 
         return true;
     }
@@ -122,7 +111,7 @@ class Software
     public function getSoftwareClassFromID( $softwareid )
     {
 
-        return $this->findSoftwareByUniqueName( $this->database->getSoftware( $softwareid )->uniquename );
+        return $this->findSoftwareByUniqueName( self::$database->getSoftware( $softwareid )->uniquename );
     }
 
     /**
@@ -269,7 +258,7 @@ class Software
     public function deleteSoftware( $softwareid )
     {
 
-        $this->database->deleteSoftware( $softwareid );
+        self::$database->deleteSoftware( $softwareid );
     }
 
     /**
@@ -281,7 +270,7 @@ class Software
     public function deleteSoftwareByComputer( $computerid )
     {
 
-        $this->database->deleteSoftwareByComputer( $computerid );
+        self::$database->deleteSoftwareByComputer( $computerid );
     }
 
     /**
@@ -295,7 +284,7 @@ class Software
         if( $time === null )
             $time = microtime( true );
 
-        $this->database->updateSoftware( $softwareid, array( "lastmodified" => $time ) );
+        self::$database->updateSoftware( $softwareid, array( "lastmodified" => $time ) );
     }
     /**
      * Creates a new software
@@ -349,7 +338,7 @@ class Software
             'data'          => json_encode( $data )
         );
 
-        return $this->database->insertSoftware( $array );
+        return self::$database->insertSoftware( $array );
     }
 
     /**
@@ -371,7 +360,7 @@ class Software
     public function copySoftware( $targetid, $computerid, $userid, $installed=false, array $data=[] )
     {
 
-        $software = $this->database->getSoftware( $targetid );
+        $software = self::$database->getSoftware( $targetid );
 
         $array = array(
             'userid'        => $userid,
@@ -386,7 +375,7 @@ class Software
             'data'          => json_encode( $data )
         );
 
-        return $this->database->insertSoftware( $array );
+        return self::$database->insertSoftware( $array );
     }
 
     /**
@@ -474,7 +463,7 @@ class Software
     public function getSoftware( $softwareid )
     {
 
-        return $this->database->getSoftware( $softwareid );
+        return self::$database->getSoftware( $softwareid );
     }
 
     /**
@@ -488,7 +477,7 @@ class Software
     public function getVirusesOnComputer( $computerid )
     {
 
-        return $this->database->getTypeOnComputer( Settings::getSetting('syscrack_software_virus_type'), $computerid );
+        return self::$database->getTypeOnComputer( Settings::setting('syscrack_software_virus_type'), $computerid );
     }
 
     /**
@@ -502,7 +491,7 @@ class Software
     public function getSoftwareOnComputer( $computerid )
     {
 
-        return $this->database->getByComputer( $computerid );
+        return self::$database->getByComputer( $computerid );
     }
 
     /**
@@ -518,7 +507,7 @@ class Software
             'userid'    => $userid
         );
 
-        $this->database->updateSoftware( $softwareid, $array );
+        self::$database->updateSoftware( $softwareid, $array );
     }
 
     /**
@@ -534,7 +523,7 @@ class Software
             'installed' => false
         );
 
-        $this->database->updateSoftware( $softwareid, $array );
+        self::$database->updateSoftware( $softwareid, $array );
     }
 
     /**
@@ -552,7 +541,7 @@ class Software
             'data'  => json_encode( $data )
         );
 
-        $this->database->updateSoftware( $softwareid, $array );
+        self::$database->updateSoftware( $softwareid, $array );
     }
 
     /**
@@ -566,7 +555,7 @@ class Software
     public function canInstall( $softwareid )
     {
 
-        $software = $this->database->getSoftware( $softwareid );
+        $software = self::$database->getSoftware( $softwareid );
 
         if( $software == null )
         {
@@ -602,7 +591,7 @@ class Software
     public function canUninstall( $softwareid )
     {
 
-        $software = $this->database->getSoftware( $softwareid );
+        $software = self::$database->getSoftware( $softwareid );
 
         if( $software == null )
         {
@@ -639,7 +628,7 @@ class Software
     public function canView( $softwareid )
     {
 
-        $software = $this->database->getSoftware( $softwareid );
+        $software = self::$database->getSoftware( $softwareid );
 
         if( $software == null )
         {
@@ -675,7 +664,7 @@ class Software
     public function canRemove( $softwareid )
     {
 
-        $software = $this->database->getSoftware( $softwareid );
+        $software = self::$database->getSoftware( $softwareid );
 
         if( $software == null )
         {
@@ -710,7 +699,7 @@ class Software
     public function keepData( $softwareid )
     {
 
-        $software = $this->database->getSoftware( $softwareid );
+        $software = self::$database->getSoftware( $softwareid );
 
         if( $software == null )
         {
@@ -746,7 +735,7 @@ class Software
     public function canExecute( $softwareid )
     {
 
-        $software = $this->database->getSoftware( $softwareid );
+        $software = self::$database->getSoftware( $softwareid );
 
         if( $software == null )
         {
@@ -782,7 +771,7 @@ class Software
     public function localExecuteOnly( $softwareid )
     {
 
-        $software = $this->database->getSoftware( $softwareid );
+        $software = self::$database->getSoftware( $softwareid );
 
         if( $software == null )
         {
@@ -886,7 +875,7 @@ class Software
     public function hasIcon( $softwareid )
     {
 
-        $software = $this->database->getSoftware( $softwareid );
+        $software = self::$database->getSoftware( $softwareid );
 
         if( $software == null )
         {
@@ -928,7 +917,7 @@ class Software
     public function getIcon( $softwareid )
     {
 
-        $software = $this->database->getSoftware( $softwareid );
+        $software = self::$database->getSoftware( $softwareid );
 
         if( $software == null )
         {
@@ -947,7 +936,7 @@ class Software
         if( isset( $softwareclass->configuration()['icon'] ) == false )
         {
 
-            return Settings::getSetting('syscrack_software_default_icon');
+            return Settings::setting('syscrack_software_default_icon');
         }
 
         return $softwareclass->configuration()['icon'];
@@ -1061,7 +1050,7 @@ class Software
     public function getSoftwareData( $softwareid )
     {
 
-        return json_decode( $this->database->getSoftware( $softwareid )->data, true );
+        return json_decode( self::$database->getSoftware( $softwareid )->data, true );
     }
 
     /**
@@ -1141,7 +1130,7 @@ class Software
     private function isCallable( Structure $software, string $method )
     {
 
-        $requirements = Settings::getSetting('syscrack_software_allowedmethods');
+        $requirements = Settings::setting('syscrack_software_allowedmethods');
 
         if( isset( $requirements[ $method ] ) )
         {

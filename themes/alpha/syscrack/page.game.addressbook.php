@@ -88,7 +88,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                 <?php
 
-                if ($addressdatabase->hasDatabase($session->getSessionUser()) == false) {
+                if ($addressdatabase->hasDatabase($session->userid()) == false) {
 
                     ?>
                     <div class="panel panel-danger">
@@ -103,7 +103,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             </p>
                             <ul class="list-group">
                                 <li class="list-group-item">
-                                    Userid <span class="badge right"><?= $session->getSessionUser() ?></span>
+                                    Userid <span class="badge right"><?= $session->userid() ?></span>
                                 </li>
                             </ul>
                         </div>
@@ -111,7 +111,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                     <?php
                 } else {
 
-                    $addresses = $addressdatabase->getUserAddresses($session->getSessionUser());
+                    $addresses = $addressdatabase->getUserAddresses($session->userid());
 
                     if (empty($addresses)) {
 
@@ -144,7 +144,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                         if (empty($removed) == false) {
 
-                            $addressdatabase->deleteMultipleAddresses($removed, $session->getSessionUser());
+                            $addressdatabase->deleteMultipleAddresses($removed, $session->userid());
 
                             ?>
                             <div class="panel panel-danger">
@@ -170,7 +170,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             <?php
                         }
 
-                        $addresses = array_reverse($addressdatabase->getUserAddresses($session->getSessionUser()));
+                        $addresses = array_reverse($addressdatabase->getUserAddresses($session->userid()));
 
                         foreach ($addresses as $key => $value) {
 

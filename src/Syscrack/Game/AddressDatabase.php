@@ -305,6 +305,6 @@ class AddressDatabase
     private function getPath()
     {
 
-        return Settings::getSetting('syscrack_addressdatabase_location');
+        return Settings::setting('syscrack_addressdatabase_location');
     }
 }

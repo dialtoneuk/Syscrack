@@ -9,10 +9,10 @@
      * @package Framework\Syscrack\Game\Softwares
      */
 
-    use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
-    use Framework\Syscrack\Game\Structures\Software as Structure;
+    use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 
-    class Research extends BaseClass implements Structure
+
+    class Research extends BaseSoftware
     {
 
         /**
@@ -41,56 +41,11 @@
         public function onExecuted( $softwareid, $userid, $computerid )
         {
 
-            $this->redirect('computer/research');
+            if( $computerid !== $this->currentComputer()->computerid )
+                $this->redirectError("Sorry, this must be executed locally", $this->currentAddress() );
+            else
+                $this->redirect('computer/research');
 
             return true;
-        }
-
-        public function onInstalled( $softwareid, $userid, $computerid )
-        {
-
-            return null;
-        }
-
-        public function onUninstalled($softwareid, $userid, $computerid)
-        {
-
-            return null;
-        }
-
-        public function onCollect( $softwareid, $userid, $computerid, $timeran )
-        {
-
-            return null;
-        }
-
-        public function getExecuteCompletionTime($softwareid, $computerid)
-        {
-
-            return null;
-        }
-
-        /**
-         * Default size of 16.0
-         *
-         * @return float
-         */
-
-        public function getDefaultSize()
-        {
-
-            return 16.0;
-        }
-
-        /**
-         * Default level of 2.2
-         *
-         * @return float
-         */
-
-        public function getDefaultLevel()
-        {
-
-            return 2.2;
         }
     }

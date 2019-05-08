@@ -61,7 +61,8 @@ class Session
     }
 
     /**
-     * Destroys a session
+     * @param bool $safeunset
+     * @param bool $destroy
      */
 
     public function destroySession( $safeunset = true, $destroy=false )
@@ -118,7 +119,7 @@ class Session
      * @return int
      */
 
-    public function getSessionUser()
+    public function userid()
     {
 
         if( isset( $this->getDatabaseSession()->userid ) == false )
@@ -210,7 +211,7 @@ class Session
     public function getActiveSessions()
     {
 
-        return self::$database->getSessionsByLastAction( time() - Settings::getSetting('online_timeframe') );
+        return self::$database->getSessionsByLastAction( time() - Settings::setting('online_timeframe') );
     }
 
     /**
@@ -228,9 +229,9 @@ class Session
             return false;
         }
 
-        if( $this->getLastAction() < ( time() - Settings::getSetting('session_timeout') ) )
+        if( $this->getLastAction() < ( time() - Settings::setting('session_timeout') ) )
         {
-
+            $this->destroySession( true, true );
             return false;
         }
 
@@ -244,7 +245,7 @@ class Session
     public function safeUnset()
     {
 
-        $keep = Settings::getSetting('session_keep');
+        $keep = Settings::setting('session_keep');
 
         foreach( $keep as $value )
         {

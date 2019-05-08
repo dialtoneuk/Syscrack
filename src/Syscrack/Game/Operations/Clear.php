@@ -11,21 +11,11 @@ namespace Framework\Syscrack\Game\Operations;
 
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 
-class Clear extends BaseClass implements Structure
+
+class Clear extends BaseOperation
 {
-
-    /**
-     * Clear constructor.
-     */
-
-    public function __construct()
-    {
-
-        parent::__construct( true );
-    }
 
     /**
      * The configuration of this operation
@@ -61,71 +51,41 @@ class Clear extends BaseClass implements Structure
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             return false;
-        }
 
         $computer = self::$internet->getComputer( $data['ipaddress'] );
 
         if( self::$log->hasLog( $computer->computerid ) == false )
-        {
-
             return false;
-        }
 
         if( empty( self::$log->getCurrentLog( $computer->computerid ) ) )
-        {
-
-            $this->redirectError('The log is currently already empty', $this->getRedirect( $data['ipaddress'] ) );
-        }
+            return false;
 
         return true;
     }
 
     /**
-     * Called when a process is completed
-     *
      * @param $timecompleted
-     *
      * @param $timestarted
-     *
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
+     * @return bool
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             throw new SyscrackException();
-        }
 
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-        {
-
-            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
-        }
+            return false;
 
         self::$log->saveLog( $this->getComputerId( $data['ipaddress'] ), [] );
 
-        if( isset( $data['redirect'] ) )
-        {
-
-            $this->redirectSuccess( $data['redirect'] );
-        }
-        else
-        {
-
-            $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
-        }
+        return( @$data['redirect'] );
     }
 
     /**
@@ -143,40 +103,6 @@ class Clear extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), Settings::getSetting('syscrack_operations_clear_speed'), $softwareid );
-    }
-
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array
-     */
-
-    public function getCustomData($ipaddress, $userid)
-    {
-
-        return array();
-    }
-
-    /**
-     * Called upon a post request to this operation
-     *
-     * @param $data
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
-
-    public function onPost($data, $ipaddress, $userid)
-    {
-
-        return true;
+        return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), Settings::setting('syscrack_operations_clear_speed'), $softwareid );
     }
 }

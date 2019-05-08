@@ -10,49 +10,73 @@ namespace Framework\Syscrack\Game\BaseClasses;
  */
 
 use Flight;
+use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\ArrayHelper;
 use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\Finance;
+use Framework\Syscrack\Game\Structures\Operation;
 use Framework\Syscrack\Game\Computer;
 use Framework\Syscrack\Game\Hardware;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Log;
+use Framework\Syscrack\Game\Statistics;
 use Framework\Syscrack\Game\Software;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
+use Framework\Syscrack\User;
+use Illuminate\Support\Collection;
 
-class Operation
+class BaseOperation implements Operation
 {
 
     /**
      * @var Log
      */
 
-    public static $log;
+    protected static $log;
 
     /**
-     * @var Software
+     * @var BaseSoftware
      */
 
-    public static $software;
+    protected static $software;
 
     /**
      * @var Computer
      */
 
-    public static $computers;
+    protected static $computer;
 
     /**
      * @var Internet
      */
 
-    public static $internet;
+    protected static $internet;
 
     /**
      * @var Hardware
      */
 
-    public static $hardware;
+    protected static $hardware;
+
+    /**
+     * @var Statistics
+     */
+
+    protected static $statistics;
+
+    /**
+     * @var Finance;
+     */
+
+    protected static $finance;
+
+    /**
+     * @var User
+     */
+
+    protected static $user;
 
     /**
      * Operation constructor.
@@ -71,15 +95,103 @@ class Operation
             if( isset( self::$software ) == false )
                 self::$software = new Software();
 
-            if( isset( self::$computers ) == false )
-                self::$computers = new Computer();
+            if( isset( self::$computer ) == false )
+                self::$computer = new Computer();
 
             if( isset( self::$internet ) == false )
                 self::$internet = new Internet();
 
             if( isset( self::$hardware ) == false )
                 self::$hardware = new Hardware();
+
+            if( isset( self::$statistics ) == false )
+                self::$statistics = new Statistics();
+
+            if( isset( self::$finance ) == false )
+                self::$finance = new Finance();
+
+            if( isset( self::$user ) == false )
+                self::$user = new User();
         }
+    }
+
+    /**
+     * @param $timecompleted
+     * @param $computerid
+     * @param $userid
+     * @param $process
+     * @param array $data
+     * @return bool
+     */
+
+    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+    {
+
+        return true;
+    }
+
+    /**
+     * @param $timecompleted
+     * @param $timestarted
+     * @param $computerid
+     * @param $userid
+     * @param $process
+     * @param array $data
+     * @return bool
+     */
+
+    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+    {
+
+        return true;
+    }
+
+    /**
+     * @param $computerid
+     * @param $ipaddress
+     * @param null $softwareid
+     * @return int
+     */
+
+    public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+    {
+
+        return 0;
+    }
+
+    /**
+     * @param $ipaddress
+     * @param $userid
+     * @return array
+     */
+
+    public function getCustomData($ipaddress, $userid)
+    {
+
+        return([]);
+    }
+
+    /**
+     * @param $data
+     * @param $ipaddress
+     * @param $userid
+     * @return bool
+     */
+
+    public function onPost($data, $ipaddress, $userid)
+    {
+
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+
+    public function url( $ipaddress=null )
+    {
+
+        return("game/internet");
     }
 
     /**
@@ -98,6 +210,7 @@ class Operation
             'allowpost'         => false,
             'allowcustomdata'   => false,
             'jsonoutput'        => false,
+            'elevated'          => false,
             'postrequirements'  => []
         );
     }
@@ -117,37 +230,21 @@ class Operation
     public function hasSoftware( $softwarename, $computerid, $installed=true )
     {
 
-        $software = self::$computers->getComputerSoftware( $computerid );
+        $software = self::$computer->getComputerSoftware( $computerid );
 
         foreach( $software as $key=>$value )
         {
-
             if( self::$software->softwareExists( $value['softwareid'] ) == false )
-            {
-
                 continue;
-            }
 
             $software = self::$software->getSoftware( $value['softwareid'] );
 
             if( $software->softwarename == $softwarename )
-            {
-
                 if( $installed )
-                {
-
                     if( $software->installed == true )
-                    {
-
                         return true;
-                    }
-                }
                 else
-                {
-
                     return true;
-                }
-            }
         }
 
         return false;
@@ -163,21 +260,24 @@ class Operation
     {
 
         if ( isset( $this->configuration()['jsonoutput'] ) )
-        {
-
             if ( $this->configuration()['jsonoutput'] == true )
-            {
-
                 return true;
-            }
-
-            return false;
-        }
         else
-        {
-
             return false;
-        }
+    }
+
+    /**
+     * @return bool
+     */
+
+    public function isElevated()
+    {
+
+        if ( isset( $this->configuration()['elevated'] ) )
+            if ( $this->configuration()['elevated'] == true )
+                return true;
+            else
+                return false;
     }
 
     /**
@@ -194,48 +294,28 @@ class Operation
     {
 
         if( $type == null )
-        {
+            $type = Settings::setting('syscrack_software_cracker_type');
 
-            $type = Settings::getSetting('syscrack_software_cracker_type');
-        }
-
-        $software = self::$computers->getComputerSoftware( $computerid );
+        $software = self::$computer->getComputerSoftware( $computerid );
 
         if( empty( $software ) )
-        {
-
             return null;
-        }
+
 
         $results = [];
 
         foreach( $software as $key=>$value )
-        {
-
             if( $value['type'] == $type )
-            {
-
                 if( $value['installed'] == true )
-                {
-
                     $results[] = self::$software->getSoftware( $value['softwareid'] );
-                }
-            }
-        }
 
         if( empty( $results ) )
-        {
-
             return null;
-        }
 
         $results = ArrayHelper::sortArray( $results, 'level' );
 
         if( is_array( $results ) == false )
-        {
-
             return (array)$results;
-        }
 
         return (array)$results[0];
     }
@@ -257,16 +337,10 @@ class Operation
         {
 
             if( isset( $data[ $requirement ] ) == false )
-            {
-
                 return false;
-            }
 
             if( $data[ $requirement ] == null || empty( $data[ $requirement ] ))
-            {
-
                 return false;
-            }
         }
 
         return true;
@@ -301,55 +375,61 @@ class Operation
     public function logActions( $message, $computerid, $ipaddress )
     {
 
-        if( self::$computers->computerExists( $computerid ) == false )
-        {
-
+        if( self::$computer->computerExists( $computerid ) == false )
             throw new SyscrackException();
-        }
 
         $victimid = self::$internet->getComputer( $ipaddress );
 
         if( self::$log->hasLog( $victimid->computerid ) == false || self::$log->hasLog( $computerid ) == false )
-        {
-
             throw new SyscrackException();
-        }
 
-        $this->logToComputer( $message, $victimid->computerid, self::$computers->getComputer( $computerid )->ipaddress );
+        $this->logToComputer( $message, $victimid->computerid, self::$computer->getComputer( $computerid )->ipaddress );
+        $this->logToComputer( $message, $computerid, Settings::setting('syscrack_log_localhost_name'));
+    }
 
-        $this->logToComputer( $message, $computerid, Settings::getSetting('syscrack_log_localhost_name'));
+    /**
+     * @var Collection
+     */
 
+    protected static $cache;
+
+    /**
+     * @return Collection
+     */
+
+    public function currentComputer()
+    {
+
+        if( isset( self::$cache ) == false )
+            self::$cache = self::$computer->getComputer( self::$computer->computerid() );
+
+        return( self::$cache );
     }
 
     /**
      * @param $file
      * @param array|null $array
-     * @param bool $default_classes
+     * @param bool $default_sets
      * @param bool $cleanob
      */
 
-    public function getRender( $file, array $array = null, $default_classes = false, $cleanob=true  )
+    public function render( $file, array $array = [], $default_sets = false, $cleanob=true  )
     {
 
-        if( $array !== null )
+
+        if( $default_sets )
         {
 
-            if( $default_classes !== false )
-            {
-
-                array_merge( $array, [
-                    'software' => self::$software,
-                    'internet'  => self::$internet,
-                    'computer'  => self::$computers
-                ]);
-            }
+            $array = array_merge( $array, [
+                'software' => self::$software->getSoftwareOnComputer( @$array["computer"]->computerid ),
+                'user'      => self::$user->getUser( Container::getObject('session')->userid()),
+                'accounts'  => self::$finance->getUserBankAccounts( Container::getObject('session')->userid() ),
+                'computer'  => $this->currentComputer(),
+            ]);
         }
 
         if( $cleanob )
-        {
-
             ob_clean();
-        }
 
         Render::view( 'syscrack/' . $file, $array);
     }
@@ -372,205 +452,33 @@ class Operation
     {
 
         if( self::$hardware->hasHardwareType( $computerid, $hardwaretype ) == false )
-        {
+            return TimeHelper::getSecondsInFuture( Settings::setting('syscrack_operations_default_processingtime') );
 
-            return TimeHelper::getSecondsInFuture( Settings::getSetting('syscrack_operations_default_processingtime') );
-        }
 
         if( $softwareid !== null )
         {
 
             if( self::$software->softwareExists( $softwareid ) == false )
-            {
-
                 throw new SyscrackException();
-            }
 
             $hardware = self::$hardware->getHardwareType( $computerid, $hardwaretype );
-
             $software = self::$software->getSoftware( $softwareid );
-
-            return TimeHelper::getSecondsInFuture( floor( ( sqrt( $software->level / $hardware['value'] ) * $speedness ) * ( Settings::getSetting('syscrack_operations_global_speed' ) ) ) );
+            return TimeHelper::getSecondsInFuture( floor( ( sqrt( $software->level / $hardware['value'] ) * $speedness ) * ( Settings::setting('syscrack_operations_global_speed' ) ) ) );
         }
 
         $hardware = self::$hardware->getHardwareType( $computerid, $hardwaretype );
-
-        return TimeHelper::getSecondsInFuture( floor( sqrt( $speedness / $hardware['value'] ) * ( Settings::getSetting('syscrack_operations_global_speed' ) ) ) );
+        return TimeHelper::getSecondsInFuture( floor( sqrt( $speedness / $hardware['value'] ) * ( Settings::setting('syscrack_operations_global_speed' ) ) ) );
     }
 
     /**
-     * Redirects the user to a page
-     *
      * @param $path
-     *
      * @param bool $exit
      */
 
     public function redirect( $path, $exit=true )
     {
 
-        Render::redirect( Settings::getSetting('controller_index_root') . $path );
-
-        if( $exit == true )
-        {
-
-            exit;
-        }
-    }
-
-    /**
-     * Redirects the user to an error
-     *
-     * @param string $message
-     *
-     * @param string $path
-     */
-
-    public function redirectError($message = '', $path = '')
-    {
-
-        if( Settings::getSetting('error_use_session') )
-        {
-
-            if( session_status() !== PHP_SESSION_ACTIVE )
-            {
-
-                session_status();
-            }
-
-            $_SESSION['error'] = $message;
-
-            if( $path !== '' )
-            {
-
-                if( empty( explode('/', $path ) ) )
-                {
-
-                    $_SESSION['error_page'] = explode('/', $path)[0];
-                }
-                else
-                {
-
-                    if( substr( $path, 0, 1 ) == '/' )
-                    {
-
-                        $_SESSION['error_page'] = substr( $path, 1);
-                    }
-                    else
-                    {
-
-                        $_SESSION['error_page'] = $path;
-                    }
-                }
-            }
-            else
-            {
-
-                $_SESSION['error_page'] = $this->getCurrentPage();
-            }
-
-
-            if ( $this->isJsonOutput() )
-            {
-
-                if ( $path !== '' )
-                {
-
-                    Flight::json([
-                       'error' => [
-                           'redirect' => $path,
-                           'message' => $message
-                       ]
-                    ]);
-
-                    die();
-                }
-                else
-                {
-
-                    Flight::json([
-                        'error' => [
-                            'message' => $message
-                        ]
-                    ]);
-
-                    die();
-                }
-            }
-            else
-            {
-
-                if ($path !== '')
-                {
-
-                    $this->redirect( $path . '?error' );
-                }
-                else
-                {
-
-                    $this->redirect( $this->getCurrentPage() . '?error' );
-                }
-            }
-        }
-        else
-        {
-
-            if ($path !== '')
-            {
-
-                $this->redirect( $path . '?error=' . $message );
-            }
-            else
-            {
-
-                $this->redirect( $this->getCurrentPage() . '?error=' . $message );
-            }
-        }
-    }
-
-    /**
-     * Redirects the user to a success
-     *
-     * @param string $path
-     */
-
-    public function redirectSuccess($path = '')
-    {
-
-        if ( $this->isJsonOutput() )
-        {
-
-            if ( $path !== '' )
-            {
-
-                Flight::json([
-                    'redirect' => $path,
-                    'success' => true
-                ]);
-
-                die();
-            }
-            else
-            {
-
-                Flight::json([
-                    'success' => true
-                ]);
-
-                die();
-            }
-        }
-        else
-        {
-
-            if ($path !== '')
-            {
-
-                $this->redirect( $path . '?success' );
-            }
-
-            $this->redirect( $this->getCurrentPage() . '?success', true );
-        }
+        Render::redirect( Settings::setting('controller_index_root') . $path );
     }
 
     /**
@@ -587,30 +495,17 @@ class Operation
     {
 
         if( isset( $data['custom'] ) == false )
-        {
-
             return false;
-        }
+
 
         if( empty( $data['custom'] ) || $data['custom'] == null )
-        {
-
             return false;
-        }
+
 
         if( $requirements !== null )
-        {
-
             foreach( $requirements as $requirement )
-            {
-
                 if( isset( $data['custom'][ $requirement ] ) == false )
-                {
-
                     return false;
-                }
-            }
-        }
 
         return true;
     }
@@ -629,14 +524,11 @@ class Operation
     {
 
         $hdd = self::$hardware->getHardwareType( $computerid, 'harddrive')['value'];
-        $software = json_decode( self::$computers->getComputer( $computerid )->software, true );
+        $software = json_decode( self::$computer->getComputer( $computerid )->software, true );
         $usedspace = 0.0 + $needed;
 
         foreach( $software as $key=>$value )
-        {
-
             $usedspace += self::$software->getSoftware( $value['softwareid'] )->size;
-        }
 
         return ( $usedspace < $hdd ) ? true : false;
     }
@@ -654,25 +546,16 @@ class Operation
     public function getRedirect( $ipaddress=null, $local=false )
     {
 
-        if( $ipaddress == self::$computers->getComputer( self::$computers->getCurrentUserComputer() )->ipaddress )
-        {
-
-            return Settings::getSetting('syscrack_computers_page');
-        }
+        if( $ipaddress == self::$computer->getComputer( self::$computer->computerid() )->ipaddress )
+            return Settings::setting('syscrack_computers_page');
 
         if( $local )
-        {
-
-            return Settings::getSetting('syscrack_computers_page');
-        }
+            return Settings::setting('syscrack_computers_page');
 
         if( $ipaddress )
-        {
+            return Settings::setting('syscrack_game_page') . '/' . Settings::setting('syscrack_internet_page') . '/' . $ipaddress;
 
-            return Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress;
-        }
-
-        return Settings::getSetting('syscrack_game_page');
+        return Settings::setting('syscrack_game_page');
     }
 
     /**
@@ -682,17 +565,13 @@ class Operation
     public function safeUnset()
     {
 
-        $unset = Settings::getSetting('syscrack_operations_safeunset_values');
+        $unset = Settings::setting('syscrack_operations_safeunset_values');
 
         foreach( $unset as $value )
-        {
-
             if( isset( $_SESSION[ $value ] ) )
-            {
-
                 unset( $_SESSION[ $value ] );
-            }
-        }
+
+
     }
 
     /**
@@ -718,7 +597,7 @@ class Operation
     public function getCurrentComputerAddress()
     {
 
-        return self::$computers->getComputer( self::$computers->getCurrentUserComputer() )->ipaddress;
+        return self::$computer->getComputer( self::$computer->computerid() )->ipaddress;
     }
 
     /**
@@ -733,10 +612,8 @@ class Operation
     {
 
         if( self::$software->softwareExists( $softwareid ) == false )
-        {
 
             throw new SyscrackException();
-        }
 
         return self::$software->getSoftware( $softwareid )->softwarename;
     }
@@ -755,7 +632,7 @@ class Operation
         if( empty( $page ) )
         {
 
-            return Settings::getSetting('controller_index_page');
+            return Settings::setting('controller_index_page');
         }
 
         return $page[0];

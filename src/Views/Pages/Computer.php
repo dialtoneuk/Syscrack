@@ -187,10 +187,10 @@
         public function computerCollect()
         {
 
-            if( parent::$computer->hasType( parent::$computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
+            if( parent::$computer->hasType( parent::$computer->computerid(), Settings::setting('syscrack_software_collector_type'), true ) == false )
                 $this->redirect('computer');
 
-            $collector = parent::$software->getSoftware( parent::$computer->getCollector( parent::$computer->getCurrentUserComputer() ) );
+            $collector = parent::$software->getSoftware( parent::$computer->getCollector( parent::$computer->computerid() ) );
 
             Render::view('syscrack/page.computer.collect', ["collector" => $collector], $this->model());
         }
@@ -204,7 +204,7 @@
         public function computerCollectProcess()
         {
 
-            if( parent::$computer->hasType( parent::$computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
+            if( parent::$computer->hasType( parent::$computer->computerid(), Settings::setting('syscrack_software_collector_type'), true ) == false )
                 $this->redirect('computer');
             else
                 if( PostHelper::hasPostData() == false )
@@ -222,7 +222,7 @@
                         if( self::$finance->accountNumberExists( $accountnumber ) )
                         {
 
-                            $addresses = $this->getAddresses( parent::$session->getSessionUser() );
+                            $addresses = $this->getAddresses( parent::$session->userid() );
                             $information = array();
                             $collection = 0;
 
@@ -233,7 +233,7 @@
                                     parent::$software->updateLastModified( $address["virus"]->softwareid );
                                 }
 
-                            $collector = parent::$software->getSoftware( parent::$computer->getCollector( parent::$computer->getCurrentUserComputer() ) );
+                            $collector = parent::$software->getSoftware( parent::$computer->getCollector( parent::$computer->computerid() ) );
 
                             if( empty( $information ) || $collection === 0 )
                                 $this->redirectError("You collected zero profits, this could be due to the frequency of which you are collected. Wait a while and try again.", $this->path );
@@ -258,10 +258,10 @@
             $account = self::$finance->getByAccountNumber( $accountnumber );
             self::$finance->deposit( $account->computerid, $account->userid, $collection );
             self::$log->updateLog('Deposited '
-                . Settings::getSetting('syscrack_currency')
+                . Settings::setting('syscrack_currency')
                 . number_format(  $collection ) .
                 ' into account (' . $accountnumber . ') at bank <' . parent::$internet->getComputerAddress( $account->computerid )
-                . '>', parent::$computer->getCurrentUserComputer(), 'localhost');
+                . '>', parent::$computer->computerid(), 'localhost');
         }
 
         private function calculateProfit( $software, $ipaddress, &$collection, &$information )
@@ -276,7 +276,7 @@
 
             $information[ $ipaddress ] = [
                 'ipaddress' => $ipaddress,
-                'message'   =>  $software->softwarename . ' ran for ' . gmdate("H:i:s", ( time() - $software->lastmodified ) ) . ' and generated ' . Settings::getSetting('syscrack_currency') . number_format( ( $collection ) ),
+                'message'   =>  $software->softwarename . ' ran for ' . gmdate("H:i:s", ( time() - $software->lastmodified ) ) . ' and generated ' . Settings::setting('syscrack_currency') . number_format( ( $collection ) ),
                 'profits'   => ( $software )
             ];
         }
@@ -306,7 +306,7 @@
                         $viruses = self::$viruses->getVirusesOnComputer( $computerid, $userid );
 
                         foreach( $viruses as $virus )
-                            if( $virus->installed && ( time() - $virus->lastmodified ) >= Settings::getSetting('syscrack_collector_cooldown') )
+                            if( $virus->installed && ( time() - $virus->lastmodified ) >= Settings::setting('syscrack_collector_cooldown') )
                                 $results[] = array_merge( $address, [ "status" => 3, "virus" => $virus] );
                             else
                                 $results[] = array_merge( $address, [ "status" => 2, "virus" => $virus] );
@@ -479,7 +479,7 @@
         public function computerResearch()
         {
 
-            if( parent::$computer->hasType( parent::$computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_research_type'), true ) == false )
+            if( parent::$computer->hasType( parent::$computer->computerid(), Settings::setting('syscrack_software_research_type'), true ) == false )
             {
 
                 $this->redirect('computer');
@@ -526,7 +526,7 @@
 
                     $software = parent::$software->getSoftware( $softwareid );
 
-                    if( parent::$computer->hasSoftware( parent::$computer->getCurrentUserComputer(), $softwareid ) == false )
+                    if( parent::$computer->hasSoftware( parent::$computer->computerid(), $softwareid ) == false )
                     {
 
                         $this->redirectError('This computer does not have this current software', 'computer/research');
@@ -562,9 +562,9 @@
 
                     self::$finance->withdraw( $account->computerid, $account->userid, $this->getLicensePrice( $softwareid ) );
 
-                    parent::$software->licenseSoftware( $softwareid, parent::$session->getSessionUser() );
+                    parent::$software->licenseSoftware( $softwareid, parent::$session->userid() );
 
-                    self::$log->updateLog('Purchased license for ' . Settings::getSetting('syscrack_currency') . number_format( $this->getLicensePrice( $softwareid ) ) . ' payed with account (' . $accountnumber . ') at bank <' . parent::$internet->getComputerAddress( $account->computerid ) . '>', parent::$computer->getCurrentUserComputer(), 'localhost');
+                    self::$log->updateLog('Purchased license for ' . Settings::setting('syscrack_currency') . number_format( $this->getLicensePrice( $softwareid ) ) . ' payed with account (' . $accountnumber . ') at bank <' . parent::$internet->getComputerAddress( $account->computerid ) . '>', parent::$computer->computerid(), 'localhost');
 
                     $this->redirectSuccess('computer/research');
                 }
@@ -587,7 +587,7 @@
 
                     $software = parent::$software->getSoftware( $softwareid );
 
-                    if( parent::$computer->hasSoftware( parent::$computer->getCurrentUserComputer(), $softwareid ) == false )
+                    if( parent::$computer->hasSoftware( parent::$computer->computerid(), $softwareid ) == false )
                     {
 
                         $this->redirectError('This computer does not have this current software', 'computer/research');
@@ -641,7 +641,7 @@
                 $this->redirectError('Invalid action');
             }
 
-            $computerid = parent::$computer->getCurrentUserComputer();
+            $computerid = parent::$computer->computerid();
 
             $ipaddress = $this->getCurrentComputerAddress();
 
@@ -666,7 +666,7 @@
             if( self::$operations->allowCustomData( $process ) == true )
             {
 
-                $data = $this->getCustomData( $process, $ipaddress, parent::$session->getSessionUser() );
+                $data = $this->getCustomData( $process, $ipaddress, parent::$session->userid() );
             }
             else
             {
@@ -676,7 +676,7 @@
 
             $class = self::$operations->findProcessClass($process);
 
-            $result = $class->onCreation(time(), parent::$computer->getCurrentUserComputer(), parent::$session->getSessionUser(), $process, array(
+            $result = $class->onCreation(time(), parent::$computer->computerid(), parent::$session->userid(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'custom'        => $data
             ));
@@ -687,12 +687,12 @@
                 $this->redirectError('Unable to complete process' );
             }
 
-            $completiontime = $class->getCompletionSpeed(parent::$computer->getCurrentUserComputer(), $ipaddress, null );
+            $completiontime = $class->getCompletionSpeed(parent::$computer->computerid(), $ipaddress, null );
 
             if( $completiontime !== null )
             {
 
-                $processid = self::$operations->createProcess($completiontime, parent::$computer->getCurrentUserComputer(), parent::$session->getSessionUser(), $process, array(
+                $processid = self::$operations->createProcess($completiontime, parent::$computer->computerid(), parent::$session->userid(), $process, array(
                     'ipaddress'     => $ipaddress,
                     'custom'        => $data,
                     'redirect'      => 'computer'
@@ -701,7 +701,7 @@
                 $this->redirect('processes/' . $processid, true );
             }
 
-            $class->onCompletion(time(), time(), parent::$computer->getCurrentUserComputer(), parent::$session->getSessionUser(), $process, array(
+            $class->onCompletion(time(), time(), parent::$computer->computerid(), parent::$session->userid(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'custom'        => $data,
                 'redirect'      => 'computer'
@@ -725,7 +725,7 @@
                 $this->redirectError('Invalid action');
             }
 
-            $computerid = parent::$computer->getCurrentUserComputer();
+            $computerid = parent::$computer->computerid();
 
             $ipaddress = $this->getCurrentComputerAddress();
 
@@ -766,12 +766,12 @@
                             $this->redirectError('Missing information');
                     }
 
-                        $result = $class->onPost( PostHelper::returnRequirements( $requirements ), $ipaddress, parent::$session->getSessionUser() );
+                        $result = $class->onPost( PostHelper::returnRequirements( $requirements ), $ipaddress, parent::$session->userid() );
                     }
                     else
                     {
 
-                        $result = $class->onPost( PostHelper::getPost(), $ipaddress, parent::$session->getSessionUser() );
+                        $result = $class->onPost( PostHelper::getPost(), $ipaddress, parent::$session->userid() );
                     }
 
                     if( $result == false )
@@ -793,7 +793,7 @@
             if( parent::$software->isEditable( $software->softwareid ) == false )
             {
 
-                if( $process == Settings::getSetting('syscrack_operations_view_process') )
+                if( $process == Settings::setting('syscrack_operations_view_process') )
                 {
 
                     if( parent::$software->canView( $software->softwareid ) == false )
@@ -816,7 +816,7 @@
             if( self::$operations->allowCustomData( $process ) == true )
             {
 
-                $data = $this->getCustomData( $process, $ipaddress, parent::$session->getSessionUser() );
+                $data = $this->getCustomData( $process, $ipaddress, parent::$session->userid() );
             }
             else
             {
@@ -824,7 +824,7 @@
                 $data = [];
             }
 
-            $result = $class->onCreation(time(), parent::$computer->getCurrentUserComputer(), parent::$session->getSessionUser(), $process, array(
+            $result = $class->onCreation(time(), parent::$computer->computerid(), parent::$session->userid(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'softwareid'    => $software->softwareid,
                 'custom'        => $data
@@ -836,12 +836,12 @@
                 $this->redirectError('Unable to complete process' );
             }
 
-            $completiontime = $class->getCompletionSpeed(parent::$computer->getCurrentUserComputer(), $ipaddress, $software->softwareid );
+            $completiontime = $class->getCompletionSpeed(parent::$computer->computerid(), $ipaddress, $software->softwareid );
 
             if( $completiontime !== null )
             {
 
-                $processid = self::$operations->createProcess($completiontime, parent::$computer->getCurrentUserComputer(), parent::$session->getSessionUser(), $process, array(
+                $processid = self::$operations->createProcess($completiontime, parent::$computer->computerid(), parent::$session->userid(), $process, array(
                     'ipaddress'     => $ipaddress,
                     'softwareid'    => $software->softwareid,
                     'custom'        => $data,
@@ -851,7 +851,7 @@
                 $this->redirect('processes/' . $processid, true );
             }
 
-            $class->onCompletion(time(), time(), parent::$computer->getCurrentUserComputer(), parent::$session->getSessionUser(), $process, array(
+            $class->onCompletion(time(), time(), parent::$computer->computerid(), parent::$session->userid(), $process, array(
                 'ipaddress'     => $ipaddress,
                 'softwareid'    => $software->softwareid,
                 'custom'        => $data,
@@ -910,13 +910,13 @@
 
             $software = parent::$software->getSoftware( $softwareid );
 
-            if( $software->level * Settings::getSetting('syscrack_research_price_multiplier') <= 0 )
+            if( $software->level * Settings::setting('syscrack_research_price_multiplier') <= 0 )
             {
 
                 return 0;
             }
 
-            return $software->level * Settings::getSetting('syscrack_research_price_multiplier');
+            return $software->level * Settings::setting('syscrack_research_price_multiplier');
         }
 
         /**
@@ -928,6 +928,6 @@
         private function getCurrentComputerAddress()
         {
 
-            return parent::$computer->getComputer( parent::$computer->getCurrentUserComputer() )->ipaddress;
+            return parent::$computer->getComputer( parent::$computer->computerid() )->ipaddress;
         }
     }

@@ -9,10 +9,10 @@
  * @package Framework\Syscrack\Game\Softwares
  */
 
-use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
-use Framework\Syscrack\Game\Structures\Software as Structure;
+use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 
-class Text extends BaseClass implements Structure
+
+class Text extends BaseSoftware
 {
 
     /**
@@ -36,57 +36,68 @@ class Text extends BaseClass implements Structure
         );
     }
 
+    /**
+     * @param $softwareid
+     * @param $userid
+     * @param $computerid
+     * @return mixed|null
+     */
+
     public function onExecuted( $softwareid, $userid, $computerid )
     {
 
-        return null;
+        return true;
     }
+
+    /**
+     * @param $softwareid
+     * @param $userid
+     * @param $computerid
+     * @return mixed|null
+     */
 
     public function onInstalled( $softwareid, $userid, $computerid )
     {
 
-        return null;
+        return true;
     }
+
+    /**
+     * @param $softwareid
+     * @param $userid
+     * @param $computerid
+     * @return mixed|null
+     */
 
     public function onUninstalled($softwareid, $userid, $computerid)
     {
 
-        return null;
+        return true;
     }
+
+    /**
+     * @param $softwareid
+     * @param $userid
+     * @param $computerid
+     * @param $timeran
+     * @return float
+     */
 
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
 
-        return null;
+        return 0.0;
     }
+
+    /**
+     * @param $softwareid
+     * @param $computerid
+     * @return mixed|null|void
+     */
 
     public function getExecuteCompletionTime($softwareid, $computerid)
     {
 
         return null;
-    }
-
-    /**
-     * Default size of 16.0
-     *
-     * @return float
-     */
-
-    public function getDefaultSize()
-    {
-
-        return 16.0;
-    }
-
-    /**
-     * Default level of 2.2
-     *
-     * @return float
-     */
-
-    public function getDefaultLevel()
-    {
-
-        return 2.2;
     }
 }

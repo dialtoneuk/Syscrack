@@ -9,10 +9,10 @@
      * @package Framework\Syscrack\Game\Softwares
      */
 
-    use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
-    use Framework\Syscrack\Game\Structures\Software as Structure;
+    use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 
-    class Nmap extends BaseClass implements Structure
+
+    class Nmap extends BaseSoftware
     {
 
         /**
@@ -30,57 +30,5 @@
                 'type'          => 'tool',
                 'installable'   => true
             );
-        }
-
-        public function onExecuted( $softwareid, $userid, $computerid )
-        {
-
-            return null;
-        }
-
-        public function onInstalled( $softwareid, $userid, $computerid )
-        {
-
-
-        }
-
-        public function onUninstalled($softwareid, $userid, $computerid)
-        {
-            // TODO: Implement onUninstalled() method.
-        }
-
-        public function onCollect( $softwareid, $userid, $computerid, $timeran )
-        {
-
-
-        }
-
-        public function getExecuteCompletionTime($softwareid, $computerid)
-        {
-            return null;
-        }
-
-        /**
-         * Default size of 10.0
-         *
-         * @return float
-         */
-
-        public function getDefaultSize()
-        {
-
-            return 10.0;
-        }
-
-        /**
-         * Default level of 1.0
-         *
-         * @return float
-         */
-
-        public function getDefaultLevel()
-        {
-
-            return 1.0;
         }
     }

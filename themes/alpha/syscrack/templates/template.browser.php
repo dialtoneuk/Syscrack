@@ -63,7 +63,7 @@ if (isset($pagehelper) == false) {
                     else
                     {
 
-                        Render::view("../../" . \Framework\Application\Settings::getSetting("browser_pages_root") . $metadata->custom["browserpage"], array("internet" => $internet, 'ipaddress' => $ipaddress, 'metadata' => $metadata));
+                        Render::view("../../" . $settings["browser_pages_root"] . $metadata->custom["browserpage"], array("internet" => $internet, 'ipaddress' => $ipaddress, 'metadata' => $metadata));
                     }
 
                 ?>

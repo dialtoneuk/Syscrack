@@ -10,21 +10,11 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 
-class Logout extends BaseClass implements Structure
+
+class Logout extends BaseOperation
 {
-
-    /**
-     * Logout constructor.
-     */
-
-    public function __construct()
-    {
-
-        parent::__construct( true );
-    }
 
     /**
      * The configuration of this operation
@@ -60,22 +50,14 @@ class Logout extends BaseClass implements Structure
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             return false;
-        }
 
         if( self::$internet->hasCurrentConnection() == false )
-        {
-
             return false;
-        }
+
 
         if( self::$internet->getCurrentConnectedAddress() !== $data['ipaddress'] )
-        {
-
             return false;
-        }
 
         return true;
     }
@@ -87,85 +69,24 @@ class Logout extends BaseClass implements Structure
      * @param $userid
      * @param $process
      * @param array $data
+     * @return bool
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             throw new SyscrackException();
-        }
 
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-        {
-
-            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
-        }
+            return false;
 
         $computer = self::$internet->getComputer( $data['ipaddress'] );
 
-        if( self::$computers->hasComputerClass( $computer->type ) == false )
-        {
+        if( self::$computer->hasComputerClass( $computer->type ) == false )
+            return false;
 
-            throw new SyscrackException('Computer type not found');
-        }
-
-        self::$computers->getComputerClass( $computer->type )->onLogout( $computer->computerid, $data['ipaddress'] );
-
-        $this->redirectSuccess( $this->getRedirect() . '/internet' );
-    }
-
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array
-     */
-
-    public function getCustomData($ipaddress, $userid)
-    {
-
-        return array();
-    }
-
-    /**
-     * Called upon a post request to this operation
-     *
-     * @param $data
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
-
-    public function onPost($data, $ipaddress, $userid)
-    {
-
+        self::$computer->getComputerClass( $computer->type )->onLogout( $computer->computerid, $data['ipaddress'] );
         return true;
-    }
-
-    /**
-     * Gets the completion time
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return null
-     */
-
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
-    {
-
-        return null;
     }
 }

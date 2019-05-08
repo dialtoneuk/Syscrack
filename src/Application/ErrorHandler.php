@@ -68,7 +68,7 @@ class ErrorHandler
 
         $this->addToLog( $array );
 
-        if( Settings::getSetting('error_logging') )
+        if( Settings::setting('error_logging') )
             $this->saveErrors();
     }
 
@@ -94,7 +94,7 @@ class ErrorHandler
 
         $this->addToLog( $array );
 
-        if( Settings::getSetting('error_logging') )
+        if( Settings::setting('error_logging') )
             $this->saveErrors();
     }
 
@@ -273,6 +273,6 @@ class ErrorHandler
     private function getFileLocation()
     {
 
-        return Settings::getSetting('error_log_location');
+        return Settings::setting('error_log_location');
     }
 }

@@ -260,7 +260,7 @@ if ($settings['syscrack_globe_enabled']) {
 
                     if ($computer_controller->hasCurrentComputer()) {
 
-                        $currentcomputer = $computer_controller->getComputer($computer_controller->getCurrentUserComputer());
+                        $currentcomputer = $computer_controller->getComputer($computer_controller->computerid());
 
                         ?>
 
@@ -281,7 +281,7 @@ if ($settings['syscrack_globe_enabled']) {
                         <?php
                     }
 
-                    $usercomputers = $computer_controller->getUserComputers($session->getSessionUser());
+                    $usercomputers = $computer_controller->getUserComputers($session->userid());
 
                     $count = 0;
 
@@ -294,7 +294,7 @@ if ($settings['syscrack_globe_enabled']) {
                             continue;
                         }
 
-                        if ($computer_controller->getCurrentUserComputer() == $value->computerid) {
+                        if ($computer_controller->computerid() == $value->computerid) {
 
                             $count++;
 

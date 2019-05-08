@@ -9,26 +9,30 @@
      * @package Framework\Syscrack\Game\Softwares
      */
 
-    use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
-    use Framework\Syscrack\Game\Structures\Software as Structure;
+    use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
     use Framework\Syscrack\Game\Utilities\TimeHelper;
     use Framework\Syscrack\Game\Viruses;
 
-    class AntiVirus extends BaseClass implements Structure
+    class AntiVirus extends BaseSoftware
     {
 
-        protected $viruses;
+        /**
+         * @var Viruses
+         */
+
+        protected static $viruses;
+
+        /**
+         * AntiVirus constructor.
+         */
 
         public function __construct()
         {
 
+            if( isset( self::$viruses ) == false )
+                self::$viruses = new Viruses();
+
             parent::__construct(true);
-
-            if( isset( $this->viruses ) == false )
-            {
-
-                $this->viruses = new Viruses();
-            }
         }
 
         /**
@@ -49,99 +53,58 @@
             );
         }
 
+        /**
+         * @param $softwareid
+         * @param $userid
+         * @param $computerid
+         * @return mixed|void
+         */
+
         public function onExecuted( $softwareid, $userid, $computerid )
         {
 
-            $viruses = $this->viruses->getVirusesOnComputer( $computerid );
+            $viruses = self::$viruses->getVirusesOnComputer( $computerid );
 
             if( empty( $viruses ) )
-            {
+                $this->redirectError('No viruses were found', $this->getRedirect( self::$internet->getComputerAddress( $computerid ) ) );
 
-                $this->redirectError('No viruses were found', $this->getRedirect( $this->computers->getComputer( $computerid )->ipaddress ) );
-            }
-
-            $software = $this->software->getSoftware( $softwareid );
-
+            $software = parent::$software->getSoftware( $softwareid );
             $results = [];
 
             foreach( $viruses as $virus )
             {
 
                 if( $virus->level > $software->level )
-                {
-
                     continue;
-                }
+
 
                 if( $virus->installed == false )
-                {
-
                     continue;
-                }
+
 
                 $results[] = array(
                     'softwareid' => $virus->softwareid
                 );
 
-                $this->software->deleteSoftware( $virus->softwareid );
-
-                $this->computers->removeSoftware( $computerid, $virus->softwareid );
+                parent::$software->deleteSoftware( $virus->softwareid );
+                self::$computers->removeSoftware( $computerid, $virus->softwareid );
             }
 
             if( empty( $results ) )
-            {
+                $this->redirectError('No errors were deleted, this could be due to your anti-virus being too weak',  $this->getRedirect( self::$internet->getComputerAddress( $computerid ) ) );
 
-                $this->redirectError('No errors were deleted, this could be due to your anti-virus being too weak',  $this->getRedirect( $this->computers->getComputer( $computerid )->ipaddress ) );
-            }
-
-            $this->redirectSuccess( $this->getRedirect( $this->computers->getComputer( $computerid )->ipaddress ) );
+            $this->redirectSuccess( $this->getRedirect( self::$internet->getComputerAddress( $computerid ) ) );
         }
 
-        public function onInstalled( $softwareid, $userid, $computerid )
-        {
-
-            return null;
-        }
-
-        public function onUninstalled($softwareid, $userid, $computerid)
-        {
-
-            return null;
-        }
-
-        public function onCollect( $softwareid, $userid, $computerid, $timeran )
-        {
-
-            return null;
-        }
+        /**
+         * @param $softwareid
+         * @param $computerid
+         * @return int|mixed|null
+         */
 
         public function getExecuteCompletionTime($softwareid, $computerid)
         {
 
-            return TimeHelper::getSecondsInFuture( 1 );
-        }
-
-        /**
-         * Default size of 10.0
-         *
-         * @return float
-         */
-
-        public function getDefaultSize()
-        {
-
-            return 10.0;
-        }
-
-        /**
-         * Default level of 1.0
-         *
-         * @return float
-         */
-
-        public function getDefaultLevel()
-        {
-
-            return 1.0;
+            return ( TimeHelper::getSecondsInFuture( 1 ) );
         }
     }

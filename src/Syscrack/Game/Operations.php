@@ -14,6 +14,8 @@ use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
 use Framework\Database\Tables\Processes as Database;
 use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 use Framework\Syscrack\Game\Structures\Operation;
 
 class Operations
@@ -269,9 +271,8 @@ class Operations
     }
 
     /**
-     * Completes the process
-     *
      * @param $processid
+     * @return mixed
      */
 
     public function completeProcess( $processid )
@@ -287,7 +288,7 @@ class Operations
 
         $this->database->trashProcess( $processid );
 
-        $this->callProcessMethod( $this->findProcessClass( $process->process ), 'onCompletion', array(
+        $result = $this->callProcessMethod( $this->findProcessClass( $process->process ), 'onCompletion', array(
             'timecompleted' => $process->timecompleted,
             'timestarted'   => $process->timestarted,
             'computerid'    => $process->computerid,
@@ -295,6 +296,8 @@ class Operations
             'process'       => $process->process,
             'data'          => json_decode( $process->data, true )
         ));
+
+        return( $result );
     }
 
     /**
@@ -362,13 +365,29 @@ class Operations
      *
      * @param $process
      *
-     * @return Operation
+     * @return BaseOperation
      */
 
     public function findProcessClass( $process )
     {
 
         return $this->factory->findClass( $process );
+    }
+
+    /**
+     * @param $process
+     * @return bool
+     */
+
+    public function isElevatedProcess( $process )
+    {
+
+        /**
+         * @var $class BaseOperation
+         */
+        $class = $this->findProcessClass( $process );
+
+        return( $class->isElevated() );
     }
 
     /**
@@ -834,7 +853,7 @@ class Operations
             throw new SyscrackException();
         }
 
-        $files = FileSystem::getFilesInDirectory( Settings::getSetting('syscrack_operations_location') );
+        $files = FileSystem::getFilesInDirectory( Settings::setting('syscrack_operations_location') );
 
         if( empty( $files ) )
         {

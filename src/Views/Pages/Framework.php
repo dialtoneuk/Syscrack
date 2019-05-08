@@ -62,7 +62,7 @@
         public function redirectIndex()
         {
 
-            Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+            Render::redirect( Settings::setting('controller_index_root') . Settings::setting('controller_index_page') );
         }
 
         /**

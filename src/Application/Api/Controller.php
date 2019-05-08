@@ -158,7 +158,7 @@ class Controller
             return false;
         }
 
-        if( strlen( $method ) > Settings::getSetting('api_method_length') )
+        if( strlen( $method ) > Settings::setting('api_method_length') )
         {
 
             return false;

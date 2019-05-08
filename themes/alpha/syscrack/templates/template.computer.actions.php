@@ -8,7 +8,7 @@ if (isset($computer_controller) == false) {
     $computer_controller = new Computer();
 }
 
-$currentcomputer = $computer_controller->getComputer($computer_controller->getCurrentUserComputer());
+$currentcomputer = $computer_controller->getComputer($computer_controller->computerid());
 ?>
 <div class="col-md-4">
     <div class="list-group">

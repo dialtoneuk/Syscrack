@@ -115,16 +115,16 @@ class RegisterTest extends BaseTestCase
         $userid = self::$verification->getTokenUser( self::$token );
         $this->assertTrue( self::$verification->verifyUser( self::$token ) );
 
-        $computerid = self::$computer->createComputer( $userid, Settings::getSetting('syscrack_startup_default_computer'), self::$internet->getIP() );
+        $computerid = self::$computer->createComputer( $userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP() );
 
         if( empty( $computerid ) )
             throw new \Error();
 
-        $class = self::$computer->getComputerClass( Settings::getSetting('syscrack_startup_default_computer') );
+        $class = self::$computer->getComputerClass( Settings::setting('syscrack_startup_default_computer') );
 
         if( $class instanceof \Framework\Syscrack\Game\Structures\Computer == false )
             throw new \Error();
 
-        $class->onStartup( $computerid, $userid, [], Settings::getSetting('syscrack_default_hardware') );
+        $class->onStartup( $computerid, $userid, [], Settings::setting('syscrack_default_hardware') );
     }
 }

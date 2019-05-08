@@ -9,10 +9,9 @@
      * @package Framework\Syscrack\Game\Softwares
      */
 
-    use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
-    use Framework\Syscrack\Game\Structures\Software as Structure;
+    use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 
-    class Breaker extends BaseClass implements Structure
+    class Breaker extends BaseSoftware
     {
 
         /**
@@ -31,56 +30,5 @@
                 'installable'   => false,
                 'executable'    => false
             );
-        }
-
-        public function onExecuted( $softwareid, $userid, $computerid )
-        {
-
-
-        }
-
-        public function onInstalled( $softwareid, $userid, $computerid )
-        {
-
-
-        }
-
-        public function onUninstalled($softwareid, $userid, $computerid)
-        {
-
-        }
-
-        public function onCollect( $softwareid, $userid, $computerid, $timeran )
-        {
-
-        }
-
-        public function getExecuteCompletionTime($softwareid, $computerid)
-        {
-            return null;
-        }
-
-        /**
-         * Default size of 10.0
-         *
-         * @return float
-         */
-
-        public function getDefaultSize()
-        {
-
-            return 10.0;
-        }
-
-        /**
-         * Default level of 1.0
-         *
-         * @return float
-         */
-
-        public function getDefaultLevel()
-        {
-
-            return 1.0;
         }
     }

@@ -76,7 +76,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 </div>
             </div>
             <?php
-            $accounts = $finance->getUserBankAccounts($session->getSessionUser());
+            $accounts = $finance->getUserBankAccounts($session->userid());
 
             if (empty($accounts)) {
 

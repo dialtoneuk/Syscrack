@@ -79,7 +79,7 @@ class Viruses
             return true;
         }
 
-        if( $this->software->getTypeOnComputer( Settings::getSetting('syscrack_software_virus_type'), $computerid ) == null )
+        if( $this->software->getTypeOnComputer( Settings::setting('syscrack_software_virus_type'), $computerid ) == null )
         {
 
             return false;
@@ -99,7 +99,7 @@ class Viruses
     public function isVirus( $softwareid )
     {
 
-        if( $this->software->getSoftware( $softwareid )->type === Settings::getSetting('syscrack_software_virus_type') )
+        if( $this->software->getSoftware( $softwareid )->type === Settings::setting('syscrack_software_virus_type') )
         {
 
             return true;
@@ -123,7 +123,7 @@ class Viruses
     public function virusAlreadyInstalled( $uniquename, $computerid, $userid )
     {
 
-        $viruses = $this->software->getTypeOnComputer( Settings::getSetting('syscrack_software_virus_type'), $computerid );
+        $viruses = $this->software->getTypeOnComputer( Settings::setting('syscrack_software_virus_type'), $computerid );
 
         foreach( $viruses as $virus )
         {
@@ -162,7 +162,7 @@ class Viruses
         if( $userid != null )
         {
 
-            $viruses = $this->software->getTypeOnComputer( Settings::getSetting('syscrack_software_virus_type'), $computerid );
+            $viruses = $this->software->getTypeOnComputer( Settings::setting('syscrack_software_virus_type'), $computerid );
 
             if( empty( $viruses ) )
             {
@@ -185,6 +185,6 @@ class Viruses
             return $result;
         }
 
-        return $this->software->getTypeOnComputer( Settings::getSetting('syscrack_software_virus_type'), $computerid );
+        return $this->software->getTypeOnComputer( Settings::setting('syscrack_software_virus_type'), $computerid );
     }
 }

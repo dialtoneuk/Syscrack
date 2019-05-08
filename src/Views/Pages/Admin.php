@@ -799,15 +799,15 @@
         private function getSettings() : array
         {
 
-            if( FileSystem::fileExists( Settings::getSetting("admin_settings_filepath") ) == false )
+            if( FileSystem::fileExists( Settings::setting("admin_settings_filepath") ) == false )
                 return [];
 
-            $settings = FileSystem::readJson( Settings::getSetting("admin_settings_filepath") );
+            $settings = FileSystem::readJson( Settings::setting("admin_settings_filepath") );
             $results = [];
 
             foreach( $settings as $setting )
                 if( Settings::hasSetting( $setting ) )
-                    $results[ $setting ] = Settings::getSetting( $setting );
+                    $results[ $setting ] = Settings::setting( $setting );
 
             return( $results );
         }

@@ -35,7 +35,7 @@ if ($session->isLoggedIn()) {
     $session->updateLastAction();
 }
 
-$currentcomputer = $computer_controller->getComputer($computer_controller->getCurrentUserComputer());
+$currentcomputer = $computer_controller->getComputer($computer_controller->computerid());
 ?>
 
 <!DOCTYPE html>
@@ -80,9 +80,9 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         <div class="col-md-8">
             <?php
 
-            $licensed = $softwares->getLicensedSoftware($computer_controller->getCurrentUserComputer());
+            $licensed = $softwares->getLicensedSoftware($computer_controller->computerid());
 
-            $accounts = $finance->getUserBankAccounts($session->getSessionUser());
+            $accounts = $finance->getUserBankAccounts($session->userid());
             ?>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#licensedsoftware">Licensed Software</a></li>
@@ -133,7 +133,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                         <div class="panel-body">
                                             <?php
 
-                                            if ($data['license'] == $session->getSessionUser()) {
+                                            if ($data['license'] == $session->userid()) {
 
                                                 ?>
                                                 <p class="text-center">
@@ -193,60 +193,60 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     <div class="panel-body">
                                         You currently don't have any bank accounts, you should probably go create one if
                                         you want
-                                        to license software.
+                                        to                                                    license software.
                                     </div>
                                 </div>
                                 <?php
                             } else {
 
-                                ?>
+                                                    ?>
 
-                                <div class="panel panel-info">
-                                    <div class="panel-body">
-                                        <form method="post">
-                                            <p>
-                                                Software
-                                            </p>
-                                            <select name="softwareid" class="combobox input-sm form-control">
-                                                <option></option>
-                                                <?php
+                                                    <div class="panel panel-info">
+                                                        <div class="panel-body">
+                                                            <form method="post">
+                                                                <p>
+                                                                    Software
+                                                                </p>
+                                                                <select name="softwareid" class="combobox input-sm form-control">
+                                                                    <option></option>
+                                                                    <?php
 
-                                                $computeroftwares = $computer_controller->getComputerSoftware($computer_controller->getCurrentUserComputer());
+                                                                    $computeroftwares = $computer_controller->getComputerSoftware($computer_controller->computerid());
 
-                                                if (empty($computeroftwares) == false) {
+                                                                    if (empty($computeroftwares) == false) {
 
-                                                    foreach ($computeroftwares as $key => $value) {
+                                                                        foreach ($computeroftwares as $key => $value) {
 
-                                                        if ($softwares->softwareExists($value['softwareid']) == false) {
+                                                                            if ($softwares->softwareExists($value['softwareid']) == false) {
 
-                                                            continue;
-                                                        }
+                                                                                continue;
+                                                                            }
 
-                                                        if ($softwares->hasLicense($value['softwareid'])) {
+                                                                            if ($softwares->hasLicense($value['softwareid'])) {
 
-                                                            continue;
-                                                        }
+                                                                                continue;
+                                                                            }
 
-                                                        $software = $softwares->getSoftware($value['softwareid']);
+                                                                            $software = $softwares->getSoftware($value['softwareid']);
 
-                                                        $extension = $softwares->getSoftwareExtension($softwares->getSoftwareNameFromSoftwareID($value['softwareid']));
+                                                                            $extension = $softwares->getSoftwareExtension($softwares->getSoftwareNameFromSoftwareID($value['softwareid']));
 
-                                                        $price = $settings['syscrack_research_price_multiplier'] * $software->level;
+                                                                            $price = $settings['syscrack_research_price_multiplier'] * $software->level;
 
-                                                        echo('<option value="' . $software->softwareid . '">' . $software->softwarename . $extension . ' ' . $software->size . 'mb (' . $software->level . ') ' . $settings['syscrack_currency'] . $price . '</option>');
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                            <p style="margin-top: 1.5%;">
-                                                Account Number
-                                            </p>
-                                            <select name="accountnumber" class="combobox input-sm form-control">
-                                                <option></option>
+                                                                            echo('<option value="' . $software->softwareid . '">' . $software->softwarename . $extension . ' ' . $software->size . 'mb (' . $software->level . ') ' . $settings['syscrack_currency'] . $price . '</option>');
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                                <p style="margin-top: 1.5%;">
+                                                                    Account Number
+                                                                </p>
+                                                                <select name="accountnumber" class="combobox input-sm form-control">
+                                                                    <option></option>
 
-                                                <?php
+                                                                    <?php
 
-                                                if (empty($accounts) == false) {
+                                                                    if (empty($accounts) == false) {
 
                                                     foreach ($accounts as $account) {
 
@@ -296,7 +296,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     <option></option>
                                     <?php
 
-                                    $computeroftwares = $computer_controller->getComputerSoftware($computer_controller->getCurrentUserComputer());
+                                    $computeroftwares = $computer_controller->getComputerSoftware($computer_controller->computerid());
 
                                     if (empty($computeroftwares) == false) {
 

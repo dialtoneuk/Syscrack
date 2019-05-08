@@ -11,11 +11,11 @@
 
 use Framework\Application\Render;
 use Framework\Application\Utilities\PostHelper;
-use Framework\Syscrack\Game\BaseClasses\Software as BaseClass;
+use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 use Framework\Syscrack\Game\Riddles;
-use Framework\Syscrack\Game\Structures\Software as Structure;
 
-class Riddle extends BaseClass implements Structure
+
+class Riddle extends BaseSoftware
 {
 
     /**
@@ -45,7 +45,7 @@ class Riddle extends BaseClass implements Structure
         if ( PostHelper::hasPostData() == false )
         {
 
-            $software = $this->software->getSoftware( $softwareid );
+            $software = parent::$software->getSoftware( $softwareid );
 
             if ( empty( $software->data ) )
             {
@@ -61,7 +61,7 @@ class Riddle extends BaseClass implements Structure
                 $this->redirectError('Sorry, this riddle is invalid and corrupted.');
             }
 
-            if ( $this->computers->computerExists( $data['computerid'] ) == false )
+            if ( self::$computers->computerExists( $data['computerid'] ) == false )
             {
 
                 $this->redirectError('Sorry, this riddle is invalid and corrupted.');
@@ -96,9 +96,9 @@ class Riddle extends BaseClass implements Structure
                     {
 
 
-                        $software = $this->software->getSoftware( $softwareid );
+                        $software = parent::$software->getSoftware( $softwareid );
                         $data = json_decode( $software->data, true );
-                        $computer = $this->computers->getComputer( $data['computerid'] );
+                        $computer = self::$computers->getComputer( $data['computerid'] );
 
                         $this->redirectSuccess('game/internet/' . $computer->ipaddress );
                     }

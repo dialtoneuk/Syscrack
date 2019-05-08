@@ -11,21 +11,11 @@ namespace Framework\Syscrack\Game\Operations;
 
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 
-class Login extends BaseClass implements Structure
+
+class Login extends BaseOperation
 {
-
-    /**
-     * Login constructor.
-     */
-
-    public function __construct()
-    {
-
-        parent::__construct( true );
-    }
 
     /**
      * The configuration of this operation
@@ -38,6 +28,12 @@ class Login extends BaseClass implements Structure
             'allowsoftware'    => false,
             'allowlocal'        => false
         );
+    }
+
+    public function url($ipaddress = null)
+    {
+
+        return("game/internet/" . $ipaddress );
     }
 
     /**
@@ -60,44 +56,20 @@ class Login extends BaseClass implements Structure
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             return false;
-        }
 
-        if( self::$computers->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )
-        {
+        if( self::$computer->hasType( $computerid, Settings::setting('syscrack_software_cracker_type'), true ) == false )
+            return false;
 
-            $this->redirectError('You neeed a cracker to do that, maybe you should go get one?', $this->getRedirect( $data['ipaddress'] ) );
-        }
-
-        if( $this->getCurrentComputerAddress() == $data['ipaddress'] )
-        {
-
-            $this->redirectError('Logging into your self is dangerous... do you want to break the space time continuum?', $this->getRedirect( $data['ipaddress'] ) );
-        }
-
-        if( self::$internet->hasCurrentConnection() == true )
-        {
-
+        if( self::$internet->hasCurrentConnection() )
             if( self::$internet->getCurrentConnectedAddress() == $data['ipaddress'] )
-            {
-
                 return false;
-            }
-        }
 
         $victimid = $this->getComputerId( $data['ipaddress'] );
 
-        if( self::$computers->hasType( $victimid, Settings::getSetting('syscrack_software_hasher_type'), true ) == true )
-        {
-
-            if( $this->getHighestLevelSoftware( $victimid, Settings::getSetting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::getSetting('syscrack_software_cracker_type') )['level'] )
-            {
-
-                $this->redirectError('Your cracker is too weak', $this->getRedirect( $data['ipaddress'] ) );
-            }
-        }
+        if( self::$computer->hasType( $victimid, Settings::setting('syscrack_software_hasher_type'), true ) == true )
+            if( $this->getHighestLevelSoftware( $victimid, Settings::setting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::setting('syscrack_software_cracker_type') )['level'] )
+                return false;
 
         return true;
     }
@@ -115,35 +87,25 @@ class Login extends BaseClass implements Structure
      *
      * @param array $data
      *
-     * @return mixed|void
+     * @return mixed
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
-            throw new SyscrackException();
-        }
+            return false;
 
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-        {
-
-            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
-        }
+            return false;
 
         $computer = self::$internet->getComputer( $data['ipaddress'] );
 
-        if( self::$computers->hasComputerClass( $computer->type ) == false )
-        {
+        if( self::$computer->hasComputerClass( $computer->type ) == false )
+            return false;
 
-            throw new SyscrackException('Computer type not found');
-        }
-
-        self::$computers->getComputerClass( $computer->type )->onLogin( $computer->computerid, $data['ipaddress'] );
-
-        $this->redirect( $this->getRedirect( $data['ipaddress'] ) );
+        self::$computer->getComputerClass( $computer->type )->onLogin( $computer->computerid, $data['ipaddress'] );
+        return true;
     }
 
     /**

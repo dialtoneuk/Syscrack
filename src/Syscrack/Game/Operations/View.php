@@ -10,11 +10,11 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+
 use Framework\Syscrack\User;
 
-class View extends BaseClass implements Structure
+class View extends BaseOperation
 {
 
     protected static $user;
@@ -42,10 +42,11 @@ class View extends BaseClass implements Structure
     {
 
         return array(
-            'allowsoftware'    => true,
+            'allowsoftware'     => true,
             'allowlocal'        => true,
-            'requiresoftware'  => true,
-            'requireloggedin'   => true
+            'requiresoftware'   => true,
+            'requireloggedin'   => true,
+            'elevated'          => true
         );
     }
 

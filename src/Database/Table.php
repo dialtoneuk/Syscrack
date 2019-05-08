@@ -11,6 +11,7 @@ namespace Framework\Database;
 
 use Exception;
 use Framework\Exceptions\DatabaseException;
+use Illuminate\Database\Query\Builder;
 use ReflectionClass;
 
 class Table
@@ -20,7 +21,9 @@ class Table
 	 * @var \Illuminate\Database\Capsule\Manager
 	 */
 
-	protected $database;
+	protected static $database;
+
+	protected static $cache = [];
 
 	/**
 	 * Checks if we have initialized the database, if we have not, do it
@@ -35,12 +38,9 @@ class Table
         {
 
             if( Manager::getCapsule() === null )
-            {
-
                 $this->initializeDatabase();
-            }
 
-            $this->database = Manager::getCapsule();
+            self::$database = Manager::getCapsule();
         }
         catch( DatabaseException $error )
         {
@@ -51,7 +51,7 @@ class Table
 
     /**
      * @param null $table
-     * @return \Illuminate\Database\Query\Builder
+     * @return Builder
      *
      */
 
@@ -64,26 +64,25 @@ class Table
             if( $table === null )
                 $table = strtolower( self::getShortName( new ReflectionClass( $this ) ) );
 
-            if( $this->database->table( $table )->exists() == false )
+            if( self::$database->table( $table )->exists() == false )
             {
-                if( $this->database->table( $table )->exists() == false )
+                if( self::$database->table( $table )->exists() == false )
                 {
                     try {
 
-                        $this->database->table($table)->get();
+                        self::$database->table($table)->get();
                     } catch (Exception $error) {
 
                         throw new DatabaseException();
                     }
 
-                    return $this->database->table($table);
+                    return self::$database->table($table);
                 }
                 else
-
-                    return $this->database->table( $table );
+                    return self::$database->table( $table );
             }
             else
-                return $this->database->table( $table );
+                return self::$database->table( $table );
 
         }
         catch ( \ReflectionException $exception )

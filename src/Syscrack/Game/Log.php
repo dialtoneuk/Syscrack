@@ -33,7 +33,7 @@ class Log
         if( $log == null )
         {
 
-            $log = Settings::getSetting('syscrack_log_current');
+            $log = Settings::setting('syscrack_log_current');
         }
 
         $computerlog = $this->getCustomLog( $computerid, $log );
@@ -63,7 +63,7 @@ class Log
         if( $log == null )
         {
 
-            $log = Settings::getSetting('syscrack_log_current');
+            $log = Settings::setting('syscrack_log_current');
         }
 
         if( $this->hasCurrentLog( $computerid ) )
@@ -88,7 +88,7 @@ class Log
     public function getCurrentLog( $computerid )
     {
 
-        return FileSystem::readJson( $this->getFilepath( $computerid ) . Settings::getSetting('syscrack_log_current') . '.json' );
+        return FileSystem::readJson( $this->getFilepath( $computerid ) . Settings::setting('syscrack_log_current') . '.json' );
     }
 
     /**
@@ -140,7 +140,7 @@ class Log
     public function hasCurrentLog( $computerid )
     {
 
-        if( empty( FileSystem::readJson( $this->getFilepath( $computerid ) . Settings::getSetting('syscrack_log_current') ) ) )
+        if( empty( FileSystem::readJson( $this->getFilepath( $computerid ) . Settings::setting('syscrack_log_current') ) ) )
         {
 
             return false;
@@ -166,7 +166,7 @@ class Log
             return false;
         }
 
-        if( FileSystem::fileExists( $this->getFilepath( $computerid ) . Settings::getSetting('syscrack_log_current') . '.json' ) == false )
+        if( FileSystem::fileExists( $this->getFilepath( $computerid ) . Settings::setting('syscrack_log_current') . '.json' ) == false )
         {
 
             return false;
@@ -191,7 +191,7 @@ class Log
         if( $log == null )
         {
 
-            $log = Settings::getSetting('syscrack_log_current');
+            $log = Settings::setting('syscrack_log_current');
         }
 
         FileSystem::writeJson( $this->getFilepath( $computerid ) . $log . '.json', $data );
@@ -226,6 +226,6 @@ class Log
     private function getFilepath( $computerid )
     {
 
-        return Settings::getSetting('syscrack_log_location') . $computerid . '/';
+        return Settings::setting('syscrack_log_location') . $computerid . '/';
     }
 }

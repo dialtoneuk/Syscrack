@@ -122,7 +122,7 @@
                     if ($action == "switch")
                     {
 
-                        if (self::$computer->getComputer($computerid)->userid != Container::getObject('session')->getSessionUser())
+                        if (self::$computer->getComputer($computerid)->userid != Container::getObject('session')->userid())
                             $this->page();
                         else
                         {
@@ -182,14 +182,14 @@
 
                         $account = $finance->getByAccountNumber( PostHelper::getPostData('accountnumber', true ) );
 
-                        if ( $account->userid !== self::$session->getSessionUser() )
+                        if ( $account->userid !== self::$session->userid() )
                             $this->redirectError('Invalid', 'game/computer/');
-                        else if ( $finance->canAfford( $account->computerid, $account->userid, $this->getVPCPrice( self::$session->getSessionUser() ) ) == false )
+                        else if ( $finance->canAfford( $account->computerid, $account->userid, $this->getVPCPrice( self::$session->userid() ) ) == false )
                             $this->redirectError('Sorry, you cannot afford this transaction!', 'game/computer/');
                         else
                         {
 
-                            $computerid = self::$computer->createComputer( self::$session->getSessionUser(), Settings::getSetting('syscrack_startup_default_computer'), self::$internet->getIP(), [], Settings::getSetting('syscrack_default_hardware') );
+                            $computerid = self::$computer->createComputer( self::$session->userid(), Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP(), [], Settings::setting('syscrack_default_hardware') );
 
                             if( empty( $computerid ) )
                                 throw new SyscrackException();
@@ -198,9 +198,9 @@
                              * @var $class \Framework\Syscrack\Game\Structures\Computer
                              */
 
-                            $class = self::$computer->getComputerClass( Settings::getSetting('syscrack_startup_default_computer') );
-                            $class->onStartup( $computerid, self::$session->getSessionUser(), [], Settings::getSetting('syscrack_default_hardware') );
-                            $finance->withdraw( $account->computerid, $account->userid, $this->getVPCPrice( self::$session->getSessionUser() ) );
+                            $class = self::$computer->getComputerClass( Settings::setting('syscrack_startup_default_computer') );
+                            $class->onStartup( $computerid, self::$session->userid(), [], Settings::setting('syscrack_default_hardware') );
+                            $finance->withdraw( $account->computerid, $account->userid, $this->getVPCPrice( self::$session->userid() ) );
                             $this->redirectSuccess('game/computer/');
                         }
                     }
@@ -221,7 +221,7 @@
             if ( empty( $computer ) )
                 return 0;
 
-            return( count( $computer ) * ( Settings::getSetting('syscrack_vpc_purchase_price') * Settings::getSetting('syscrack_vpc_purchase_increase' ) ));
+            return( count( $computer ) * ( Settings::setting('syscrack_vpc_purchase_price') * Settings::setting('syscrack_vpc_purchase_increase' ) ));
         }
 
         /**
@@ -238,7 +238,7 @@
             else
             {
 
-                if (self::$computer->getComputer($computerid)->userid != Container::getObject('session')->getSessionUser())
+                if (self::$computer->getComputer($computerid)->userid != Container::getObject('session')->userid())
                     $this->page();
                 else
                 {
@@ -286,7 +286,7 @@
                     $this->redirect( $this->getRedirect( PostHelper::getPostData('ipaddress') ) );
             }
             else
-                $this->getRender('syscrack/page.game.internet', array('ipaddress' => self::$internet->getComputerAddress( Settings::getSetting('syscrack_whois_computer') ) ) );
+                $this->getRender('syscrack/page.game.internet', array('ipaddress' => self::$internet->getComputerAddress( Settings::setting('syscrack_whois_computer') ) ) );
         }
 
         /**
@@ -343,11 +343,9 @@
         }
 
         /**
-         * Processes an action
-         *
          * @param $ipaddress
-         *
          * @param $process
+         * @return bool
          */
 
         public function process( $ipaddress, $process )
@@ -361,13 +359,13 @@
             else
             {
 
-                $computerid = self::$computer->getCurrentUserComputer();
+                $computer = self::$computer->getComputer( self::$computer->computerid() );
 
-                if( self::$operations->hasProcess( $computerid, $process, $ipaddress ) == true )
+                if( self::$operations->hasProcess( $computer->computerid, $process, $ipaddress ) == true )
                     $this->redirectError('You already have an action of this nature processing', $this->getRedirect( $ipaddress ) );
-                elseif( self::$operations->allowLocal( $process ) == false && $ipaddress == self::$computer->getComputer( $computerid )->ipaddress )
+                elseif( self::$operations->allowLocal( $process ) == false && $ipaddress == $computer->ipaddress )
                     $this->redirectError('This action must be ran on a remote computer', $this->getRedirect( $ipaddress ) );
-                elseif( self::$operations->localOnly( $process ) && $ipaddress !== self::$computer->getComputer( $computerid )->ipaddress )
+                elseif( self::$operations->localOnly( $process ) && $ipaddress !== $computer->ipaddress )
                     $this->redirectError('This action can only be ran locally', $this->getRedirect( $ipaddress ) );
                 elseif( self::$operations->requireSoftware( $process ) )
                     $this->redirectError('A software is required to preform this action', $this->getRedirect( $ipaddress ) );
@@ -383,42 +381,58 @@
                             if( PostHelper::checkForRequirements( self::$operations->getPostRequirements( $process ) ) == false )
                                 $this->redirectError('Missing information', $this->getRedirect( $ipaddress ) );
                             else
-                                $result = $class->onPost( PostHelper::getPost(), $ipaddress, self::$session->getSessionUser() );
+                                $result = $class->onPost( PostHelper::getPost(), $ipaddress, self::$session->userid() );
                         else
-                            $result = $class->onPost( PostHelper::getPost(), $ipaddress, self::$session->getSessionUser() );
+                            $result = $class->onPost( PostHelper::getPost(), $ipaddress, self::$session->userid() );
                     }
                     else
                         $result = true;
 
                     if( $result === false )
                         $this->redirectError('Unable to complete process', $this->getRedirect( $ipaddress ) );
+                    elseif( $result === null )
+                        return true;
                     else
                     {
 
                         $class = self::$operations->findProcessClass($process);
 
                         if( self::$operations->allowCustomData( $process ) == true )
-                            $data = $this->getCustomData( $process, $ipaddress, self::$session->getSessionUser() );
+                            $data = $this->getCustomData( $process, $ipaddress, self::$session->userid() );
                         else
                             $data = [];
 
-                        if( $class->onCreation(time(), self::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
+                        if( $class->onCreation(time(), $computer->computerid, self::$session->userid(), $process, array(
                             'ipaddress'     => $ipaddress,
                             'custom'        => $data
                         )) == false )
-                            $this->redirectError('Unable to complete process', $this->getRedirect( $ipaddress ) );
+                            $this->redirectError("Error creating process", $class->url( $ipaddress ) );
                         else
                         {
 
-                            $time = $class->getCompletionSpeed( self::$computer->getCurrentUserComputer(), $process );
+                            $time = $class->getCompletionSpeed( $computer->computerid, $process );
 
                             if( $time === null )
-                                $class->onCompletion(time(), time(), self::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
-                                    'ipaddress'     => $ipaddress,
-                                    'custom'        =>  $data
-                                ));
+                            {
+
+                                $result = $class->onCompletion(time(), time(), $computer->computerid, self::$session->userid(), $process, array(
+                                        'ipaddress'     => $ipaddress,
+                                        'custom'        =>  $data
+                                    ));
+
+                                if( is_string( $result ) )
+                                    $this->redirectSuccess( $result );
+                                elseif( $result === null )
+                                    exit;
+                                elseif( is_bool( $result ) && $result == false )
+                                    $this->redirectError("Error creating process", $class->url( $ipaddress ) );
+                                elseif(  is_bool( $result ) && $result == true )
+                                    $this->redirectSuccess( $class->url( $ipaddress ));
+                                else
+                                    throw new \Error("Unknown result from process: " . $process . " => " . print_r( $result ) );
+                            }
                             else
-                                $this->redirect('processes/' . self::$operations->createProcess($time, self::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
+                                $this->redirect('processes/' . self::$operations->createProcess($time, $computer->computerid, self::$session->userid(), $process, array(
                                         'ipaddress'     => $ipaddress,
                                         'custom'        => $data
                                     )) );
@@ -426,221 +440,120 @@
                     }
                 }
             }
+
+            return true;
         }
 
         /**
-         * Processes a software action
-         *
          * @param $ipaddress
-         *
          * @param $process
-         *
          * @param $softwareid
+         * @return bool
          */
 
         public function processSoftware( $ipaddress, $process, $softwareid )
         {
 
             if( $this->validAddress( $ipaddress ) == false )
-            {
-
-                if( self::$internet->hasCurrentConnection() )
-                {
-
-                    if( self::$internet->getCurrentConnectedAddress() == $ipaddress )
-                    {
-
-                        self::$internet->setCurrentConnectedAddress( null );
-                    }
-                }
-
                 $this->redirectError('404 Not Found', $this->getRedirect() . '/internet' );
-            }
-
-            if( self::$operations->hasProcessClass( $process ) == false )
-            {
-
-                $this->redirectError('Invalid action', $this->getRedirect( $ipaddress ) );
-            }
-
-            $computerid = self::$computer->getCurrentUserComputer();
-
-            if( self::$operations->hasProcess( $computerid, $process, $ipaddress, $softwareid ) == true )
-            {
-
-                $this->redirectError('You already have an action of this nature processing', 'computer/processes');
-            }
-
-            if( self::$operations->allowLocal( $process ) == false )
-            {
-
-                if( $ipaddress == self::$computer->getComputer( $computerid )->ipaddress )
-                {
-
-                    $this->redirectError('This action must be ran on a remote computer');
-                }
-            }
-
-            if( self::$operations->localOnly( $process ) )
-            {
-                if( $ipaddress !== self::$computer->getComputer( $computerid )->ipaddress )
-                {
-
-                    $this->redirectError('This action can only be ran locally');
-                }
-            }
-
-            if( self::$operations->allowSoftware( $process ) == false )
-            {
-
-                $this->redirect( $this->getRedirect( $ipaddress ) . $process );
-            }
-
-            if( self::$operations->requireLoggedIn( $process ) )
-            {
-
-                if (self::$internet->hasCurrentConnection() == false || self::$internet->getCurrentConnectedAddress() != $ipaddress )
-                {
-
-                    $this->redirectError('You must be logged into this computer', $this->getRedirect( $ipaddress ) );
-                }
-            }
-
-            if( self::$operations->allowAnonymous( $process ) == true )
-            {
-
-                //Hides the software exists error
-
-                if (self::$software->softwareExists($softwareid) == false)
-                {
-
-                    $this->redirectError('Unable to preform action', $this->getRedirect( $ipaddress ) );
-                }
-            }
             else
             {
 
-                if (self::$software->softwareExists($softwareid) == false)
+                $computer = self::$computer->getComputer( self::$computer->computerid() );
+
+                if( self::$operations->hasProcessClass( $process ) == false || self::$operations->hasProcess( $computer->computerid, $process, $ipaddress, $softwareid ) )
+                    $this->redirectError('Invalid action', $this->getRedirect( $ipaddress ) );
+                elseif( self::$operations->allowSoftware( $process ) == false )
+                    $this->redirect( $this->getRedirect( $ipaddress ) . $process );
+                elseif( self::$operations->allowLocal( $process ) == false || ( self::$operations->localOnly( $process ) && $ipaddress !== $computer->ipaddress ) )
+                    $this->redirectError('Invalid action', $this->getRedirect( $ipaddress ) );
+                elseif( self::$operations->requireLoggedIn( $process )
+                    && ( self::$internet->hasCurrentConnection() == false || self::$internet->getCurrentConnectedAddress() != $ipaddress )
+                    && self::$operations->allowAnonymous( $process ) == false )
+                    $this->redirectError('Invalid credentials', $this->getRedirect( $ipaddress ) );
+                elseif( self::$software->softwareExists($softwareid) == false )
                 {
-
-                    $this->redirectError('Software does not exist', $this->getRedirect( $ipaddress ) );
-                }
-            }
-
-            $target = self::$internet->getComputer( $ipaddress );
-
-            $software = self::$software->getSoftware( $softwareid );
-
-            if( $target->computerid !== $software->computerid )
-            {
-
-                $this->redirectError('Software does not exist', $this->getRedirect( $ipaddress ) );
-            }
-
-            if( self::$software->isEditable( $software->softwareid ) == false )
-            {
-
-                if( $process == Settings::getSetting('syscrack_operations_view_process') || $process == Settings::getSetting('syscrack_operations_download_process') )
-                {
-
-                    if( self::$software->canView( $software->softwareid ) == false )
-                    {
-
-                        if( $process != Settings::getSetting('syscrack_operations_download_process') )
-                        {
-
-                            $this->redirectError('This software cannot be modified or edited', $this->getRedirect( $ipaddress ) );
-                        }
-                    }
+                    if( self::$operations->allowAnonymous( $process ) )
+                        $this->redirectError("Invalid action");
+                    else
+                        $this->redirectError("Invalid software");
                 }
                 else
                 {
 
-                    if( self::$operations->allowAnonymous( $process ) == false )
+                    $target = self::$internet->getComputer( $ipaddress );
+                    $software = self::$software->getSoftware( $softwareid );
+                    $class = self::$operations->findProcessClass($process);
+
+                    if( $target->computerid !== $software->computerid )
+                        $this->redirectError("Invalid software");
+                    else if( self::$software->isEditable( $softwareid ) == false && self::$operations->isElevatedProcess( $process ) == false )
+                        $this->redirectError("File locked");
+                    else if( self::$operations->allowPost( $process ) )
                     {
 
-                        $this->redirectError('This software cannot be modified or edited', $this->getRedirect( $ipaddress ));
+                        $keys = [];
+
+                        if( self::$operations->hasPostRequirements( $process ))
+                            if( PostHelper::checkForRequirements( self::$operations->getPostRequirements( $process ) ) )
+                                $keys = PostHelper::returnRequirements( self::$operations->getPostRequirements( $process ) );
+                            else
+                                return false;
+
+                        $result = $class->onPost( $keys, $ipaddress, self::$session->userid() );;
+
+                        if( $result == false )
+                            return false;
                     }
-                }
-            }
 
-            $class = self::$operations->findProcessClass($process);
+                    $data = [];
 
-            if( self::$operations->allowPost( $process ) == true )
-            {
+                    if( self::$operations->allowCustomData( $process ) )
+                        $data = $this->getCustomData( $process, $ipaddress, self::$session->userid() );
 
-                if( PostHelper::hasPostData() == true )
-                {
+                    $result = $class->onCreation(time(), self::$computer->computerid(), self::$session->userid(), $process, array(
+                        'ipaddress'     => $ipaddress,
+                        'softwareid'    => $softwareid,
+                        'custom'        => $data
+                    ));
 
-                    if( self::$operations->hasPostRequirements( $process ) == true )
-                    {
-
-                        $requirements = self::$operations->getPostRequirements( $process );
-
-                        if( PostHelper::checkForRequirements( $requirements ) == false )
-                        {
-
-                            $this->redirectError('Missing information', $this->getRedirect( $ipaddress ) );
-                        }
-
-                        $result = $class->onPost( PostHelper::returnRequirements( $requirements ), $ipaddress, self::$session->getSessionUser() );
-                    }
+                    if( $result == false )
+                        $this->redirectError("Error creating process", $class->url( $ipaddress ) );
                     else
                     {
 
-                        $result = $class->onPost( PostHelper::getPost(), $ipaddress, self::$session->getSessionUser() );
-                    }
+                        $time = @$class->getCompletionSpeed(self::$computer->computerid(), $process,  $softwareid );
 
-                    if( $result == false )
-                    {
+                        if( $time === null || $time == false )
+                        {
 
-                        $this->redirectError('Unable to complete process', $this->getRedirect( $ipaddress ) );
+                            $result = $class->onCompletion(time(), time(), $computer->computerid, self::$session->userid(), $process, array(
+                                'ipaddress'     => $ipaddress,
+                                'softwareid'    => $softwareid,
+                                'custom'        =>  $data
+                            ));
+
+                            if( is_string( $result ) )
+                                $this->redirectSuccess( $result );
+                            elseif( $result === null )
+                                exit;
+                            elseif( is_bool( $result ) && $result == false )
+                                $this->redirectError("Error creating process", $class->url( $ipaddress ) );
+                            elseif(  is_bool( $result ) && $result == true )
+                                $this->redirectSuccess( $class->url( $ipaddress ));
+                            else
+                                throw new \Error("Unknown result from process: " . $process . " => " . print_r( $result ) );
+                        }
+                        else
+                            $this->redirect('processes/' . self::$operations->createProcess($time, $computer->computerid, self::$session->userid(), $process, array(
+                                    'ipaddress'     => $ipaddress,
+                                    'custom'        => $data
+                                )) );
                     }
                 }
             }
 
-            if( self::$operations->allowCustomData( $process ) == true )
-            {
-
-                $data = $this->getCustomData( $process, $ipaddress, self::$session->getSessionUser() );
-            }
-            else
-            {
-
-                $data = [];
-            }
-
-            $result = $class->onCreation(time(), self::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
-                'ipaddress'     => $ipaddress,
-                'softwareid'    => $softwareid,
-                'custom'        => $data
-            ));
-
-            if( $result == false )
-            {
-
-                $this->redirectError('Unable to complete process', $this->getRedirect( $ipaddress ) );
-            }
-
-            $completiontime = $class->getCompletionSpeed(self::$computer->getCurrentUserComputer(), $process,  $softwareid );
-
-            if( $completiontime !== null )
-            {
-
-                $processid = self::$operations->createProcess($completiontime, self::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
-                    'ipaddress'     => $ipaddress,
-                    'softwareid'    => $softwareid,
-                    'custom'        => $data
-                ));
-
-                $this->redirect('processes/' . $processid );
-            }
-
-            $class->onCompletion(time(), time(), self::$computer->getCurrentUserComputer(), self::$session->getSessionUser(), $process, array(
-                'ipaddress'     => $ipaddress,
-                'softwareid'    => $softwareid,
-                'custom'        => $data
-            ));
+            return true;
         }
 
         /**
@@ -695,9 +608,9 @@
             if( $ipaddress )
             {
 
-                return Settings::getSetting('syscrack_game_page') . '/' . Settings::getSetting('syscrack_internet_page') . '/' . $ipaddress;
+                return Settings::setting('syscrack_game_page') . '/' . Settings::setting('syscrack_internet_page') . '/' . $ipaddress;
             }
 
-            return Settings::getSetting('syscrack_game_page');
+            return Settings::setting('syscrack_game_page');
         }
     }

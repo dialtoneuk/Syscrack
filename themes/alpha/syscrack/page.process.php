@@ -98,7 +98,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             <h5 style="color: #ababab" class="text-uppercase">
                                 <?php
 
-                                if ($computer_controller->getCurrentUserComputer() == $computer->computerid) {
+                                if ($computer_controller->computerid() == $computer->computerid) {
 
                                     ?>
                                     <p><span>This is your current computer</span> <a href="/processes/computer/<?= $computerid ?>" class="btn btn-info"
@@ -118,7 +118,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             <?php
                             foreach ($value as $item => $process) {
 
-                                if ($computer_controller->getCurrentUserComputer() == $computer->computerid) {
+                                if ($computer_controller->computerid() == $computer->computerid) {
 
                                     ?>
                                     <div class="row">

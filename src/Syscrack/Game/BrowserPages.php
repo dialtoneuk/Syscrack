@@ -21,10 +21,10 @@ class BrowserPages
     public function get()
     {
 
-        if( FileSystem::fileExists( Settings::getSetting("browser_pages_filepath") ) == false )
+        if( FileSystem::fileExists( Settings::setting("browser_pages_filepath") ) == false )
             $this->generate();
 
-        return ( FileSystem::readJson( Settings::getSetting("browser_pages_filepath") ) );
+        return ( FileSystem::readJson( Settings::setting("browser_pages_filepath") ) );
     }
 
     /**
@@ -34,11 +34,11 @@ class BrowserPages
     public function generate()
     {
 
-        $files = FileSystem::getFilesInDirectory( Settings::getSetting("browser_pages_root" ) );
+        $files = FileSystem::getFilesInDirectory( Settings::setting("browser_pages_root" ) );
 
         foreach( $files as $key=>$item )
             $files[ $key ] = FileSystem::getFileName( $item );
 
-        FileSystem::writeJson( Settings::getSetting("browser_pages_filepath"), $files );
+        FileSystem::writeJson( Settings::setting("browser_pages_filepath"), $files );
     }
 }

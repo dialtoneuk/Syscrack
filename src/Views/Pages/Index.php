@@ -68,7 +68,7 @@
         public function model()
         {
 
-            if ( Settings::getSetting('render_mvc_output') == false )
+            if ( Settings::setting('render_mvc_output') == false )
             {
 
                 return false;
@@ -85,7 +85,7 @@
                     $this->computer = new Computer();
                 }
 
-                $this->model->computer = $this->computer->getComputer( $this->computer->getCurrentUserComputer() );
+                $this->model->computer = $this->computer->getComputer( $this->computer->computerid() );
             }
 
             return parent::model();

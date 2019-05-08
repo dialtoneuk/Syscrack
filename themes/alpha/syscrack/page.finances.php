@@ -36,7 +36,7 @@ if (isset($accountdatabase) == false) {
     $bankdatabase = new AccountDatabase();
 }
 
-$accounts = $finance->getUserBankAccounts($session->getSessionUser());
+$accounts = $finance->getUserBankAccounts($session->userid());
 
 if ( empty( $accounts ) )
 {
@@ -124,7 +124,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 <div class="panel-body text-center">
                     <h1>
                         <?php
-                        $count = $bankdatabase->getDatabase($session->getSessionUser());
+                        $count = $bankdatabase->getDatabase($session->userid());
 
                         if (empty($count) == false) {
 

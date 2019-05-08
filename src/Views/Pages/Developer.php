@@ -487,18 +487,18 @@
                     'database'  => PostHelper::getPostData('database')
                 ));
 
-                if( Settings::getSetting('database_encrypt_connection') == true )
+                if( DATABASE_ENCRYPTION == true )
                 {
 
-                    FileSystem::writeJson( Settings::getSetting('database_connection_file'), Cyphers::encryptArray( $array, null, false ) );
+                    FileSystem::writeJson( Settings::setting('database_connection_file'), Cyphers::encryptArray( $array, null, false ) );
                 }
                 else
                 {
 
-                    FileSystem::writeJson( Settings::getSetting('database_connection_file'), $array );
+                    FileSystem::writeJson( Settings::setting('database_connection_file'), $array );
                 }
 
-                if( FileSystem::fileExists( Settings::getSetting('database_connection_file') ) == false )
+                if( FileSystem::fileExists( Settings::setting('database_connection_file') ) == false )
                 {
 
                     $this->redirectError('Failed to create connection file, this could be due to a permissions error', $this->getRedirect('connection/creator') );
@@ -536,10 +536,10 @@
         {
 
             $merged = array(
-                'driver'    =>  Settings::getSetting('database_driver'),
-                'charset'   =>  Settings::getSetting('database_charset'),
-                'collation' =>  Settings::getSetting('database_collation'),
-                'prefix'    =>  Settings::getSetting('database_prefix')
+                'driver'    =>  Settings::setting('database_driver'),
+                'charset'   =>  Settings::setting('database_charset'),
+                'collation' =>  Settings::setting('database_collation'),
+                'prefix'    =>  Settings::setting('database_prefix')
             );
 
             return array_merge( $array, $merged );
@@ -703,7 +703,7 @@
         private function getRoutes()
         {
 
-            $files = FileSystem::getFilesInDirectory( Settings::getSetting('controller_page_folder') );
+            $files = FileSystem::getFilesInDirectory( Settings::setting('controller_page_folder') );
 
             if( $files == null )
             {
@@ -718,13 +718,13 @@
 
                 $file = FileSystem::getFileName( $file );
 
-                if( class_exists( Settings::getSetting('controller_namespace') . ucfirst( $file ) ) == false )
+                if( class_exists( Settings::setting('controller_namespace') . ucfirst( $file ) ) == false )
                 {
 
                     throw new ViewException();
                 }
 
-                $reflection = new ReflectionClass( Settings::getSetting('controller_namespace') . ucfirst( $file )  );
+                $reflection = new ReflectionClass( Settings::setting('controller_namespace') . ucfirst( $file )  );
 
                 if( empty( $reflection ))
                 {
@@ -763,6 +763,6 @@
         private function getRedirect( $path )
         {
 
-            return Settings::getSetting('developer_page') . '/' . $path;
+            return Settings::setting('developer_page') . '/' . $path;
         }
     }

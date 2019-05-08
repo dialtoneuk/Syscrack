@@ -12,11 +12,10 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 use Framework\Syscrack\Game\Statistics;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
 
-class Hack extends BaseClass implements Structure
+class Hack extends BaseOperation
 {
 
     /**
@@ -24,12 +23,6 @@ class Hack extends BaseClass implements Structure
      */
 
     protected static $addressdatabase;
-
-    /**
-     * @var Statistics
-     */
-
-    protected static $statistics;
 
     /**
      * Hack constructor.
@@ -40,11 +33,6 @@ class Hack extends BaseClass implements Structure
 
         if( isset( self::$addressdatabase ) == false )
             self::$addressdatabase = new AddressDatabase();
-
-
-        if( isset( self::$statistics ) == false )
-            self::$statistics = new Statistics();
-        
 
         parent::__construct();
     }
@@ -84,42 +72,23 @@ class Hack extends BaseClass implements Structure
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             return false;
-        }
 
-        if( self::$computers->getComputer( $computerid )->ipaddress == $data['ipaddress'] )
-        {
-
+        if( self::$computer->getComputer( $computerid )->ipaddress == $data['ipaddress'] )
             return false;
-        }
 
-        //$user = Container::getObject('session')->getSessionUser();
 
         if( self::$addressdatabase->hasAddress( $data['ipaddress'], $userid ) )
-        {
-
-            $this->redirectError('You have already hacked this address', $this->getRedirect( $data['ipaddress'] ) );
-        }
-
-        if( self::$computers->hasType( $computerid, Settings::getSetting('syscrack_software_cracker_type'), true ) == false )
-        {
-
             return false;
-        }
+
+        if( self::$computer->hasType( $computerid, Settings::setting('syscrack_software_cracker_type'), true ) == false )
+            return false;
 
         $victimid = $this->getComputerId( $data['ipaddress'] );
 
-        if( self::$computers->hasType( $victimid, Settings::getSetting('syscrack_software_hasher_type'), true ) == true )
-        {
-
-            if( $this->getHighestLevelSoftware( $victimid, Settings::getSetting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::getSetting('syscrack_software_cracker_type') )['level'] )
-            {
-
-                $this->redirectError('Your cracker is too weak', $this->getRedirect( $data['ipaddress'] ) );
-            }
-        }
+        if( self::$computer->hasType( $victimid, Settings::setting('syscrack_software_hasher_type'), true ) == true )
+            if( $this->getHighestLevelSoftware( $victimid, Settings::setting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::setting('syscrack_software_cracker_type') )['level'] )
+                return false;
 
         return true;
     }
@@ -131,41 +100,26 @@ class Hack extends BaseClass implements Structure
      * @param $userid
      * @param $process
      * @param array $data
+     * @return bool|mixed
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             throw new SyscrackException();
-        }
+
 
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-        {
-
-            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
-        }
+            return false;
 
         self::$addressdatabase->addAddress( $data['ipaddress'],  $userid );
 
-        if( Settings::getSetting('syscrack_statistics_enabled') == true )
-        {
-
+        if( Settings::setting('syscrack_statistics_enabled') == true )
             self::$statistics->addStatistic('hacks');
-        }
 
-        if( isset( $data['redirect'] ) )
-        {
 
-            $this->redirectSuccess( $data['redirect'] );
-        }
-        else
-        {
-
-            $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
-        }
+        return @$data['redirect'];
     }
 
     /**
@@ -183,40 +137,6 @@ class Hack extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), Settings::getSetting('syscrack_operations_hack_speed'), $softwareid );
-    }
-
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array
-     */
-
-    public function getCustomData($ipaddress, $userid)
-    {
-
-        return array();
-    }
-
-    /**
-     * Called upon a post request to this operation
-     *
-     * @param $data
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
-
-    public function onPost($data, $ipaddress, $userid)
-    {
-
-        return true;
+        return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_cpu_type'), Settings::setting('syscrack_operations_hack_speed'), $softwareid);
     }
 }

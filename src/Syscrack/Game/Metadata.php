@@ -113,7 +113,7 @@ class Metadata
     public function path( $computerid=null )
     {
 
-        return( FileSystem::separate( Settings::getSetting("metadata_filepath"), $computerid . ".db" ) );
+        return( FileSystem::separate( Settings::setting("metadata_filepath"), $computerid . ".db" ) );
     }
 
     /**

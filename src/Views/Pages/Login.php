@@ -95,7 +95,7 @@
 
                     $userid = self::$login->getUserID( $username );
 
-                    if( Settings::getSetting('login_cleanup_old_sessions') == true )
+                    if( Settings::setting('login_cleanup_old_sessions') == true )
                         self::$session->cleanupSession( $userid );
 
                     self::$session->insertSession( $userid );

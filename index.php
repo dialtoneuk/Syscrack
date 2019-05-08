@@ -446,7 +446,7 @@
          * Set the view path for flight
          */
 
-        Flight::set('flight.views.path', Settings::getSetting("syscrack_view_location"));
+        Flight::set('flight.views.path', Settings::setting("syscrack_view_location"));
 
         /**
          * Handles an error with the render engine
@@ -454,12 +454,12 @@
 
         Flight::map('error', function(Error $error) use ( $application ){
 
-            if( Settings::getSetting('error_logging') )
+            if( Settings::setting('error_logging') )
             {
 
                 $application->getErrorHandler()->handleFlightError( $error );
 
-                if( Settings::getSetting('error_display_page') )
+                if( Settings::setting('error_display_page') )
                 {
 
                     if( $_SERVER['REQUEST_URI'] == '/' )
@@ -530,12 +530,12 @@
         catch( Exception $error )
         {
 
-            if( Settings::getSetting('error_logging') )
+            if( Settings::setting('error_logging') )
             {
 
                 $application->getErrorHandler()->handleError( $error );
 
-                if( Settings::getSetting('error_display_page') )
+                if( Settings::setting('error_display_page') )
                 {
 
                     if( $_SERVER['REQUEST_URI'] == '/' )

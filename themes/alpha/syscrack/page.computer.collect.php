@@ -30,7 +30,7 @@ if ($session->isLoggedIn()) {
     $session->updateLastAction();
 }
 
-$currentcomputer = $computer_controller->getComputer($computer_controller->getCurrentUserComputer());
+$currentcomputer = $computer_controller->getComputer($computer_controller->computerid());
 
 if ($computer_controller->hasType($currentcomputer->computerid, $settings['syscrack_software_collector_type'], true) == false) {
 
@@ -102,7 +102,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                     <div class="panel panel-info">
                         <div class="panel-body text-center">
                             <?php
-                            $accounts = $finance->getUserBankAccounts($session->getSessionUser());
+                            $accounts = $finance->getUserBankAccounts($session->userid());
 
                             if (empty($accounts)) {
 

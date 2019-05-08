@@ -9,6 +9,8 @@ namespace Framework\Application;
  * @package Framework
  */
 
+use Framework\Application\Utilities\Log;
+use Framework\Application\UtilitiesV2\Debug;
 use Framework\Exceptions\ApplicationException;
 
 class Settings
@@ -28,7 +30,7 @@ class Settings
 	 * @return array
 	 */
 
-	public static function getSettings()
+	public static function settings()
 	{
 
 		return self::$settings;
@@ -42,7 +44,7 @@ class Settings
 	public static function writeSettings()
 	{
 
-		$json = json_encode( self::getSettings(), JSON_PRETTY_PRINT );
+		$json = json_encode( self::settings(), JSON_PRETTY_PRINT );
 
 		if( empty( $json ) )
         {
@@ -149,7 +151,7 @@ class Settings
 		try
 		{
 
-			self::getSettings();
+			self::settings();
 		}
 		catch( ApplicationException $error )
 		{
@@ -185,10 +187,10 @@ class Settings
 	 * @return mixed
 	 */
 
-	public static function getSetting( $setting )
+	public static function setting($setting )
 	{
 
-		$settings = self::getSettings();
+		$settings = self::settings();
 
 		if( isset( $settings[ $setting ] ) == false )
 		{
@@ -242,7 +244,7 @@ class Settings
     private static function getRegexMatch( $setting )
     {
 
-        preg_match("/\<(.*?)\>/",  $setting, $array );
+        preg_match("/\<php(.*?)\>/",  $setting, $array );
 
         if( empty( $array ) )
         {
@@ -269,7 +271,7 @@ class Settings
 
         $parsed = null;
 
-        if( Settings::getSetting('settings_php_enabled') )
+        if( Settings::setting('settings_php_enabled') )
         {
 
             try
@@ -313,7 +315,7 @@ class Settings
         foreach( $array as $value )
         {
 
-            $setting = str_replace( "<" . $value[0] . ">", $value[1], $setting );
+            $setting = str_replace( "<php" . $value[0] . ">", $value[1], $setting );
         }
 
         return $setting;

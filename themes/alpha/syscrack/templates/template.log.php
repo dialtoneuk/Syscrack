@@ -40,7 +40,7 @@ if (isset($log) == false) {
                         </li>
                         <li class="list-group-item">
                             Userid <span
-                                    class="badge right"><?= Container::getObject('session')->getSessionUser() ?></span>
+                                    class="badge right"><?= Container::getObject('session')->userid() ?></span>
                         </li>
                     </ul>
                 </div>

@@ -83,7 +83,7 @@
                 self::$user = new User();
             }
 
-            if ( Settings::getSetting('render_mvc_output') )
+            if ( Settings::setting('render_mvc_output') )
                 $this->model = new \stdClass();
 
             if( $session )
@@ -98,7 +98,7 @@
 
             if( $requirelogin && $session )
                 if ( $this->isLoggedIn()  == false)
-                    Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+                    Render::redirect( Settings::setting('controller_index_root') . Settings::setting('controller_index_page') );
                 else
                     self::$session->updateLastAction();
 
@@ -115,7 +115,7 @@
 
             if( $admin_only && $session )
                 if( $this->isAdmin() == false )
-                    Render::redirect( Settings::getSetting('controller_index_root') . Settings::getSetting('controller_index_page') );
+                    Render::redirect( Settings::setting('controller_index_root') . Settings::setting('controller_index_page') );
         }
 
         /**
@@ -147,7 +147,7 @@
         {
 
             if( Container::getObject('session')->isLoggedIn() )
-                if( self::$user->isAdmin( Container::getObject('session')->getSessionUser() ) )
+                if( self::$user->isAdmin( Container::getObject('session')->userid() ) )
                     return true;
 
             return false;
@@ -183,7 +183,7 @@
             else
             {
 
-                Render::redirect( Settings::getSetting('controller_index_root') . $path );
+                Render::redirect( Settings::setting('controller_index_root') . $path );
 
                 if( $exit == true )
                    exit;
@@ -199,11 +199,9 @@
         public function model()
         {
 
-            if ( Settings::getSetting('render_mvc_output') == false )
-            {
-
+            if ( Settings::setting('render_mvc_output') == false )
                 return null;
-            }
+
 
             if ( Container::hasObject('session') == false )
             {
@@ -233,15 +231,13 @@
                     'data' => $_SESSION
                 ];
 
-                $this->model->userid = Container::getObject('session')->getSessionUser();
+                $this->model->userid = Container::getObject('session')->userid();
 
                 $user = new User();
 
                 if ( $user->isAdmin( $this->model->userid ) )
-                {
-
                     $this->model->admin = true;
-                }
+
 
                 $this->model->user = [
                     'username' => $user->getUsername( $this->model->userid ),
@@ -265,7 +261,7 @@
         public function redirectError($message = '', $path = '')
         {
 
-            if( Settings::getSetting('error_use_session') )
+            if( Settings::setting('error_use_session') )
             {
 
                 $_SESSION['error'] = $message;
@@ -350,7 +346,7 @@
             if( empty( $page ) )
             {
 
-                return Settings::getSetting('controller_index_page');
+                return Settings::setting('controller_index_page');
             }
 
             if( empty( explode('?', $page[0] ) ) == false )

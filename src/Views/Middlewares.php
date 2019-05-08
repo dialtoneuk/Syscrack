@@ -51,7 +51,7 @@ class Middlewares
         if( $namespace == null )
         {
 
-            $namespace = Settings::getSetting('middlewares_namespace');
+            $namespace = Settings::setting('middlewares_namespace');
         }
 
         $this->factory = new Factory( $namespace );
@@ -158,7 +158,7 @@ class Middlewares
     public function hasMiddlewares()
     {
 
-        if( FileSystem::getFilesInDirectory( Settings::getSetting('middlewares_location') ) == null )
+        if( FileSystem::getFilesInDirectory( Settings::setting('middlewares_location') ) == null )
         {
 
             return false;
@@ -240,7 +240,7 @@ class Middlewares
     private function getMiddlewares()
     {
 
-        $middlewares = FileSystem::getFilesInDirectory( Settings::getSetting('middlewares_location') );
+        $middlewares = FileSystem::getFilesInDirectory( Settings::setting('middlewares_location') );
 
         if( empty( $middlewares ) )
         {

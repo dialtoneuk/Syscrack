@@ -139,7 +139,7 @@
                 if ($method == null)
                 {
 
-                    $result = $this->controller->processEndpoint($endpoint, Settings::getSetting('api_default_method'));
+                    $result = $this->controller->processEndpoint($endpoint, Settings::setting('api_default_method'));
                 }
                 else
                 {

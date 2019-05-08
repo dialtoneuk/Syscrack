@@ -30,9 +30,9 @@ class Facebook
     {
 
         $this->facebook = new NSA([
-            'api_id'                => Settings::getSetting('facebook_app_id'),
-            'api_secret'            => Settings::getSetting('facebook_app_secret'),
-            'default_graph_version' => Settings::getSetting('facebook_app_version')
+            'api_id'                => Settings::setting('facebook_app_id'),
+            'api_secret'            => Settings::setting('facebook_app_secret'),
+            'default_graph_version' => Settings::setting('facebook_app_version')
         ]);
     }
 
@@ -53,7 +53,7 @@ class Facebook
             throw new SyscrackException();
         }
 
-        return $helper->getLoginUrl( Settings::getSetting('facebook_redirect_url'), ['email'] );
+        return $helper->getLoginUrl( Settings::setting('facebook_redirect_url'), ['email'] );
     }
 
     public function getAccessToken()

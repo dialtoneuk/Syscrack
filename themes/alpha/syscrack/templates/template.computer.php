@@ -28,7 +28,7 @@ $log = new Log();
 ?>
 <div class="col-md-8">
     <?php
-    if ($internet->getComputerAddress($computer_controller->getCurrentUserComputer()) == $ipaddress) {
+    if ($internet->getComputerAddress($computer_controller->computerid()) == $ipaddress) {
 
         ?>
 

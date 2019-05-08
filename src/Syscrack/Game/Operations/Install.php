@@ -12,12 +12,12 @@ namespace Framework\Syscrack\Game\Operations;
 use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
-use Framework\Syscrack\Game\BaseClasses\Operation as BaseClass;
+use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 use Framework\Syscrack\Game\Statistics;
-use Framework\Syscrack\Game\Structures\Operation as Structure;
+
 use Framework\Syscrack\Game\Viruses;
 
-class Install extends BaseClass implements Structure
+class Install extends BaseOperation
 {
 
     /**
@@ -41,11 +41,6 @@ class Install extends BaseClass implements Structure
 
         if( isset( self::$viruses ) == false )
             self::$viruses = new Viruses();
-
-
-        if( isset( self::$statistics ) == false )
-            self::$statistics = new Statistics();
-
 
         parent::__construct( true );
     }
@@ -88,91 +83,59 @@ class Install extends BaseClass implements Structure
     {
 
         if( $this->checkData( $data ) == false )
-        {
-
             return false;
-        }
 
         if( self::$software->canInstall( $data['softwareid'] ) == false )
-        {
-
             return false;
-        }
 
         if( self::$viruses->isVirus( $data['softwareid'] ) )
         {
 
             $software = self::$software->getSoftware( $data['softwareid'] );
 
-
             if( $this->getComputerId( $data['ipaddress'] ) == $computerid )
-            {
-
-                $this->redirectError('You cannot install a virus on your self, figures', $this->getRedirect( $data['ipaddress'] ) );
-            }
+                return false;
 
             if( self::$viruses->virusAlreadyInstalled( $software->uniquename, $this->getComputerId( $data['ipaddress'] ) , $userid ) )
-            {
-
-                $this->redirectError('You already have a virus of this type installed', $this->getRedirect( $data['ipaddress'] ) );
-            }
+                return false;
         }
 
         return true;
     }
 
     /**
-     * Called when the process is completed
-     *
      * @param $timecompleted
-     *
      * @param $timestarted
-     *
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
+     * @return bool|mixed
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
         if( $this->checkData( $data ) == false )
-        {
-
-            throw new SyscrackException();
-        }
+            return false;
 
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-        {
-
-            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
-        }
+            return false;
 
         if( self::$software->softwareExists( $data['softwareid'] ) == false )
-        {
-
-            $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
-        }
+            return false;
 
         if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
-        {
-
-            $this->redirectError('Sorry, it looks like this software got installed already', $this->getRedirect( $data['ipaddress'] ) );
-        }
+            return false;
 
         self::$software->installSoftware( $data['softwareid'], $userid );
-
-        self::$computers->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
+        self::$computer->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
         $this->logInstall( $this->getSoftwareName( $data['softwareid' ] ),
             $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
 
         $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
-            self::$computers->getCurrentUserComputer(), $data['ipaddress']);
+            self::$computer->computerid(), $data['ipaddress']);
 
         self::$software->executeSoftwareMethod( self::$software->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onInstalled', array(
             'softwareid'    => $data['softwareid'],
@@ -183,27 +146,17 @@ class Install extends BaseClass implements Structure
         if( self::$viruses->isVirus( $data['softwareid'] ) == true )
         {
 
-            if( Settings::getSetting('syscrack_statistics_enabled') == true )
+            if( Settings::setting('syscrack_statistics_enabled') == true )
             {
 
                 self::$statistics->addStatistic('virusinstalls');
             }
 
             $addressdatabase = new AddressDatabase();
-
             $addressdatabase->addVirus( $data['ipaddress'], $data['softwareid'], $userid );
         }
 
-        if( isset( $data['redirect'] ) )
-        {
-
-            $this->redirectSuccess( $data['redirect'] );
-        }
-        else
-        {
-
-            $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
-        }
+        return @$data['redirect'];
     }
 
     /**
@@ -221,41 +174,7 @@ class Install extends BaseClass implements Structure
     public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
-        return $this->calculateProcessingTime( $computerid, Settings::getSetting('syscrack_hardware_cpu_type'), 20, $softwareid );
-    }
-
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array
-     */
-
-    public function getCustomData($ipaddress, $userid)
-    {
-
-        return array();
-    }
-
-    /**
-     * Called upon a post request to this operation
-     *
-     * @param $data
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
-
-    public function onPost($data, $ipaddress, $userid)
-    {
-
-        return true;
+        return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), 20, $softwareid );
     }
 
     /**
@@ -267,7 +186,7 @@ class Install extends BaseClass implements Structure
     private function logInstall( $softwarename, $computerid, $ipaddress )
     {
 
-        if( self::$computers->getCurrentUserComputer() == $computerid )
+        if( self::$computer->computerid() == $computerid )
         {
 
             return;
