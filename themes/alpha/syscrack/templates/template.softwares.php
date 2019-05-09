@@ -23,6 +23,7 @@
                             <thead>
                             <tr>
                                 <th><span class="glyphicon glyphicon-question-sign"></span></th>
+                                <th>Type</th>
                                 <th>Name</th>
                                 <th>Level</th>
                                 <th>Size</th>
@@ -65,6 +66,12 @@
                                             <?php
                                         }
                                         ?>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="auto" title="<?=$software->type ?>"
+                                        style="padding-top: 2.5%;">
+                                        <p>
+                                            <?=$software->type?>
+                                        </p>
                                     </td>
                                     <td style="padding-top: 2.25%;">
                                         <?php

@@ -82,6 +82,9 @@ class Install extends BaseOperation
         if( self::$software->canInstall( $data['softwareid'] ) == false )
             return false;
 
+        if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
+            return false;
+
         if( self::$viruses->isVirus( $data['softwareid'] ) )
         {
 

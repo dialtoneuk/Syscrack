@@ -118,7 +118,12 @@
         public function onExecuted($softwareid, $userid, $computerid)
         {
 
-            return true;
+            $computer = self::$computer->getComputer( $computerid );
+
+            if( $computer->ipaddress == self::$computer->getComputer( self::$computer->computerid() )->ipaddress )
+                $this->redirect('computer?success');
+            else
+                $this->redirect('game/internet/' . $this->currentAddress() . '?success' );
         }
 
         /**

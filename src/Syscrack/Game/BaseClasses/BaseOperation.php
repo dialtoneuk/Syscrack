@@ -525,11 +525,11 @@ class BaseOperation implements Operation
     {
 
         $hdd = self::$hardware->getHardwareType( $computerid, 'harddrive')['value'];
-        $software = json_decode( self::$computer->getComputer( $computerid )->software, true );
+        $softwares = self::$software->getSoftwareOnComputer( $computerid );
         $usedspace = 0.0 + $needed;
 
-        foreach( $software as $key=>$value )
-            $usedspace += self::$software->getSoftware( $value['softwareid'] )->size;
+        foreach( $softwares as $software )
+            $usedspace += @$software->size;
 
         return ( $usedspace < $hdd ) ? true : false;
     }

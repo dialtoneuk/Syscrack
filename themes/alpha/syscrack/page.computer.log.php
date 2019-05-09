@@ -24,10 +24,11 @@
                     Render::view('syscrack/templates/template.computer.actions');
                 ?>
                 <div class="col-md-8">
-
+                    <form action="/computer/actions/clear" method="post">
                     <?php
                         Render::view('syscrack/templates/template.log')
                     ?>
+                    </form>
                 </div>
             </div>
             <div class="row">

@@ -7,7 +7,7 @@
 
             <div class="panel panel-danger">
                 <div class="panel-body">
-                    Zero results found
+                    Empty
                 </div>
             </div>
             <?php

@@ -4,7 +4,7 @@
     /**
      * Lewis Lancaster 2017
      *
-     * Class Deleter
+     * Class Kernel
      *
      * @package Framework\Syscrack\Game\Softwares
      */
@@ -12,7 +12,7 @@
     use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
     use Framework\Syscrack\Game\Tool;
 
-    class Deleter extends BaseSoftware
+    class Kernel extends BaseSoftware
     {
 
         /**
@@ -25,9 +25,9 @@
         {
 
             return array(
-                'uniquename'        => 'deleter',
-                'extension'         => '.rm',
-                'type'              => 'deleter',
+                'uniquename'        => 'kernel',
+                'extension'         => '.exe',
+                'type'              => 'kernel',
                 'installable'       => true,
                 'executable'        => true,
                 'localexecuteonly'  => true,
@@ -44,9 +44,9 @@
         public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
         {
 
-            $tool = new Tool("Delete", "success");
-            $tool->hasSoftwareInstalled('deleter');
-            $tool->setAction('delete');
+            $tool = new Tool("Execute", "success");
+            $tool->setAction("execute");
+            $tool->hasSoftwareInstalled('kernel');
             $tool->softwareAction();
             $tool->localAllowed();
 

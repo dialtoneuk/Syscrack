@@ -172,6 +172,7 @@
             $computer = self::$computer->getComputer( self::$computer->computerid() );
             $this->getRender('syscrack/page.computer.log', ['ipaddress' => $computer->ipaddress,
                 'tools' => $this->tools( self::$session->userid(), $computer->computerid, true  ),
+                'log'   => self::$log->getCurrentLog( self::$computer->computerid() ),
                 'computer' => $computer],
                 false,
                 self::$session->userid(),

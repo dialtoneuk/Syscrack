@@ -75,24 +75,32 @@ class Delete extends BaseOperation
 
         if( $this->checkData( $data ) == false )
             return false;
-
-
+        
         if( self::$computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
             return false;
 
-
         $software = self::$software->getSoftware( $data['softwareid'] );
 
-        if( self::$viruses->isVirus( $software->softwareid ) == false )
-            return false;
+        if( self::$viruses->isVirus( $software->softwareid ) )
+        {
 
-        if( self::$software->isInstalled( $software->softwareid, $this->getComputerId( $data['ipaddress'] ) ) )
-            return false;
+            if( $software->userid == $userid )
+            {
+                if( $software->installed )
+                    return false;
+                else
+                    if( self::$software->canRemove( $software->softwareid ) == false )
+                        return false;
+                    else
+                        return true;
+            }
+            else
+                return false;
+        }
+        else if( self::$software->canRemove( $software->softwareid ) )
+            return true;
 
-        if( self::$software->canRemove( $software->softwareid ) == false )
-            return false;
-
-        return true;
+        return false;
     }
 
     /**

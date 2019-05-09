@@ -64,7 +64,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                         'name' => 'ipaddress',
                                         'icon' => 'glyphicon-globe',
                                         'placeholder' => '1.2.3.4',
-                                        'value' => $internet->getIP()
+                                        'value' => $random_address
                                     ]
                                 ], 'remove_submit' => true, 'remove_form' => true));
                                 ?>

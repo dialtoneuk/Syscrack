@@ -591,7 +591,7 @@
                 if( PostHelper::checkForRequirements(['resetip'] ) == true )
                 {
 
-                    $computer = parent::$computer->getAllComputers( parent::$computer->getComputerCount() );
+                    $computer = parent::$computer->getAllComputers();
 
                     foreach( $computer as $computers )
                     {
@@ -707,7 +707,12 @@
         public function computerCreator()
         {
 
-            $this->getRender('syscrack/page.admin.computer.creator', ["types" => self::$types->get(), "browserpages" => self::$browserpages->get() ]);
+            $this->getRender('syscrack/page.admin.computer.creator',
+                [
+                    "types" => self::$types->get(),
+                    "random_address" => self::$internet->getIP(),
+                    "browserpages" => self::$browserpages->get() ]
+            );
         }
 
         /**

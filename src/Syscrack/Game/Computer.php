@@ -9,6 +9,7 @@ namespace Framework\Syscrack\Game;
  * @package Framework\Syscrack\Game
  */
 
+use Framework\Application\Container;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
@@ -437,17 +438,17 @@ class Computer
     }
 
     /**
-     * Adds software to the computers file system
-     *
      * @param $computerid
-     *
      * @param $softwareid
-     *
      * @param $type
+     * @param null $userid
      */
 
-    public function addSoftware( $computerid, $softwareid, $type )
+    public function addSoftware( $computerid, $softwareid, $type, $userid=null )
     {
+
+        if( $userid == null )
+            $userid = @Container::getObject('session')->userid();
 
         $software = $this->getComputerSoftware( $computerid );
 
@@ -455,7 +456,8 @@ class Computer
             'softwareid'        => $softwareid,
             'type'              => $type,
             'installed'         => false,
-            'timeinstalled'     => time()
+            'timeinstalled'     => time(),
+            'userid'            => $userid
         );
 
         self::$database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
@@ -927,6 +929,22 @@ class Computer
                 return $softwares['installed'];
             }
         }
+
+        return false;
+    }
+
+    public function installedByUser( $computerid, $type, $userid )
+    {
+        $softwares = $this->getComputerSoftware( $computerid );
+
+        if( empty( $softwares ) )
+            return false;
+
+        foreach( $softwares as $software )
+            if( $software['type'] == $type )
+                if( @$software['userid'] == $userid )
+                    if( $software['installed'] )
+                        return true;
 
         return false;
     }

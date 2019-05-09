@@ -30,7 +30,8 @@
                 'type'          => 'cracker',
                 'icon'          => 'glyphicon-copyright-mark',
                 'installable'   => true,
-                'executable'    => true
+                'executable'    => true,
+                'removable'     => true
             );
         }
 
