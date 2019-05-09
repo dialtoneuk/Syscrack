@@ -4475,5 +4475,17 @@
         },
         "timestamp": 1557369654,
         "ip": "192.168.56.1"
+    },
+    {
+        "message": "admin =>syntax error, unexpected 'return' (T_RETURN) at line 52",
+        "type": "frameworkerror",
+        "details": {
+            "url": "\/admin\/computer\/edit\/66\/",
+            "line": 148,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Controller.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(110): Framework\\Views\\Controller->run()\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(513): Framework\\Application->runController()\n#2 {main}"
+        },
+        "timestamp": 1557371989,
+        "ip": "192.168.56.1"
     }
 ]

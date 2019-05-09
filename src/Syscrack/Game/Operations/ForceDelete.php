@@ -4,7 +4,7 @@ namespace Framework\Syscrack\Game\Operations;
 /**
  * Lewis Lancaster 2017
  *
- * Class Logout
+ * Class ForceDelete
  *
  * @package Framework\Syscrack\Game\Operations
  */
@@ -14,7 +14,7 @@ use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 use Framework\Syscrack\Game\Viruses;
 
-class Delete extends BaseOperation
+class ForceDelete extends BaseOperation
 {
 
     /**
@@ -75,30 +75,9 @@ class Delete extends BaseOperation
 
         if( $this->checkData( $data ) == false )
             return false;
-        
-        if( self::$computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
-            return false;
 
-        $software = self::$software->getSoftware( $data['softwareid'] );
-
-        if( self::$viruses->isVirus( $software->softwareid ) )
-        {
-
-            if( $software->userid == $userid )
-            {
-                if( $software->installed )
-                    return false;
-                else
-                    if( self::$software->canRemove( $software->softwareid ) == false )
-                        return false;
-                    else
-                        return true;
-            }
-            else
-                return false;
-        }
-        else if( self::$software->canRemove( $software->softwareid ) )
-            return true;
+        if( self::$user->isAdmin( $userid ) == false )
+           return false;
 
         return false;
     }
@@ -119,18 +98,12 @@ class Delete extends BaseOperation
         if( $this->checkData( $data ) == false )
             return false;
 
-        if( self::$software->softwareExists( $data['softwareid'] ) == false )
+        if( self::$user->isAdmin( $userid ) == false )
             return false;
 
         $software = self::$software->getSoftware( $data['softwareid'] );
-
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
-
         self::$software->deleteSoftware( $software->softwareid );
         self::$computer->removeSoftware( $this->getComputerId( $data['ipaddress'] ), $software->softwareid );
-        $this->logDelete( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), self::$computer->getComputer( $computerid )->ipaddress );
-        $this->logLocal( $software->softwarename, $data['ipaddress'] );
 
         if( isset( $data['redirect'] ) == false )
             return true;
@@ -154,37 +127,5 @@ class Delete extends BaseOperation
     {
 
         return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), 5.5, $softwareid );
-    }
-
-    /**
-     * @param $softwarename
-     * @param $computerid
-     * @param $ipaddress
-     */
-
-    private function logDelete( $softwarename, $computerid, $ipaddress )
-    {
-
-        if( self::$computer->computerid() == $computerid )
-        {
-
-            return;
-        }
-
-        $this->logToComputer('Deleted file <' . $softwarename . '> on root', $computerid, $ipaddress );
-    }
-
-    /**
-     * Logs to the local log
-     *
-     * @param $softwarename
-     *
-     * @param $ipaddress
-     */
-
-    private function logLocal( $softwarename, $ipaddress )
-    {
-
-        $this->logToComputer('Deleted file <' . $softwarename . '> on ' . $ipaddress, self::$computer->getComputer( self::$computer->computerid() )->computerid, 'localhost' );
     }
 }

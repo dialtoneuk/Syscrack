@@ -4,7 +4,7 @@
     /**
      * Lewis Lancaster 2017
      *
-     * Class ForceConnect
+     * Class ForceDelete
      *
      * @package Framework\Syscrack\Game\Softwares
      */
@@ -12,7 +12,7 @@
     use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
     use Framework\Syscrack\Game\Tool;
 
-    class ForceConnect extends BaseSoftware
+    class ForceDelete extends BaseSoftware
     {
 
         /**
@@ -25,7 +25,7 @@
         {
 
             return array(
-                'uniquename'        => 'forceconnect',
+                'uniquename'        => 'forcedelete',
                 'extension'         => '.admin',
                 'type'              => 'admin',
                 'installable'       => true,
@@ -44,9 +44,11 @@
         public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
         {
 
-            $tool = new Tool("Force Login", "info");
+            $tool = new Tool("Force Delete", "danger");
             $tool->admin();
-            $tool->setAction('forcelogin');
+            $tool->addInput("softwareid","softwares");
+            $tool->setAction('forcedelete');
+            $tool->icon = "fire";
 
             return( $tool );
         }
