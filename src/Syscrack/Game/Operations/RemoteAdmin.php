@@ -57,6 +57,20 @@ class RemoteAdmin extends BaseOperation
     }
 
     /**
+     * @param null $ipaddress
+     * @return string
+     */
+
+    public function url($ipaddress = null)
+    {
+
+        if( $ipaddress == null )
+            return( parent::url( $ipaddress ) );
+
+        return('game/internet/' . @$ipaddress . '/remoteadmin');
+    }
+
+    /**
      * Called when this process request is created
      *
      * @param $timecompleted
@@ -76,23 +90,17 @@ class RemoteAdmin extends BaseOperation
     {
 
         if( $this->checkData( $data, ['ipaddress'] ) == false )
-        {
-
             return false;
-        }
+
 
         $computer = self::$internet->getComputer( $data['ipaddress'] );
 
         if( $computer->type != Settings::setting('syscrack_computers_bank_type') )
-        {
-
             return false;
-        }
+
         if( self::$finance->hasCurrentActiveAccount() == false )
-        {
-
             return false;
-        }
+
         else
         {
 
@@ -100,38 +108,27 @@ class RemoteAdmin extends BaseOperation
             {
 
                 if( Settings::setting('syscrack_operations_bank_clearonfail') )
-                {
-
                     self::$finance->setCurrentActiveAccount( null );
-                }
-
-                $this->redirectError('The account seems to not exist anymore, maybe it has been deleted', $this->getRedirect( $data['ipaddress'] ) );
-            }
-
-            if( self::$finance->getByAccountNumber( self::$finance->getCurrentActiveAccount() )->computerid !== $computer->computerid )
-            {
 
                 return false;
             }
+
+            if( self::$finance->getByAccountNumber( self::$finance->getCurrentActiveAccount() )->computerid !== $computer->computerid )
+                return false;
+
         }
 
         return true;
     }
 
     /**
-     * Renders the view page
-     *
      * @param $timecompleted
-     *
      * @param $timestarted
-     *
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
+     * @return bool
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -141,9 +138,9 @@ class RemoteAdmin extends BaseOperation
             throw new SyscrackException();
 
         if( self::$finance->accountNumberExists( self::$finance->getCurrentActiveAccount() ) == false )
-            $this->redirectError("Sorry this bank account appears to have become invalid");
+            return false;
         else
-            $this->getRender('operations/operations.bank.adminaccount',
+            $this->render('operations/operations.bank.adminaccount',
                 array(
                     'ipaddress'         => $data['ipaddress'],
                     'userid'        => $userid,
@@ -152,57 +149,10 @@ class RemoteAdmin extends BaseOperation
                     'accounts_location'   => $this->getAddresses( self::$finance->getUserBankAccounts( $userid ) ),
                     'computer'      => self::$internet->getComputer( $data['ipaddress'] )
                 ), true );
-    }
-
-    /**
-     * @param $accounts
-     * @return array
-     */
-
-    private function getAddresses( $accounts )
-    {
-
-        $ipaddresses = [];
-
-        foreach( $accounts as $account )
-            $ipaddresses[] = ["accountnumber" => $account->accountnumber , "ipaddress" => self::$computer->getComputer( $account->computerid )->ipaddress];
-
-        return( $ipaddresses );
-    }
-
-    /**
-     * Gets the completion time
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return null
-     */
-
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
-    {
 
         return null;
     }
 
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array
-     */
-
-    public function getCustomData($ipaddress, $userid)
-    {
-
-        return array();
-    }
 
     /**
      * @param $data
@@ -221,18 +171,12 @@ class RemoteAdmin extends BaseOperation
         }
 
         if( PostHelper::checkForRequirements( ['action'] ) == false )
-        {
-
-            $this->redirectError('Missing information', $this->getRedirect( $ipaddress ) . '/remoteadmin');
-        }
+            return false;
         else
         {
 
             if( self::$finance->hasCurrentActiveAccount() == false )
-            {
-
-                $this->redirectError('Please hack an account first', $this->getRedirect( $ipaddress ) );
-            }
+                return false;
 
             if( self::$finance->accountNumberExists( self::$finance->getCurrentActiveAccount() ) == false )
             {
@@ -243,7 +187,7 @@ class RemoteAdmin extends BaseOperation
                     self::$finance->setCurrentActiveAccount( null );
                 }
 
-                $this->redirectError('The account seems to not exist anymore, maybe it has been deleted', $this->getRedirect( $data['ipaddress'] ) );
+                return false;
             }
 
             $action = PostHelper::getPostData('action');
@@ -261,7 +205,7 @@ class RemoteAdmin extends BaseOperation
                     if( is_numeric( $amount ) == false )
                     {
 
-                        $this->redirectError('Please enter a numeral value of cash to transfer', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                        return false;
                     }
 
                     $amount = abs( $amount );
@@ -269,19 +213,19 @@ class RemoteAdmin extends BaseOperation
                     if( empty( $amount ) || $amount == 0 )
                     {
 
-                        $this->redirectError('Please enter an amount bigger than zero', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                        return false;
                     }
 
                     if( self::$finance->accountNumberExists( $accountnumber ) == false )
                     {
 
-                        $this->redirectError('This number does not exist', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                        return false;
                     }
 
                     if( self::$internet->ipExists( $targetipaddress ) == false )
                     {
 
-                        $this->redirectError('Failed to connect to bank of address given, 404 not found', $this->getRedirect( $ipaddress ) . '/remoteadmin');
+                        return false;
                     }
 
                     $account = self::$finance->getByAccountNumber( $accountnumber );
@@ -291,13 +235,13 @@ class RemoteAdmin extends BaseOperation
                     if( self::$computer->getComputer( $account->computerid )->ipaddress !== $targetipaddress )
                     {
 
-                        $this->redirectError('Account does not exist at remote database', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                        return false;
                     }
 
                     if( self::$finance->canAfford( $activeaccount->computerid, $activeaccount->userid, $amount ) == false )
                     {
 
-                        $this->redirectError('This account cannot afford this transaction', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                        return false;
                     }
 
                     self::$finance->deposit( $account->computerid, $account->userid, $amount );
@@ -308,12 +252,12 @@ class RemoteAdmin extends BaseOperation
                         self::$computer->computerid(),
                         $ipaddress);
 
-                    $this->redirectSuccess( $this->getRedirect( $ipaddress ) . '/remoteadmin');
+                    return false;
                 }
                 else
                 {
 
-                    $this->redirectError('Missing information', $this->getRedirect( $ipaddress ) . '/remoteadmin' );
+                    return false;
                 }
             }
             elseif( $action == "disconnect" )

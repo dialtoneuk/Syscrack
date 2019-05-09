@@ -1,25 +1,3 @@
-<?php
-
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computer;
-use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Schema;
-
-if (isset($internet) == false) {
-
-    $internet = new Internet();
-}
-
-if (isset($computer_controller) == false) {
-
-    $computer_controller = new Computer();
-}
-
-if (isset($npc) == false) {
-
-    $npc = new Schema();
-}
-?>
 <div class="row">
     <div class="col-sm-6">
         <h5 style="color: #ababab" class="text-uppercase">
@@ -43,55 +21,18 @@ if (isset($npc) == false) {
         </h5>
         <ul class="list-group">
             <?php
+                if( isset( $whois_computers ) )
+                    foreach( $whois_computers as $computer )
+                    {
 
-            if (Settings::hasSetting('syscrack_whois_default_computers_controller') == true) {
-
-                $whoiscomputers = Settings::setting('syscrack_whois_default_computers_controller');
-
-                foreach ($whoiscomputers as $computerid) {
-
-                    if ($computer_controller->computerExists($computerid)) {
-
-                        $current_computer = $computer_controller->getComputer($computerid);
-
+                        $metadata = $metaset[ $computer->computerid ]
                         ?>
                         <li class="list-group-item">
-                            <a href="/game/internet/<?= $current_computer->ipaddress ?>/">
-                                <?php
-
-                                if ($npc->hasSchema($computerid)) {
-
-                                    $schema = $npc->getSchema($computerid);
-
-                                    if (isset($schema['name'])) {
-
-                                        echo $schema['name'];
-                                    }
-                                } else {
-
-                                    echo($current_computer->ipaddress);
-                                }
-                                ?>
-                            </a>
-                        </li>
-                        <?php
-                    } else {
-
-                        ?>
-                        <li class="list-group-item">
-                            Computer offline, try again later?
+                            <small><?php if( isset( $metadata->custom["name"] ) ) echo $metadata->custom["name"]; else echo $metadata->name; ?> </small>
+                            <p><a href="/game/internet/<?= @$computer->ipaddress?>"><?= @$computer->ipaddress?></a></p>
                         </li>
                         <?php
                     }
-                }
-            } else {
-
-                ?>
-                <li class="list-group-item">
-                    No links available today, sorry!
-                </li>
-                <?php
-            }
             ?>
         </ul>
     </div>

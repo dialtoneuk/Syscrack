@@ -15,16 +15,6 @@ class Bulletin extends Npc implements Computer
 {
 
     /**
-     * Npc constructor.
-     */
-
-    public function __construct()
-    {
-
-        parent::__construct();
-    }
-
-    /**
      * The configuration of this computer
      *
      * @return array

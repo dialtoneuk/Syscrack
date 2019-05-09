@@ -40,7 +40,7 @@
         protected static $hardware;
 
         /**
-         * @var Computer
+         * @var BaseComputer
          */
 
         protected static $computer;

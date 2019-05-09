@@ -6,23 +6,11 @@
      *
      * Class Isp
      *
-     * @package Framework\Syscrack\Game\Computer
+     * @package Framework\Syscrack\Game\Computers
      */
 
-    use Framework\Syscrack\Game\Structures\Computer as Structure;
-
-    class Isp extends Npc implements Structure
+    class Isp extends Npc
     {
-
-        /**
-         * Npc constructor.
-         */
-
-        public function __construct()
-        {
-
-            parent::__construct();
-        }
 
         /**
          * The configuration of this computer

@@ -60,7 +60,7 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="softwares" style="padding-top: 16px;">
                                 <div class="row">
-                                    <div class="col-md-8">
+                                    <div class="col-md-9">
                                         <?php
                                             Render::view('syscrack/templates/template.softwares', array("hideoptions" => true  ));
                                         ?>
@@ -191,7 +191,7 @@
 
                                             ?>
                                             <div class="row">
-                                                <div class="col-lg-12">
+                                                <div class="col-lg-3">
                                                     <div class="panel panel-warning">
                                                         <div class="panel-body">
                                                             No tools found
@@ -218,7 +218,12 @@
                                                     unset( $tools_admin[ $key ] );
                                             }
 
-                                            Render::view("syscrack/templates/template.tools", array('tools' => $tools_admin) );
+                                            ?>
+                                            <div class="col-lg-3">
+                                                <?php Render::view("syscrack/templates/template.tools", array('tools' => $tools_admin) ) ?>
+                                            </div>
+                                            <?php
+
                                         }
                                     ?>
 

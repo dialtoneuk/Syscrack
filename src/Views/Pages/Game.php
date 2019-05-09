@@ -14,6 +14,7 @@
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
+    use Framework\Syscrack\Game\BaseClasses\BaseComputer;
     use Framework\Syscrack\Game\Finance;
     use Framework\Syscrack\Game\Log;
     use Framework\Syscrack\Game\Metadata;
@@ -166,7 +167,7 @@
         }
 
         /**
-         * Computer
+         * BaseComputer
          */
 
         public function computer()
@@ -338,6 +339,17 @@
                 else
                     $downloads = [];
 
+                /**
+                 * @var $class BaseComputer
+                 */
+
+                $class = self::$computer->getComputerClass( $computer->type );
+
+                if( $class->canGetData() )
+                    $data = $class->data( $computer->computerid, $computer->userid );
+                else
+                    $data = [];
+
                 if( self::$internet->hasCurrentConnection() )
                 {
 
@@ -353,7 +365,7 @@
 
 
                 $this->getRender('syscrack/page.game.internet',
-                    array(  'ipaddress'         => $ipaddress,
+                    array_merge( $data, array(  'ipaddress'         => $ipaddress,
                             'connection'        => $connection,
                             'computer'          => $computer,
                             'metadata'          => $metadata,
@@ -361,7 +373,7 @@
                             'tools_software'    => $tools_software,
                             'softwares'         => $softwares,
                             'localsoftwares' => self::$software->getSoftwareOnComputer( self::$computer->computerid() )
-                    ),
+                    )),
                     true,
                     self::$session->userid(),
                     $computer->computerid);
@@ -418,8 +430,8 @@
 
                 if( self::$operations->hasProcess( $computer->computerid, $process, $ipaddress ) == true )
                     $this->redirectError('You already have an action of this nature processing', $this->getRedirect( $ipaddress ) );
-                elseif( self::$operations->allowLocal( $process ) == false && $ipaddress == $computer->ipaddress )
-                    $this->redirectError('This action must be ran on a remote computer', $this->getRedirect( $ipaddress ) );
+                elseif( $ipaddress == $computer->ipaddress && self::$operations->allowLocal( $process ) == false )
+                   $this->redirectError('This action must be ran on a remote computer', $this->getRedirect( $ipaddress ) );
                 elseif( self::$operations->localOnly( $process ) && $ipaddress !== $computer->ipaddress )
                     $this->redirectError('This action can only be ran locally', $this->getRedirect( $ipaddress ) );
                 elseif( self::$operations->requireSoftware( $process ) )

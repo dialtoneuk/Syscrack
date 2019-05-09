@@ -202,19 +202,19 @@ class Software
     public function getLicensedSoftware( $computerid )
     {
 
-        $software = $this->getSoftwareOnComputer( $computerid );
+        $softwares = $this->getSoftwareOnComputer( $computerid );
 
         $results = [];
 
-        foreach( $software as $softwares )
+        foreach( $softwares as $software )
         {
 
-            $data = json_decode( $softwares->data, true );
+            $data = json_decode( $software->data, true );
 
             if( isset( $data['license'] ) )
             {
 
-                $results[] = $softwares;
+                $results[] = $software;
             }
         }
 

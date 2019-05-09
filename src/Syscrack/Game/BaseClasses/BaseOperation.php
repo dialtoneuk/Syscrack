@@ -42,7 +42,7 @@ class BaseOperation implements Operation
     protected static $software;
 
     /**
-     * @var Computer
+     * @var BaseComputer
      */
 
     protected static $computer;
@@ -420,12 +420,23 @@ class BaseOperation implements Operation
         if( $default_sets )
         {
 
-            $array = array_merge( $array, [
-                'softwares' => self::$software->getSoftwareOnComputer( @$array["computer"]->computerid ),
-                'user'      => self::$user->getUser( Container::getObject('session')->userid()),
-                'accounts'  => self::$finance->getUserBankAccounts( Container::getObject('session')->userid() ),
-                'computer'  => $this->currentComputer(),
-            ]);
+            $userid = Container::getObject('session')->userid();
+            $computerid = self::$computer->computerid();
+
+            if( isset( $array["localsoftwares"] ) == false )
+                $array["localsoftwares"] = self::$software->getSoftwareOnComputer( $computerid );
+
+            if( isset( $array["user"] ) == false )
+                $array["user"] = self::$user->getUser( $userid );
+
+            if( isset( $array["computer"] ) == false )
+                $array["computer"] = self::$computer->getComputer( $computerid );
+
+            if( isset( $array["accounts"] ) == false )
+                $array["accounts"] = self::$finance->getUserBankAccounts( $userid );
+
+            if( isset( $array["ipaddress"] ) == false )
+                $array["ipaddress"] = self::$computer->getComputer( $computerid )->ipaddress;
         }
 
         if( $cleanob )
@@ -469,6 +480,23 @@ class BaseOperation implements Operation
         $hardware = self::$hardware->getHardwareType( $computerid, $hardwaretype );
         return TimeHelper::getSecondsInFuture( floor( sqrt( $speedness / $hardware['value'] ) * ( Settings::setting('syscrack_operations_global_speed' ) ) ) );
     }
+
+    /**
+     * @param $accounts
+     * @return array
+     */
+
+    public function getAddresses( $accounts )
+    {
+
+        $ipaddresses = [];
+
+        foreach( $accounts as $account )
+            $ipaddresses[] = ["accountnumber" => $account->accountnumber , "ipaddress" => self::$computer->getComputer( $account->computerid )->ipaddress];
+
+        return( $ipaddresses );
+    }
+
 
     /**
      * @param $path

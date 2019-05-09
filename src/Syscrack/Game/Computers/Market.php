@@ -11,11 +11,10 @@
 
     use Framework\Application\Utilities\FileSystem;
     use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
     use Framework\Syscrack\Game\Market as MarketController;
-    use Framework\Syscrack\Game\Structures\Computer as Structure;
+    use Framework\Syscrack\Game\BaseClasses\BaseComputer;
 
-    class Market extends BaseClass implements Structure
+    class Market extends BaseComputer
     {
 
 
@@ -23,7 +22,7 @@
          * @var MarketController
          */
 
-        protected $market;
+        protected static $market;
 
         /**
          * Npc constructor.
@@ -32,8 +31,8 @@
         public function __construct()
         {
 
-            if( isset( $this->market ) == false )
-                $this->market = new MarketController();
+            if( isset( self::$market ) == false )
+                self::$market = new MarketController();
 
             parent::__construct( true );
         }
@@ -62,8 +61,8 @@
         public function onReset( $computerid )
         {
 
-            if( empty( $this->market->getPurchases( $computerid ) ) == false )
-                $this->market->save( $computerid, [] );
+            if( empty( self::$market->getPurchases( $computerid ) ) == false )
+                self::$market->save( $computerid, [] );
 
             parent::onReset( $computerid );
         }
@@ -79,15 +78,15 @@
         public function onStartup($computerid, $userid, array $software = [], array $hardware = [], array $custom = [] )
         {
 
-            if( FileSystem::directoryExists( $this->market->getFilePath( $computerid ) ) == false )
-                FileSystem::createDirectory( $this->market->getFilePath( $computerid ) );
+            if( FileSystem::directoryExists( self::$market->getFilePath( $computerid ) ) == false )
+                FileSystem::createDirectory( self::$market->getFilePath( $computerid ) );
 
-            if( $this->market->hasStock( $computerid ) == false )
-                $this->market->save( $computerid, [], 'stock.json');
+            if( self::$market->hasStock( $computerid ) == false )
+                self::$market->save( $computerid, [], 'stock.json');
 
 
-            if( empty( $this->market->getPurchases( $computerid ) ) )
-                $this->market->save( $computerid, [] );
+            if( empty( self::$market->getPurchases( $computerid ) ) )
+                self::$market->save( $computerid, [] );
 
             parent::onStartup( $computerid, $userid, $software, $hardware, $custom );
         }
@@ -103,11 +102,11 @@
         public function onLogin($computerid, $ipaddress)
         {
 
-            if( $this->internet->ipExists( $ipaddress ) == false )
+            if( self::$internet->ipExists( $ipaddress ) == false )
                 throw new SyscrackException();
 
 
-            $this->internet->setCurrentConnectedAddress( $ipaddress );
+            self::$internet->setCurrentConnectedAddress( $ipaddress );
 
             $this->log( $computerid, 'Logged in as root', $this->getCurrentComputerAddress() );
             $this->logToIP( $this->getCurrentComputerAddress(), 'Logged in as root at <' . $ipaddress . '>');
@@ -124,10 +123,10 @@
         public function onLogout($computerid, $ipaddress)
         {
 
-            if( $this->internet->ipExists( $ipaddress ) == false )
+            if( self::$internet->ipExists( $ipaddress ) == false )
                 throw new SyscrackException();
 
 
-            $this->internet->setCurrentConnectedAddress( null );
+            self::$internet->setCurrentConnectedAddress( null );
         }
     }

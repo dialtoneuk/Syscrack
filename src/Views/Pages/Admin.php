@@ -671,7 +671,7 @@
                     if( parent::$computer->computerExists( $query ) == false )
                     {
 
-                        $this->redirectError('Computer not found', 'admin/computer');
+                        $this->redirectError('BaseComputer not found', 'admin/computer');
                     }
 
                     $this->redirect('admin/computer/' . parent::$computer->getComputer( $query )->computerid );

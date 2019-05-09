@@ -6,23 +6,14 @@
      *
      * Class Whois
      *
-     * @package Framework\Syscrack\Game\Computer
+     * @package Framework\Syscrack\Game\Computers
      */
 
-    use Framework\Syscrack\Game\Structures\Computer as Structure;
+    use Framework\Application\Settings;
+    use Framework\Syscrack\Game\BaseClasses\BaseComputer;
 
-    class Whois extends Npc implements Structure
+    class Whois extends Npc
     {
-
-        /**
-         * Npc constructor.
-         */
-
-        public function __construct()
-        {
-
-            parent::__construct();
-        }
 
         /**
          * The configuration of this computer
@@ -34,8 +25,46 @@
         {
 
             return array(
-                'installable' => false,
-                'type'        => 'whois'
+                'installable'   => false,
+                'type'          => 'whois',
+                'data'          => true
             );
+        }
+
+        /**
+         * @param $computerid
+         * @param $userid
+         * @return array
+         */
+
+        public function data($computerid, $userid)
+        {
+
+            $computers = [];
+            $metaset = [];
+
+            if( self::$metadata->exists( $computerid ) )
+                $metadata =  self::$metadata->get( $computerid );
+            else
+                $metadata = [];
+
+            if( isset( $metadata->whois ) )
+                $array = $metadata->whois;
+            else
+                $array = Settings::setting("syscrack_whois_default_computers");
+
+            foreach( $array as $computerid )
+            {
+
+                $computers[ $computerid ] = self::$computer->getComputer( $computerid );
+
+                if( self::$metadata->exists( $computerid ) )
+                    $metaset[ $computerid ] = self::$metadata->get( $computerid );
+            }
+
+            return([
+                "whois_computers" => $computers,
+                "metaset"       => $metaset
+            ]);
         }
     }

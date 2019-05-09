@@ -10,10 +10,10 @@
      */
 
     use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
-    use Framework\Syscrack\Game\Structures\Computer as Structure;
 
-    class Npc extends BaseClass implements Structure
+    use Framework\Syscrack\Game\BaseClasses\BaseComputer;
+
+    class Npc extends BaseComputer
     {
 
         /**
@@ -78,10 +78,10 @@
         public function onLogin($computerid, $ipaddress)
         {
 
-            if( $this->internet->ipExists( $ipaddress ) == false )
+            if( self::$internet->ipExists( $ipaddress ) == false )
                 throw new SyscrackException();
 
-            $this->internet->setCurrentConnectedAddress( $ipaddress );
+            self::$internet->setCurrentConnectedAddress( $ipaddress );
 
             $this->log( $computerid, 'Logged in as root', $this->getCurrentComputerAddress() );
             $this->logToIP( $this->getCurrentComputerAddress(), 'Logged in as root at <' . $ipaddress . '>');
@@ -98,9 +98,9 @@
         public function onLogout($computerid, $ipaddress)
         {
 
-            if( $this->internet->ipExists( $ipaddress ) == false )
+            if( self::$internet->ipExists( $ipaddress ) == false )
                 throw new SyscrackException();
 
-            $this->internet->setCurrentConnectedAddress( null );
+            self::$internet->setCurrentConnectedAddress( null );
         }
     }

@@ -6,23 +6,12 @@
      *
      * Class FBI
      *
-     * @package Framework\Syscrack\Game\Computer
+     * @package Framework\Syscrack\Game\Computers
      */
 
-    use Framework\Syscrack\Game\Structures\Computer as Structure;
 
-    class FBI extends Npc implements Structure
+    class FBI extends Npc
     {
-
-        /**
-         * Npc constructor.
-         */
-
-        public function __construct()
-        {
-
-            parent::__construct();
-        }
 
         /**
          * The configuration of this computer

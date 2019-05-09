@@ -250,10 +250,7 @@
     "syscrack_vpc_purchase_price": 1000,
     "syscrack_whois_computer": 70,
     "syscrack_whois_default_computers": [
-        30,
-        31,
-        32,
-        33
+        71
     ],
     "theme_dark": true,
     "theme_fullscreen": "1",

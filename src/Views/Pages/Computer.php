@@ -71,7 +71,7 @@
 
 
         /**
-         * Computer constructor.
+         * BaseComputer constructor.
          */
 
         public function __construct()

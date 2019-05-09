@@ -4,7 +4,7 @@ namespace Framework\Syscrack\Game;
 /**
  * Lewis Lancaster 2017
  *
- * Class Computer
+ * Class BaseComputer
  *
  * @package Framework\Syscrack\Game
  */
@@ -33,7 +33,7 @@ class Computer
     protected static $database;
 
     /**
-     * Computer constructor.
+     * BaseComputer constructor.
      */
 
     public function __construct()

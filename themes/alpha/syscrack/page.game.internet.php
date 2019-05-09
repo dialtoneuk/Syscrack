@@ -38,12 +38,28 @@
 
                     <?php
                     if ($connection == $ipaddress)
-                        Render::view('syscrack/templates/template.computer');
+                    {
+                        ?>
+                            <div class="col-lg-9">
+                                <?php Render::view('syscrack/templates/template.computer'); ?>
+                            </div>
+                        <?php
+                    }
                     else
-                        Render::view('syscrack/templates/template.browser');
+                    {
+                        ?>
+                            <div class="col-lg-9">
+                                <?php Render::view('syscrack/templates/template.browser'); ?>
+                            </div>
+                        <?php
+                    }
 
-                    Render::view('syscrack/templates/template.tools', array('tools' => $tools ));
                     ?>
+                    <div class="col-lg-3">
+                        <?php
+                            Render::view('syscrack/templates/template.tools', array('tools' => $tools ));
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>

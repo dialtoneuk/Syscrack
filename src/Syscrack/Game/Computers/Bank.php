@@ -10,18 +10,17 @@
      */
 
     use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
     use Framework\Syscrack\Game\Finance;
-    use Framework\Syscrack\Game\Structures\Computer as Structure;
+    use Framework\Syscrack\Game\BaseClasses\BaseComputer;
 
-    class Bank extends BaseClass implements Structure
+    class Bank extends BaseComputer
     {
 
         /**
          * @var Finance
          */
 
-        protected $finance;
+        protected static $finance;
 
         /**
          * Npc constructor.
@@ -30,8 +29,8 @@
         public function __construct()
         {
 
-            if( isset( $this->finance ) == false )
-                $this->finance = new Finance();
+            if( isset( self::$finance ) == false )
+                self::$finance = new Finance();
 
             parent::__construct( true );
         }
@@ -62,10 +61,10 @@
         public function onLogin($computerid, $ipaddress)
         {
 
-            if( $this->internet->ipExists( $ipaddress ) == false )
+            if( self::$internet->ipExists( $ipaddress ) == false )
                 throw new SyscrackException();
 
-            $this->internet->setCurrentConnectedAddress( $ipaddress );
+            self::$internet->setCurrentConnectedAddress( $ipaddress );
 
             $this->log( $computerid, 'Logged in as root', $this->getCurrentComputerAddress() );
             $this->logToIP( $this->getCurrentComputerAddress(), 'Logged in as root at <' . $ipaddress . '>');
@@ -82,12 +81,12 @@
         public function onLogout($computerid, $ipaddress)
         {
 
-            if( $this->internet->ipExists( $ipaddress ) == false )
+            if( self::$internet->ipExists( $ipaddress ) == false )
                 throw new SyscrackException();
 
-            if( $this->finance->hasCurrentActiveAccount() == true )
-                $this->finance->setCurrentActiveAccount( null );
+            if( self::$finance->hasCurrentActiveAccount() == true )
+                self::$finance->setCurrentActiveAccount( null );
 
-            $this->internet->setCurrentConnectedAddress( null );
+            self::$internet->setCurrentConnectedAddress( null );
         }
     }

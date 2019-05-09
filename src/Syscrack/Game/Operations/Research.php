@@ -61,10 +61,23 @@ class Research extends BaseOperation
             'allowlocal'        => true,
             'allowcustomdata'   => true,
             'localonly'         => true,
-            'requiresoftware'  => true,
-            'requireloggedin'   => false,
-            'jsonoutput'        => true
+            'requiresoftware'  => false,
+            'elevated'          => true
         );
+    }
+
+    /**
+     * @param null $ipaddress
+     * @return string
+     */
+
+    public function url($ipaddress = null)
+    {
+
+        if( $ipaddress == null )
+            return( parent::url( $ipaddress ) );
+
+        return('game/internet/' . @$ipaddress . '/');
     }
 
     /**
@@ -86,71 +99,56 @@ class Research extends BaseOperation
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
     {
 
-        if( $this->checkData( $data, [ 'softwareid'] ) == false )
-        {
-
+        if( $this->checkData( $data, [ 'ipaddress'] ) == false )
             return false;
-        }
+
+        if( $this->checkCustomData( $data, ['softwareid'] ) == false )
+            return false;
 
         if ( PostHelper::checkForRequirements( ['accountnumber', 'name'] ) == false )
-        {
-
-            $this->redirectError('Missing Data' );
-        }
+            return false;
 
         if( self::$computer->hasType( $computerid, Settings::setting('syscrack_software_research_type'), true ) == false )
-        {
+            return false;
 
-            $this->redirectError('You need to install a research executable in order to preform this action');
-        }
+        if( self::$software->softwareExists( $data['custom']['softwareid'] ) == false )
+            return false;
 
-        $software = self::$software->getSoftware( $data['softwareid'] );
-        $price = Settings::setting('syscrack_research_price_multiplier') * $software->level;
+        $software = self::$software->getSoftware( $data['custom']['softwareid'] );
+        $price = Settings::setting('syscrack_research_price_multiplier') * @$software->level;
 
         if ( self::$finance->accountNumberExists( PostHelper::getPostData('accountnumber' ) ) == false )
-        {
-
-            $this->redirectError('Sorry, this account is invalid' . PostHelper::getPostData('accountnumber' )  );
-        }
+            return false;
 
         $account = self::$finance->getByAccountNumber( PostHelper::getPostData('accountnumber') );
 
         if ( self::$finance->canAfford( $account->computerid, $account->userid, $price ) == false )
-        {
-
-            $this->redirectError('Sorry, you cannot afford this');
-        }
+            return false;
 
         return true;
     }
 
     /**
-     * Renders the view page
-     *
      * @param $timecompleted
-     *
      * @param $timestarted
-     *
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
+     * @return bool|mixed
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
-        $software = self::$software->getSoftware( $data['softwareid'] );
+        $software = self::$software->getSoftware( $data['custom']['softwareid'] );
         $price = Settings::setting('syscrack_research_price_multiplier') * $software->level;
         $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
 
         self::$finance->withdraw( $account->computerid, $account->userid, $price );
 
         $newsoftware = self::$software->createSoftware( self::$software->getSoftwareNameFromSoftwareID(
-            $data['softwareid'] ),
+            $data['custom']['softwareid'] ),
             $userid,
             $computerid,
             $data['custom']['name'],
@@ -161,7 +159,10 @@ class Research extends BaseOperation
 
         self::$computer->addSoftware( $computerid, $newsoftware, $software->type);
 
-        $this->redirectSuccess();
+        if( isset( $data['redirect'] ) == false )
+            return true;
+        else
+            return( $data['redirect'] );
     }
 
     /**
@@ -179,26 +180,9 @@ class Research extends BaseOperation
 
         return array(
             'accountnumber' => PostHelper::getPostData('accountnumber', true ),
-            'name' => PostHelper::getPostData('name', true )
+            'name' => PostHelper::getPostData('name', true ),
+            'softwareid' => @PostHelper::getPostData('softwareid', true )
         );
-    }
-
-    /**
-     * Called upon a post request to this operation
-     *
-     * @param $data
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
-
-    public function onPost($data, $ipaddress, $userid)
-    {
-
-        return true;
     }
 
     /**

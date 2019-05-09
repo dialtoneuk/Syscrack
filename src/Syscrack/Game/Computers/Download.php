@@ -6,12 +6,10 @@
      *
      * Class Download
      *
-     * @package Framework\Syscrack\Game\Computer
+     * @package Framework\Syscrack\Game\Computers
      */
 
-    use Framework\Syscrack\Game\Structures\Computer as Structure;
-
-    class Download extends Npc implements Structure
+    class Download extends Npc
     {
 
         /**

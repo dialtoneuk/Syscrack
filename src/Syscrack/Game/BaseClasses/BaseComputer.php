@@ -5,7 +5,7 @@
     /**
      * Lewis Lancaster 2017
      *
-     * Class Computer
+     * Class BaseComputer
      *
      * @package Framework\Syscrack\Game\BaseClasses
      */
@@ -14,37 +14,38 @@
     use Framework\Application\UtilitiesV2\Conventions\ComputerData;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\Computer as ComputerController;
+    use Framework\Syscrack\Game\Structures\Computer as Structure;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Log;
     use Framework\Syscrack\Game\Metadata;
     use Framework\Syscrack\Game\Software;
 
-    class Computer implements \Framework\Syscrack\Game\Structures\Computer
+    class BaseComputer implements Structure
     {
 
         /**
          * @var ComputerController
          */
 
-        protected $computer;
+        protected static $computer;
 
         /**
          * @var BaseSoftware
          */
 
-        protected $software;
+        protected static $software;
 
         /**
          * @var Internet
          */
 
-        protected $internet;
+        protected static $internet;
 
         /**
          * @var Log
          */
 
-        protected $log;
+        protected static $log;
 
         /**
          * @var Metadata
@@ -53,7 +54,7 @@
         protected static $metadata;
 
         /**
-         * Computer constructor.
+         * BaseComputer constructor.
          * @param bool $createclasses
          */
 
@@ -66,10 +67,14 @@
             if( $createclasses == true )
             {
 
-                $this->computer = new ComputerController();
-                $this->software = new Software();
-                $this->internet = new Internet();
-                $this->log = new Log();
+                if( $createclasses && isset( self::$computer ) == false )
+                    self::$computer = new ComputerController();
+                if( $createclasses && isset( self::$software ) == false )
+                    self::$software = new Software();
+                if( $createclasses && isset( self::$internet ) == false )
+                    self::$internet = new Internet();
+                if( $createclasses && isset( self::$log ) == false )
+                    self::$log = new Log();
             }
         }
 
@@ -81,6 +86,18 @@
         {
 
             return( true );
+        }
+
+        /**
+         * @param $computerid
+         * @param $userid
+         * @return array
+         */
+
+        public function data($computerid, $userid)
+        {
+
+            return([]);
         }
 
         /**
@@ -133,6 +150,16 @@
             $this->metadata()->update( $computerid, array("info" => $array ) );
         }
 
+        /**
+         * @return mixed
+         */
+
+        public function canGetData()
+        {
+
+            return( @$this->configuration()["data"] );
+        }
+
 
         /**
          * Adds the software
@@ -156,17 +183,17 @@
                 if ( isset( $software['uniquename'] ) == false )
                     continue;
 
-                $class = $this->software->findSoftwareByUniqueName( $software['uniquename'] );
+                $class = self::$software->findSoftwareByUniqueName( $software['uniquename'] );
 
                 if( $class == null )
                     continue;
 
-                $name = $this->software->getNameFromClass( $class );
+                $name = self::$software->getNameFromClass( $class );
 
                 if( isset( $software['data'] ) == false )
                     $software['data'] = [];
 
-                $softwareid = $this->software->createSoftware(
+                $softwareid = self::$software->createSoftware(
                     $name,
                     $userid,
                     $computerid,
@@ -175,18 +202,18 @@
                     $software['size'],
                     $software['data'] );
 
-                $this->computer->addSoftware(
+                self::$computer->addSoftware(
                     $computerid,
                     $softwareid,
-                    $this->software->getSoftwareType( $name )
+                    self::$software->getSoftwareType( $name )
                 );
 
 
                 if( isset( $software['installed'] ) && $software['installed'] )
                 {
 
-                    $this->computer->installSoftware( $computerid, $softwareid );
-                    $this->software->installSoftware( $softwareid, $userid );
+                    self::$computer->installSoftware( $computerid, $softwareid );
+                    self::$software->installSoftware( $softwareid, $userid );
                 }
             }
         }
@@ -199,10 +226,10 @@
         {
 
             $this->clearSoftware( $computerid );
-            $this->computer->resetHardware( $computerid );
+            self::$computer->resetHardware( $computerid );
 
-            if( $this->log->hasLog( $computerid ) )
-                $this->log->saveLog( $computerid, [] );
+            if( self::$log->hasLog( $computerid ) )
+                self::$log->saveLog( $computerid, [] );
 
             if( $this->metadata()->exists( $computerid ) )
                 $this->reload( $computerid, $this->metadata()->get( $computerid ) );
@@ -221,8 +248,8 @@
         public function onStartup($computerid, $userid, array $software = [], array $hardware = [], array $custom = [])
         {
 
-            if( $this->log->hasLog( $computerid ) == false )
-                $this->log->createLog( $computerid );
+            if( self::$log->hasLog( $computerid ) == false )
+                self::$log->createLog( $computerid );
 
             $this->addSoftware( $computerid, $userid, $software );
             $this->addHardwares( $computerid, $hardware );
@@ -239,14 +266,14 @@
         public function clearSoftware( $computerid )
         {
 
-            $software = $this->computer->getComputerSoftware( $computerid );
+            $software = self::$computer->getComputerSoftware( $computerid );
 
             foreach( $software as $softwares )
             {
-                if( $this->software->softwareExists( $software['softwareid'] ) )
-                    $this->software->deleteSoftware( $software['softwareid'] );
+                if( self::$software->softwareExists( $software['softwareid'] ) )
+                    self::$software->deleteSoftware( $software['softwareid'] );
 
-                $this->computer->removeSoftware( $computerid, $software['softwareid'] );
+                self::$computer->removeSoftware( $computerid, $software['softwareid'] );
             }
         }
 
@@ -261,7 +288,7 @@
         public function setHardwares( $computerid, array $hardware )
         {
 
-            $this->computer->setHardware( $computerid, $hardware );
+            self::$computer->setHardware( $computerid, $hardware );
         }
 
         /**
@@ -275,7 +302,7 @@
         public function addHardwares( $computerid, array $hardware )
         {
 
-            $hardware = $this->computer->getComputerHardware( $computerid );
+            $hardware = self::$computer->getComputerHardware( $computerid );
 
             foreach( $hardware as $item=>$value )
             {
@@ -297,7 +324,7 @@
         public function getSoftwareClass( $uniquename )
         {
 
-            return $this->software->findSoftwareByUniqueName( $uniquename );
+            return self::$software->findSoftwareByUniqueName( $uniquename );
         }
 
         /**
@@ -309,7 +336,7 @@
         public function log( $computerid, $message, $ipaddress )
         {
 
-            $this->log->updateLog( $message, $computerid, $ipaddress );
+            self::$log->updateLog( $message, $computerid, $ipaddress );
         }
 
         /**
@@ -320,7 +347,7 @@
         public function logToIP( $ipaddress, $message )
         {
 
-            $computer = $this->internet->getComputer( $ipaddress );
+            $computer = self::$internet->getComputer( $ipaddress );
 
             if( $computer == null )
                 throw new SyscrackException();
@@ -335,7 +362,7 @@
         public function getCurrentComputerAddress()
         {
 
-            return $this->computer->getComputer( $this->computer->computerid() )->ipaddress;
+            return self::$computer->getComputer( self::$computer->computerid() )->ipaddress;
         }
 
         /**
@@ -346,6 +373,6 @@
         public function getComputerOwner( $computerid )
         {
 
-            return $this->computer->getComputer( $computerid )->userid;
+            return self::$computer->getComputer( $computerid )->userid;
         }
     }

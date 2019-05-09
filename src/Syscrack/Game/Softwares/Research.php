@@ -10,7 +10,7 @@
      */
 
     use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
-
+    use Framework\Syscrack\Game\Tool;
 
     class Research extends BaseSoftware
     {
@@ -39,20 +39,21 @@
         }
 
         /**
-         * @param $softwareid
-         * @param $userid
-         * @param $computerid
-         * @return bool|mixed
+         * @param null $userid
+         * @param null $sofwareid
+         * @param null $computerid
+         * @return Tool
          */
 
-        public function onExecuted( $softwareid, $userid, $computerid )
+        public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
         {
 
-            if( $computerid !== $this->currentComputer()->computerid )
-                $this->redirectError("Sorry, this must be executed locally", $this->currentAddress() );
-            else
-                $this->redirect('computer/research');
+            $tool = new Tool("Research Centre", "default");
+            $tool->hasSoftwareInstalled('research');
+            $tool->setAction('researchcentre');
+            $tool->localAllowed();
+            $tool->icon = 'apple';
 
-            return true;
+            return( $tool );
         }
     }

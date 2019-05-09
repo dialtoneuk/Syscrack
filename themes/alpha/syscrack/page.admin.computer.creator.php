@@ -4,7 +4,7 @@
 <html>
 <?php
 
-Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Admin | Computer Creator'));
+Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Admin | BaseComputer Creator'));
 ?>
 <body>
 <div class="container">

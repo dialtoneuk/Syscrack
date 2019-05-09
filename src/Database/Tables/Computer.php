@@ -4,7 +4,7 @@ namespace Framework\Database\Tables;
 /**
  * Lewis Lancaster 2017
  *
- * Class Computer
+ * Class BaseComputer
  *
  * @package Framework\Database\Tables
  */
