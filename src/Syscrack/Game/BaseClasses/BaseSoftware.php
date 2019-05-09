@@ -20,6 +20,7 @@
     use Framework\Syscrack\Game\Software as Database;
     use Framework\Syscrack\Game\Structures\Software;
     use Framework\Syscrack\Game\Tool;
+    use Framework\Syscrack\Game\Utilities\EmptyTool;
     use Framework\Syscrack\User;
     use Illuminate\Support\Collection;
 
@@ -105,6 +106,7 @@
                 'uninstallable' => true,
                 'executable'    => false,
                 'removable'     => false,
+                'logins'        => false,
             );
         }
 
@@ -156,6 +158,19 @@
          * @param $softwareid
          * @param $userid
          * @param $computerid
+         * @return bool|mixed
+         */
+
+        public function onLogin($softwareid, $userid, $computerid)
+        {
+
+            return true;
+        }
+
+        /**
+         * @param $softwareid
+         * @param $userid
+         * @param $computerid
          * @param $timeran
          * @return float
          */
@@ -182,22 +197,13 @@
          * @param null $userid
          * @param null $sofwareid
          * @param null $computerid
-         * @return Tool
+         * @return EmptyTool
          */
 
         public function tool($userid=null, $sofwareid=null, $computerid=null): Tool
         {
 
-            $tool = new Tool("Execute");
-            $tool->setAction("view");
-            $tool->isConnected();
-            $tool->hide();
-            $tool->hacked();
-            $tool->hasSoftwareInstalled("deleter");
-            $tool->isComputerType('fbi');
-            $tool->isExternal();
-
-            return( $tool );
+            return( new EmptyTool() );
         }
 
         /**

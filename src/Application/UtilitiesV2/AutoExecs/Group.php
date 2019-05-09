@@ -9,10 +9,9 @@
 namespace Framework\Application\UtilitiesV2\AutoExecs;
 
 
-use Framework\Application\UtilitiesV2\User;
-
-use Framework\Application\UtilitiesV2\Group as GroupManager;
 use Framework\Application\UtilitiesV2\Debug;
+use Framework\Application\UtilitiesV2\Group as GroupManager;
+use Framework\Application\UtilitiesV2\User;
 
 class Group extends Base
 {

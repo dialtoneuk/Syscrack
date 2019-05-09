@@ -177,18 +177,7 @@
                                                                         class="combobox input-sm form-control">
                                                                     <option></option>
                                                                     <?php
-                                                                    if (empty($accounts) == false) {
-
-                                                                        foreach ($accounts as $account) {
-
-                                                                            ?>
-                                                                            <option value="<?= @$account->accountnumber ?>">
-                                                                                #<?= @$account->accountnumber ?>
-                                                                                (<?= @$settings['syscrack_currency'] . number_format($account->cash) ?>
-                                                                            </option>
-                                                                            <?php
-                                                                        }
-                                                                    }
+                                                                        Render::view("syscrack/templates/template.account.search", array('values' => @$accounts ) );
                                                                     ?>
                                                                 </select>
                                                                 <button style="width: 100%; margin-top: 2.5%;"

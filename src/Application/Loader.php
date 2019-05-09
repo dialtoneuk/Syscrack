@@ -9,10 +9,9 @@ namespace Framework\Application;
  * @package Framework
  */
 
-use Framework\Application\UtilitiesV2\Debug;
+use Exception;
 use Framework\Exceptions\ApplicationException;
 use ReflectionMethod;
-use Exception;
 
 class Loader
 {

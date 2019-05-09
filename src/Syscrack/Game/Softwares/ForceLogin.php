@@ -4,7 +4,7 @@
     /**
      * Lewis Lancaster 2017
      *
-     * Class ForceConnect
+     * Class ForceLogin
      *
      * @package Framework\Syscrack\Game\Softwares
      */
@@ -12,7 +12,7 @@
     use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
     use Framework\Syscrack\Game\Tool;
 
-    class ForceConnect extends BaseSoftware
+    class ForceLogin extends BaseSoftware
     {
 
         /**
@@ -25,7 +25,7 @@
         {
 
             return array(
-                'uniquename'        => 'forceconnect',
+                'uniquename'        => 'forcelogin',
                 'extension'         => '.admin',
                 'type'              => 'admin',
                 'installable'       => true,
@@ -44,9 +44,10 @@
         public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
         {
 
-            $tool = new Tool("Force Login", "info");
+            $tool = new Tool("Force Login", "success");
             $tool->admin();
             $tool->setAction('forcelogin');
+            $tool->icon = "info-sign";
 
             return( $tool );
         }

@@ -9,7 +9,6 @@
 namespace Framework\Tests;
 
 use Framework\Syscrack\Game\Metadata;
-use PHPUnit\Framework\TestCase;
 
 class MetadataTest extends BaseTestCase
 {

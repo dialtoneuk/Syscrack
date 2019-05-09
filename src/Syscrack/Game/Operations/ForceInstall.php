@@ -4,16 +4,18 @@ namespace Framework\Syscrack\Game\Operations;
 /**
  * Lewis Lancaster 2017
  *
- * Class ForceDelete
+ * Class ForceInstall
  *
  * @package Framework\Syscrack\Game\Operations
  */
 
+use Framework\Application\Settings;
 use Framework\Application\Utilities\PostHelper;
+use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 use Framework\Syscrack\Game\Viruses;
 
-class ForceDelete extends BaseOperation
+class ForceInstall extends BaseOperation
 {
 
     /**
@@ -23,7 +25,13 @@ class ForceDelete extends BaseOperation
     protected static $viruses;
 
     /**
-     * Delete constructor.
+     * @var AddressDatabase
+     */
+
+    protected static $addressdatabase;
+
+    /**
+     * Install constructor.
      */
 
     public function __construct()
@@ -31,6 +39,9 @@ class ForceDelete extends BaseOperation
 
         if( isset( self::$viruses ) == false )
             self::$viruses = new Viruses();
+
+        if( isset( self::$addressdatabase ) == false )
+            self::$addressdatabase = new AddressDatabase();
 
         parent::__construct( true );
     }
@@ -50,7 +61,7 @@ class ForceDelete extends BaseOperation
             'requiresoftware'  => false,
             'requireloggedin'   => true,
             'allowpost'         => false,
-            'allowcustomdata'   => true
+            'allowcustomdata'   => true,
         );
     }
 
@@ -65,9 +76,8 @@ class ForceDelete extends BaseOperation
         return("admin/computer/edit/" . @$this->getComputerId( $ipaddress  ) );
     }
 
-
     /**
-     * Called when this process request is created
+     * Called when a process with the corresponding operation is created
      *
      * @param $timecompleted
      *
@@ -79,7 +89,8 @@ class ForceDelete extends BaseOperation
      *
      * @param array $data
      *
-     * @return mixed
+     *
+     * @return bool
      */
 
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
@@ -88,11 +99,14 @@ class ForceDelete extends BaseOperation
         if( $this->checkData( $data, ['ipaddress'] ) == false )
             return false;
 
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
+            return false;
+
         if( $this->checkCustomData( $data, ['softwareid'] ) == false )
             return false;
 
-        if( self::$user->isAdmin( $userid ) == false )
-           return false;
+        if( self::$software->softwareExists( $data['custom']['softwareid'] ) == false )
+            return false;
 
         return true;
     }
@@ -104,7 +118,7 @@ class ForceDelete extends BaseOperation
      * @param $userid
      * @param $process
      * @param array $data
-     * @return bool|string
+     * @return bool|mixed
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -113,15 +127,31 @@ class ForceDelete extends BaseOperation
         if( $this->checkData( $data, ['ipaddress'] ) == false )
             return false;
 
-        if( $this->checkCustomData( $data, ['softwareid'] ) == false )
-            return false;
-        
-        if( self::$user->isAdmin( $userid ) == false )
+        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
             return false;
 
-        $software = self::$software->getSoftware( $data['custom']['softwareid'] );
-        self::$software->deleteSoftware( $software->softwareid );
-        self::$computer->removeSoftware( $this->getComputerId( $data['ipaddress'] ), $software->softwareid );
+        if( $this->checkCustomData( $data, ['softwareid'] ) == false )
+            return false;
+
+        if( self::$software->softwareExists( $data['custom']['softwareid'] ) == false )
+            return false;
+
+        self::$software->installSoftware( $data['custom']['softwareid'], $userid );
+        self::$computer->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['custom']['softwareid'] );
+        self::$software->executeSoftwareMethod( self::$software->getSoftwareNameFromSoftwareID( $data['custom']['softwareid'] ), 'onInstalled', array(
+            'softwareid'    => $data['custom']['softwareid'],
+            'userid'        => $userid,
+            'computerid'    => $this->getComputerId( $data['ipaddress'] )
+        ));
+
+        if( self::$viruses->isVirus( $data['custom']['softwareid'] ) == true )
+        {
+
+            if( Settings::setting('syscrack_statistics_enabled') == true )
+                self::$statistics->addStatistic('virusinstalls');
+
+            self::$addressdatabase->addVirus( $data['ipaddress'], $data['custom']['softwareid'], $userid );
+        }
 
         if( isset( $data['redirect'] ) == false )
             return true;
@@ -145,11 +175,12 @@ class ForceDelete extends BaseOperation
         if (PostHelper::checkForRequirements(['softwareid']) == false)
             return null;
 
+
         return array('softwareid' => PostHelper::getPostData('softwareid'));
     }
 
     /**
-     * Returns the completion time for this action
+     * Gets the completion speed
      *
      * @param $computerid
      *

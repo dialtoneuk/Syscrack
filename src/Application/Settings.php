@@ -9,8 +9,6 @@ namespace Framework\Application;
  * @package Framework
  */
 
-use Framework\Application\Utilities\Log;
-use Framework\Application\UtilitiesV2\Debug;
 use Framework\Exceptions\ApplicationException;
 
 class Settings

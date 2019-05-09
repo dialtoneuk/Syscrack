@@ -7,9 +7,8 @@ namespace Framework\Application\UtilitiesV2\Scripts;
  * Automatically created at: 2018-09-01 19:49:11
  */
 
-use Framework\Application\UtilitiesV2\Format;
-use Framework\Application\UtilitiesV2\Scripts\Base;
 use Framework\Application\UtilitiesV2\Debug;
+use Framework\Application\UtilitiesV2\Format;
 
 class Globals extends Base
 {

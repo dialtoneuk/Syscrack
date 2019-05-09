@@ -9,13 +9,13 @@ namespace Framework;
  * @package Framework
  */
 
+use Flight;
+use Framework\Application\Container;
 use Framework\Application\ErrorHandler;
 use Framework\Application\Loader;
+use Framework\Application\UtilitiesV2\Debug;
 use Framework\Exceptions\ApplicationException;
 use Framework\Views\Controller;
-use Framework\Application\Container;
-use Framework\Application\UtilitiesV2\Debug;
-use Flight;
 
 class Application
 {

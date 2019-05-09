@@ -9,9 +9,9 @@
      * @package Framework\Views\Pages
      */
 
-    use Framework\Application\Render;
     use Framework\Application\Container;
     use Framework\Application\Mailer;
+    use Framework\Application\Render;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;

@@ -9,8 +9,8 @@
 namespace Framework\Application\UtilitiesV2\Setups;
 
 
-use Framework\Application\UtilitiesV2\Interfaces\Setup;
 use Framework\Application\UtilitiesV2\Debug;
+use Framework\Application\UtilitiesV2\Interfaces\Setup;
 
 abstract class Base implements Setup
 {

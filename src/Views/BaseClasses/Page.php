@@ -115,8 +115,12 @@
             }
 
             if( $requirelogin && $session )
-                if ( $this->isLoggedIn()  == false)
+                if ( $this->isLoggedIn()  == false )
+                {
+
                     Render::redirect( Settings::setting('controller_index_root') . Settings::setting('controller_index_page') );
+                    exit;
+                }
                 else
                     self::$session->updateLastAction();
 
@@ -346,6 +350,9 @@
             if( isset( $array["user"] ) == false && $userid !== null )
                 $array["user"] = self::$user->getUser( $userid );
 
+            if( isset( $array["localsoftwares"] ) == false )
+                $array["localsoftwares"] = self::$software->getSoftwareOnComputer( self::$computer->computerid() );
+
             if( $obclean )
                 ob_clean();
 
@@ -388,6 +395,9 @@
 
                 $requirements = $tool->getRequirements();
 
+                if( isset( $requirements["empty"] ) && $requirements["empty"] )
+                    continue;
+
                 if( $software_action )
                 {
 
@@ -411,7 +421,8 @@
                         continue;
 
                 if( isset( $requirements["admin"] ) )
-                    continue;
+                    if( self::$user->isAdmin( $userid ) == false )
+                        continue;
 
                 if( isset( $requirements['type'] ) )
                     if( $target->type !== $requirements['type'] )

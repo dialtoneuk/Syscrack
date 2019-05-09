@@ -8,7 +8,6 @@
 
 namespace Framework\Application\UtilitiesV2;
 
-use Framework\Application\UtilitiesV2\Container;
 use Framework\Application\UtilitiesV2\Interfaces\Script;
 
 class Scripts

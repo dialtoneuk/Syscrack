@@ -8,10 +8,10 @@
 
 namespace Framework\Tests;
 
-use PHPUnit\Framework\TestCase;
-use Framework\Application\Settings;
 use Framework\Application;
+use Framework\Application\Settings;
 use Framework\Application\UtilitiesV2\Debug;
+use PHPUnit\Framework\TestCase;
 
 class BaseTestCase extends TestCase
 {

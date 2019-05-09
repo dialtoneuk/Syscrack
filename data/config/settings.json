@@ -248,7 +248,7 @@
     "syscrack_vpc_viewcount": 5,
     "syscrack_vpc_purchase_increase": 2.5,
     "syscrack_vpc_purchase_price": 1000,
-    "syscrack_whois_computer": 2,
+    "syscrack_whois_computer": 70,
     "syscrack_whois_default_computers": [
         30,
         31,

@@ -10,7 +10,6 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Application\Settings;
-use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 use Framework\Syscrack\Game\Viruses;
 

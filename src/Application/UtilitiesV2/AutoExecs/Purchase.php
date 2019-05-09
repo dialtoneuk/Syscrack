@@ -9,8 +9,8 @@
 namespace Framework\Application\UtilitiesV2\AutoExecs;
 
 
-use Framework\Application\UtilitiesV2\Shop;
 use Framework\Application\UtilitiesV2\Balance;
+use Framework\Application\UtilitiesV2\Shop;
 
 class Purchase extends Base
 {

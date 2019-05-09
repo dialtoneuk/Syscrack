@@ -8,8 +8,8 @@
 
 namespace Framework\Application\UtilitiesV2\Migrators;
 
-use Framework\Application\UtilitiesV2\Featured as Features;
 use Framework\Application\UtilitiesV2\Debug;
+use Framework\Application\UtilitiesV2\Featured as Features;
 
 class Featured extends Base
 {

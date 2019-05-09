@@ -1,50 +1,5 @@
 <?php
-
-use Framework\Application\Container;
-use Framework\Application\Render;
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\AccountDatabase;
-use Framework\Syscrack\Game\Computer;
-use Framework\Syscrack\Game\Finance;
-use Framework\Syscrack\Game\Schema;
-use Framework\Syscrack\Game\Utilities\PageHelper;
-
-$session = Container::getObject('session');
-
-if ($session->isLoggedIn()) {
-
-    $session->updateLastAction();
-}
-
-if (isset($finance) == false) {
-
-    $finance = new Finance();
-}
-
-if (isset($computer_controller) == false) {
-
-    $computer_controller = new Computer();
-}
-
-if (isset($pagehelper) == false) {
-
-    $pagehelper = new PageHelper();
-}
-
-if (isset($accountdatabase) == false) {
-
-    $bankdatabase = new AccountDatabase();
-}
-
-$accounts = $finance->getUserBankAccounts($session->userid());
-
-if ( empty( $accounts ) )
-{
-
-    Render::redirect('/game/internet/');
-
-    exit;
-}
+    use Framework\Application\Render;
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,71 +23,40 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
     Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row">
-        <div class="col-sm-12">
-            <h5 style="color: #ababab" class="text-uppercase">
-                Finances
-            </h5>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-sm-4">
-            <div class="panel panel-info">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     Total Cash
                 </div>
                 <div class="panel-body text-center">
-
-                    <?php
-
-                    if ($pagehelper->getRawCashValue() <= 10000000) {
-
-                        ?>
-                        <h1>
-                            <?= $settings['syscrack_currency'] . $pagehelper->getCash() ?>
-                        </h1>
-                        <?php
-                    } else {
-
-                        ?>
-                        <h5>
-                            <?= $settings['syscrack_currency'] . $pagehelper->getCash() ?>
-                        </h5>
-                        <?php
-                    }
-                    ?>
+                    <h1><?= @$settings['syscrack_currency'] . number_format( @$cash )?></h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     Number of Accounts
                 </div>
                 <div class="panel-body text-center">
                     <h1>
-                        <?= count($accounts) ?>
+                        <?= @count(@$accounts) ?>
                     </h1>
                 </div>
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div class="panel-heading">
-                    Accounts Hacked <span class="badge" style="float: right;"><a href="/game/accountbook"
-                                                                                 style="color: rgb(136, 136, 136);">Go to Account Book</a></span>
+                    Accounts Hacked <a style="float: right;" href="/game/accountbook">Go to Account Book</a>
                 </div>
                 <div class="panel-body text-center">
                     <h1>
                         <?php
-                        $count = $bankdatabase->getDatabase($session->userid());
-
-                        if (empty($count) == false) {
-
-                            echo count($count);
-                        } else {
-
+                        if (empty($bankdatabase) == false)
+                            echo count(@$count);
+                        else
                             echo 0;
-                        }
                         ?>
                     </h1>
                 </div>
@@ -174,74 +98,67 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                     </div>
                 </div>
                 <?php
-            } else {
-
-                $npc = new Schema();
-
-                foreach ($accounts as $account) {
-
-                    if ($computer_controller->computerExists($account->computerid) == false) {
-
-                        continue;
-                    }
-
+            } 
+            else 
+            {
+                foreach ($accounts as $account) 
+                {
+                    
                     ?>
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            #<?= $account->accountnumber ?>
-
-                            <span class="badge" style="float: right;">
-                                                <?php
-                                                if ($npc->hasSchema($account->computerid)) {
-
-                                                    $schema = $npc->getSchema($account->computerid);
-
-                                                    if (isset($schema['name']) == false) {
-
-                                                        echo($computer_controller->getComputer($account->computerid)->ipaddress);
-                                                    } else {
-
-                                                        echo($schema['name']);
-                                                    }
-                                                } else {
-
-                                                    echo($computer_controller->getComputer($account->computerid)->ipaddress);
-                                                }
-                                                ?>
-                                            </span>
-                        </div>
+                    <div class="panel panel-default">
                         <div class="panel panel-body" style="margin-bottom: 0; padding-bottom: 0;">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="well">
-                                        <?= $settings['syscrack_currency'] . number_format($account->cash) ?>
+                            <?php
+                                if( isset( $metaset[ $account->computerid ] ) )
+                                {
+                                    $metadata = $metaset[ $account->computerid ];
+
+                                    ?>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <h5>Account #<?=$account->accountnumber?><small> at <?=@$metadata->custom["name"]?></small></h5>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                    <?php
+                                }
+                            ?>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             Bank Address
-                                            <span class="badge right">
-                                                                <a style="color: white;"
-                                                                   href="/game/internet/<?= $computer_controller->getComputer($account->computerid)->ipaddress ?>">
-                                                                    <?= $computer_controller->getComputer($account->computerid)->ipaddress ?>
-                                                                </a>
-                                                            </span>
+                                            <p class="right">
+                                                <a style="color: white;" href="/game/internet/<?= @$addresses[ $account->computerid ]?>">
+                                                    <?=  @$addresses[ $account->computerid ] ?>
+                                                </a>
+                                            </p>
                                         </li>
                                         <li class="list-group-item">
-                                            Account Number <span
-                                                    class="badge right"><?= $account->accountnumber ?></span>
+                                            <small>Account Number</small>
+                                            <p><?= @$account->accountnumber ?></p>
                                         </li>
                                         <li class="list-group-item">
-                                            Account ID <span class="badge right"><?= $account->accountid ?></span>
+                                            <small>Account ID</small>
+                                            <p><?= @$account->accountid ?></p>
                                         </li>
                                         <li class="list-group-item">
-                                            Time Created <span
-                                                    class="badge right"><?= date("F j, Y, g:i a", $account->timecreated) ?></span>
+                                            <small>Time Created</small>
+                                            <p><?= @date("F j, Y, g:i a", $account->timecreated) ?><p>
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="panel panel-success">
+                                        <div class="panel-body text-center">
+                                            <h5><?= @$settings['syscrack_currency'] . number_format($account->cash) ?></h5>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

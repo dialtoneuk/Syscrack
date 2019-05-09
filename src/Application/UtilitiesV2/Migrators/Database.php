@@ -8,8 +8,8 @@
 
 namespace Framework\Application\UtilitiesV2\Migrators;
 
-use Framework\Application\UtilitiesV2\Container;
 use Colourspace\Database\Migrator;
+use Framework\Application\UtilitiesV2\Container;
 
 class Database extends Base
 {

@@ -9,8 +9,8 @@
 namespace Framework\Application\UtilitiesV2\Scripts;
 
 use Framework\Application\UtilitiesV2\Container;
-use Framework\Application\UtilitiesV2\Moderation;
 use Framework\Application\UtilitiesV2\Debug;
+use Framework\Application\UtilitiesV2\Moderation;
 
 class AutoUnban extends Base
 {

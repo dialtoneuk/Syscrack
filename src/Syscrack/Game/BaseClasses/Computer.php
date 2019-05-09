@@ -11,13 +11,13 @@
      */
 
     use Framework\Application\Settings;
+    use Framework\Application\UtilitiesV2\Conventions\ComputerData;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\Computer as ComputerController;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Log;
     use Framework\Syscrack\Game\Metadata;
     use Framework\Syscrack\Game\Software;
-    use Framework\Application\UtilitiesV2\Conventions\ComputerData;
 
     class Computer implements \Framework\Syscrack\Game\Structures\Computer
     {

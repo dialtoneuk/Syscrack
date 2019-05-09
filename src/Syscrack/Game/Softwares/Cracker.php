@@ -35,6 +35,13 @@
             );
         }
 
+        /**
+         * @param null $userid
+         * @param null $sofwareid
+         * @param null $computerid
+         * @return Tool
+         */
+
         public function tool($userid=null, $sofwareid=null, $computerid=null): Tool
         {
 

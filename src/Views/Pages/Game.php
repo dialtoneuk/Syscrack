@@ -9,16 +9,15 @@
      * @package Framework\Views\Pages
      */
 
-    use Framework\Application\Render;
     use Framework\Application\Container;
-    use Framework\Syscrack\Game\Log;
-    use Framework\Syscrack\Game\Metadata;
+    use Framework\Application\Render;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\Finance;
+    use Framework\Syscrack\Game\Log;
+    use Framework\Syscrack\Game\Metadata;
     use Framework\Syscrack\Game\Operations;
-    use Framework\Syscrack\Game\Tool;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -44,6 +43,12 @@
 
         protected static $log;
 
+        /**
+         * @var Finance
+         */
+
+        protected static $finance;
+
 
         /**
          * Game constructor.
@@ -60,6 +65,9 @@
 
             if( isset( self::$log ) == false )
                 self::$log = new Log();
+            
+            if( isset( self::$finance ) == false )
+                self::$finance = new Finance();
 
             parent::__construct( true, true, true, true );
         }
@@ -164,7 +172,9 @@
         public function computer()
         {
 
-            $this->getRender('syscrack/page.game.computer');
+            $computer = self::$computer->getComputer( self::$computer->computerid() );
+
+            $this->getRender('syscrack/page.game.computer', ['computer' => $computer, 'accounts' => self::$finance->getUserBankAccounts( self::$session->userid() )], true, self::$session->userid(), self::$computer->computerid() );
         }
 
         /**
@@ -183,19 +193,17 @@
                     $this->redirectError('Account number is invalid', 'game/computer/');
                 else
                 {
-
-                    $finance = new Finance();
-
-                    if ( $finance->accountNumberExists(  PostHelper::getPostData('accountnumber', true ) ) == false )
+                    
+                    if ( self::$finance->accountNumberExists(  PostHelper::getPostData('accountnumber', true ) ) == false )
                         $this->redirectError('Account number is invalid', 'game/computer/');
                     else
                     {
 
-                        $account = $finance->getByAccountNumber( PostHelper::getPostData('accountnumber', true ) );
+                        $account = self::$finance->getByAccountNumber( PostHelper::getPostData('accountnumber', true ) );
 
                         if ( $account->userid !== self::$session->userid() )
                             $this->redirectError('Invalid', 'game/computer/');
-                        else if ( $finance->canAfford( $account->computerid, $account->userid, $this->getVPCPrice( self::$session->userid() ) ) == false )
+                        else if ( self::$finance->canAfford( $account->computerid, $account->userid, $this->getVPCPrice( self::$session->userid() ) ) == false )
                             $this->redirectError('Sorry, you cannot afford this transaction!', 'game/computer/');
                         else
                         {
@@ -211,7 +219,7 @@
 
                             $class = self::$computer->getComputerClass( Settings::setting('syscrack_startup_default_computer') );
                             $class->onStartup( $computerid, self::$session->userid(), [], Settings::setting('syscrack_default_hardware') );
-                            $finance->withdraw( $account->computerid, $account->userid, $this->getVPCPrice( self::$session->userid() ) );
+                            self::$finance->withdraw( $account->computerid, $account->userid, $this->getVPCPrice( self::$session->userid() ) );
                             $this->redirectSuccess('game/computer/');
                         }
                     }
@@ -352,7 +360,7 @@
                             'downloads'         => $downloads,
                             'tools_software'    => $tools_software,
                             'softwares'         => $softwares,
-                            'computer_softwares' => self::$software->getSoftwareOnComputer( self::$computer->computerid() )
+                            'localsoftwares' => self::$software->getSoftwareOnComputer( self::$computer->computerid() )
                     ),
                     true,
                     self::$session->userid(),
@@ -425,10 +433,13 @@
                     {
 
                         if( self::$operations->hasPostRequirements( $process ) == true )
-                            if( PostHelper::checkForRequirements( self::$operations->getPostRequirements( $process ) ) == false )
-                                $this->redirectError('Missing information', $this->getRedirect( $ipaddress ) );
+                        {
+
+                            if (PostHelper::checkForRequirements(self::$operations->getPostRequirements($process)) == false)
+                                $this->redirectError('Missing information', $this->getRedirect($ipaddress));
                             else
-                                $result = $class->onPost( PostHelper::getPost(), $ipaddress, self::$session->userid() );
+                                $result = $class->onPost(PostHelper::getPost(), $ipaddress, self::$session->userid());
+                        }
                         else
                             $result = $class->onPost( PostHelper::getPost(), $ipaddress, self::$session->userid() );
                     }
@@ -436,7 +447,7 @@
                         $result = true;
 
                     if( $result === false )
-                        $this->redirectError('Unable to complete process', $this->getRedirect( $ipaddress ) );
+                        $this->redirectError('Post invalid process', $this->getRedirect( $ipaddress ) );
                     elseif( $result === null )
                         return true;
                     else
@@ -621,6 +632,12 @@
 
             if( isset( $array["tools"] ) == false && $userid !== null && $computerid !== null )
                 $array["tools"] = $this->tools( $userid, $computerid, false  );
+
+            iF( isset( $array['computers'] ) == false && $userid !== null )
+                $array['computers'] = self::$computer->getUserComputers( $userid );
+
+            if( isset( $array["accounts"] ) == false && $userid !== null )
+                $array["accounts"] = self::$finance->getUserBankAccounts( $userid );
 
             if( isset( $array["log"] ) == false && $computerid !== null )
                 $array["log"] = self::$log->getCurrentLog( $computerid );

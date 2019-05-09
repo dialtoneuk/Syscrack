@@ -284,11 +284,8 @@ class Finance
     public function hasAccountAtComputer( $computerid, $userid )
     {
 
-        if( $this->getAccountAtBank( $computerid, $userid ) == null )
-        {
-
+        if( $this->getAccountAtBank( $computerid, $userid ) === null )
             return false;
-        }
 
         return true;
     }
@@ -303,6 +300,8 @@ class Finance
 
     public function createAccount( $computerid, $userid )
     {
+
+
 
         if( $this->getAccountAtBank( $computerid, $userid ) !== null )
         {

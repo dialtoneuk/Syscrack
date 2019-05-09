@@ -9,7 +9,6 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
-use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 use Framework\Syscrack\Game\Finance;
 
@@ -78,7 +77,6 @@ class Bank extends BaseOperation
         if( $this->checkData( $data, ['ipaddress'] ) == false )
             return false;
 
-
         $computer = self::$internet->getComputer( $data['ipaddress'] );
 
         if( self::$computer->isBank( $computer->computerid ) == false )
@@ -103,11 +101,10 @@ class Bank extends BaseOperation
         if( $this->checkData( $data, ['ipaddress'] ) == false )
             return false;
 
-
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
             return false;
 
-        $this->render('operations/operations.bank', array( 'ipaddress' => $data['ipaddress'], 'userid' => $userid ), true );
+        $this->render('operations/operations.bank', array( 'ipaddress' => $data['ipaddress'], 'account' => self::$finance->getAccountAtBank( $this->getComputerId( $data["ipaddress"]), $userid )), true );
         return null;
     }
 
@@ -125,20 +122,21 @@ class Bank extends BaseOperation
 
         if( $data['action'] == 'create' )
         {
-            if( self::$finance->hasAccountAtComputer( $computer->computerid, $userid ) == true )
-                return false;
-            else
-                self::$finance->createAccount( $computer->computerid, $userid );
+
+            if( self::$finance->hasAccountAtComputer( $computer->computerid, $userid ) )
+                return true;
+
+            self::$finance->createAccount( $computer->computerid, $userid );
         }
         elseif( $data['action'] == "delete" )
         {
 
             if( self::$finance->hasAccountAtComputer( $computer->computerid, $userid ) == false )
-                return false;
-            else
-                self::$finance->removeAccount( $computer->computerid, $userid );
+                return true;
+
+            self::$finance->removeAccount( $computer->computerid, $userid );
         }
 
-        return null;
+        return true;
     }
 }

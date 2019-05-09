@@ -4,17 +4,16 @@
     /**
      * Lewis Lancaster 2017
      *
-     * Class Upload
+     * Class ForceUpload
      *
      * @package Framework\Syscrack\Game\Operations
      */
 
-    use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 
 
-    class Upload extends BaseOperation
+    class ForceUpload extends BaseOperation
     {
 
         /**
@@ -35,6 +34,17 @@
         }
 
         /**
+         * @param null $ipaddress
+         * @return string
+         */
+
+        public function url($ipaddress = null)
+        {
+
+            return("admin/computer/edit/" . @$this->getComputerId( $ipaddress  ) );
+        }
+
+        /**
          * @param $timecompleted
          * @param $computerid
          * @param $userid
@@ -46,7 +56,6 @@
         public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
         {
 
-
             if( $this->checkData( $data, ['ipaddress'] ) == false )
                 return false;
 
@@ -56,15 +65,7 @@
             if( self::$software->softwareExists( $data['custom']['softwareid'] ) == false )
                 return false;
 
-            $software = self::$software->getSoftware( $data['custom']['softwareid'] );
-
-            if( $this->hasSpace( $this->getComputerId( $data['ipaddress'] ), $software->size ) == false )
-                return false;
-
-            if( self::$computer->hasSoftware( $computerid, $software->softwareid ) == false )
-                return false;
-
-            if( self::$computer->isInstalled( $computerid, $software->softwareid ) == true )
+            if( self::$user->isAdmin( $userid ) == false )
                 return false;
 
             return true;
@@ -90,6 +91,9 @@
                 return false;
 
             if( $this->checkCustomData( $data, ['softwareid'] ) == false )
+                return false;
+
+            if( self::$user->isAdmin( $userid ) == false )
                 return false;
 
             if( self::$software->softwareExists( $data['custom']['softwareid'] ) == false )
@@ -119,9 +123,6 @@
             if( self::$computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid ) == false )
                 return false;
 
-            $this->logUpload( $software, $this->getComputerId( $data['ipaddress'] ), self::$computer->getComputer( $computerid )->ipaddress );
-            $this->logLocal( $software, $data['ipaddress'] );
-
             if( isset( $data['redirect'] ) == false )
                 return true;
             else
@@ -138,7 +139,7 @@
         public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
         {
 
-            return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_upload_type'), 20, $softwareid );
+            return null;
         }
 
         /**
@@ -151,45 +152,13 @@
         {
 
             if( PostHelper::hasPostData() == false )
-            {
-
                 return null;
-            }
 
             if( PostHelper::checkForRequirements( ['softwareid'] ) == false )
-            {
-
                 return null;
-            }
 
             return array(
                 'softwareid' => PostHelper::getPostData('softwareid')
             );
-        }
-
-        /**
-         * @param $softwarename
-         * @param $computerid
-         * @param $ipaddress
-         */
-
-        private function logUpload( $software, $computerid, $ipaddress )
-        {
-
-            $this->logToComputer('Uploaded file ' . $software->softwarename . ' (' . $software->level . ') on root', $computerid, $ipaddress );
-        }
-
-        /**
-         * Logs to the local log
-         *
-         * @param $softwarename
-         *
-         * @param $ipaddress
-         */
-
-        private function logLocal( $software, $ipaddress )
-        {
-
-            $this->logToComputer('Uploaded file ' . $software->softwarename . ' (' . $software->level . ') on <' . $ipaddress . '>', self::$computer->getComputer( self::$computer->computerid() )->computerid, 'localhost' );
         }
     }

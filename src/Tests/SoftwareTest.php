@@ -9,7 +9,6 @@
 namespace Framework\Tests;
 
 use Framework\Syscrack\Game\Software;
-use PHPUnit\Framework\TestCase;
 
 class SoftwareTest extends BaseTestCase
 {

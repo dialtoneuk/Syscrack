@@ -9,15 +9,15 @@
      * @package Framework\Views\Pages
      */
 
-    use Framework\Application\Render;
+    use Flight;
     use Framework\Application\Api\Controller;
     use Framework\Application\Api\Manager;
+    use Framework\Application\Render;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\ViewException;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
-    use Flight;
 
     class Api extends BaseClass implements Structure
     {

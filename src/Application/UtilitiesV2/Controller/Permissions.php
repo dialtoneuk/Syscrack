@@ -9,10 +9,10 @@
 namespace Framework\Application\UtilitiesV2\Controller;
 
 
+use Framework\Application\UtilitiesV2\Collector;
 use Framework\Application\UtilitiesV2\Container;
 use Framework\Application\UtilitiesV2\Group;
 use Framework\Application\UtilitiesV2\User;
-use Framework\Application\UtilitiesV2\Collector;
 
 class Permissions
 {

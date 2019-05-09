@@ -1,27 +1,5 @@
 <?php
-
-use Framework\Application\Render;
-use Framework\Application\Container;
-use Framework\Application\Settings;
-
-if ( isset( $computer_controller ) == false )
-{
-
-    $computer_controller = new \Framework\Syscrack\Game\Computer();
-}
-
-if ( isset( $finance ) == false )
-{
-
-    $finance = new \Framework\Syscrack\Game\Finance();
-}
-
-$session = Container::getObject('session');
-
-$accounts = $finance->getUserBankAccounts( $session->userid() );
-
-$allcomputers = $computer_controller->getUserComputers( $session->userid() )
-
+    use Framework\Application\Render;
 ?>
 <!DOCTYPE html>
 <html style="overflow-x: hidden;">
@@ -62,33 +40,17 @@ $allcomputers = $computer_controller->getUserComputers( $session->userid() )
                                 <div class="panel-body">
 
                                     <?php
-                                    if ( $accounts->isEmpty() == false )
+                                    if ( empty( $accounts ) == false )
                                     {
 
                                         ?>
                                         <form method="post" action="/game/computer/">
                                             <p>
-                                                You may purchase a band new computer for <?= number_format( count( $allcomputers ) * ( $settings['syscrack_vpc_purchase_price'] * $settings['syscrack_vpc_purchase_increase'] ) ) ?>
+                                                You may purchase a band new computer for <?= number_format( count( $computers) * ( $settings['syscrack_vpc_purchase_price'] * $settings['syscrack_vpc_purchase_increase'] ) ) ?>
                                             </p>
-                                            <select name="accountnumber" id="accountnumber" class="combobox input-sm form-control">
-                                                <option></option>
-
-                                                <?php
-                                                if (empty($accounts) == false) {
-
-                                                    foreach ($accounts as $account) {
-
-                                                        ?>
-                                                        <option value="<?= $account->accountnumber ?>">
-                                                            #<?= $account->accountnumber ?>
-                                                            (<?= $settings['syscrack_currency'] . number_format($account->cash) ?>
-                                                            )
-                                                            @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
+                                            <?php
+                                                Render::view("syscrack/templates/template.account.search", array('values' => @$accounts ) );
+                                            ?>
                                             <div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-top: 2.5%;">
                                                 <div class="btn-group" role="group">
                                                     <button type="submit" class="btn btn-success">Purchase
@@ -121,7 +83,7 @@ $allcomputers = $computer_controller->getUserComputers( $session->userid() )
                                         Total Computers
                                     </h4>
                                     <p>
-                                        <?=count( $allcomputers )?>
+                                        <?=count($computers)?>
                                     </p>
                                 </div>
                             </div>
@@ -145,10 +107,6 @@ $allcomputers = $computer_controller->getUserComputers( $session->userid() )
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <?php
-
-                        $currentcomputer = $computer_controller->getComputer( $computer_controller->computerid() );
-                    ?>
                     <div class="row">
                         <div class="col-sm-12">
                             <h4>
@@ -159,7 +117,7 @@ $allcomputers = $computer_controller->getUserComputers( $session->userid() )
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <h5>
-                                                <?=$currentcomputer->ipaddress?> <span class="badge" style="float: right;"><?=$currentcomputer->type?></span>
+                                                <?=$computer->ipaddress?> <span class="badge" style="float: right;"><?=$computer->type?></span>
                                             </h5>
                                         </div>
                                         <div class="col-sm-8">
@@ -182,13 +140,12 @@ $allcomputers = $computer_controller->getUserComputers( $session->userid() )
                     </div>
                     <?php
 
-                    foreach ( $allcomputers as $key=>$value )
+                    foreach ( $computers as $key=>$value )
                     {
 
-                        if ( $computer_controller->computerid() == $value->computerid)
-                        {
+                        if ( $computer->computerid == $value->computerid)
                             continue;
-                        }
+
                     ?>
                         <div class="row">
                             <div class="col-sm-12">

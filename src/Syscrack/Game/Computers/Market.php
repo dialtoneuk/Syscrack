@@ -9,11 +9,10 @@
      * @package Framework\Syscrack\Game\Computer
      */
 
-    use Framework\Application\Settings;
     use Framework\Application\Utilities\FileSystem;
     use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\Market as MarketController;
     use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
+    use Framework\Syscrack\Game\Market as MarketController;
     use Framework\Syscrack\Game\Structures\Computer as Structure;
 
     class Market extends BaseClass implements Structure

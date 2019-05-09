@@ -9,10 +9,9 @@
      * @package Framework\Syscrack\Game\Computer
      */
 
-    use Framework\Application\Settings;
     use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\AddressDatabase;
     use Framework\Syscrack\Game\AccountDatabase;
+    use Framework\Syscrack\Game\AddressDatabase;
     use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
     use Framework\Syscrack\Game\Structures\Computer as Structure;
 

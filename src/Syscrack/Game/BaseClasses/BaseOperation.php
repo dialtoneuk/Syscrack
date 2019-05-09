@@ -9,20 +9,19 @@ namespace Framework\Syscrack\Game\BaseClasses;
  * @package Framework\Syscrack\Game
  */
 
-use Flight;
 use Framework\Application\Container;
 use Framework\Application\Render;
 use Framework\Application\Settings;
 use Framework\Application\Utilities\ArrayHelper;
 use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Finance;
-use Framework\Syscrack\Game\Structures\Operation;
 use Framework\Syscrack\Game\Computer;
+use Framework\Syscrack\Game\Finance;
 use Framework\Syscrack\Game\Hardware;
 use Framework\Syscrack\Game\Internet;
 use Framework\Syscrack\Game\Log;
-use Framework\Syscrack\Game\Statistics;
 use Framework\Syscrack\Game\Software;
+use Framework\Syscrack\Game\Statistics;
+use Framework\Syscrack\Game\Structures\Operation;
 use Framework\Syscrack\Game\Utilities\TimeHelper;
 use Framework\Syscrack\User;
 use Illuminate\Support\Collection;
@@ -526,6 +525,10 @@ class BaseOperation implements Operation
 
         $hdd = self::$hardware->getHardwareType( $computerid, 'harddrive')['value'];
         $softwares = self::$software->getSoftwareOnComputer( $computerid );
+
+        if( empty( $softwares ))
+            return true;
+
         $usedspace = 0.0 + $needed;
 
         foreach( $softwares as $software )

@@ -8,7 +8,6 @@
 
 namespace Framework\Tests;
 
-use Framework\Application\UtilitiesV2\Debug;
 use Framework\Syscrack\Game\Types;
 
 class TypesTest extends BaseTestCase

@@ -9,7 +9,8 @@
      * @package Framework\Views\Pages
      */
 
-    use Framework\Application\Render;
+    use Framework\Application\Settings;
+    use Framework\Application\Utilities\FileSystem;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Application\UtilitiesV2\Conventions\CreatorData;
     use Framework\Exceptions\SyscrackException;
@@ -19,13 +20,10 @@
     use Framework\Syscrack\Game\Metadata;
     use Framework\Syscrack\Game\Riddles;
     use Framework\Syscrack\Game\Structures\Computer;
-    use Framework\Syscrack\Game\Types;
     use Framework\Syscrack\Game\Themes;
-    use Framework\Application\Utilities\FileSystem;
-    use Framework\Application\Settings;
+    use Framework\Syscrack\Game\Types;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
-    use phpDocumentor\Reflection\Types\Parent_;
 
     class Admin extends BaseClass implements Structure
     {
@@ -287,11 +285,16 @@
             else
             {
                 $computer = parent::$computer->getComputer($computerid);
+
                 $softwares = parent::$software->getSoftwareOnComputer( $computer->computerid );
+
+                if( empty( $softwares ) )
+                    $softwares = [];
 
                 $this->getRender('syscrack/page.admin.computer.edit', array(
                     'computer' => $computer,
                     'softwares' => $softwares,
+                    'localsoftwares' => parent::$software->getSoftwareOnComputer( self::$computer->computerid() ),
                     'ipaddress' => $computer->ipaddress,
                     'tools_admin' => $this->tools()
                 ), true, self::$session->userid(), self::$computer->computerid());

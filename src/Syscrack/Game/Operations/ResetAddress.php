@@ -14,7 +14,6 @@
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\BaseClasses\BaseOperation;
     use Framework\Syscrack\Game\Finance;
-
     use Framework\Syscrack\Game\Utilities\TimeHelper;
 
     class ResetAddress extends BaseOperation

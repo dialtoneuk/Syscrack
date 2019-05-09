@@ -15,7 +15,6 @@ use Framework\Application\Utilities\FileSystem;
 use Framework\Database\Tables\Processes as Database;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 use Framework\Syscrack\Game\Structures\Operation;
 
 class Operations

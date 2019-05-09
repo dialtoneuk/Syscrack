@@ -38,6 +38,13 @@
             );
         }
 
+        /**
+         * @param $softwareid
+         * @param $userid
+         * @param $computerid
+         * @return bool|mixed
+         */
+
         public function onExecuted( $softwareid, $userid, $computerid )
         {
 

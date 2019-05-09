@@ -9,8 +9,6 @@
 namespace Framework\Application;
 
 use Flight;
-use Framework\Application\Utilities\FileSystem;
-use Framework\Exceptions\ApplicationException;
 
 class Render
 {

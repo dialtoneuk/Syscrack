@@ -793,7 +793,7 @@ class Computer
     public function computerid()
     {
 
-        return $_SESSION['current_computer'];
+        return @$_SESSION['current_computer'];
     }
 
     /**

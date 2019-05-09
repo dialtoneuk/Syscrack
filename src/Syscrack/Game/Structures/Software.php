@@ -93,6 +93,15 @@ interface Software
     public function getExecuteCompletionTime( $softwareid, $computerid );
 
     /**
+     * @param $softwareid
+     * @param $userid
+     * @param $computerid
+     * @return mixed
+     */
+
+    public function onLogin( $softwareid, $userid, $computerid );
+
+    /**
      * @param $userid
      * @param $sofwareid
      * @param $computerid

@@ -9,10 +9,8 @@
      * @package Framework\Views\Pages
      */
 
-    use Framework\Application\Settings;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
-    use Framework\Application\Utilities\FileSystem;
 
     class Account extends BaseClass implements Structure
     {

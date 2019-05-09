@@ -9,9 +9,7 @@ namespace Framework\Syscrack\Game\Operations;
  * @package Framework\Syscrack\Game\Operations
  */
 
-use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-
 use Framework\Syscrack\User;
 
 class View extends BaseOperation

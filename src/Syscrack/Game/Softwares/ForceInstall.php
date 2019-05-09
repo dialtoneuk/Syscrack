@@ -4,7 +4,7 @@ namespace Framework\Syscrack\Game\Softwares;
 /**
  * Lewis Lancaster 2017
  *
- * Class Upload
+ * Class ForceInstall
  *
  * @package Framework\Syscrack\Game\Softwares
  */
@@ -12,7 +12,7 @@ namespace Framework\Syscrack\Game\Softwares;
 use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 use Framework\Syscrack\Game\Tool;
 
-class Upload extends BaseSoftware
+class ForceInstall extends BaseSoftware
 {
 
     /**
@@ -25,9 +25,9 @@ class Upload extends BaseSoftware
     {
 
         return array(
-            'uniquename'        => 'upload',
-            'extension'         => '.up',
-            'type'              => 'upload',
+            'uniquename'        => 'forceinstall',
+            'extension'         => '.admin',
+            'type'              => 'admin',
             'installable'       => true,
             'executable'        => true,
             'localexecuteonly'  => true,
@@ -44,11 +44,10 @@ class Upload extends BaseSoftware
     public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
     {
 
-        $tool = new Tool("Upload", "warning");
-        $tool->setAction('upload');
-        $tool->addInput('softwareid', 'localsoftwares');
-        $tool->isExternal();
-        $tool->isConnected();
+        $tool = new Tool("Force Install", "default");
+        $tool->admin();
+        $tool->setAction('forceinstall');
+        $tool->addInput("softwareid","softwares");
         $tool->icon = "arrow-up";
 
         return( $tool );

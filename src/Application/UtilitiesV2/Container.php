@@ -13,9 +13,6 @@ namespace Framework\Application\UtilitiesV2;
  * Class Container
  * @package Colourspace
  */
-
-use Framework\Application\UtilitiesV2\Scripts;
-
 class Container
 {
 

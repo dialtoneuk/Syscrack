@@ -9,7 +9,6 @@
      * @package Framework\Views\Pages
      */
 
-    use Framework\Application\Render;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\PostHelper;
     use Framework\Exceptions\SyscrackException;
@@ -25,7 +24,7 @@
          * @var Verification
          */
 
-        protected $verification;
+        protected static $verification;
 
         /**
          * Verify constructor.
@@ -33,14 +32,12 @@
 
         public function __construct()
         {
+            
+            if( isset( self::$verification ) == false )
+                self::$verification = new Verification();
 
             parent::__construct( true, true, false, true );
 
-            if( isset( $this->verification ) == false )
-            {
-
-                $this->verification = new Verification();
-            }
         }
 
         /**
@@ -74,13 +71,13 @@
 
                 $_GET['token'] = htmlspecialchars( $_GET['token'], ENT_QUOTES, 'UTF-8' );
 
-                if ($this->verification->getTokenUser($_GET['token']) == null)
+                if (self::$verification->getTokenUser($_GET['token']) == null)
                 {
 
                     $this->redirectError('Sorry, this token is invalid...' );
                 }
 
-                $userid = $this->verification->getTokenUser($_GET['token']);
+                $userid = self::$verification->getTokenUser($_GET['token']);
 
                 if ($userid == null)
                 {
@@ -88,7 +85,7 @@
                     $this->redirectError('Sorry, this token isnt tied to a user, try again?');
                 }
 
-                if ($this->verification->verifyUser( $_GET['token'] ) == false)
+                if (self::$verification->verifyUser( $_GET['token'] ) == false)
                 {
 
                     $this->redirectError('Sorry, failed to verify, try again?');
@@ -98,21 +95,15 @@
                 if( Settings::setting('syscrack_startup_on_verification') == true )
                 {
 
-                    $computerid = $this->computer->createComputer( $userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP() );
+                    $computerid = self::$computer->createComputer( $userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP() );
 
                     if( empty( $computerid ) )
-                    {
-
                         throw new SyscrackException();
-                    }
 
-                    $class = $this->computer->getComputerClass( Settings::setting('syscrack_startup_default_computer') );
+                    $class = self::$computer->getComputerClass( Settings::setting('syscrack_startup_default_computer') );
 
                     if( $class instanceof Computer == false )
-                    {
-
                         throw new SyscrackException();
-                    }
 
                     $class->onStartup( $computerid, $userid, [], Settings::setting('syscrack_default_hardware') );
                 }
@@ -121,10 +112,7 @@
                 $this->redirectSuccess('login');
             }
             else
-            {
-
-                Render::view('syscrack/page.verify', [], $this->model());
-            }
+                $this->getRender('syscrack/page.verify', []);
         }
 
         /**
@@ -148,7 +136,7 @@
 
             $token = PostHelper::getPostData( 'token', true );
 
-            $userid = $this->verification->getTokenUser($token);
+            $userid = self::$verification->getTokenUser($token);
 
             if ($userid == null)
             {
@@ -156,7 +144,7 @@
                 $this->redirectError('Sorry, this token is not tied to a user, try again?');
             }
 
-            if ($this->verification->verifyUser( $token ) == false)
+            if (self::$verification->verifyUser( $token ) == false)
             {
 
                 $this->redirectError('Sorry, failed to verify, try again?');
@@ -168,7 +156,7 @@
                 if( Settings::setting('syscrack_startup_on_verification') == true )
                 {
 
-                    $computerid = $this->computer->createComputer( $userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP() );
+                    $computerid = self::$computer->createComputer( $userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP() );
 
                     if( empty( $computerid ) )
                     {
@@ -176,7 +164,7 @@
                         throw new SyscrackException();
                     }
 
-                    $class = $this->computer->getComputerClass( Settings::setting('syscrack_startup_default_computer') );
+                    $class = self::$computer->getComputerClass( Settings::setting('syscrack_startup_default_computer') );
 
                     if( $class instanceof Computer == false )
                     {

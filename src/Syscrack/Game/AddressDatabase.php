@@ -167,10 +167,7 @@ class AddressDatabase
         }
 
         if( $this->hasAddress( $ipaddress, $userid ) == false )
-        {
-
-            throw new SyscrackException();
-        }
+            return;
 
         array_merge( $this->database[ $this->getKeyOfAddress( $ipaddress, $userid )], array(
             'virus' => $softwareid

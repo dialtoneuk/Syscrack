@@ -13,7 +13,6 @@
     use Framework\Application\Render;
     use Framework\Application\Settings;
     use Framework\Syscrack\Game\Computer;
-    use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 

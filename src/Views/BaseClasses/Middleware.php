@@ -9,7 +9,6 @@
      * @package Framework\Views\BaseClasses
      */
 
-    use Flight;
     use Framework\Application\Render;
     use Framework\Application\Settings;
 

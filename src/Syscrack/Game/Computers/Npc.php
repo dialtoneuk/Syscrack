@@ -9,10 +9,8 @@
      * @package Framework\Syscrack\Game\Computer
      */
 
-    use Framework\Application\UtilitiesV2\Conventions\ComputerData;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
-    use Framework\Syscrack\Game\Metadata;
     use Framework\Syscrack\Game\Structures\Computer as Structure;
 
     class Npc extends BaseClass implements Structure

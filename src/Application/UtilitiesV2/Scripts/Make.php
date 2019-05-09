@@ -9,9 +9,8 @@ namespace Framework\Application\UtilitiesV2\Scripts;
  * Time: 17:15
  */
 
-use Framework\Application\UtilitiesV2\Conventions\TokenData;
-use Framework\Application\UtilitiesV2\Makers;
 use Framework\Application\UtilitiesV2\Debug;
+use Framework\Application\UtilitiesV2\Makers;
 use Framework\Application\UtilitiesV2\TokenReader;
 
 class Make extends Base

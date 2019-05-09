@@ -10,11 +10,8 @@ namespace Framework\Syscrack\Game\Operations;
  */
 
 use Framework\Application\Settings;
-use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Statistics;
-
 use Framework\Syscrack\Game\Viruses;
 
 class Install extends BaseOperation
@@ -27,6 +24,12 @@ class Install extends BaseOperation
     protected static $viruses;
 
     /**
+     * @var AddressDatabase
+     */
+
+    protected static $addressdatabase;
+
+    /**
      * Install constructor.
      */
 
@@ -35,6 +38,9 @@ class Install extends BaseOperation
 
         if( isset( self::$viruses ) == false )
             self::$viruses = new Viruses();
+
+        if( isset( self::$addressdatabase ) == false )
+            self::$addressdatabase = new AddressDatabase();
 
         parent::__construct( true );
     }
@@ -125,7 +131,6 @@ class Install extends BaseOperation
             return false;
 
 
-
         if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
             return false;
 
@@ -134,7 +139,6 @@ class Install extends BaseOperation
 
         $this->logInstall( $this->getSoftwareName( $data['softwareid' ] ),
         $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
-
         $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
             self::$computer->computerid(), $data['ipaddress']);
 
@@ -150,9 +154,7 @@ class Install extends BaseOperation
             if( Settings::setting('syscrack_statistics_enabled') == true )
                 self::$statistics->addStatistic('virusinstalls');
 
-
-            $addressdatabase = new AddressDatabase();
-            $addressdatabase->addVirus( $data['ipaddress'], $data['softwareid'], $userid );
+            self::$addressdatabase->addVirus( $data['ipaddress'], $data['softwareid'], $userid );
         }
 
         if( isset( $data['redirect'] ) == false )

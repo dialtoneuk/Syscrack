@@ -9,7 +9,6 @@
 namespace Framework\Application\UtilitiesV2\AutoExecs;
 
 use Framework\Application\UtilitiesV2\Balance as BalanceManager;
-
 use Framework\Application\UtilitiesV2\Debug;
 
 class Balance extends Base

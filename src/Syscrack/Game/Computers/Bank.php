@@ -9,11 +9,9 @@
      * @package Framework\Syscrack\Game\Computer
      */
 
-    use Framework\Application\Settings;
     use Framework\Exceptions\SyscrackException;
     use Framework\Syscrack\Game\BaseClasses\Computer as BaseClass;
     use Framework\Syscrack\Game\Finance;
-    use Framework\Syscrack\Game\Schema;
     use Framework\Syscrack\Game\Structures\Computer as Structure;
 
     class Bank extends BaseClass implements Structure

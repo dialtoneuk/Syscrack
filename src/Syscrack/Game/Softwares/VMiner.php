@@ -36,22 +36,13 @@ class VMiner extends BaseSoftware
         );
     }
 
-    public function onExecuted( $softwareid, $userid, $computerid )
-    {
-
-
-    }
-
-    public function onInstalled( $softwareid, $userid, $computerid )
-    {
-
-
-    }
-
-    public function onUninstalled($softwareid, $userid, $computerid)
-    {
-        // TODO: Implement onUninstalled() method.
-    }
+    /**
+     * @param $softwareid
+     * @param $userid
+     * @param $computerid
+     * @param $timeran
+     * @return float|int
+     */
 
     public function onCollect( $softwareid, $userid, $computerid, $timeran )
     {
@@ -63,35 +54,5 @@ class VMiner extends BaseSoftware
             }
 
         return ( Settings::setting('syscrack_collector_vspam_yield') * ( parent::$hardware->getCPUSpeed( $computerid ) * $timeran ) ) / Settings::setting('syscrack_collector_global_yield');
-    }
-
-    public function getExecuteCompletionTime($softwareid, $computerid)
-    {
-
-        return null;
-    }
-
-    /**
-     * Default size of 10.0
-     *
-     * @return float
-     */
-
-    public function getDefaultSize()
-    {
-
-        return 12.0;
-    }
-
-    /**
-     * Default level of 1.0
-     *
-     * @return float
-     */
-
-    public function getDefaultLevel()
-    {
-
-        return 1.5;
     }
 }

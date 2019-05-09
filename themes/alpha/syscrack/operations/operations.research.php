@@ -110,24 +110,9 @@
 
                                     <?php
 
-                                    if (empty($accounts)) {
-
+                                    if ( empty($accounts) == false )
+                                    {
                                         ?>
-                                        <div class="panel panel-warning">
-                                            <div class="panel-heading">
-                                                No Bank Accounts
-                                            </div>
-                                            <div class="panel-body">
-                                                You currently don't have any bank accounts, you should probably go create one if
-                                                you want
-                                                to                                                    license software.
-                                            </div>
-                                        </div>
-                                        <?php
-                                    } else {
-
-                                        ?>
-
                                         <div class="panel panel-info">
                                             <div class="panel-body">
                                                 <form method="post">
@@ -140,26 +125,9 @@
                                                     <p style="margin-top: 1.5%;">
                                                         Account Number
                                                     </p>
-                                                    <select name="accountnumber" class="combobox input-sm form-control">
-                                                        <option></option>
-
-                                                        <?php
-                                                            if (empty($accounts) == false)
-                                                            {
-
-                                                                foreach ($accounts as $account) {
-
-                                                                    ?>
-                                                                    <option value="<?=@$account->accountnumber?>">
-                                                                        #<?=@$account->accountnumber ?>
-                                                                        (<?=@$settings['syscrack_currency'] . number_format($account->cash)?>
-                                                                        )
-                                                                        @<?=@$ipaddresses[ $account->computerid ]?></option>
-                                                                    <?php
-                                                                }
-                                                            }
-                                                        ?>
-                                                    </select>
+                                                    <?php
+                                                        Render::view("syscrack/templates/template.account.search", array('values' => @$accounts ) );
+                                                    ?>
                                                     <button style="width: 100%; margin-top: 2.5%;" class="btn btn-primary"
                                                             name="action" value="licensesoftware" type="submit">
                                                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> License
@@ -168,6 +136,16 @@
                                                 </form>
                                             </div>
                                         </div>
+                                        <?php
+                                    }
+                                    else
+                                    {
+                                        ?>
+                                            <div class="panel-danger">
+                                                <div class="panel-body">
+                                                    Research licenses are currently unavailable.
+                                                </div>
+                                            </div>
                                         <?php
                                     }
                                     ?>

@@ -7,7 +7,6 @@ namespace Framework\Application\UtilitiesV2\Scripts;
  * Automatically created at: 2019-04-30 23:14:52
  */
 
-use Framework\Application\UtilitiesV2\Scripts\Base;
 use Framework\Application\Settings as ApplicationSettings;
 use Framework\Application\UtilitiesV2\Debug;
 

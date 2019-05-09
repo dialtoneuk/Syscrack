@@ -1,69 +1,24 @@
 <?php
-
-use Framework\Application\Container;
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\Finance;
-use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Schema;
-use Framework\Syscrack\Game\Software;
-use Framework\Syscrack\Game\Utilities\PageHelper;
-use Framework\Application\Render;
-
-$session = Container::getObject('session');
-
-if ($session->isLoggedIn()) {
-
-    $session->updateLastAction();
-}
-
-if (isset($pagehelper) == false) {
-
-    $pagehelper = new PageHelper();
-}
-
-if (isset($softwares) == false) {
-
-    $softwares = new Software();
-}
-
-if (isset($internet) == false) {
-
-    $internet = new Internet();
-}
-
-if (isset($finance) == false) {
-
-    $finance = new Finance();
-}
-
-if (isset($userid) == false) {
-
-    $userid = $session->userid();
-}
-
-$current_computer = $internet->getComputer($ipaddress);
+    use Framework\Application\Render;
 ?>
 <html>
 
 <?php
-
-Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game'));
+    Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game'));
 ?>
 <body>
 <div class="container">
 
     <?php
-
-    Render::view('syscrack/templates/template.navigation');
+        Render::view('syscrack/templates/template.navigation');
     ?>
     <div class="row">
         <div class="col-sm-12">
             <?php
-
-            if (isset($_GET['error']))
-                Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
-            elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success'));
+                if (isset($_GET['error']))
+                    Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
+                elseif (isset($_GET['success']))
+                    Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success'));
             ?>
         </div>
     </div>
@@ -78,10 +33,8 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <?php
-
-                    if ($finance->hasAccountAtComputer($current_computer->computerid, $userid)) {
-
-                        $account = $finance->getAccountAtBank($current_computer->computerid, $userid);
+                    if ( empty( $account ) == false )
+                    {
 
                         ?>
                         <div class="panel panel-default">
@@ -104,7 +57,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     currently in that account... so be
                                     careful!
                                 </p>
-                                <form method="post" style="width: 100%;">
+                                <form method="post" action="/game/internet/<?=$ipaddress?>/bank" style="width: 100%;">
                                     <div class="btn-group" role="group" aria-label="Create bank account"
                                          style="width: 100%;">
                                         <button type="submit" name="action" value="delete" class="btn btn-danger"
@@ -119,8 +72,9 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                             </div>
                         </div>
                         <?php
-                    } else {
-
+                    }
+                    else
+                    {
                         ?>
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -134,7 +88,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     <strong><?= $settings['syscrack_currency'] . number_format($settings['syscrack_bank_default_balance']) ?></strong>
                                 </p>
 
-                                <form method="post" style="width: 100%;">
+                                <form method="post" action="/game/internet/<?=$ipaddress?>/bank" style="width: 100%;">
                                     <div class="btn-group" role="group" aria-label="Create bank account"
                                          style="width: 100%;">
                                         <button type="submit" name="action" value="create" class="btn btn-default"

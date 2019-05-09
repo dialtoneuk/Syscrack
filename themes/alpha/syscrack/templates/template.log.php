@@ -6,8 +6,9 @@
         ?>
 
             <div class="panel panel-danger">
-                <div class="panel-body">
-                    Empty
+                <div class="panel-body text-center">
+                    <h5>Empty
+                        <br><small><a onclick="window.location.reload( true )" href="#"> Click here to refresh</a></small></h5>
                 </div>
             </div>
             <?php

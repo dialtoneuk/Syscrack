@@ -39,6 +39,13 @@ class Riddle extends BaseSoftware
         );
     }
 
+    /**
+     * @param $softwareid
+     * @param $userid
+     * @param $computerid
+     * @return mixed|void
+     */
+
     public function onExecuted( $softwareid, $userid, $computerid )
     {
 
@@ -110,53 +117,5 @@ class Riddle extends BaseSoftware
                 }
             }
         }
-    }
-
-    public function onInstalled( $softwareid, $userid, $computerid )
-    {
-
-        return null;
-    }
-
-    public function onUninstalled($softwareid, $userid, $computerid)
-    {
-
-        return null;
-    }
-
-    public function onCollect( $softwareid, $userid, $computerid, $timeran )
-    {
-
-        return null;
-    }
-
-    public function getExecuteCompletionTime($softwareid, $computerid)
-    {
-
-        return null;
-    }
-
-    /**
-     * Default size of 16.0
-     *
-     * @return float
-     */
-
-    public function getDefaultSize()
-    {
-
-        return 16.0;
-    }
-
-    /**
-     * Default level of 2.2
-     *
-     * @return float
-     */
-
-    public function getDefaultLevel()
-    {
-
-        return 2.2;
     }
 }

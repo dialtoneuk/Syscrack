@@ -20,6 +20,9 @@
             foreach( $tools as $tool )
             {
 
+                if( isset( $tool["requirements"]["empty"] ) )
+                    continue;
+
                 ?>
                     <div class="row">
                         <div class="col-lg-12">
@@ -31,9 +34,11 @@
                                                 foreach( $tool["inputs"] as $input )
                                                 {
                                                     if( $input["type"] == "softwares" )
-                                                        Render::view("syscrack/templates/template.software.search", array('values' => @$computer_softwares ) );
+                                                        Render::view("syscrack/templates/template.software.search", array('values' => @$softwares ) );
                                                     elseif( $input["type"] == "accounts" )
                                                         Render::view("syscrack/templates/template.software.search", array('values' => @$accounts ) );
+                                                    elseif( $input["type"] == "localsoftwares" )
+                                                        Render::view("syscrack/templates/template.software.search", array('values' => @$localsoftwares) );
                                                     else
                                                         echo( $input["html"] );
                                                 }

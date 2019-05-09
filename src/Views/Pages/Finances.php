@@ -11,7 +11,9 @@
 
     use Framework\Application\Render;
     use Framework\Application\Utilities\PostHelper;
+    use Framework\Syscrack\Game\AccountDatabase;
     use Framework\Syscrack\Game\Finance;
+    use Framework\Syscrack\Game\Metadata;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
 
@@ -22,7 +24,19 @@
          * @var Finance
          */
 
-        protected $finance;
+        protected static $finance;
+
+        /**
+         * @var Metadata
+         */
+
+        protected static $metadata;
+
+        /**
+         * @var AccountDatabase
+         */
+
+        protected static $bankdatabase;
 
 
         /**
@@ -32,8 +46,14 @@
         public function __construct()
         {
 
-            if( isset( $this->finance ) == false )
-                $this->finance = new Finance();
+            if( isset( self::$finance ) == false )
+                self::$finance = new Finance();
+
+            if( isset( self::$metadata ) == false )
+                self::$metadata = new Metadata();
+
+            if( isset( self::$bankdatabase ) == false )
+                self::$bankdatabase = new AccountDatabase();
 
             parent::__construct( true, true, true, true );
         }
@@ -67,7 +87,24 @@
         public function page()
         {
 
-            Render::view('syscrack/page.finances', [], $this->model());
+            $userid = self::$session->userid();
+            $accounts = self::$finance->getUserBankAccounts( $userid );
+            $addresses = [];
+            $metaset = [];
+
+            if( empty( $accounts ) == false )
+            {
+
+                foreach( $accounts as $account )
+                {
+                    $addresses[  $account->computerid ] = @self::$computer->getComputer( $account->computerid )->ipaddress;
+                    $metaset[  $account->computerid ] = @self::$metadata->get( $account->computerid );
+                }
+            }
+            else
+                $accounts = [];
+
+            $this->getRender('syscrack/page.finances', ['accounts' =>$accounts, 'cash' => self::$finance->getTotalUserCash( $userid ), 'bankdatabase' => self::$bankdatabase->getDatabase( $userid), 'addresses' => $addresses, 'metaset' => $metaset], self::$computer->computerid(), $userid );
         }
 
         public function transfer()
@@ -118,19 +155,19 @@
                     $this->redirectError('You cant transfer to your self, funnily enough', 'finances/transfer');
                 }
 
-                if( $this->finance->accountNumberExists( $accountnumber ) == false )
+                if( self::$finance->accountNumberExists( $accountnumber ) == false )
                 {
 
                     $this->redirectError('Account does not exist', 'finances/transfer');
                 }
 
-                if( $this->finance->accountNumberExists( $targetaccount ) == false )
+                if( self::$finance->accountNumberExists( $targetaccount ) == false )
                 {
 
                     $this->redirectError('Account does not exist', 'finances/transfer');
                 }
 
-                $account = $this->finance->getByAccountNumber( $accountnumber );
+                $account = self::$finance->getByAccountNumber( $accountnumber );
 
                 if( $account->userid !== self::$session->userid() )
                 {
@@ -138,7 +175,7 @@
                     $this->redirectError('You do not own this account', 'finances/transfer');
                 }
 
-                $target = $this->finance->getByAccountNumber( $targetaccount );
+                $target = self::$finance->getByAccountNumber( $targetaccount );
 
                 if( $this->computer->getComputer( $target->computerid )->ipaddress !== $ipaddress )
                 {
@@ -146,15 +183,15 @@
                     $this->redirectError('Account does not exist at remote bank', 'finances/transfer');
                 }
 
-                if( $this->finance->canAfford( $account->computerid, self::$session->userid(), $amount ) == false )
+                if( self::$finance->canAfford( $account->computerid, self::$session->userid(), $amount ) == false )
                 {
 
                     $this->redirectError('You cannot afford this transaction', 'finances/transfer' );
                 }
 
-                $this->finance->deposit( $target->computerid, $target->userid, $amount );
+                self::$finance->deposit( $target->computerid, $target->userid, $amount );
 
-                $this->finance->withdraw( $account->computerid, $account->userid, $amount );
+                self::$finance->withdraw( $account->computerid, $account->userid, $amount );
 
                 $this->redirectSuccess('finances/transfer');
             }

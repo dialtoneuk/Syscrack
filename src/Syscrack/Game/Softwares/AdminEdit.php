@@ -4,7 +4,7 @@ namespace Framework\Syscrack\Game\Softwares;
 /**
  * Lewis Lancaster 2017
  *
- * Class Upload
+ * Class AdminEdit
  *
  * @package Framework\Syscrack\Game\Softwares
  */
@@ -12,7 +12,7 @@ namespace Framework\Syscrack\Game\Softwares;
 use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 use Framework\Syscrack\Game\Tool;
 
-class Upload extends BaseSoftware
+class AdminEdit extends BaseSoftware
 {
 
     /**
@@ -25,9 +25,9 @@ class Upload extends BaseSoftware
     {
 
         return array(
-            'uniquename'        => 'upload',
-            'extension'         => '.up',
-            'type'              => 'upload',
+            'uniquename'        => 'adminedit',
+            'extension'         => '.admin',
+            'type'              => 'adminedit',
             'installable'       => true,
             'executable'        => true,
             'localexecuteonly'  => true,
@@ -44,12 +44,11 @@ class Upload extends BaseSoftware
     public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
     {
 
-        $tool = new Tool("Upload", "warning");
-        $tool->setAction('upload');
-        $tool->addInput('softwareid', 'localsoftwares');
-        $tool->isExternal();
-        $tool->isConnected();
-        $tool->icon = "arrow-up";
+        $tool = new Tool("Admin Edit", "success");
+        $tool->setAction('adminedit');
+        $tool->admin();
+        $tool->localAllowed();
+        $tool->icon = "wrench";
 
         return( $tool );
     }
