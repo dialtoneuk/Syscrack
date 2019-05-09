@@ -30,7 +30,7 @@ if (isset($parsedown) == false)
                                 <div class="panel-body">
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            Owner <span class="badge right"><?=@$username?></span>
+                                            Owner <span class="badge right"><?=@$user->username?></span>
                                         </li>
                                         <li class="list-group-item">
                                             Last Modified <span class="badge right"><?= date("F j, Y, g:i a", @$software->lastmodified) ?></span>

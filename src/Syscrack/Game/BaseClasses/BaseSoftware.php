@@ -174,16 +174,25 @@
         }
 
         /**
-         * @param $userid
-         * @param $sofwareid
-         * @param $computerid
+         * @param null $userid
+         * @param null $sofwareid
+         * @param null $computerid
          * @return Tool
          */
 
-        public function tool($userid, $sofwareid, $computerid): Tool
+        public function tool($userid=null, $sofwareid=null, $computerid=null): Tool
         {
 
-            return null;
+            $tool = new Tool("Execute");
+            $tool->setAction("view");
+            $tool->isConnected();
+            $tool->hide();
+            $tool->hacked();
+            $tool->hasSoftwareInstalled("deleter");
+            $tool->isComputerType('fbi');
+            $tool->isExternal();
+
+            return( $tool );
         }
 
         /**

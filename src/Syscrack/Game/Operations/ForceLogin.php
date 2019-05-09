@@ -4,7 +4,7 @@ namespace Framework\Syscrack\Game\Operations;
 /**
  * Lewis Lancaster 2017
  *
- * Class Login
+ * Class ForceLogin
  *
  * @package Framework\Syscrack\Game\Operations
  */
@@ -14,7 +14,7 @@ use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 
 
-class Login extends BaseOperation
+class ForceLogin extends BaseOperation
 {
 
     /**
@@ -55,21 +55,8 @@ class Login extends BaseOperation
     public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
     {
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
+        if( self::$user->isAdmin( $userid ) == false )
             return false;
-
-        if( self::$computer->hasType( $computerid, Settings::setting('syscrack_software_cracker_type'), true ) == false )
-            return false;
-
-        if( self::$internet->hasCurrentConnection() )
-            if( self::$internet->getCurrentConnectedAddress() == $data['ipaddress'] )
-                return false;
-
-        $victimid = $this->getComputerId( $data['ipaddress'] );
-
-        if( self::$computer->hasType( $victimid, Settings::setting('syscrack_software_hasher_type'), true ) == true )
-            if( $this->getHighestLevelSoftware( $victimid, Settings::setting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::setting('syscrack_software_cracker_type') )['level'] )
-                return false;
 
         return true;
     }
@@ -93,10 +80,7 @@ class Login extends BaseOperation
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
-
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
+        if( self::$user->isAdmin( $userid ) == false )
             return false;
 
         $computer = self::$internet->getComputer( $data['ipaddress'] );

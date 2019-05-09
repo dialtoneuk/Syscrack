@@ -1,33 +1,5 @@
 <?php
-
-use Framework\Application\Container;
-use Framework\Application\Render;
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Utilities\PageHelper;
-use Framework\Syscrack\User;
-
-$session = Container::getObject('session');
-
-if ($session->isLoggedIn()) {
-
-    $session->updateLastAction();
-}
-
-if (isset($user) == false) {
-
-    $user = new User();
-}
-
-if (isset($pagehelper) == false) {
-
-    $pagehelper = new PageHelper();
-}
-
-if (isset($internet) == false) {
-
-    $internet = new Internet();
-}
+    use Framework\Application\Render;
 ?>
 <html>
 <?php
@@ -152,6 +124,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                 ?>
                                 <label class="text-uppercase" style="color: lightgray;" for="browserpages">Page</label>
                                 <select name="browserpages" class="combobox input-sm form-control">
+                                    <option></option>
                                     <?php
 
                                     if( empty( $browserpages ) == false )

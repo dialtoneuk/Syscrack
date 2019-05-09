@@ -63,7 +63,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
             if (isset($_GET['error']))
                 Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
             elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'), 'alert_type' => 'alert-success'));
+                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success'));
             ?>
         </div>
     </div>
@@ -95,7 +95,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                         Account Number
                                     </li>
                                     <li class="list-group-item">
-                                        <span class="badge"><?= $settings['syscrack_currency') . number_format($account->cash) ?></span>
+                                        <span class="badge"><?= $settings['syscrack_currency'] . number_format($account->cash) ?></span>
                                         Balance
                                     </li>
                                 </ul>
@@ -131,7 +131,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     You currently don't have an account at this bank, but its free to create one! There
                                     is also a signup bonus
                                     of
-                                    <strong><?= $settings['syscrack_currency') . number_format($settings['syscrack_bank_default_balance')) ?></strong>
+                                    <strong><?= $settings['syscrack_currency'] . number_format($settings['syscrack_bank_default_balance']) ?></strong>
                                 </p>
 
                                 <form method="post" style="width: 100%;">

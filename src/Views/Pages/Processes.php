@@ -133,117 +133,64 @@
             }
         }
 
-        /**
-         * Completes a process
-         *
-         * @param $processid
-         */
 
-        public function completeProcess($processid)
+        public function completeProcess( $processid )
         {
 
-            if (self::$operations->processExists($processid) == false)
-            {
+            $userid = Container::getObject('session')->userid();
 
-                $this->redirectError('This process does not exist');
-            }
+            if (self::$operations->processExists($processid) == false)
+                $this->redirectError('Process not found');
+            elseif( self::$operations->canComplete($processid) == false )
+                $this->redirectError('Process not finished');
             else
             {
 
-                $process = self::$operations->getProcess($processid);
-                $class = self::$operations->findProcessClass( $process->process );
+                $process    = self::$operations->getProcess($processid);
+                $class      = self::$operations->findProcessClass( $process->process );
 
-                if ($process->userid != Container::getObject('session')->userid())
-                {
-
-                    $this->redirectError('This process isnt yours');
-                }
+                if ( $process->userid != $userid )
+                    $this->redirectError('Process ownership error');
                 else
                 {
 
-                    $data = json_decode( $process->data, true );
+                    $data = json_decode($process->data, true);
 
-                    if( isset( $data['ipaddress'] ) == false )
-                    {
-
-                        $this->redirectError('Sorry, no ip address for this action was set, try again');
-                    }
-
-                    if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-                    {
-
-                        $this->redirectError('404 Not found, maybe this IP was changed?');
-                    }
-
-                    if( self::$internet->getComputer( $data['ipaddress'] )->computerid != self::$computer->computerid() )
-                    {
-
-                        if( self::$operations->requireLoggedIn( $process->process ) == true )
-                        {
-
-                            if( self::$internet->hasCurrentConnection() == false )
-                            {
-
-                                $this->redirectError('You must be connected to the computer this process was initiated on');
-                            }
-                            else
-                            {
-
-                                if( $data['ipaddress'] != self::$internet->getCurrentConnectedAddress() )
-                                {
-
-                                    $this->redirectError('You must be connected to the computer this process was initiated on');
-                                }
-                            }
-                        }
-
-                        if (self::$operations->canComplete($processid) == false)
-                        {
-
-                            $this->redirectError('Process has not yet completed');
-                        }
-                        else
-                        {
-
-                            $result = self::$operations->completeProcess($processid);
-
-                            if( is_string( $result ) )
-                                $this->redirectSuccess( $result );
-                            elseif( $result === null )
-                                exit;
-                            elseif( is_bool( $result ) && $result == false )
-                                $this->redirectError("Error creating process", $class->url( $data['ipaddress'] ) );
-                            elseif(  is_bool( $result ) && $result == true )
-                                $this->redirectSuccess( $class->url( $data['ipaddress']));
-                            else
-                                throw new \Error("Unknown result from process: " . $process . " => " . print_r( $result ) );
-                        }
-                    }
+                    if (isset($data['ipaddress']) == false)
+                        $this->redirectError('Process error');
+                    elseif (self::$internet->ipExists($data['ipaddress']) == false)
+                        $this->redirectError('404');
                     else
                     {
 
-                        if (self::$operations->canComplete($processid) == false)
-                        {
+                        $target = self::$internet->getComputer($data["ipaddress"]);
 
-                            $this->redirectError('Process has not yet completed');
-                        }
+                        if (self::$operations->requireLoggedIn($process->process))
+                            if( self::$internet->hasCurrentConnection() )
+                                if( $target->ipaddress != self::$computer->getComputer( self::$computer->computerid() )->ipaddress
+                                    && $target->ipaddress !== self::$internet->getCurrentConnectedAddress()
+                                    && self::$operations->allowLocal($process->process) == false
+                                    && self::$operations->isElevatedProcess( $process->process ) == false )
+                                    $this->redirectError("Connection error 1");
                         else
-                        {
+                            if( self::$internet->hasCurrentConnection() == false )
+                                if ( self::$operations->isElevatedProcess( $process->process ) == false || self::$operations->allowLocal($process->process) == false )
+                                    $this->redirectError("Connection error 2");
 
-                            $result = self::$operations->completeProcess($processid);
+                        $result = self::$operations->completeProcess($processid);
 
-                            if( is_string( $result ) )
-                                $this->redirectSuccess( $result );
-                            elseif( $result === null )
-                                exit;
-                            elseif( is_bool( $result ) && $result == false )
-                                $this->redirectError("Error creating process", $class->url( $data['ipaddress'] ) );
-                            elseif(  is_bool( $result ) && $result == true )
-                                $this->redirectSuccess( $class->url( $data['ipaddress'] ));
-                            else
-                                throw new \Error("Unknown result from process: " . $process . " => " . print_r( $result ) );
-                        }
+                        if( is_string( $result ) )
+                            $this->redirectSuccess( $result );
+                        elseif( $result === null )
+                            exit;
+                        elseif( is_bool( $result ) && $result == false )
+                            $this->redirectError("Error completing process", $class->url( $data['ipaddress'] ) );
+                        elseif(  is_bool( $result ) && $result == true )
+                            $this->redirectSuccess( $class->url( $data['ipaddress']));
+                        else
+                            throw new \Error("Unknown result from process: " . $process . " => " . print_r( $result ) );
                     }
+
                 }
             }
         }

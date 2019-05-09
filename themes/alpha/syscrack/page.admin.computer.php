@@ -70,13 +70,14 @@ if ( isset( $_GET['page'] ) )
         Render::view('syscrack/templates/template.admin.options');
 
         $computer = $computer_controller->getAllComputers()->toArray();
+        $pages = floor( count( $computer ) / $settings['syscrack_admin_computer_count'] );
         ?>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-6">
                     <div class="thumbnail">
                         <div class="caption">
-                            <h5>Total Virtual Computer</h5>
+                            <h5>Total Virtual Computers</h5>
                             <h3 style="font-size: 1.5em;">
                                 <?=count( $computer )?>
                             </h3>
@@ -88,18 +89,49 @@ if ( isset( $_GET['page'] ) )
                         <div class="panel-body">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">
-                                    <li><a href="?">0</a></li>
                                     <?php
-
-                                        $pages = round( count( $computer ) / $settings['syscrack_admin_computer_count'] );
-
-                                        for ( $i=1; $i < $pages; $i++ )
+                                    if( @$_GET['page'] > 0 )
+                                    {
+                                        ?><li><a href="?page=<?=htmlspecialchars($_GET["page"] - 1 )?>">&laquo;</a></li><?php
+                                    }
+                                    else
+                                    {
+                                        ?><li class="disabled"><a>&laquo;</a></li><?php
+                                    }
+                                    ?>
+                                    <?php
+                                        for ( $i=0; $i < $pages + 1; $i++ )
                                         {
 
-                                            ?>
+                                            if( $i == @$_GET['page'] )
+                                            {
+                                                ?>
+                                                <li class="active"><a href="?page=<?=$i?>"><?=$i?></a></li>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                ?>
                                                 <li><a href="?page=<?=$i?>"><?=$i?></a></li>
-                                            <?php
+                                                <?php
+                                            }
+
+
                                         }
+                                    ?>
+                                    <?php
+                                    if( @$_GET['page'] <= $pages - 1 && @$_GET['page'] >= 0 )
+                                    {
+                                        ?><li><a href="?page=<?=htmlspecialchars(@$_GET["page"] + 1 )?>">&raquo;</a></li><?php
+                                    }
+                                    elseif(  isset( $_GET['page'] ) == false  )
+                                    {
+                                        ?><li><a href="?page=<?=htmlspecialchars(@$_GET["page"] + 1 )?>">&raquo;</a></li><?php
+                                    }
+                                    else
+                                    {
+                                    ?><li class="disabled"><a>&raquo;</a></li><?php
+                                    }
                                     ?>
                                 </ul>
                             </nav>
@@ -140,15 +172,17 @@ if ( isset( $_GET['page'] ) )
 
                         ?>
                         <div class="col-sm-12">
-                            <div class="panel panel-info">
+                            <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <span class="badge" style="font-size: 2em;"><?=$value->computerid?></span><span class="badge" style="margin-left: 5%;"><?=$value->type?></span>
+                                           <h5>
+                                               <?=$value->computerid?><small> computer id</small>
+                                           </h5>
                                         </div>
                                         <div class="col-sm-5">
                                             <h5>
-                                                <?=$value->ipaddress?>
+                                                <?=$value->ipaddress?><span class="badge" style="margin-left: 5%;"><?=$value->type?></span>
                                             </h5>
                                         </div>
                                         <div class="col-sm-4">

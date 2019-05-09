@@ -59,7 +59,10 @@ class Logout extends BaseOperation
         if( self::$internet->getCurrentConnectedAddress() !== $data['ipaddress'] )
             return false;
 
-        return true;
+        if( isset( $data['redirect'] ) == false )
+            return true;
+        else
+            return( $data['redirect'] );
     }
 
     /**

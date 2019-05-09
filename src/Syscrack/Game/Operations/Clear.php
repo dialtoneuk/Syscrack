@@ -85,7 +85,10 @@ class Clear extends BaseOperation
 
         self::$log->saveLog( $this->getComputerId( $data['ipaddress'] ), [] );
 
-        return( @$data['redirect'] );
+        if( isset( $data['redirect'] ) == false )
+            return true;
+        else
+            return( $data['redirect'] );
     }
 
     /**

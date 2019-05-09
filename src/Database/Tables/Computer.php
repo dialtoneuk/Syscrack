@@ -22,10 +22,10 @@ class Computer extends Table
      * @return mixed|\Illuminate\Support\Collection
      */
 
-    public function getAllComputers( $pick=32 )
+    public function getAllComputers()
     {
 
-        return $this->getTable()->get()->take( $pick );
+        return $this->getTable()->get();
     }
 
     /**

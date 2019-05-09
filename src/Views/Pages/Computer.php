@@ -151,7 +151,15 @@
         public function page()
         {
 
-            Render::view('syscrack/page.computer', [], $this->model());
+            $computer = self::$computer->getComputer( self::$computer->computerid() );
+            $this->getRender('syscrack/page.computer', ['ipaddress' => $computer->ipaddress,
+                'tools' => $this->tools( self::$session->userid(), $computer->computerid, false  ),
+                'tools_software' => $this->tools( self::$session->userid(), $computer->computerid, true  ),
+                'computer' => $computer],
+                false,
+                self::$session->userid(),
+                $computer->computerid
+            );
         }
 
         /**
@@ -161,23 +169,61 @@
         public function computerLog()
         {
 
-            Render::view('syscrack/page.computer.log', [], $this->model());
+            $computer = self::$computer->getComputer( self::$computer->computerid() );
+            $this->getRender('syscrack/page.computer.log', ['ipaddress' => $computer->ipaddress,
+                'tools' => $this->tools( self::$session->userid(), $computer->computerid, true  ),
+                'computer' => $computer],
+                false,
+                self::$session->userid(),
+                $computer->computerid
+            );
         }
 
         public function computerHardware()
         {
-
-            Render::view('syscrack/page.computer.hardware', [], $this->model());
+            $computer = self::$computer->getComputer( self::$computer->computerid() );
+            $this->getRender('syscrack/page.computer.hardware', ['ipaddress' => $computer->ipaddress,
+                'tools' => $this->tools( self::$session->userid(), $computer->computerid, true  ),
+                'computer' => $computer],
+                false,
+                self::$session->userid(),
+                $computer->computerid
+            );
         }
 
         /**
          * Displays the comptuer processes
          */
 
+
         public function computerProcesses()
         {
 
-            Render::view('syscrack/page.computer.processes', [] , $this->model());
+            $computer = self::$computer->getComputer( self::$computer->computerid() );
+            $this->getRender('syscrack/page.computer.processes', ['ipaddress' => $computer->ipaddress,
+                'tools' => $this->tools( self::$session->userid(), $computer->computerid, false  ),
+                'computer' => $computer],
+                false,
+                self::$session->userid(),
+                $computer->computerid
+            );
+        }
+
+        /**
+         * @param $file
+         * @param array|null $array
+         * @param bool $obclean
+         * @param null $userid
+         * @param null $computerid
+         */
+
+        public function getRender($file, array $array = null, $obclean = true, $userid = null, $computerid = null)
+        {
+
+            if( isset( $array["tools"] ) == false && $userid !== null && $computerid !== null )
+                $array["tools"] = $this->tools( $userid, $computerid );
+
+            parent::getRender($file, $array, $obclean, $userid, $computerid);
         }
 
         /**
@@ -191,7 +237,6 @@
                 $this->redirect('computer');
 
             $collector = parent::$software->getSoftware( parent::$computer->getCollector( parent::$computer->computerid() ) );
-
             Render::view('syscrack/page.computer.collect', ["collector" => $collector], $this->model());
         }
 
@@ -252,6 +297,11 @@
                 }
         }
 
+        /**
+         * @param $collection
+         * @param $accountnumber
+         */
+
         private function payout( $collection, $accountnumber )
         {
 
@@ -263,6 +313,13 @@
                 ' into account (' . $accountnumber . ') at bank <' . parent::$internet->getComputerAddress( $account->computerid )
                 . '>', parent::$computer->computerid(), 'localhost');
         }
+
+        /**
+         * @param $software
+         * @param $ipaddress
+         * @param $collection
+         * @param $information
+         */
 
         private function calculateProfit( $software, $ipaddress, &$collection, &$information )
         {
@@ -280,6 +337,11 @@
                 'profits'   => ( $software )
             ];
         }
+
+        /**
+         * @param $userid
+         * @return array|null
+         */
 
         private function getAddresses( $userid )
         {
@@ -316,165 +378,6 @@
             return $results;
         }
 
-        /**
-        public function computerCollectProcess()
-        {
-
-            if( parent::$computer->hasType( parent::$computer->getCurrentUserComputer(), Settings::getSetting('syscrack_software_collector_type'), true ) == false )
-                $this->redirect('computer');
-
-
-            if( PostHelper::hasPostData() == false )
-                parent::$computerCollect();
-
-            else
-            {
-
-                if( PostHelper::checkForRequirements(['accountnumber'] ) == false )
-                    $this->redirectError('Please enter an account number', 'computer/collect');
-
-                $accountnumber = PostHelper::getPostData('accountnumber');
-
-                if( self::$finance->accountNumberExists( $accountnumber ) == false )
-                    $this->redirectError('This account does not exist', 'computer/collect');
-
-
-                $addressdatabase = self::$addressdatabase->getUserAddresses( parent::$session->getSessionUser() );
-
-                if( empty( $addressdatabase ) )
-                {
-
-                    $this->redirectError('Your address database is empty, go hack somebody', 'computer/collect');
-                }
-
-                $results = [];
-
-                foreach( $addressdatabase as $address )
-                {
-
-                    if( parent::$internet->ipExists( $address['ipaddress'] ) == false )
-                    {
-
-                        $results[ $address['ipaddress'] ] = array(
-                            'ipaddress' => 'null',
-                            'message' => 'Failed to connect to address, address removed from addressbook'
-                        );
-
-                        self::$addressdatabase->deleteAddress( $address['ipaddress'], parent::$session->getSessionUser() );
-                    }
-                    else
-                    {
-
-                        $computer = parent::$internet->getComputer( $address['ipaddress'] );
-
-                        if( self::$viruses->hasVirusesOnComputer( $computer->computerid, parent::$session->getSessionUser() ) == false )
-                        {
-
-                            continue;
-                        }
-
-                        $viruses = self::$viruses->getVirusesOnComputer( $computer->computerid, parent::$session->getSessionUser() );
-
-                        foreach( $viruses as $virus )
-                        {
-
-                            if ( $virus->installed == false )
-                            {
-
-                                continue;
-                            }
-
-                            if( ( time() - $virus->lastmodified ) <= Settings::getSetting('syscrack_collector_cooldown') )
-                            {
-
-                                $results[ $address['ipaddress'] ] = array(
-                                    'ipaddress' => $address['ipaddress'],
-                                    'message'   => 'Virus needs to run for a longer period'
-                                );
-                            }
-                            else
-                            {
-
-                                $class = parent::$software->getSoftwareClassFromID( $virus->softwareid );
-
-                                if( $class instanceof Software == false )
-                                {
-
-                                    throw new SyscrackException();
-                                }
-
-                                $result = $class->onCollect( $virus->softwareid, parent::$session->getSessionUser(), $computer->computerid, time() - $virus->lastmodified );
-
-                                if( empty( $result ) | $result == null )
-                                {
-
-                                    $results[ $address['ipaddress'] ] = array(
-                                        'ipaddress' => $address['ipaddress'],
-                                        'message'   => 'Virus generated no profits'
-                                    );
-                                }
-                                else
-                                {
-
-                                    $results[ $address['ipaddress'] ] = array(
-                                        'ipaddress' => $address['ipaddress'],
-                                        'message'   =>  $virus->softwarename . ' ran for ' . gmdate("H:i:s", ( time() - $virus->lastmodified ) ) . ' and generated ' . Settings::getSetting('syscrack_currency') . number_format( ( $result * self::$pagehelper->getInstalledCollector()['level'] ) ),
-                                        'profits'   => ( $result * self::$pagehelper->getInstalledCollector()['level'] )
-                                    );
-
-                                    self::$viruses->updateVirusModified( $virus->softwareid );
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if( empty( $results ) )
-                {
-
-                    $this->redirectError('Nothing was collected, this is probably because you tried to collect too soon. You need to wait ' . Settings::getSetting('syscrack_collector_cooldown') . ' seconds per execution', 'computer/collect');
-                }
-
-                $account = self::$finance->getByAccountNumber( $accountnumber );
-
-                if( $account == null )
-                {
-
-                    $this->redirectError('Sorry, your account wasnt able to be retrieved, you should tell a developer', 'computer/collect' );
-                }
-
-                $total = 0;
-
-                foreach( $results as $profit )
-                {
-
-                    if( isset( $profit['profits'] ) == false )
-                    {
-
-                        continue;
-                    }
-
-                    $total = $total + $profit['profits'];
-                }
-
-                if( $total != 0 )
-                {
-
-                    if( Settings::getSetting('syscrack_statistics_enabled') == true )
-                    {
-
-                        self::$statistics->addStatistic('collected', $total );
-                    }
-
-                    self::$finance->deposit( $account->computerid, parent::$session->getSessionUser(), $total );
-
-                    self::$log->updateLog('Deposited ' . Settings::getSetting('syscrack_currency') . number_format(  $total ) . ' into account (' . $accountnumber . ') at bank <' . parent::$internet->getComputerAddress( $account->computerid ) . '>', parent::$computer->getCurrentUserComputer(), 'localhost');
-                }
-
-                Render::view('syscrack/page.computer.collect', array( 'results' => $results, 'total' => $total ), $this->model());
-            }
-        }
-        **/
 
         public function computerResearch()
         {

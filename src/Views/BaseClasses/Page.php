@@ -14,9 +14,11 @@
     use Framework\Application\Session;
     use Framework\Application\Settings;
     use Framework\Application\UtilitiesV2\Debug;
+    use Framework\Syscrack\Game\AddressDatabase;
     use Framework\Syscrack\Game\Computer;
     use Framework\Syscrack\Game\Internet;
     use Framework\Syscrack\Game\Software;
+    use Framework\Syscrack\Game\Tool;
     use Framework\Syscrack\Game\Utilities\PageHelper;
     use Framework\Syscrack\User;
     use Illuminate\Support\Collection;
@@ -63,6 +65,12 @@
         public static $user;
 
         /**
+         * @var AddressDatabase;
+         */
+
+        public static $addressbook;
+
+        /**
          * Page constructor.
          * @param bool $autoload
          * @param bool $session
@@ -77,10 +85,20 @@
             if ($autoload )
             {
 
-                self::$software = new Software();
-                self::$internet = new Internet();
-                self::$computer = new Computer();
-                self::$user = new User();
+                if( isset( self::$software ) == false )
+                    self::$software = new Software();
+
+                if( isset( self::$internet ) == false )
+                    self::$internet = new Internet();
+
+                if( isset( self::$computer ) == false )
+                    self::$computer = new Computer();
+
+                if( isset( self::$addressbook ) == false )
+                    self::$addressbook = new AddressDatabase();
+
+                if( isset( self::$user) == false )
+                    self::$user = new User();
             }
 
             if ( Settings::setting('render_mvc_output') )
@@ -315,21 +333,116 @@
          * @param $file
          * @param array|null $array
          * @param bool $obclean
+         * @param null $userid
+         * @param null $computerid
          */
 
-        public function getRender($file, array $array = null, $obclean=true )
+        public function getRender($file, array $array = null, $obclean=true, $userid=null, $computerid=null )
         {
 
+            if( isset( $array["softwares"] ) == false && $computerid !== null )
+                $array["softwares"] = self::$software->getSoftwareOnComputer( $computerid );
+
+            if( isset( $array["user"] ) == false && $userid !== null )
+                $array["user"] = self::$user->getUser( $userid );
+
             if( $obclean )
-            {
-
                 ob_clean();
-            }
-
-            if( isset( $array["computer_controller"] ) == false )
-                $array["computer_controller"] = self::$computer;
 
             Render::view($file, $array, $this->model() );
+        }
+
+        public function tools( $userid=null, $computerid=null, $software_action = false )
+        {
+
+            $tools = self::$software->tools();
+
+            if( $userid == null && $computerid == null )
+            {
+
+                $results = [];
+
+                foreach( $tools as $key=>$tool )
+                    $results[ $key ] = [
+                        'inputs'        => $tool->getInputs(),
+                        'requirements'  => $tool->getRequirements(),
+                        'action'        => $tool->getAction(),
+                        'description'   => @$tool->description,
+                        'class'         => @$tool->class,
+                        'icon'          => @$tool->icon
+                    ];
+
+                return( $results );
+            }
+
+            $computer = self::$computer->getComputer( self::$computer->computerid() );
+            $target = self::$computer->getComputer( $computerid );
+            $results = [];
+
+            /**
+             * @var $tool Tool
+             */
+
+            foreach( $tools as $key=>$tool )
+            {
+
+                $requirements = $tool->getRequirements();
+
+                if( $software_action )
+                {
+
+                    if( isset( $requirements["software_action"] ) == false )
+                        continue;
+                }
+                else
+                {
+                    if (isset($requirements["software_action"]))
+                        continue;
+                }
+
+                if( isset( $requirements["connected"] ) )
+                    if( self::$internet->hasCurrentConnection() == false  )
+                        continue;
+                    elseif( $target->ipaddress !== self::$internet->getCurrentConnectedAddress() )
+                        continue;
+
+                if( $computer->ipaddress == $target->ipaddress )
+                    if( @$requirements["local"] == false )
+                        continue;
+
+                if( isset( $requirements["admin"] ) )
+                    continue;
+
+                if( isset( $requirements['type'] ) )
+                    if( $target->type !== $requirements['type'] )
+                        continue;
+
+                if( isset( $requirements['software'] ) )
+                    if( self::$computer->hasType( $computer->computerid, $requirements['software'] ) == false )
+                        continue;
+
+                if( isset( $requirements['hide'] ) )
+                    if( self::$internet->hasCurrentConnection() && self::$internet->getCurrentConnectedAddress() == $target->ipaddress )
+                        continue;
+
+                if( isset( $requirements['hacked'] ) )
+                    if( self::$addressbook->hasAddress( $target->ipaddress, $userid ) == $requirements['hacked'] )
+                        continue;
+
+                if( isset( $requirements["external"] ) && $target->ipaddress == $computer->ipaddress )
+                    continue;
+
+                $results[ $key ] = [
+                    'inputs'        => $tool->getInputs(),
+                    'requirements'  => $tool->getRequirements(),
+                    'action'        => $tool->getAction(),
+                    'description'   => @$tool->description,
+                    'class'         => @$tool->class,
+                    'icon'          => @$tool->icon
+                ];
+            }
+
+            return( $results );
         }
 
         /**

@@ -14,6 +14,41 @@ class Tool
 
     protected $inputs = [];
     protected $requirements = [];
+    protected $action = "view";
+    public $class = "default";
+    public $description = "";
+    public $icon = "flash";
+
+    public function __construct( $description = "", $class = "default")
+    {
+
+        $this->description = $description;
+        $this->class = $class;
+    }
+
+    public function hasInputs()
+    {
+
+        return( empty( $this->inputs ) == false );
+    }
+
+    public function hasRequirements()
+    {
+
+        return( empty( $this->requirements ) == false );
+    }
+
+    public function setAction( string $action )
+    {
+
+        $this->action = $action;
+    }
+
+    public function getAction()
+    {
+
+        return( $this->action );
+    }
 
     public function getInputs()
     {
@@ -24,13 +59,56 @@ class Tool
     public function getRequirements()
     {
 
-        return( $this->getRequirements() );
+        return( $this->requirements );
     }
 
     public function isConnected()
     {
 
         $this->requirements['connected'] = true;
+    }
+
+    public function isExternal()
+    {
+
+        $this->requirements['external'] = true;
+    }
+
+    public function softwareAction()
+    {
+
+        $this->requirements['software_action'] = true;
+    }
+
+    public function hide()
+    {
+
+        $this->requirements['hide'] = true;
+    }
+
+    public function hacked()
+    {
+
+        $this->requirements['hacked'] = true;
+    }
+
+    public function admin()
+    {
+
+        $this->requirements['admin'] = true;
+    }
+
+    public function localAllowed()
+    {
+
+        $this->requirements['local'] = true;
+    }
+
+
+    public function unhacked()
+    {
+
+        $this->requirements['hacked'] = false;
     }
 
     public function isComputerType( string $type )
@@ -43,6 +121,12 @@ class Tool
     {
 
         $this->requirements['software'] = $type;
+    }
+
+    public function setRequirement( string $type, $value )
+    {
+
+        $this->requirements[ $type ] = $value;
     }
 
     public function addInput( $name, $type, $value="",  $placeholder="", $class="form-control", $html=true ) : void
@@ -74,7 +158,7 @@ class Tool
         $str = "";
 
         foreach( $values as $key=>$value )
-            $str .= sprintf("'%s'", $key ) . "=" . sprintf("'%s'", $value );
+            $str .= $key . "=" . sprintf( '"%s" ', $value );
 
         return( sprintf( $html, $str ) );
     }

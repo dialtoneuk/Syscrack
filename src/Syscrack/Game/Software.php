@@ -16,6 +16,7 @@ use Framework\Application\Utilities\Factory;
 use Framework\Application\Utilities\FileSystem;
 use Framework\Database\Tables\Software as Database;
 use Framework\Exceptions\SyscrackException;
+use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 use Framework\Syscrack\Game\Structures\Software as Structure;
 
 class Software
@@ -77,6 +78,49 @@ class Software
 
             self::$factory->createClass( FileSystem::getFileName( $softwares ) );
         }
+    }
+
+    /**
+     * @return array
+     */
+
+    public function tools()
+    {
+
+        $tools = [];
+        $classes = self::$factory->getAllClasses();
+
+        /**
+         * @var $class BaseSoftware
+         */
+
+        foreach( $classes as $key=>$class )
+            $tools[ $key ] = $class->tool();
+
+        return( $tools );
+    }
+
+    /**
+     * @param $computerid
+     * @return array
+     */
+
+    public function getAnonDownloads( $computerid )
+    {
+
+        $softwares = self::$database->getByComputer( $computerid );
+        $results = [];
+
+        foreach( $softwares as $software )
+        {
+
+            $data = json_decode( $software->data, true  );
+
+            if( isset( $data["allowanondownloads"] ) && $data["allowanondownloads"] == true )
+                $results[] = $software;
+        }
+
+        return $results;
     }
 
     /**
@@ -989,34 +1033,6 @@ class Software
     {
 
         return $this->getSoftwareClass( $software )->configuration()['installable'];
-    }
-
-    /**
-     * Gets the software default file size on the users system
-     *
-     * @param $software
-     *
-     * @return float
-     */
-
-    public function getSoftwareDefaultSize( $software )
-    {
-
-        return $this->getSoftwareClass( $software )->getDefaultSize();
-    }
-
-    /**
-     * Gets the software default level
-     *
-     * @param $software
-     *
-     * @return float
-     */
-
-    public function getSoftwareDefaultLevel( $software )
-    {
-
-        return $this->getSoftwareClass( $software )->getDefaultLevel();
     }
 
     /**

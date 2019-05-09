@@ -224,10 +224,10 @@ class Computer
      * @return \Illuminate\Support\Collection|mixed
      */
 
-    public function getAllComputers( $pick=32 )
+    public function getAllComputers()
     {
 
-        return self::$database->getAllComputers( $pick );
+        return self::$database->getAllComputers();
     }
 
     /**

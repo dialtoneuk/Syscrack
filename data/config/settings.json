@@ -75,7 +75,7 @@
     "sycsrack_betakey_length": 6,
     "sycsrack_betakey_steps": 3,
     "syscrack_addressdatabase_location": "data\/addressdatabase\/",
-    "syscrack_admin_computer_count": 100,
+    "syscrack_admin_computer_count": 12,
     "syscrack_bank_accountnumber_length": 16,
     "syscrack_bank_default_balance": "30",
     "syscrack_accountdatabase_location": "data\/accountdatabase\/",
@@ -213,7 +213,7 @@
     "syscrack_operations_location": "src\/Syscrack\/Game\/Operations\/",
     "syscrack_operations_namespace": "Framework\\Syscrack\\Game\\Operations\\",
     "syscrack_operations_bank_clearonfail": true,
-    "syscrack_operations_resetaddress_time": "<60 * 10>",
+    "syscrack_operations_resetaddress_time": "<php60 * 10>",
     "syscrack_operations_resetaddress_price": 10000,
     "syscrack_retailer_location": "data\/retailer\/",
     "syscrack_software_allowedmethods": [
@@ -249,7 +249,12 @@
     "syscrack_vpc_purchase_increase": 2.5,
     "syscrack_vpc_purchase_price": 1000,
     "syscrack_whois_computer": 2,
-    "syscrack_whois_default_computers":[],
+    "syscrack_whois_default_computers": [
+        30,
+        31,
+        32,
+        33
+    ],
     "theme_dark": true,
     "theme_fullscreen": "1",
     "render_mvc_output": "",

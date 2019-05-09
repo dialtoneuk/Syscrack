@@ -185,13 +185,14 @@ class BaseOperation implements Operation
     }
 
     /**
+     * @param null $ipaddress
      * @return string
      */
 
     public function url( $ipaddress=null )
     {
 
-        return("game/internet");
+        return('game/internet/' . $ipaddress );
     }
 
     /**
@@ -421,7 +422,7 @@ class BaseOperation implements Operation
         {
 
             $array = array_merge( $array, [
-                'software' => self::$software->getSoftwareOnComputer( @$array["computer"]->computerid ),
+                'softwares' => self::$software->getSoftwareOnComputer( @$array["computer"]->computerid ),
                 'user'      => self::$user->getUser( Container::getObject('session')->userid()),
                 'accounts'  => self::$finance->getUserBankAccounts( Container::getObject('session')->userid() ),
                 'computer'  => $this->currentComputer(),

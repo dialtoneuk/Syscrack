@@ -134,17 +134,9 @@
                                                     <p>
                                                         Software
                                                     </p>
-                                                    <select name="softwareid" class="combobox input-sm form-control">
-                                                        <option></option>
-                                                        <?php
-
-                                                        if (empty($softwares) == false)
-                                                        {
-                                                            foreach ($softwares as $key => $value)
-                                                                echo('<option value="' . $software->softwareid . '">' . $software->softwarename . $extensions[ $software->softwareid ] . ' ' . $software->size . 'mb (' . $software->level . ') ' . $settings['syscrack_currency'] . $price . '</option>');
-                                                        }
-                                                        ?>
-                                                    </select>
+                                                    <?php
+                                                        Render::view("syscrack/templates/template.software.search", array('values' => $softwares ) );
+                                                    ?>
                                                     <p style="margin-top: 1.5%;">
                                                         Account Number
                                                     </p>

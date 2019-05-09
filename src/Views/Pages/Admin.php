@@ -25,6 +25,7 @@
     use Framework\Application\Settings;
     use Framework\Views\BaseClasses\Page as BaseClass;
     use Framework\Views\Structures\Page as Structure;
+    use phpDocumentor\Reflection\Types\Parent_;
 
     class Admin extends BaseClass implements Structure
     {
@@ -167,7 +168,7 @@
         public function page()
         {
 
-            Render::view('syscrack/page.admin');
+            $this->getRender('syscrack/page.admin');
         }
 
         /**
@@ -177,7 +178,7 @@
         public function usersViewer()
         {
 
-            Render::view('syscrack/page.admin.users');
+            $this->getRender('syscrack/page.admin.users', array('users' => self::$user->getAllUsers() ));
         }
 
         /**
@@ -198,7 +199,7 @@
         {
 
             if ( $this->isUser( $userid ) )
-                Render::view('syscrack/page.admin.users.edit', array('userid' => $userid, 'users' => self::$user ));
+                $this->getRender('syscrack/page.admin.users.edit');
             else
                 $this->redirectError('This user does not exist, please try another', 'admin/users/');
         }
@@ -250,7 +251,7 @@
         public function themes()
         {
 
-            Render::view('syscrack/page.admin.themes', array("themes" => self::$themes->getThemes( false ) ), $this->model() );
+            $this->getRender('syscrack/page.admin.themes', array("themes" => self::$themes->getThemes( false ) ), $this->model() );
         }
 
         /**
@@ -286,7 +287,14 @@
             else
             {
                 $computer = parent::$computer->getComputer($computerid);
-                Render::view('syscrack/page.admin.computer.edit', array('computer' => $computer, 'ipaddress' => $computer->ipaddress), $this->model());
+                $softwares = parent::$software->getSoftwareOnComputer( $computer->computerid );
+
+                $this->getRender('syscrack/page.admin.computer.edit', array(
+                    'computer' => $computer,
+                    'softwares' => $softwares,
+                    'ipaddress' => $computer->ipaddress,
+                    'tools_admin' => $this->tools()
+                ), true, self::$session->userid(), self::$computer->computerid());
             }
         }
 
@@ -500,7 +508,7 @@
         public function riddlesViewer()
         {
 
-            Render::view('syscrack/page.admin.riddles', [], $this->model());
+            $this->getRender('syscrack/page.admin.riddles', []);
         }
 
         /**
@@ -520,7 +528,7 @@
         public function riddlesCreator()
         {
 
-            Render::view('syscrack/page.admin.riddles.creator', [], $this->model());
+            $this->getRender('syscrack/page.admin.riddles.creator', []);
         }
 
         /**
@@ -562,7 +570,7 @@
         public function reset()
         {
 
-            Render::view('syscrack/page.admin.reset', [], $this->model());
+            $this->getRender('syscrack/page.admin.reset', []);
         }
 
         /**
@@ -611,7 +619,7 @@
         public function computerViewer()
         {
 
-            Render::view('syscrack/page.admin.computer', [], $this->model());
+            $this->getRender('syscrack/page.admin.computer', []);
         }
 
         /**
@@ -699,7 +707,7 @@
         public function computerCreator()
         {
 
-            Render::view('syscrack/page.admin.computer.creator', ["types" => self::$types->get(), "browserpages" => self::$browserpages->get() ], $this->model());
+            $this->getRender('syscrack/page.admin.computer.creator', ["types" => self::$types->get(), "browserpages" => self::$browserpages->get() ]);
         }
 
         /**
@@ -767,7 +775,7 @@
         public function settings()
         {
 
-            Render::view("syscrack/page.admin.settings", array( "admin_settings" => $this->getSettings() ), $this->model() );
+            $this->getRender("syscrack/page.admin.settings", array( "admin_settings" => $this->getSettings() ), $this->model() );
         }
 
         public function settingsProcess()

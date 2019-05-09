@@ -107,7 +107,7 @@ class Bank extends BaseOperation
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
             return false;
 
-        $this->getRender('operations/operations.bank', array( 'ipaddress' => $data['ipaddress'], 'userid' => $userid ), true );
+        $this->render('operations/operations.bank', array( 'ipaddress' => $data['ipaddress'], 'userid' => $userid ), true );
         return null;
     }
 

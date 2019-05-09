@@ -29,7 +29,7 @@ class AnonDownload extends BaseOperation
             'allowlocal'        => false,
             'allowsoftware'    => true,
             'allowanonymous'    => true,
-            'requiresoftware'  => true,
+            'requiresoftware'   => true,
             'requireloggedin'   => false,
             'elevated'          => true,
         );
@@ -98,7 +98,10 @@ class AnonDownload extends BaseOperation
         $new_software = self::$software->getSoftware( self::$software->copySoftware( $data['softwareid'], self::$computer->computerid(), $userid ) );
         self::$computer->addSoftware( self::$computer->computerid(), $new_software->softwareid, $new_software->type );
 
-       return @$data['redirect'];
+        if( isset( $data['redirect'] ) == false )
+            return true;
+        else
+            return( $data['redirect'] );
     }
 
     /**

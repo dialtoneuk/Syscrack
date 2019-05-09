@@ -107,8 +107,8 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                 } else {
 
                                     ?>
-                                    <?= $computer->ipaddress ?> <span class="badge"
-                                                                      style="float: right;"><a href="/game/computers/#<?= $computer->ipaddress ?>">Switch to VPC</a></span>
+                                    <p><span><?=$computer->ipaddress?></span> <a href="/game/computer/#<?= $computer->ipaddress ?>" class="btn btn-warning"
+                                                                                     role="button" style="float: right; margin-top: -10px; padding-bottom: 5px;">Switch to computer</a></p>
                                     <?php
                                 }
                                 ?>
@@ -129,7 +129,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 
                                     ?>
                                     <div class="row" style="opacity: 0.25;">
-                                        <?php Render::view('syscrack/templates/template.process', array('processid' => $process->processid, 'processcclass' => $operations->findProcessClass($process->process))); ?>
+                                        <?php Render::view('syscrack/templates/template.process', array('panel' => 'panel-warning','processid' => $process->processid, 'processcclass' => $operations->findProcessClass($process->process))); ?>
                                     </div>
                                     <?php
                                 }

@@ -1,23 +1,5 @@
 <?php
-
-use Framework\Syscrack\Game\Internet;
-use Framework\Syscrack\Game\Schema;
-use Framework\Syscrack\Game\Utilities\PageHelper;
 use Framework\Application\Render;
-
-if (isset($internet) == false) {
-
-    $internet = new Internet();
-}
-
-if (isset($pagehelper) == false) {
-
-    $pagehelper = new PageHelper();
-}
-
-/**
- * @var $metadata \Framework\Application\UtilitiesV2\Conventions\CreatorData
- */
 ?>
 <div class="col-md-8">
     <form method="post" action="/game/internet/">
@@ -61,31 +43,11 @@ if (isset($pagehelper) == false) {
                         <?php
                     }
                     else
-                    {
-
-                        Render::view("../../" . $settings["browser_pages_root"] . $metadata->custom["browserpage"], array("internet" => $internet, 'ipaddress' => $ipaddress, 'metadata' => $metadata));
-                    }
-
-                ?>
-                <?php
-
-                /**
-                $computer = $internet->getComputer($ipaddress);
-
-                if ($npc->hasSchema($computer->computerid) && $npc->hasSchemaPage($computer->computerid)) {
-
-                    Render::view($npc->getSchemaPageLocation($computer->computerid), array('internet' => $internet, 'ipaddress' => $ipaddress, 'schema' => $npc));
-                } else {
-                    ?>
-                    <p>
-                        Connection success
-                    </p>
-                    <?php
-                }**/
+                        Render::view("../../" . $settings["browser_pages_root"] . $metadata->custom["browserpage"] );
                 ?>
             </div>
             <div class="panel-footer">
-                <?php echo strtoupper($pagehelper->getComputerType($internet->getComputer($ipaddress)->computerid));
+                <?php echo $computer->type;
                 echo ' <small>' . date('d-M-y H:m:s') . '</small>'; ?>
             </div>
         </div>

@@ -70,72 +70,47 @@ class View extends BaseOperation
     {
 
         if( $this->checkData( $data ) == false )
-        {
-
             return false;
-        }
+
 
         if( self::$software->hasData( $data['softwareid'] ) == false )
-        {
-
             return false;
-        }
 
         return true;
     }
 
     /**
-     * Renders the view page
-     *
      * @param $timecompleted
-     *
      * @param $timestarted
-     *
      * @param $computerid
-     *
      * @param $userid
-     *
      * @param $process
-     *
      * @param array $data
+     * @return bool
      */
 
     public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
     {
 
         if( $this->checkData( $data ) == false )
-        {
-
-            throw new SyscrackException();
-        }
+            return false;
 
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-        {
-
-            $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
-        }
-
+            return false;
         if( self::$software->softwareExists( $data['softwareid'] ) == false )
-        {
-
-            $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
-        }
+            return false;
 
         if( self::$software->hasData( $data['softwareid'] ) == false )
-        {
-
-            throw new SyscrackException();
-        }
+            return false;
 
         $software = self::$software->getSoftware( $data['softwareid']);
 
-        $this->getRender('operations/operations.view', array(
+        $this->render('operations/operations.view', array(
             'software'  => $software,
             'ipaddress' => self::$internet->getCurrentConnectedAddress(),
-            'username'  => self::$user->getUsername( $software->userid ),
-            'data'      => json_decode( $software->data),
-            'metadata'  => self::$software->getSoftwareData( $data['softwareid'] )
-        ) );
+            'data'      => json_decode( $software->data ),
+            'softwaredata'  => self::$software->getSoftwareData( $data['softwareid'] )
+        ), true  );
     }
 
     /**

@@ -1,27 +1,9 @@
 <?php
-
-use Framework\Application\Container;
 use Framework\Application\Render;
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\Utilities\PageHelper;
-use Framework\Syscrack\User;
-
-$session = Container::getObject('session');
-
-if ($session->isLoggedIn())
-    $session->updateLastAction();
-
-
-if (isset($user) == false)
-    $user = new User();
-
-if (isset($pagehelper) == false)
-    $pagehelper = new PageHelper();
 ?>
 <html>
 
 <?php
-
 Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Admin'));
 ?>
 <body>
@@ -102,7 +84,7 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                                 </div>
                                                 <form method="post">
                                                 <?php
-                                                    if( $folder == Settings::getSetting("render_folder") )
+                                                    if( $folder == $settings["render_folder"] )
                                                     {
                                                         ?>
                                                             <div class="row">

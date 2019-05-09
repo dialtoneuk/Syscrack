@@ -27,12 +27,6 @@ class Install extends BaseOperation
     protected static $viruses;
 
     /**
-     * @var Statistics
-     */
-
-    protected static $statistics;
-
-    /**
      * Install constructor.
      */
 
@@ -119,11 +113,15 @@ class Install extends BaseOperation
         if( $this->checkData( $data ) == false )
             return false;
 
+
         if( self::$internet->ipExists( $data['ipaddress'] ) == false )
             return false;
 
+
         if( self::$software->softwareExists( $data['softwareid'] ) == false )
             return false;
+
+
 
         if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
             return false;
@@ -132,7 +130,7 @@ class Install extends BaseOperation
         self::$computer->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
         $this->logInstall( $this->getSoftwareName( $data['softwareid' ] ),
-            $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
+        $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
 
         $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
             self::$computer->computerid(), $data['ipaddress']);
@@ -147,16 +145,17 @@ class Install extends BaseOperation
         {
 
             if( Settings::setting('syscrack_statistics_enabled') == true )
-            {
-
                 self::$statistics->addStatistic('virusinstalls');
-            }
+
 
             $addressdatabase = new AddressDatabase();
             $addressdatabase->addVirus( $data['ipaddress'], $data['softwareid'], $userid );
         }
 
-        return @$data['redirect'];
+        if( isset( $data['redirect'] ) == false )
+            return true;
+        else
+            return( $data['redirect'] );
     }
 
     /**
@@ -174,7 +173,7 @@ class Install extends BaseOperation
     public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
     {
 
-        return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), 20, $softwareid );
+        return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), 1, $softwareid );
     }
 
     /**

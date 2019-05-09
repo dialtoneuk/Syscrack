@@ -10,6 +10,7 @@
      */
 
     use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+    use Framework\Syscrack\Game\Tool;
 
     class Cracker extends BaseSoftware
     {
@@ -31,5 +32,16 @@
                 'installable'   => true,
                 'executable'    => true
             );
+        }
+
+        public function tool($userid=null, $sofwareid=null, $computerid=null): Tool
+        {
+
+            $tool = new Tool('Hack');
+            $tool->setAction('hack');
+            $tool->hacked();
+            $tool->hide();
+
+            return( $tool );
         }
     }

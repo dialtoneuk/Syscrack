@@ -1,26 +1,5 @@
 <?php
-
-use Framework\Application\Container;
-use Framework\Application\Render;
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computer;
-use Framework\Syscrack\Game\Utilities\PageHelper;
-
-$computer_controller = new Computer();
-
-$pagehelper = new PageHelper();
-
-$session = Container::getObject('session');
-
-if ($session->isLoggedIn()) {
-
-    $session->updateLastAction();
-}
-
-if (isset($softwares) == false) {
-
-    $softwares = new \Framework\Syscrack\Game\Software();
-}
+    use Framework\Application\Render;
 ?>
 
 <!DOCTYPE html>
@@ -81,14 +60,11 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="softwares">
+                    <div role="tabpanel" class="tab-pane active" id="softwares" style="padding-top: 16px;">
                         <div class="row">
-                            <div class="col-sm-9">
-                                <h5 style="color: #ababab" class="text-uppercase">
-                                    Main Hard Drive
-                                </h5>
+                            <div class="col-sm-8">
                                 <?php
-                                    Render::view('syscrack/templates/template.softwares', array('computer_controller' => $computer_controller, 'hideoptions' => true, "local" => true));
+                                    Render::view('syscrack/templates/template.softwares', array("hideoptions" => true  ));
                                 ?>
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -206,133 +182,44 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h5 style="color: #ababab" class="text-uppercase">
-                                            Storage Details
-                                        </h5>
-                                        <div class="well-lg">
-                                            <?php
-                                            $hardwares = json_decode($computer->hardware, true);
-                                            $csoftwares = json_decode($computer->software, true);
-                                            ?>
-                                            <?php
-                                            $usedspace = 0.0;
-                                            foreach ($csoftwares as $key => $value) {
 
-                                                if( $softwares->softwareExists( $value["softwareid"] ) == false )
-                                                    continue;
+                            <?php
+                                if( empty( $tools_admin ) )
+                                {
 
-                                                $usedspace += $softwares->getSoftware($value['softwareid'])->size;
-                                            }
-                                            ?>
-                                            <pre style="white-space:pre-wrap; max-height: 345px;">
-Drive size: <?= $hardwares['harddrive']['value'] ?>mb
-Used Space: <?= $usedspace ?>mb
-Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
-                                            </pre>
+                                    ?>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-warning">
+                                                <div class="panel-body">
+                                                    No tools found
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h5 style="color: #ababab" class="text-uppercase">
-                                            Software Actions
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <form action="/admin/computer/edit/<?= $computer->computerid ?>/" method="post">
-                                            <div class="panel panel-default">
-                                                <div class="panel-body">
-                                                    <select name="softwareid" class="combobox input-sm form-control">
-                                                        <option></option>
-                                                        <?php
 
-                                                            foreach ( json_decode( $computer->software, true ) as $key=>$value )
-                                                            {
+                                    <?php
+                                }
+                                else
+                                {
 
-                                                                if ( $softwares->softwareExists( $value['softwareid'] ) )
-                                                                {
+                                    foreach( $tools_admin as $key=>$tool )
+                                    {
 
-                                                                    $software = $softwares->getSoftware( $value['softwareid'] );
+                                        if( @$tool["requirements"]["software_action"] )
+                                            unset( $tools_admin[ $key ] );
 
-                                                                    ?>
-                                                                        <option value="<?=$value['softwareid']?>"><?=$software->softwarename . " (" . $software->level . ")"?></option>
-                                                                    <?php
-                                                                }
-                                                            }
-                                                        ?>
-                                                        <option></option>
-                                                    </select>
-                                                    <button style="width: 100%; margin-top: 2.5%;"
-                                                            class="btn btn-danger" type="submit">
-                                                        <span class="glyphicon glyphicon-fire"
-                                                              aria-hidden="true"></span> Delete
-                                                    </button>
-                                                    <input type="hidden" name="action" value="delete">
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <form action="/admin/computer/edit/<?= $computer->computerid ?>/" method="post">
-                                            <div class="panel panel-default">
-                                                <div class="panel-body">
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <select name="softwareid"
-                                                                    class="combobox input-sm form-control">
-                                                                <option></option>
-                                                                <?php
+                                        if( @$tool["requirements"]["hide"] )
+                                            unset( $tools_admin[ $key ] );
 
-                                                                foreach ( json_decode( $computer->software, true ) as $key=>$value )
-                                                                {
+                                        if( isset( $tool["requirements"]["type"] ) && $tool["requirements"]["type"] != $computer->type )
+                                            unset( $tools_admin[ $key ] );
+                                    }
 
-                                                                    if ( $softwares->softwareExists( $value['softwareid'] ) )
-                                                                    {
+                                    Render::view("syscrack/templates/template.tools", array('tools' => $tools_admin) );
+                                }
+                            ?>
 
-                                                                        $software = $softwares->getSoftware( $value['softwareid'] );
-
-                                                                        ?>
-                                                                        <option value="<?=$value['softwareid']?>"><?=$software->softwarename . " (" . $software->level . ")"?></option>
-                                                                        <?php
-                                                                    }
-                                                                }
-                                                                ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row" style="margin-top: 2.5%;">
-                                                        <div class="col-sm-12">
-                                                            <select name="task" class="combobox input-sm form-control">
-                                                                <option></option>
-                                                                <option value="install">Install</option>
-                                                                <option value="uninstall">Uninstall</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <button style="width: 100%; margin-top: 2.5%;"
-                                                                    class="btn btn-info" type="submit">
-                                                                <span class="glyphicon glyphicon-arrow-up"
-                                                                      aria-hidden="true"></span> Install/Uninstall
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <input type="hidden" name="action" value="stall">
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -407,197 +294,6 @@ Total Free Space: <?= $hardwares['harddrive']['value'] - $usedspace ?>mb
                             </div>
                         </div>
                     </div>
-                    <?php
-
-                    if ( $computer->type == $settings['syscrack_computers_market_type'] )
-                    {
-
-                        $market = new \Framework\Syscrack\Game\Market();
-
-                        $stock = $market->getStock( $computer->computerid );
-                        $purchases = $market->getPurchases( $computer->computerid );
-
-                        ?>
-                            <div role="tabpanel" class="tab-pane" id="market">
-                                <div class="row" style="margin-top: 2.5%;">
-                                    <div class="col-sm-8">
-                                        <?php
-                                            if ( empty( $stock ) )
-                                            {
-
-                                                ?>
-                                                    <div class="panel panel-danger">
-                                                        <div class="panel-body">
-                                                            No stock items found
-                                                        </div>
-                                                    </div>
-                                                <?php
-                                            }
-                                            else
-                                            {
-                                                foreach ( $stock as $key=>$value )
-                                                {
-
-                                                    ?>
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                <div class="panel panel-info">
-                                                                    <div class="panel-heading">
-                                                                        <?=@$value["name"]?> <span class="badge bage-primary" style="float: right;"><?=@$key?></span>
-                                                                    </div>
-                                                                    <div class="panel-body">
-                                                                        <div class="well">
-                                                                            <div class="row">
-                                                                                <div class="col-lg-4">
-                                                                                    <div class="panel panel-info">
-                                                                                        <div class="panel-body">
-                                                                                            <h1 style="margin-top: 16px;"><span class="glyphicon glyphicon-gbp"></span><?=@$value["price"]?></h1>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-lg-8">
-                                                                                    <ul class="list-group">
-                                                                                        <li class="list-group-item"><?=@$value["hardware"]?></li>
-                                                                                        <li class="list-group-item"><?=@$value["quantity"]?></li>
-                                                                                        <li class="list-group-item list-group-item-warning"><?=@$value["value"]?></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    <?php
-                                                }
-                                            }
-                                        ?>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="panel panel-default">
-                                            <div class="panel-body">
-                                                    <?php
-                                                        if( empty( $purchases ) )
-                                                        {
-                                                            ?>No purchases found<?php
-                                                        }
-                                                        else
-                                                        {
-
-                                                            foreach( $purchases as $purchase)
-                                                            {
-                                                                ?>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <div class="panel panel-default">
-                                                                            <div class="panel-body">
-                                                                                <span class="glyphicon glyphicon-gbp"></span> <?=@$stock[ $purchase["itemid"] ]["name"]?> <span class="badge bage-primary" style="float: right;"><?=date("F j, Y, g:i a",$purchase["timepurchased"])?></span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <?php
-                                                            }
-                                                        }
-                                                    ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <form action="/admin/computer/edit/<?= $computer->computerid ?>/" method="post">
-                                            <button class="btn btn-success" style="width: 100%;" id="addstockbutton" type="button" data-toggle="collapse" data-target="#addstock" aria-expanded="false" aria-controls="addstock">
-                                                <span class="glyphicon glyphicon-plus-sign"></span> Add Stock Item
-                                            </button>
-                                            <div class="collapse" id="addstock" style="margin-top: 1.5%;">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        <div class="row">
-                                                            <div class="col-sm-4">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div class="panel panel-info">
-                                                                            <div class="panel-body">
-                                                                                The items you add here will persist though a reset unless the hard reset mode is
-                                                                                implicitly specified. If you are a little confused about some of the keys here, check
-                                                                                out our github wiki for a tutorial.
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div class="panel panel-warning">
-                                                                            <div class="panel-body">
-                                                                                Be sure to double check that you are supplying a valid software id of a software present on the
-                                                                                local machine if you plan to make a software listing.
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-4">
-                                                                <div class="input-group input-group-md">
-                                                                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-tags"></span></span>
-                                                                    <input type="text" name="name" class="form-control" placeholder="Intel i3" aria-describedby="sizing-addon1">
-                                                                </div>
-                                                                <div class="input-group input-group-md"  style="margin-top: 1.5%;">
-                                                                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-gbp"></span></span>
-                                                                    <input type="number" name="cost" class="form-control" placeholder="100" aria-describedby="sizing-addon1">
-                                                                </div>
-                                                                <div class="input-group input-group-md"  style="margin-top: 1.5%;">
-                                                                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-shopping-cart"></span></span>
-                                                                    <input type="number" name="quantity" class="form-control" placeholder="10000" aria-describedby="sizing-addon1">
-                                                                </div>
-                                                                <div class="input-group input-group-md" style="margin-top: 8px; width: 100%;">
-                                                                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-hdd"></span></span>
-                                                                    <select name="type" class="combobox input-sm form-control">
-                                                                        <option value="hardware">hardware</option>
-                                                                        <option value="software">software</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-4">
-                                                                <div class="panel panel-default">
-                                                                    <div class="panel-body">
-                                                                        <div class="input-group input-group-sm" style="margin-top: 1.5%;">
-                                                                            <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-wrench"></span></span>
-                                                                            <input type="text" name="hardware" class="form-control" placeholder="cpu" aria-describedby="sizing-addon1">
-                                                                        </div>
-                                                                        <div class="input-group input-group-sm" style="margin-top: 1.5%;">
-                                                                            <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-flash"></span></span>
-                                                                            <input type="text" name="value" class="form-control" placeholder="250" aria-describedby="sizing-addon1">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="panel panel-info">
-                                                                    <div class="panel-body">
-                                                                        <div class="input-group input-group-sm">
-                                                                            <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-cog"></span></span>
-                                                                            <input type="text" name="softwareid" class="form-control" placeholder="1" aria-describedby="sizing-addon1">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <button style="width: 100%;"
-                                                                class="btn btn-info" type="submit">
-                                                                <span class="glyphicon glyphicon-arrow-up"
-                                                                      aria-hidden="true"></span> Add Stock Item
-                                                        </button>
-                                                        <input type="hidden" name="action" value="stock">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php
-                    }
-                    ?>
-
                 </div>
             </div>
         </div>

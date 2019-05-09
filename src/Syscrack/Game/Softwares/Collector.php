@@ -6,23 +6,13 @@
      *
      * Class Honeypot
      *
-     * @package Framework\Syscrack\Game\Collector
+     * @package Framework\Syscrack\Game\Softwares
      */
 
     use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 
     class Collector extends BaseSoftware
     {
-
-        /**
-         * Collector constructor.
-         */
-
-        public function __construct()
-        {
-
-            parent::__construct();
-        }
 
         /**
          * The configuration of this Structure

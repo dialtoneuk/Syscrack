@@ -99,5 +99,5 @@ interface Software
      * @return Tool
      */
 
-    public function tool( $userid, $sofwareid, $computerid ) : Tool;
+    public function tool( $userid=null, $sofwareid=null, $computerid=null ) : Tool;
 }

@@ -13,7 +13,6 @@ use Framework\Application\Settings;
 use Framework\Exceptions\SyscrackException;
 use Framework\Syscrack\Game\AddressDatabase;
 use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Statistics;
 
 class Hack extends BaseOperation
 {
@@ -45,11 +44,23 @@ class Hack extends BaseOperation
     {
 
         return array(
-            'allowsoftware'    => false,
+            'allowsoftware'     => false,
             'allowlocal'        => false,
-            'requiresoftware'  => false,
+            'requiresoftware'   => false,
             'requireloggedin'   => false,
+            'elevated'          => true,
         );
+    }
+
+    /**
+     * @param null $ipaddress
+     * @return string
+     */
+
+    public function url($ipaddress = null)
+    {
+
+        return('game/internet/' . $ipaddress );
     }
 
     /**
@@ -118,8 +129,10 @@ class Hack extends BaseOperation
         if( Settings::setting('syscrack_statistics_enabled') == true )
             self::$statistics->addStatistic('hacks');
 
-
-        return @$data['redirect'];
+        if( isset( $data['redirect'] ) == false )
+            return true;
+        else
+            return( $data['redirect'] );
     }
 
     /**

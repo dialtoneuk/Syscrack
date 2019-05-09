@@ -47,6 +47,7 @@
         public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
         {
 
+
             if( $this->checkData( $data, ['ipaddress'] ) == false )
                 return false;
 
@@ -119,10 +120,13 @@
             if( self::$computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $new_softwareid ) == false )
                 return false;
 
-            $this->logUpload( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), self::$computer->getComputer( $computerid )->ipaddress );
-            $this->logLocal( $software->softwarename, $data['ipaddress'] );
+            $this->logUpload( $software, $this->getComputerId( $data['ipaddress'] ), self::$computer->getComputer( $computerid )->ipaddress );
+            $this->logLocal( $software, $data['ipaddress'] );
 
-            return @$data['redirect'];
+            if( isset( $data['redirect'] ) == false )
+                return true;
+            else
+                return( $data['redirect'] );
         }
 
         /**
@@ -135,7 +139,7 @@
         public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
         {
 
-            return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_upload_type'), 10, $softwareid );
+            return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_upload_type'), 20, $softwareid );
         }
 
         /**
@@ -170,10 +174,10 @@
          * @param $ipaddress
          */
 
-        private function logUpload( $softwarename, $computerid, $ipaddress )
+        private function logUpload( $software, $computerid, $ipaddress )
         {
 
-            $this->logToComputer('Uploaded file (' . $softwarename . ') on root', $computerid, $ipaddress );
+            $this->logToComputer('Uploaded file ' . $software->softwarename . ' (' . $software->level . ') on root', $computerid, $ipaddress );
         }
 
         /**
@@ -184,9 +188,9 @@
          * @param $ipaddress
          */
 
-        private function logLocal( $softwarename, $ipaddress )
+        private function logLocal( $software, $ipaddress )
         {
 
-            $this->logToComputer('Uploaded file (' . $softwarename . ') on <' . $ipaddress . '>', self::$computer->getComputer( self::$computer->computerid() )->computerid, 'localhost' );
+            $this->logToComputer('Uploaded file ' . $software->softwarename . ' (' . $software->level . ') on <' . $ipaddress . '>', self::$computer->getComputer( self::$computer->computerid() )->computerid, 'localhost' );
         }
     }
