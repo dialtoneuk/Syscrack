@@ -1,199 +1,200 @@
 <?php
-    namespace Framework\Views\BaseClasses;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Middleware
-     *
-     * @package Framework\Views\BaseClasses
-     */
+	namespace Framework\Views\BaseClasses;
 
-    use Framework\Application\Render;
-    use Framework\Application\Settings;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Middleware
+	 *
+	 * @package Framework\Views\BaseClasses
+	 */
 
-    class Middleware
-    {
+	use Framework\Application\Render;
+	use Framework\Application\Settings;
 
-        /**
-         * Redirects the user to an error
-         *
-         * @param string $message
-         *
-         * @param string $path
-         */
+	class Middleware
+	{
 
-        public function redirectError($message = '', $path = '')
-        {
+		/**
+		 * Redirects the user to an error
+		 *
+		 * @param string $message
+		 *
+		 * @param string $path
+		 */
 
-            if( Settings::setting('error_use_session') )
-            {
+		public function redirectError($message = '', $path = '')
+		{
 
-                $_SESSION['error'] = $message;
+			if (Settings::setting('error_use_session'))
+			{
 
-                if( $path !== '' )
-                {
+				$_SESSION['error'] = $message;
 
-                    if( empty( explode('/', $path ) ) )
-                    {
+				if ($path !== '')
+				{
 
-                        $_SESSION['error_page'] = explode('/', $path)[0];
-                    }
-                    else
-                    {
+					if (empty(explode('/', $path)))
+					{
 
-                        if( substr( $path, 0, 1 ) == '/' )
-                        {
+						$_SESSION['error_page'] = explode('/', $path)[0];
+					}
+					else
+					{
 
-                            $_SESSION['error_page'] = substr( $path, 1);
-                        }
-                        else
-                        {
+						if (substr($path, 0, 1) == '/')
+						{
 
-                            $_SESSION['error_page'] = $path;
-                        }
-                    }
-                }
-                else
-                {
+							$_SESSION['error_page'] = substr($path, 1);
+						}
+						else
+						{
 
-                    $_SESSION['error_page'] = $this->getCurrentPage();
-                }
+							$_SESSION['error_page'] = $path;
+						}
+					}
+				}
+				else
+				{
 
-                if ($path !== '')
-                {
+					$_SESSION['error_page'] = $this->getCurrentPage();
+				}
 
-                    Render::redirect( Settings::setting('controller_index_root') . $path . '?error');
+				if ($path !== '')
+				{
 
-                    exit;
-                }
-                else
-                {
+					Render::redirect(Settings::setting('controller_index_root') . $path . '?error');
 
-                    Render::redirect( Settings::setting('controller_index_root') .  $this->getCurrentPage() . '?error' );
+					exit;
+				}
+				else
+				{
 
-                    exit;
-                }
-            }
-            else
-            {
+					Render::redirect(Settings::setting('controller_index_root') . $this->getCurrentPage() . '?error');
 
-                if ($path !== '')
-                {
+					exit;
+				}
+			}
+			else
+			{
 
-                    Render::redirect( Settings::setting('controller_index_root') . $path . '?error=' . $message );
+				if ($path !== '')
+				{
 
-                    exit;
-                }
-                else
-                {
+					Render::redirect(Settings::setting('controller_index_root') . $path . '?error=' . $message);
 
-                    Render::redirect( Settings::setting('controller_index_root') .  $this->getCurrentPage() . '?error=' . $message );
+					exit;
+				}
+				else
+				{
 
-                    exit;
-                }
-            }
-        }
+					Render::redirect(Settings::setting('controller_index_root') . $this->getCurrentPage() . '?error=' . $message);
 
-        /**
-         * Redirects the user to a success
-         *
-         * @param string $path
-         */
+					exit;
+				}
+			}
+		}
 
-        public function redirectSuccess($path = '')
-        {
+		/**
+		 * Redirects the user to a success
+		 *
+		 * @param string $path
+		 */
 
-            if ($path !== '')
-            {
+		public function redirectSuccess($path = '')
+		{
 
-                Render::redirect( Settings::setting('controller_index_root') . $path . "?success");
-                exit;
-            }
+			if ($path !== '')
+			{
 
-            Render::redirect( Settings::setting('controller_index_root') . $this->getCurrentPage() . '?success');
-            exit;
-        }
+				Render::redirect(Settings::setting('controller_index_root') . $path . "?success");
+				exit;
+			}
 
-        /**
-         * Renders a page
-         *
-         * @param $file
-         *
-         * @param $data
-         *
-         * @param bool $obclean
-         */
+			Render::redirect(Settings::setting('controller_index_root') . $this->getCurrentPage() . '?success');
+			exit;
+		}
 
-        public function render( $file, $data, $obclean=true )
-        {
+		/**
+		 * Renders a page
+		 *
+		 * @param $file
+		 *
+		 * @param $data
+		 *
+		 * @param bool $obclean
+		 */
 
-            if( $obclean == true )
-            {
+		public function render($file, $data, $obclean = true)
+		{
 
-                ob_clean();
-            }
+			if ($obclean == true)
+			{
 
-            Render::view( $file, $data );
+				ob_clean();
+			}
 
-            exit;
-        }
+			Render::view($file, $data);
 
-        /**
-         * Redirects the user to a page
-         *
-         * @param $url
-         *
-         * @param bool $exit
-         */
+			exit;
+		}
 
-        public function redirect( $url, $exit=false )
-        {
+		/**
+		 * Redirects the user to a page
+		 *
+		 * @param $url
+		 *
+		 * @param bool $exit
+		 */
 
-            Render::redirect( $url );
+		public function redirect($url, $exit = false)
+		{
 
-            if( $exit )
-            {
+			Render::redirect($url);
 
-                exit;
-            }
-        }
+			if ($exit)
+			{
 
-        /**
-         * Gets the current page
-         *
-         * @return string
-         */
+				exit;
+			}
+		}
 
-        public function getCurrentPage()
-        {
+		/**
+		 * Gets the current page
+		 *
+		 * @return string
+		 */
 
-            $page = $this->getPageSplat();
+		public function getCurrentPage()
+		{
 
-            if( empty( $page ) )
-            {
+			$page = $this->getPageSplat();
 
-                return Settings::setting('controller_index_page');
-            }
+			if (empty($page))
+			{
 
-            if( empty( explode('?', $page[0] ) ) == false )
-            {
+				return Settings::setting('controller_index_page');
+			}
 
-                return explode('?', $page[0] )[0];
-            }
+			if (empty(explode('?', $page[0])) == false)
+			{
 
-            return $page[0];
-        }
+				return explode('?', $page[0])[0];
+			}
 
-        /**
-         * Gets the entire path in the form of an array
-         *
-         * @return array
-         */
+			return $page[0];
+		}
 
-        private function getPageSplat()
-        {
+		/**
+		 * Gets the entire path in the form of an array
+		 *
+		 * @return array
+		 */
 
-            return array_values(array_filter(explode('/', strip_tags( $_SERVER['REQUEST_URI'] ))));
-        }
-    }
+		private function getPageSplat()
+		{
+
+			return array_values(array_filter(explode('/', strip_tags($_SERVER['REQUEST_URI']))));
+		}
+	}

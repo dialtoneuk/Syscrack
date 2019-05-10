@@ -1,55 +1,57 @@
 <?php
-namespace Framework\Syscrack\Game\Softwares;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class AdminEdit
- *
- * @package Framework\Syscrack\Game\Softwares
- */
+	namespace Framework\Syscrack\Game\Softwares;
 
-use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
-use Framework\Syscrack\Game\Tool;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class AdminEdit
+	 *
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 
-class AdminEdit extends BaseSoftware
-{
+	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	use Framework\Syscrack\Game\Tool;
 
-    /**
-     * The configuration of this Structure
-     *
-     * @return array
-     */
+	class AdminEdit extends BaseSoftware
+	{
 
-    public function configuration()
-    {
+		/**
+		 * The configuration of this Structure
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'uniquename'        => 'adminedit',
-            'extension'         => '.admin',
-            'type'              => 'adminedit',
-            'installable'       => true,
-            'executable'        => true,
-            'localexecuteonly'  => true,
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * @param null $userid
-     * @param null $sofwareid
-     * @param null $computerid
-     * @return Tool
-     */
+			return array(
+				'uniquename' => 'adminedit',
+				'extension' => '.admin',
+				'type' => 'adminedit',
+				'installable' => true,
+				'executable' => true,
+				'localexecuteonly' => true,
+			);
+		}
 
-    public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
-    {
+		/**
+		 * @param null $userid
+		 * @param null $sofwareid
+		 * @param null $computerid
+		 *
+		 * @return Tool
+		 */
 
-        $tool = new Tool("Admin Edit", "success");
-        $tool->setAction('adminedit');
-        $tool->admin();
-        $tool->localAllowed();
-        $tool->icon = "wrench";
+		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
+		{
 
-        return( $tool );
-    }
-}
+			$tool = new Tool("Admin Edit", "success");
+			$tool->setAction('adminedit');
+			$tool->admin();
+			$tool->localAllowed();
+			$tool->icon = "wrench";
+
+			return ($tool);
+		}
+	}

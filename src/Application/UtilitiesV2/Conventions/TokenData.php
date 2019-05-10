@@ -1,45 +1,45 @@
 <?php
 
-namespace Framework\Application\UtilitiesV2\Conventions;
+	namespace Framework\Application\UtilitiesV2\Conventions;
 
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 31/08/2018
- * Time: 21:44
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 31/08/2018
+	 * Time: 21:44
+	 */
 
-use Framework\Application\UtilitiesV2\Convention;
-use Framework\Application\UtilitiesV2\Format;
+	use Framework\Application\UtilitiesV2\Convention;
+	use Framework\Application\UtilitiesV2\Format;
 
-/**
- * Class TokenData
- * @package Framework\Application\UtilitiesV2\Conventions
- * @property array values
- */
+	/**
+	 * Class TokenData
+	 * @package Framework\Application\UtilitiesV2\Conventions
+	 * @property array values
+	 */
+	class TokenData extends Convention
+	{
 
-class TokenData extends Convention
-{
+		/**
+		 * @var array
+		 */
 
-    /**
-     * @var array
-     */
+		protected $requirements = [
+			"values" => "array"
+		];
 
-    protected $requirements = [
-        "values" => "array"
-    ];
+		/**
+		 * TokenData constructor.
+		 *
+		 * @param array $array
+		 */
 
-    /**
-     * TokenData constructor.
-     * @param array $array
-     */
+		public function __construct(array $array)
+		{
 
-    public function __construct(array $array)
-    {
+			if (isset($array["values"]["time"]) == false)
+				$array["values"]["time"] = Format::timestamp(time());
 
-        if( isset( $array["values"]["time"] ) == false )
-            $array["values"]["time"] = Format::timestamp( time() );
-
-        parent::__construct($array);
-    }
-}
+			parent::__construct($array);
+		}
+	}

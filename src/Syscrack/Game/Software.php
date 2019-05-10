@@ -1,1195 +1,1203 @@
 <?php
-namespace Framework\Syscrack\Game;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Software
- *
- * @package Framework\Syscrack\Game
- *
- * //TODO: On rewrite, try use classes as return variables instead of booleans in order to display more detailed information
- */
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\Factory;
-use Framework\Application\Utilities\FileSystem;
-use Framework\Database\Tables\Software as Database;
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
-use Framework\Syscrack\Game\Structures\Software as Structure;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Software
+	 *
+	 * @package Framework\Syscrack\Game
+	 *
+	 * //TODO: On rewrite, try use classes as return variables instead of booleans in order to display more detailed
+	 * information
+	 */
 
-class Software
-{
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\Factory;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Database\Tables\Software as Database;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	use Framework\Syscrack\Game\Structures\Software as Structure;
 
-    /**
-     * @var Factory
-     *
-     * Since theres an issue with the software forever in a loop loading the software classes, this static variable
-     * holds these classes so we don't reload them
-     *
-     * TODO: rewrite this so this isn't a problem
-     */
+	class Software
+	{
 
-    protected static $factory;
+		/**
+		 * @var Factory
+		 *
+		 * Since theres an issue with the software forever in a loop loading the software classes, this static variable
+		 * holds these classes so we don't reload them
+		 *
+		 * TODO: rewrite this so this isn't a problem
+		 */
 
-    /**
-     * @var Database
-     */
+		protected static $factory;
 
-    protected static $database;
+		/**
+		 * @var Database
+		 */
 
-    /**
-     * Software constructor.
-     *
-     * @param bool $autoload
-     */
+		protected static $database;
 
-    public function __construct( $autoload=true )
-    {
+		/**
+		 * Software constructor.
+		 *
+		 * @param bool $autoload
+		 */
 
-        if( isset( self::$database ) == false )
-            self::$database= new Database();
+		public function __construct($autoload = true)
+		{
 
-        if( $autoload )
-            if( empty( self::$factory ) )
-            {
+			if (isset(self::$database) == false)
+				self::$database = new Database();
 
-                self::$factory = new Factory( Settings::setting('syscrack_software_namespace') );
-                $this->loadSoftware();
-            }
-    }
+			if ($autoload)
+				if (empty(self::$factory))
+				{
 
-    /**
-     * Loads all the software classes into the factory
-     */
+					self::$factory = new Factory(Settings::setting('syscrack_software_namespace'));
+					$this->loadSoftware();
+				}
+		}
 
-    private function loadSoftware()
-    {
+		/**
+		 * Loads all the software classes into the factory
+		 */
 
-        $software = FileSystem::getFilesInDirectory( Settings::setting('syscrack_software_location') );
+		private function loadSoftware()
+		{
 
-        foreach( $software as $softwares )
-        {
+			$software = FileSystem::getFilesInDirectory(Settings::setting('syscrack_software_location'));
 
+			foreach ($software as $softwares)
+			{
 
-            if( self::$factory->hasClass( FileSystem::getFileName( $softwares ) ) )
-                continue;
 
-            self::$factory->createClass( FileSystem::getFileName( $softwares ) );
-        }
-    }
+				if (self::$factory->hasClass(FileSystem::getFileName($softwares)))
+					continue;
 
-    /**
-     * @return array
-     */
+				self::$factory->createClass(FileSystem::getFileName($softwares));
+			}
+		}
 
-    public function tools()
-    {
+		/**
+		 * @return array
+		 */
 
-        $tools = [];
-        $classes = self::$factory->getAllClasses();
+		public function tools()
+		{
 
-        /**
-         * @var $class BaseSoftware
-         */
+			$tools = [];
+			$classes = self::$factory->getAllClasses();
 
-        foreach( $classes as $key=>$class )
-            $tools[ $key ] = $class->tool();
+			/**
+			 * @var $class BaseSoftware
+			 */
 
-        return( $tools );
-    }
+			foreach ($classes as $key => $class)
+				$tools[$key] = $class->tool();
 
-    /**
-     * @param $computerid
-     * @return array
-     */
+			return ($tools);
+		}
 
-    public function getAnonDownloads( $computerid )
-    {
+		/**
+		 * @param $computerid
+		 *
+		 * @return array
+		 */
 
-        $softwares = self::$database->getByComputer( $computerid );
-        $results = [];
+		public function getAnonDownloads($computerid)
+		{
 
-        foreach( $softwares as $software )
-        {
+			$softwares = self::$database->getByComputer($computerid);
+			$results = [];
 
-            $data = json_decode( $software->data, true  );
+			foreach ($softwares as $software)
+			{
 
-            if( isset( $data["allowanondownloads"] ) && $data["allowanondownloads"] == true )
-                $results[] = $software;
-        }
+				$data = json_decode($software->data, true);
 
-        return $results;
-    }
+				if (isset($data["allowanondownloads"]) && $data["allowanondownloads"] == true)
+					$results[] = $software;
+			}
 
-    /**
-     * Returns true if this softwareid exists
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			return $results;
+		}
 
-    public function softwareExists( $softwareid )
-    {
+		/**
+		 * Returns true if this softwareid exists
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        if( $softwareid == null )
-            return false;
+		public function softwareExists($softwareid)
+		{
 
+			if ($softwareid == null)
+				return false;
 
-        if( self::$database->getSoftware( $softwareid ) == null )
-            return false;
 
-        return true;
-    }
+			if (self::$database->getSoftware($softwareid) == null)
+				return false;
 
-    /**
-     * Gets the software class related to this software id
-     *
-     * @param $softwareid
-     *
-     * @return Structure
-     */
+			return true;
+		}
 
-    public function getSoftwareClassFromID( $softwareid )
-    {
+		/**
+		 * Gets the software class related to this software id
+		 *
+		 * @param $softwareid
+		 *
+		 * @return Structure
+		 */
 
-        return $this->findSoftwareByUniqueName( self::$database->getSoftware( $softwareid )->uniquename );
-    }
+		public function getSoftwareClassFromID($softwareid)
+		{
 
-    /**
-     * Finds a software class by its unique name
-     *
-     * @param $uniquename
-     *
-     * @return Structure
-     */
+			return $this->findSoftwareByUniqueName(self::$database->getSoftware($softwareid)->uniquename);
+		}
 
-    public function findSoftwareByUniqueName( $uniquename )
-    {
+		/**
+		 * Finds a software class by its unique name
+		 *
+		 * @param $uniquename
+		 *
+		 * @return Structure
+		 */
 
-        $classes = self::$factory->getAllClasses();
+		public function findSoftwareByUniqueName($uniquename)
+		{
 
-        foreach( $classes as $key=>$class )
-        {
+			$classes = self::$factory->getAllClasses();
 
-            if( $class instanceof Structure == false )
-            {
+			foreach ($classes as $key => $class)
+			{
 
-                throw new SyscrackException();
-            }
+				if ($class instanceof Structure == false)
+				{
 
-            /** @var Structure $class */
-            if( $class->configuration()['uniquename'] == $uniquename )
-            {
+					throw new SyscrackException();
+				}
 
-                return $class;
-            }
-        }
+				/** @var Structure $class */
+				if ($class->configuration()['uniquename'] == $uniquename)
+				{
 
-        return null;
-    }
+					return $class;
+				}
+			}
 
-    /**
-     * Gets all the licensed software on a computer
-     *
-     * @param $computerid
-     *
-     * @return array
-     */
+			return null;
+		}
 
-    public function getLicensedSoftware( $computerid )
-    {
+		/**
+		 * Gets all the licensed software on a computer
+		 *
+		 * @param $computerid
+		 *
+		 * @return array
+		 */
 
-        $softwares = $this->getSoftwareOnComputer( $computerid );
+		public function getLicensedSoftware($computerid)
+		{
 
-        $results = [];
+			$softwares = $this->getSoftwareOnComputer($computerid);
 
-        foreach( $softwares as $software )
-        {
+			$results = [];
 
-            $data = json_decode( $software->data, true );
+			foreach ($softwares as $software)
+			{
 
-            if( isset( $data['license'] ) )
-            {
+				$data = json_decode($software->data, true);
 
-                $results[] = $software;
-            }
-        }
+				if (isset($data['license']))
+				{
 
-        return $results;
-    }
+					$results[] = $software;
+				}
+			}
 
-    /**
-     * Licenses a software
-     *
-     * @param $softwareid
-     *
-     * @param $userid
-     */
+			return $results;
+		}
 
-    public function licenseSoftware( $softwareid, $userid )
-    {
+		/**
+		 * Licenses a software
+		 *
+		 * @param $softwareid
+		 *
+		 * @param $userid
+		 */
 
-        $data = $this->getSoftwareData( $softwareid );
+		public function licenseSoftware($softwareid, $userid)
+		{
 
-        if( isset( $data['license'] ) )
-        {
+			$data = $this->getSoftwareData($softwareid);
 
-            if( $data['license'] == $userid )
-            {
+			if (isset($data['license']))
+			{
 
-                throw new SyscrackException();
-            }
-        }
+				if ($data['license'] == $userid)
+				{
 
-        $data['license'] = $userid;
+					throw new SyscrackException();
+				}
+			}
 
-        $this->updateData( $softwareid, $data );
-    }
+			$data['license'] = $userid;
 
-    /**
-     * Unlicenses a software
-     *
-     * @param $softwareid
-     */
+			$this->updateData($softwareid, $data);
+		}
 
-    public function unlicenseSoftware( $softwareid )
-    {
+		/**
+		 * Unlicenses a software
+		 *
+		 * @param $softwareid
+		 */
 
-        $data = $this->getSoftwareData( $softwareid );
+		public function unlicenseSoftware($softwareid)
+		{
 
-        if( isset( $data['license'] ) == false )
-        {
+			$data = $this->getSoftwareData($softwareid);
 
-            throw new SyscrackException();
-        }
+			if (isset($data['license']) == false)
+			{
 
-        unset( $data['license'] );
+				throw new SyscrackException();
+			}
 
-        $this->updateData( $softwareid, $data );
-    }
+			unset($data['license']);
 
-    /**
-     * Returns true if this software has a license
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			$this->updateData($softwareid, $data);
+		}
 
-    public function hasLicense( $softwareid )
-    {
+		/**
+		 * Returns true if this software has a license
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        $data = $this->getSoftwareData( $softwareid );
+		public function hasLicense($softwareid)
+		{
 
-        if( isset( $data['license'] ) == false )
-        {
+			$data = $this->getSoftwareData($softwareid);
 
-            return false;
-        }
+			if (isset($data['license']) == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Deletes the software
-     *
-     * @param $softwareid
-     */
+			return true;
+		}
 
-    public function deleteSoftware( $softwareid )
-    {
+		/**
+		 * Deletes the software
+		 *
+		 * @param $softwareid
+		 */
 
-        self::$database->deleteSoftware( $softwareid );
-    }
+		public function deleteSoftware($softwareid)
+		{
+
+			self::$database->deleteSoftware($softwareid);
+		}
 
-    /**
-     * Deletes all the software related to a computer id
-     *
-     * @param $computerid
-     */
+		/**
+		 * Deletes all the software related to a computer id
+		 *
+		 * @param $computerid
+		 */
 
-    public function deleteSoftwareByComputer( $computerid )
-    {
-
-        self::$database->deleteSoftwareByComputer( $computerid );
-    }
-
-    /**
-     * @param $softwareid
-     * @param null $time
-     */
-
-    public function updateLastModified( $softwareid, $time=null )
-    {
-
-        if( $time === null )
-            $time = microtime( true );
-
-        self::$database->updateSoftware( $softwareid, array( "lastmodified" => $time ) );
-    }
-    /**
-     * Creates a new software
-     *
-     * @param $software
-     *
-     * @param int $userid
-     *
-     * @param int $computerid
-     *
-     * @param string $softwarename
-     *
-     * @param float $softwarelevel
-     *
-     * @param float $softwareize
-     *
-     * @param array $data
-     *
-     * @return int
-     */
-
-    public function createSoftware( $software, int $userid, int $computerid, string $softwarename='My Software', float $softwarelevel = 1.0, float $softwareize = 10.0, $data=[] )
-    {
-
-        if( $this->hasSoftwareClass( $software ) == false )
-        {
-
-            throw new SyscrackException();
-        }
-
-        $class = $this->getSoftwareClass( $software );
-
-        if( $class instanceof Structure == false )
-        {
-
-            throw new SyscrackException();
-        }
-
-        $configuration = $class->configuration();
-
-        $array = array(
-            'userid'        => $userid,
-            'computerid'    => $computerid,
-            'level'         => $softwarelevel,
-            'size'          => $softwareize,
-            'uniquename'    => $configuration['uniquename'],
-            'type'          => $configuration['type'],
-            'softwarename'  => $softwarename,
-            'lastmodified'  => time(),
-            'installed'     => false,
-            'data'          => json_encode( $data )
-        );
-
-        return self::$database->insertSoftware( $array );
-    }
-
-    /**
-     * Copys a software from one computer to the other
-     *
-     * @param $targetid
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param bool $installed
-     *
-     * @param array $data
-     *
-     * @return int
-     */
-
-    public function copySoftware( $targetid, $computerid, $userid, $installed=false, array $data=[] )
-    {
-
-        $software = self::$database->getSoftware( $targetid );
-
-        $array = array(
-            'userid'        => $userid,
-            'computerid'    => $computerid,
-            'level'         => $software->level,
-            'size'          => $software->size,
-            'uniquename'    => $software->uniquename,
-            'type'          => $software->type,
-            'softwarename'  => $software->softwarename,
-            'lastmodified'  => time(),
-            'installed'     => $installed,
-            'data'          => json_encode( $data )
-        );
-
-        return self::$database->insertSoftware( $array );
-    }
-
-    /**
-     * Returns true if we have this software class in our factory
-     *
-     * @param $software
-     *
-     * @return bool
-     */
-
-    public function hasSoftwareClass( $software )
-    {
-
-        if( self::$factory->hasClass( $software ) == false )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Gets the software class, which is used when processing what a software actually does
-     *
-     * @param $software
-     *
-     * @return Structure
-     */
-
-    public function getSoftwareClass( $software )
-    {
-
-        return self::$factory->findClass( $software );
-    }
-
-    /**
-     * Gets the software name from the software ID
-     *
-     * @param $softwareid
-     *
-     * @return int|null|string
-     */
-
-    public function getSoftwareNameFromSoftwareID( $softwareid )
-    {
-
-        return $this->getNameFromClass( $this->findSoftwareByUniqueName( $this->getSoftware( $softwareid )->uniquename ) );
-    }
-
-    /**
-     * Returns the name of the software from class
-     *
-     * @param $softwareclass
-     *
-     * @return int|null|string
-     */
-
-    public function getNameFromClass( $softwareclass )
-    {
-
-        $factory = self::$factory->getAllClasses();
-
-        foreach( $factory as $key=>$value )
-        {
-
-            if( $value == $softwareclass )
-            {
-
-                return $key;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Gets the software from the database
-     *
-     * @param $softwareid
-     *
-     * @return mixed|null
-     */
-
-    public function getSoftware( $softwareid )
-    {
-
-        return self::$database->getSoftware( $softwareid );
-    }
-
-    /**
-     * Gets all of the viruses currently installed on the computer
-     *
-     * @param $computerid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
-
-    public function getVirusesOnComputer( $computerid )
-    {
-
-        return self::$database->getTypeOnComputer( Settings::setting('syscrack_software_virus_type'), $computerid );
-    }
-
-    /**
-     * Gets all the software tied to a computer id
-     *
-     * @param $computerid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
-
-    public function getSoftwareOnComputer( $computerid )
-    {
-
-        return self::$database->getByComputer( $computerid );
-    }
-
-    /**
-     * @param $softwareid
-     * @param $userid
-     */
-
-    public function installSoftware( $softwareid, $userid )
-    {
-
-        $array = array(
-            'installed' => true,
-            'userid'    => $userid
-        );
-
-        self::$database->updateSoftware( $softwareid, $array );
-    }
-
-    /**
-     * Uninstalls a software
-     *
-     * @param $softwareid
-     */
+		public function deleteSoftwareByComputer($computerid)
+		{
+
+			self::$database->deleteSoftwareByComputer($computerid);
+		}
+
+		/**
+		 * @param $softwareid
+		 * @param null $time
+		 */
+
+		public function updateLastModified($softwareid, $time = null)
+		{
+
+			if ($time === null)
+				$time = microtime(true);
+
+			self::$database->updateSoftware($softwareid, array("lastmodified" => $time));
+		}
+
+		/**
+		 * Creates a new software
+		 *
+		 * @param $software
+		 *
+		 * @param int $userid
+		 *
+		 * @param int $computerid
+		 *
+		 * @param string $softwarename
+		 *
+		 * @param float $softwarelevel
+		 *
+		 * @param float $softwareize
+		 *
+		 * @param array $data
+		 *
+		 * @return int
+		 */
+
+		public function createSoftware($software, int $userid, int $computerid, string $softwarename = 'My Software', float $softwarelevel = 1.0, float $softwareize = 10.0, $data = [])
+		{
+
+			if ($this->hasSoftwareClass($software) == false)
+			{
+
+				throw new SyscrackException();
+			}
+
+			$class = $this->getSoftwareClass($software);
+
+			if ($class instanceof Structure == false)
+			{
+
+				throw new SyscrackException();
+			}
+
+			$configuration = $class->configuration();
+
+			$array = array(
+				'userid' => $userid,
+				'computerid' => $computerid,
+				'level' => $softwarelevel,
+				'size' => $softwareize,
+				'uniquename' => $configuration['uniquename'],
+				'type' => $configuration['type'],
+				'softwarename' => $softwarename,
+				'lastmodified' => time(),
+				'installed' => false,
+				'data' => json_encode($data)
+			);
+
+			return self::$database->insertSoftware($array);
+		}
+
+		/**
+		 * Copys a software from one computer to the other
+		 *
+		 * @param $targetid
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param bool $installed
+		 *
+		 * @param array $data
+		 *
+		 * @return int
+		 */
+
+		public function copySoftware($targetid, $computerid, $userid, $installed = false, array $data = [])
+		{
+
+			$software = self::$database->getSoftware($targetid);
+
+			$array = array(
+				'userid' => $userid,
+				'computerid' => $computerid,
+				'level' => $software->level,
+				'size' => $software->size,
+				'uniquename' => $software->uniquename,
+				'type' => $software->type,
+				'softwarename' => $software->softwarename,
+				'lastmodified' => time(),
+				'installed' => $installed,
+				'data' => json_encode($data)
+			);
+
+			return self::$database->insertSoftware($array);
+		}
+
+		/**
+		 * Returns true if we have this software class in our factory
+		 *
+		 * @param $software
+		 *
+		 * @return bool
+		 */
+
+		public function hasSoftwareClass($software)
+		{
+
+			if (self::$factory->hasClass($software) == false)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Gets the software class, which is used when processing what a software actually does
+		 *
+		 * @param $software
+		 *
+		 * @return Structure
+		 */
+
+		public function getSoftwareClass($software)
+		{
+
+			return self::$factory->findClass($software);
+		}
+
+		/**
+		 * Gets the software name from the software ID
+		 *
+		 * @param $softwareid
+		 *
+		 * @return int|null|string
+		 */
+
+		public function getSoftwareNameFromSoftwareID($softwareid)
+		{
+
+			return $this->getNameFromClass($this->findSoftwareByUniqueName($this->getSoftware($softwareid)->uniquename));
+		}
+
+		/**
+		 * Returns the name of the software from class
+		 *
+		 * @param $softwareclass
+		 *
+		 * @return int|null|string
+		 */
+
+		public function getNameFromClass($softwareclass)
+		{
+
+			$factory = self::$factory->getAllClasses();
+
+			foreach ($factory as $key => $value)
+			{
+
+				if ($value == $softwareclass)
+				{
+
+					return $key;
+				}
+			}
+
+			return null;
+		}
+
+		/**
+		 * Gets the software from the database
+		 *
+		 * @param $softwareid
+		 *
+		 * @return mixed|null
+		 */
+
+		public function getSoftware($softwareid)
+		{
+
+			return self::$database->getSoftware($softwareid);
+		}
+
+		/**
+		 * Gets all of the viruses currently installed on the computer
+		 *
+		 * @param $computerid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
+
+		public function getVirusesOnComputer($computerid)
+		{
+
+			return self::$database->getTypeOnComputer(Settings::setting('syscrack_software_virus_type'), $computerid);
+		}
+
+		/**
+		 * Gets all the software tied to a computer id
+		 *
+		 * @param $computerid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
+
+		public function getSoftwareOnComputer($computerid)
+		{
+
+			return self::$database->getByComputer($computerid);
+		}
+
+		/**
+		 * @param $softwareid
+		 * @param $userid
+		 */
+
+		public function installSoftware($softwareid, $userid)
+		{
+
+			$array = array(
+				'installed' => true,
+				'userid' => $userid
+			);
+
+			self::$database->updateSoftware($softwareid, $array);
+		}
+
+		/**
+		 * Uninstalls a software
+		 *
+		 * @param $softwareid
+		 */
 
-    public function uninstallSoftware( $softwareid )
-    {
+		public function uninstallSoftware($softwareid)
+		{
 
-        $array = array(
-            'installed' => false
-        );
-
-        self::$database->updateSoftware( $softwareid, $array );
-    }
-
-    /**
-     * Updates a software data
-     *
-     * @param $softwareid
-     *
-     * @param array $data
-     */
+			$array = array(
+				'installed' => false
+			);
+
+			self::$database->updateSoftware($softwareid, $array);
+		}
+
+		/**
+		 * Updates a software data
+		 *
+		 * @param $softwareid
+		 *
+		 * @param array $data
+		 */
 
-    public function updateData( $softwareid, array $data )
-    {
+		public function updateData($softwareid, array $data)
+		{
 
-        $array = array(
-            'data'  => json_encode( $data )
-        );
+			$array = array(
+				'data' => json_encode($data)
+			);
 
-        self::$database->updateSoftware( $softwareid, $array );
-    }
+			self::$database->updateSoftware($softwareid, $array);
+		}
 
-    /**
-     * Returns true if this software is installable
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+		/**
+		 * Returns true if this software is installable
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-    public function canInstall( $softwareid )
-    {
+		public function canInstall($softwareid)
+		{
 
-        $software = self::$database->getSoftware( $softwareid );
+			$software = self::$database->getSoftware($softwareid);
 
-        if( $software == null )
-        {
+			if ($software == null)
+			{
 
-            throw new SyscrackException();
-        }
+				throw new SyscrackException();
+			}
 
-        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
 
-        if( isset( $softwareclass->configuration()['installable'] ) == false )
-        {
+			if (isset($softwareclass->configuration()['installable']) == false)
+			{
 
-            return true;
-        }
+				return true;
+			}
 
-        if( $softwareclass->configuration()['installable'] == false )
-        {
+			if ($softwareclass->configuration()['installable'] == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * Returns true if this software cannot be uninstalled
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+		/**
+		 * Returns true if this software cannot be uninstalled
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-    public function canUninstall( $softwareid )
-    {
+		public function canUninstall($softwareid)
+		{
 
-        $software = self::$database->getSoftware( $softwareid );
+			$software = self::$database->getSoftware($softwareid);
 
-        if( $software == null )
-        {
+			if ($software == null)
+			{
 
-            throw new SyscrackException();
-        }
+				throw new SyscrackException();
+			}
 
-        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
 
-        if( isset( $softwareclass->configuration()['uninstallable'] ) == false )
-        {
+			if (isset($softwareclass->configuration()['uninstallable']) == false)
+			{
 
-            return true;
-        }
+				return true;
+			}
 
-        if( $softwareclass->configuration()['uninstallable'] == true )
-        {
+			if ($softwareclass->configuration()['uninstallable'] == true)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * If the software is uneditable, if viewable is equal to true, then the user will
-     * still be allowed to view this software
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+		/**
+		 * If the software is uneditable, if viewable is equal to true, then the user will
+		 * still be allowed to view this software
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-    public function canView( $softwareid )
-    {
+		public function canView($softwareid)
+		{
 
-        $software = self::$database->getSoftware( $softwareid );
+			$software = self::$database->getSoftware($softwareid);
 
-        if( $software == null )
-        {
+			if ($software == null)
+			{
 
-            throw new SyscrackException();
-        }
+				throw new SyscrackException();
+			}
 
-        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
 
-        if( isset( $softwareclass->configuration()['viewable'] ) == false )
-        {
+			if (isset($softwareclass->configuration()['viewable']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        if( $softwareclass->configuration()['viewable'] == false )
-        {
+			if ($softwareclass->configuration()['viewable'] == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * Returns true if this software can be removed
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+		/**
+		 * Returns true if this software can be removed
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-    public function canRemove( $softwareid )
-    {
+		public function canRemove($softwareid)
+		{
 
-        $software = self::$database->getSoftware( $softwareid );
+			$software = self::$database->getSoftware($softwareid);
 
-        if( $software == null )
-        {
+			if ($software == null)
+			{
 
-            throw new SyscrackException();
-        }
+				throw new SyscrackException();
+			}
 
-        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
 
-        if( isset( $softwareclass->configuration()['removable'] ) == false )
-        {
+			if (isset($softwareclass->configuration()['removable']) == false)
+			{
 
-            return true;
-        }
+				return true;
+			}
 
-        if( $softwareclass->configuration()['removable'] == false )
-        {
+			if ($softwareclass->configuration()['removable'] == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
-    /**
-     * Returns true if we keep the data on downloads and uploads
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function keepData( $softwareid )
-    {
+		/**
+		 * Returns true if we keep the data on downloads and uploads
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        $software = self::$database->getSoftware( $softwareid );
+		public function keepData($softwareid)
+		{
 
-        if( $software == null )
-        {
+			$software = self::$database->getSoftware($softwareid);
 
-            throw new SyscrackException();
-        }
+			if ($software == null)
+			{
 
-        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+				throw new SyscrackException();
+			}
 
-        if( isset( $softwareclass->configuration()['keepdata'] ) == false )
-        {
+			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
 
-            return false;
-        }
+			if (isset($softwareclass->configuration()['keepdata']) == false)
+			{
 
-        if( $softwareclass->configuration()['keepdata'] == false )
-        {
+				return false;
+			}
 
-            return false;
-        }
+			if ($softwareclass->configuration()['keepdata'] == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if a software is executable
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function canExecute( $softwareid )
-    {
+		/**
+		 * Returns true if a software is executable
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        $software = self::$database->getSoftware( $softwareid );
+		public function canExecute($softwareid)
+		{
 
-        if( $software == null )
-        {
+			$software = self::$database->getSoftware($softwareid);
 
-            throw new SyscrackException();
-        }
+			if ($software == null)
+			{
 
-        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+				throw new SyscrackException();
+			}
 
-        if( isset( $softwareclass->configuration()['executable'] ) == false )
-        {
+			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
 
-            return true;
-        }
+			if (isset($softwareclass->configuration()['executable']) == false)
+			{
 
-        if( $softwareclass->configuration()['executable'] == false )
-        {
+				return true;
+			}
 
-            return false;
-        }
+			if ($softwareclass->configuration()['executable'] == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if this software can only be executed locally
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function localExecuteOnly( $softwareid )
-    {
+		/**
+		 * Returns true if this software can only be executed locally
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        $software = self::$database->getSoftware( $softwareid );
+		public function localExecuteOnly($softwareid)
+		{
 
-        if( $software == null )
-        {
+			$software = self::$database->getSoftware($softwareid);
 
-            throw new SyscrackException();
-        }
+			if ($software == null)
+			{
 
-        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+				throw new SyscrackException();
+			}
 
-        if( isset( $softwareclass->configuration()['localexecuteonly'] ) == false )
-        {
+			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
 
-            return false;
-        }
+			if (isset($softwareclass->configuration()['localexecuteonly']) == false)
+			{
 
-        if( $softwareclass->configuration()['localexecuteonly'] == false )
-        {
+				return false;
+			}
 
-            return false;
-        }
+			if ($softwareclass->configuration()['localexecuteonly'] == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if the software can be edited
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function isEditable( $softwareid )
-    {
+		/**
+		 * Returns true if the software can be edited
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        $data = $this->getSoftwareData( $softwareid );
+		public function isEditable($softwareid)
+		{
 
-        if( empty( $data ) )
-        {
+			$data = $this->getSoftwareData($softwareid);
 
-            return true;
-        }
+			if (empty($data))
+			{
 
-        if( isset( $data['editable'] ) == false )
-        {
+				return true;
+			}
 
-            return true;
-        }
+			if (isset($data['editable']) == false)
+			{
 
-        if( $data['editable'] == false )
-        {
+				return true;
+			}
 
-            return false;
-        }
+			if ($data['editable'] == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if this software is an anon download software
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function isAnonDownloadSoftware( $softwareid )
-    {
+		/**
+		 * Returns true if this software is an anon download software
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        if( $this->hasData( $softwareid ) == false )
-        {
+		public function isAnonDownloadSoftware($softwareid)
+		{
 
-            return false;
-        }
+			if ($this->hasData($softwareid) == false)
+			{
 
-        $data = $this->getSoftwareData( $softwareid );
+				return false;
+			}
 
-        if( isset( $data['allowanondownloads'] ) == false )
-        {
+			$data = $this->getSoftwareData($softwareid);
 
-            return false;
-        }
+			if (isset($data['allowanondownloads']) == false)
+			{
 
-        if( is_bool( $data['allowanondownloads'] ) == false )
-        {
+				return false;
+			}
 
-            throw new SyscrackException();
-        }
+			if (is_bool($data['allowanondownloads']) == false)
+			{
 
-        return $data['allowanondownloads'];
-    }
+				throw new SyscrackException();
+			}
 
-    /**
-     * Returns true if the software has an icon
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			return $data['allowanondownloads'];
+		}
 
-    public function hasIcon( $softwareid )
-    {
+		/**
+		 * Returns true if the software has an icon
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        $software = self::$database->getSoftware( $softwareid );
+		public function hasIcon($softwareid)
+		{
 
-        if( $software == null )
-        {
+			$software = self::$database->getSoftware($softwareid);
 
-            throw new SyscrackException();
-        }
+			if ($software == null)
+			{
 
-        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+				throw new SyscrackException();
+			}
 
-        if( empty( $softwareclass->configuration() ) )
-        {
+			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
 
-            return false;
-        }
+			if (empty($softwareclass->configuration()))
+			{
 
-        if( isset( $softwareclass->configuration()['icon'] ) == false )
-        {
+				return false;
+			}
 
-            return false;
-        }
+			if (isset($softwareclass->configuration()['icon']) == false)
+			{
 
-        if( empty( $softwareclass->configuration()['icon'] ) )
-        {
+				return false;
+			}
 
-            return false;
-        }
+			if (empty($softwareclass->configuration()['icon']))
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Gets the software icon
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function getIcon( $softwareid )
-    {
+		/**
+		 * Gets the software icon
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        $software = self::$database->getSoftware( $softwareid );
+		public function getIcon($softwareid)
+		{
 
-        if( $software == null )
-        {
+			$software = self::$database->getSoftware($softwareid);
 
-            throw new SyscrackException();
-        }
+			if ($software == null)
+			{
 
-        $softwareclass = $this->findSoftwareByUniqueName( $software->uniquename );
+				throw new SyscrackException();
+			}
 
-        if( empty( $softwareclass->configuration() ) )
-        {
+			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
 
-            throw new SyscrackException();
-        }
+			if (empty($softwareclass->configuration()))
+			{
 
-        if( isset( $softwareclass->configuration()['icon'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return Settings::setting('syscrack_software_default_icon');
-        }
+			if (isset($softwareclass->configuration()['icon']) == false)
+			{
 
-        return $softwareclass->configuration()['icon'];
-    }
+				return Settings::setting('syscrack_software_default_icon');
+			}
 
-    /**
-     * @param $software
-     * @return mixed
-     */
+			return $softwareclass->configuration()['icon'];
+		}
 
-    public function getSoftwareType( $software )
-    {
+		/**
+		 * @param $software
+		 *
+		 * @return mixed
+		 */
 
-        return $this->getSoftwareClass( $software )->configuration()['type'];
-    }
+		public function getSoftwareType($software)
+		{
 
-    /**
-     * @param $software
-     * @return mixed
-     */
-    public function getSoftwareExtension( $software )
-    {
+			return $this->getSoftwareClass($software)->configuration()['type'];
+		}
 
-        return $this->getSoftwareClass( $software )->configuration()['extension'];
-    }
+		/**
+		 * @param $software
+		 *
+		 * @return mixed
+		 */
+		public function getSoftwareExtension($software)
+		{
 
-    /**
-     * Gets the software unique name
-     *
-     * @param $software
-     *
-     * @return mixed
-     */
+			return $this->getSoftwareClass($software)->configuration()['extension'];
+		}
 
-    public function getSoftwareUniqueName( $software )
-    {
+		/**
+		 * Gets the software unique name
+		 *
+		 * @param $software
+		 *
+		 * @return mixed
+		 */
 
-        return $this->getSoftwareClass( $software )->configuration()['unqiuename'];
-    }
+		public function getSoftwareUniqueName($software)
+		{
 
-    /**
-     * Returns wether the software is installable or not
-     *
-     * @param $software
-     *
-     * @return mixed
-     */
+			return $this->getSoftwareClass($software)->configuration()['unqiuename'];
+		}
 
-    public function getSoftwareInstallable( $software )
-    {
+		/**
+		 * Returns wether the software is installable or not
+		 *
+		 * @param $software
+		 *
+		 * @return mixed
+		 */
 
-        return $this->getSoftwareClass( $software )->configuration()['installable'];
-    }
+		public function getSoftwareInstallable($software)
+		{
 
-    /**
-     * Returns true if this data is set
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			return $this->getSoftwareClass($software)->configuration()['installable'];
+		}
 
-    public function hasData( $softwareid )
-    {
+		/**
+		 * Returns true if this data is set
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        if( $this->getSoftwareData( $softwareid ) == null )
-        {
+		public function hasData($softwareid)
+		{
 
-            return false;
-        }
+			if ($this->getSoftwareData($softwareid) == null)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Gets the software's data
-     *
-     * @param $softwareid
-     *
-     * @return mixed
-     */
+			return true;
+		}
 
-    public function getSoftwareData( $softwareid )
-    {
+		/**
+		 * Gets the software's data
+		 *
+		 * @param $softwareid
+		 *
+		 * @return mixed
+		 */
 
-        return json_decode( self::$database->getSoftware( $softwareid )->data, true );
-    }
+		public function getSoftwareData($softwareid)
+		{
 
-    /**
-     * Checks the software data
-     *
-     * @param $softwareid
-     *
-     * @param array $requirements
-     *
-     * @return bool
-     */
+			return json_decode(self::$database->getSoftware($softwareid)->data, true);
+		}
 
-    public function checkSoftwareData( $softwareid, array $requirements = ['text'] )
-    {
+		/**
+		 * Checks the software data
+		 *
+		 * @param $softwareid
+		 *
+		 * @param array $requirements
+		 *
+		 * @return bool
+		 */
 
-        $data = $this->getSoftwareData( $softwareid );
+		public function checkSoftwareData($softwareid, array $requirements = ['text'])
+		{
 
-        foreach( $requirements as $requirement )
-        {
+			$data = $this->getSoftwareData($softwareid);
 
-            if( isset( $data[ $requirement ] ) == false )
-            {
+			foreach ($requirements as $requirement)
+			{
 
-                return false;
-            }
-        }
+				if (isset($data[$requirement]) == false)
+				{
 
-        return true;
-    }
+					return false;
+				}
+			}
 
-    /**
-     * Executes a method inside the given software class
-     *
-     * @param $software
-     *
-     * @param string $method
-     *
-     * @param array $parameters
-     * @return mixed|null
-     */
+			return true;
+		}
 
-    public function executeSoftwareMethod( $software, $method='onExecute', array $parameters = [] )
-    {
+		/**
+		 * Executes a method inside the given software class
+		 *
+		 * @param $software
+		 *
+		 * @param string $method
+		 *
+		 * @param array $parameters
+		 *
+		 * @return mixed|null
+		 */
 
-        $software = $this->getSoftwareClass( $software );
+		public function executeSoftwareMethod($software, $method = 'onExecute', array $parameters = [])
+		{
 
-        try
-        {
+			$software = $this->getSoftwareClass($software);
 
-            if( $this->isCallable( $software, $method ) == false )
-            {
+			try
+			{
 
-                return null;
-            }
-        }
-        catch ( \ReflectionException $exception )
-        {
+				if ($this->isCallable($software, $method) == false)
+				{
 
-        }
+					return null;
+				}
+			} catch (\ReflectionException $exception)
+			{
 
-        if( empty( $parameters ) == false )
-        {
+			}
 
-            return call_user_func_array( array( $software, $method ), $parameters );
-        }
+			if (empty($parameters) == false)
+			{
 
-        return $software->{ $method }();
-    }
+				return call_user_func_array(array($software, $method), $parameters);
+			}
 
-    /**
-     * @param Structure $software
-     * @param string $method
-     * @return bool
-     * @throws \ReflectionException
-     */
+			return $software->{$method}();
+		}
 
-    private function isCallable( Structure $software, string $method )
-    {
+		/**
+		 * @param Structure $software
+		 * @param string $method
+		 *
+		 * @return bool
+		 * @throws \ReflectionException
+		 */
 
-        $requirements = Settings::setting('syscrack_software_allowedmethods');
+		private function isCallable(Structure $software, string $method)
+		{
 
-        if( isset( $requirements[ $method ] ) )
-        {
+			$requirements = Settings::setting('syscrack_software_allowedmethods');
 
-            throw new SyscrackException('Method is not in the allowed callable methods');
-        }
+			if (isset($requirements[$method]))
+			{
 
-        $software = new \ReflectionClass( $software );
+				throw new SyscrackException('Method is not in the allowed callable methods');
+			}
 
-        if( $software->getMethod( $method )->isPublic() == false )
-        {
+			$software = new \ReflectionClass($software);
 
-            return false;
-        }
+			if ($software->getMethod($method)->isPublic() == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if this software is installed
-     *
-     * @param $softwareid
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function isInstalled( $softwareid, $computerid )
-    {
+		/**
+		 * Returns true if this software is installed
+		 *
+		 * @param $softwareid
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        if( $this->getSoftware( $softwareid )->computerid !== $computerid )
-        {
+		public function isInstalled($softwareid, $computerid)
+		{
 
-            return false;
-        }
+			if ($this->getSoftware($softwareid)->computerid !== $computerid)
+			{
 
-        if( $this->getSoftware( $softwareid )->installed == false )
-        {
+				return false;
+			}
 
-            return false;
-        }
+			if ($this->getSoftware($softwareid)->installed == false)
+			{
 
-        return true;
-    }
-}
+				return false;
+			}
+
+			return true;
+		}
+	}

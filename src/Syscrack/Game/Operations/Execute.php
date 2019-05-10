@@ -1,111 +1,113 @@
 <?php
-    namespace Framework\Syscrack\Game\Operations;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Execute
-     *
-     * @package Framework\Syscrack\Game\Operations
-     */
+	namespace Framework\Syscrack\Game\Operations;
 
-    use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-    use Framework\Syscrack\Game\Structures\Software;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Execute
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-    class Execute extends BaseOperation
-    {
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Structures\Software;
 
-        /**
-         * Called when the software is executed
-         *
-         * @param $timecompleted
-         *
-         * @param $computerid
-         *
-         * @param $userid
-         *
-         * @param $process
-         *
-         * @param array $data
-         *
-         * @return bool
-         */
+	class Execute extends BaseOperation
+	{
 
-        public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-        {
+		/**
+		 * Called when the software is executed
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-            if( $this->checkData( $data, ['ipaddress', 'softwareid' ] ) == false )
-                return false;
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-            if( self::$software->canExecute( $data['softwareid'] ) == false )
-                return false;
+			if ($this->checkData($data, ['ipaddress', 'softwareid']) == false)
+				return false;
 
-            if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
-                return false;
+			if (self::$software->canExecute($data['softwareid']) == false)
+				return false;
 
-            if( self::$software->localExecuteOnly( $data['softwareid'] ) && self::$computer->getComputer( $computerid )->ipaddress !== $data['ipaddress']  )
-                return false;
+			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])) == false)
+				return false;
 
-            return true;
-        }
+			if (self::$software->localExecuteOnly($data['softwareid']) && self::$computer->getComputer($computerid)->ipaddress !== $data['ipaddress'])
+				return false;
 
-        /**
-         * @param $timecompleted
-         * @param $timestarted
-         * @param $computerid
-         * @param $userid
-         * @param $process
-         * @param array $data
-         * @return bool|mixed
-         */
+			return true;
+		}
 
-        public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-        {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool|mixed
+		 */
 
-            if( $this->checkData( $data, ['ipaddress', 'softwareid' ] ) == false )
-                return false;
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-            if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-                return false;
+			if ($this->checkData($data, ['ipaddress', 'softwareid']) == false)
+				return false;
 
-            if( self::$software->softwareExists( $data['softwareid'] ) == false )
-                return false;
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
 
-            $class = self::$software->getSoftwareClassFromID( $data['softwareid'] );
+			if (self::$software->softwareExists($data['softwareid']) == false)
+				return false;
 
-            if( $class instanceof Software == false )
-                return false;
+			$class = self::$software->getSoftwareClassFromID($data['softwareid']);
 
-            return @$class->onExecuted( $data['softwareid'], $userid, $this->getComputerId( $data['ipaddress'] ) );
-        }
+			if ($class instanceof Software == false)
+				return false;
 
-        /**
-         * Gets the completion speed
-         *
-         * @param $computerid
-         *
-         * @param $ipaddress
-         *
-         * @param null $softwareid
-         *
-         * @return mixed|null
-         */
+			return @$class->onExecuted($data['softwareid'], $userid, $this->getComputerId($data['ipaddress']));
+		}
 
-        public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
-        {
+		/**
+		 * Gets the completion speed
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return mixed|null
+		 */
 
-            if( $softwareid == null )
-                throw new SyscrackException();
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-            if( self::$software->softwareExists( $softwareid ) == false )
-                throw new SyscrackException();
+			if ($softwareid == null)
+				throw new SyscrackException();
 
-            $class = self::$software->getSoftwareClassFromID( $softwareid );
+			if (self::$software->softwareExists($softwareid) == false)
+				throw new SyscrackException();
 
-            if( $class instanceof Software == false )
-                throw new SyscrackException();
+			$class = self::$software->getSoftwareClassFromID($softwareid);
 
-            return $class->getExecuteCompletionTime( $softwareid, $computerid );
-        }
-    }
+			if ($class instanceof Software == false)
+				throw new SyscrackException();
+
+			return $class->getExecuteCompletionTime($softwareid, $computerid);
+		}
+	}

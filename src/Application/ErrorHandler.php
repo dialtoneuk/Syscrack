@@ -1,278 +1,279 @@
 <?php
-namespace Framework\Application;
-
-/**
- * Lewis Lancaster 2017
- *
- * Class ErrorHandler
- *
- * @package Framework\Application
- */
-
-use Error;
-use Exception;
-use Framework\Application\Utilities\FileSystem;
-use Framework\Application\Utilities\IPAddress;
-use Framework\Exceptions\ApplicationException;
-
-class ErrorHandler
-{
-
-    /**
-     * Holds the active log file
-     *
-     * @var array|mixed
-     */
-
-    protected $error_log = [];
-
-    /**
-     * ErrorHandler constructor.
-     *
-     * @param bool $autoload
-     */
-
-    public function __construct( $autoload=true )
-    {
-
-        if( $autoload == true )
-        {
-
-            if( $this->hasLogFile() )
-            {
-
-                $this->error_log = $this->getLogFile();
-            }
-        }
-    }
-
-    /**
-     * Handles the errors of the application
-     *
-     * @param Exception $error
-     */
-
-    public function handleError( Exception $error )
-    {
-
-        $array = array(
-            'message'   => $error->getMessage(),
-            'type'      => 'frameworkerror',
-            'details'   => [
-                'url'       => $_SERVER['REQUEST_URI'],
-                'line'      => $error->getLine(),
-                'file'      => $error->getFile(),
-                'trace'     => $error->getTraceAsString()
-            ]
-        );
-
-        $this->addToLog( $array );
-
-        if( Settings::setting('error_logging') )
-            $this->saveErrors();
-    }
-
-    /**
-     * Handles an error with the render engine
-     *
-     * @param Error $error
-     */
-
-    public function handleFlightError( Error $error )
-    {
-
-        $array = array(
-            'message'   => $error->getMessage(),
-            'type'      => 'rendererror',
-            'details'   => [
-                'url'       => $_SERVER['REQUEST_URI'],
-                'line'      => $error->getLine(),
-                'file'      => $error->getFile(),
-                'trace'     => $error->getTraceAsString()
-            ]
-        );
-
-        $this->addToLog( $array );
-
-        if( Settings::setting('error_logging') )
-            $this->saveErrors();
-    }
-
-    /**
-     * Gets the error log
-     *
-     * @return array|mixed
-     */
 
-    public function getErrorLog()
-    {
+	namespace Framework\Application;
+
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class ErrorHandler
+	 *
+	 * @package Framework\Application
+	 */
+
+	use Error;
+	use Exception;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\Utilities\IPAddress;
+	use Framework\Exceptions\ApplicationException;
+
+	class ErrorHandler
+	{
+
+		/**
+		 * Holds the active log file
+		 *
+		 * @var array|mixed
+		 */
+
+		protected $error_log = [];
+
+		/**
+		 * ErrorHandler constructor.
+		 *
+		 * @param bool $autoload
+		 */
+
+		public function __construct($autoload = true)
+		{
+
+			if ($autoload == true)
+			{
+
+				if ($this->hasLogFile())
+				{
+
+					$this->error_log = $this->getLogFile();
+				}
+			}
+		}
+
+		/**
+		 * Handles the errors of the application
+		 *
+		 * @param Exception $error
+		 */
+
+		public function handleError(Exception $error)
+		{
+
+			$array = array(
+				'message' => $error->getMessage(),
+				'type' => 'frameworkerror',
+				'details' => [
+					'url' => $_SERVER['REQUEST_URI'],
+					'line' => $error->getLine(),
+					'file' => $error->getFile(),
+					'trace' => $error->getTraceAsString()
+				]
+			);
+
+			$this->addToLog($array);
+
+			if (Settings::setting('error_logging'))
+				$this->saveErrors();
+		}
+
+		/**
+		 * Handles an error with the render engine
+		 *
+		 * @param Error $error
+		 */
+
+		public function handleFlightError(Error $error)
+		{
+
+			$array = array(
+				'message' => $error->getMessage(),
+				'type' => 'rendererror',
+				'details' => [
+					'url' => $_SERVER['REQUEST_URI'],
+					'line' => $error->getLine(),
+					'file' => $error->getFile(),
+					'trace' => $error->getTraceAsString()
+				]
+			);
+
+			$this->addToLog($array);
+
+			if (Settings::setting('error_logging'))
+				$this->saveErrors();
+		}
+
+		/**
+		 * Gets the error log
+		 *
+		 * @return array|mixed
+		 */
 
-        return $this->error_log;
-    }
+		public function getErrorLog()
+		{
 
-    /**
-     * Reads the error log from file
-     *
-     * @return mixed
-     */
+			return $this->error_log;
+		}
 
-    public function readErrorLog()
-    {
+		/**
+		 * Reads the error log from file
+		 *
+		 * @return mixed
+		 */
 
-        $file = FileSystem::read( $this->getFileLocation() );
+		public function readErrorLog()
+		{
 
-        if( empty( $file ) )
-        {
+			$file = FileSystem::read($this->getFileLocation());
 
-            throw new ApplicationException();
-        }
+			if (empty($file))
+			{
 
-        return json_decode( $file, true );
-    }
+				throw new ApplicationException();
+			}
 
-    /**
-     * Deletes the error log
-     */
+			return json_decode($file, true);
+		}
 
-    public function deleteErrorLog()
-    {
+		/**
+		 * Deletes the error log
+		 */
 
-        FileSystem::delete( $this->getFileLocation() );
-    }
+		public function deleteErrorLog()
+		{
 
-    /**
-     * Saves our errors to file
-     */
+			FileSystem::delete($this->getFileLocation());
+		}
 
-    public function saveErrors()
-    {
+		/**
+		 * Saves our errors to file
+		 */
 
-        if( $this->hasLogFile() == false )
-            FileSystem::write( $this->getFileLocation(), json_encode( $this->getErrorLog(), JSON_PRETTY_PRINT ) );
-        else
-            FileSystem::append( $this->getFileLocation(), json_encode( $this->getErrorLog(), JSON_PRETTY_PRINT ) );
-    }
+		public function saveErrors()
+		{
 
-    /**
-     * Handles the log file
-     *
-     * @return bool
-     */
+			if ($this->hasLogFile() == false)
+				FileSystem::write($this->getFileLocation(), json_encode($this->getErrorLog(), JSON_PRETTY_PRINT));
+			else
+				FileSystem::append($this->getFileLocation(), json_encode($this->getErrorLog(), JSON_PRETTY_PRINT));
+		}
 
-    public function hasLogFile()
-    {
+		/**
+		 * Handles the log file
+		 *
+		 * @return bool
+		 */
 
-        if( FileSystem::fileExists( $this->getFileLocation() ) )
-        {
+		public function hasLogFile()
+		{
 
-            return true;
-        }
+			if (FileSystem::fileExists($this->getFileLocation()))
+			{
 
-        return false;
-    }
+				return true;
+			}
 
-    /**
-     * Gets the last error ( used by the error page )
-     *
-     * @return mixed
-     */
+			return false;
+		}
 
-    public function getLastError()
-    {
+		/**
+		 * Gets the last error ( used by the error page )
+		 *
+		 * @return mixed
+		 */
 
-        $log = null;
+		public function getLastError()
+		{
 
-        if( empty( $this->error_log ) )
-            $log = $this->readErrorLog();
-        else
-            $log = $this->error_log;
+			$log = null;
 
-        return end( $log );
-    }
+			if (empty($this->error_log))
+				$log = $this->readErrorLog();
+			else
+				$log = $this->error_log;
 
-    /**
-     * Returns true if we have errors
-     *
-     * @return bool
-     */
+			return end($log);
+		}
 
-    public function hasErrors()
-    {
+		/**
+		 * Returns true if we have errors
+		 *
+		 * @return bool
+		 */
 
-        $log = null;
+		public function hasErrors()
+		{
 
-        if( empty( $this->error_log ) )
-            $log = $this->readErrorLog();
-        else
-            $log = $this->error_log;
+			$log = null;
 
-        if( empty( $log ) )
-        {
+			if (empty($this->error_log))
+				$log = $this->readErrorLog();
+			else
+				$log = $this->error_log;
 
-            return false;
-        }
+			if (empty($log))
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Adds to the log
-     *
-     * @param array $array
-     */
+			return true;
+		}
 
-    private function addToLog( array $array )
-    {
+		/**
+		 * Adds to the log
+		 *
+		 * @param array $array
+		 */
 
-        $data = array(
-            'timestamp'  => time(),
-            'ip'    => $this->getIP()
-        );
+		private function addToLog(array $array)
+		{
 
-         $this->error_log[] = array_merge( $array, $data );
-    }
+			$data = array(
+				'timestamp' => time(),
+				'ip' => $this->getIP()
+			);
 
-    /**
-     * Gets the log file
-     *
-     * @return mixed
-     */
+			$this->error_log[] = array_merge($array, $data);
+		}
 
-    private function getLogFile()
-    {
+		/**
+		 * Gets the log file
+		 *
+		 * @return mixed
+		 */
 
-        $file = FileSystem::read( self::getFileLocation() );
+		private function getLogFile()
+		{
 
-        if( empty( $file ) )
-        {
+			$file = FileSystem::read(self::getFileLocation());
 
-            throw new ApplicationException();
-        }
+			if (empty($file))
+			{
 
-        return json_decode( $file, true );
-    }
+				throw new ApplicationException();
+			}
 
-    /**
-     * Gets the error creators remote address
-     *
-     * @return string
-     */
+			return json_decode($file, true);
+		}
 
-    private function getIP()
-    {
+		/**
+		 * Gets the error creators remote address
+		 *
+		 * @return string
+		 */
 
-        return IPAddress::getAddress();
-    }
+		private function getIP()
+		{
 
-    /**
-     * Gets the file location
-     *
-     * @return mixed
-     */
+			return IPAddress::getAddress();
+		}
 
-    private function getFileLocation()
-    {
+		/**
+		 * Gets the file location
+		 *
+		 * @return mixed
+		 */
 
-        return Settings::setting('error_log_location');
-    }
-}
+		private function getFileLocation()
+		{
+
+			return Settings::setting('error_log_location');
+		}
+	}

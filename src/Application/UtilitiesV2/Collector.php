@@ -1,160 +1,166 @@
 <?php
-namespace Framework\Application\UtilitiesV2;
+
+	namespace Framework\Application\UtilitiesV2;
 
 
-class Collector
-{
+	class Collector
+	{
 
-    /**
-     * @var \stdClass
-     */
+		/**
+		 * @var \stdClass
+		 */
 
-    protected static $classes = null;
+		protected static $classes = null;
 
-    /**
-     * @throws \RuntimeException
-     */
+		/**
+		 * @throws \RuntimeException
+		 */
 
-    public static function initialize()
-    {
+		public static function initialize()
+		{
 
-        if( DEBUG_ENABLED )
-            Debug::message("Collector intialized");
+			if (DEBUG_ENABLED)
+				Debug::message("Collector intialized");
 
-        self::$classes = [];
-    }
+			self::$classes = [];
+		}
 
-    /**
-     * @param null $namespace
-     * @param $class
-     * @return mixed
-     * @throws \RuntimeException
-     */
+		/**
+		 * @param null $namespace
+		 * @param $class
+		 *
+		 * @return mixed
+		 * @throws \RuntimeException
+		 */
 
-    public static function new( $class, $namespace=null )
-    {
+		public static function new($class, $namespace = null)
+		{
 
-        if( self::hasInitialized() == false )
-            throw new \RuntimeException("Initialize first");
+			if (self::hasInitialized() == false)
+				throw new \RuntimeException("Initialize first");
 
-        if( $namespace == null )
-            $namespace = COLLECTOR_DEFAULT_NAMESPACE;
+			if ($namespace == null)
+				$namespace = COLLECTOR_DEFAULT_NAMESPACE;
 
-        if( self::exists( $namespace, $class ) == false )
-            throw new \RuntimeException("Namespace does not exist: " . $namespace . $class );
+			if (self::exists($namespace, $class) == false)
+				throw new \RuntimeException("Namespace does not exist: " . $namespace . $class);
 
-        if( isset( self::$classes[ $namespace . $class ] ) )
-        {
+			if (isset(self::$classes[$namespace . $class]))
+			{
 
-            Debug::message("Collector returning pre created class: " . $class );
+				Debug::message("Collector returning pre created class: " . $class);
 
-            return( self::$classes[ $namespace . $class ]  );
-        }
-
-
-        $full_namespace = $namespace . $class;
-        self::$classes[ $full_namespace ] = new $full_namespace;
-
-        Debug::message("Collector returning newly created class: " . $class );
-
-        return( self::$classes[ $full_namespace  ]);
-    }
-
-    /**
-     * @param $class
-     * @param null $namespace
-     * @return mixed
-     * @throws \RuntimeException
-     */
-
-    public static function get( $class, $namespace=null )
-    {
-
-        if( self::hasInitialized() == false )
-            throw new \RuntimeException("Initialize first");
-
-        if( $namespace == null )
-            $namespace = COLLECTOR_DEFAULT_NAMESPACE;
-
-        return( self::$classes[ $namespace . $class ] );
-    }
-
-    /**
-     * @param $class
-     * @param $as
-     * @param null $namespace
-     * @return mixed
-     * @throws \RuntimeException
-     */
-
-    public static function as( $class, $as, $namespace=null )
-    {
-
-        if( self::hasInitialized() == false )
-            throw new \RuntimeException("Initialize first");
-
-        if( $namespace == null )
-            $namespace = COLLECTOR_DEFAULT_NAMESPACE;
-
-        if( isset( self::$classes->$as ) )
-            throw new \RuntimeException("Class already exists");
-
-        if( self::exists( $namespace, $class ) == false )
-            throw new \RuntimeException("Namespace does not exist: " . $namespace . $class );
-
-        $full_namespace = $namespace . $class;
-        self::$classes[ $as ] = new $full_namespace;
-
-        Debug::message("Collector returning newly created class which is refered to as: " . $as . " ( actual name is " . $class . " )" );
-
-        return( self::$classes[ $as ] );
-    }
-
-    /**
-     * @param $class
-     * @param null $namespace
-     * @return bool
-     */
-
-    public static function exist( $class, $namespace=null )
-    {
-
-        return( isset( self::$classes[ $namespace ]) );
-    }
+				return (self::$classes[$namespace . $class]);
+			}
 
 
-    /**
-     * @return mixed
-     */
+			$full_namespace = $namespace . $class;
+			self::$classes[$full_namespace] = new $full_namespace;
 
-    public static function all()
-    {
+			Debug::message("Collector returning newly created class: " . $class);
 
-        return( self::$classes );
-    }
+			return (self::$classes[$full_namespace]);
+		}
 
-    /**
-     * @param $namespace
-     * @param $class
-     * @return bool
-     */
+		/**
+		 * @param $class
+		 * @param null $namespace
+		 *
+		 * @return mixed
+		 * @throws \RuntimeException
+		 */
 
-    private static function exists( $namespace, $class )
-    {
+		public static function get($class, $namespace = null)
+		{
 
-        return( class_exists( $namespace . $class ) );
-    }
+			if (self::hasInitialized() == false)
+				throw new \RuntimeException("Initialize first");
 
-    /**
-     * @return bool
-     */
+			if ($namespace == null)
+				$namespace = COLLECTOR_DEFAULT_NAMESPACE;
 
-    private static function hasInitialized()
-    {
+			return (self::$classes[$namespace . $class]);
+		}
 
-        if( self::$classes === null )
-            return false;
+		/**
+		 * @param $class
+		 * @param $as
+		 * @param null $namespace
+		 *
+		 * @return mixed
+		 * @throws \RuntimeException
+		 */
 
-        return true;
-    }
-}
+		public static function as($class, $as, $namespace = null)
+		{
+
+			if (self::hasInitialized() == false)
+				throw new \RuntimeException("Initialize first");
+
+			if ($namespace == null)
+				$namespace = COLLECTOR_DEFAULT_NAMESPACE;
+
+			if (isset(self::$classes->$as))
+				throw new \RuntimeException("Class already exists");
+
+			if (self::exists($namespace, $class) == false)
+				throw new \RuntimeException("Namespace does not exist: " . $namespace . $class);
+
+			$full_namespace = $namespace . $class;
+			self::$classes[$as] = new $full_namespace;
+
+			Debug::message("Collector returning newly created class which is refered to as: " . $as . " ( actual name is " . $class . " )");
+
+			return (self::$classes[$as]);
+		}
+
+		/**
+		 * @param $class
+		 * @param null $namespace
+		 *
+		 * @return bool
+		 */
+
+		public static function exist($class, $namespace = null)
+		{
+
+			return (isset(self::$classes[$namespace]));
+		}
+
+
+		/**
+		 * @return mixed
+		 */
+
+		public static function all()
+		{
+
+			return (self::$classes);
+		}
+
+		/**
+		 * @param $namespace
+		 * @param $class
+		 *
+		 * @return bool
+		 */
+
+		private static function exists($namespace, $class)
+		{
+
+			return (class_exists($namespace . $class));
+		}
+
+		/**
+		 * @return bool
+		 */
+
+		private static function hasInitialized()
+		{
+
+			if (self::$classes === null)
+				return false;
+
+			return true;
+		}
+	}

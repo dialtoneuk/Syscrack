@@ -1,189 +1,191 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Logout
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Viruses;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Logout
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class Delete extends BaseOperation
-{
+	use Framework\Application\Settings;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Viruses;
 
-    /**
-     * @var Viruses
-     */
+	class Delete extends BaseOperation
+	{
 
-    protected static $viruses;
+		/**
+		 * @var Viruses
+		 */
 
-    /**
-     * Delete constructor.
-     */
+		protected static $viruses;
 
-    public function __construct()
-    {
+		/**
+		 * Delete constructor.
+		 */
 
-        if( isset( self::$viruses ) == false )
-            self::$viruses = new Viruses();
+		public function __construct()
+		{
+
+			if (isset(self::$viruses) == false)
+				self::$viruses = new Viruses();
 
 
-        parent::__construct( true );
-    }
+			parent::__construct(true);
+		}
 
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-    public function configuration()
-    {
+		public function configuration()
+		{
 
-        return array(
-            'allowsoftware'    => true,
-            'allowlocal'        => true,
-            'requiresoftware'  => true,
-            'requireloggedin'   => true
-        );
-    }
+			return array(
+				'allowsoftware' => true,
+				'allowlocal' => true,
+				'requiresoftware' => true,
+				'requireloggedin' => true
+			);
+		}
 
-    /**
-     * Called when this process request is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
+		/**
+		 * Called when this process request is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return mixed
+		 */
 
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-        if( $this->checkData( $data ) == false )
-            return false;
-        
-        if( self::$computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
-            return false;
+			if ($this->checkData($data) == false)
+				return false;
 
-        $software = self::$software->getSoftware( $data['softwareid'] );
+			if (self::$computer->hasSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']) == false)
+				return false;
 
-        if( self::$viruses->isVirus( $software->softwareid ) )
-        {
+			$software = self::$software->getSoftware($data['softwareid']);
 
-            if( $software->userid == $userid )
-            {
-                if( $software->installed )
-                    return false;
-                else
-                    if( self::$software->canRemove( $software->softwareid ) == false )
-                        return false;
-                    else
-                        return true;
-            }
-            else
-                return false;
-        }
-        else if( self::$software->canRemove( $software->softwareid ) )
-            return true;
+			if (self::$viruses->isVirus($software->softwareid))
+			{
 
-        return false;
-    }
+				if ($software->userid == $userid)
+				{
+					if ($software->installed)
+						return false;
+					else
+						if (self::$software->canRemove($software->softwareid) == false)
+							return false;
+						else
+							return true;
+				}
+				else
+					return false;
+			}
+			else if (self::$software->canRemove($software->softwareid))
+				return true;
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool|string
-     */
+			return false;
+		}
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool|string
+		 */
 
-        if( $this->checkData( $data ) == false )
-            return false;
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-        if( self::$software->softwareExists( $data['softwareid'] ) == false )
-            return false;
+			if ($this->checkData($data) == false)
+				return false;
 
-        $software = self::$software->getSoftware( $data['softwareid'] );
+			if (self::$software->softwareExists($data['softwareid']) == false)
+				return false;
 
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
+			$software = self::$software->getSoftware($data['softwareid']);
 
-        self::$software->deleteSoftware( $software->softwareid );
-        self::$computer->removeSoftware( $this->getComputerId( $data['ipaddress'] ), $software->softwareid );
-        $this->logDelete( $software->softwarename, $this->getComputerId( $data['ipaddress'] ), self::$computer->getComputer( $computerid )->ipaddress );
-        $this->logLocal( $software->softwarename, $data['ipaddress'] );
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
 
-        if( isset( $data['redirect'] ) == false )
-            return true;
-        else
-            return( $data['redirect'] );
-    }
+			self::$software->deleteSoftware($software->softwareid);
+			self::$computer->removeSoftware($this->getComputerId($data['ipaddress']), $software->softwareid);
+			$this->logDelete($software->softwarename, $this->getComputerId($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
+			$this->logLocal($software->softwarename, $data['ipaddress']);
 
-    /**
-     * Returns the completion time for this action
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return int
-     */
+			if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
+		}
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
-    {
+		/**
+		 * Returns the completion time for this action
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return int
+		 */
 
-        return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), 5.5, $softwareid );
-    }
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-    /**
-     * @param $softwarename
-     * @param $computerid
-     * @param $ipaddress
-     */
+			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_cpu_type'), 5.5, $softwareid);
+		}
 
-    private function logDelete( $softwarename, $computerid, $ipaddress )
-    {
+		/**
+		 * @param $softwarename
+		 * @param $computerid
+		 * @param $ipaddress
+		 */
 
-        if( self::$computer->computerid() == $computerid )
-        {
+		private function logDelete($softwarename, $computerid, $ipaddress)
+		{
 
-            return;
-        }
+			if (self::$computer->computerid() == $computerid)
+			{
 
-        $this->logToComputer('Deleted file <' . $softwarename . '> on root', $computerid, $ipaddress );
-    }
+				return;
+			}
 
-    /**
-     * Logs to the local log
-     *
-     * @param $softwarename
-     *
-     * @param $ipaddress
-     */
+			$this->logToComputer('Deleted file <' . $softwarename . '> on root', $computerid, $ipaddress);
+		}
 
-    private function logLocal( $softwarename, $ipaddress )
-    {
+		/**
+		 * Logs to the local log
+		 *
+		 * @param $softwarename
+		 *
+		 * @param $ipaddress
+		 */
 
-        $this->logToComputer('Deleted file <' . $softwarename . '> on ' . $ipaddress, self::$computer->getComputer( self::$computer->computerid() )->computerid, 'localhost' );
-    }
-}
+		private function logLocal($softwarename, $ipaddress)
+		{
+
+			$this->logToComputer('Deleted file <' . $softwarename . '> on ' . $ipaddress, self::$computer->getComputer(self::$computer->computerid())->computerid, 'localhost');
+		}
+	}

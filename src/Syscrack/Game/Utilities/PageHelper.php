@@ -1,562 +1,563 @@
 <?php
-namespace Framework\Syscrack\Game\Utilities;
-
-/**
- * Lewis Lancaster 2017
- *
- * Class PageHelper
- *
- * @package Framework\Syscrack\Game\Utility
- */
-
-use Framework\Application\Container;
-use Framework\Application\Settings;
-use Framework\Application\Utilities\ArrayHelper;
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\AddressDatabase;
-use Framework\Syscrack\Game\Computer;
-use Framework\Syscrack\Game\Finance;
-use Framework\Syscrack\Game\Software;
-use Framework\Syscrack\User;
 
-class PageHelper
-{
-
-    /**
-     * @var \Framework\Application|\Framework\Application\Session
-     */
+	namespace Framework\Syscrack\Game\Utilities;
 
-    protected $session;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class PageHelper
+	 *
+	 * @package Framework\Syscrack\Game\Utility
+	 */
 
-    /**
-     * PageHelper constructor.
-     */
+	use Framework\Application\Container;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\ArrayHelper;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\AddressDatabase;
+	use Framework\Syscrack\Game\Computer;
+	use Framework\Syscrack\Game\Finance;
+	use Framework\Syscrack\Game\Software;
+	use Framework\Syscrack\User;
 
-    public function __construct()
-    {
+	class PageHelper
+	{
 
-        if( Container::hasObject('session') == false )
-        {
+		/**
+		 * @var \Framework\Application|\Framework\Application\Session
+		 */
 
-            return;
-        }
+		protected $session;
 
-        $this->session = Container::getObject('session');
-    }
+		/**
+		 * PageHelper constructor.
+		 */
 
-    /**
-     * Returns true if we are currently connected
-     *
-     * @param $ipaddress
-     *
-     * @return bool
-     */
+		public function __construct()
+		{
 
-    public function isCurrentlyConnected( $ipaddress )
-    {
+			if (Container::hasObject('session') == false)
+			{
 
-        if( isset( $_SESSION['connected_ipaddress' ] ) == false )
-        {
+				return;
+			}
 
-            return false;
-        }
+			$this->session = Container::getObject('session');
+		}
 
-        if( $_SESSION['connected_ipaddress'] == $ipaddress )
-        {
+		/**
+		 * Returns true if we are currently connected
+		 *
+		 * @param $ipaddress
+		 *
+		 * @return bool
+		 */
 
-            return true;
-        }
+		public function isCurrentlyConnected($ipaddress)
+		{
 
-        return false;
-    }
+			if (isset($_SESSION['connected_ipaddress']) == false)
+			{
 
-    /**
-     * Returns true if we have already hacked this computer
-     *
-     * @param $ipaddress
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    public function alreadyHacked( $ipaddress )
-    {
+			if ($_SESSION['connected_ipaddress'] == $ipaddress)
+			{
 
-        $addressdatabase = new AddressDatabase();
+				return true;
+			}
 
-        if( $addressdatabase->hasAddress( $ipaddress, $this->session->userid()  ) == false )
-        {
+			return false;
+		}
 
-            return false;
-        }
+		/**
+		 * Returns true if we have already hacked this computer
+		 *
+		 * @param $ipaddress
+		 *
+		 * @return bool
+		 */
 
-        return true;
-    }
+		public function alreadyHacked($ipaddress)
+		{
 
-    /**
-     * Gets the users id
-     *
-     * @return string
-     */
+			$addressdatabase = new AddressDatabase();
 
-    public function getUserID()
-    {
+			if ($addressdatabase->hasAddress($ipaddress, $this->session->userid()) == false)
+			{
 
-        return $this->session->userid();
-    }
+				return false;
+			}
 
-    /**
-     * Gets the users address
-     *
-     * @return mixed
-     */
+			return true;
+		}
 
-    public function getUserAddress()
-    {
+		/**
+		 * Gets the users id
+		 *
+		 * @return string
+		 */
 
-        return $this->session->getSessionAddress();
-    }
+		public function getUserID()
+		{
 
-    /**
-     * Gets computers software
-     *
-     * @return array
-     */
+			return $this->session->userid();
+		}
 
-    public function getComputerSoftware()
-    {
+		/**
+		 * Gets the users address
+		 *
+		 * @return mixed
+		 */
 
-        $computer = new Computer();
+		public function getUserAddress()
+		{
 
-        if( $computer->userHasComputers( $this->session->userid() ) == false )
-        {
+			return $this->session->getSessionAddress();
+		}
 
-            throw new SyscrackException();
-        }
+		/**
+		 * Gets computers software
+		 *
+		 * @return array
+		 */
 
-        return $computer->getComputerSoftware( $computer->computerid() );
-    }
+		public function getComputerSoftware()
+		{
 
-    /**
-     * Gets the computers hardware
-     *
-     * @return array
-     */
+			$computer = new Computer();
 
-    public function getComputerHardware()
-    {
+			if ($computer->userHasComputers($this->session->userid()) == false)
+			{
 
-        $computer = new Computer();
+				throw new SyscrackException();
+			}
 
-        if( $computer->userHasComputers( $this->session->userid() ) == false )
-        {
+			return $computer->getComputerSoftware($computer->computerid());
+		}
 
-            throw new SyscrackException();
-        }
+		/**
+		 * Gets the computers hardware
+		 *
+		 * @return array
+		 */
 
-        return $computer->getComputerHardware( $computer->computerid() );
-    }
+		public function getComputerHardware()
+		{
 
-    /**
-     * Gets a computers type
-     *
-     * @return mixed
-     */
+			$computer = new Computer();
 
-    public function getComputerType( $computerid )
-    {
+			if ($computer->userHasComputers($this->session->userid()) == false)
+			{
 
-        $computer = new Computer();
+				throw new SyscrackException();
+			}
 
-        if( $computer->getComputer( $computerid ) == null )
-        {
+			return $computer->getComputerHardware($computer->computerid());
+		}
 
-            throw new SyscrackException();
-        }
+		/**
+		 * Gets a computers type
+		 *
+		 * @return mixed
+		 */
 
-        return $computer->getComputer( $computerid )->type;
-    }
+		public function getComputerType($computerid)
+		{
 
-    /**
-     * Gets the users installed type of software
-     *
-     * @param $type
-     *
-     * @return array|null
-     */
+			$computer = new Computer();
 
-    public function getInstalledType( $type )
-    {
+			if ($computer->getComputer($computerid) == null)
+			{
 
-        $computer = new Computer();
+				throw new SyscrackException();
+			}
 
-        $software = new Software();
+			return $computer->getComputer($computerid)->type;
+		}
 
-        if( $computer->userHasComputers( $this->session->userid() ) == false )
-        {
+		/**
+		 * Gets the users installed type of software
+		 *
+		 * @param $type
+		 *
+		 * @return array|null
+		 */
 
-            throw new SyscrackException();
-        }
+		public function getInstalledType($type)
+		{
 
-        $computersoftware = $computer->getComputerSoftware( $computer->computerid() );
+			$computer = new Computer();
 
-        $results = [];
+			$software = new Software();
 
-        foreach( $computersoftware as $csoftware )
-        {
+			if ($computer->userHasComputers($this->session->userid()) == false)
+			{
 
-            if( $csoftware['type'] == $type )
-            {
+				throw new SyscrackException();
+			}
 
-                if( $csoftware['installed'] == true )
-                {
+			$computersoftware = $computer->getComputerSoftware($computer->computerid());
 
-                    if( $software->softwareExists( $csoftware['softwareid'] ) == false )
-                    {
+			$results = [];
 
-                        continue;
-                    }
+			foreach ($computersoftware as $csoftware)
+			{
 
-                    $results[] = $software->getSoftware( $csoftware['softwareid'] );
-                }
-            }
-        }
+				if ($csoftware['type'] == $type)
+				{
 
-        if( empty( $results ) )
-        {
+					if ($csoftware['installed'] == true)
+					{
 
-            return null;
-        }
+						if ($software->softwareExists($csoftware['softwareid']) == false)
+						{
 
-        $results = ArrayHelper::sortArray( $results, 'level' );
+							continue;
+						}
 
-        if( is_array( $results ) == false )
-        {
+						$results[] = $software->getSoftware($csoftware['softwareid']);
+					}
+				}
+			}
 
-            return (array)$results;
-        }
+			if (empty($results))
+			{
 
-        return (array)$results[0];
-    }
+				return null;
+			}
 
-    /**
-     * Gets the users installed collector
-     *
-     * @return null
-     */
+			$results = ArrayHelper::sortArray($results, 'level');
 
-    public function getInstalledCollector()
-    {
+			if (is_array($results) == false)
+			{
 
-        $computer = new Computer();
+				return (array)$results;
+			}
 
-        $software = new Software();
+			return (array)$results[0];
+		}
 
-        if( $computer->userHasComputers( $this->session->userid() ) == false )
-        {
+		/**
+		 * Gets the users installed collector
+		 *
+		 * @return null
+		 */
 
-            throw new SyscrackException();
-        }
+		public function getInstalledCollector()
+		{
 
-        $computersoftware = $computer->getComputerSoftware( $computer->computerid() );
+			$computer = new Computer();
 
-        $results = [];
+			$software = new Software();
 
-        foreach( $computersoftware as $csoftware )
-        {
+			if ($computer->userHasComputers($this->session->userid()) == false)
+			{
 
-            if( $csoftware['type'] == Settings::setting('syscrack_software_collector_type') )
-            {
+				throw new SyscrackException();
+			}
 
-                if( $csoftware['installed'] == true )
-                {
+			$computersoftware = $computer->getComputerSoftware($computer->computerid());
 
-                    if( $software->softwareExists( $csoftware['softwareid'] ) == false )
-                    {
+			$results = [];
 
-                        continue;
-                    }
+			foreach ($computersoftware as $csoftware)
+			{
 
-                    $results[] = $software->getSoftware( $csoftware['softwareid'] );
-                }
-            }
-        }
+				if ($csoftware['type'] == Settings::setting('syscrack_software_collector_type'))
+				{
 
-        if( empty( $results ) )
-        {
+					if ($csoftware['installed'] == true)
+					{
 
-            return null;
-        }
+						if ($software->softwareExists($csoftware['softwareid']) == false)
+						{
 
-        $results = ArrayHelper::sortArray( $results, 'level' );
+							continue;
+						}
 
-        if( is_array( $results ) == false )
-        {
+						$results[] = $software->getSoftware($csoftware['softwareid']);
+					}
+				}
+			}
 
-            return (array)$results;
-        }
+			if (empty($results))
+			{
 
-        return (array)$results[0];
-    }
+				return null;
+			}
 
-    /**
-     * Gets the users installed hasher
-     *
-     * @return null
-     */
+			$results = ArrayHelper::sortArray($results, 'level');
 
-    public function getInstalledHasher()
-    {
+			if (is_array($results) == false)
+			{
 
-        $computer = new Computer();
+				return (array)$results;
+			}
 
-        $software = new Software();
+			return (array)$results[0];
+		}
 
-        if( $computer->userHasComputers( $this->session->userid() ) == false )
-        {
+		/**
+		 * Gets the users installed hasher
+		 *
+		 * @return null
+		 */
 
-            throw new SyscrackException();
-        }
+		public function getInstalledHasher()
+		{
 
-        $computersoftware = $computer->getComputerSoftware( $computer->computerid() );
+			$computer = new Computer();
 
-        $results = [];
+			$software = new Software();
 
-        foreach( $computersoftware as $csoftware )
-        {
+			if ($computer->userHasComputers($this->session->userid()) == false)
+			{
 
-            if( $csoftware['type'] == Settings::setting('syscrack_software_hasher_type') )
-            {
+				throw new SyscrackException();
+			}
 
-                if( $csoftware['installed'] == true )
-                {
+			$computersoftware = $computer->getComputerSoftware($computer->computerid());
 
-                    if( $software->softwareExists( $csoftware['softwareid'] ) == false )
-                    {
+			$results = [];
 
-                        continue;
-                    }
+			foreach ($computersoftware as $csoftware)
+			{
 
-                    $results[] = $software->getSoftware( $csoftware['softwareid'] );
-                }
-            }
-        }
+				if ($csoftware['type'] == Settings::setting('syscrack_software_hasher_type'))
+				{
 
-        if( empty( $results ) )
-        {
+					if ($csoftware['installed'] == true)
+					{
 
-            return null;
-        }
+						if ($software->softwareExists($csoftware['softwareid']) == false)
+						{
 
-        $results = ArrayHelper::sortArray( $results, 'level' );
+							continue;
+						}
 
-        if( is_array( $results ) == false )
-        {
+						$results[] = $software->getSoftware($csoftware['softwareid']);
+					}
+				}
+			}
 
-            return (array)$results;
-        }
+			if (empty($results))
+			{
 
-        return (array)$results[0];
-    }
+				return null;
+			}
 
-    /**
-     * Gets the users installed firewall
-     *
-     * @return null
-     */
+			$results = ArrayHelper::sortArray($results, 'level');
 
-    public function getInstalledFirewall()
-    {
+			if (is_array($results) == false)
+			{
 
-        $computer = new Computer();
+				return (array)$results;
+			}
 
-        $software = new Software();
+			return (array)$results[0];
+		}
 
-        if( $computer->userHasComputers( $this->session->userid() ) == false )
-        {
+		/**
+		 * Gets the users installed firewall
+		 *
+		 * @return null
+		 */
 
-            throw new SyscrackException();
-        }
+		public function getInstalledFirewall()
+		{
 
-        $computersoftware = $computer->getComputerSoftware( $computer->computerid() );
+			$computer = new Computer();
 
-        $results = [];
+			$software = new Software();
 
-        foreach( $computersoftware as $csoftware )
-        {
+			if ($computer->userHasComputers($this->session->userid()) == false)
+			{
 
-            if( $csoftware['type'] == Settings::setting('syscrack_software_firewall_type') )
-            {
+				throw new SyscrackException();
+			}
 
-                if( $csoftware['installed'] == true )
-                {
+			$computersoftware = $computer->getComputerSoftware($computer->computerid());
 
-                    if( $software->softwareExists( $csoftware['softwareid'] ) == false )
-                    {
+			$results = [];
 
-                        continue;
-                    }
+			foreach ($computersoftware as $csoftware)
+			{
 
-                    $results[] = $software->getSoftware( $csoftware['softwareid'] );
-                }
-            }
-        }
+				if ($csoftware['type'] == Settings::setting('syscrack_software_firewall_type'))
+				{
 
-        if( empty( $results ) )
-        {
+					if ($csoftware['installed'] == true)
+					{
 
-            return null;
-        }
+						if ($software->softwareExists($csoftware['softwareid']) == false)
+						{
 
-        $results = ArrayHelper::sortArray( $results, 'level' );
+							continue;
+						}
 
-        if( is_array( $results ) == false )
-        {
+						$results[] = $software->getSoftware($csoftware['softwareid']);
+					}
+				}
+			}
 
-            return (array)$results;
-        }
+			if (empty($results))
+			{
 
-        return (array)$results[0];
-    }
+				return null;
+			}
 
-    /**
-     * Gets the users installed cracker
-     *
-     * @return null
-     */
+			$results = ArrayHelper::sortArray($results, 'level');
 
-    public function getInstalledCracker()
-    {
+			if (is_array($results) == false)
+			{
 
-        $computer = new Computer();
+				return (array)$results;
+			}
 
-        $software = new Software();
+			return (array)$results[0];
+		}
 
-        if( $computer->userHasComputers( $this->session->userid() ) == false )
-        {
+		/**
+		 * Gets the users installed cracker
+		 *
+		 * @return null
+		 */
 
-            throw new SyscrackException();
-        }
+		public function getInstalledCracker()
+		{
 
-        $computersoftware = $computer->getComputerSoftware( $computer->computerid() );
+			$computer = new Computer();
 
-        $results = [];
+			$software = new Software();
 
-        foreach( $computersoftware as $csoftware )
-        {
+			if ($computer->userHasComputers($this->session->userid()) == false)
+			{
 
-            if( $csoftware['type'] == Settings::setting('syscrack_software_cracker_type') )
-            {
+				throw new SyscrackException();
+			}
 
-                if( $csoftware['installed'] == true )
-                {
+			$computersoftware = $computer->getComputerSoftware($computer->computerid());
 
-                    if( $software->softwareExists( $csoftware['softwareid'] ) == false )
-                    {
+			$results = [];
 
-                        continue;
-                    }
+			foreach ($computersoftware as $csoftware)
+			{
 
-                    $results[] = $software->getSoftware( $csoftware['softwareid'] );
-                }
-            }
-        }
+				if ($csoftware['type'] == Settings::setting('syscrack_software_cracker_type'))
+				{
 
-        if( empty( $results ) )
-        {
+					if ($csoftware['installed'] == true)
+					{
 
-            return null;
-        }
+						if ($software->softwareExists($csoftware['softwareid']) == false)
+						{
 
-        $results = ArrayHelper::sortArray( $results, 'level' );
+							continue;
+						}
 
-        if( is_array( $results ) == false )
-        {
+						$results[] = $software->getSoftware($csoftware['softwareid']);
+					}
+				}
+			}
 
-            return (array)$results;
-        }
+			if (empty($results))
+			{
 
-        return (array)$results[0];
-    }
+				return null;
+			}
 
-    /**
-     * Gets a perticular software level
-     *
-     * @param $softwareid
-     *
-     * @return mixed
-     */
+			$results = ArrayHelper::sortArray($results, 'level');
 
-    public function getSoftwareLevel( $softwareid )
-    {
+			if (is_array($results) == false)
+			{
 
-        $software = new Software();
+				return (array)$results;
+			}
 
-        if( $software->softwareExists( $softwareid ) == false )
-        {
+			return (array)$results[0];
+		}
 
-            throw new SyscrackException();
-        }
+		/**
+		 * Gets a perticular software level
+		 *
+		 * @param $softwareid
+		 *
+		 * @return mixed
+		 */
 
-        return $software->getSoftware( $softwareid )->level;
-    }
+		public function getSoftwareLevel($softwareid)
+		{
 
-    /**
-     * Gets the total cash of a user
-     *
-     * @return int
-     */
+			$software = new Software();
 
-    public function getCash()
-    {
+			if ($software->softwareExists($softwareid) == false)
+			{
 
-        $finance = new Finance();
+				throw new SyscrackException();
+			}
 
-        if( $finance->hasAccount( $this->session->userid() ) == false )
-        {
+			return $software->getSoftware($softwareid)->level;
+		}
 
-            return number_format( 0.0 );
-        }
+		/**
+		 * Gets the total cash of a user
+		 *
+		 * @return int
+		 */
 
-        return number_format( $finance->getTotalUserCash( $this->session->userid() ) );
-    }
+		public function getCash()
+		{
 
-    /**
-     * Gets the raw cash int value
-     *
-     * @return int
-     */
+			$finance = new Finance();
 
-    public function getRawCashValue()
-    {
+			if ($finance->hasAccount($this->session->userid()) == false)
+			{
 
-        $finance = new Finance();
+				return number_format(0.0);
+			}
 
-        if( $finance->hasAccount( $this->session->userid() ) == false )
-        {
+			return number_format($finance->getTotalUserCash($this->session->userid()));
+		}
 
-            return 0;
-        }
+		/**
+		 * Gets the raw cash int value
+		 *
+		 * @return int
+		 */
 
-        return $finance->getTotalUserCash( $this->session->userid() );
-    }
+		public function getRawCashValue()
+		{
 
-    /**
-     * Gets the username of the user
-     *
-     * @return string
-     */
+			$finance = new Finance();
 
-    public function getUsername()
-    {
+			if ($finance->hasAccount($this->session->userid()) == false)
+			{
 
-        $user = new User();
+				return 0;
+			}
 
-        if( $user->userExists( $this->session->userid() ) == false )
-        {
+			return $finance->getTotalUserCash($this->session->userid());
+		}
 
-            throw new SyscrackException();
-        }
+		/**
+		 * Gets the username of the user
+		 *
+		 * @return string
+		 */
 
-        return $user->getUsername( $this->session->userid() );
-    }
-}
+		public function getUsername()
+		{
+
+			$user = new User();
+
+			if ($user->userExists($this->session->userid()) == false)
+			{
+
+				throw new SyscrackException();
+			}
+
+			return $user->getUsername($this->session->userid());
+		}
+	}

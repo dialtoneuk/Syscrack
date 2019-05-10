@@ -1,125 +1,130 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: newsy
- * Date: 05/05/2019
- * Time: 03:16
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: newsy
+	 * Date: 05/05/2019
+	 * Time: 03:16
+	 */
 
-namespace Framework\Application;
+	namespace Framework\Application;
 
-use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\Utilities\FileSystem;
 
-class Search
-{
+	class Search
+	{
 
-    /**
-     * @var array
-     */
+		/**
+		 * @var array
+		 */
 
-    protected $cache = array();
+		protected $cache = array();
 
-    /**
-     * @param $database
-     * @return array|mixed
-     */
+		/**
+		 * @param $database
+		 *
+		 * @return array|mixed
+		 */
 
-    public function read( $database )
-    {
+		public function read($database)
+		{
 
-        if( isset( $this->cache[ $database ] ) && empty( $this->cache[ $database ] ) == false )
-            return( $this->cache[ $database ] );
+			if (isset($this->cache[$database]) && empty($this->cache[$database]) == false)
+				return ($this->cache[$database]);
 
-        $cache = FileSystem::read( $this->path( $database ) );
+			$cache = FileSystem::read($this->path($database));
 
-        if( empty( $cache ) )
-            return [];
-        else
-            return( unserialize( $cache ) );
-    }
+			if (empty($cache))
+				return [];
+			else
+				return (unserialize($cache));
+		}
 
-    /**
-     * @param $database
-     * @param array $terms
-     * @return array
-     */
+		/**
+		 * @param $database
+		 * @param array $terms
+		 *
+		 * @return array
+		 */
 
-    public function search( $database, array $terms )
-    {
+		public function search($database, array $terms)
+		{
 
-        $result = $this->read( $database );
+			$result = $this->read($database);
 
-        if( is_array( $result ) == false )
-            throw new \Error("Result is not an array " . $database );
+			if (is_array($result) == false)
+				throw new \Error("Result is not an array " . $database);
 
-        $grabbed = [];
+			$grabbed = [];
 
-        foreach( $result as $index=>$array )
-            foreach( $array as $item=>$value )
-                foreach( $terms as $key=>$term )
-                    if( $item === $key )
-                        if( strstr( $value, $term ) !== false )
-                            $grabbed[] = $result[ $item ];
+			foreach ($result as $index => $array)
+				foreach ($array as $item => $value)
+					foreach ($terms as $key => $term)
+						if ($item === $key)
+							if (strstr($value, $term) !== false)
+								$grabbed[] = $result[$item];
 
-        return( $grabbed );
-    }
-    /**
-     * @param $database
-     * @param array $array
-     */
+			return ($grabbed);
+		}
 
-    public function add( $database, array $array )
-    {
+		/**
+		 * @param $database
+		 * @param array $array
+		 */
 
-        $result = $this->read( $database );
+		public function add($database, array $array)
+		{
 
-        if( is_array( $result ) == false )
-            throw new \Error("Result is not an array " . $database );
+			$result = $this->read($database);
 
-        $result = array_push( $result, $array );
+			if (is_array($result) == false)
+				throw new \Error("Result is not an array " . $database);
 
-        if( count( $result ) < Settings::setting("search_entry_max") )
-            throw new \Error("Search entry hit max");
+			$result = array_push($result, $array);
+
+			if (count($result) < Settings::setting("search_entry_max"))
+				throw new \Error("Search entry hit max");
 
 
-        $this->cache[ $database ] = $result;
-        $this->write( $database, serialize( $result ) );
-    }
+			$this->cache[$database] = $result;
+			$this->write($database, serialize($result));
+		}
 
-    /**
-     * @param $database
-     * @return bool
-     */
+		/**
+		 * @param $database
+		 *
+		 * @return bool
+		 */
 
-    public function exists( $database )
-    {
+		public function exists($database)
+		{
 
-        return( FileSystem::fileExists( $this->path( $database ) ) );
-    }
+			return (FileSystem::fileExists($this->path($database)));
+		}
 
-    /**
-     * @param null $database
-     * @return string
-     */
+		/**
+		 * @param null $database
+		 *
+		 * @return string
+		 */
 
-    public function path( $database=null )
-    {
+		public function path($database = null)
+		{
 
-        if( $database !== null )
-            if( FileSystem::hasFileExtension( $database ) == false )
-                $database = $database . Settings::setting("search_database_extension");
+			if ($database !== null)
+				if (FileSystem::hasFileExtension($database) == false)
+					$database = $database . Settings::setting("search_database_extension");
 
-        return( FileSystem::separate( Settings::setting("search_database_root"), $database ) );
-    }
+			return (FileSystem::separate(Settings::setting("search_database_root"), $database));
+		}
 
-    /**
-     * @param $database
-     * @param $data
-     */
+		/**
+		 * @param $database
+		 * @param $data
+		 */
 
-    private function write( $database, $data )
-    {
+		private function write($database, $data)
+		{
 
-        FileSystem::write( $this->path( $database), $data );
-    }
-}
+			FileSystem::write($this->path($database), $data);
+		}
+	}

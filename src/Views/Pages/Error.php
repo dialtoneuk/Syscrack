@@ -1,54 +1,55 @@
 <?php
-    namespace Framework\Views\Pages;
 
-    /**
-     * Lewis Lancaster 2016
-     *
-     * Class Error
-     *
-     * @package Framework\Views\Pages
-     */
+	namespace Framework\Views\Pages;
 
-    use Framework\Application\Render;
-    use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page as Structure;
+	/**
+	 * Lewis Lancaster 2016
+	 *
+	 * Class Error
+	 *
+	 * @package Framework\Views\Pages
+	 */
 
-    class Error extends BaseClass implements Structure
-    {
+	use Framework\Application\Render;
+	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Views\Structures\Page as Structure;
 
-        /**
-         * Error constructor.
-         */
+	class Error extends BaseClass implements Structure
+	{
 
-        public function __construct()
-        {
+		/**
+		 * Error constructor.
+		 */
 
-            parent::__construct( false, false );
-        }
+		public function __construct()
+		{
 
-        /**
-         * Returns the pages flight mapping
-         *
-         * @return array
-         */
+			parent::__construct(false, false);
+		}
 
-        public function mapping()
-        {
+		/**
+		 * Returns the pages flight mapping
+		 *
+		 * @return array
+		 */
 
-            return array(
-                [
-                    '/error/', 'page'
-                ]
-            );
-        }
+		public function mapping()
+		{
 
-        /**
-         * Default page
-         */
+			return array(
+				[
+					'/error/', 'page'
+				]
+			);
+		}
 
-        public function page()
-        {
+		/**
+		 * Default page
+		 */
 
-            Render::view('error/page.error', [], []);
-        }
-    }
+		public function page()
+		{
+
+			Render::view('error/page.error', [], []);
+		}
+	}

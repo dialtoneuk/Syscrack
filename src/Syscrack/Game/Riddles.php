@@ -1,265 +1,266 @@
 <?php
-    namespace Framework\Syscrack\Game;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Riddles
-     *
-     * @package Framework\Syscrack\Game
-     */
+	namespace Framework\Syscrack\Game;
 
-    use Framework\Application\Settings;
-    use Framework\Application\Utilities\FileSystem;
-    use Framework\Exceptions\SyscrackException;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Riddles
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-    class Riddles
-    {
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Exceptions\SyscrackException;
 
-        /**
-         * @var array|mixed
-         */
+	class Riddles
+	{
 
-        protected $riddles = array();
+		/**
+		 * @var array|mixed
+		 */
 
-        /**
-         * Riddles constructor.
-         *
-         * @param bool $autoread
-         */
+		protected $riddles = array();
 
-        public function __construct( $autoread=true )
-        {
+		/**
+		 * Riddles constructor.
+		 *
+		 * @param bool $autoread
+		 */
 
-            if( $autoread == true )
-            {
+		public function __construct($autoread = true)
+		{
 
-                if( $this->riddleFileExists() == false )
-                {
+			if ($autoread == true)
+			{
 
-                    throw new SyscrackException('Riddle file does not exist');
-                }
+				if ($this->riddleFileExists() == false)
+				{
 
-                $this->riddles = $this->getRiddles();
-            }
-        }
+					throw new SyscrackException('Riddle file does not exist');
+				}
 
-        /**
-         * Gets all the riddles
-         *
-         * @return array|mixed
-         */
+				$this->riddles = $this->getRiddles();
+			}
+		}
 
-        public function getAllRiddles()
-        {
+		/**
+		 * Gets all the riddles
+		 *
+		 * @return array|mixed
+		 */
 
-            if( $this->hasRiddles() == false )
-            {
+		public function getAllRiddles()
+		{
 
-                return $this->getRiddles();
-            }
+			if ($this->hasRiddles() == false)
+			{
 
-            return $this->riddles;
-        }
+				return $this->getRiddles();
+			}
 
-        /**
-         * Gets the riddles
-         *
-         * @param $riddleid
-         *
-         * @return mixed
-         */
+			return $this->riddles;
+		}
 
-        public function getRiddle( $riddleid )
-        {
+		/**
+		 * Gets the riddles
+		 *
+		 * @param $riddleid
+		 *
+		 * @return mixed
+		 */
 
-            if( $this->hasRiddles() == false )
-            {
+		public function getRiddle($riddleid)
+		{
 
-                return $this->getRiddles()[ $riddleid ];
-            }
+			if ($this->hasRiddles() == false)
+			{
 
-            return $this->riddles[ $riddleid ];
-        }
+				return $this->getRiddles()[$riddleid];
+			}
 
-        /**
-         * Returns true if we have this riddle
-         *
-         * @param $riddleid
-         *
-         * @return bool
-         */
+			return $this->riddles[$riddleid];
+		}
 
-        public function hasRiddle( $riddleid )
-        {
+		/**
+		 * Returns true if we have this riddle
+		 *
+		 * @param $riddleid
+		 *
+		 * @return bool
+		 */
 
-            if( $this->hasRiddles() == false )
-            {
+		public function hasRiddle($riddleid)
+		{
 
-                if( isset( $this->getRiddles()[ $riddleid ] ) == false )
-                {
+			if ($this->hasRiddles() == false)
+			{
 
-                    return false;
-                }
+				if (isset($this->getRiddles()[$riddleid]) == false)
+				{
 
-                return true;
-            }
+					return false;
+				}
 
-            if( isset( $this->riddles[ $riddleid ] ) == false )
-            {
+				return true;
+			}
 
-                return false;
-            }
+			if (isset($this->riddles[$riddleid]) == false)
+			{
 
-            return true;
-        }
+				return false;
+			}
 
-        /**
-         * Checks the riddle answer
-         *
-         * @param $riddleid
-         *
-         * @param $answer
-         *
-         * @return bool
-         */
+			return true;
+		}
 
-        public function checkRiddleAnswer( $riddleid, $answer )
-        {
+		/**
+		 * Checks the riddle answer
+		 *
+		 * @param $riddleid
+		 *
+		 * @param $answer
+		 *
+		 * @return bool
+		 */
 
-            $riddle = $this->getRiddle( $riddleid );
+		public function checkRiddleAnswer($riddleid, $answer)
+		{
 
-            if( strtolower( $riddle['answer'] ) == strtolower( $answer ) )
-            {
+			$riddle = $this->getRiddle($riddleid);
 
-                return true;
-            }
+			if (strtolower($riddle['answer']) == strtolower($answer))
+			{
 
-            return false;
-        }
+				return true;
+			}
 
-        /**
-         * Deletes a riddle
-         *
-         * @param $riddleid
-         */
+			return false;
+		}
 
-        public function deleteRiddle( $riddleid )
-        {
+		/**
+		 * Deletes a riddle
+		 *
+		 * @param $riddleid
+		 */
 
-            if( $this->hasRiddles() == false )
-            {
+		public function deleteRiddle($riddleid)
+		{
 
-                $riddles = $this->getRiddles();
+			if ($this->hasRiddles() == false)
+			{
 
-                if( isset( $riddles[ $riddleid ] ) )
-                {
+				$riddles = $this->getRiddles();
 
-                    unset( $riddles[ $riddleid ] );
-                }
+				if (isset($riddles[$riddleid]))
+				{
 
-                $this->saveRiddles( $riddles );
-            }
-            else
-            {
+					unset($riddles[$riddleid]);
+				}
 
-                if( isset( $this->riddles[ $riddleid ] ) )
-                {
+				$this->saveRiddles($riddles);
+			}
+			else
+			{
 
-                    unset( $this->riddles[ $riddleid ] );
-                }
+				if (isset($this->riddles[$riddleid]))
+				{
 
-                $this->saveRiddles();
-            }
-        }
+					unset($this->riddles[$riddleid]);
+				}
 
-        /**
-         * Adds a riddle
-         *
-         * @param string $question
-         *
-         * @param string $answer
-         */
+				$this->saveRiddles();
+			}
+		}
 
-        public function addRiddle( string $question, string $answer )
-        {
+		/**
+		 * Adds a riddle
+		 *
+		 * @param string $question
+		 *
+		 * @param string $answer
+		 */
 
-            $riddles = $this->getRiddles();
+		public function addRiddle(string $question, string $answer)
+		{
 
-            $riddles[] = array(
-                'question'  => $question,
-                'answer'    => $answer
-            );
+			$riddles = $this->getRiddles();
 
-            $this->saveRiddles( $riddles );
-        }
+			$riddles[] = array(
+				'question' => $question,
+				'answer' => $answer
+			);
 
-        /**
-         * Saves the riddles
-         *
-         * @param array $data
-         */
+			$this->saveRiddles($riddles);
+		}
 
-        private function saveRiddles( $data )
-        {
+		/**
+		 * Saves the riddles
+		 *
+		 * @param array $data
+		 */
 
-            if( $data != null )
-            {
+		private function saveRiddles($data)
+		{
 
-                FileSystem::writeJson( Settings::setting('syscrack_riddle_location'), $data );
-            }
-            else
-            {
+			if ($data != null)
+			{
 
-                FileSystem::writeJson( Settings::setting('sycrack_riddle_location'), $this->riddles );
-            }
-        }
+				FileSystem::writeJson(Settings::setting('syscrack_riddle_location'), $data);
+			}
+			else
+			{
 
-        /**
-         * Returns true if we have riddles
-         *
-         * @return bool
-         */
+				FileSystem::writeJson(Settings::setting('sycrack_riddle_location'), $this->riddles);
+			}
+		}
 
-        private function hasRiddles()
-        {
+		/**
+		 * Returns true if we have riddles
+		 *
+		 * @return bool
+		 */
 
-            if( empty( $this->riddles ) == true )
-            {
+		private function hasRiddles()
+		{
 
-                return false;
-            }
+			if (empty($this->riddles) == true)
+			{
 
-            return true;
-        }
+				return false;
+			}
 
-        /**
-         * Return true if this riddle exists
-         *
-         * @return bool
-         */
+			return true;
+		}
 
-        private function riddleFileExists()
-        {
+		/**
+		 * Return true if this riddle exists
+		 *
+		 * @return bool
+		 */
 
-            if( FileSystem::fileExists( Settings::setting('syscrack_riddle_location') ) == false )
-            {
+		private function riddleFileExists()
+		{
 
-                return false;
-            }
+			if (FileSystem::fileExists(Settings::setting('syscrack_riddle_location')) == false)
+			{
 
-            return true;
-        }
+				return false;
+			}
 
-        /**
-         * Gets the riddles
-         *
-         * @return mixed
-         */
+			return true;
+		}
 
-        private function getRiddles()
-        {
+		/**
+		 * Gets the riddles
+		 *
+		 * @return mixed
+		 */
 
-            return FileSystem::readJson( Settings::setting('syscrack_riddle_location') );
-        }
-    }
+		private function getRiddles()
+		{
+
+			return FileSystem::readJson(Settings::setting('syscrack_riddle_location'));
+		}
+	}

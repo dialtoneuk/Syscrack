@@ -1,243 +1,243 @@
 <?php
-namespace Framework\Syscrack\Game;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class AccountDatabase
- *
- * @package Framework\Syscrack\Game
- */
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\FileSystem;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class AccountDatabase
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-class AccountDatabase
-{
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\FileSystem;
 
-    /**
-     * @var mixed
-     */
+	class AccountDatabase
+	{
 
-    protected $database = [];
+		/**
+		 * @var mixed
+		 */
 
-    /**
-     * @var null
-     */
+		protected $database = [];
 
-    public $userid;
+		/**
+		 * @var null
+		 */
 
-    /**
-     * AccountDatabase constructor.
-     *
-     * @param null $userid
-     *
-     * @param bool $autoload
-     */
+		public $userid;
 
-    public function __construct( $userid = null, $autoload = true )
-    {
+		/**
+		 * AccountDatabase constructor.
+		 *
+		 * @param null $userid
+		 *
+		 * @param bool $autoload
+		 */
 
-        if( $userid != null )
-        {
+		public function __construct($userid = null, $autoload = true)
+		{
 
-            if( $autoload )
-            {
+			if ($userid != null)
+			{
 
-                $this->database = $this->getDatabase( $userid );
+				if ($autoload)
+				{
 
-                $this->userid = $userid;
-            }
-        }
-    }
+					$this->database = $this->getDatabase($userid);
 
-    /**
-     * Gets the banks IP address
-     *
-     * @param $accountnumber
-     *
-     * @return null
-     */
+					$this->userid = $userid;
+				}
+			}
+		}
 
-    public function getBankIPAddress( $accountnumber )
-    {
+		/**
+		 * Gets the banks IP address
+		 *
+		 * @param $accountnumber
+		 *
+		 * @return null
+		 */
 
-        foreach( $this->database as $key=>$value )
-        {
+		public function getBankIPAddress($accountnumber)
+		{
 
-            if( $value['accountnumber'] == $accountnumber )
-            {
+			foreach ($this->database as $key => $value)
+			{
 
-                return $value['ipaddress'];
-            }
-        }
+				if ($value['accountnumber'] == $accountnumber)
+				{
 
-        return null;
-    }
+					return $value['ipaddress'];
+				}
+			}
 
-    /**
-     * Adds an account number
-     *
-     * @param $accountnumber
-     *
-     * @param $ipaddress
-     *
-     * @param bool $save
-     */
+			return null;
+		}
 
-    public function addAccountNumber( $accountnumber, $ipaddress, $save=true )
-    {
+		/**
+		 * Adds an account number
+		 *
+		 * @param $accountnumber
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param bool $save
+		 */
 
-        $this->database[] = array(
-            'accountnumber' => $accountnumber,
-            'ipaddress'     => $ipaddress
-        );
+		public function addAccountNumber($accountnumber, $ipaddress, $save = true)
+		{
 
-        if( $save == true )
-        {
+			$this->database[] = array(
+				'accountnumber' => $accountnumber,
+				'ipaddress' => $ipaddress
+			);
 
-            $this->saveDatabase( $this->userid, $this->database );
-        }
-    }
+			if ($save == true)
+			{
 
-    /**
-     * Removes an account number from this list
-     *
-     * @param $accountnumber
-     *
-     * @param bool $save
-     */
+				$this->saveDatabase($this->userid, $this->database);
+			}
+		}
 
-    public function removeAccountNumber( $accountnumber, $save=true )
-    {
+		/**
+		 * Removes an account number from this list
+		 *
+		 * @param $accountnumber
+		 *
+		 * @param bool $save
+		 */
 
-        foreach( $this->database as $key=>$value )
-        {
+		public function removeAccountNumber($accountnumber, $save = true)
+		{
 
-            if( $value['accountnumber'] == $accountnumber )
-            {
+			foreach ($this->database as $key => $value)
+			{
 
-                unset( $this->database[ $key ] );
-            }
-        }
+				if ($value['accountnumber'] == $accountnumber)
+				{
 
-        if( $save == true )
-        {
+					unset($this->database[$key]);
+				}
+			}
 
-            $this->saveDatabase( $this->userid, $this->database );
-        }
-    }
+			if ($save == true)
+			{
 
-    /**
-     * Checks if this account number is in the database
-     *
-     * @param $accountnumber
-     *
-     * @return bool
-     */
+				$this->saveDatabase($this->userid, $this->database);
+			}
+		}
 
-    public function hasAccountNumber( $accountnumber )
-    {
+		/**
+		 * Checks if this account number is in the database
+		 *
+		 * @param $accountnumber
+		 *
+		 * @return bool
+		 */
+
+		public function hasAccountNumber($accountnumber)
+		{
 
 
+			foreach ($this->database as $key => $value)
+			{
 
-        foreach( $this->database as $key=>$value )
-        {
+				if ($value['accountnumber'] == $accountnumber)
+				{
 
-            if( $value['accountnumber'] == $accountnumber )
-            {
+					return true;
+				}
+			}
 
-                return true;
-            }
-        }
+			return false;
+		}
 
-        return false;
-    }
+		/**
+		 * Returns true if the users database file exists
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-    /**
-     * Returns true if the users database file exists
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
+		public function hasDatabase($userid)
+		{
 
-    public function hasDatabase( $userid )
-    {
+			if (FileSystem::fileExists($this->getFile($userid)) == false)
+			{
 
-        if( FileSystem::fileExists( $this->getFile( $userid ) ) == false )
-        {
+				return false;
+			}
 
-            return false;
-        }
+			return true;
+		}
 
-        return true;
-    }
+		/**
+		 * Loads the database
+		 *
+		 * @param $userid
+		 */
 
-    /**
-     * Loads the database
-     *
-     * @param $userid
-     */
+		public function loadDatabase($userid)
+		{
 
-    public function loadDatabase( $userid )
-    {
+			$this->database = $this->getDatabase($userid);
+		}
 
-        $this->database = $this->getDatabase( $userid );
-    }
+		/**
+		 * Gets the bank database
+		 *
+		 * @param $userid
+		 *
+		 * @return mixed
+		 */
 
-    /**
-     * Gets the bank database
-     *
-     * @param $userid
-     *
-     * @return mixed
-     */
+		public function getDatabase($userid)
+		{
 
-    public function getDatabase( $userid )
-    {
+			return FileSystem::readJson($this->getFile($userid));
+		}
 
-        return FileSystem::readJson( $this->getFile( $userid ) );
-    }
+		/**
+		 * Saves the database to file
+		 *
+		 * @param $userid
+		 *
+		 * @param array $data
+		 */
 
-    /**
-     * Saves the database to file
-     *
-     * @param $userid
-     *
-     * @param array $data
-     */
+		public function saveDatabase($userid = null, $data = [])
+		{
 
-    public function saveDatabase( $userid=null , $data=[] )
-    {
+			if ($userid == null)
+			{
 
-        if ( $userid == null )
-        {
+				$userid = $this->userid;
+			}
 
-            $userid = $this->userid;
-        }
+			if (empty($data))
+			{
 
-        if ( empty( $data ) )
-        {
+				$data = $this->database;
+			}
 
-            $data = $this->database;
-        }
+			FileSystem::writeJson($this->getFile($userid), $data);
+		}
 
-        FileSystem::writeJson( $this->getFile( $userid ), $data );
-    }
+		/**
+		 * Gets the file path
+		 *
+		 * @param $userid
+		 *
+		 * @return string
+		 */
 
-    /**
-     * Gets the file path
-     *
-     * @param $userid
-     *
-     * @return string
-     */
+		public function getFile($userid)
+		{
 
-    public function getFile( $userid )
-    {
-
-        return Settings::setting('syscrack_accountdatabase_location') . $userid .
-            Settings::setting('syscrack_filedatabase_extension');
-    }
-}
+			return Settings::setting('syscrack_accountdatabase_location') . $userid .
+				Settings::setting('syscrack_filedatabase_extension');
+		}
+	}

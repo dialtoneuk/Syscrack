@@ -1,556 +1,560 @@
 <?php
-namespace Framework\Application\Utilities;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class FileSystem
- *
- * @package Framework\Application\Utilities
- */
-
-use Framework\Application\Settings;
-use Framework\Application\UtilitiesV2\Debug;
-use Framework\Exceptions\ApplicationException;
-
-class FileSystem
-{
+	namespace Framework\Application\Utilities;
 
 	/**
-	 * Reads a file
+	 * Lewis Lancaster 2016
 	 *
-	 * @param $file
+	 * Class FileSystem
 	 *
-	 * @return string
+	 * @package Framework\Application\Utilities
 	 */
 
-	public static function read( $file )
+	use Framework\Application\Settings;
+	use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Exceptions\ApplicationException;
+
+	class FileSystem
 	{
 
-        if( is_dir( self::getFilePath( $file )  ) )
-        {
+		/**
+		 * Reads a file
+		 *
+		 * @param $file
+		 *
+		 * @return string
+		 */
 
-            throw new ApplicationException();
-        }
-
-        if( self::hasFileExtension( $file ) == false )
-        {
-
-            $file = $file . Settings::setting('filesystem_default_extension');
-        }
-
-		if( file_exists( self::getFilePath( $file ) ) == false )
+		public static function read($file)
 		{
 
-			throw new ApplicationException( $file . ' does not exist' );
+			if (is_dir(self::getFilePath($file)))
+			{
+
+				throw new ApplicationException();
+			}
+
+			if (self::hasFileExtension($file) == false)
+			{
+
+				$file = $file . Settings::setting('filesystem_default_extension');
+			}
+
+			if (file_exists(self::getFilePath($file)) == false)
+			{
+
+				throw new ApplicationException($file . ' does not exist');
+			}
+
+			$file = file_get_contents(self::getFilePath($file));
+
+			if (empty($file))
+			{
+
+				throw new ApplicationException();
+			}
+
+			return $file;
 		}
 
-		$file = file_get_contents( self::getFilePath( $file ) );
+		/**
+		 * @param mixed ...$paths
+		 *
+		 * @return string
+		 */
 
-		if( empty( $file ) )
+		public static function separate(...$paths)
 		{
 
-			throw new ApplicationException();
+			$result = "";
+
+			foreach ($paths as $value)
+				if ($value !== null)
+					if (substr($value, -1) !== "\/" && self::hasFileExtension($value) == false)
+						$result = $result . $value . DIRECTORY_SEPARATOR;
+					else
+						$result = $result . $value;
+				else
+					$result = $result . $value;
+
+			return ($result);
 		}
 
-		return $file;
-	}
+		/**
+		 * Reads Json
+		 *
+		 * @param $file
+		 *
+		 * @return mixed
+		 */
 
-    /**
-     * @param mixed ...$paths
-     * @return string
-     */
-
-	public static function separate(...$paths )
-    {
-
-        $result = "";
-
-        foreach( $paths as $value )
-            if( $value !== null  )
-                if( substr( $value, -1 ) !== "\/" && self::hasFileExtension( $value ) == false )
-                    $result = $result . $value . DIRECTORY_SEPARATOR;
-                else
-                    $result = $result . $value;
-            else
-                $result = $result . $value;
-
-        return( $result );
-    }
-
-    /**
-     * Reads Json
-     *
-     * @param $file
-     *
-     * @return mixed
-     */
-
-	public static function readJson( $file )
-    {
-
-        if( is_dir( $file ) )
-        {
-
-            throw new ApplicationException();
-        }
-
-        if( self::hasFileExtension( $file ) == false )
-        {
-
-            $file = $file . '.json';
-        }
-
-        if( self::fileExists( $file ) == false )
-        {
-
-            if( Debug::isEnabled() )
-                Debug::echo("file does not exist: " . self::getFilePath( $file ) );
-
-            return null;
-        }
-
-        return json_decode( self::read( $file ), true );
-    }
-
-    /**
-     * Writes Json
-     *
-     * @param $file
-     *
-     * @param array $array
-     */
-
-    public static function writeJson( $file, array $array=[] )
-    {
-
-        if( is_dir( self::getFilePath( $file ) ) )
-        {
-
-            throw new ApplicationException();
-        }
-
-        if( self::hasFileExtension( $file ) == false )
-        {
-
-            $file = $file . '.json';
-        }
-
-        self::write( $file, json_encode( $array, JSON_PRETTY_PRINT ) );
-    }
-
-	/**
-	 * Writes a file
-	 *
-	 * @param $file
-	 *
-	 * @param $data
-	 */
-
-	public static function write( $file, $data, $permission=true, $access=null )
-	{
-
-        if( is_dir( self::getFilePath( $file ) ) )
-        {
-
-            throw new ApplicationException("file is dir: " . $file );
-        }
-
-        if( self::hasFileExtension( $file ) == false )
-        {
-
-            $file = $file . Settings::setting('filesystem_default_extension');
-        }
-
-	    $directories = self::getDirectoriesFromPath( $file );
-
-	    if( self::directoryExists( $directories ) == false )
-        {
-
-            throw new ApplicationException( 'Directory does not exist: ' . self::getFilePath( $directories ) );
-        }
-
-        if( is_string( $data ) == false )
+		public static function readJson($file)
 		{
 
-			$data = (string)$data;
+			if (is_dir($file))
+			{
+
+				throw new ApplicationException();
+			}
+
+			if (self::hasFileExtension($file) == false)
+			{
+
+				$file = $file . '.json';
+			}
+
+			if (self::fileExists($file) == false)
+			{
+
+				if (Debug::isEnabled())
+					Debug::echo("file does not exist: " . self::getFilePath($file));
+
+				return null;
+			}
+
+			return json_decode(self::read($file), true);
 		}
 
-		file_put_contents( self::getFilePath( $file ), $data );
-	}
+		/**
+		 * Writes Json
+		 *
+		 * @param $file
+		 *
+		 * @param array $array
+		 */
 
-	/**
-	 * Returns true if the file exists
-	 *
-	 * @param $file
-	 *
-	 * @return bool
-	 */
-
-	public static function fileExists( $file )
-	{
-
-        if( is_dir( self::getFilePath( $file ) ) )
-        {
-
-            throw new ApplicationException();
-        }
-
-        if( self::hasFileExtension( $file ) == false )
-        {
-
-            $file = $file . Settings::setting('filesystem_default_extension');
-        }
-
-		if( file_exists( self::getFilePath( $file ) ) == false )
+		public static function writeJson($file, array $array = [])
 		{
 
-			return false;
+			if (is_dir(self::getFilePath($file)))
+			{
+
+				throw new ApplicationException();
+			}
+
+			if (self::hasFileExtension($file) == false)
+			{
+
+				$file = $file . '.json';
+			}
+
+			self::write($file, json_encode($array, JSON_PRETTY_PRINT));
 		}
 
-		return true;
-	}
+		/**
+		 * Writes a file
+		 *
+		 * @param $file
+		 *
+		 * @param $data
+		 */
 
-	/**
-	 * Checks if a directory exists
-	 *
-	 * @param $path
-	 *
-	 * @return bool
-	 */
-
-	public static function directoryExists( $path )
-	{
-
-	    if( is_dir( self::getFilePath( $path ) ) == false )
-        {
-
-            return false;
-        }
-
-		if( file_exists( self::getFilePath( $path ) ) == false )
+		public static function write($file, $data, $permission = true, $access = null)
 		{
 
-			return false;
+			if (is_dir(self::getFilePath($file)))
+			{
+
+				throw new ApplicationException("file is dir: " . $file);
+			}
+
+			if (self::hasFileExtension($file) == false)
+			{
+
+				$file = $file . Settings::setting('filesystem_default_extension');
+			}
+
+			$directories = self::getDirectoriesFromPath($file);
+
+			if (self::directoryExists($directories) == false)
+			{
+
+				throw new ApplicationException('Directory does not exist: ' . self::getFilePath($directories));
+			}
+
+			if (is_string($data) == false)
+			{
+
+				$data = (string)$data;
+			}
+
+			file_put_contents(self::getFilePath($file), $data);
 		}
 
-		return true;
-	}
+		/**
+		 * Returns true if the file exists
+		 *
+		 * @param $file
+		 *
+		 * @return bool
+		 */
 
-	/**
-	 * Appends a files
-	 *
-	 * @param $file
-	 *
-	 * @param $data
-	 */
-
-	public static function append( $file, $data )
-	{
-
-	    if( is_dir( self::getFilePath( $file ) ) )
-        {
-
-            throw new ApplicationException();
-        }
-
-	    if( self::hasFileExtension( $file ) == false )
-        {
-
-            $file = $file . Settings::setting('filesystem_default_extension');
-        }
-
-		if( file_exists( self::getFilePath( $file ) ) == false )
+		public static function fileExists($file)
 		{
 
-			throw new ApplicationException();
+			if (is_dir(self::getFilePath($file)))
+			{
+
+				throw new ApplicationException();
+			}
+
+			if (self::hasFileExtension($file) == false)
+			{
+
+				$file = $file . Settings::setting('filesystem_default_extension');
+			}
+
+			if (file_exists(self::getFilePath($file)) == false)
+			{
+
+				return false;
+			}
+
+			return true;
 		}
 
-		$old_file = file_get_contents( self::getFilePath( $file ) );
+		/**
+		 * Checks if a directory exists
+		 *
+		 * @param $path
+		 *
+		 * @return bool
+		 */
 
-		if( empty( $old_File ) )
+		public static function directoryExists($path)
 		{
 
-			$old_file = "";
+			if (is_dir(self::getFilePath($path)) == false)
+			{
+
+				return false;
+			}
+
+			if (file_exists(self::getFilePath($path)) == false)
+			{
+
+				return false;
+			}
+
+			return true;
 		}
 
-		file_put_contents( self::getFilePath( $file ), self::addNewLine( $old_file, $data ) );
-	}
+		/**
+		 * Appends a files
+		 *
+		 * @param $file
+		 *
+		 * @param $data
+		 */
 
-
-    /**
-     * Gets the files in a directory
-     *
-     * @param $path
-     *
-     * @param string $suffix
-     *
-     * @return array|null
-     */
-
-	public static function getFilesInDirectory( $path, $suffix='php' )
-    {
-
-        if( is_dir( self::getFilePath( $path ) ) == false )
-        {
-
-            throw new ApplicationException();
-        }
-
-        if( self::directoryExists( $path ) == false )
-        {
-
-            throw new ApplicationException();
-        }
-
-        $files = glob( self::getFilePath( $path ) . "*.{$suffix}" );
-
-        if( empty( $files ) )
-        {
-
-            return null;
-        }
-
-        return $files;
-    }
-
-    /**
-     * @param $path
-     * @return array|false|null
-     */
-
-    public static function getDirectories( $path )
-    {
-
-        if( substr( $path, -1 ) !== Settings::setting("filesystem_separator") )
-            $path = $path . Settings::setting("filesystem_separator");
-
-        if( self::directoryExists( $path ) == false )
-        {
-
-            throw new ApplicationException();
-        }
-
-        $files = glob( self::getFilePath( $path ) . "*", GLOB_ONLYDIR );
-
-        if( empty( $files ) )
-        {
-
-            return null;
-        }
-
-        foreach( $files as $key=>$file )
-            $files[ $key ] = str_replace( self::getFilePath( $path ), "", $file );
-        return $files;
-    }
-
-	/**
-	 * Creates a directory
-	 *
-	 * @param $path
-	 */
-
-	public static function createDirectory( $path )
-	{
-
-	    if( substr( $path, -1 ) == '/' )
-        {
-
-            $path = substr( $path, 0, -1);
-        }
-
-        mkdir( self::getFilePath( $path ) );
-	}
-
-    /**
-     * Sets the permissions of a file
-     *
-     * @param $file
-     *
-     * @param null $access
-     */
-
-	public static function setPermission( $file, $access=null )
-    {
-
-        if( $access == null )
-        {
-
-            $access = Settings::setting('filesystem_default_access');
-        }
-
-        chmod( self::getFilePath( $file ), $access );
-    }
-	/**
-	 * Deletes a file
-	 *
-	 * @param $file
-	 */
-
-	public static function delete( $file )
-	{
-
-	    if( self::hasFileExtension( $file ) == false )
-        {
-
-            $file = $file . Settings::setting('filesystem_default_extension');
-        }
-
-		if( file_exists( self::getFilePath( $file ) ) == false )
+		public static function append($file, $data)
 		{
 
-			throw new ApplicationException();
+			if (is_dir(self::getFilePath($file)))
+			{
+
+				throw new ApplicationException();
+			}
+
+			if (self::hasFileExtension($file) == false)
+			{
+
+				$file = $file . Settings::setting('filesystem_default_extension');
+			}
+
+			if (file_exists(self::getFilePath($file)) == false)
+			{
+
+				throw new ApplicationException();
+			}
+
+			$old_file = file_get_contents(self::getFilePath($file));
+
+			if (empty($old_File))
+			{
+
+				$old_file = "";
+			}
+
+			file_put_contents(self::getFilePath($file), self::addNewLine($old_file, $data));
 		}
 
-		unlink( self::getFilePath( $file ) );
-	}
 
-	/**
-	 * Gets the file path
-	 *
-	 * @param $file
-	 *
-	 * @return string
-	 */
+		/**
+		 * Gets the files in a directory
+		 *
+		 * @param $path
+		 *
+		 * @param string $suffix
+		 *
+		 * @return array|null
+		 */
 
-	public static function getFilePath( $file )
-	{
-
-		return sprintf('%s'.Settings::setting('filesystem_separator').'%s', self::getRoot(), $file );
-	}
-
-	/**
-	 * Gets the directories of a path
-	 *
-	 * @param $file
-	 *
-	 * @return string
-	 */
-
-	public static function getDirectoriesFromPath( $file )
-	{
-
-		$path = explode( Settings::setting('filesystem_separator'), $file );
-
-		if( empty( $path ) )
+		public static function getFilesInDirectory($path, $suffix = 'php')
 		{
 
-			throw new ApplicationException();
+			if (is_dir(self::getFilePath($path)) == false)
+			{
+
+				throw new ApplicationException();
+			}
+
+			if (self::directoryExists($path) == false)
+			{
+
+				throw new ApplicationException();
+			}
+
+			$files = glob(self::getFilePath($path) . "*.{$suffix}");
+
+			if (empty($files))
+			{
+
+				return null;
+			}
+
+			return $files;
 		}
 
-		array_pop( $path );
+		/**
+		 * @param $path
+		 *
+		 * @return array|false|null
+		 */
 
-		return implode( Settings::setting('filesystem_separator'), $path );
+		public static function getDirectories($path)
+		{
+
+			if (substr($path, -1) !== Settings::setting("filesystem_separator"))
+				$path = $path . Settings::setting("filesystem_separator");
+
+			if (self::directoryExists($path) == false)
+			{
+
+				throw new ApplicationException();
+			}
+
+			$files = glob(self::getFilePath($path) . "*", GLOB_ONLYDIR);
+
+			if (empty($files))
+			{
+
+				return null;
+			}
+
+			foreach ($files as $key => $file)
+				$files[$key] = str_replace(self::getFilePath($path), "", $file);
+			return $files;
+		}
+
+		/**
+		 * Creates a directory
+		 *
+		 * @param $path
+		 */
+
+		public static function createDirectory($path)
+		{
+
+			if (substr($path, -1) == '/')
+			{
+
+				$path = substr($path, 0, -1);
+			}
+
+			mkdir(self::getFilePath($path));
+		}
+
+		/**
+		 * Sets the permissions of a file
+		 *
+		 * @param $file
+		 *
+		 * @param null $access
+		 */
+
+		public static function setPermission($file, $access = null)
+		{
+
+			if ($access == null)
+			{
+
+				$access = Settings::setting('filesystem_default_access');
+			}
+
+			chmod(self::getFilePath($file), $access);
+		}
+
+		/**
+		 * Deletes a file
+		 *
+		 * @param $file
+		 */
+
+		public static function delete($file)
+		{
+
+			if (self::hasFileExtension($file) == false)
+			{
+
+				$file = $file . Settings::setting('filesystem_default_extension');
+			}
+
+			if (file_exists(self::getFilePath($file)) == false)
+			{
+
+				throw new ApplicationException();
+			}
+
+			unlink(self::getFilePath($file));
+		}
+
+		/**
+		 * Gets the file path
+		 *
+		 * @param $file
+		 *
+		 * @return string
+		 */
+
+		public static function getFilePath($file)
+		{
+
+			return sprintf('%s' . Settings::setting('filesystem_separator') . '%s', self::getRoot(), $file);
+		}
+
+		/**
+		 * Gets the directories of a path
+		 *
+		 * @param $file
+		 *
+		 * @return string
+		 */
+
+		public static function getDirectoriesFromPath($file)
+		{
+
+			$path = explode(Settings::setting('filesystem_separator'), $file);
+
+			if (empty($path))
+			{
+
+				throw new ApplicationException();
+			}
+
+			array_pop($path);
+
+			return implode(Settings::setting('filesystem_separator'), $path);
+		}
+
+		/**
+		 * Removes the file extension
+		 *
+		 * @param $file
+		 *
+		 * @return mixed
+		 */
+
+		public static function removeFileExtension($file)
+		{
+
+			$file = explode('.', $file);
+
+			if (empty($file))
+			{
+
+				throw new ApplicationException();
+			}
+
+			return reset($file);
+		}
+
+		/**
+		 * Gets the file name
+		 *
+		 * @param $file
+		 *
+		 * @return mixed
+		 */
+
+		public static function getFileName($file)
+		{
+
+			if (explode('.', $file) != null)
+			{
+
+				$file = self::removeFileExtension($file);
+			}
+
+			$file = explode(Settings::setting('filesystem_separator'), $file);
+
+			if (empty($file))
+			{
+
+				throw new ApplicationException();
+			}
+
+			return end($file);
+		}
+
+		/**
+		 * Returns true if we have a file extension
+		 *
+		 * @param $file
+		 *
+		 * @return bool
+		 */
+
+		public static function hasFileExtension($file)
+		{
+
+			if (count(explode(".", $file)) === 1)
+				return false;
+
+			return true;
+		}
+
+		/**
+		 * Adds a new line to the end of each string to help the handle
+		 *
+		 * @param $blob
+		 *
+		 * @param $data
+		 *
+		 * @return string
+		 */
+
+		private static function addNewLine($blob, $data)
+		{
+
+			return sprintf("%s\n%s", $blob, $data);
+		}
+
+		/**
+		 * Gets the root of this application
+		 *
+		 * @return mixed
+		 */
+
+		private static function getRoot()
+		{
+
+			return SYSCRACK_ROOT;
+		}
+
+		/**
+		 * Stitches the pattern to the path
+		 *
+		 * @param $path
+		 *
+		 * @param $pattern
+		 *
+		 * @return string
+		 */
+
+		private function stitchPattern($path, $pattern)
+		{
+
+			return sprintf("%s" . Settings::setting('filesystem_separator') . "%s", $path, $pattern);
+		}
 	}
-
-    /**
-     * Removes the file extension
-     *
-     * @param $file
-     *
-     * @return mixed
-     */
-
-	public static function removeFileExtension( $file )
-    {
-
-        $file = explode('.', $file );
-
-        if( empty( $file ) )
-        {
-
-            throw new ApplicationException();
-        }
-
-        return reset( $file );
-    }
-
-    /**
-     * Gets the file name
-     *
-     * @param $file
-     *
-     * @return mixed
-     */
-
-    public static function getFileName( $file )
-    {
-
-        if( explode('.', $file ) != null )
-        {
-
-            $file = self::removeFileExtension( $file );
-        }
-
-        $file = explode( Settings::setting('filesystem_separator'), $file );
-
-        if( empty( $file ) )
-        {
-
-            throw new ApplicationException();
-        }
-
-        return end( $file );
-    }
-
-    /**
-     * Returns true if we have a file extension
-     *
-     * @param $file
-     *
-     * @return bool
-     */
-
-    public static function hasFileExtension( $file )
-    {
-
-        if( count( explode(".", $file ) ) === 1 )
-            return false;
-
-        return true;
-    }
-
-	/**
-	 * Adds a new line to the end of each string to help the handle
-	 *
-	 * @param $blob
-	 *
-	 * @param $data
-	 *
-	 * @return string
-	 */
-
-	private static function addNewLine( $blob, $data )
-	{
-
-		return sprintf("%s\n%s", $blob, $data);
-	}
-
-	/**
-	 * Gets the root of this application
-	 *
-	 * @return mixed
-	 */
-
-	private static function getRoot()
-	{
-
-		return SYSCRACK_ROOT;
-	}
-
-	/**
-	 * Stitches the pattern to the path
-	 *
-	 * @param $path
-	 *
-	 * @param $pattern
-	 *
-	 * @return string
-	 */
-
-	private function stitchPattern( $path, $pattern )
-	{
-
-		return sprintf("%s" . Settings::setting('filesystem_separator') . "%s", $path, $pattern);
-	}
-}

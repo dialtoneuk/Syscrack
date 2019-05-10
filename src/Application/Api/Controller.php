@@ -1,265 +1,264 @@
 <?php
-namespace Framework\Application\Api;
-
-/**
- * Lewis Lancaster 2017
- *
- * Class Controller
- *
- * @package Framework\Application\Api
- */
 
-use Framework\Application\Api\Structures\Endpoint;
-use Framework\Application\Settings;
-use Framework\Application\Utilities\Factory;
-use Framework\Application\Utilities\PostHelper;
-use Framework\Exceptions\ApplicationException;
-use ReflectionClass;
+	namespace Framework\Application\Api;
 
-class Controller
-{
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Controller
+	 *
+	 * @package Framework\Application\Api
+	 */
 
-    /**
-     * @var Factory
-     */
+	use Framework\Application\Api\Structures\Endpoint;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\Factory;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Exceptions\ApplicationException;
+	use ReflectionClass;
 
-    protected $factory;
+	class Controller
+	{
 
-    /**
-     * Controller constructor.
-     */
+		/**
+		 * @var Factory
+		 */
 
-    public function __construct()
-    {
+		protected $factory;
 
-        $this->factory = new Factory('Framework\\Application\\Api\\Endpoints\\');
-    }
+		/**
+		 * Controller constructor.
+		 */
 
-    /**
-     * Returns true if this endpoint clsas exists
-     *
-     * @param $endpoint
-     *
-     * @return bool
-     */
+		public function __construct()
+		{
 
-    public function hasEndpoint( $endpoint )
-    {
+			$this->factory = new Factory('Framework\\Application\\Api\\Endpoints\\');
+		}
 
-        if( $this->factory->classExists( $endpoint ) == false )
-        {
+		/**
+		 * Returns true if this endpoint clsas exists
+		 *
+		 * @param $endpoint
+		 *
+		 * @return bool
+		 */
 
-            return false;
-        }
+		public function hasEndpoint($endpoint)
+		{
 
-        return true;
-    }
+			if ($this->factory->classExists($endpoint) == false)
+			{
 
-    /**
-     * Creates a new endpoitn class
-     *
-     * @param $endpoint
-     *
-     * @return mixed
-     */
+				return false;
+			}
 
-    public function createEndpoint( $endpoint )
-    {
+			return true;
+		}
 
-        return $this->factory->createClass( $endpoint );
-    }
+		/**
+		 * Creates a new endpoitn class
+		 *
+		 * @param $endpoint
+		 *
+		 * @return mixed
+		 */
 
-    /**
-     * Processes the endpoint and class the retrospective method
-     *
-     * @param $endpoint
-     *
-     * @param $method
-     *
-     * @return mixed
-     */
+		public function createEndpoint($endpoint)
+		{
 
-    public function processEndpoint( $endpoint, $method )
-    {
+			return $this->factory->createClass($endpoint);
+		}
 
-        if( $this->hasEndpoint( $endpoint ) == false )
-        {
+		/**
+		 * Processes the endpoint and class the retrospective method
+		 *
+		 * @param $endpoint
+		 *
+		 * @param $method
+		 *
+		 * @return mixed
+		 */
 
-            throw new ApplicationException();
-        }
+		public function processEndpoint($endpoint, $method)
+		{
 
-        $endpoint = $this->createEndpoint( $endpoint );
+			if ($this->hasEndpoint($endpoint) == false)
+			{
 
-        if( $endpoint instanceof Endpoint == false )
-        {
+				throw new ApplicationException();
+			}
 
-            throw new ApplicationException();
-        }
+			$endpoint = $this->createEndpoint($endpoint);
 
-        if( $this->methodExists( $endpoint, $method ) == false )
-        {
+			if ($endpoint instanceof Endpoint == false)
+			{
 
-            throw new ApplicationException();
-        }
+				throw new ApplicationException();
+			}
 
-        if( $this->isMethodSafe( $endpoint, $method ) == false )
-        {
+			if ($this->methodExists($endpoint, $method) == false)
+			{
 
-            throw new ApplicationException();
-        }
+				throw new ApplicationException();
+			}
 
-        if( $this->isMethodCallable( $endpoint, $method ) == false )
-        {
+			if ($this->isMethodSafe($endpoint, $method) == false)
+			{
 
-            throw new ApplicationException();
-        }
+				throw new ApplicationException();
+			}
 
-        if( $this->methodHasRequirements( $endpoint, $method ) )
-        {
+			if ($this->isMethodCallable($endpoint, $method) == false)
+			{
 
-            $requirements = $this->getRequirements( $endpoint, $method );
+				throw new ApplicationException();
+			}
 
-            if( PostHelper::checkForRequirements( $requirements ) == false )
-            {
+			if ($this->methodHasRequirements($endpoint, $method))
+			{
 
-                throw new ApplicationException();
-            }
+				$requirements = $this->getRequirements($endpoint, $method);
 
-            $requirements = PostHelper::returnRequirements( $requirements );
+				if (PostHelper::checkForRequirements($requirements) == false)
+				{
 
-            if( empty( $requirements ) )
-            {
+					throw new ApplicationException();
+				}
 
-                throw new ApplicationException();
-            }
+				$requirements = PostHelper::returnRequirements($requirements);
 
-            return call_user_func_array( array( $endpoint, $method ), $requirements );
-        }
+				if (empty($requirements))
+				{
 
-        return $endpoint->{ $method };
-    }
+					throw new ApplicationException();
+				}
 
-    /**
-     * Checks if the method is safe to call
-     *
-     * @param Endpoint $endpoint
-     *
-     * @param $method
-     *
-     * @return bool
-     */
+				return call_user_func_array(array($endpoint, $method), $requirements);
+			}
 
-    public function isMethodSafe( Endpoint $endpoint, $method )
-    {
+			return $endpoint->{$method};
+		}
 
-        if( $method[0] == '_' )
-        {
+		/**
+		 * Checks if the method is safe to call
+		 *
+		 * @param Endpoint $endpoint
+		 *
+		 * @param $method
+		 *
+		 * @return bool
+		 */
 
-            return false;
-        }
+		public function isMethodSafe(Endpoint $endpoint, $method)
+		{
 
-        if( strlen( $method ) > Settings::setting('api_method_length') )
-        {
+			if ($method[0] == '_')
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        if( $this->isMethodCallable( $endpoint, $method ) == false )
-        {
+			if (strlen($method) > Settings::setting('api_method_length'))
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($this->isMethodCallable($endpoint, $method) == false)
+			{
 
-    /**
-     * Checks if the method is callable
-     *
-     * @param Endpoint $endpoint
-     *
-     * @param $method
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    private function isMethodCallable( Endpoint $endpoint, $method )
-    {
+			return true;
+		}
 
-        $reflection = new ReflectionClass( $endpoint );
+		/**
+		 * @param Endpoint $endpoint
+		 * @param $method
+		 *
+		 * @return bool
+		 * @throws \ReflectionException
+		 */
 
-        if( $reflection->getMethod( $method )->isPublic() == false )
-        {
+		private function isMethodCallable(Endpoint $endpoint, $method)
+		{
 
-            return false;
-        }
+			$reflection = new ReflectionClass($endpoint);
 
-        return true;
-    }
+			if ($reflection->getMethod($method)->isPublic() == false)
+			{
 
-    /**
-     * Gets this endpoints requirements
-     *
-     * @param Endpoint $class
-     *
-     * @param $method
-     *
-     * @return mixed
-     */
+				return false;
+			}
 
-    private function getRequirements( Endpoint $class, $method )
-    {
+			return true;
+		}
 
-        $requirements = $class->requirements();
+		/**
+		 * Gets this endpoints requirements
+		 *
+		 * @param Endpoint $class
+		 *
+		 * @param $method
+		 *
+		 * @return mixed
+		 */
 
-        if( isset( $requirements[ $method ] ) == false )
-        {
+		private function getRequirements(Endpoint $class, $method)
+		{
 
-            throw new ApplicationException();
-        }
+			$requirements = $class->requirements();
 
-        return $requirements[ $method ];
-    }
+			if (isset($requirements[$method]) == false)
+			{
 
-    /**
-     * Checks if the method has requirements
-     *
-     * @param Endpoint $class
-     *
-     * @param $method
-     *
-     * @return bool
-     */
+				throw new ApplicationException();
+			}
 
-    private function methodHasRequirements( Endpoint $class, $method )
-    {
+			return $requirements[$method];
+		}
 
-        $requirements = $class->requirements();
+		/**
+		 * Checks if the method has requirements
+		 *
+		 * @param Endpoint $class
+		 *
+		 * @param $method
+		 *
+		 * @return bool
+		 */
 
-        if( empty( $requirements ) )
-        {
+		private function methodHasRequirements(Endpoint $class, $method)
+		{
 
-            return false;
-        }
+			$requirements = $class->requirements();
 
-        if( isset( $requirements[ $method ] ) )
-        {
+			if (empty($requirements))
+			{
 
-            return true;
-        }
+				return false;
+			}
 
-        return false;
-    }
+			if (isset($requirements[$method]))
+			{
 
-    private function methodExists( $class, $method )
-    {
+				return true;
+			}
 
-        if( method_exists( $class, $method ) == false )
-        {
+			return false;
+		}
 
-            return false;
-        }
+		private function methodExists($class, $method)
+		{
 
-        return true;
-    }
-}
+			if (method_exists($class, $method) == false)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+	}

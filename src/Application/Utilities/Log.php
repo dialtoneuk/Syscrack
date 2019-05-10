@@ -1,133 +1,134 @@
 <?php
-namespace Framework\Application\Utilities;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Log
- *
- * @package Framework\Application
- */
+	namespace Framework\Application\Utilities;
 
-use Framework\Application\Settings;
-use Framework\Exceptions\ApplicationException;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Log
+	 *
+	 * @package Framework\Application
+	 */
 
-class Log
-{
+	use Framework\Application\Settings;
+	use Framework\Exceptions\ApplicationException;
 
-    /**
-     * Holds the current active log
-     *
-     * @var array
-     */
+	class Log
+	{
 
-    protected static $active_log = [];
+		/**
+		 * Holds the current active log
+		 *
+		 * @var array
+		 */
 
-    /**
-     * @var bool
-     */
+		protected static $active_log = [];
 
-    public static $disabled = false;
+		/**
+		 * @var bool
+		 */
 
-    /**
-     * Logs the message
-     *
-     * @param $message
-     *
-     * @param string $type
-     */
+		public static $disabled = false;
 
-    public static function log( $message, $type='notice' )
-    {
+		/**
+		 * Logs the message
+		 *
+		 * @param $message
+		 *
+		 * @param string $type
+		 */
 
-        if( is_string( $message ) == false )
-        {
+		public static function log($message, $type = 'notice')
+		{
 
-            throw new ApplicationException();
-        }
+			if (is_string($message) == false)
+			{
 
-        self::addToActiveLog( [ 'message' => $message, 'type' => $type ] );
-    }
+				throw new ApplicationException();
+			}
 
-    /**
-     * Saves the log to file
-     */
+			self::addToActiveLog(['message' => $message, 'type' => $type]);
+		}
 
-    public static function saveLogToFile()
-    {
+		/**
+		 * Saves the log to file
+		 */
 
-        FileSystem::writeJson( Settings::setting('active_log_location'), self::getActiveLog() );
-    }
+		public static function saveLogToFile()
+		{
 
-    /**
-     * Reads the active log file
-     *
-     * @return mixed
-     */
+			FileSystem::writeJson(Settings::setting('active_log_location'), self::getActiveLog());
+		}
 
-    public static function readActiveLog()
-    {
+		/**
+		 * Reads the active log file
+		 *
+		 * @return mixed
+		 */
 
-        return FileSystem::readJson( Settings::setting('active_log_location') );
-    }
+		public static function readActiveLog()
+		{
 
-    /**
-     * Gets the active log
-     *
-     * @return array
-     */
+			return FileSystem::readJson(Settings::setting('active_log_location'));
+		}
 
-    public static function getActiveLog()
-    {
+		/**
+		 * Gets the active log
+		 *
+		 * @return array
+		 */
 
-        return self::$active_log;
-    }
+		public static function getActiveLog()
+		{
 
-    /***
-     * Returns true if the active log isn't empty
-     *
-     * @return bool
-     */
+			return self::$active_log;
+		}
 
-    public static function hasActiveLog()
-    {
+		/***
+		 * Returns true if the active log isn't empty
+		 *
+		 * @return bool
+		 */
 
-        if( empty( self::$active_log ) )
-        {
+		public static function hasActiveLog()
+		{
 
-            return false;
-        }
+			if (empty(self::$active_log))
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Gets the active log to j-ay-son
-     *
-     * @return string
-     */
+			return true;
+		}
 
-    public static function toJson()
-    {
+		/**
+		 * Gets the active log to j-ay-son
+		 *
+		 * @return string
+		 */
 
-        return json_encode( self::getActiveLog(), JSON_PRETTY_PRINT);
-    }
+		public static function toJson()
+		{
 
-    /**
-     * Adds to the active log
-     *
-     * @param array $array
-     */
+			return json_encode(self::getActiveLog(), JSON_PRETTY_PRINT);
+		}
 
-    private static function addToActiveLog( array $array )
-    {
+		/**
+		 * Adds to the active log
+		 *
+		 * @param array $array
+		 */
 
-        $data = array(
-            'time' => time(),
-            'date' => date('d-m-y'),
-            'microtime' => microtime( true )
-        );
+		private static function addToActiveLog(array $array)
+		{
 
-        self::$active_log[] = array_merge( $array, $data );
-    }
-}
+			$data = array(
+				'time' => time(),
+				'date' => date('d-m-y'),
+				'microtime' => microtime(true)
+			);
+
+			self::$active_log[] = array_merge($array, $data);
+		}
+	}

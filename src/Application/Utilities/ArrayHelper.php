@@ -1,134 +1,135 @@
 <?php
-namespace Framework\Application\Utilities;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class ArrayHelper
- *
- * @package Framework\Application\Utilities
- */
+	namespace Framework\Application\Utilities;
 
-use Framework\Exceptions\ApplicationException;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class ArrayHelper
+	 *
+	 * @package Framework\Application\Utilities
+	 */
 
-class ArrayHelper
-{
+	use Framework\Exceptions\ApplicationException;
 
-    /**
-     * Converts the array into an object ( ignoring the type of its key values )
-     *
-     * @param array $array
-     *
-     * @return \stdClass
-     */
+	class ArrayHelper
+	{
 
-    public static function toObject( array $array )
-    {
+		/**
+		 * Converts the array into an object ( ignoring the type of its key values )
+		 *
+		 * @param array $array
+		 *
+		 * @return \stdClass
+		 */
 
-        $object = new \stdClass();
+		public static function toObject(array $array)
+		{
 
-        foreach( $array as $key=>$value )
-        {
+			$object = new \stdClass();
 
-            if( isset( $object->$key ) == false )
-            {
+			foreach ($array as $key => $value)
+			{
 
-                $object->$key = $value;
-            }
-        }
+				if (isset($object->$key) == false)
+				{
 
-        return $object;
-    }
+					$object->$key = $value;
+				}
+			}
 
-    /**
-     * Converts everything ( including nested arrays and other objects ) into an stdClass
-     *
-     * @param array $array
-     *
-     * @return mixed
-     */
+			return $object;
+		}
 
-    public static function allToObject( array $array )
-    {
+		/**
+		 * Converts everything ( including nested arrays and other objects ) into an stdClass
+		 *
+		 * @param array $array
+		 *
+		 * @return mixed
+		 */
 
-        return json_decode( json_encode( $array ) );
-    }
+		public static function allToObject(array $array)
+		{
 
-    /**
-     * Converts an object to an array
-     *
-     * @param mixed $array
-     *
-     * @return mixed
-     */
+			return json_decode(json_encode($array));
+		}
 
-    public static function allToArray( $array )
-    {
+		/**
+		 * Converts an object to an array
+		 *
+		 * @param mixed $array
+		 *
+		 * @return mixed
+		 */
 
-        return json_decode( json_encode( $array ), true );
-    }
+		public static function allToArray($array)
+		{
 
-    /**
-     * Sorts an array by a key value
-     *
-     * @param array $array
-     *
-     * @param $by
-     *
-     * @param int $sorttype
-     *
-     * @return array|mixed
-     */
+			return json_decode(json_encode($array), true);
+		}
 
-    public static function sortArray( array $array, $by, $sorttype=SORT_DESC, $toarray=true )
-    {
+		/**
+		 * Sorts an array by a key value
+		 *
+		 * @param array $array
+		 *
+		 * @param $by
+		 *
+		 * @param int $sorttype
+		 *
+		 * @return array|mixed
+		 */
 
-        if( empty( $array ) || count( $array ) == 1 )
-        {
+		public static function sortArray(array $array, $by, $sorttype = SORT_DESC, $toarray = true)
+		{
 
-            return $array[0];
-        }
+			if (empty($array) || count($array) == 1)
+			{
 
-        $sort = array();
+				return $array[0];
+			}
 
-        foreach( $array as $key=>$value )
-        {
+			$sort = array();
 
-            if( is_object( $value ) )
-            {
+			foreach ($array as $key => $value)
+			{
 
-                $sort[] = $value->{ $by };
-            }
-            else
-            {
+				if (is_object($value))
+				{
 
-                if( is_array( $value ) )
-                {
+					$sort[] = $value->{$by};
+				}
+				else
+				{
 
-                    $soft[] = $value[ $by ];
-                }
-                else
-                {
+					if (is_array($value))
+					{
 
-                    throw new ApplicationException();
-                }
-            }
-        }
+						$soft[] = $value[$by];
+					}
+					else
+					{
 
-        $result = array_multisort( $sort, $sorttype, $array );
+						throw new ApplicationException();
+					}
+				}
+			}
 
-        if( $result == false )
-        {
+			$result = array_multisort($sort, $sorttype, $array);
 
-            throw new ApplicationException();
-        }
+			if ($result == false)
+			{
 
-        if( $toarray )
-        {
+				throw new ApplicationException();
+			}
 
-            return self::allToArray( $array );
-        }
+			if ($toarray)
+			{
 
-        return $array;
-    }
-}
+				return self::allToArray($array);
+			}
+
+			return $array;
+		}
+	}

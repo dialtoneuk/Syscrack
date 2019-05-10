@@ -1,149 +1,150 @@
 <?php
-namespace Framework\Database;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class Table
- *
- * @package Framework\Database
- */
-
-use Exception;
-use Framework\Exceptions\DatabaseException;
-use Illuminate\Database\Query\Builder;
-use ReflectionClass;
-
-class Table
-{
+	namespace Framework\Database;
 
 	/**
-	 * @var \Illuminate\Database\Capsule\Manager
-	 */
-
-	protected static $database;
-
-	protected static $cache = [];
-
-	/**
-	 * Checks if we have initialized the database, if we have not, do it
+	 * Lewis Lancaster 2016
 	 *
-	 * Table constructor.
-	 */
-
-	public function __construct ()
-	{
-
-	    try
-        {
-
-            if( Manager::getCapsule() === null )
-                $this->initializeDatabase();
-
-            self::$database = Manager::getCapsule();
-        }
-        catch( DatabaseException $error )
-        {
-
-
-        }
-	}
-
-    /**
-     * @param null $table
-     * @return Builder
-     *
-     */
-
-	final protected function getTable( $table=null )
-	{
-
-	    try
-        {
-
-            if( $table === null )
-                $table = strtolower( self::getShortName( new ReflectionClass( $this ) ) );
-
-            if( self::$database->table( $table )->exists() == false )
-            {
-                if( self::$database->table( $table )->exists() == false )
-                {
-                    try {
-
-                        self::$database->table($table)->get();
-                    } catch (Exception $error) {
-
-                        throw new DatabaseException();
-                    }
-
-                    return self::$database->table($table);
-                }
-                else
-                    return self::$database->table( $table );
-            }
-            else
-                return self::$database->table( $table );
-
-        }
-        catch ( \ReflectionException $exception )
-        {
-
-            throw new DatabaseException();
-        }
-	}
-
-	/**
-	 * If this table has a database connection or not
+	 * Class Table
 	 *
-	 * @return bool
+	 * @package Framework\Database
 	 */
 
-	final private function hasConnection()
+	use Exception;
+	use Framework\Exceptions\DatabaseException;
+	use Illuminate\Database\Query\Builder;
+	use ReflectionClass;
+
+	class Table
 	{
 
-		try
+		/**
+		 * @var \Illuminate\Database\Capsule\Manager
+		 */
+
+		protected static $database;
+
+		protected static $cache = [];
+
+		/**
+		 * Checks if we have initialized the database, if we have not, do it
+		 *
+		 * Table constructor.
+		 */
+
+		public function __construct()
 		{
 
-			Manager::getCapsule()->connection();
+			try
+			{
+
+				if (Manager::getCapsule() === null)
+					$this->initializeDatabase();
+
+				self::$database = Manager::getCapsule();
+			} catch (DatabaseException $error)
+			{
+
+
+			}
 		}
-		catch( Exception $error )
+
+		/**
+		 * @param null $table
+		 *
+		 * @return Builder
+		 *
+		 */
+
+		final protected function getTable($table = null)
 		{
 
-			return false;
+			try
+			{
+
+				if ($table === null)
+					$table = strtolower(self::getShortName(new ReflectionClass($this)));
+
+				if (self::$database->table($table)->exists() == false)
+				{
+					if (self::$database->table($table)->exists() == false)
+					{
+						try
+						{
+
+							self::$database->table($table)->get();
+						} catch (Exception $error)
+						{
+
+							throw new DatabaseException();
+						}
+
+						return self::$database->table($table);
+					}
+					else
+						return self::$database->table($table);
+				}
+				else
+					return self::$database->table($table);
+
+			} catch (\ReflectionException $exception)
+			{
+
+				throw new DatabaseException();
+			}
 		}
 
-		return true;
-	}
+		/**
+		 * If this table has a database connection or not
+		 *
+		 * @return bool
+		 */
 
-	/**
-	 * Intializes a connection with the database
-	 */
-
-	final private function initializeDatabase()
-	{
-
-		$manager = new Manager();
-
-		if( $this->hasConnection() == false )
+		final private function hasConnection()
 		{
 
-			throw new DatabaseException();
+			try
+			{
+
+				Manager::getCapsule()->connection();
+			} catch (Exception $error)
+			{
+
+				return false;
+			}
+
+			return true;
 		}
 
-		unset( $manager );
+		/**
+		 * Intializes a connection with the database
+		 */
+
+		final private function initializeDatabase()
+		{
+
+			$manager = new Manager();
+
+			if ($this->hasConnection() == false)
+			{
+
+				throw new DatabaseException();
+			}
+
+			unset($manager);
+		}
+
+		/**
+		 * Gets the short name of a class
+		 *
+		 * @param ReflectionClass $reflectionclass
+		 *
+		 * @return string
+		 */
+
+		final private function getShortName(ReflectionClass $reflectionclass)
+		{
+
+			return $reflectionclass->getShortName();
+		}
 	}
-
-	/**
-	 * Gets the short name of a class
-	 *
-	 * @param ReflectionClass $reflectionclass
-	 *
-	 * @return string
-	 */
-
-	final private function getShortName( ReflectionClass $reflectionclass )
-	{
-
-		return $reflectionclass->getShortName();
-	}
-}

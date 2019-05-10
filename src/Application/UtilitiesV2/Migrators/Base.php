@@ -1,26 +1,26 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 05/08/2018
- * Time: 03:00
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 05/08/2018
+	 * Time: 03:00
+	 */
 
-namespace Framework\Application\UtilitiesV2\Migrators;
+	namespace Framework\Application\UtilitiesV2\Migrators;
 
 
-use Framework\Application\UtilitiesV2\Interfaces\Migrator;
+	use Framework\Application\UtilitiesV2\Interfaces\Migrator;
 
-abstract class Base implements Migrator
-{
+	abstract class Base implements Migrator
+	{
 
-    /**
-     * @return mixed
-     */
+		/**
+		 * @return mixed
+		 */
 
-    public function migrate()
-    {
+		public function migrate()
+		{
 
-        return( true );
-    }
-}
+			return (true);
+		}
+	}

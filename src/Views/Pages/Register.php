@@ -1,171 +1,173 @@
 <?php
-    namespace Framework\Views\Pages;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Register
-     *
-     * @package Framework\Views\Pages
-     */
+	namespace Framework\Views\Pages;
 
-    use Framework\Application\Container;
-    use Framework\Application\Mailer;
-    use Framework\Application\Render;
-    use Framework\Application\Settings;
-    use Framework\Application\Utilities\PostHelper;
-    use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\BetaKeys;
-    use Framework\Syscrack\Register as Account;
-    use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page as Structure;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Register
+	 *
+	 * @package Framework\Views\Pages
+	 */
 
-    class Register extends BaseClass implements Structure
-    {
+	use Framework\Application\Container;
+	use Framework\Application\Mailer;
+	use Framework\Application\Render;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\BetaKeys;
+	use Framework\Syscrack\Register as Account;
+	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Views\Structures\Page as Structure;
 
-        /**
-         * @var Mailer
-         */
+	class Register extends BaseClass implements Structure
+	{
 
-        protected static $mailer;
+		/**
+		 * @var Mailer
+		 */
 
-        /**
-         * @var BetaKeys
-         */
+		protected static $mailer;
 
-        protected static $betakeys;
+		/**
+		 * @var BetaKeys
+		 */
 
-        /**
-         * Register constructor.
-         */
+		protected static $betakeys;
 
-        public function __construct()
-        {
+		/**
+		 * Register constructor.
+		 */
 
-            if( isset( self::$mailer ) == false )
-                self::$mailer = new Mailer();
+		public function __construct()
+		{
 
-            if( Settings::setting('user_require_betakey') )
-                self::$betakeys = new BetaKeys();
+			if (isset(self::$mailer) == false)
+				self::$mailer = new Mailer();
 
-            parent::__construct( false, true, false, true );
-        }
+			if (Settings::setting('user_require_betakey'))
+				self::$betakeys = new BetaKeys();
 
-        /**
-         * Returns the pages mapping
-         *
-         * @return array
-         */
+			parent::__construct(false, true, false, true);
+		}
 
-        public function mapping()
-        {
+		/**
+		 * Returns the pages mapping
+		 *
+		 * @return array
+		 */
 
-            return array(
-                [
-                    'GET /register/', 'page'
-                ],
-                [
-                    'POST /register/', 'process'
-                ]
-            );
-        }
+		public function mapping()
+		{
 
-        /**
-         * Default page
-         */
+			return array(
+				[
+					'GET /register/', 'page'
+				],
+				[
+					'POST /register/', 'process'
+				]
+			);
+		}
 
-        public function page()
-        {
+		/**
+		 * Default page
+		 */
 
-            if (Container::getObject('session')->isLoggedIn())
-                Render::redirect( Settings::setting('controller_index_root') . Settings::setting('controller_index_page') );
+		public function page()
+		{
 
-            Render::view('syscrack/page.register');
-        }
+			if (Container::getObject('session')->isLoggedIn())
+				Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
 
-        /**
-         * Processes the register request
-         */
+			Render::view('syscrack/page.register');
+		}
 
-        public function process()
-        {
+		/**
+		 * Processes the register request
+		 */
 
-            if (Container::getObject('session')->isLoggedIn())
-                Render::redirect( Settings::setting('controller_index_root') . Settings::setting('controller_index_page') );
+		public function process()
+		{
 
-            if (PostHelper::hasPostData() == false)
-                $this->redirectError('Missing Information');
-            elseif (Settings::setting('user_allow_registrations') == false)
-                $this->redirectError('Registration is currently disabled, sorry...');
-            elseif (PostHelper::checkForRequirements(['username', 'password', 'email']) == false)
-                $this->redirectError('Missing Information');
+			if (Container::getObject('session')->isLoggedIn())
+				Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
 
-            $username = PostHelper::getPostData('username');
-            $password = PostHelper::getPostData('password');
-            $email = PostHelper::getPostData('email');
+			if (PostHelper::hasPostData() == false)
+				$this->redirectError('Missing Information');
+			else if (Settings::setting('user_allow_registrations') == false)
+				$this->redirectError('Registration is currently disabled, sorry...');
+			else if (PostHelper::checkForRequirements(['username', 'password', 'email']) == false)
+				$this->redirectError('Missing Information');
 
-            if (empty($username) || empty($password) || empty($email))
-                $this->redirectError('Missing Information');
-            elseif (strlen($password) < Settings::setting('registration_password_length'))
-                $this->redirectError('Your password is too small, it needs to be longer than ' . Settings::setting('registration_password_length') . ' characters');
-            else
-            {
+			$username = PostHelper::getPostData('username');
+			$password = PostHelper::getPostData('password');
+			$email = PostHelper::getPostData('email');
 
-                $register = new Account();
+			if (empty($username) || empty($password) || empty($email))
+				$this->redirectError('Missing Information');
+			else if (strlen($password) < Settings::setting('registration_password_length'))
+				$this->redirectError('Your password is too small, it needs to be longer than ' . Settings::setting('registration_password_length') . ' characters');
+			else
+			{
 
-                if ( Settings::setting('user_require_betakey') && PostHelper::checkForRequirements(['betakey']) == false
-                    && self::$betakeys->hasBetaKey(PostHelper::getPostData('betakey')) == false )
-                    $this->redirectError('Invalid key, please check for any white spaces or errors in the key and try again');
-                else
-                {
+				$register = new Account();
 
-                    if( Settings::setting('user_require_betakey') )
-                        self::$betakeys->removeBetaKey( PostHelper::getPostData('betakey') );
+				if (Settings::setting('user_require_betakey') && PostHelper::checkForRequirements(['betakey']) == false
+					&& self::$betakeys->exists(PostHelper::getPostData('betakey')) == false)
+					$this->redirectError('Invalid key, please check for any white spaces or errors in the key and try again');
+				else
+				{
 
-                    $result = @$register->register($username, $password, $email);
+					if (Settings::setting('user_require_betakey'))
+						self::$betakeys->remove(PostHelper::getPostData('betakey'));
 
-                    if( $result === false )
-                        $this->redirectError("An error occured while trying to create your account. Its been logged and we are on it. Please try again later.");
-                    else
-                    {
+					$result = @$register->register($username, $password, $email);
 
-                        if( Settings::setting('registration_verification') )
-                        {
-                            $this->sendEmail( $email, array('token' => $result ) );
-                            $this->redirect('verify');
-                        }
-                        else
-                            $this->redirect('verify?token=' . $result );
-                    }
-                }
-            }
-        }
+					if ($result === false)
+						$this->redirectError("An error occured while trying to create your account. Its been logged and we are on it. Please try again later.");
+					else
+					{
 
-        /**
-         * @param $email
-         * @param array $variables
-         * @return bool
-         */
+						if (Settings::setting('registration_verification'))
+						{
+							$this->sendEmail($email, array('token' => $result));
+							$this->redirect('verify');
+						}
+						else
+							$this->redirect('verify?token=' . $result);
+					}
+				}
+			}
+		}
 
-        private function sendEmail( $email, array $variables )
-        {
+		/**
+		 * @param $email
+		 * @param array $variables
+		 *
+		 * @return bool
+		 */
 
-            $body = self::$mailer->parse( self::$mailer->getTemplate('email.verify.php'), $variables );
+		private function sendEmail($email, array $variables)
+		{
 
-            if( empty( $body ) )
-            {
+			$body = self::$mailer->parse(self::$mailer->getTemplate('email.verify.php'), $variables);
 
-                throw new SyscrackException();
-            }
+			if (empty($body))
+			{
 
-            $result = self::$mailer->send( $body, 'Verify your email', $email );
+				throw new SyscrackException();
+			}
 
-            if( $result == false )
-            {
+			$result = self::$mailer->send($body, 'Verify your email', $email);
 
-                return false;
-            }
+			if ($result == false)
+			{
 
-            return true;
-        }
-    }
+				return false;
+			}
+
+			return true;
+		}
+	}

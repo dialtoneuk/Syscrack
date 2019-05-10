@@ -1,207 +1,214 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 05/08/2018
- * Time: 23:15
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 05/08/2018
+	 * Time: 23:15
+	 */
 
-namespace Framework\Application\UtilitiesV2\Controller;
-
-
-use Framework\Application\UtilitiesV2\Collector;
-use Framework\Application\UtilitiesV2\Container;
-use Framework\Application\UtilitiesV2\Group;
-use Framework\Application\UtilitiesV2\User;
-
-class Permissions
-{
-
-    /**
-     * @var Group
-     */
-
-    protected $group;
-
-    /**#
-     * @var User
-     */
-
-    protected $user;
-
-    /**
-     * @var mixed
-     */
-
-    protected $cache = null;
-
-    /**
-     * @var \Framework\Application\UtilitiesV2\Session
-     */
-
-    protected $session;
-
-    /**
-     * Permissions constructor.
-     * @param bool $auto_create
-     * @throws \RuntimeException
-     */
-
-    public function __construct( $auto_create=true )
-    {
-
-        if( Container::exist("application") == false )
-            throw new \RuntimeException("Needs application");
-
-        if( $auto_create )
-            $this->create();
-    }
-
-    /**
-     * @throws \RuntimeException
-     */
-
-    public function create()
-    {
-
-        $this->session = Container::get("application")->session;
-        $this->group = Collector::new("Group");
-        $this->user = Collector::new("User");
-    }
-
-    /**
-     * @param $flag
-     * @return bool
-     * @throws \RuntimeException
-     */
-
-    public function hasPermission( $flag )
-    {
-
-        $group = $this->getUserGroupName();
-
-        if( $group == null )
-            return false;
-
-        if( $this->group->hasFlag( $group, $flag ) == false )
-            return false;
-
-        return true;
-    }
-
-    /**
-     * @param $flag
-     * @return mixed|null
-     * @throws \RuntimeException
-     */
-
-    public function getPermission( $flag )
-    {
+	namespace Framework\Application\UtilitiesV2\Controller;
 
 
-        $group = $this->getUserGroupName();
+	use Framework\Application\UtilitiesV2\Collector;
+	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\UtilitiesV2\Group;
+	use Framework\Application\UtilitiesV2\User;
 
-        if( $group == null )
-            return null;
+	class Permissions
+	{
 
-        if( $this->group->hasFlag( $group, $flag ) == false )
-            return null;
+		/**
+		 * @var Group
+		 */
 
-        return( $this->group->get( $flag ) );
-    }
+		protected $group;
 
-    /**
-     * @return bool
-     * @throws \RuntimeException
-     */
+		/**#
+		 * @var User
+		 */
 
-    public function isAdmin()
-    {
+		protected $user;
 
-        if( $this->hasPermission( GROUPS_FLAG_ADMIN ) == false )
-            return false;
+		/**
+		 * @var mixed
+		 */
 
-        return true;
-    }
+		protected $cache = null;
 
-    /**
-     * @return bool
-     * @throws \RuntimeException
-     */
+		/**
+		 * @var \Framework\Application\UtilitiesV2\Session
+		 */
 
-    public function canUploadLoessless()
-    {
+		protected $session;
 
-        if( $this->hasPermission( GROUPS_FLAG_LOSSLESS ) == false )
-            return false;
+		/**
+		 * Permissions constructor.
+		 *
+		 * @param bool $auto_create
+		 *
+		 * @throws \RuntimeException
+		 */
 
-        return true;
-    }
+		public function __construct($auto_create = true)
+		{
 
-    /**
-     * @param bool $use_cache
-     * @return null
-     * @throws \RuntimeException
-     */
+			if (Container::exist("application") == false)
+				throw new \RuntimeException("Needs application");
 
-    public function getUserGroupName( $use_cache=true )
-    {
+			if ($auto_create)
+				$this->create();
+		}
 
-        if( $this->session->isLoggedIn() == false )
-            return null;
+		/**
+		 * @throws \RuntimeException
+		 */
+
+		public function create()
+		{
+
+			$this->session = Container::get("application")->session;
+			$this->group = Collector::new("Group");
+			$this->user = Collector::new("User");
+		}
+
+		/**
+		 * @param $flag
+		 *
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
+
+		public function hasPermission($flag)
+		{
+
+			$group = $this->getUserGroupName();
+
+			if ($group == null)
+				return false;
+
+			if ($this->group->hasFlag($group, $flag) == false)
+				return false;
+
+			return true;
+		}
+
+		/**
+		 * @param $flag
+		 *
+		 * @return mixed|null
+		 * @throws \RuntimeException
+		 */
+
+		public function getPermission($flag)
+		{
 
 
-        if( $use_cache )
-        {
+			$group = $this->getUserGroupName();
 
-            if( $this->isCached() )
-                $user = $this->cache;
-            else
-                $user = $this->cache( $this->user->get( $this->session->userid() ) );
-        }
-        else
-            $user = $this->user->get( $this->session->userid() );
+			if ($group == null)
+				return null;
 
-        if( $this->group->exist( $user->group ) == false )
-            return null;
+			if ($this->group->hasFlag($group, $flag) == false)
+				return null;
 
-        return( $user->group );
-    }
+			return ($this->group->get($flag));
+		}
 
-    /**
-     * @param $user
-     * @return mixed
-     */
+		/**
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-    private function cache( $user )
-    {
+		public function isAdmin()
+		{
 
-      $this->cache = $user;
+			if ($this->hasPermission(GROUPS_FLAG_ADMIN) == false)
+				return false;
 
-      return( $this->cache );
-    }
+			return true;
+		}
 
-    /**
-     * @return bool
-     */
+		/**
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-    private function isCached()
-    {
+		public function canUploadLoessless()
+		{
 
-        if( empty( $this->cache ) )
-            return false;
+			if ($this->hasPermission(GROUPS_FLAG_LOSSLESS) == false)
+				return false;
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * @param $group
-     * @return mixed
-     */
+		/**
+		 * @param bool $use_cache
+		 *
+		 * @return null
+		 * @throws \RuntimeException
+		 */
 
-    private function getGroup( $group )
-    {
+		public function getUserGroupName($use_cache = true)
+		{
 
-        return( $this->group->get( $group ) );
-    }
-}
+			if ($this->session->isLoggedIn() == false)
+				return null;
+
+
+			if ($use_cache)
+			{
+
+				if ($this->isCached())
+					$user = $this->cache;
+				else
+					$user = $this->cache($this->user->get($this->session->userid()));
+			}
+			else
+				$user = $this->user->get($this->session->userid());
+
+			if ($this->group->exist($user->group) == false)
+				return null;
+
+			return ($user->group);
+		}
+
+		/**
+		 * @param $user
+		 *
+		 * @return mixed
+		 */
+
+		private function cache($user)
+		{
+
+			$this->cache = $user;
+
+			return ($this->cache);
+		}
+
+		/**
+		 * @return bool
+		 */
+
+		private function isCached()
+		{
+
+			if (empty($this->cache))
+				return false;
+
+			return true;
+		}
+
+		/**
+		 * @param $group
+		 *
+		 * @return mixed
+		 */
+
+		private function getGroup($group)
+		{
+
+			return ($this->group->get($group));
+		}
+	}

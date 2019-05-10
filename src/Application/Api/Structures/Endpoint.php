@@ -1,16 +1,16 @@
 <?php
-namespace Framework\Application\Api\Structures;
 
-/**
- * Lewis Lancaster 2017
- *
- * Interface Endpoint
- *
- * @package Framework\Application\Api\Structures
- */
+	namespace Framework\Application\Api\Structures;
 
-interface Endpoint
-{
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Interface Endpoint
+	 *
+	 * @package Framework\Application\Api\Structures
+	 */
+	interface Endpoint
+	{
 
-    public function requirements();
-}
+		public function requirements();
+	}

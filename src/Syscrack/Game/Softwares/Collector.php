@@ -1,35 +1,36 @@
 <?php
-    namespace Framework\Syscrack\Game\Softwares;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Honeypot
-     *
-     * @package Framework\Syscrack\Game\Softwares
-     */
+	namespace Framework\Syscrack\Game\Softwares;
 
-    use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Honeypot
+	 *
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 
-    class Collector extends BaseSoftware
-    {
+	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 
-        /**
-         * The configuration of this Structure
-         *
-         * @return array
-         */
+	class Collector extends BaseSoftware
+	{
 
-        public function configuration()
-        {
+		/**
+		 * The configuration of this Structure
+		 *
+		 * @return array
+		 */
 
-            return array(
-                'uniquename'        => 'collector',
-                'extension'         => '.col',
-                'type'              => 'collector',
-                'installable'       => true,
-                'executable'        => true,
-                'localexecuteonly'  => true,
-            );
-        }
-    }
+		public function configuration()
+		{
+
+			return array(
+				'uniquename' => 'collector',
+				'extension' => '.col',
+				'type' => 'collector',
+				'installable' => true,
+				'executable' => true,
+				'localexecuteonly' => true,
+			);
+		}
+	}

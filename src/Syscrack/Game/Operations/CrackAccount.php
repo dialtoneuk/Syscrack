@@ -1,215 +1,217 @@
 <?php
-    namespace Framework\Syscrack\Game\Operations;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class CrackAccount
-     *
-     * @package Framework\Syscrack\Game\Operations
-     */
+	namespace Framework\Syscrack\Game\Operations;
 
-    use Framework\Application\Settings;
-    use Framework\Application\Utilities\PostHelper;
-    use Framework\Syscrack\Game\AccountDatabase;
-    use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-    use Framework\Syscrack\Game\Finance;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class CrackAccount
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-    class CrackAccount extends BaseOperation
-    {
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Syscrack\Game\AccountDatabase;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Finance;
 
-        /**
-         * @var Finance
-         */
+	class CrackAccount extends BaseOperation
+	{
 
-        protected static $finance;
+		/**
+		 * @var Finance
+		 */
 
-        /**
-         * @var AccountDatabase;
-         */
+		protected static $finance;
 
-        protected static $bankdatabase;
+		/**
+		 * @var AccountDatabase;
+		 */
 
-        /**
-         * CrackAccount constructor.
-         */
+		protected static $bankdatabase;
 
-        public function __construct()
-        {
+		/**
+		 * CrackAccount constructor.
+		 */
 
-            if( isset( self::$finance ) == false )
-                self::$finance = new Finance();
+		public function __construct()
+		{
 
-            if( isset( self::$bankdatabase ) == false )
-                self::$bankdatabase = new AccountDatabase();
+			if (isset(self::$finance) == false)
+				self::$finance = new Finance();
 
-            parent::__construct( true );
-        }
+			if (isset(self::$bankdatabase) == false)
+				self::$bankdatabase = new AccountDatabase();
 
-        /**
-         * Returns the configuration
-         *
-         * @return array
-         */
+			parent::__construct(true);
+		}
 
-        public function configuration()
-        {
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-            return array(
-                'allowsoftware'    => false,
-                'allowlocal'        => false,
-                'requiresoftware'  => false,
-                'requireloggedin'   => true,
-                'allowpost'         => false,
-                'allowcustomdata'   => true,
-            );
-        }
+		public function configuration()
+		{
 
-        /**
-         * Called when this operation is created
-         *
-         * @param $timecompleted
-         *
-         * @param $computerid
-         *
-         * @param $userid
-         *
-         * @param $process
-         *
-         * @param array $data
-         *
-         * @return bool
-         */
+			return array(
+				'allowsoftware' => false,
+				'allowlocal' => false,
+				'requiresoftware' => false,
+				'requireloggedin' => true,
+				'allowpost' => false,
+				'allowcustomdata' => true,
+			);
+		}
 
-        public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-        {
+		/**
+		 * Called when this operation is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-            self::$bankdatabase->loadDatabase( $userid );
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-            if( $this->checkData( $data, ['ipaddress','custom'] ) == false )
-                return false;
+			self::$bankdatabase->loadDatabase($userid);
 
-            if( $this->checkCustomData( $data, ['accountnumber'] ) == false )
-                return false;
+			if ($this->checkData($data, ['ipaddress', 'custom']) == false)
+				return false;
 
-            if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
-                return false;
+			if ($this->checkCustomData($data, ['accountnumber']) == false)
+				return false;
 
-            if( self::$finance->hasCurrentActiveAccount() )
-                if( self::$finance->getCurrentActiveAccount() == $data['custom']['accountnumber'] )
-                    return false;
+			if (self::$finance->accountNumberExists($data['custom']['accountnumber']) == false)
+				return false;
 
-            if( self::$finance->getByAccountNumber( $data['custom']['accountnumber'] )->computerid !== $this->getComputerId( $data['ipaddress'] ) )
-                return false;
+			if (self::$finance->hasCurrentActiveAccount())
+				if (self::$finance->getCurrentActiveAccount() == $data['custom']['accountnumber'])
+					return false;
 
-            if( self::$finance->getByAccountNumber( $data['custom']['accountnumber'] )->userid == $userid )
-                return false;
+			if (self::$finance->getByAccountNumber($data['custom']['accountnumber'])->computerid !== $this->getComputerId($data['ipaddress']))
+				return false;
 
-            return true;
-        }
+			if (self::$finance->getByAccountNumber($data['custom']['accountnumber'])->userid == $userid)
+				return false;
 
-        /**
-         * @param $timecompleted
-         * @param $timestarted
-         * @param $computerid
-         * @param $userid
-         * @param $process
-         * @param array $data
-         * @return bool
-         */
+			return true;
+		}
 
-        public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-        {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-            if( $this->checkData( $data, ['ipaddress','custom'] ) == false )
-                return false;
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-            if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-                return false;
+			if ($this->checkData($data, ['ipaddress', 'custom']) == false)
+				return false;
 
-            if( $this->checkCustomData( $data, ['accountnumber'] ) == false )
-                return false;
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
 
-            self::$finance->setCurrentActiveAccount( $data['custom']['accountnumber'] );
-            self::$bankdatabase->addAccountNumber( $data['custom']['accountnumber'], $data['ipaddress'] );
-            $this->logCrack( $data['custom']['accountnumber'], $this->getComputerId( $data['ipaddress'] ), self::$computer->getComputer( $computerid )->ipaddress );
-            $this->logLocal( $computerid, $data['custom']['accountnumber'], $data['ipaddress'] );
-            $this->redirectSuccess( $this->getRedirect($data['ipaddress'] ) );
-        }
+			if ($this->checkCustomData($data, ['accountnumber']) == false)
+				return false;
 
-        /**
-         * Gets the completion speed for this action
-         *
-         * @param $computerid
-         *
-         * @param $ipaddress
-         *
-         * @param $softwareid
-         *
-         * @return null
-         */
+			self::$finance->setCurrentActiveAccount($data['custom']['accountnumber']);
+			self::$bankdatabase->addAccountNumber($data['custom']['accountnumber'], $data['ipaddress']);
+			$this->logCrack($data['custom']['accountnumber'], $this->getComputerId($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
+			$this->logLocal($computerid, $data['custom']['accountnumber'], $data['ipaddress']);
+			$this->redirectSuccess($this->getRedirect($data['ipaddress']));
+		}
 
-        public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
-        {
+		/**
+		 * Gets the completion speed for this action
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $softwareid
+		 *
+		 * @return null
+		 */
 
-            return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), Settings::setting('syscrack_operations_hack_speed') );
-        }
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-        /**
-         * Returns the custom data for this operation
-         *
-         * @param $ipaddress
-         *
-         * @param $userid
-         *
-         * @return array|null
-         */
+			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_cpu_type'), Settings::setting('syscrack_operations_hack_speed'));
+		}
 
-        public function getCustomData($ipaddress, $userid)
-        {
+		/**
+		 * Returns the custom data for this operation
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return array|null
+		 */
 
-            if( PostHelper::hasPostData() == false )
-            {
+		public function getCustomData($ipaddress, $userid)
+		{
 
-                return null;
-            }
+			if (PostHelper::hasPostData() == false)
+			{
 
-            if( PostHelper::checkForRequirements( ['accountnumber'] ) == false )
-            {
+				return null;
+			}
 
-                return null;
-            }
+			if (PostHelper::checkForRequirements(['accountnumber']) == false)
+			{
 
-            return array(
-                'accountnumber' => PostHelper::getPostData('accountnumber')
-            );
-        }
+				return null;
+			}
 
-        /**
-         * Account Number
-         *
-         * @param $accountnumber
-         *
-         * @param $computerid
-         *
-         * @param $ipaddress
-         */
+			return array(
+				'accountnumber' => PostHelper::getPostData('accountnumber')
+			);
+		}
 
-        private function logCrack( $accountnumber, $computerid, $ipaddress )
-        {
+		/**
+		 * Account Number
+		 *
+		 * @param $accountnumber
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 */
 
-            $this->logToComputer('Granted remote admin access to account (' . $accountnumber . ')', $computerid, $ipaddress );
-        }
+		private function logCrack($accountnumber, $computerid, $ipaddress)
+		{
 
-        /**
-         * @param $computerid
-         * @param $accountnumber
-         * @param $ipaddress
-         */
+			$this->logToComputer('Granted remote admin access to account (' . $accountnumber . ')', $computerid, $ipaddress);
+		}
 
-        private function logLocal( $computerid, $accountnumber, $ipaddress )
-        {
+		/**
+		 * @param $computerid
+		 * @param $accountnumber
+		 * @param $ipaddress
+		 */
 
-            $this->logToComputer('Granted remote admin access to account (' . $accountnumber . ') at <' . $ipaddress . '>', $computerid, 'localhost' );
-        }
-    }
+		private function logLocal($computerid, $accountnumber, $ipaddress)
+		{
+
+			$this->logToComputer('Granted remote admin access to account (' . $accountnumber . ') at <' . $ipaddress . '>', $computerid, 'localhost');
+		}
+	}

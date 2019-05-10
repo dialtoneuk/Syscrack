@@ -1,231 +1,240 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: newsy
- * Date: 30/04/2019
- * Time: 19:11
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: newsy
+	 * Date: 30/04/2019
+	 * Time: 19:11
+	 */
 
-namespace Framework\Syscrack\Game;
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\FileSystem;
-use Framework\Application\UtilitiesV2\Conventions\ThemeData;
-use Framework\Exceptions\ApplicationException;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\UtilitiesV2\Conventions\ThemeData;
+	use Framework\Exceptions\ApplicationException;
 
-class Themes
-{
+	class Themes
+	{
 
-    /**
-     * @var array
-     */
+		/**
+		 * @var array
+		 */
 
-    protected $themes;
+		protected $themes;
 
-    /**
-     * Themes constructor.
-     * @param bool $autoread
-     */
+		/**
+		 * Themes constructor.
+		 *
+		 * @param bool $autoread
+		 */
 
-    public function __construct( $autoread=false )
-    {
+		public function __construct($autoread = false)
+		{
 
-        if( $autoread )
-            $this->getThemes();
-    }
+			if ($autoread)
+				$this->getThemes();
+		}
 
-    /**
-     * @return mixed
-     */
+		/**
+		 * @return mixed
+		 */
 
-    public function currentTheme()
-    {
+		public function currentTheme()
+		{
 
-        return( Settings::setting("render_folder") );
-    }
+			return (Settings::setting("render_folder"));
+		}
 
-    /**
-     * @param $theme
-     */
+		/**
+		 * @param $theme
+		 */
 
-    public function set( $theme )
-    {
+		public function set($theme)
+		{
 
-        if( $this->themeExists( $theme ) == false )
-            throw new \Error("Theme does not exist: " . $theme );
+			if ($this->themeExists($theme) == false)
+				throw new \Error("Theme does not exist: " . $theme);
 
-        if( $this->currentTheme() == $theme )
-            throw new \Error("Theme already set to: " . $theme );
+			if ($this->currentTheme() == $theme)
+				throw new \Error("Theme already set to: " . $theme);
 
-        if( $this->requiresMVC( $theme ) && $this->mvcOutput() == false )
-            Settings::updateSetting("render_mvc_output", true );
-        elseif( $this->requiresMVC( $theme ) == false && $this->mvcOutput() )
-            Settings::updateSetting("render_mvc_output", true );
+			if ($this->requiresMVC($theme) && $this->mvcOutput() == false)
+				Settings::updateSetting("render_mvc_output", true);
+			else if ($this->requiresMVC($theme) == false && $this->mvcOutput())
+				Settings::updateSetting("render_mvc_output", true);
 
-        Settings::updateSetting("render_folder", $theme );
-    }
+			Settings::updateSetting("render_folder", $theme);
+		}
 
-    /**
-     * @return bool
-     */
+		/**
+		 * @return bool
+		 */
 
-    public function mvcOutput() : bool
-    {
+		public function mvcOutput(): bool
+		{
 
-        return( (bool)Settings::setting( "render_mvc_output" ) );
-    }
+			return ((bool)Settings::setting("render_mvc_output"));
+		}
 
-    /**
-     * @param $theme
-     * @return bool
-     */
+		/**
+		 * @param $theme
+		 *
+		 * @return bool
+		 */
 
-    public function requiresMVC( $theme )
-    {
+		public function requiresMVC($theme)
+		{
 
-        $data = $this->getData( $theme );
+			$data = $this->getData($theme);
 
-        if( empty( $data ) )
-            return false;
-        elseif( $data["mvc"] )
-            return true;
+			if (empty($data))
+				return false;
+			else if ($data["mvc"])
+				return true;
 
-        return false;
-    }
+			return false;
+		}
 
-    /**
-     * @param $theme
-     * @return mixed
-     */
+		/**
+		 * @param $theme
+		 *
+		 * @return mixed
+		 */
 
-    public function getData( $theme )
-    {
+		public function getData($theme)
+		{
 
-        return( $this->themes[ $theme ]["data"] );
-    }
+			return ($this->themes[$theme]["data"]);
+		}
 
-    /**
-     * @param $theme
-     * @param ThemeData $object
-     */
+		/**
+		 * @param $theme
+		 * @param ThemeData $object
+		 */
 
-    public function modifyInfo( $theme, ThemeData $object )
-    {
+		public function modifyInfo($theme, ThemeData $object)
+		{
 
-        FileSystem::writeJson( $this->path( $theme ), $object->contents() );
-    }
+			FileSystem::writeJson($this->path($theme), $object->contents());
+		}
 
-    /**
-     * @param $theme
-     * @param bool $object
-     * @return ThemeData|mixed
-     */
+		/**
+		 * @param $theme
+		 * @param bool $object
+		 *
+		 * @return ThemeData|mixed
+		 */
 
-    public function getTheme( $theme, $object=true )
-    {
+		public function getTheme($theme, $object = true)
+		{
 
-        if( $this->themeExists( $theme ) == false )
-            throw new \Error("Theme does not exist: " . $theme );
+			if ($this->themeExists($theme) == false)
+				throw new \Error("Theme does not exist: " . $theme);
 
-        $themes = $this->getThemes( false );
+			$themes = $this->getThemes(false);
 
-        if( $object )
-            return self::dataInstance( $themes[ $theme ] );
-        else
-            return(  $themes[ $theme ] );
-    }
+			if ($object)
+				return self::dataInstance($themes[$theme]);
+			else
+				return ($themes[$theme]);
+		}
 
-    /**
-     * @param $theme
-     * @return bool
-     */
+		/**
+		 * @param $theme
+		 *
+		 * @return bool
+		 */
 
-    public function themeExists( $theme )
-    {
+		public function themeExists($theme)
+		{
 
-        return( isset( $this->themes[ $theme ] ) );
-    }
+			return (isset($this->themes[$theme]));
+		}
 
-    /**
-     * @param bool $read
-     * @return array
-     */
+		/**
+		 * @param bool $read
+		 *
+		 * @return array
+		 */
 
-    public function getThemes( $read=true )
-    {
+		public function getThemes($read = true)
+		{
 
-        if( $read )
-        {
+			if ($read)
+			{
 
-            $result = $this->gather( $this->getFolders() );
+				$result = $this->gather($this->getFolders());
 
-            if( empty( $result ) )
-                throw new \Error("No theme information found please check your theme directories");
+				if (empty($result))
+					throw new \Error("No theme information found please check your theme directories");
 
-            $this->themes = $result;
+				$this->themes = $result;
 
-            return( $result );
-        }
-        elseif( empty( $this->themes ) )
-            throw new \Error("No theme information cached");
-        else
-            return( $this->themes );
-    }
+				return ($result);
+			}
+			else if (empty($this->themes))
+				throw new \Error("No theme information cached");
+			else
+				return ($this->themes);
+		}
 
-    /**
-     * @param $folders
-     * @return array
-     */
+		/**
+		 * @param $folders
+		 *
+		 * @return array
+		 */
 
-    public function gather( $folders )
-    {
+		public function gather($folders)
+		{
 
-        $info = array();
+			$info = array();
 
-        foreach( $folders as $folder )
-            $info[ $folder ] = FileSystem::readJson(
-                $this->path( $folder )
-            );
+			foreach ($folders as $folder)
+				$info[$folder] = FileSystem::readJson(
+					$this->path($folder)
+				);
 
-        return( $info );
-    }
+			return ($info);
+		}
 
-    /**
-     * @return array|false|null
-     */
+		/**
+		 * @return array|false|null
+		 */
 
-    public function getFolders()
-    {
+		public function getFolders()
+		{
 
-        if( FileSystem::directoryExists( Settings::setting("syscrack_view_location") ) == false )
-            throw new ApplicationException("Themes folder does not exist");
+			if (FileSystem::directoryExists(Settings::setting("syscrack_view_location")) == false)
+				throw new ApplicationException("Themes folder does not exist");
 
-        return( FileSystem::getDirectories( Settings::setting("syscrack_view_location")  ) );
-    }
+			return (FileSystem::getDirectories(Settings::setting("syscrack_view_location")));
+		}
 
-    /**
-     * @param null $folder
-     * @return string
-     */
+		/**
+		 * @param null $folder
+		 *
+		 * @return string
+		 */
 
-    public function path( $folder=null )
-    {
+		public function path($folder = null)
+		{
 
-        return(FileSystem::separate(
-            Settings::setting("syscrack_view_location"),
-            $folder,
-            Settings::setting("theme_info_file")
-        ));
-    }
+			return (FileSystem::separate(
+				Settings::setting("syscrack_view_location"),
+				$folder,
+				Settings::setting("theme_info_file")
+			));
+		}
 
-    /**
-     * @param array $values
-     * @return ThemeData
-     */
+		/**
+		 * @param array $values
+		 *
+		 * @return ThemeData
+		 */
 
-    public static function dataInstance( $values )
-    {
+		public static function dataInstance($values)
+		{
 
-        return( new ThemeData( $values ) );
-    }
-}
+			return (new ThemeData($values));
+		}
+	}

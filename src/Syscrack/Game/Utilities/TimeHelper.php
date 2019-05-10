@@ -1,28 +1,28 @@
 <?php
-namespace Framework\Syscrack\Game\Utilities;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class TimeHelper
- *
- * @package Framework\Syscrack\Game\Utilities
- */
+	namespace Framework\Syscrack\Game\Utilities;
 
-class TimeHelper
-{
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class TimeHelper
+	 *
+	 * @package Framework\Syscrack\Game\Utilities
+	 */
+	class TimeHelper
+	{
 
-    /**
-     * Returns the time seconds into the future ( trippy )
-     *
-     * @param $seconds
-     *
-     * @return int
-     */
+		/**
+		 * Returns the time seconds into the future ( trippy )
+		 *
+		 * @param $seconds
+		 *
+		 * @return int
+		 */
 
-    public static function getSecondsInFuture( $seconds )
-    {
+		public static function getSecondsInFuture($seconds)
+		{
 
-        return time() + ( $seconds );
-    }
-}
+			return time() + ($seconds);
+		}
+	}

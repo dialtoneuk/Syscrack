@@ -1,395 +1,396 @@
 <?php
-namespace Framework\Syscrack\Game;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Bitcoin
- *
- * @package Framework\Syscrack\Game
- */
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\Hashes;
-use Framework\Database\Tables\Bitcoin as Database;
-use Framework\Database\Tables\Computer;
-use Framework\Exceptions\SyscrackException;
-use Unirest\Request;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Bitcoin
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-class Bitcoin
-{
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\Hashes;
+	use Framework\Database\Tables\Bitcoin as Database;
+	use Framework\Database\Tables\Computer;
+	use Framework\Exceptions\SyscrackException;
+	use Unirest\Request;
 
-    /**
-     * @var Database
-     */
+	class Bitcoin
+	{
 
-    protected $database;
+		/**
+		 * @var Database
+		 */
 
-    /**
-     * @var Computer
-     */
+		protected $database;
 
-    protected $computers;
+		/**
+		 * @var Computer
+		 */
 
-    /**
-     * Bitcoin constructor.
-     */
+		protected $computers;
 
-    public function __construct()
-    {
+		/**
+		 * Bitcoin constructor.
+		 */
 
-        $this->database = new Database();
+		public function __construct()
+		{
 
-        $this->computers = new Computer();
-    }
+			$this->database = new Database();
 
-    /**
-     * Gets the users wallet
-     *
-     * @param $userid
-     *
-     * @return mixed|null
-     */
+			$this->computers = new Computer();
+		}
 
-    public function getWallets( $userid )
-    {
+		/**
+		 * Gets the users wallet
+		 *
+		 * @param $userid
+		 *
+		 * @return mixed|null
+		 */
 
-        return $this->database->getUserBitcoinWallets( $userid );
-    }
+		public function getWallets($userid)
+		{
 
-    /**
-     * Sets the current active wallet
-     *
-     * @param $walletid
-     */
+			return $this->database->getUserBitcoinWallets($userid);
+		}
 
-    public function setCurrentActiveWallet( $walletid )
-    {
+		/**
+		 * Sets the current active wallet
+		 *
+		 * @param $walletid
+		 */
 
-        if( session_status() !== PHP_SESSION_ACTIVE )
-        {
+		public function setCurrentActiveWallet($walletid)
+		{
 
-            throw new SyscrackException();
-        }
+			if (session_status() !== PHP_SESSION_ACTIVE)
+			{
 
-        $_SESSION['activewallet'] = $walletid;
-    }
+				throw new SyscrackException();
+			}
 
-    /**
-     * Gets the current active wallet
-     *
-     * @return mixed
-     */
+			$_SESSION['activewallet'] = $walletid;
+		}
 
-    public function getCurrentActiveWallet()
-    {
+		/**
+		 * Gets the current active wallet
+		 *
+		 * @return mixed
+		 */
 
-        return $_SESSION['activewallet'];
-    }
+		public function getCurrentActiveWallet()
+		{
 
-    /**
-     * Returns true if the user has a current active wallet
-     *
-     * @return bool
-     */
-
-    public function hasCurrentActiveWallet()
-    {
+			return $_SESSION['activewallet'];
+		}
 
-        if( isset( $_SESSION['activewallet'] ) == false )
-        {
+		/**
+		 * Returns true if the user has a current active wallet
+		 *
+		 * @return bool
+		 */
 
-            return false;
-        }
-
-        if( $_SESSION['activewallet'] == null )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Gets the bitcoin servers
-     *
-     * @return mixed|null
-     */
-
-    public function getBitcoinServers()
-    {
+		public function hasCurrentActiveWallet()
+		{
 
-        return $this->computers->getComputerByType( Settings::setting('syscrack_computers_bitcoin_type') );
-    }
-
-    /**
-     * Gets the wallets by the server
-     *
-     * @param $computerid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
-
-    public function getWalletsByServer( $computerid )
-    {
-
-        return $this->database->getByServer( $computerid );
-    }
-
-    /**
-     * Returns true if we have the wallet on the server
-     *
-     * @param $wallet
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
+			if (isset($_SESSION['activewallet']) == false)
+			{
 
-    public function hasWalletOnServer( $wallet, $computerid )
-    {
-
-        $wallets = $this->getWalletsByServer( $computerid );
-
-        foreach( $wallets as $value )
-        {
-
-            if( $value->wallet != $wallet )
-            {
-
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns true if the computer is a bitcoin server
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
-
-    public function isBitcoinServer( $computerid )
-    {
-
-        if( $this->computers->getComputer( $computerid )->type != Settings::setting('syscrack_computers_bitcoin_type') )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Deposits bitcoins into a wallet
-     *
-     * @param $wallet
-     *
-     * @param float $bitcoins
-     */
-
-    public function deposit( $wallet, float $bitcoins )
-    {
-
-        $this->database->updateWallet( $wallet, array( 'bitcoins' => $this->database->findBitcoinWallet( $wallet )->bitcoins + $bitcoins ) );
-    }
-
-    /**
-     * Withdraws from a wallet
-     *
-     * @param $wallet
-     *
-     * @param float $bitcoins
-     */
+				return false;
+			}
 
-    public function withdraw( $wallet, float $bitcoins )
-    {
+			if ($_SESSION['activewallet'] == null)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
 
-        if( $this->canAfford( $wallet, $bitcoins ) == false )
-        {
-
-            throw new SyscrackException();
-        }
+		/**
+		 * Gets the bitcoin servers
+		 *
+		 * @return mixed|null
+		 */
 
-        $this->database->updateWallet( $wallet, array( 'bitcoins' => $this->database->findBitcoinWallet( $wallet )->bitcoins - $bitcoins ) );
-    }
+		public function getBitcoinServers()
+		{
 
-    /**
-     * Transfers bitcoins
-     *
-     * @param $wallet
-     *
-     * @param $receiver
-     *
-     * @param $bitcoins
-     */
+			return $this->computers->getComputerByType(Settings::setting('syscrack_computers_bitcoin_type'));
+		}
 
-    public function transfer( $wallet, $receiver, $bitcoins )
-    {
+		/**
+		 * Gets the wallets by the server
+		 *
+		 * @param $computerid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
+
+		public function getWalletsByServer($computerid)
+		{
+
+			return $this->database->getByServer($computerid);
+		}
+
+		/**
+		 * Returns true if we have the wallet on the server
+		 *
+		 * @param $wallet
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        $user = $this->database->findBitcoinWallet( $wallet );
+		public function hasWalletOnServer($wallet, $computerid)
+		{
 
-        if( $this->canAfford( $wallet, $bitcoins ) == false )
-        {
+			$wallets = $this->getWalletsByServer($computerid);
+
+			foreach ($wallets as $value)
+			{
+
+				if ($value->wallet != $wallet)
+				{
+
+					return false;
+				}
+			}
 
-            throw new SyscrackException();
-        }
+			return true;
+		}
 
-        $this->database->updateWallet( $wallet, array( 'bitcoins' => $user->bitcoins - $bitcoins ) );
+		/**
+		 * Returns true if the computer is a bitcoin server
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        $this->database->updateWallet( $wallet, array( 'bitcoins' =>
-            $this->database->findBitcoinWallet( $receiver )->bitcoins + $bitcoins ) );
-    }
+		public function isBitcoinServer($computerid)
+		{
+
+			if ($this->computers->getComputer($computerid)->type != Settings::setting('syscrack_computers_bitcoin_type'))
+			{
 
-    /**
-     * Returns true if the user can afford ths transaction
-     *
-     * @param $wallet
-     *
-     * @param $price
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    public function canAfford( $wallet, $price )
-    {
+			return true;
+		}
 
-        $currentbitcoins = $this->database->findBitcoinWallet( $wallet )->bitcoins;
-
-        if( $currentbitcoins - $price < 0 )
-        {
+		/**
+		 * Deposits bitcoins into a wallet
+		 *
+		 * @param $wallet
+		 *
+		 * @param float $bitcoins
+		 */
 
-            return false;
-        }
+		public function deposit($wallet, float $bitcoins)
+		{
+
+			$this->database->updateWallet($wallet, array('bitcoins' => $this->database->findBitcoinWallet($wallet)->bitcoins + $bitcoins));
+		}
 
-        return true;
-    }
+		/**
+		 * Withdraws from a wallet
+		 *
+		 * @param $wallet
+		 *
+		 * @param float $bitcoins
+		 */
 
-    /**
-     * Returns true if the user has a wallet
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
+		public function withdraw($wallet, float $bitcoins)
+		{
 
-    public function hasWallet( $userid )
-    {
+			if ($this->canAfford($wallet, $bitcoins) == false)
+			{
 
-        if( $this->database->getUserBitcoinWallets( $userid ) == null )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$this->database->updateWallet($wallet, array('bitcoins' => $this->database->findBitcoinWallet($wallet)->bitcoins - $bitcoins));
+		}
 
-        return true;
-    }
+		/**
+		 * Transfers bitcoins
+		 *
+		 * @param $wallet
+		 *
+		 * @param $receiver
+		 *
+		 * @param $bitcoins
+		 */
 
-    /**
-     * Checks that there isn't an unbalance in the market
-     *
-     * @return bool
-     */
+		public function transfer($wallet, $receiver, $bitcoins)
+		{
 
-    public function checkExchange()
-    {
+			$user = $this->database->findBitcoinWallet($wallet);
 
-        if( $this->getBitcoinBuyPrice() < $this->getBitcoinSellPrice() )
-        {
+			if ($this->canAfford($wallet, $bitcoins) == false)
+			{
 
-            return false;
-        }
+				throw new SyscrackException();
+			}
 
-        return true;
-    }
+			$this->database->updateWallet($wallet, array('bitcoins' => $user->bitcoins - $bitcoins));
 
-    /**
-     * Attempts to get the price of bitcoin to sell
-     *
-     * @return null|int
-     */
+			$this->database->updateWallet($wallet, array('bitcoins' =>
+				$this->database->findBitcoinWallet($receiver)->bitcoins + $bitcoins));
+		}
 
-    public function getBitcoinSellPrice()
-    {
+		/**
+		 * Returns true if the user can afford ths transaction
+		 *
+		 * @param $wallet
+		 *
+		 * @param $price
+		 *
+		 * @return bool
+		 */
 
-        if( Settings::setting('syscrack_bitcoin_live') == false )
-        {
+		public function canAfford($wallet, $price)
+		{
 
-            return Settings::setting('syscrack_bitcoin_sellprice');
-        }
+			$currentbitcoins = $this->database->findBitcoinWallet($wallet)->bitcoins;
 
-        $result = json_decode( Request::post( Settings::setting('syscrack_bitcoin_url') )->body, true );
+			if ($currentbitcoins - $price < 0)
+			{
 
-        if( isset( $result[ strtoupper( Settings::setting('syscrack_bitcoin_country') ) ] ) == false )
-        {
+				return false;
+			}
 
-            throw new SyscrackException();
-        }
+			return true;
+		}
 
-        return $result[ strtoupper( Settings::setting('syscrack_bitcoin_country') ) ]['sell'];
-    }
+		/**
+		 * Returns true if the user has a wallet
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-    /**
-     * Creates a new wallet
-     *
-     * @param $userid
-     *
-     * @param $computerid
-     */
+		public function hasWallet($userid)
+		{
 
-    public function createWallet( $userid, $computerid )
-    {
+			if ($this->database->getUserBitcoinWallets($userid) == null)
+			{
 
-        $array = array(
-            'userid'        => $userid,
-            'wallet'        => $this->randomBytes(),
-            'key'           => $this->randomBytes(),
-            'computerid'    => $computerid
-        );
+				return false;
+			}
 
-        $this->database->insertWallet( $array );
-    }
+			return true;
+		}
 
-    /**
-     * Gets the price to buy bitcoin
-     *
-     * @return mixed|null
-     */
+		/**
+		 * Checks that there isn't an unbalance in the market
+		 *
+		 * @return bool
+		 */
 
-    public function getBitcoinBuyPrice()
-    {
+		public function checkExchange()
+		{
 
-        if( Settings::setting('syscrack_bitcoin_live') == false )
-        {
+			if ($this->getBitcoinBuyPrice() < $this->getBitcoinSellPrice())
+			{
 
-            return Settings::setting('syscrack_bitcoin_buyprice');
-        }
+				return false;
+			}
 
-        $result = json_decode( Request::post( Settings::setting('syscrack_bitcoin_url') )->body, true );
+			return true;
+		}
 
-        if( empty( $result ) )
-        {
+		/**
+		 * Attempts to get the price of bitcoin to sell
+		 *
+		 * @return null|int
+		 */
 
-            return null;
-        }
+		public function getBitcoinSellPrice()
+		{
 
-        return $result[ strtoupper( Settings::setting('syscrack_bitcoin_country') ) ]['buy'];
-    }
+			if (Settings::setting('syscrack_bitcoin_live') == false)
+			{
 
-    /**
-     * Returns random bytes
-     *
-     * @return string
-     */
+				return Settings::setting('syscrack_bitcoin_sellprice');
+			}
 
-    private function randomBytes()
-    {
+			$result = json_decode(Request::post(Settings::setting('syscrack_bitcoin_url'))->body, true);
 
-        return Hashes::randomBytes();
-    }
-}
+			if (isset($result[strtoupper(Settings::setting('syscrack_bitcoin_country'))]) == false)
+			{
+
+				throw new SyscrackException();
+			}
+
+			return $result[strtoupper(Settings::setting('syscrack_bitcoin_country'))]['sell'];
+		}
+
+		/**
+		 * Creates a new wallet
+		 *
+		 * @param $userid
+		 *
+		 * @param $computerid
+		 */
+
+		public function createWallet($userid, $computerid)
+		{
+
+			$array = array(
+				'userid' => $userid,
+				'wallet' => $this->randomBytes(),
+				'key' => $this->randomBytes(),
+				'computerid' => $computerid
+			);
+
+			$this->database->insertWallet($array);
+		}
+
+		/**
+		 * Gets the price to buy bitcoin
+		 *
+		 * @return mixed|null
+		 */
+
+		public function getBitcoinBuyPrice()
+		{
+
+			if (Settings::setting('syscrack_bitcoin_live') == false)
+			{
+
+				return Settings::setting('syscrack_bitcoin_buyprice');
+			}
+
+			$result = json_decode(Request::post(Settings::setting('syscrack_bitcoin_url'))->body, true);
+
+			if (empty($result))
+			{
+
+				return null;
+			}
+
+			return $result[strtoupper(Settings::setting('syscrack_bitcoin_country'))]['buy'];
+		}
+
+		/**
+		 * Returns random bytes
+		 *
+		 * @return string
+		 */
+
+		private function randomBytes()
+		{
+
+			return Hashes::randomBytes();
+		}
+	}

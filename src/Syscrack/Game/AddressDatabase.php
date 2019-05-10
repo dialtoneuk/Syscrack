@@ -1,307 +1,308 @@
 <?php
-namespace Framework\Syscrack\Game;
-
-/**
- * Lewis Lancaster 2017
- *
- * Class AddressDatabase
- *
- * @package Framework\Syscrack\Game
- */
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\FileSystem;
-use Framework\Exceptions\SyscrackException;
+	namespace Framework\Syscrack\Game;
 
-class AddressDatabase
-{
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class AddressDatabase
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-    /**
-     * @var array
-     */
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Exceptions\SyscrackException;
 
-    protected $database = [];
+	class AddressDatabase
+	{
 
-    /**
-     * Checks if the user has an address database
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
+		/**
+		 * @var array
+		 */
 
-    public function hasDatabase( $userid )
-    {
+		protected $database = [];
 
-        if( FileSystem::fileExists( $this->getPath() . $userid . '.json' ) == false )
-        {
+		/**
+		 * Checks if the user has an address database
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-            return false;
-        }
+		public function hasDatabase($userid)
+		{
 
-        return true;
-    }
+			if (FileSystem::fileExists($this->getPath() . $userid . '.json') == false)
+			{
 
-    /**
-     * Gets the users addresses
-     *
-     * @param $userid
-     *
-     * @return array|mixed
-     */
+				return false;
+			}
 
-    public function getUserAddresses( $userid )
-    {
+			return true;
+		}
 
-        if( $this->hasDatabaseSet() == false )
-        {
+		/**
+		 * Gets the users addresses
+		 *
+		 * @param $userid
+		 *
+		 * @return array|mixed
+		 */
 
-            $this->database = $this->getUserDatabase( $userid );
-        }
+		public function getUserAddresses($userid)
+		{
 
-        return $this->database;
-    }
+			if ($this->hasDatabaseSet() == false)
+			{
 
-    /**
-     * Deletes an address
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     */
+				$this->database = $this->getUserDatabase($userid);
+			}
 
-    public function deleteAddress( $ipaddress, $userid )
-    {
+			return $this->database;
+		}
 
-        if( $this->hasDatabaseSet() == false )
-        {
+		/**
+		 * Deletes an address
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 */
 
-            $this->database = $this->getUserDatabase( $userid );
-        }
+		public function deleteAddress($ipaddress, $userid)
+		{
 
-        if( $this->hasAddress( $ipaddress, $userid ) == false )
-        {
+			if ($this->hasDatabaseSet() == false)
+			{
 
-            throw new SyscrackException();
-        }
-
-        unset( $this->database[ $this->getKeyOfAddress( $ipaddress, $userid )] );
+				$this->database = $this->getUserDatabase($userid);
+			}
 
-        $this->saveDatabase( $userid );
-    }
+			if ($this->hasAddress($ipaddress, $userid) == false)
+			{
 
-    /**
-     * Deletes multiple addresses
-     *
-     * @param array $ipaddresses
-     *
-     * @param $userid
-     */
+				throw new SyscrackException();
+			}
 
-    public function deleteMultipleAddresses( array $ipaddresses, $userid )
-    {
+			unset($this->database[$this->getKeyOfAddress($ipaddress, $userid)]);
 
-        if( $this->hasDatabaseSet() == false )
-        {
+			$this->saveDatabase($userid);
+		}
 
-            $this->database = $this->getUserDatabase( $userid );
-        }
+		/**
+		 * Deletes multiple addresses
+		 *
+		 * @param array $ipaddresses
+		 *
+		 * @param $userid
+		 */
 
-        foreach( $ipaddresses as $address )
-        {
+		public function deleteMultipleAddresses(array $ipaddresses, $userid)
+		{
 
-            if( $this->hasAddress( $address['ipaddress'], $userid ) == false )
-            {
+			if ($this->hasDatabaseSet() == false)
+			{
 
-                continue;
-            }
+				$this->database = $this->getUserDatabase($userid);
+			}
 
-            unset( $this->database[ $this->getKeyOfAddress( $address['ipaddress'], $userid )] );
-        }
+			foreach ($ipaddresses as $address)
+			{
 
-        $this->saveDatabase( $userid );
-    }
+				if ($this->hasAddress($address['ipaddress'], $userid) == false)
+				{
 
-    /**
-     * Adds an address
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     */
+					continue;
+				}
 
-    public function addAddress( $ipaddress, $userid )
-    {
+				unset($this->database[$this->getKeyOfAddress($address['ipaddress'], $userid)]);
+			}
 
-        if( $this->hasDatabaseSet() == false )
-        {
+			$this->saveDatabase($userid);
+		}
 
-            $this->database = $this->getUserDatabase( $userid );
-        }
+		/**
+		 * Adds an address
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 */
 
-        $this->database[] = array(
-            'ipaddress' => $ipaddress,
-            'timehacked' => time()
-        );
+		public function addAddress($ipaddress, $userid)
+		{
 
-        $this->saveDatabase( $userid );
-    }
+			if ($this->hasDatabaseSet() == false)
+			{
 
-    /**
-     * Adds a virus to the address database
-     *
-     * @param $ipaddress
-     *
-     * @param $softwareid
-     *
-     * @param $userid
-     */
+				$this->database = $this->getUserDatabase($userid);
+			}
 
-    public function addVirus( $ipaddress, $softwareid, $userid )
-    {
+			$this->database[] = array(
+				'ipaddress' => $ipaddress,
+				'timehacked' => time()
+			);
 
-        if( $this->hasDatabaseSet() == false )
-        {
+			$this->saveDatabase($userid);
+		}
 
-            $this->database = $this->getUserDatabase( $userid );
-        }
+		/**
+		 * Adds a virus to the address database
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $softwareid
+		 *
+		 * @param $userid
+		 */
 
-        if( $this->hasAddress( $ipaddress, $userid ) == false )
-            return;
+		public function addVirus($ipaddress, $softwareid, $userid)
+		{
 
-        array_merge( $this->database[ $this->getKeyOfAddress( $ipaddress, $userid )], array(
-            'virus' => $softwareid
-        ));
+			if ($this->hasDatabaseSet() == false)
+			{
 
-        $this->saveDatabase( $userid );
-    }
+				$this->database = $this->getUserDatabase($userid);
+			}
 
-    /**
-     * Returns true if we have hacked this address
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
+			if ($this->hasAddress($ipaddress, $userid) == false)
+				return;
 
-    public function hasAddress( $ipaddress, $userid )
-    {
+			array_merge($this->database[$this->getKeyOfAddress($ipaddress, $userid)], array(
+				'virus' => $softwareid
+			));
 
-        if( $this->hasDatabaseSet() == false )
-        {
+			$this->saveDatabase($userid);
+		}
 
-            $this->database = $this->getUserDatabase( $userid );
-        }
+		/**
+		 * Returns true if we have hacked this address
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-        if( empty( $this->database ) || $this->database == null )
-        {
+		public function hasAddress($ipaddress, $userid)
+		{
 
-        	return false;
-        }
+			if ($this->hasDatabaseSet() == false)
+			{
 
-        foreach( $this->database as $address )
-        {
+				$this->database = $this->getUserDatabase($userid);
+			}
 
-            if( $address['ipaddress'] == $ipaddress )
-            {
+			if (empty($this->database) || $this->database == null)
+			{
 
-                return true;
-            }
-        }
+				return false;
+			}
 
-        return false;
-    }
+			foreach ($this->database as $address)
+			{
 
-    /**
-     * Gets the position of this address in our address database
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return int|null|string
-     */
+				if ($address['ipaddress'] == $ipaddress)
+				{
 
-    public function getKeyOfAddress( $ipaddress, $userid )
-    {
+					return true;
+				}
+			}
 
+			return false;
+		}
 
-        if( $this->hasDatabaseSet() == false )
-        {
+		/**
+		 * Gets the position of this address in our address database
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return int|null|string
+		 */
 
-            $this->database =$this->getUserDatabase( $userid );
-        }
+		public function getKeyOfAddress($ipaddress, $userid)
+		{
 
-        foreach( $this->database as $key=>$address )
-        {
 
-            if( $address['ipaddress'] == $ipaddress )
-            {
+			if ($this->hasDatabaseSet() == false)
+			{
 
-                return $key;
-            }
-        }
+				$this->database = $this->getUserDatabase($userid);
+			}
 
-        return null;
-    }
+			foreach ($this->database as $key => $address)
+			{
 
-    /**
-     * @param $userid
-     * @param array $data
-     */
+				if ($address['ipaddress'] == $ipaddress)
+				{
 
-    public function saveDatabase( $userid, array $data = [] )
-    {
+					return $key;
+				}
+			}
 
-        if( empty( $data ) )
-            $data = $this->database;
+			return null;
+		}
 
-        FileSystem::writeJson( $this->getPath() . $userid . '.json',$data );
-    }
+		/**
+		 * @param $userid
+		 * @param array $data
+		 */
 
-    /**
-     * Returns true if we have the database set
-     *
-     * @return bool
-     */
+		public function saveDatabase($userid, array $data = [])
+		{
 
-    private function hasDatabaseSet()
-    {
+			if (empty($data))
+				$data = $this->database;
 
-        if( empty( $this->database ) )
-        {
+			FileSystem::writeJson($this->getPath() . $userid . '.json', $data);
+		}
 
-            return false;
-        }
+		/**
+		 * Returns true if we have the database set
+		 *
+		 * @return bool
+		 */
 
-        return true;
-    }
+		private function hasDatabaseSet()
+		{
 
-    /**
-     * Gets the user database
-     *
-     * @param $userid
-     *
-     * @return mixed
-     */
+			if (empty($this->database))
+			{
 
-    private function getUserDatabase( $userid )
-    {
+				return false;
+			}
 
-        return FileSystem::readJson( $this->getPath() . $userid . '.json' );
-    }
+			return true;
+		}
 
-    /**
-     * Gets the path of the address database
-     *
-     * @return mixed
-     */
+		/**
+		 * Gets the user database
+		 *
+		 * @param $userid
+		 *
+		 * @return mixed
+		 */
 
-    private function getPath()
-    {
+		private function getUserDatabase($userid)
+		{
 
-        return Settings::setting('syscrack_addressdatabase_location');
-    }
-}
+			return FileSystem::readJson($this->getPath() . $userid . '.json');
+		}
+
+		/**
+		 * Gets the path of the address database
+		 *
+		 * @return mixed
+		 */
+
+		private function getPath()
+		{
+
+			return Settings::setting('syscrack_addressdatabase_location');
+		}
+	}

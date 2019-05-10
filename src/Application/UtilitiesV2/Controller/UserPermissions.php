@@ -1,175 +1,179 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 11/08/2018
- * Time: 19:05
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 11/08/2018
+	 * Time: 19:05
+	 */
 
-namespace Framework\Application\UtilitiesV2\Controller;
+	namespace Framework\Application\UtilitiesV2\Controller;
 
 
-use Framework\Application\UtilitiesV2\Container;
-use Framework\Application\UtilitiesV2\UserPermissions as Permissions;
+	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\UtilitiesV2\UserPermissions as Permissions;
 
-class UserPermissions
-{
+	class UserPermissions
+	{
 
-    /**
-     * @var \Framework\Application\UtilitiesV2\Session
-     */
+		/**
+		 * @var \Framework\Application\UtilitiesV2\Session
+		 */
 
-    protected $session;
+		protected $session;
 
-    /**
-     * @var Permissions
-     */
+		/**
+		 * @var Permissions
+		 */
 
-    protected $userpermissions;
+		protected $userpermissions;
 
-    /**
-     * @var int|null
-     */
+		/**
+		 * @var int|null
+		 */
 
-    protected $userid = null;
+		protected $userid = null;
 
-    /**
-     * @var array
-     */
+		/**
+		 * @var array
+		 */
 
-    protected $cache = [];
+		protected $cache = [];
 
-    /**
-     * UserPermissions constructor.
-     * @param bool $auto_read
-     * @throws \RuntimeException
-     */
+		/**
+		 * UserPermissions constructor.
+		 *
+		 * @param bool $auto_read
+		 *
+		 * @throws \RuntimeException
+		 */
 
-    public function __construct( $auto_read=true )
-    {
+		public function __construct($auto_read = true)
+		{
 
-        if( Container::exist('application' ) == false )
-            throw new \RuntimeException("Please init application");
+			if (Container::exist('application') == false)
+				throw new \RuntimeException("Please init application");
 
-        $this->session = Container::get('application')->session;
+			$this->session = Container::get('application')->session;
 
-        if( $this->session->isLoggedIn() )
-            $this->userid = $this->session->userid();
-        else
-            throw new \RuntimeException("User needs to be logged in");
+			if ($this->session->isLoggedIn())
+				$this->userid = $this->session->userid();
+			else
+				throw new \RuntimeException("User needs to be logged in");
 
-        $this->userpermissions = new Permissions();
-    }
+			$this->userpermissions = new Permissions();
+		}
 
-    /**
-     * @param $flag
-     * @return mixed
-     */
+		/**
+		 * @param $flag
+		 *
+		 * @return mixed
+		 */
 
-    public function getPermission( $flag )
-    {
+		public function getPermission($flag)
+		{
 
-        if( $this->checkCache() == false )
-            $this->cache( $this->userid );
+			if ($this->checkCache() == false)
+				$this->cache($this->userid);
 
-        return( $this->cache[ $flag ] );
-    }
+			return ($this->cache[$flag]);
+		}
 
-    /**
-     * @param $flag
-     * @return bool
-     */
+		/**
+		 * @param $flag
+		 *
+		 * @return bool
+		 */
 
-    public function has( $flag )
-    {
+		public function has($flag)
+		{
 
-        if( $this->checkCache() == false )
-            $this->cache( $this->userid );
+			if ($this->checkCache() == false)
+				$this->cache($this->userid);
 
-        if( isset( $this->cache[ $flag ] ) == true )
-            return true;
+			if (isset($this->cache[$flag]) == true)
+				return true;
 
-        return false;
-    }
+			return false;
+		}
 
-    /**
-     * Refresh
-     */
+		/**
+		 * Refresh
+		 */
 
-    public function refresh()
-    {
+		public function refresh()
+		{
 
-        $this->cache( $this->userid );
-    }
+			$this->cache($this->userid);
+		}
 
-    /**
-     * @return bool
-     */
+		/**
+		 * @return bool
+		 */
 
-    public function hasUserPermissions()
-    {
+		public function hasUserPermissions()
+		{
 
-        $this->cache( $this->userid );
+			$this->cache($this->userid);
 
-        if( empty( $this->cache ) )
-            return false;
+			if (empty($this->cache))
+				return false;
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * @return mixed|null
-     */
+		/**
+		 * @return mixed|null
+		 */
 
-    public function updated()
-    {
+		public function updated()
+		{
 
-        if( $this->checkCache() == false )
-            $this->cache( $this->userid );
+			if ($this->checkCache() == false)
+				$this->cache($this->userid);
 
-        if( isset( $this->cache["updated"] ) == false )
-            return null;
+			if (isset($this->cache["updated"]) == false)
+				return null;
 
-        return( $this->cache[ "updated" ] );
-    }
+			return ($this->cache["updated"]);
+		}
 
-    /**
-     * @param array $values
-     */
+		/**
+		 * @param array $values
+		 */
 
-    public function update( array $values )
-    {
+		public function update(array $values)
+		{
 
-        if( $this->checkCache() == false )
-            $this->cache( $this->userid );
+			if ($this->checkCache() == false)
+				$this->cache($this->userid);
 
-        $this->userpermissions->save( $this->userid,  array_merge( $this->cache, $values ) );
-        $this->cache( $this->userid );
-    }
+			$this->userpermissions->save($this->userid, array_merge($this->cache, $values));
+			$this->cache($this->userid);
+		}
 
-    /**
-     * @return bool
-     */
+		/**
+		 * @return bool
+		 */
 
-    private function checkCache()
-    {
+		private function checkCache()
+		{
 
-        if( empty( $this->cache ) )
-            return false;
+			if (empty($this->cache))
+				return false;
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * @param $userid
-     */
+		/**
+		 * @param $userid
+		 */
 
-    private function cache( $userid )
-    {
+		private function cache($userid)
+		{
 
-        if( $this->userpermissions->exist( $userid ) == false )
-            $this->cache = [];
-        else
-            $this->cache = $this->userpermissions->get( $userid );
-    }
-}
+			if ($this->userpermissions->exist($userid) == false)
+				$this->cache = [];
+			else
+				$this->cache = $this->userpermissions->get($userid);
+		}
+	}

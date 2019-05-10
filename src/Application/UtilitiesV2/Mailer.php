@@ -1,287 +1,298 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 15/07/2018
- * Time: 13:06
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 15/07/2018
+	 * Time: 13:06
+	 */
+
+	namespace Framework\Application\UtilitiesV2;
 
-namespace Framework\Application\UtilitiesV2;
+
+	class Mailer
+	{
 
+		protected $phpmailer;
+		protected $templates = [];
+		protected $identifier = "%";
 
-class Mailer
-{
+		/**
+		 * Mailer constructor.
+		 *
+		 * @param bool $auto_load
+		 * @param bool $exceptions
+		 *
+		 * @throws \RuntimeException
+		 */
 
-    protected $phpmailer;
-    protected $templates = [];
-    protected $identifier="%";
+		public function __construct($auto_load = true, $exceptions = true)
+		{
 
-    /**
-     * Mailer constructor.
-     * @param bool $auto_load
-     * @param bool $exceptions
-     * @throws \RuntimeException
-     */
+			$this->phpmailer = new \PHPMailer($exceptions);
 
-    public function __construct( $auto_load=true, $exceptions=true )
-    {
+			if ($auto_load)
+				$this->preload();
+		}
 
-        $this->phpmailer = new \PHPMailer( $exceptions );
+		/**
+		 * @param $recipricant
+		 * @param $subject
+		 * @param $content
+		 * @param null $from
+		 *
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-        if( $auto_load )
-            $this->preload();
-    }
+		public function send($recipricant, $subject, $content, $from = null)
+		{
 
-    /**
-     * @param $recipricant
-     * @param $subject
-     * @param $content
-     * @param null $from
-     * @return bool
-     * @throws \RuntimeException
-     */
+			try
+			{
 
-    public function send( $recipricant, $subject, $content, $from=null  )
-    {
+				if (MAILER_IS_SMTP)
+					$this->phpmailer->isSMTP();
 
-        try
-        {
+				$this->setConfiguration($this->getConfiguration());
+				$this->phpmailer->addAddress($recipricant);
+				$this->phpmailer->Subject = $subject;
 
-            if( MAILER_IS_SMTP )
-                $this->phpmailer->isSMTP();
+				if (!MAILER_IS_HTML)
+					$this->phpmailer->isHTML(false);
+				else
+					$this->phpmailer->isHTML(true);
 
-            $this->setConfiguration( $this->getConfiguration() );
-            $this->phpmailer->addAddress( $recipricant );
-            $this->phpmailer->Subject = $subject;
+				if ($from == null)
+					$this->phpmailer->setFrom(MAILER_FROM_ADDRESS, MAILER_FROM_USER);
+				else
+					$this->phpmailer->setFrom(MAILER_FROM_ADDRESS, $from);
 
-            if( !MAILER_IS_HTML )
-                $this->phpmailer->isHTML( false );
-            else
-                $this->phpmailer->isHTML( true );
+				$this->phpmailer->Body = $content;
+				$this->phpmailer->AltBody = "Please view this email from an updated web browser.";
 
-            if( $from == null )
-                $this->phpmailer->setFrom( MAILER_FROM_ADDRESS, MAILER_FROM_USER );
-            else
-                $this->phpmailer->setFrom( MAILER_FROM_ADDRESS, $from );
+				$this->phpmailer->send();
+			} catch (\Exception $error)
+			{
 
-            $this->phpmailer->Body = $content;
-            $this->phpmailer->AltBody = "Please view this email from an updated web browser.";
+				throw new \RuntimeException($error->getMessage());
+			}
 
-            $this->phpmailer->send();
-        }
-        catch ( \Exception $error )
-        {
+			return true;
+		}
 
-            throw new \RuntimeException( $error->getMessage() ) ;
-        }
+		/**
+		 * @param $configuration
+		 *
+		 * @throws \RuntimeException
+		 */
 
-        return true;
-    }
+		public function setConfiguration($configuration)
+		{
 
-    /**
-     * @param $configuration
-     * @throws \RuntimeException
-     */
+			foreach ($configuration as $key => $value)
+			{
 
-    public function setConfiguration( $configuration )
-    {
+				if (isset($this->phpmailer->$key) == false)
+					throw new \RuntimeException("Invalid key:" . $key);
 
-        foreach( $configuration as $key=>$value )
-        {
+				$this->phpmailer->$key = $value;
+			}
+		}
 
-            if( isset( $this->phpmailer->$key ) == false )
-                throw new \RuntimeException("Invalid key:" . $key );
+		/**
+		 * @return bool|string
+		 * @throws \RuntimeException
+		 */
 
-            $this->phpmailer->$key = $value;
-        }
-    }
+		public function getConfiguration()
+		{
 
-    /**
-     * @return bool|string
-     * @throws \RuntimeException
-     */
+			if (file_exists(SYSCRACK_ROOT . MAILER_CONFIGURATION_FILE) == false)
+				throw new \RuntimeException("Configuration file invalid");
 
-    public function getConfiguration()
-    {
+			return (file_get_contents(SYSCRACK_ROOT . MAILER_CONFIGURATION_FILE));
+		}
 
-        if( file_exists( SYSCRACK_ROOT . MAILER_CONFIGURATION_FILE ) == false )
-            throw new \RuntimeException("Configuration file invalid");
+		/**
+		 * @throws \RuntimeException
+		 */
 
-        return( file_get_contents( SYSCRACK_ROOT . MAILER_CONFIGURATION_FILE ) );
-    }
+		public function preload()
+		{
 
-    /**
-     * @throws \RuntimeException
-     */
+			$dir = new DirectoryOperator($this->path());
 
-    public function preload()
-    {
+			if ($dir->isEmpty())
+				throw new \RuntimeException("No templates");
 
-        $dir = new DirectoryOperator( $this->path() );
+			$files = $dir->search([".html"]);
 
-        if( $dir->isEmpty() )
-            throw new \RuntimeException("No templates");
+			foreach ($files as $file)
+			{
 
-        $files = $dir->search([".html"]);
+				$contents = file_get_contents($file);
 
-        foreach( $files as $file )
-        {
+				if (empty($contents))
+					continue;
 
-            $contents = file_get_contents( $file );
+				$info = pathinfo($file);
+				$this->templates[$info["filename"]] = $contents;
+			}
+		}
 
-            if( empty( $contents ) )
-                continue;
+		/**
+		 * @param array $values
+		 *
+		 * @return array
+		 * @throws \RuntimeException
+		 */
 
-            $info = pathinfo( $file );
-            $this->templates[ $info["filename"] ] = $contents;
-        }
-    }
+		public function paraseAll(array $values)
+		{
+			if ($this->hasPreload() == false)
+				$this->preload();
 
-    /**
-     * @param array $values
-     * @return array
-     * @throws \RuntimeException
-     */
+			foreach ($this->templates as $template)
+			{
 
-    public function paraseAll( array $values )
-    {
-        if( $this->hasPreload() == false )
-            $this->preload();
+				$this->parse($values, $template);
+			}
 
-        foreach( $this->templates as $template )
-        {
+			return ($this->templates);
+		}
 
-            $this->parse( $values, $template );
-        }
+		/**
+		 * @param array $values
+		 * @param $template
+		 *
+		 * @return mixed
+		 * @throws \RuntimeException
+		 */
 
-        return( $this->templates );
-    }
+		public function parse(array $values, $template)
+		{
 
-    /**
-     * @param array $values
-     * @param $template
-     * @return mixed
-     * @throws \RuntimeException
-     */
+			if ($this->exist($template) == false)
+				throw new \RuntimeException("Template does not exist");
 
-    public function parse( array $values, $template )
-    {
+			if (isset($values["url"]) == false)
+				$values["url"] = SYSCRACK_URL_ADDRESS;
 
-        if( $this->exist( $template ) == false )
-            throw new \RuntimeException("Template does not exist");
+			if (isset($values["contact"]) == false)
+				$values["contact"] = MAILER_CONTACT_ADDRESS;
 
-        if( isset( $values[ "url" ] ) == false )
-            $values[ "url" ] = SYSCRACK_URL_ADDRESS;
+			$contents = $this->get($template);
 
-        if( isset( $values[ "contact" ] ) == false )
-            $values[ "contact" ] = MAILER_CONTACT_ADDRESS;
+			foreach ($values as $key => $value)
+			{
 
-        $contents = $this->get( $template );
+				if (str_contains($contents, $this->parseKey($key)))
+					str_replace($this->parseKey($key), $contents, $value);
+			}
 
-        foreach( $values as $key=>$value )
-        {
+			if ($contents === $this->templates[$template])
+				return ($contents);
 
-            if( str_contains( $contents, $this->parseKey( $key ) ) )
-                str_replace( $this->parseKey( $key ), $contents, $value );
-        }
+			$this->templates[$template] = $contents;
 
-        if( $contents === $this->templates[ $template ] )
-            return( $contents );
+			return ($contents);
+		}
 
-        $this->templates[ $template ] = $contents;
+		/**
+		 * @param $template
+		 *
+		 * @return mixed
+		 * @throws \RuntimeException
+		 */
 
-        return( $contents );
-    }
+		public function get($template)
+		{
 
-    /**
-     * @param $template
-     * @return mixed
-     * @throws \RuntimeException
-     */
+			if ($this->hasPreload() == false)
+				$this->preload();
 
-    public function get( $template )
-    {
+			return ($this->templates[$template]);
+		}
 
-        if( $this->hasPreload() == false )
-            $this->preload();
+		/**
+		 * @param $template
+		 *
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-        return( $this->templates[ $template ] );
-    }
+		public function exist($template)
+		{
 
-    /**
-     * @param $template
-     * @return bool
-     * @throws \RuntimeException
-     */
+			if ($this->hasPreload() == false)
+				$this->preload();
 
-    public function exist( $template )
-    {
+			return (isset($this->templates[$template]));
+		}
 
-        if( $this->hasPreload() == false )
-            $this->preload();
+		/**
+		 * @param $template
+		 *
+		 * @return bool|string
+		 * @throws \RuntimeException
+		 */
 
-        return( isset( $this->templates[ $template ] ) );
-    }
+		public function getRawTemplate($template)
+		{
 
-    /**
-     * @param $template
-     * @return bool|string
-     * @throws \RuntimeException
-     */
+			if (file_exists(SYSCRACK_ROOT . $this->path($template)) == false)
+				throw new \RuntimeException("Unknown template");
 
-    public function getRawTemplate( $template )
-    {
+			return (file_get_contents(SYSCRACK_ROOT . $this->path($template)));
 
-        if( file_exists( SYSCRACK_ROOT . $this->path( $template )) == false )
-            throw new \RuntimeException("Unknown template");
+		}
 
-        return( file_get_contents( SYSCRACK_ROOT . $this->path( $template ) ) );
+		/**
+		 * @param $key
+		 *
+		 * @return string
+		 */
 
-    }
+		private function parseKey($key)
+		{
 
-    /**
-     * @param $key
-     * @return string
-     */
+			return ($this->identifier . $key);
+		}
 
-    private function parseKey( $key )
-    {
+		/**
+		 * @return bool
+		 */
 
-        return( $this->identifier . $key );
-    }
+		private function hasPreload()
+		{
 
-    /**
-     * @return bool
-     */
+			return (empty($this->templates));
+		}
 
-    private function hasPreload()
-    {
+		/**
+		 * @param $file
+		 *
+		 * @return mixed
+		 */
 
-        return( empty( $this->templates ) );
-    }
+		private function omitRoot($file)
+		{
 
-    /**
-     * @param $file
-     * @return mixed
-     */
+			return (str_replace(SYSCRACK_ROOT . $this->path(), "", $file));
+		}
 
-    private function omitRoot( $file )
-    {
+		/**
+		 * @param null $template
+		 *
+		 * @return string
+		 */
 
-        return( str_replace( SYSCRACK_ROOT . $this->path(), "", $file ) );
-    }
+		private function path($template = null)
+		{
 
-    /**
-     * @param null $template
-     * @return string
-     */
+			if ($template == null)
+				return (MAILER_TEMPLATES_ROOT);
 
-    private function path( $template=null )
-    {
-
-        if( $template == null )
-            return( MAILER_TEMPLATES_ROOT );
-
-        return(MAILER_TEMPLATES_ROOT . $template . ".html");
-    }
-}
+			return (MAILER_TEMPLATES_ROOT . $template . ".html");
+		}
+	}

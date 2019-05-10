@@ -1,62 +1,67 @@
 <?php
-    namespace Framework\Syscrack\Game\Structures;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Interface BaseComputer
-     *
-     * @package Framework\Syscrack\Game\Structures
-     */
+	namespace Framework\Syscrack\Game\Structures;
 
-    interface Computer
-    {
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Interface BaseComputer
+	 *
+	 * @package Framework\Syscrack\Game\Structures
+	 */
+	interface Computer
+	{
 
-        /**
-         * @return array
-         */
-        
-        public function configuration();
+		/**
+		 * @return array
+		 */
 
-        /**
-         * @param $computerid
-         * @param $userid
-         * @param array $software
-         * @param array $hardware
-         * @param array $custom
-         * @return mixed
-         */
+		public function configuration();
 
-        public function onStartup( $computerid, $userid, array $software = [], array $hardware = [], array $custom = [] );
+		/**
+		 * @param $computerid
+		 * @param $userid
+		 * @param array $software
+		 * @param array $hardware
+		 * @param array $custom
+		 *
+		 * @return mixed
+		 */
 
-        /**
-         * @param $computerid
-         * @return mixed
-         */
+		public function onStartup($computerid, $userid, array $software = [], array $hardware = [], array $custom = []);
 
-        public function onReset( $computerid );
+		/**
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 
-        /**
-         * @param $computerid
-         * @param $ipaddress
-         * @return mixed
-         */
+		public function onReset($computerid);
 
-        public function onLogin( $computerid, $ipaddress );
+		/**
+		 * @param $computerid
+		 * @param $ipaddress
+		 *
+		 * @return mixed
+		 */
 
-        /**
-         * @param $computerid
-         * @param $ipaddress
-         * @return mixed
-         */
+		public function onLogin($computerid, $ipaddress);
 
-        public function onLogout( $computerid, $ipaddress );
+		/**
+		 * @param $computerid
+		 * @param $ipaddress
+		 *
+		 * @return mixed
+		 */
 
-        /**
-         * @param $computerid
-         * @param $userid
-         * @return array
-         */
+		public function onLogout($computerid, $ipaddress);
 
-        public function data( $computerid, $userid );
-    }
+		/**
+		 * @param $computerid
+		 * @param $userid
+		 *
+		 * @return array
+		 */
+
+		public function data($computerid, $userid);
+	}

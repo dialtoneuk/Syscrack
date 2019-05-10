@@ -1,76 +1,77 @@
 <?php
-namespace Framework\Database\Tables;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Api
- *
- * @package Framework\Database\Tables
- */
+	namespace Framework\Database\Tables;
 
-use Framework\Database\Table;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Api
+	 *
+	 * @package Framework\Database\Tables
+	 */
 
-class Api extends Table
-{
+	use Framework\Database\Table;
 
-    /**
-     * Gets the Api by the API key
-     *
-     * @param $apikey
-     *
-     * @return mixed
-     */
+	class Api extends Table
+	{
 
-    public function getApiByKey( $apikey )
-    {
+		/**
+		 * Gets the Api by the API key
+		 *
+		 * @param $apikey
+		 *
+		 * @return mixed
+		 */
 
-        $array = array(
-            'apikey' => $apikey
-        );
+		public function getApiByKey($apikey)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'apikey' => $apikey
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets all the API by this user
-     *
-     * @param $userid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function getApiByUser( $userid )
-    {
+		/**
+		 * Gets all the API by this user
+		 *
+		 * @param $userid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        $array = array(
-            'userid' => $userid
-        );
+		public function getApiByUser($userid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'userid' => $userid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets the API through the Api ID
-     *
-     * @param $apiid
-     *
-     * @return mixed
-     */
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-    public function getApi( $apiid )
-    {
+		/**
+		 * Gets the API through the Api ID
+		 *
+		 * @param $apiid
+		 *
+		 * @return mixed
+		 */
 
-        $array = array(
-            'apiid' => $apiid
-        );
+		public function getApi($apiid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'apiid' => $apiid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
-}
+			$result = $this->getTable()->where($array)->get();
+
+			return ($result->isEmpty()) ? null : $result[0];
+		}
+	}

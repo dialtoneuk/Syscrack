@@ -1,55 +1,57 @@
 <?php
-namespace Framework\Syscrack\Game\Softwares;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class ForceUpload
- *
- * @package Framework\Syscrack\Game\Softwares
- */
+	namespace Framework\Syscrack\Game\Softwares;
 
-use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
-use Framework\Syscrack\Game\Tool;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class ForceUpload
+	 *
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 
-class ForceUpload extends BaseSoftware
-{
+	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	use Framework\Syscrack\Game\Tool;
 
-    /**
-     * The configuration of this Structure
-     *
-     * @return array
-     */
+	class ForceUpload extends BaseSoftware
+	{
 
-    public function configuration()
-    {
+		/**
+		 * The configuration of this Structure
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'uniquename'        => 'forceupload',
-            'extension'         => '.admin',
-            'type'              => 'admin',
-            'installable'       => true,
-            'executable'        => true,
-            'localexecuteonly'  => true,
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * @param null $userid
-     * @param null $sofwareid
-     * @param null $computerid
-     * @return Tool
-     */
+			return array(
+				'uniquename' => 'forceupload',
+				'extension' => '.admin',
+				'type' => 'admin',
+				'installable' => true,
+				'executable' => true,
+				'localexecuteonly' => true,
+			);
+		}
 
-    public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
-    {
+		/**
+		 * @param null $userid
+		 * @param null $sofwareid
+		 * @param null $computerid
+		 *
+		 * @return Tool
+		 */
 
-        $tool = new Tool("Force Upload", "default");
-        $tool->admin();
-        $tool->setAction('forceupload');
-        $tool->addInput("softwareid","localsoftwares");
-        $tool->icon = "arrow-up";
+		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
+		{
 
-        return( $tool );
-    }
-}
+			$tool = new Tool("Force Upload", "default");
+			$tool->admin();
+			$tool->setAction('forceupload');
+			$tool->addInput("softwareid", "localsoftwares");
+			$tool->icon = "arrow-up";
+
+			return ($tool);
+		}
+	}

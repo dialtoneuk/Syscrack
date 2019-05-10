@@ -1,54 +1,55 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 05/08/2018
- * Time: 14:16
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 05/08/2018
+	 * Time: 14:16
+	 */
 
-namespace Framework\Application\UtilitiesV2\Scripts;
+	namespace Framework\Application\UtilitiesV2\Scripts;
 
 
-use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Application\UtilitiesV2\Debug;
 
-class JsonReader extends Base
-{
+	class JsonReader extends Base
+	{
 
-    /**
-     * @param $arguments
-     * @return bool
-     * @throws \RuntimeException
-     */
+		/**
+		 * @param $arguments
+		 *
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-    public function execute($arguments)
-    {
+		public function execute($arguments)
+		{
 
-        if( count( explode(".", $arguments["file"]  ) ) == 1 )
-            $arguments["file"] = $arguments["file"] . ".json";
+			if (count(explode(".", $arguments["file"])) == 1)
+				$arguments["file"] = $arguments["file"] . ".json";
 
-        if( file_exists( SYSCRACK_ROOT . "config/" . $arguments["file"] ) == false )
-            throw new \RuntimeException("File does not exist");
+			if (file_exists(SYSCRACK_ROOT . "config/" . $arguments["file"]) == false)
+				throw new \RuntimeException("File does not exist");
 
-        if( Debug::isCMD() )
-            Debug::echo( "Opening file: " . $arguments["file"], 1 );
+			if (Debug::isCMD())
+				Debug::echo("Opening file: " . $arguments["file"], 1);
 
-        $contents = file_get_contents( SYSCRACK_ROOT . "config/" . $arguments["file"] );
+			$contents = file_get_contents(SYSCRACK_ROOT . "config/" . $arguments["file"]);
 
-        if( Debug::isCMD() )
-            Debug::echo( $contents );
+			if (Debug::isCMD())
+				Debug::echo($contents);
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * @return array|null
-     */
+		/**
+		 * @return array|null
+		 */
 
-    public function requiredArguments()
-    {
+		public function requiredArguments()
+		{
 
-        return([
-            "file"
-        ]);
-    }
-}
+			return ([
+				"file"
+			]);
+		}
+	}

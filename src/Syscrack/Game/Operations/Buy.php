@@ -1,235 +1,238 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Buy
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Application\Utilities\PostHelper;
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Finance;
-use Framework\Syscrack\Game\Market;
-use Framework\Syscrack\Game\Utilities\TimeHelper;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Buy
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class Buy extends BaseOperation
-{
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Finance;
+	use Framework\Syscrack\Game\Market;
+	use Framework\Syscrack\Game\Utilities\TimeHelper;
 
-    /**
-     * @var Market
-     */
+	class Buy extends BaseOperation
+	{
 
-    protected static $market;
+		/**
+		 * @var Market
+		 */
 
-
-    /**
-     * @var Finance
-     */
-
-    protected static $finance;
-
-    /**
-     * View constructor.
-     */
-
-    public function __construct()
-    {
-
-        if( isset( self::$market ) == false )
-            self::$market = new Market();
-
-        if( isset( self::$finance ) == false )
-            self::$finance = new Finance();
-
-        parent::__construct();
-    }
-
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
-
-    public function configuration()
-    {
-
-        return array(
-            'allowsoftware'    => false,
-            'allowlocal'        => false,
-            'requiresoftware'  => false,
-            'requireloggedin'   => false,
-            'allowpost'         => false,
-            "allowcustomdata"   => true,
-        );
-    }
-
-    /**
-     * @param null $ipaddress
-     * @return string
-     */
-
-    public function url($ipaddress = null)
-    {
-
-        return('game/internet/' . $ipaddress . "/market");
-    }
-
-    /**
-     * Called on creation
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return bool
-     */
-
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		protected static $market;
 
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
+		/**
+		 * @var Finance
+		 */
 
-        if( $this->checkCustomData( $data, ['itemid','accountnumber' ] ) == false )
-            return false;
+		protected static $finance;
 
-        if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
-            return false;
+		/**
+		 * View constructor.
+		 */
 
-        $computer = self::$internet->getComputer( $data['ipaddress'] );
+		public function __construct()
+		{
 
-        if( self::$computer->isMarket( $computer->computerid ) == false )
-            return false;
+			if (isset(self::$market) == false)
+				self::$market = new Market();
 
-        if( self::$market->hasStockItem( $computer->computerid, $data['custom']['itemid'] ) == false )
-            return false;
+			if (isset(self::$finance) == false)
+				self::$finance = new Finance();
 
-        $item = self::$market->getStockItem( $computer->computerid, $data['custom']['itemid'] );
-        $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
+			parent::__construct();
+		}
 
-        if( self::$market->checkMarket( $computer->computerid ) == false )
-            return false;
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-        if( self::$finance->canAfford( $account->computerid, $userid, $item['price'] ) == false )
-            return false;
+		public function configuration()
+		{
 
-        return true;
-    }
+			return array(
+				'allowsoftware' => false,
+				'allowlocal' => false,
+				'requiresoftware' => false,
+				'requireloggedin' => false,
+				'allowpost' => false,
+				"allowcustomdata" => true,
+			);
+		}
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool
-     */
+		/**
+		 * @param null $ipaddress
+		 *
+		 * @return string
+		 */
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		public function url($ipaddress = null)
+		{
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
+			return ('game/internet/' . $ipaddress . "/market");
+		}
 
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
+		/**
+		 * Called on creation
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-        if( $this->checkCustomData( $data, ['itemid','accountnumber' ] ) == false )
-            return false;
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-        if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
-            return false;
 
-        $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
-        $item = self::$market->getStockItem( $this->getComputerId( $data['ipaddress'] ), $data['custom']['itemid'] );
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-        if( self::$finance->canAfford( $account->computerid, $account->userid, $item['price'] ) == false )
-            return false;
+			if ($this->checkCustomData($data, ['itemid', 'accountnumber']) == false)
+				return false;
 
-        if( isset( $item['hardware'] ) == false )
-            throw new SyscrackException();
+			if (self::$finance->accountNumberExists($data['custom']['accountnumber']) == false)
+				return false;
 
-        if( self::$hardware->hasHardwareType( $computerid, $item['hardware'] ) )
-            self::$hardware->updateHardware( $computerid, $item['hardware'], $item['value'] );
-        else
-            self::$hardware->addHardware( $computerid, $item['hardware'], $item['value'] );
+			$computer = self::$internet->getComputer($data['ipaddress']);
 
-        self::$finance->withdraw( $account->computerid, $userid, $item['price'] );
-        self::$market->addPurchase( $this->getComputerId( $data['ipaddress'] ), $computerid, $data['custom']['itemid'] );
-        $this->logPayment( $computerid, $data['custom']['accountnumber'], $data['ipaddress'] );
-        return true;
-    }
+			if (self::$computer->isMarket($computer->computerid) == false)
+				return false;
 
-    /**
-     * Gets the completion speed
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return null
-     */
+			if (self::$market->hasStockItem($computer->computerid, $data['custom']['itemid']) == false)
+				return false;
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
-    {
+			$item = self::$market->getStockItem($computer->computerid, $data['custom']['itemid']);
+			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
 
-        return TimeHelper::getSecondsInFuture( 3 );
-    }
+			if (self::$market->checkMarket($computer->computerid) == false)
+				return false;
 
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array|null
-     */
+			if (self::$finance->canAfford($account->computerid, $userid, $item['price']) == false)
+				return false;
 
-    public function getCustomData($ipaddress, $userid)
-    {
+			return true;
+		}
 
-        if( PostHelper::hasPostData() == false )
-        {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-            return null;
-        }
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-        if( PostHelper::checkForRequirements(['accountnumber','itemid'] ) == false )
-        {
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-            return null;
-        }
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
 
-        return array(
-            'accountnumber' => PostHelper::getPostData('accountnumber'),
-            'itemid'        => PostHelper::getPostData('itemid')
-        );
-    }
+			if ($this->checkCustomData($data, ['itemid', 'accountnumber']) == false)
+				return false;
 
-    /**
-     * @param $computerid
-     * @param $accountnumber
-     * @param $ipaddress
-     */
+			if (self::$finance->accountNumberExists($data['custom']['accountnumber']) == false)
+				return false;
 
-    private function logPayment($computerid, $accountnumber, $ipaddress )
-    {
+			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
+			$item = self::$market->getStockItem($this->getComputerId($data['ipaddress']), $data['custom']['itemid']);
 
-        $this->logToComputer('Successfully initiated online payment using account (' . $accountnumber . ') to server <' . $ipaddress . '>', $computerid, 'localhost' );
-    }
-}
+			if (self::$finance->canAfford($account->computerid, $account->userid, $item['price']) == false)
+				return false;
+
+			if (isset($item['hardware']) == false)
+				throw new SyscrackException();
+
+			if (self::$hardware->hasHardwareType($computerid, $item['hardware']))
+				self::$hardware->updateHardware($computerid, $item['hardware'], $item['value']);
+			else
+				self::$hardware->addHardware($computerid, $item['hardware'], $item['value']);
+
+			self::$finance->withdraw($account->computerid, $userid, $item['price']);
+			self::$market->addPurchase($this->getComputerId($data['ipaddress']), $computerid, $data['custom']['itemid']);
+			$this->logPayment($computerid, $data['custom']['accountnumber'], $data['ipaddress']);
+			return true;
+		}
+
+		/**
+		 * Gets the completion speed
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return null
+		 */
+
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
+
+			return TimeHelper::getSecondsInFuture(3);
+		}
+
+		/**
+		 * Gets the custom data for this operation
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return array|null
+		 */
+
+		public function getCustomData($ipaddress, $userid)
+		{
+
+			if (PostHelper::hasPostData() == false)
+			{
+
+				return null;
+			}
+
+			if (PostHelper::checkForRequirements(['accountnumber', 'itemid']) == false)
+			{
+
+				return null;
+			}
+
+			return array(
+				'accountnumber' => PostHelper::getPostData('accountnumber'),
+				'itemid' => PostHelper::getPostData('itemid')
+			);
+		}
+
+		/**
+		 * @param $computerid
+		 * @param $accountnumber
+		 * @param $ipaddress
+		 */
+
+		private function logPayment($computerid, $accountnumber, $ipaddress)
+		{
+
+			$this->logToComputer('Successfully initiated online payment using account (' . $accountnumber . ') to server <' . $ipaddress . '>', $computerid, 'localhost');
+		}
+	}

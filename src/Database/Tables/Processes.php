@@ -1,77 +1,78 @@
 <?php
-namespace Framework\Database\Tables;
 
-/**
- * Lewis Lancater 2017
- *
- * Class Processes
- *
- * @package Framework\Database\Tables
- */
+	namespace Framework\Database\Tables;
 
-use Framework\Database\Table;
+	/**
+	 * Lewis Lancater 2017
+	 *
+	 * Class Processes
+	 *
+	 * @package Framework\Database\Tables
+	 */
 
-class Processes extends Table
-{
+	use Framework\Database\Table;
 
-    public function getProcess( $processid )
-    {
+	class Processes extends Table
+	{
 
-        $array = array(
-            'processid' => $processid
-        );
+		public function getProcess($processid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'processid' => $processid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    public function getUserProcesses( $userid )
-    {
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-        $array = array(
-            'userid' => $userid
-        );
+		public function getUserProcesses($userid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'userid' => $userid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    public function getComputerProcesses( $computerid )
-    {
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-        $array = array(
-            'computerid' => $computerid
-        );
+		public function getComputerProcesses($computerid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'computerid' => $computerid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    public function insertProcess( $array )
-    {
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-        return $this->getTable()->insertGetId( $array );
-    }
+		public function insertProcess($array)
+		{
 
-    public function updateProcess( $processid, $values )
-    {
+			return $this->getTable()->insertGetId($array);
+		}
 
-        $array = array(
-            'processid' => $processid
-        );
+		public function updateProcess($processid, $values)
+		{
 
-        $this->getTable()->where( $array )->update( $values );
-    }
+			$array = array(
+				'processid' => $processid
+			);
 
-    public function trashProcess( $processid )
-    {
-        $array = array(
-            'processid' => $processid
-        );
+			$this->getTable()->where($array)->update($values);
+		}
 
-        $this->getTable()->where( $array )->delete();
-    }
-}
+		public function trashProcess($processid)
+		{
+			$array = array(
+				'processid' => $processid
+			);
+
+			$this->getTable()->where($array)->delete();
+		}
+	}

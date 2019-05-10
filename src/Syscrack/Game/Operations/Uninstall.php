@@ -1,257 +1,258 @@
 <?php
-    namespace Framework\Syscrack\Game\Operations;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Uninstall
-     *
-     * @package Framework\Syscrack\Game\Operations
-     */
+	namespace Framework\Syscrack\Game\Operations;
 
-    use Framework\Application\Settings;
-    use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-    use Framework\Syscrack\Game\Viruses;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Uninstall
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-    class Uninstall extends BaseOperation
-    {
+	use Framework\Application\Settings;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Viruses;
 
-        /**
-         * @var Viruses
-         */
+	class Uninstall extends BaseOperation
+	{
 
-        protected static $viruses;
+		/**
+		 * @var Viruses
+		 */
 
-        /**
-         * Uninstall constructor.
-         */
+		protected static $viruses;
 
-        public function __construct()
-        {
+		/**
+		 * Uninstall constructor.
+		 */
 
-            if( isset( self::$viruses ) == false )
-                self::$viruses = new Viruses();
+		public function __construct()
+		{
 
-            parent::__construct();
-        }
+			if (isset(self::$viruses) == false)
+				self::$viruses = new Viruses();
 
-        /**
-         * The configuration for this operation
-         *
-         * @return array
-         */
+			parent::__construct();
+		}
 
-        public function configuration()
-        {
+		/**
+		 * The configuration for this operation
+		 *
+		 * @return array
+		 */
 
-            return array(
-                'allowsoftware'    => true,
-                'allowlocal'        => true,
-                'requiresoftware'  => true,
-                'requireloggedin'   => true
-            );
-        }
+		public function configuration()
+		{
 
-        /**
-         * Called when the operation is created
-         *
-         * @param $timecompleted
-         *
-         * @param $computerid
-         *
-         * @param $userid
-         *
-         * @param $process
-         *
-         * @param array $data
-         *
-         * @return bool
-         */
+			return array(
+				'allowsoftware' => true,
+				'allowlocal' => true,
+				'requiresoftware' => true,
+				'requireloggedin' => true
+			);
+		}
 
-        public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-        {
+		/**
+		 * Called when the operation is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-            if( $this->checkData( $data ) == false )
-            {
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-                return false;
-            }
+			if ($this->checkData($data) == false)
+			{
 
-            if( self::$software->softwareExists( $data['softwareid'] ) == false )
-            {
+				return false;
+			}
 
-                return false;
-            }
-            else
-            {
+			if (self::$software->softwareExists($data['softwareid']) == false)
+			{
 
-                if( self::$computer->hasSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] ) == false )
-                {
+				return false;
+			}
+			else
+			{
 
-                    return false;
-                }
-            }
+				if (self::$computer->hasSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']) == false)
+				{
 
-            if( self::$software->canUninstall( $data['softwareid'] ) == false )
-            {
+					return false;
+				}
+			}
 
-                $this->redirectError('You cannot uninstall this software', $this->getRedirect( $data['ipaddress'] ) );
-            }
+			if (self::$software->canUninstall($data['softwareid']) == false)
+			{
 
-            return true;
-        }
+				$this->redirectError('You cannot uninstall this software', $this->getRedirect($data['ipaddress']));
+			}
 
-        /**
-         * Called when the operation is completed
-         *
-         * @param $timecompleted
-         *
-         * @param $timestarted
-         *
-         * @param $computerid
-         *
-         * @param $userid
-         *
-         * @param $process
-         *
-         * @param array $data
-         */
+			return true;
+		}
 
-        public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-        {
+		/**
+		 * Called when the operation is completed
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $timestarted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 */
 
-            if( $this->checkData( $data ) == false )
-            {
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-                throw new SyscrackException();
-            }
+			if ($this->checkData($data) == false)
+			{
 
-            if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            {
+				throw new SyscrackException();
+			}
 
-                $this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect() );
-            }
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+			{
 
-            if( self::$software->softwareExists( $data['softwareid'] ) == false )
-            {
+				$this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect());
+			}
 
-                $this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect( $data['ipaddress'] ) );
-            }
+			if (self::$software->softwareExists($data['softwareid']) == false)
+			{
 
-            if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) == false )
-            {
+				$this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect($data['ipaddress']));
+			}
 
-                $this->redirectError('Sorry, it looks like this software got uninstalled already', $this->getRedirect( $data['ipaddress'] ) );
-            }
+			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])) == false)
+			{
 
-            self::$software->uninstallSoftware( $data['softwareid'] );
+				$this->redirectError('Sorry, it looks like this software got uninstalled already', $this->getRedirect($data['ipaddress']));
+			}
 
-            self::$computer->uninstallSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
+			self::$software->uninstallSoftware($data['softwareid']);
 
-            $this->logUninstall( $this->getSoftwareName( $data['softwareid' ] ),
-                $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
+			self::$computer->uninstallSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']);
 
-            $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
-                self::$computer->computerid(), $data['ipaddress']);
+			$this->logUninstall($this->getSoftwareName($data['softwareid']),
+				$this->getComputerId($data['ipaddress']), $this->getCurrentComputerAddress());
 
-            self::$software->executeSoftwareMethod( self::$software->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onUninstalled', array(
-                'softwareid'    => $data['softwareid'],
-                'userid'        => $userid,
-                'computerid'    => $this->getComputerId( $data['ipaddress'] )
-            ));
+			$this->logLocal($this->getSoftwareName($data['softwareid']),
+				self::$computer->computerid(), $data['ipaddress']);
 
-            if( isset( $data['redirect'] ) )
-            {
+			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['softwareid']), 'onUninstalled', array(
+				'softwareid' => $data['softwareid'],
+				'userid' => $userid,
+				'computerid' => $this->getComputerId($data['ipaddress'])
+			));
 
-                $this->redirectSuccess( $data['redirect'] );
-            }
-            else
-            {
+			if (isset($data['redirect']))
+			{
 
-                $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
-            }
-        }
+				$this->redirectSuccess($data['redirect']);
+			}
+			else
+			{
 
-        /**
-         * Gets the completion speed of this operation
-         *
-         * @param $computerid
-         *
-         * @param $ipaddress
-         *
-         * @param null $softwareid
-         *
-         * @return int
-         */
+				$this->redirectSuccess($this->getRedirect($data['ipaddress']));
+			}
+		}
 
-        public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
-        {
+		/**
+		 * Gets the completion speed of this operation
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return int
+		 */
 
-            return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), 20, $softwareid );
-        }
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-        /**
-         * Gets the custom data for this operation
-         *
-         * @param $ipaddress
-         *
-         * @param $userid
-         *
-         * @return array
-         */
+			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_cpu_type'), 20, $softwareid);
+		}
 
-        public function getCustomData($ipaddress, $userid)
-        {
+		/**
+		 * Gets the custom data for this operation
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return array
+		 */
 
-            return array();
-        }
+		public function getCustomData($ipaddress, $userid)
+		{
 
-        /**
-         * Called upon a post request to this operation
-         *
-         * @param $data
-         *
-         * @param $ipaddress
-         *
-         * @param $userid
-         *
-         * @return bool
-         */
+			return array();
+		}
 
-        public function onPost($data, $ipaddress, $userid)
-        {
+		/**
+		 * Called upon a post request to this operation
+		 *
+		 * @param $data
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-            return true;
-        }
+		public function onPost($data, $ipaddress, $userid)
+		{
 
-        /**
-         * @param $softwarename
-         * @param $computerid
-         * @param $ipaddress
-         */
+			return true;
+		}
 
-        private function logUninstall( $softwarename, $computerid, $ipaddress )
-        {
+		/**
+		 * @param $softwarename
+		 * @param $computerid
+		 * @param $ipaddress
+		 */
 
-            if( self::$computer->computerid() == $computerid )
-            {
+		private function logUninstall($softwarename, $computerid, $ipaddress)
+		{
 
-                return;
-            }
+			if (self::$computer->computerid() == $computerid)
+			{
 
-            $this->logToComputer('Uninstalled file (' . $softwarename . ') on root', $computerid, $ipaddress );
-        }
+				return;
+			}
 
-        /**
-         * @param $softwarename
-         * @param $computerid
-         * @param $ipaddress
-         */
+			$this->logToComputer('Uninstalled file (' . $softwarename . ') on root', $computerid, $ipaddress);
+		}
 
-        private function logLocal( $softwarename, $computerid, $ipaddress )
-        {
+		/**
+		 * @param $softwarename
+		 * @param $computerid
+		 * @param $ipaddress
+		 */
 
-            $this->logToComputer('Uninstalled file (' . $softwarename . ') on <' . $ipaddress . '>', $computerid, 'localhost' );
-        }
-    }
+		private function logLocal($softwarename, $computerid, $ipaddress)
+		{
+
+			$this->logToComputer('Uninstalled file (' . $softwarename . ') on <' . $ipaddress . '>', $computerid, 'localhost');
+		}
+	}

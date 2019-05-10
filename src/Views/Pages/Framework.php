@@ -1,97 +1,98 @@
 <?php
-    namespace Framework\Views\Pages;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Framework
-     *
-     * @package Framework\Views\Pages
-     */
+	namespace Framework\Views\Pages;
 
-    use Framework\Application\Render;
-    use Framework\Application\Settings;
-    use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page as Structure;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Framework
+	 *
+	 * @package Framework\Views\Pages
+	 */
 
-    class Framework extends BaseClass implements Structure
-    {
+	use Framework\Application\Render;
+	use Framework\Application\Settings;
+	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Views\Structures\Page as Structure;
 
-        /**
-         * Framework constructor.
-         */
+	class Framework extends BaseClass implements Structure
+	{
 
-        public function __construct()
-        {
+		/**
+		 * Framework constructor.
+		 */
 
-            parent::__construct( false, true );
-        }
+		public function __construct()
+		{
 
-        /**
-         * Returns the pages mapping
-         *
-         * @return array
-         */
+			parent::__construct(false, true);
+		}
 
-        public function mapping()
-        {
+		/**
+		 * Returns the pages mapping
+		 *
+		 * @return array
+		 */
 
-            return array(
-                [
-                    '/framework/', 'redirectIndex'
-                ],
-                [
-                    '/framework/error/', 'redirectIndex'
-                ],
-                [
-                    '/framework/error/database/', 'databaseError'
-                ],
-                [
-                    '/framework/error/session/', 'sessionError'
-                ],
-                [
-                    '/framework/error/notfound/', 'notFound'
-                ]
-            );
-        }
+		public function mapping()
+		{
 
-        /**
-         * Redirects the user to the index
-         */
+			return array(
+				[
+					'/framework/', 'redirectIndex'
+				],
+				[
+					'/framework/error/', 'redirectIndex'
+				],
+				[
+					'/framework/error/database/', 'databaseError'
+				],
+				[
+					'/framework/error/session/', 'sessionError'
+				],
+				[
+					'/framework/error/notfound/', 'notFound'
+				]
+			);
+		}
 
-        public function redirectIndex()
-        {
+		/**
+		 * Redirects the user to the index
+		 */
 
-            Render::redirect( Settings::setting('controller_index_root') . Settings::setting('controller_index_page') );
-        }
+		public function redirectIndex()
+		{
 
-        /**
-         * Renders the 404 page
-         */
+			Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
+		}
 
-        public function notFound()
-        {
+		/**
+		 * Renders the 404 page
+		 */
 
-            Render::view('error/page.404', array('page' => $this->getCurrentPage() ), $this->model());
-        }
+		public function notFound()
+		{
 
-        /**
-         * Renders the database error page
-         */
+			Render::view('error/page.404', array('page' => $this->getCurrentPage()), $this->model());
+		}
 
-        public function databaseError()
-        {
+		/**
+		 * Renders the database error page
+		 */
 
-            Render::view('error/page.database', $this->model());
-        }
+		public function databaseError()
+		{
 
-        /**
-         * Renders the session error page
-         */
+			Render::view('error/page.database', $this->model());
+		}
 
-        public function sessionError()
-        {
+		/**
+		 * Renders the session error page
+		 */
 
-            Render::view('error/page.session', $this->model());
-        }
-    }
+		public function sessionError()
+		{
+
+			Render::view('error/page.session', $this->model());
+		}
+	}

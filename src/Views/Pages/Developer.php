@@ -1,767 +1,764 @@
 <?php
-    namespace Framework\Views\Pages;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Developer
-     *
-     * @package Framework\Views\Pages
-     */
-
-    use Framework\Application\ErrorHandler;
-    use Framework\Application\Settings;
-    use Framework\Application\Utilities\Cyphers;
-    use Framework\Application\Utilities\FileSystem;
-    use Framework\Application\Utilities\PostHelper;
-    use Framework\Database\Manager;
-    use Framework\Exceptions\ViewException;
-    use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Controller;
-    use Framework\Views\Structures\Page;
-    use Framework\Views\Structures\Page as Structure;
-    use Illuminate\Database\Schema\Blueprint;
-    use ReflectionClass;
-
-    class Developer extends BaseClass implements Structure
-    {
-
-        /**
-         * @var ErrorHandler
-         */
-
-        protected $errorhandler;
-
-        /**
-         * @var Controller
-         */
-
-        protected $controller;
-
-        /**
-         * @var Manager
-         */
-
-        protected $database;
-
-        /**
-         * Developer constructor.
-         */
-
-        public function __construct()
-        {
-
-
-
-            if( isset( $this->errorhandler ) == false )
-                $this->errorhandler = new ErrorHandler();
-
-            if( isset( $this->controller ) == false )
-                $this->controller = new Controller();
-
-
-            if( isset( $this->database ) == false )
-            {
-
-                try
-                {
-
-                    $this->database = new Manager();
-                }
-                catch( \Exception $error )
-                {
-
-                    //Stop redirect error
-                }
-            }
-
-            parent::__construct( false, false );
-
-            //Used to display errors
-
-            if( session_status() !== PHP_SESSION_ACTIVE )
-                session_start();
-        }
-
-        /**
-         * The mapping of the class, on the left is the url of which will be mapped to the method, which is given on the right,
-         * for example, if you a user goes to www.syscrack.com/developer/databasecreator/ the framework will first look for the
-         * 'developer' class identifier, this is known as the page class ( which is this class! ), the mapping function is then called and the array
-         * of mapped url are returned. We then simply compare the url, if it is '/databasecreator/' then the method databaseCreator will be
-         * called!
-         *
-         * @return array
-         */
-
-        public function mapping()
-        {
-
-            return array(
-                [
-                    '/developer/', 'index'
-                ],
-                [
-                    'GET /developer/connection/creator/', 'connectionCreator'
-                ],
-                [
-                    'POST /developer/connection/creator/', 'connectionCreatorProcess'
-                ],
-                [
-                    '/developer/connection/', 'connection'
-                ],
-                [
-                    'GET /developer/errors/', 'errors'
-                ],
-                [
-                    'POST /developer/errors/', 'errorsProcess'
-                ],
-                [
-                    '/developer/errors/@id:[0-9]{0,9}/', 'errorsView'
-                ],
-                [
-                    'GET /developer/disable/', 'disable'
-                ],
-                [
-                    'POST /developer/disable/', 'disableProcess'
-                ],
-                [
-                    'GET /developer/settings/', 'settings'
-                ],
-                [
-                    'POST /developer/settings/', 'settingsProcess'
-                ],
-                [
-                    '/developer/routes/', 'routes'
-                ],
-                [
-                    'GET /developer/migrator/', 'migrator'
-                ],
-                [
-                    'POST /developer/migrator/', 'migratorProcess'
-                ]
-            );
-        }
-
-        /**
-         * Renders the index page
-         */
-
-        public function index()
-        {
-
-            $this->getRender('developer/page.developer');
-        }
-
-        /**
-         * Renders the database migrator page
-         */
-
-        public function migrator()
-        {
-
-            if( $this->database == null )
-            {
-
-                $this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
-            }
-
-            if( $this->hasDatabaseConnection() == false )
-            {
-
-                $this->redirectError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer' );
-            }
-
-            $this->getRender('developer/page.migrator');
-        }
-
-        /**
-         * Processes the migrators post request
-         */
-
-        public function migratorProcess()
-        {
-
-            if( $this->database == null )
-            {
-
-                $this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
-            }
-
-            if( $this->hasDatabaseConnection() == false )
-            {
-
-                $this->redirectError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer' );
-            }
-
-            if( PostHelper::hasPostData() == false )
-            {
-
-                $this->migrator();
-            }
-            else
-            {
-
-                if( PostHelper::checkForRequirements(['json']) == false )
-                {
-
-                    $this->redirectError('Missing information', $this->getRedirect('migrator') );
-                }
-
-                $json = PostHelper::getPostData('json');
-
-                if( $this->isJson( $json ) == false )
-                {
-
-                    $this->redirectError('Invalid Json: ' . json_last_error_msg(), $this->getRedirect('migrator') );
-                }
-
-                try
-                {
-
-                    $this->migrateDatabase( json_decode( $json, true ) );
-                }
-                catch( \Exception $error )
-                {
-
-                    $this->redirectError('Migrator Error: ' . $error->getMessage(), $this->getRedirect('migrator') );
-                }
-
-                $this->redirectSuccess( $this->getRedirect('migrator') );
-            }
-        }
-
-        /**
-         * Renders the page viewer page
-         */
-
-        public function routes()
-        {
-
-            $routes = $this->getRoutes();
-
-            if( $routes == null )
-            {
-
-                $this->redirectError('No routes were found', 'developer' );
-            }
-            else
-            {
-
-                $this->getRender('developer/page.routes', array( 'routes' => $routes ) );
-            }
-        }
-
-        /**
-         * Renders the logger page
-         */
+	namespace Framework\Views\Pages;
 
-        public function errors()
-        {
-
-            $this->getRender('developer/page.errors');
-        }
-
-        /**
-         * Processes the post request to the error page
-         */
-
-        public function errorsProcess()
-        {
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Developer
+	 *
+	 * @package Framework\Views\Pages
+	 */
+
+	use Framework\Application\ErrorHandler;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\Cyphers;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Database\Manager;
+	use Framework\Exceptions\ViewException;
+	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Views\Controller;
+	use Framework\Views\Structures\Page;
+	use Framework\Views\Structures\Page as Structure;
+	use Illuminate\Database\Schema\Blueprint;
+	use ReflectionClass;
+
+	class Developer extends BaseClass implements Structure
+	{
+
+		/**
+		 * @var ErrorHandler
+		 */
+
+		protected $errorhandler;
+
+		/**
+		 * @var Controller
+		 */
+
+		protected $controller;
+
+		/**
+		 * @var Manager
+		 */
+
+		protected $database;
+
+		/**
+		 * Developer constructor.
+		 */
+
+		public function __construct()
+		{
+
+
+			if (isset($this->errorhandler) == false)
+				$this->errorhandler = new ErrorHandler();
+
+			if (isset($this->controller) == false)
+				$this->controller = new Controller();
+
+
+			if (isset($this->database) == false)
+			{
+
+				try
+				{
+
+					$this->database = new Manager();
+				} catch (\Exception $error)
+				{
+
+					//Stop redirect error
+				}
+			}
+
+			parent::__construct(false, false);
+
+			//Used to display errors
+
+			if (session_status() !== PHP_SESSION_ACTIVE)
+				session_start();
+		}
+
+		/**
+		 * The mapping of the class, on the left is the url of which will be mapped to the method, which is given on
+		 * the right, for example, if you a user goes to www.syscrack.com/developer/databasecreator/ the framework will
+		 * first look for the
+		 * 'developer' class identifier, this is known as the page class ( which is this class! ), the mapping function
+		 * is then called and the array of mapped url are returned. We then simply compare the url, if it is
+		 * '/databasecreator/' then the method databaseCreator will be called!
+		 *
+		 * @return array
+		 */
+
+		public function mapping()
+		{
+
+			return array(
+				[
+					'/developer/', 'index'
+				],
+				[
+					'GET /developer/connection/creator/', 'connectionCreator'
+				],
+				[
+					'POST /developer/connection/creator/', 'connectionCreatorProcess'
+				],
+				[
+					'/developer/connection/', 'connection'
+				],
+				[
+					'GET /developer/errors/', 'errors'
+				],
+				[
+					'POST /developer/errors/', 'errorsProcess'
+				],
+				[
+					'/developer/errors/@id:[0-9]{0,9}/', 'errorsView'
+				],
+				[
+					'GET /developer/disable/', 'disable'
+				],
+				[
+					'POST /developer/disable/', 'disableProcess'
+				],
+				[
+					'GET /developer/settings/', 'settings'
+				],
+				[
+					'POST /developer/settings/', 'settingsProcess'
+				],
+				[
+					'/developer/routes/', 'routes'
+				],
+				[
+					'GET /developer/migrator/', 'migrator'
+				],
+				[
+					'POST /developer/migrator/', 'migratorProcess'
+				]
+			);
+		}
+
+		/**
+		 * Renders the index page
+		 */
+
+		public function index()
+		{
+
+			$this->getRender('developer/page.developer');
+		}
+
+		/**
+		 * Renders the database migrator page
+		 */
+
+		public function migrator()
+		{
+
+			if ($this->database == null)
+			{
+
+				$this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
+			}
+
+			if ($this->hasDatabaseConnection() == false)
+			{
+
+				$this->redirectError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer');
+			}
+
+			$this->getRender('developer/page.migrator');
+		}
+
+		/**
+		 * Processes the migrators post request
+		 */
+
+		public function migratorProcess()
+		{
+
+			if ($this->database == null)
+			{
+
+				$this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
+			}
+
+			if ($this->hasDatabaseConnection() == false)
+			{
+
+				$this->redirectError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer');
+			}
+
+			if (PostHelper::hasPostData() == false)
+			{
+
+				$this->migrator();
+			}
+			else
+			{
+
+				if (PostHelper::checkForRequirements(['json']) == false)
+				{
+
+					$this->redirectError('Missing information', $this->getRedirect('migrator'));
+				}
+
+				$json = PostHelper::getPostData('json');
+
+				if ($this->isJson($json) == false)
+				{
+
+					$this->redirectError('Invalid Json: ' . json_last_error_msg(), $this->getRedirect('migrator'));
+				}
+
+				try
+				{
+
+					$this->migrateDatabase(json_decode($json, true));
+				} catch (\Exception $error)
+				{
+
+					$this->redirectError('Migrator Error: ' . $error->getMessage(), $this->getRedirect('migrator'));
+				}
+
+				$this->redirectSuccess($this->getRedirect('migrator'));
+			}
+		}
+
+		/**
+		 * Renders the page viewer page
+		 */
+
+		public function routes()
+		{
+
+			$routes = $this->getRoutes();
+
+			if ($routes == null)
+			{
+
+				$this->redirectError('No routes were found', 'developer');
+			}
+			else
+			{
+
+				$this->getRender('developer/page.routes', array('routes' => $routes));
+			}
+		}
+
+		/**
+		 * Renders the logger page
+		 */
 
-            if( PostHelper::hasPostData() == false )
-            {
+		public function errors()
+		{
+
+			$this->getRender('developer/page.errors');
+		}
 
-                $this->errors();
-            }
-            else
-            {
+		/**
+		 * Processes the post request to the error page
+		 */
 
-                if( PostHelper::checkForRequirements(['action'] ) == false )
-                {
+		public function errorsProcess()
+		{
 
-                    $this->redirectError('Missing information', $this->getRedirect('errors') );
-                }
-                else
-                {
+			if (PostHelper::hasPostData() == false)
+			{
 
-                    $action = PostHelper::getPostData('action');
+				$this->errors();
+			}
+			else
+			{
 
-                    if( $action == "delete" )
-                    {
+				if (PostHelper::checkForRequirements(['action']) == false)
+				{
 
-                        $this->errorhandler->deleteErrorLog();
+					$this->redirectError('Missing information', $this->getRedirect('errors'));
+				}
+				else
+				{
 
-                        $this->redirectSuccess( $this->getRedirect('errors') );
-                    }
-                }
-            }
-        }
+					$action = PostHelper::getPostData('action');
 
-        /**
-         * Renders the detailed logger page
-         *
-         * @param $id
-         */
+					if ($action == "delete")
+					{
 
-        public function errorsView( $id )
-        {
+						$this->errorhandler->deleteErrorLog();
 
-            $errors = $this->errorhandler->getErrorLog();
+						$this->redirectSuccess($this->getRedirect('errors'));
+					}
+				}
+			}
+		}
 
-            if( isset( $errors[ $id ] ) == false )
-            {
+		/**
+		 * Renders the detailed logger page
+		 *
+		 * @param $id
+		 */
 
-                $this->redirectError('Error does not exist', $this->getRedirect('errors') );
-            }
-            else
-            {
+		public function errorsView($id)
+		{
 
-                $this->getRender( 'developer/page.errors.view', array( 'id' => $id ) );
-            }
-        }
+			$errors = $this->errorhandler->getErrorLog();
 
-        /**
-         * Renders the disable developer section page
-         */
+			if (isset($errors[$id]) == false)
+			{
 
-        public function disable()
-        {
+				$this->redirectError('Error does not exist', $this->getRedirect('errors'));
+			}
+			else
+			{
 
-            $this->getRender('developer/page.disable');
-        }
+				$this->getRender('developer/page.errors.view', array('id' => $id));
+			}
+		}
 
-        public function disableProcess()
-        {
+		/**
+		 * Renders the disable developer section page
+		 */
 
-            if( PostHelper::hasPostData() == false )
-            {
+		public function disable()
+		{
 
-                $this->disable();
-            }
-            else
-            {
+			$this->getRender('developer/page.disable');
+		}
 
-                if( PostHelper::checkForRequirements(['action'] ) == false )
-                {
+		public function disableProcess()
+		{
 
-                    $this->redirectError('Missing information', $this->getRedirect('settings') );
-                }
+			if (PostHelper::hasPostData() == false)
+			{
 
-                $action = PostHelper::getPostData('action');
+				$this->disable();
+			}
+			else
+			{
 
-                if( $action == 'disable' )
-                {
+				if (PostHelper::checkForRequirements(['action']) == false)
+				{
 
-                    Settings::updateSetting('developer_disabled', true );
+					$this->redirectError('Missing information', $this->getRedirect('settings'));
+				}
 
-                    $this->redirectSuccess('index');
-                }
-            }
-        }
+				$action = PostHelper::getPostData('action');
 
-        /**
-         * Renders the settings manager
-         */
+				if ($action == 'disable')
+				{
 
-        public function settings()
-        {
+					Settings::updateSetting('developer_disabled', true);
 
-            $this->getRender('developer/page.settings');
-        }
+					$this->redirectSuccess('index');
+				}
+			}
+		}
 
-        /**
-         * Processes a post request to the settings page
-         */
+		/**
+		 * Renders the settings manager
+		 */
 
-        public function settingsProcess()
-        {
+		public function settings()
+		{
 
-            if( PostHelper::hasPostData() == false )
-            {
+			$this->getRender('developer/page.settings');
+		}
 
-                $this->settings();
-            }
-            else
-            {
+		/**
+		 * Processes a post request to the settings page
+		 */
 
-                if( PostHelper::checkForRequirements(['action','setting_name','setting_value'] ) == false )
-                {
+		public function settingsProcess()
+		{
 
-                    $this->redirectError('Missing information', $this->getRedirect('settings') );
-                }
+			if (PostHelper::hasPostData() == false)
+			{
 
-                $action = PostHelper::getPostData('action');
+				$this->settings();
+			}
+			else
+			{
 
-                if( $action == "create" )
-                {
+				if (PostHelper::checkForRequirements(['action', 'setting_name', 'setting_value']) == false)
+				{
 
-                    $settings_name = PostHelper::getPostData('setting_name');
-                    $settings_value = PostHelper::getPostData('setting_value');
+					$this->redirectError('Missing information', $this->getRedirect('settings'));
+				}
 
-                    if( Settings::hasSetting( $settings_name ) )
-                    {
+				$action = PostHelper::getPostData('action');
 
-                        $this->redirectError('Setting already exists under that name');
-                    }
+				if ($action == "create")
+				{
 
-                    Settings::addSetting( $settings_name, $this->parseSetting( $settings_value ), true );
+					$settings_name = PostHelper::getPostData('setting_name');
+					$settings_value = PostHelper::getPostData('setting_value');
 
-                    $this->redirectSuccess( $this->getRedirect('settings') );
-                }
-                elseif( $action == "save" )
-                {
+					if (Settings::hasSetting($settings_name))
+					{
 
-                    $settings_name = PostHelper::getPostData('setting_name');
-                    $settings_value = PostHelper::getPostData('setting_value');
+						$this->redirectError('Setting already exists under that name');
+					}
 
-                    if( Settings::hasSetting( $settings_name ) == false )
-                    {
+					Settings::addSetting($settings_name, $this->parseSetting($settings_value), true);
 
-                        $this->redirectError('This setting does not exist', $this->getRedirect('settings') );
-                    }
+					$this->redirectSuccess($this->getRedirect('settings'));
+				}
+				else if ($action == "save")
+				{
 
-                    Settings::updateSetting( $settings_name, $this->parseSetting( $settings_value ) );
+					$settings_name = PostHelper::getPostData('setting_name');
+					$settings_value = PostHelper::getPostData('setting_value');
 
-                    $this->redirectSuccess( $this->getRedirect('settings') );
-                }
-                elseif( $action == "delete" )
-                {
+					if (Settings::hasSetting($settings_name) == false)
+					{
 
-                    $settings_name = PostHelper::getPostData('setting_name');
+						$this->redirectError('This setting does not exist', $this->getRedirect('settings'));
+					}
 
-                    if( Settings::hasSetting( $settings_name ) == false )
-                    {
+					Settings::updateSetting($settings_name, $this->parseSetting($settings_value));
 
-                        $this->redirectError('This setting does not exist', $this->getRedirect('settings') );
-                    }
+					$this->redirectSuccess($this->getRedirect('settings'));
+				}
+				else if ($action == "delete")
+				{
 
-                    Settings::removeSetting( $settings_name );
+					$settings_name = PostHelper::getPostData('setting_name');
 
-                    $this->redirectSuccess( $this->getRedirect('settings') );
-                }
-            }
-        }
+					if (Settings::hasSetting($settings_name) == false)
+					{
 
-        /**
-         * Renders the connection creator
-         */
+						$this->redirectError('This setting does not exist', $this->getRedirect('settings'));
+					}
 
-        public function connectionCreator()
-        {
+					Settings::removeSetting($settings_name);
 
-            $this->getRender('developer/page.connection.creator');
-        }
+					$this->redirectSuccess($this->getRedirect('settings'));
+				}
+			}
+		}
 
-        /**
-         * Processes the connection creators post route
-         */
+		/**
+		 * Renders the connection creator
+		 */
 
-        public function connectionCreatorProcess()
-        {
+		public function connectionCreator()
+		{
 
-            if( PostHelper::hasPostData() == false )
-            {
+			$this->getRender('developer/page.connection.creator');
+		}
 
-                $this->connectionCreator();
-            }
-            else
-            {
+		/**
+		 * Processes the connection creators post route
+		 */
 
-                if( PostHelper::checkForRequirements(['username','password','host','database'] ) == false )
-                {
+		public function connectionCreatorProcess()
+		{
 
-                    $this->redirectError('Missing information', $this->getRedirect('connection/creator') );
-                }
+			if (PostHelper::hasPostData() == false)
+			{
 
-                if( FileSystem::directoryExists('config/database/') == false )
-                {
+				$this->connectionCreator();
+			}
+			else
+			{
 
-                    FileSystem::createDirectory('config/database/');
-                }
+				if (PostHelper::checkForRequirements(['username', 'password', 'host', 'database']) == false)
+				{
 
-                $array = $this->mergeDatabaseArrays( array(
-                    'username'  => PostHelper::getPostData('username'),
-                    'password'  => PostHelper::getPostData('password'),
-                    'host'      => PostHelper::getPostData('host'),
-                    'database'  => PostHelper::getPostData('database')
-                ));
+					$this->redirectError('Missing information', $this->getRedirect('connection/creator'));
+				}
 
-                if( DATABASE_ENCRYPTION == true )
-                {
+				if (FileSystem::directoryExists('config/database/') == false)
+				{
 
-                    FileSystem::writeJson( Settings::setting('database_connection_file'), Cyphers::encryptArray( $array, null, false ) );
-                }
-                else
-                {
+					FileSystem::createDirectory('config/database/');
+				}
 
-                    FileSystem::writeJson( Settings::setting('database_connection_file'), $array );
-                }
+				$array = $this->mergeDatabaseArrays(array(
+					'username' => PostHelper::getPostData('username'),
+					'password' => PostHelper::getPostData('password'),
+					'host' => PostHelper::getPostData('host'),
+					'database' => PostHelper::getPostData('database')
+				));
 
-                if( FileSystem::fileExists( Settings::setting('database_connection_file') ) == false )
-                {
+				if (DATABASE_ENCRYPTION == true)
+				{
 
-                    $this->redirectError('Failed to create connection file, this could be due to a permissions error', $this->getRedirect('connection/creator') );
-                }
+					FileSystem::writeJson(Settings::setting('database_connection_file'), Cyphers::encryptArray($array, null, false));
+				}
+				else
+				{
 
-                $this->redirectSuccess( $this->getRedirect('connection/creator') );
-            }
-        }
+					FileSystem::writeJson(Settings::setting('database_connection_file'), $array);
+				}
 
-        /**
-         * Renders the database creator`
-         */
+				if (FileSystem::fileExists(Settings::setting('database_connection_file')) == false)
+				{
 
-        public function connection()
-        {
+					$this->redirectError('Failed to create connection file, this could be due to a permissions error', $this->getRedirect('connection/creator'));
+				}
 
-            if( $this->database == null )
-            {
+				$this->redirectSuccess($this->getRedirect('connection/creator'));
+			}
+		}
 
-                $this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
-            }
+		/**
+		 * Renders the database creator`
+		 */
 
-            $this->getRender('developer/page.connection');
-        }
+		public function connection()
+		{
 
-        /**
-         * Merges the database arrays together
-         *
-         * @param array $array
-         *
-         * @return array
-         */
+			if ($this->database == null)
+			{
 
-        private function mergeDatabaseArrays( array $array )
-        {
+				$this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
+			}
 
-            $merged = array(
-                'driver'    =>  Settings::setting('database_driver'),
-                'charset'   =>  Settings::setting('database_charset'),
-                'collation' =>  Settings::setting('database_collation'),
-                'prefix'    =>  Settings::setting('database_prefix')
-            );
+			$this->getRender('developer/page.connection');
+		}
 
-            return array_merge( $array, $merged );
-        }
+		/**
+		 * Merges the database arrays together
+		 *
+		 * @param array $array
+		 *
+		 * @return array
+		 */
 
-        /**
-         * Migrates the database
-         *
-         * @param $payload
-         */
+		private function mergeDatabaseArrays(array $array)
+		{
 
-        private function migrateDatabase( $payload )
-        {
+			$merged = array(
+				'driver' => Settings::setting('database_driver'),
+				'charset' => Settings::setting('database_charset'),
+				'collation' => Settings::setting('database_collation'),
+				'prefix' => Settings::setting('database_prefix')
+			);
 
-            foreach( $payload as $table=>$columns )
-            {
+			return array_merge($array, $merged);
+		}
 
-                if( $this->tableExists( $table ) )
-                {
+		/**
+		 * Migrates the database
+		 *
+		 * @param $payload
+		 */
 
-                    continue;
-                }
+		private function migrateDatabase($payload)
+		{
 
-                Manager::$capsule->getConnection()->getSchemaBuilder()->create( $table, function( Blueprint $blueprint ) use ( $columns )
-                {
-                    foreach ($columns as $column => $type)
-                    {
-                        $blueprint->{$type}($column);
-                    }
-                });
-            }
-        }
+			foreach ($payload as $table => $columns)
+			{
 
-        /**
-         * Returns true if this table exits
-         *
-         * @param $table
-         *
-         * @return bool
-         */
+				if ($this->tableExists($table))
+				{
 
-        private function tableExists( $table )
-        {
+					continue;
+				}
 
-            try
-            {
+				Manager::$capsule->getConnection()->getSchemaBuilder()->create($table, function (Blueprint $blueprint) use ($columns)
+				{
+					foreach ($columns as $column => $type)
+					{
+						$blueprint->{$type}($column);
+					}
+				});
+			}
+		}
 
-                Manager::$capsule->getConnection()->table( strtolower( $table ) )->get();
-            }
-            catch( \Exception $error )
-            {
+		/**
+		 * Returns true if this table exits
+		 *
+		 * @param $table
+		 *
+		 * @return bool
+		 */
 
-                return false;
-            }
-            return true;
-        }
+		private function tableExists($table)
+		{
 
-        /**
-         * Checks if we have a database connection
-         *
-         * @return bool
-         */
+			try
+			{
 
-        private function hasDatabaseConnection()
-        {
+				Manager::$capsule->getConnection()->table(strtolower($table))->get();
+			} catch (\Exception $error)
+			{
 
-            try
-            {
+				return false;
+			}
+			return true;
+		}
 
-                Manager::getCapsule()->getConnection()->getPdo();
-            }
-            catch( \Exception $error )
-            {
+		/**
+		 * Checks if we have a database connection
+		 *
+		 * @return bool
+		 */
 
-                return false;
-            }
+		private function hasDatabaseConnection()
+		{
 
-            return true;
-        }
+			try
+			{
 
-        /**
-         * Parses a setting and returns the correct value
-         *
-         * @param $setting_value
-         *
-         * @return bool|mixed
-         */
+				Manager::getCapsule()->getConnection()->getPdo();
+			} catch (\Exception $error)
+			{
 
-        private function parseSetting( $setting_value )
-        {
+				return false;
+			}
 
-            if( strtolower( $setting_value ) == 'true' )
-            {
+			return true;
+		}
 
-                return true;
-            }
-            elseif( strtolower( $setting_value ) == 'false' )
-            {
+		/**
+		 * Parses a setting and returns the correct value
+		 *
+		 * @param $setting_value
+		 *
+		 * @return bool|mixed
+		 */
 
-                return false;
-            }
+		private function parseSetting($setting_value)
+		{
 
-            if( is_numeric( $setting_value ) )
-            {
+			if (strtolower($setting_value) == 'true')
+			{
 
-                if(is_numeric( $setting_value ) && strpos( $setting_value, ".") !== false)
-                {
+				return true;
+			}
+			else if (strtolower($setting_value) == 'false')
+			{
 
-                    return (float)$setting_value;
-                }
-                else
-                {
+				return false;
+			}
 
-                    return (int)$setting_value;
-                }
-            }
+			if (is_numeric($setting_value))
+			{
 
-            if( $this->isJson( $setting_value ) && Settings::hasParsableData( $setting_value ) == false )
-            {
+				if (is_numeric($setting_value) && strpos($setting_value, ".") !== false)
+				{
 
-                return json_decode( $setting_value, true );
-            }
+					return (float)$setting_value;
+				}
+				else
+				{
 
-            return $setting_value;
-        }
+					return (int)$setting_value;
+				}
+			}
 
-        /**
-         * Returns true if the string is json
-         *
-         * @param $setting_value
-         *
-         * @return bool
-         */
+			if ($this->isJson($setting_value) && Settings::hasParsableData($setting_value) == false)
+			{
 
-        private function isJson( $setting_value )
-        {
+				return json_decode($setting_value, true);
+			}
 
-            if( is_string( $setting_value ) == false )
-            {
+			return $setting_value;
+		}
 
-                return false;
-            }
+		/**
+		 * Returns true if the string is json
+		 *
+		 * @param $setting_value
+		 *
+		 * @return bool
+		 */
 
-            json_decode( $setting_value );
+		private function isJson($setting_value)
+		{
 
-            if( json_last_error() !== JSON_ERROR_NONE )
-            {
+			if (is_string($setting_value) == false)
+			{
 
-                return false;
-            }
+				return false;
+			}
 
-            return true;
-        }
+			json_decode($setting_value);
 
-        /**
-         * Gets a list of the routes for all of the page files
-         *
-         * @return array|null
-         */
+			if (json_last_error() !== JSON_ERROR_NONE)
+			{
 
-        private function getRoutes()
-        {
+				return false;
+			}
 
-            $files = FileSystem::getFilesInDirectory( Settings::setting('controller_page_folder') );
+			return true;
+		}
 
-            if( $files == null )
-            {
+		/**
+		 * Gets a list of the routes for all of the page files
+		 *
+		 * @return array|null
+		 */
 
-                return null;
-            }
+		private function getRoutes()
+		{
 
-            $routes = array();
+			$files = FileSystem::getFilesInDirectory(Settings::setting('controller_page_folder'));
 
-            foreach( $files as $file )
-            {
+			if ($files == null)
+			{
 
-                $file = FileSystem::getFileName( $file );
+				return null;
+			}
 
-                if( class_exists( Settings::setting('controller_namespace') . ucfirst( $file ) ) == false )
-                {
+			$routes = array();
 
-                    throw new ViewException();
-                }
+			foreach ($files as $file)
+			{
 
-                $reflection = new ReflectionClass( Settings::setting('controller_namespace') . ucfirst( $file )  );
+				$file = FileSystem::getFileName($file);
 
-                if( empty( $reflection ))
-                {
+				if (class_exists(Settings::setting('controller_namespace') . ucfirst($file)) == false)
+				{
 
-                    throw new ViewException();
-                }
+					throw new ViewException();
+				}
 
-                $class = $reflection->newInstanceWithoutConstructor();
+				$reflection = new ReflectionClass(Settings::setting('controller_namespace') . ucfirst($file));
 
-                if( $class instanceof Page !== true )
-                {
+				if (empty($reflection))
+				{
 
-                    throw new ViewException();
-                }
+					throw new ViewException();
+				}
 
-                $routes[ ucfirst( $file ) ] = $class->mapping();
-            }
+				$class = $reflection->newInstanceWithoutConstructor();
 
-            if( empty( $routes ) )
-            {
+				if ($class instanceof Page !== true)
+				{
 
-                throw new ViewException();
-            }
+					throw new ViewException();
+				}
 
-            return $routes;
-        }
+				$routes[ucfirst($file)] = $class->mapping();
+			}
 
-        /**
-         * Gets where to redirect the user too
-         *
-         * @param $path
-         *
-         * @return string
-         */
+			if (empty($routes))
+			{
 
-        private function getRedirect( $path )
-        {
+				throw new ViewException();
+			}
 
-            return Settings::setting('developer_page') . '/' . $path;
-        }
-    }
+			return $routes;
+		}
+
+		/**
+		 * Gets where to redirect the user too
+		 *
+		 * @param $path
+		 *
+		 * @return string
+		 */
+
+		private function getRedirect($path)
+		{
+
+			return Settings::setting('developer_page') . '/' . $path;
+		}
+	}

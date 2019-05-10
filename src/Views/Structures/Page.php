@@ -1,22 +1,22 @@
 <?php
-namespace Framework\Views\Structures;
 
-/**
- * Lewis Lancaster 2016
- *
- * Interface Page
- *
- * @package Framework\Views\Structures
- */
-
-interface Page
-{
+	namespace Framework\Views\Structures;
 
 	/**
-	 * Tells the controller where to point too with what specific URI strings
+	 * Lewis Lancaster 2016
 	 *
-	 * @return mixed
+	 * Interface Page
+	 *
+	 * @package Framework\Views\Structures
 	 */
+	interface Page
+	{
 
-	public function mapping();
-}
+		/**
+		 * Tells the controller where to point too with what specific URI strings
+		 *
+		 * @return mixed
+		 */
+
+		public function mapping();
+	}

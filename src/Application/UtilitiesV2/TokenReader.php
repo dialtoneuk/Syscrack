@@ -1,144 +1,148 @@
 <?php
-namespace Framework\Application\UtilitiesV2;
 
-use Framework\Application\UtilitiesV2\Conventions\FileData;
-use Framework\Application\UtilitiesV2\Conventions\TokenData;
+	namespace Framework\Application\UtilitiesV2;
 
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 31/08/2018
- * Time: 20:58
- */
-class TokenReader
-{
+	use Framework\Application\UtilitiesV2\Conventions\FileData;
+	use Framework\Application\UtilitiesV2\Conventions\TokenData;
 
-    /**
-     * @var \Error|null
-     */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 31/08/2018
+	 * Time: 20:58
+	 */
+	class TokenReader
+	{
 
-    protected static $last_error = null;
+		/**
+		 * @var \Error|null
+		 */
 
-    /**
-     * @var string
-     */
+		protected static $last_error = null;
 
-    protected $token;
+		/**
+		 * @var string
+		 */
 
-    /**
-     * TokenReader constructor.
-     * @param string $token
-     */
+		protected $token;
 
-    public function __construct( $token="_" )
-    {
+		/**
+		 * TokenReader constructor.
+		 *
+		 * @param string $token
+		 */
 
-        if( self::hasLastError() )
-            self::setLastError();
+		public function __construct($token = "_")
+		{
 
-        $this->token = $token;
-    }
+			if (self::hasLastError())
+				self::setLastError();
 
-    /**
-     * @param FileData $file
-     * @param TokenData $values
-     * @param $path
-     * @param bool $object
-     * @return FileData|bool
-     */
+			$this->token = $token;
+		}
 
-    public function parse( FileData $file, TokenData $values, $path, $object=true )
-    {
+		/**
+		 * @param FileData $file
+		 * @param TokenData $values
+		 * @param $path
+		 * @param bool $object
+		 *
+		 * @return FileData|bool
+		 */
 
-        try
-        {
+		public function parse(FileData $file, TokenData $values, $path, $object = true)
+		{
 
-            $contents = $file->contents;
+			try
+			{
 
-            foreach( $values->values as $key=>$value )
-                $contents = str_replace( $this->token . $key . $this->token, $value, $contents );
+				$contents = $file->contents;
 
-            $this->save( $contents, $path );
+				foreach ($values->values as $key => $value)
+					$contents = str_replace($this->token . $key . $this->token, $value, $contents);
 
-            if( file_exists( SYSCRACK_ROOT . $path ) == false )
-                throw new \Error("Failed to save file");
-        }
-        catch ( \Error $exception )
-        {
+				$this->save($contents, $path);
 
-            self::setLastError( $exception );
-            return( false );
-        }
+				if (file_exists(SYSCRACK_ROOT . $path) == false)
+					throw new \Error("Failed to save file");
+			} catch (\Error $exception)
+			{
 
-        if( $object )
-            return( $this->object( $path ) );
+				self::setLastError($exception);
+				return (false);
+			}
 
-        return( $contents );
-    }
+			if ($object)
+				return ($this->object($path));
 
-    /**
-     * @param $path
-     * @return FileData
-     */
+			return ($contents);
+		}
 
-    private function object( $path )
-    {
+		/**
+		 * @param $path
+		 *
+		 * @return FileData
+		 */
 
-        return( FileOperator::pathDataInstance( $path ) );
-    }
+		private function object($path)
+		{
 
-    /**
-     * @param $contents
-     * @param $path
-     */
+			return (FileOperator::pathDataInstance($path));
+		}
 
-    private function save( $contents, $path )
-    {
+		/**
+		 * @param $contents
+		 * @param $path
+		 */
 
-        file_put_contents( SYSCRACK_ROOT . $path, $contents );
-    }
+		private function save($contents, $path)
+		{
 
-    /**
-     * @param array $values
-     * @return TokenData
-     */
+			file_put_contents(SYSCRACK_ROOT . $path, $contents);
+		}
 
-    public static function dataInstance( $values ): TokenData
-    {
+		/**
+		 * @param array $values
+		 *
+		 * @return TokenData
+		 */
 
-        return( new TokenData( $values ) );
-    }
+		public static function dataInstance($values): TokenData
+		{
 
-    /**
-     * @return bool
-     */
+			return (new TokenData($values));
+		}
 
-    public static function hasLastError()
-    {
+		/**
+		 * @return bool
+		 */
 
-        if( self::$last_error == null )
-            return false;
+		public static function hasLastError()
+		{
 
-        return true;
-    }
+			if (self::$last_error == null)
+				return false;
 
-    /**
-     * @param \Error|null $exception
-     */
+			return true;
+		}
 
-    public static function setLastError( \Error $exception=null )
-    {
+		/**
+		 * @param \Error|null $exception
+		 */
 
-        self::$last_error = $exception;
-    }
+		public static function setLastError(\Error $exception = null)
+		{
 
-    /**
-     * @return \Error
-     */
+			self::$last_error = $exception;
+		}
 
-    public static function getLastError(): \Error
-    {
+		/**
+		 * @return \Error
+		 */
 
-        return( self::$last_error );
-    }
-}
+		public static function getLastError(): \Error
+		{
+
+			return (self::$last_error);
+		}
+	}

@@ -1,22 +1,23 @@
 <?php
-namespace Framework\Application\Api\Endpoints;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Example
- *
- * @package Framework\Application\Api\Endpoints
- */
+	namespace Framework\Application\Api\Endpoints;
 
-use Framework\Application\Api\Structures\Endpoint;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Example
+	 *
+	 * @package Framework\Application\Api\Endpoints
+	 */
 
-class Example implements Endpoint
-{
+	use Framework\Application\Api\Structures\Endpoint;
 
-    public function requirements()
-    {
+	class Example implements Endpoint
+	{
 
-        // TODO: Implement requirements() method.
-    }
-}
+		public function requirements()
+		{
+
+			// TODO: Implement requirements() method.
+		}
+	}

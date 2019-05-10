@@ -1,70 +1,72 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 05/08/2018
- * Time: 02:13
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 05/08/2018
+	 * Time: 02:13
+	 */
 
-namespace Framework\Application\UtilitiesV2\Controller;
+	namespace Framework\Application\UtilitiesV2\Controller;
 
 
-use Framework\Application\UtilitiesV2\Interfaces\Response;
+	use Framework\Application\UtilitiesV2\Interfaces\Response;
 
-class FormRedirect implements Response
-{
+	class FormRedirect implements Response
+	{
 
-    /**
-     * @var string
-     */
+		/**
+		 * @var string
+		 */
 
-    protected $url;
+		protected $url;
 
-    /**
-     * @var int
-     */
+		/**
+		 * @var int
+		 */
 
-    protected $delay;
+		protected $delay;
 
-    /**
-     * @var bool
-     */
+		/**
+		 * @var bool
+		 */
 
-    protected $success = true;
+		protected $success = true;
 
-    /**
-     * FormError constructor.
-     * @param $url
-     * @param int $delay
-     * @param null $success
-     * @throws \RuntimeException
-     */
+		/**
+		 * FormError constructor.
+		 *
+		 * @param $url
+		 * @param int $delay
+		 * @param null $success
+		 *
+		 * @throws \RuntimeException
+		 */
 
-    public function __construct( $url, $delay=0, $success=null )
-    {
+		public function __construct($url, $delay = 0, $success = null)
+		{
 
-        if( is_string( $url) == false || is_int( $delay ) == false )
-            throw new \RuntimeException("Invalid param types");
+			if (is_string($url) == false || is_int($delay) == false)
+				throw new \RuntimeException("Invalid param types");
 
-        if( $success !== null )
-            if( is_bool( $success ) )
-                $this->success = $success;
+			if ($success !== null)
+				if (is_bool($success))
+					$this->success = $success;
 
-        $this->url = $url;
-        $this->delay = $delay;
-    }
+			$this->url = $url;
+			$this->delay = $delay;
+		}
 
-    /**
-     * @return array
-     */
+		/**
+		 * @return array
+		 */
 
-    public function get()
-    {
+		public function get()
+		{
 
-        return( array(
-            "success"       => $this->success,
-            "url"           => $this->url,
-            "delay"         => $this->delay
-        ));
-    }
-}
+			return (array(
+				"success" => $this->success,
+				"url" => $this->url,
+				"delay" => $this->delay
+			));
+		}
+	}

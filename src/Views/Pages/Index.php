@@ -1,92 +1,93 @@
 <?php
-    namespace Framework\Views\Pages;
 
-    /**
-     * Lewis Lancaster 2016
-     *
-     * Class Index
-     *
-     * @package Framework\Views\Pages
-     */
+	namespace Framework\Views\Pages;
 
-    use Framework\Application\Container;
-    use Framework\Application\Render;
-    use Framework\Application\Settings;
-    use Framework\Syscrack\Game\Computer;
-    use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page as Structure;
+	/**
+	 * Lewis Lancaster 2016
+	 *
+	 * Class Index
+	 *
+	 * @package Framework\Views\Pages
+	 */
 
-    class Index extends BaseClass implements Structure
-    {
+	use Framework\Application\Container;
+	use Framework\Application\Render;
+	use Framework\Application\Settings;
+	use Framework\Syscrack\Game\Computer;
+	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Views\Structures\Page as Structure;
 
-        /**
-         * Index constructor.
-         */
+	class Index extends BaseClass implements Structure
+	{
 
-        public function __construct()
-        {
+		/**
+		 * Index constructor.
+		 */
 
-            parent::__construct( false, true );
-        }
+		public function __construct()
+		{
 
-        /**
-         * The index page has a special algorithm which allows it to access the root. Only the index can do this.
-         *
-         * @return array
-         */
+			parent::__construct(false, true);
+		}
 
-        public function mapping()
-        {
+		/**
+		 * The index page has a special algorithm which allows it to access the root. Only the index can do this.
+		 *
+		 * @return array
+		 */
 
-            return array(
-                [
-                    '/', 'page'
-                ],
-                [
-                    '/index/', 'page'
-                ]
-            );
-        }
+		public function mapping()
+		{
 
-        /**
-         * Default page
-         */
+			return array(
+				[
+					'/', 'page'
+				],
+				[
+					'/index/', 'page'
+				]
+			);
+		}
 
-        public function page()
-        {
+		/**
+		 * Default page
+		 */
 
-            Render::view('syscrack/page.index', [], $this->model() );
-        }
+		public function page()
+		{
 
-        /**
-         * Returns the MVC model for the index page when in MVC output mode
-         *
-         * @return bool|\stdClass
-         */
+			Render::view('syscrack/page.index', [], $this->model());
+		}
 
-        public function model()
-        {
+		/**
+		 * Returns the MVC model for the index page when in MVC output mode
+		 *
+		 * @return bool|\stdClass
+		 */
 
-            if ( Settings::setting('render_mvc_output') == false )
-            {
+		public function model()
+		{
 
-                return false;
-            }
+			if (Settings::setting('render_mvc_output') == false)
+			{
 
-            $this->model->pagetitle = "Syscrack";
+				return false;
+			}
 
-            if ( Container::getObject('session')->isLoggedIn() )
-            {
+			$this->model->pagetitle = "Syscrack";
 
-                if ( isset( $this->computer ) == false )
-                {
+			if (Container::getObject('session')->isLoggedIn())
+			{
 
-                    $this->computer = new Computer();
-                }
+				if (isset($this->computer) == false)
+				{
 
-                $this->model->computer = $this->computer->getComputer( $this->computer->computerid() );
-            }
+					$this->computer = new Computer();
+				}
 
-            return parent::model();
-        }
-    }
+				$this->model->computer = $this->computer->getComputer($this->computer->computerid());
+			}
+
+			return parent::model();
+		}
+	}

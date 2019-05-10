@@ -1,284 +1,284 @@
 <?php
-namespace Framework\Views;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class Middlewares
- *
- * @package Framework\Views
- */
+	namespace Framework\Views;
 
-use Error;
-use Framework\Application\Settings;
-use Framework\Application\Utilities\Factory;
-use Framework\Application\Utilities\FileSystem;
-use Framework\Exceptions\ApplicationException;
-use Framework\Views\Structures\Middleware;
+	/**
+	 * Lewis Lancaster 2016
+	 *
+	 * Class Middlewares
+	 *
+	 * @package Framework\Views
+	 */
 
-class Middlewares
-{
+	use Error;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\Factory;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Exceptions\ApplicationException;
+	use Framework\Views\Structures\Middleware;
 
-    /**
-     * @var array
-     */
+	class Middlewares
+	{
 
-    protected $middlewares = [];
+		/**
+		 * @var array
+		 */
 
-    /**
-     * @var array
-     */
+		protected $middlewares = [];
 
-    protected static $results = [];
+		/**
+		 * @var array
+		 */
 
-    /**
-     * @var Factory
-     */
+		protected static $results = [];
 
-    protected $factory;
+		/**
+		 * @var Factory
+		 */
 
-    /**
-     * Middlewares constructor.
-     *
-     * @param string $namespace
-     *
-     * @param bool $auto
-     */
+		protected $factory;
 
-    public function __construct( $namespace = null, $auto=true )
-    {
+		/**
+		 * Middlewares constructor.
+		 *
+		 * @param string $namespace
+		 *
+		 * @param bool $auto
+		 */
 
-        if( $namespace == null )
-        {
+		public function __construct($namespace = null, $auto = true)
+		{
 
-            $namespace = Settings::setting('middlewares_namespace');
-        }
+			if ($namespace == null)
+			{
 
-        $this->factory = new Factory( $namespace );
+				$namespace = Settings::setting('middlewares_namespace');
+			}
 
-        if( $auto )
-        {
+			$this->factory = new Factory($namespace);
 
-            $this->loadMiddleware();
-        }
-    }
+			if ($auto)
+			{
 
-    /**
-     * Loads the middlewares
-     *
-     * @return bool
-     */
+				$this->loadMiddleware();
+			}
+		}
 
-    public function loadMiddleware()
-    {
+		/**
+		 * Loads the middlewares
+		 *
+		 * @return bool
+		 */
 
-        try
-        {
+		public function loadMiddleware()
+		{
 
-            $this->getMiddlewares();
-        }
-        catch( \RuntimeException $error )
-        {
+			try
+			{
 
-            return false;
-        }
+				$this->getMiddlewares();
+			} catch (\RuntimeException $error)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Processes the middlewares
-     */
+			return true;
+		}
 
-    public function processMiddlewares()
-    {
+		/**
+		 * Processes the middlewares
+		 */
 
-        foreach( $this->middlewares as $middleware )
-        {
+		public function processMiddlewares()
+		{
 
-            try
-            {
+			foreach ($this->middlewares as $middleware)
+			{
 
-                $class = $this->factory->createClass( $middleware );
+				try
+				{
 
-                if( $class instanceof Middleware == false )
-                {
+					$class = $this->factory->createClass($middleware);
 
-                    throw new ApplicationException();
-                }
+					if ($class instanceof Middleware == false)
+					{
 
-                if( $class->onRequest() )
-                {
+						throw new ApplicationException();
+					}
 
-                    self::addToResults( $middleware, true );
+					if ($class->onRequest())
+					{
 
-                    $class->onSuccess();
-                }
-                else
-                {
+						self::addToResults($middleware, true);
 
-                    self::addToResults( $middleware, false );
+						$class->onSuccess();
+					}
+					else
+					{
 
-                    $class->onFailure();
-                }
-            }
-            catch( Error $error )
-            {
+						self::addToResults($middleware, false);
 
-                self::addToResults( $middleware, 'error' );
+						$class->onFailure();
+					}
+				} catch (Error $error)
+				{
 
-                continue;
-            }
-        }
-    }
-    /**
-     * Returns if the middlewares have loaded
-     *
-     * @return bool
-     */
+					self::addToResults($middleware, 'error');
 
-    public function isLoaded()
-    {
+					continue;
+				}
+			}
+		}
 
-        if( empty( $this->middlewares ) )
-        {
+		/**
+		 * Returns if the middlewares have loaded
+		 *
+		 * @return bool
+		 */
 
-            return false;
-        }
+		public function isLoaded()
+		{
 
-        return true;
-    }
+			if (empty($this->middlewares))
+			{
 
-    /**
-     * Returns true if there are any middlewares
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    public function hasMiddlewares()
-    {
+			return true;
+		}
 
-        if( FileSystem::getFilesInDirectory( Settings::setting('middlewares_location') ) == null )
-        {
+		/**
+		 * Returns true if there are any middlewares
+		 *
+		 * @return bool
+		 */
 
-            return false;
-        }
+		public function hasMiddlewares()
+		{
 
-        return true;
-    }
+			if (FileSystem::getFilesInDirectory(Settings::setting('middlewares_location')) == null)
+			{
 
-    /**
-     * Gets all the results from the middlewares result array
-     *
-     * @return array
-     */
+				return false;
+			}
 
-    public static function getResults()
-    {
+			return true;
+		}
 
-        return self::$results;
-    }
+		/**
+		 * Gets all the results from the middlewares result array
+		 *
+		 * @return array
+		 */
 
-    /**
-     * Gets a result
-     *
-     * @param $middleware
-     *
-     * @return mixed
-     */
+		public static function getResults()
+		{
 
-    public static function getResult( $middleware )
-    {
+			return self::$results;
+		}
 
-        if( self::$results[ strtolower( $middleware ) ] == null )
-        {
+		/**
+		 * Gets a result
+		 *
+		 * @param $middleware
+		 *
+		 * @return mixed
+		 */
 
-            return false;
-        }
+		public static function getResult($middleware)
+		{
 
-        return self::$results[ strtolower( $middleware ) ];
-    }
+			if (self::$results[strtolower($middleware)] == null)
+			{
 
-    /**
-     * Adds a middleware to the results array
-     *
-     * @param $middleware
-     *
-     * @param bool $result
-     */
+				return false;
+			}
 
-    public static function addToResults( $middleware, $result )
-    {
+			return self::$results[strtolower($middleware)];
+		}
 
-        self::$results[ strtolower( $middleware ) ] = $result;
-    }
+		/**
+		 * Adds a middleware to the results array
+		 *
+		 * @param $middleware
+		 *
+		 * @param bool $result
+		 */
 
-    /**
-     * Returns true if this middleware has an error
-     *
-     * @param $middleware
-     *
-     * @return bool
-     */
+		public static function addToResults($middleware, $result)
+		{
 
-    public static function hasError( $middleware )
-    {
+			self::$results[strtolower($middleware)] = $result;
+		}
 
-        if( self::$results[ strtolower( $middleware ) ] == 'error' )
-        {
+		/**
+		 * Returns true if this middleware has an error
+		 *
+		 * @param $middleware
+		 *
+		 * @return bool
+		 */
 
-            return true;
-        }
+		public static function hasError($middleware)
+		{
 
-        return false;
-    }
+			if (self::$results[strtolower($middleware)] == 'error')
+			{
 
-    /**
-     * Gets the middlewares and sets the internal class array
-     */
+				return true;
+			}
 
-    private function getMiddlewares()
-    {
+			return false;
+		}
 
-        $middlewares = FileSystem::getFilesInDirectory( Settings::setting('middlewares_location') );
+		/**
+		 * Gets the middlewares and sets the internal class array
+		 */
 
-        if( empty( $middlewares ) )
-        {
+		private function getMiddlewares()
+		{
 
-            throw new ApplicationException();
-        }
+			$middlewares = FileSystem::getFilesInDirectory(Settings::setting('middlewares_location'));
 
-        $middlewares = $this->format( $middlewares );
+			if (empty($middlewares))
+			{
 
-        if( empty( $middlewares ) )
-        {
+				throw new ApplicationException();
+			}
 
-            throw new ApplicationException();
-        }
+			$middlewares = $this->format($middlewares);
 
-        $this->middlewares = $middlewares;
-    }
+			if (empty($middlewares))
+			{
 
-    /**
-     * Correctly formates the files ( by removing the extension ) to be passed to the factory
-     *
-     * @param $files
-     *
-     * @return array
-     */
+				throw new ApplicationException();
+			}
 
-    private function format( $files )
-    {
+			$this->middlewares = $middlewares;
+		}
 
-        $array = array();
+		/**
+		 * Correctly formates the files ( by removing the extension ) to be passed to the factory
+		 *
+		 * @param $files
+		 *
+		 * @return array
+		 */
 
-        foreach( $files as $file )
-        {
+		private function format($files)
+		{
 
-            $array[] = FileSystem::getFileName( $file );
+			$array = array();
 
-        }
+			foreach ($files as $file)
+			{
 
-        return $array;
-    }
-}
+				$array[] = FileSystem::getFileName($file);
+
+			}
+
+			return $array;
+		}
+	}

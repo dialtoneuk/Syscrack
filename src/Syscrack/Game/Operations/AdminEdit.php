@@ -1,102 +1,104 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class AdminEdit
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class AdminEdit
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class AdminEdit extends BaseOperation
-{
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+
+	class AdminEdit extends BaseOperation
+	{
 
 
-    public function __construct()
-    {
+		public function __construct()
+		{
 
-        parent::__construct( true );
-    }
+			parent::__construct(true);
+		}
 
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-    public function configuration()
-    {
+		public function configuration()
+		{
 
-        return array(
-            'allowsoftware'     => true,
-            'allowlocal'        => true,
-            'elevated'          => true
-        );
-    }
+			return array(
+				'allowsoftware' => true,
+				'allowlocal' => true,
+				'elevated' => true
+			);
+		}
 
-    /**
-     * Called when a process with the corresponding operation is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     *
-     * @return bool
-     */
+		/**
+		 * Called when a process with the corresponding operation is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 *
+		 * @return bool
+		 */
 
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-        if( self::$user->isAdmin( $userid ) == false )
-            return false;
+			if (self::$user->isAdmin($userid) == false)
+				return false;
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool|mixed
-     */
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool|mixed
+		 */
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-        if( self::$user->isAdmin( $userid ) == false )
-            return false;
+			if (self::$user->isAdmin($userid) == false)
+				return false;
 
-        return 'admin/computer/edit/' . $this->getComputerId( $data["ipaddress"] );
-    }
+			return 'admin/computer/edit/' . $this->getComputerId($data["ipaddress"]);
+		}
 
-    /**
-     * Gets the completion speed
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return int
-     */
+		/**
+		 * Gets the completion speed
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return int
+		 */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
-    {
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-        return null;
-    }
-}
+			return null;
+		}
+	}

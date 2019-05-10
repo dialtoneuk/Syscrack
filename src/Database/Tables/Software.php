@@ -1,239 +1,240 @@
 <?php
-namespace Framework\Database\Tables;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class Software
- *
- * @package Framework\Database\Tables
- */
+	namespace Framework\Database\Tables;
 
-use Framework\Database\Table;
+	/**
+	 * Lewis Lancaster 2016
+	 *
+	 * Class Software
+	 *
+	 * @package Framework\Database\Tables
+	 */
 
-class Software extends Table
-{
+	use Framework\Database\Table;
 
-    /**
-     * Gets the software from its ID
-     *
-     * @param $softwareid
-     *
-     * @return mixed|null
-     *
-     */
+	class Software extends Table
+	{
 
-    public function getSoftware( $softwareid )
-    {
+		/**
+		 * Gets the software from its ID
+		 *
+		 * @param $softwareid
+		 *
+		 * @return mixed|null
+		 *
+		 */
 
-        $array = array(
-            'softwareid' => $softwareid
-        );
+		public function getSoftware($softwareid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'softwareid' => $softwareid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets all the software related to a user
-     *
-     * @param $userid
-     *
-     * @return mixed|null
-     *
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function getUserSoftware( $userid )
-    {
+		/**
+		 * Gets all the software related to a user
+		 *
+		 * @param $userid
+		 *
+		 * @return mixed|null
+		 *
+		 */
 
-        $array = array(
-            'userid' => $userid
-        );
+		public function getUserSoftware($userid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'userid' => $userid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets software by type and computerid
-     *
-     * @param $type
-     *
-     * @param $computerid
-     *
-     * @return \Illuminate\Support\Collection|null
-     *
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function getTypeOnComputer( $type, $computerid )
-    {
+		/**
+		 * Gets software by type and computerid
+		 *
+		 * @param $type
+		 *
+		 * @param $computerid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 *
+		 */
 
-        $array = array(
-            'type'          => $type,
-            'computerid'    => $computerid
-        );
+		public function getTypeOnComputer($type, $computerid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'type' => $type,
+				'computerid' => $computerid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets the software by a computer
-     *
-     * @param $computerid
-     *
-     * @return \Illuminate\Support\Collection|null
-     *
-     */
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-    public function getByComputer( $computerid )
-    {
+		/**
+		 * Gets the software by a computer
+		 *
+		 * @param $computerid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 *
+		 */
 
-        $array = array(
-            'computerid'    => $computerid
-        );
+		public function getByComputer($computerid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'computerid' => $computerid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets the installed software
-     *
-     * @param $computerid
-     *
-     * @return \Illuminate\Support\Collection|null
-     *
-     */
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-    public function getInstalledSoftware( $computerid )
-    {
+		/**
+		 * Gets the installed software
+		 *
+		 * @param $computerid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 *
+		 */
 
-        $array = array(
-            'computerid' => $computerid,
-            'installed' => true
-        );
+		public function getInstalledSoftware($computerid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'computerid' => $computerid,
+				'installed' => true
+			);
 
-        return ( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets the software by their type
-     *
-     * @param $type
-     *
-     * @return mixed|null
-     *
-     */
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-    public function getSoftwareByType( $type )
-    {
+		/**
+		 * Gets the software by their type
+		 *
+		 * @param $type
+		 *
+		 * @return mixed|null
+		 *
+		 */
 
-        $array = array(
-            'type' => $type
-        );
+		public function getSoftwareByType($type)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'type' => $type
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets the last modified software
-     *
-     * @param $computerid
-     *
-     * @param $time
-     *
-     * @return mixed|null
-     *
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function getLastModified( $computerid, $time, $type )
-    {
+		/**
+		 * Gets the last modified software
+		 *
+		 * @param $computerid
+		 *
+		 * @param $time
+		 *
+		 * @return mixed|null
+		 *
+		 */
 
-        $array = array(
-            'computerid'    => $computerid,
-            'lastmodified', '>', $time,
-            'type'          => $type
-        );
+		public function getLastModified($computerid, $time, $type)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'computerid' => $computerid,
+				'lastmodified', '>', $time,
+				'type' => $type
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Updates a software
-     *
-     * @param $softwareid
-     *
-     * @param $values
-     *
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function updateSoftware( $softwareid, $values )
-    {
+		/**
+		 * Updates a software
+		 *
+		 * @param $softwareid
+		 *
+		 * @param $values
+		 *
+		 */
 
-        $array = array(
-            'softwareid' => $softwareid
-        );
+		public function updateSoftware($softwareid, $values)
+		{
 
-        $this->getTable()->where( $array )->update( $values );
-    }
+			$array = array(
+				'softwareid' => $softwareid
+			);
 
-    /**
-     * Deletes the software by the computer
-     *
-     * @param $computerid
-     *
-     */
+			$this->getTable()->where($array)->update($values);
+		}
 
-    public function deleteSoftwareByComputer( $computerid )
-    {
+		/**
+		 * Deletes the software by the computer
+		 *
+		 * @param $computerid
+		 *
+		 */
 
-        $array = array(
-            'computerid' => $computerid
-        );
+		public function deleteSoftwareByComputer($computerid)
+		{
 
-        $this->getTable()->where( $array )->delete();
-    }
+			$array = array(
+				'computerid' => $computerid
+			);
 
-    /**
-     * Deletes a software
-     *
-     * @param $softwareid
-     *
-     */
+			$this->getTable()->where($array)->delete();
+		}
 
-    public function deleteSoftware( $softwareid )
-    {
+		/**
+		 * Deletes a software
+		 *
+		 * @param $softwareid
+		 *
+		 */
 
-        $array = array(
-            'softwareid' => $softwareid
-        );
+		public function deleteSoftware($softwareid)
+		{
 
-        $this->getTable()->where( $array )->delete();
-    }
+			$array = array(
+				'softwareid' => $softwareid
+			);
 
-    /**
-     * Inserts a software
-     *
-     * @param $array
-     *
-     * @return int
-     *
-     */
+			$this->getTable()->where($array)->delete();
+		}
 
-    public function insertSoftware( $array )
-    {
+		/**
+		 * Inserts a software
+		 *
+		 * @param $array
+		 *
+		 * @return int
+		 *
+		 */
 
-        return $this->getTable()->insertGetId( $array );
-    }
-}
+		public function insertSoftware($array)
+		{
+
+			return $this->getTable()->insertGetId($array);
+		}
+	}

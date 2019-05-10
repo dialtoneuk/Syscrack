@@ -1,53 +1,55 @@
 <?php
-namespace Framework\Syscrack\Game\Softwares;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Download
- *
- * @package Framework\Syscrack\Game\Softwares
- */
+	namespace Framework\Syscrack\Game\Softwares;
 
-use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
-use Framework\Syscrack\Game\Tool;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Download
+	 *
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 
-class Reader extends BaseSoftware
-{
+	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	use Framework\Syscrack\Game\Tool;
 
-    /**
-     * The configuration of this Structure
-     *
-     * @return array
-     */
+	class Reader extends BaseSoftware
+	{
 
-    public function configuration()
-    {
+		/**
+		 * The configuration of this Structure
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'uniquename'        => 'reader',
-            'extension'         => '.reader',
-            'type'              => 'reader',
-            'installable'       => true,
-            'executable'        => true,
-            'localexecuteonly'  => true,
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * @param null $userid
-     * @param null $sofwareid
-     * @param null $computerid
-     * @return Tool
-     */
+			return array(
+				'uniquename' => 'reader',
+				'extension' => '.reader',
+				'type' => 'reader',
+				'installable' => true,
+				'executable' => true,
+				'localexecuteonly' => true,
+			);
+		}
 
-    public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
-    {
+		/**
+		 * @param null $userid
+		 * @param null $sofwareid
+		 * @param null $computerid
+		 *
+		 * @return Tool
+		 */
 
-        $tool = new Tool("Read");
-        $tool->setAction('view');
-        $tool->softwareAction();
+		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
+		{
 
-        return( $tool );
-    }
-}
+			$tool = new Tool("Read");
+			$tool->setAction('view');
+			$tool->softwareAction();
+
+			return ($tool);
+		}
+	}

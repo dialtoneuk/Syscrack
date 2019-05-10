@@ -1,36 +1,37 @@
 <?php
-namespace Framework\Database\Tables;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class Example
- *
- * @package Framework\Database\Tables
- */
-
-use Framework\Database\Table;
-
-class Example extends Table
-{
+	namespace Framework\Database\Tables;
 
 	/**
-	 * Example showing how to get a column from the database.
+	 * Lewis Lancaster 2016
 	 *
-	 * @param $exampleid
+	 * Class Example
 	 *
-	 * @return array|null|static[]
+	 * @package Framework\Database\Tables
 	 */
 
-	public function getExampleID( $exampleid )
+	use Framework\Database\Table;
+
+	class Example extends Table
 	{
 
-		$array = array(
-			'exampleid' => $exampleid
-		);
+		/**
+		 * Example showing how to get a column from the database.
+		 *
+		 * @param $exampleid
+		 *
+		 * @return array|null|static[]
+		 */
 
-		$result = $this->getTable()->where( $array )->get();
+		public function getExampleID($exampleid)
+		{
 
-		return ( $result->isEmpty() ) ? null : $result[0];
+			$array = array(
+				'exampleid' => $exampleid
+			);
+
+			$result = $this->getTable()->where($array)->get();
+
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 	}
-}

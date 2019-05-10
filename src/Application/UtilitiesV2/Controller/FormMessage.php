@@ -1,70 +1,72 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 05/08/2018
- * Time: 02:13
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 05/08/2018
+	 * Time: 02:13
+	 */
 
-namespace Framework\Application\UtilitiesV2\Controller;
+	namespace Framework\Application\UtilitiesV2\Controller;
 
 
-use Framework\Application\UtilitiesV2\Interfaces\Response;
+	use Framework\Application\UtilitiesV2\Interfaces\Response;
 
-class FormMessage implements Response
-{
+	class FormMessage implements Response
+	{
 
-    /**
-     * @var string
-     */
+		/**
+		 * @var string
+		 */
 
-    protected $message;
+		protected $message;
 
-    /**
-     * @var string
-     */
+		/**
+		 * @var string
+		 */
 
-    protected $type;
+		protected $type;
 
-    /**
-     * @var bool
-     */
+		/**
+		 * @var bool
+		 */
 
-    protected $success = true;
+		protected $success = true;
 
-    /**
-     * FormError constructor.
-     * @param string $type
-     * @param string $message
-     * @param null $success
-     * @throws \RuntimeException
-     */
+		/**
+		 * FormError constructor.
+		 *
+		 * @param string $type
+		 * @param string $message
+		 * @param null $success
+		 *
+		 * @throws \RuntimeException
+		 */
 
-    public function __construct( $type=FORM_MESSAGE_INFO, $message="", $success=null )
-    {
+		public function __construct($type = FORM_MESSAGE_INFO, $message = "", $success = null)
+		{
 
-        if( is_string( $message ) == false || is_string( $type ) == false )
-            throw new \RuntimeException("Invalid param types");
+			if (is_string($message) == false || is_string($type) == false)
+				throw new \RuntimeException("Invalid param types");
 
-        if( $success !== null )
-            if( is_bool( $success ) )
-                $this->success = $success;
+			if ($success !== null)
+				if (is_bool($success))
+					$this->success = $success;
 
-        $this->message = $message;
-        $this->type = $type;
-    }
+			$this->message = $message;
+			$this->type = $type;
+		}
 
-    /**
-     * @return array
-     */
+		/**
+		 * @return array
+		 */
 
-    public function get()
-    {
+		public function get()
+		{
 
-        return( array(
-            "success"   => $this->success,
-            "message"   => $this->message,
-            "type"      => $this->type
-        ));
-    }
-}
+			return (array(
+				"success" => $this->success,
+				"message" => $this->message,
+				"type" => $this->type
+			));
+		}
+	}

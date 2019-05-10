@@ -1,148 +1,149 @@
 <?php
-namespace Framework\Database\Tables;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class Banks
- *
- * @package Framework\Database\Tables
- */
+	namespace Framework\Database\Tables;
 
-use Framework\Database\Table;
+	/**
+	 * Lewis Lancaster 2016
+	 *
+	 * Class Banks
+	 *
+	 * @package Framework\Database\Tables
+	 */
 
-class Banks extends Table
-{
+	use Framework\Database\Table;
 
-    /**
-     * Gets all the accounts
-     *
-     * @param int $pick
-     *
-     * @return \Illuminate\Support\Collection
-     */
+	class Banks extends Table
+	{
 
-    public function getAllAccounts( $pick=32 )
-    {
+		/**
+		 * Gets all the accounts
+		 *
+		 * @param int $pick
+		 *
+		 * @return \Illuminate\Support\Collection
+		 */
 
-        return $this->getTable()->get()->take( $pick );
-    }
+		public function getAllAccounts($pick = 32)
+		{
 
-    /**
-     * Gets the account count
-     *
-     * @return int
-     */
+			return $this->getTable()->get()->take($pick);
+		}
 
-    public function getAccountCount()
-    {
+		/**
+		 * Gets the account count
+		 *
+		 * @return int
+		 */
 
-        return $this->getTable()->get()->count();
-    }
+		public function getAccountCount()
+		{
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * @param $userid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			return $this->getTable()->get()->count();
+		}
 
-	public function getUserAccounts( $userid )
-    {
+		/**
+		 * Lewis Lancaster 2017
+		 *
+		 * @param $userid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        $array = array(
-            'userid' => $userid
-        );
+		public function getUserAccounts($userid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'userid' => $userid
+			);
 
-        return( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets the account number
-     *
-     * @param $accountnumber
-     *
-     * @return \Illuminate\Support\Collection|null|\stdClass
-     */
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-    public function getByAccountNumber( $accountnumber )
-    {
+		/**
+		 * Gets the account number
+		 *
+		 * @param $accountnumber
+		 *
+		 * @return \Illuminate\Support\Collection|null|\stdClass
+		 */
 
-        $array = array(
-            'accountnumber' => $accountnumber
-        );
+		public function getByAccountNumber($accountnumber)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'accountnumber' => $accountnumber
+			);
 
-        return( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets the accounts on the computer
-     *
-     * @param $computerid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function getAccountsOnComputer( $computerid )
-    {
+		/**
+		 * Gets the accounts on the computer
+		 *
+		 * @param $computerid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        $array = array(
-            'computerid' => $computerid
-        );
+		public function getAccountsOnComputer($computerid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'computerid' => $computerid
+			);
 
-        return( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Inserts an account into the database
-     *
-     * @param array $array
-     *
-     * @return int
-     */
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-    public function insertAccount( array $array )
-    {
+		/**
+		 * Inserts an account into the database
+		 *
+		 * @param array $array
+		 *
+		 * @return int
+		 */
 
-        return $this->getTable()->insertGetId( $array );
-    }
+		public function insertAccount(array $array)
+		{
 
-    public function deleteAccount( $computerid, $userid )
-    {
+			return $this->getTable()->insertGetId($array);
+		}
 
-        $array = array(
-            'computerid' => $computerid,
-            'userid'     => $userid
-        );
+		public function deleteAccount($computerid, $userid)
+		{
 
-        $this->getTable()->where( $array )->delete();
-    }
+			$array = array(
+				'computerid' => $computerid,
+				'userid' => $userid
+			);
 
-    /**
-     * Updates a users financial account
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param array $values
-     */
+			$this->getTable()->where($array)->delete();
+		}
 
-    public function updateAccount( $computerid, $userid, array $values )
-    {
+		/**
+		 * Updates a users financial account
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param array $values
+		 */
 
-        $array = array(
-            'computerid' => $computerid,
-            'userid'     => $userid
-        );
+		public function updateAccount($computerid, $userid, array $values)
+		{
 
-        $this->getTable()->where( $array )->update( $values );
-    }
-}
+			$array = array(
+				'computerid' => $computerid,
+				'userid' => $userid
+			);
+
+			$this->getTable()->where($array)->update($values);
+		}
+	}

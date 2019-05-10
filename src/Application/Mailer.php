@@ -1,196 +1,193 @@
 <?php
-    namespace Framework\Application;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Mailer
-     *
-     * @package Framework\Application
-     *
-     * LET THE FUN BEGIN
-     */
+	namespace Framework\Application;
 
-    use Exception;
-    use Framework\Application\Utilities\FileSystem;
-    use Framework\Exceptions\ApplicationException;
-    use PHPMailer;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Mailer
+	 *
+	 * @package Framework\Application
+	 *
+	 * LET THE FUN BEGIN
+	 */
 
-    class Mailer
-    {
+	use Exception;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Exceptions\ApplicationException;
+	use PHPMailer;
 
-        /**
-         * @var PHPMailer
-         */
+	class Mailer
+	{
 
-        protected $mailer;
+		/**
+		 * @var PHPMailer
+		 */
 
-        /**
-         * Mailer constructor.
-         *
-         * @param bool $autoload
-         */
+		protected $mailer;
 
-        public function __construct( $autoload=true )
-        {
+		/**
+		 * Mailer constructor.
+		 *
+		 * @param bool $autoload
+		 */
 
-            $this->mailer = new PHPMailer();
+		public function __construct($autoload = true)
+		{
 
-            $this->mailer->SMTPDebug = 2;
+			$this->mailer = new PHPMailer();
 
-            if( $autoload == true )
-            {
+			$this->mailer->SMTPDebug = 2;
 
-                $this->initializeMailer();
-            }
-        }
+			if ($autoload == true)
+			{
 
-        /**
-         * Sends an email
-         *
-         * @param $body
-         *
-         * @param string $subject
-         *
-         * @param $recipient
-         *
-         * @return bool
-         */
+				$this->initializeMailer();
+			}
+		}
 
-        public function send($body, $subject = 'Verify your email', $recipient )
-        {
+		/**
+		 * @param $body
+		 * @param string $subject
+		 * @param string $recipient
+		 *
+		 * @return bool
+		 * @throws \phpmailerException
+		 */
 
-            $this->mailer->setFrom( Settings::setting('mailer_from_address' ) );
+		public function send($body, $subject = 'Verify your email', $recipient="test@syscrack.co.uk")
+		{
 
-            if( filter_var( $recipient, FILTER_VALIDATE_EMAIL ) == false )
-            {
+			$this->mailer->setFrom(Settings::setting('mailer_from_address'));
 
-                throw new ApplicationException();
-            }
+			if (filter_var($recipient, FILTER_VALIDATE_EMAIL) == false)
+			{
 
-            $this->mailer->addAddress( $recipient );
+				throw new ApplicationException();
+			}
 
-            $this->mailer->Subject = $subject;
+			$this->mailer->addAddress($recipient);
 
-            $this->mailer->Body = $body;
+			$this->mailer->Subject = $subject;
 
-            if( Settings::setting('mailer_html') == true )
-            {
+			$this->mailer->Body = $body;
 
-                $this->mailer->isHTML( true );
-            }
+			if (Settings::setting('mailer_html') == true)
+			{
 
-            try
-            {
+				$this->mailer->isHTML(true);
+			}
 
-                return $this->mailer->send();
-            }
-            catch( Exception $error )
-            {
+			try
+			{
 
-                return false;
-            }
-        }
+				return $this->mailer->send();
+			} catch (Exception $error)
+			{
 
-        /**
-         * Parses an email
-         *
-         * @param $body
-         *
-         * @param array $variables
-         *
-         * @return mixed
-         */
+				return false;
+			}
+		}
 
-        public function parse( $body, array $variables )
-        {
+		/**
+		 * Parses an email
+		 *
+		 * @param $body
+		 *
+		 * @param array $variables
+		 *
+		 * @return mixed
+		 */
 
-            if( is_string( $body ) == false )
-            {
+		public function parse($body, array $variables)
+		{
 
-                throw new ApplicationException();
-            }
+			if (is_string($body) == false)
+			{
 
-            foreach( $variables as $key=>$variable )
-            {
+				throw new ApplicationException();
+			}
 
-                $body = str_replace("%{$key}%", $variable, $body);
-            }
+			foreach ($variables as $key => $variable)
+			{
 
-            return $body;
-        }
+				$body = str_replace("%{$key}%", $variable, $body);
+			}
 
-        /**
-         * Inits the Mailer
-         */
+			return $body;
+		}
 
-        public function initializeMailer()
-        {
+		/**
+		 * Inits the Mailer
+		 */
 
-            $settings = Settings::setting('mailer_settings');
+		public function initializeMailer()
+		{
 
-            foreach( $settings as $key=>$value )
-            {
+			$settings = Settings::setting('mailer_settings');
 
-                $key = ucfirst( $key );
+			foreach ($settings as $key => $value)
+			{
 
-                if( property_exists ( $this->mailer, $key ) == false )
-                {
+				$key = ucfirst($key);
 
-                    throw new ApplicationException( $key . ' does not exist in mailer');
-                }
+				if (property_exists($this->mailer, $key) == false)
+				{
 
-                $this->mailer->{ $key } = $value;
-            }
+					throw new ApplicationException($key . ' does not exist in mailer');
+				}
 
-            if( Settings::setting('mailer_use_stmp') == true )
-            {
+				$this->mailer->{$key} = $value;
+			}
 
-                $this->mailer->isSMTP();
-            }
-        }
+			if (Settings::setting('mailer_use_stmp') == true)
+			{
 
-        /**
-         * Gets the error info
-         *
-         * @return string
-         */
+				$this->mailer->isSMTP();
+			}
+		}
 
-        public function getErrorInfo()
-        {
+		/**
+		 * Gets the error info
+		 *
+		 * @return string
+		 */
 
-            return $this->mailer->ErrorInfo;
-        }
+		public function getErrorInfo()
+		{
 
-        /**
-         * Reads a template file
-         *
-         * @param $file
-         *
-         * @return string
-         */
+			return $this->mailer->ErrorInfo;
+		}
 
-        public function getTemplate( $file )
-        {
+		/**
+		 * Reads a template file
+		 *
+		 * @param $file
+		 *
+		 * @return string
+		 */
 
-            if( FileSystem::hasFileExtension( $file ) == false )
-            {
+		public function getTemplate($file)
+		{
 
-                $file = $file . '.php';
-            }
+			if (FileSystem::hasFileExtension($file) == false)
+			{
 
-            return FileSystem::read( $this->getFilePath() . $file );
-        }
+				$file = $file . '.php';
+			}
 
-        /**
-         * Gets the file path for the mail templates
-         *
-         * @return mixed
-         */
+			return FileSystem::read($this->getFilePath() . $file);
+		}
 
-        private function getFilePath()
-        {
+		/**
+		 * Gets the file path for the mail templates
+		 *
+		 * @return mixed
+		 */
 
-            return Settings::setting('mailer_template_location');
-        }
-    }
+		private function getFilePath()
+		{
+
+			return Settings::setting('mailer_template_location');
+		}
+	}

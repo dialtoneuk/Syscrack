@@ -1,60 +1,61 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 08/08/2018
- * Time: 22:36
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 08/08/2018
+	 * Time: 22:36
+	 */
 
-namespace Framework\Application\UtilitiesV2\AutoExecs;
+	namespace Framework\Application\UtilitiesV2\AutoExecs;
 
-use Framework\Application\UtilitiesV2\UserPermissions as User;
+	use Framework\Application\UtilitiesV2\UserPermissions as User;
 
 
-class UserPermissions extends Base
-{
+	class UserPermissions extends Base
+	{
 
-    /**
-     * @var User
-     */
+		/**
+		 * @var User
+		 */
 
-    protected $userpermissions;
+		protected $userpermissions;
 
-    /**
-     * Balance constructor.
-     * @throws \RuntimeException
-     */
+		/**
+		 * Balance constructor.
+		 * @throws \RuntimeException
+		 */
 
-    public function __construct()
-    {
+		public function __construct()
+		{
 
-        $this->userpermissions = new User();
+			$this->userpermissions = new User();
 
-        parent::__construct();
-    }
+			parent::__construct();
+		}
 
-    /**
-     * @param array $data
-     * @return void
-     * @throws \RuntimeException
-     */
+		/**
+		 * @param array $data
+		 *
+		 * @return void
+		 * @throws \RuntimeException
+		 */
 
-    public function execute(array $data)
-    {
+		public function execute(array $data)
+		{
 
-        if( isset( $data["userid"] ) == false )
-            throw new \RuntimeException("expecting userid");
+			if (isset($data["userid"]) == false)
+				throw new \RuntimeException("expecting userid");
 
-        if( $this->userpermissions->exist( $data["userid"] ) )
-            $this->userpermissions->remove( $data["userid"] );
+			if ($this->userpermissions->exist($data["userid"]))
+				$this->userpermissions->remove($data["userid"]);
 
-        if( isset( $data["group"] ) )
-            $group = $data["group"];
-        else
-            $group = "default";
+			if (isset($data["group"]))
+				$group = $data["group"];
+			else
+				$group = "default";
 
-        $this->userpermissions->create( $data["userid"], $group );
+			$this->userpermissions->create($data["userid"], $group);
 
-        return;
-    }
-}
+			return;
+		}
+	}

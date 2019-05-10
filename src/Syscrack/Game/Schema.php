@@ -1,181 +1,182 @@
 <?php
-namespace Framework\Syscrack\Game;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Schema
- *
- * @package Framework\Syscrack\Game
- *
- */
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\FileSystem;
-use Framework\Database\Tables\Computer;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Schema
+	 *
+	 * @package Framework\Syscrack\Game
+	 *
+	 */
 
-class Schema
-{
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Database\Tables\Computer;
 
-    /**
-     * @var Computer
-     */
+	class Schema
+	{
 
-    protected $computer;
+		/**
+		 * @var Computer
+		 */
 
-    /**
-     * NPC constructor.
-     */
+		protected $computer;
 
-    public function __construct()
-    {
+		/**
+		 * NPC constructor.
+		 */
 
-        $this->computer = new Computer();
-    }
+		public function __construct()
+		{
 
-    /**
-     * Creates a new schema file
-     *
-     * @param $computerid
-     *
-     * @param string $name
-     *
-     * @param string $page
-     *
-     * @param array $riddles
-     *
-     * @param array $software
-     *
-     * @param array $hardware
-     */
+			$this->computer = new Computer();
+		}
 
-    public function createSchema( $computerid, $name='Default', $page='schema.default', array $riddles, array $software, array $hardware )
-    {
+		/**
+		 * Creates a new schema file
+		 *
+		 * @param $computerid
+		 *
+		 * @param string $name
+		 *
+		 * @param string $page
+		 *
+		 * @param array $riddles
+		 *
+		 * @param array $software
+		 *
+		 * @param array $hardware
+		 */
 
-        $schema = array(
-            'name'      => $name,
-            'page'      => $page,
-            'riddles'   => $riddles,
-            'software' => $software,
-            'hardware' => $hardware
-        );
+		public function createSchema($computerid, $name = 'Default', $page = 'schema.default', array $riddles, array $software, array $hardware)
+		{
 
-        FileSystem::writeJson( $this->getSchemaPath( $computerid ), $schema );
-    }
+			$schema = array(
+				'name' => $name,
+				'page' => $page,
+				'riddles' => $riddles,
+				'software' => $software,
+				'hardware' => $hardware
+			);
 
-    public function setSchema( $computerid, $schema = [] )
-    {
+			FileSystem::writeJson($this->getSchemaPath($computerid), $schema);
+		}
 
-        FileSystem::writeJson( $this->getSchemaPath( $computerid ), $schema );
-    }
+		public function setSchema($computerid, $schema = [])
+		{
 
-    /**
-     * Returns true if we have an NPC Page
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
+			FileSystem::writeJson($this->getSchemaPath($computerid), $schema);
+		}
 
-    public function hasSchemaPage($computerid )
-    {
+		/**
+		 * Returns true if we have an NPC Page
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        $schema = $this->getSchema( $computerid );
+		public function hasSchemaPage($computerid)
+		{
 
-        if( isset( $schema['page'] ) == false )
-        {
+			$schema = $this->getSchema($computerid);
 
-            return false;
-        }
+			if (isset($schema['page']) == false)
+			{
 
-        if( $this->SchemaPageExists( $computerid ) == false )
-        {
+				return false;
+			}
 
-            return false;
-        }
+			if ($this->SchemaPageExists($computerid) == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if an NPC Page exists
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function SchemaPageExists($computerid )
-    {
+		/**
+		 * Returns true if an NPC Page exists
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        if( FileSystem::fileExists( '/themes/' .   Settings::setting('render_folder' ) . DIRECTORY_SEPARATOR . $this->getSchemaPageLocation( $computerid ) ) == false )
-        {
+		public function SchemaPageExists($computerid)
+		{
 
-            return false;
-        }
+			if (FileSystem::fileExists('/themes/' . Settings::setting('render_folder') . DIRECTORY_SEPARATOR . $this->getSchemaPageLocation($computerid)) == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Gets the location of this computer page
-     *
-     * @param $computerid
-     *
-     * @return string
-     */
+			return true;
+		}
 
-    public function getSchemaPageLocation($computerid )
-    {
+		/**
+		 * Gets the location of this computer page
+		 *
+		 * @param $computerid
+		 *
+		 * @return string
+		 */
 
-        return Settings::setting('syscrack_schema_page_location') . $this->getSchema( $computerid )['page'] . '.php';
-    }
+		public function getSchemaPageLocation($computerid)
+		{
 
-    /**
-     * Gets the NPC File tied to this computer
-     *
-     * @param $computerid
-     *
-     * @return mixed
-     */
+			return Settings::setting('syscrack_schema_page_location') . $this->getSchema($computerid)['page'] . '.php';
+		}
 
-    public function getSchema($computerid )
-    {
+		/**
+		 * Gets the NPC File tied to this computer
+		 *
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 
-        return FileSystem::readJson( Settings::setting('syscrack_schema_filepath') . $computerid . '.json' );
-    }
+		public function getSchema($computerid)
+		{
 
-    /**
-     * Gets the schemas path
-     *
-     * @param $computerid
-     *
-     * @return string
-     */
+			return FileSystem::readJson(Settings::setting('syscrack_schema_filepath') . $computerid . '.json');
+		}
 
-    public function getSchemaPath( $computerid )
-    {
+		/**
+		 * Gets the schemas path
+		 *
+		 * @param $computerid
+		 *
+		 * @return string
+		 */
 
-        return Settings::setting('syscrack_schema_filepath') . $computerid . '.json';
-    }
+		public function getSchemaPath($computerid)
+		{
 
-    /**
-     * Returns true if we have an NPC file
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
+			return Settings::setting('syscrack_schema_filepath') . $computerid . '.json';
+		}
 
-    public function hasSchema($computerid )
-    {
+		/**
+		 * Returns true if we have an NPC file
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        if( FileSystem::fileExists( $this->getSchemaPath( $computerid ) ) == false )
-        {
+		public function hasSchema($computerid)
+		{
 
-            return false;
-        }
+			if (FileSystem::fileExists($this->getSchemaPath($computerid)) == false)
+			{
 
-        return true;
-    }
-}
+				return false;
+			}
+
+			return true;
+		}
+	}

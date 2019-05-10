@@ -1,282 +1,283 @@
 <?php
-namespace Framework\Application;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Session
- *
- * @package Framework\Session
- */
+	namespace Framework\Application;
 
-use Framework\Application\Utilities\IPAddress;
-use Framework\Database\Tables\Sessions as Database;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Session
+	 *
+	 * @package Framework\Session
+	 */
 
-class Session
-{
+	use Framework\Application\Utilities\IPAddress;
+	use Framework\Database\Tables\Sessions as Database;
 
-    /**
-     * @var Database
-     */
+	class Session
+	{
 
-    protected static $database;
+		/**
+		 * @var Database
+		 */
 
-    /**
-     * Capsule constructor.
-     */
+		protected static $database;
 
-    public function __construct()
-    {
+		/**
+		 * Capsule constructor.
+		 */
 
-        if( isset( self::$database ) == false )
-            self::$database = new Database();
-    }
+		public function __construct()
+		{
 
-    /**
-     * Updates the time since the last action
-     */
+			if (isset(self::$database) == false)
+				self::$database = new Database();
+		}
 
-    public function updateLastAction()
-    {
+		/**
+		 * Updates the time since the last action
+		 */
 
-        self::$database->updateSession( session_id(), array('lastaction' => microtime( true ) ) );
-    }
+		public function updateLastAction()
+		{
 
-    /**
-     * Clears the last session error
-     */
+			self::$database->updateSession(session_id(), array('lastaction' => microtime(true)));
+		}
 
-    public function clearError()
-    {
+		/**
+		 * Clears the last session error
+		 */
 
-        if( isset( $_SESSION['error'] ) == false )
-        {
+		public function clearError()
+		{
 
-            return;
-        }
+			if (isset($_SESSION['error']) == false)
+			{
 
-        $_SESSION['error_page'] = null;
+				return;
+			}
 
-        $_SESSION['error'] = null;
-    }
+			$_SESSION['error_page'] = null;
 
-    /**
-     * @param bool $safeunset
-     * @param bool $destroy
-     */
+			$_SESSION['error'] = null;
+		}
 
-    public function destroySession( $safeunset = true, $destroy=false )
-    {
+		/**
+		 * @param bool $safeunset
+		 * @param bool $destroy
+		 */
 
-        session_regenerate_id( true );
+		public function destroySession($safeunset = true, $destroy = false)
+		{
 
-        if( $safeunset )
-        {
+			session_regenerate_id(true);
 
-            $this->safeUnset();
-        }
-        else
-        {
+			if ($safeunset)
+			{
 
-            unset( $_SESSION );
-        }
+				$this->safeUnset();
+			}
+			else
+			{
 
+				unset($_SESSION);
+			}
 
-        if( $destroy  )
-        {
 
-            session_destroy();
-        }
-    }
+			if ($destroy)
+			{
 
-    /**
-     * Gets the time of which the user hsa done the last action
-     *
-     * @return mixed
-     */
+				session_destroy();
+			}
+		}
 
-    public function getLastAction()
-    {
+		/**
+		 * Gets the time of which the user hsa done the last action
+		 *
+		 * @return mixed
+		 */
 
-        return self::$database->getSession( session_id() )->lastaction;
-    }
-
-    /**
-     * Gets the database session
-     *
-     * @return mixed
-     */
-
-    public function getDatabaseSession()
-    {
-
-        return self::$database->getSession( session_id() );
-    }
-
-    /**
-     * Gets the session user
-     *
-     * @return int
-     */
-
-    public function userid()
-    {
-
-        if( isset( $this->getDatabaseSession()->userid ) == false )
-            return null;
-
-        return $this->getDatabaseSession()->userid;
-    }
+		public function getLastAction()
+		{
 
-    /**
-     * Gets the session address
-     *
-     * @return mixed
-     */
-
-    public function getSessionAddress()
-    {
-
-        return $this->getDatabaseSession()->ipaddress;
-    }
+			return self::$database->getSession(session_id())->lastaction;
+		}
+
+		/**
+		 * Gets the database session
+		 *
+		 * @return mixed
+		 */
+
+		public function getDatabaseSession()
+		{
+
+			return self::$database->getSession(session_id());
+		}
+
+		/**
+		 * Gets the session user
+		 *
+		 * @return int
+		 */
+
+		public function userid()
+		{
+
+			if (isset($this->getDatabaseSession()->userid) == false)
+				return null;
+
+			return $this->getDatabaseSession()->userid;
+		}
+
+		/**
+		 * Gets the session address
+		 *
+		 * @return mixed
+		 */
+
+		public function getSessionAddress()
+		{
+
+			return $this->getDatabaseSession()->ipaddress;
+		}
+
+		/**
+		 * Gets the sessions user agent
+		 *
+		 * @return mixed
+		 */
 
-    /**
-     * Gets the sessions user agent
-     *
-     * @return mixed
-     */
+		public function getSessionUserAgent()
+		{
 
-    public function getSessionUserAgent()
-    {
+			return $this->getDatabaseSession()->useragent;
+		}
 
-        return $this->getDatabaseSession()->useragent;
-    }
+		/**
+		 * Gets the time since sessions last action
+		 *
+		 * @return mixed
+		 */
 
-    /**
-     * Gets the time since sessions last action
-     *
-     * @return mixed
-     */
+		public function getSessionLastAction()
+		{
 
-    public function getSessionLastAction()
-    {
+			return $this->getDatabaseSession()->lastaction;
+		}
 
-        return $this->getDatabaseSession()->lastaction;
-    }
+		/**
+		 * Cleans up a users sessions
+		 */
+
+		public function cleanupSession($userid)
+		{
 
-    /**
-     * Cleans up a users sessions
-     */
+			self::$database->trashUserSessions($userid);
+		}
 
-    public function cleanupSession( $userid )
-    {
+		/**
+		 * Inserts a new session into the database
+		 *
+		 * @param $userid
+		 *
+		 * @param $regen
+		 */
 
-        self::$database->trashUserSessions( $userid );
-    }
+		public function insertSession($userid, $regen = true)
+		{
 
-    /**
-     * Inserts a new session into the database
-     *
-     * @param $userid
-     *
-     * @param $regen
-     */
+			if ($regen)
+			{
 
-    public function insertSession( $userid, $regen=true )
-    {
+				session_regenerate_id(true);
+			}
 
-        if( $regen )
-        {
+			$array = array(
+				'sessionid' => session_id(),
+				'userid' => $userid,
+				'useragent' => $_SERVER['HTTP_USER_AGENT'],
+				'ipaddress' => IPAddress::getAddress(),
+				'lastaction' => microtime(true)
+			);
 
-            session_regenerate_id( true );
-        }
+			self::$database->insertSession($array);
+		}
 
-        $array = array(
-            'sessionid'     => session_id(),
-            'userid'        => $userid,
-            'useragent'     => $_SERVER['HTTP_USER_AGENT'],
-            'ipaddress'     => IPAddress::getAddress(),
-            'lastaction'    => microtime( true )
-        );
+		/**
+		 * Gets the sessions of which have been active in the last hour ( according to the settings )
+		 *
+		 * @return mixed|null
+		 */
 
-        self::$database->insertSession( $array );
-    }
+		public function getActiveSessions()
+		{
 
-    /**
-     * Gets the sessions of which have been active in the last hour ( according to the settings )
-     *
-     * @return mixed|null
-     */
+			return self::$database->getSessionsByLastAction(time() - Settings::setting('online_timeframe'));
+		}
 
-    public function getActiveSessions()
-    {
+		/**
+		 * Returns true if the user is logged in
+		 *
+		 * @return bool
+		 */
 
-        return self::$database->getSessionsByLastAction( time() - Settings::setting('online_timeframe') );
-    }
+		public function isLoggedIn()
+		{
 
-    /**
-     * Returns true if the user is logged in
-     *
-     * @return bool
-     */
+			if (self::$database->getSession(session_id()) == null)
+			{
 
-    public function isLoggedIn()
-    {
+				return false;
+			}
 
-        if( self::$database->getSession( session_id() ) == null )
-        {
+			if ($this->getLastAction() < (time() - Settings::setting('session_timeout')))
+			{
+				$this->destroySession(true, true);
+				return false;
+			}
 
-            return false;
-        }
+			return true;
+		}
 
-        if( $this->getLastAction() < ( time() - Settings::setting('session_timeout') ) )
-        {
-            $this->destroySession( true, true );
-            return false;
-        }
+		/**
+		 * Keeps some values in the $_SESSION array instead of unsetting everything
+		 */
 
-        return true;
-    }
+		public function safeUnset()
+		{
 
-    /**
-     * Keeps some values in the $_SESSION array instead of unsetting everything
-     */
+			$keep = Settings::setting('session_keep');
 
-    public function safeUnset()
-    {
+			foreach ($keep as $value)
+			{
 
-        $keep = Settings::setting('session_keep');
+				foreach ($_SESSION as $key => $item)
+				{
 
-        foreach( $keep as $value )
-        {
+					if ($key !== $value)
+					{
 
-            foreach( $_SESSION as $key=>$item )
-            {
+						unset($_SESSION[$key]);
+					}
+				}
+			}
+		}
 
-                if( $key !== $value )
-                {
+		/**
+		 * Returns true if the session is active
+		 *
+		 * @return bool
+		 */
 
-                    unset( $_SESSION[ $key ] );
-                }
-            }
-        }
-    }
+		public function sessionActive()
+		{
 
-    /**
-     * Returns true if the session is active
-     *
-     * @return bool
-     */
+			if (session_status() != PHP_SESSION_ACTIVE)
+			{
 
-    public function sessionActive()
-    {
+				return false;
+			}
 
-        if( session_status() != PHP_SESSION_ACTIVE )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-}
+			return true;
+		}
+	}

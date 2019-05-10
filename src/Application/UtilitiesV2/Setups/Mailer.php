@@ -1,48 +1,48 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 21/07/2018
- * Time: 03:26
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 21/07/2018
+	 * Time: 03:26
+	 */
 
-namespace Framework\Application\UtilitiesV2\Setups;
+	namespace Framework\Application\UtilitiesV2\Setups;
 
 
-class Mailer extends Base
-{
+	class Mailer extends Base
+	{
 
-    /**
-     * Aws constructor.
-     * @throws \RuntimeException
-     */
+		/**
+		 * Aws constructor.
+		 * @throws \RuntimeException
+		 */
 
-    public function __construct()
-    {
+		public function __construct()
+		{
 
-        if( $this->exists( MAILER_CONFIGURATION_FILE ) == false )
-            throw new \RuntimeException("File does not exist");
+			if ($this->exists(MAILER_CONFIGURATION_FILE) == false)
+				throw new \RuntimeException("File does not exist");
 
-        parent::__construct();
-    }
+			parent::__construct();
+		}
 
-    /**
-     * @return bool
-     */
+		/**
+		 * @return bool
+		 */
 
-    public function process()
-    {
+		public function process()
+		{
 
-        $inputs = $this->getInputs([
-            "SMTPDebug",
-            "Host",
-            "Username",
-            "Password",
-            "Port"
-        ]);
+			$inputs = $this->getInputs([
+				"SMTPDebug",
+				"Host",
+				"Username",
+				"Password",
+				"Port"
+			]);
 
-        $this->write( MAILER_CONFIGURATION_FILE, $inputs );
+			$this->write(MAILER_CONFIGURATION_FILE, $inputs);
 
-        return parent::process();
-    }
-}
+			return parent::process();
+		}
+	}

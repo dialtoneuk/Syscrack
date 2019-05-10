@@ -1,44 +1,44 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: newsy
- * Date: 05/05/2019
- * Time: 21:30
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: newsy
+	 * Date: 05/05/2019
+	 * Time: 21:30
+	 */
 
-namespace Framework\Syscrack\Game;
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\FileSystem;
 
-class BrowserPages
-{
+	class BrowserPages
+	{
 
-    /**
-     * @return mixed
-     */
+		/**
+		 * @return mixed
+		 */
 
-    public function get()
-    {
+		public function get()
+		{
 
-        if( FileSystem::fileExists( Settings::setting("browser_pages_filepath") ) == false )
-            $this->generate();
+			if (FileSystem::fileExists(Settings::setting("browser_pages_filepath")) == false)
+				$this->generate();
 
-        return ( FileSystem::readJson( Settings::setting("browser_pages_filepath") ) );
-    }
+			return (FileSystem::readJson(Settings::setting("browser_pages_filepath")));
+		}
 
-    /**
-     * Generates the types
-     */
+		/**
+		 * Generates the types
+		 */
 
-    public function generate()
-    {
+		public function generate()
+		{
 
-        $files = FileSystem::getFilesInDirectory( Settings::setting("browser_pages_root" ) );
+			$files = FileSystem::getFilesInDirectory(Settings::setting("browser_pages_root"));
 
-        foreach( $files as $key=>$item )
-            $files[ $key ] = FileSystem::getFileName( $item );
+			foreach ($files as $key => $item)
+				$files[$key] = FileSystem::getFileName($item);
 
-        FileSystem::writeJson( Settings::setting("browser_pages_filepath"), $files );
-    }
-}
+			FileSystem::writeJson(Settings::setting("browser_pages_filepath"), $files);
+		}
+	}

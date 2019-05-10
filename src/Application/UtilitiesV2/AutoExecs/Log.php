@@ -1,141 +1,142 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 06/08/2018
- * Time: 13:29
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 06/08/2018
+	 * Time: 13:29
+	 */
 
-namespace Framework\Application\UtilitiesV2\AutoExecs;
-
-
-use Framework\Application\UtilitiesV2\Container;
-use Framework\Application\UtilitiesV2\Debug;
-use Framework\Application\UtilitiesV2\Format;
-
-class Log extends Base
-{
+	namespace Framework\Application\UtilitiesV2\AutoExecs;
 
 
-    protected $cache=null;
+	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Application\UtilitiesV2\Format;
 
-    protected $config;
+	class Log extends Base
+	{
 
-    /**
-     * Log constructor.
-     * @throws \RuntimeException
-     */
 
-    public function __construct()
-    {
+		protected $cache = null;
 
-        if( file_exists( SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION ) == false )
-            throw new \RuntimeException("Please run auto migrate");
+		protected $config;
 
-        if( file_exists( SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json" ) == false )
-            throw new \RuntimeException("Please run auto migrate");
+		/**
+		 * Log constructor.
+		 * @throws \RuntimeException
+		 */
 
-        $this->getConfig();
+		public function __construct()
+		{
 
-        if( file_exists( SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json" ) == false )
-            file_put_contents( SYSCRACK_ROOT .  AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json", json_encode( ["created" => time()] ) );
+			if (file_exists(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION) == false)
+				throw new \RuntimeException("Please run auto migrate");
 
-        parent::__construct();
-    }
+			if (file_exists(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json") == false)
+				throw new \RuntimeException("Please run auto migrate");
 
-    /**
-     * @param array $data
-     * @return mixed|void
-     * @throws \RuntimeException
-     */
+			$this->getConfig();
 
-    public function execute(array $data)
-    {
+			if (file_exists(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json") == false)
+				file_put_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json", json_encode(["created" => time()]));
 
-        if( isset( $data["message"] ) == false )
-            if( Container::exist("script") )
-                $data["message"] = "from script: " . (string)Container::get("script");
-            else
-                $data["message"] = false;
+			parent::__construct();
+		}
 
-        if( isset( $data["type"] ) == false )
-            $data["type"] = LOG_TYPE_DEFAULT;
+		/**
+		 * @param array $data
+		 *
+		 * @return mixed|void
+		 * @throws \RuntimeException
+		 */
 
-        $values = $this->read();
+		public function execute(array $data)
+		{
 
-        if( isset( $_SERVER["REMOTE_ADDR"] ) == false )
-            $ipaddress = "localhost";
-        else
-            $ipaddress = $_SERVER["REMOTE_ADDR"];
+			if (isset($data["message"]) == false)
+				if (Container::exist("script"))
+					$data["message"] = "from script: " . (string)Container::get("script");
+				else
+					$data["message"] = false;
 
-        if( isset( $data["userid"] ) )
-            $userid = $data["userid"];
-        else
-            $userid = false;
+			if (isset($data["type"]) == false)
+				$data["type"] = LOG_TYPE_DEFAULT;
 
-        $values["log"][] = [
-            "type"      => $data["type"],
-            "message"   => $data["message"],
-            "ipaddress" => $ipaddress,
-            "userid"    => $userid,
-            "time"      => Format::timestamp()
-        ];
+			$values = $this->read();
 
-        Debug::message("Creating a new log message for ". $ipaddress );
+			if (isset($_SERVER["REMOTE_ADDR"]) == false)
+				$ipaddress = "localhost";
+			else
+				$ipaddress = $_SERVER["REMOTE_ADDR"];
 
-        $this->save( $values );
-    }
+			if (isset($data["userid"]))
+				$userid = $data["userid"];
+			else
+				$userid = false;
 
-    /**
-     * @return mixed|null
-     */
+			$values["log"][] = [
+				"type" => $data["type"],
+				"message" => $data["message"],
+				"ipaddress" => $ipaddress,
+				"userid" => $userid,
+				"time" => Format::timestamp()
+			];
 
-    private function read()
-    {
+			Debug::message("Creating a new log message for " . $ipaddress);
 
-        if( $this->cache == null )
-            $this->cache = json_decode( file_get_contents( SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json" ), true );
+			$this->save($values);
+		}
 
-        return( $this->cache );
-    }
+		/**
+		 * @return mixed|null
+		 */
 
-    /**
-     * @param $file
-     */
+		private function read()
+		{
 
-    private function updateConfig( $file )
-    {
+			if ($this->cache == null)
+				$this->cache = json_decode(file_get_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json"), true);
 
-        file_put_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json", json_encode( ["file" => $file ] ) );
-    }
+			return ($this->cache);
+		}
 
-    /**
-     * Gets the config
-     */
+		/**
+		 * @param $file
+		 */
 
-    private function getConfig()
-    {
+		private function updateConfig($file)
+		{
 
-        $this->config = json_decode( file_get_contents( SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json"), true );
-    }
+			file_put_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json", json_encode(["file" => $file]));
+		}
 
-    /**
-     * @param array $values
-     */
+		/**
+		 * Gets the config
+		 */
 
-    private function save( array $values )
-    {
+		private function getConfig()
+		{
 
-        if( $this->cache == null )
-            $this->read();
+			$this->config = json_decode(file_get_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json"), true);
+		}
 
-        if( $this->cache["created"] < time() - ( 60 * 60 * AUTOEXEC_LOG_REFRESH ) )
-        {
+		/**
+		 * @param array $values
+		 */
 
-            $this->updateConfig( time() );
-            $this->read();
-        }
+		private function save(array $values)
+		{
 
-        file_put_contents( SYSCRACK_ROOT .  AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json", json_encode( $values ) );
-    }
-}
+			if ($this->cache == null)
+				$this->read();
+
+			if ($this->cache["created"] < time() - (60 * 60 * AUTOEXEC_LOG_REFRESH))
+			{
+
+				$this->updateConfig(time());
+				$this->read();
+			}
+
+			file_put_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json", json_encode($values));
+		}
+	}

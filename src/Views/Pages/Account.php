@@ -1,76 +1,76 @@
 <?php
-    namespace Framework\Views\Pages;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Account
-     *
-     * @package Framework\Views\Pages
-     */
+	namespace Framework\Views\Pages;
 
-    use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page as Structure;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Account
+	 *
+	 * @package Framework\Views\Pages
+	 */
 
-    class Account extends BaseClass implements Structure
-    {
+	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Views\Structures\Page as Structure;
 
-        /**
-         * Account constructor.
-         */
+	class Account extends BaseClass implements Structure
+	{
 
-        public function __construct()
-        {
+		/**
+		 * Account constructor.
+		 */
 
-            parent::__construct( true, true, true, true );
-        }
+		public function __construct()
+		{
 
-        /**
-         * Returns the pages mapping
-         *
-         * @return array
-         */
+			parent::__construct(true, true, true, true);
+		}
 
-        public function mapping()
-        {
+		/**
+		 * Returns the pages mapping
+		 *
+		 * @return array
+		 */
 
-            return array(
-                [
-                    '/account/logout/', 'logout'
-                ],
-                [
-                    'GET /account/settings/', "settings"
-                ],
-                [
-                    'POST /account/settings/', "settingsProcess"
-                ],
-            );
-        }
+		public function mapping()
+		{
 
-        public function settings()
-        {
+			return array(
+				[
+					'/account/logout/', 'logout'
+				],
+				[
+					'GET /account/settings/', "settings"
+				],
+				[
+					'POST /account/settings/', "settingsProcess"
+				],
+			);
+		}
 
-
-        }
+		public function settings()
+		{
 
 
-
-        public function settingsProcess()
-        {
+		}
 
 
-        }
+		public function settingsProcess()
+		{
 
-        /**
-         * Default page
-         */
 
-        public function logout()
-        {
+		}
 
-            parent::$session->cleanupSession( parent::$session->userid() );
-            parent::$session->destroySession( true );
+		/**
+		 * Default page
+		 */
 
-            $this->redirectSuccess('login');
-        }
-    }
+		public function logout()
+		{
+
+			parent::$session->cleanupSession(parent::$session->userid());
+			parent::$session->destroySession(true);
+
+			$this->redirectSuccess('login');
+		}
+	}

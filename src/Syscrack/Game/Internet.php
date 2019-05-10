@@ -1,238 +1,241 @@
 <?php
-namespace Framework\Syscrack\Game;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Internet
- *
- * @package Framework\Syscrack\Game
- */
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Container;
-use Framework\Application\Utilities\Hashes;
-use Framework\Database\Tables\Computer;
-use Framework\Exceptions\SyscrackException;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Internet
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-class Internet
-{
+	use Framework\Application\Container;
+	use Framework\Application\Utilities\Hashes;
+	use Framework\Database\Tables\Computer;
+	use Framework\Exceptions\SyscrackException;
 
-    /**
-     * @var Computer
-     */
+	class Internet
+	{
 
-    protected $computers;
+		/**
+		 * @var Computer
+		 */
 
-    /**
-     * Internet constructor.
-     */
+		protected static $computer;
 
-    public function __construct()
-    {
+		/**
+		 * Internet constructor.
+		 */
 
-        $this->computers = new Computer();
-    }
+		public function __construct()
+		{
 
-    /**
-     * Returns true if the address exists
-     *
-     * @param $ipaddress
-     *
-     * @return bool
-     */
+			if( isset( self::$computer ) == false )
+				self::$computer = new Computer();
+		}
 
-    public function ipExists( $ipaddress )
-    {
+		/**
+		 * Returns true if the address exists
+		 *
+		 * @param $ipaddress
+		 *
+		 * @return bool
+		 */
 
-        if( $this->computers->getComputerByIPAddress( $ipaddress ) == null )
-        {
+		public function ipExists($ipaddress)
+		{
 
-            return false;
-        }
+			if (self::$computer->getComputerByIPAddress($ipaddress) == null)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Gets the computers by their IP address
-     *
-     * @param $ipaddress
-     *
-     * @return mixed|null
-     */
+			return true;
+		}
 
-    public function getComputer( $ipaddress )
-    {
+		/**
+		 * Gets the computers by their IP address
+		 *
+		 * @param $ipaddress
+		 *
+		 * @return mixed|null
+		 */
 
-        return $this->computers->getComputerByIPAddress( $ipaddress );
-    }
-    /**
-     * Gets the computers password
-     *
-     * @param $ipaddress
-     *
-     * @return mixed
-     */
+		public function getComputer($ipaddress)
+		{
 
-    public function getComputerPassword( $ipaddress )
-    {
+			return self::$computer->getComputerByIPAddress($ipaddress);
+		}
 
-        return $this->computers->getComputerByIPAddress( $ipaddress )->password;
-    }
+		/**
+		 * Gets the computers password
+		 *
+		 * @param $ipaddress
+		 *
+		 * @return mixed
+		 */
 
-    /**
-     * Gets the computers address
-     *
-     * @param $computerid
-     *
-     * @return mixed
-     */
+		public function getComputerPassword($ipaddress)
+		{
 
-    public function getComputerAddress( $computerid )
-    {
+			return self::$computer->getComputerByIPAddress($ipaddress)->password;
+		}
 
-        return $this->computers->getComputer( $computerid )->ipaddress;
-    }
+		/**
+		 * Gets the computers address
+		 *
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 
-    /**
-     * Changes the computers address
-     *
-     * @param $computerid
-     *
-     * @return string
-     */
+		public function getComputerAddress($computerid)
+		{
 
-    public function changeAddress( $computerid )
-    {
+			return self::$computer->getComputer($computerid)->ipaddress;
+		}
 
-        $address = $this->getIP();
+		/**
+		 * Changes the computers address
+		 *
+		 * @param $computerid
+		 *
+		 * @return string
+		 */
 
-        if( $this->ipExists( $address ) )
-        {
+		public function changeAddress($computerid)
+		{
 
-            throw new SyscrackException();
-        }
+			$address = $this->getIP();
 
-        $array = array(
-            'ipaddress' => $address
-        );
+			if ($this->ipExists($address))
+			{
 
-        $this->computers->updateComputer( $computerid, $array );
+				throw new SyscrackException();
+			}
 
-        return $address;
-    }
+			$array = array(
+				'ipaddress' => $address
+			);
 
-    /**
-     * Returns true if the user has a current connection
-     *
-     * @return bool
-     */
+			self::$computer->updateComputer($computerid, $array);
 
-    public function hasCurrentConnection()
-    {
+			return $address;
+		}
 
-        if( isset( $_SESSION['connected_ipaddress'] ) == false )
-        {
+		/**
+		 * Returns true if the user has a current connection
+		 *
+		 * @return bool
+		 */
 
-            return false;
-        }
+		public function hasCurrentConnection()
+		{
 
-        if( empty( $_SESSION['connected_ipaddress'] ) || $_SESSION['connected_ipaddress'] == null )
-        {
+			if (isset($_SESSION['connected_ipaddress']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if (empty($_SESSION['connected_ipaddress']) || $_SESSION['connected_ipaddress'] == null)
+			{
 
-    /**
-     * Gets the current connected address of the computer
-     *
-     * @return null
-     */
+				return false;
+			}
 
-    public function getCurrentConnectedAddress()
-    {
+			return true;
+		}
 
-        if( Container::hasObject('session') == false )
-        {
+		/**
+		 * Gets the current connected address of the computer
+		 *
+		 * @return null
+		 */
 
-            return null;
-        }
+		public function getCurrentConnectedAddress()
+		{
 
-        $session = Container::getObject('session');
+			if (Container::hasObject('session') == false)
+			{
 
-        if( $session->isLoggedIn() == false )
-        {
+				return null;
+			}
 
-            return null;
-        }
+			$session = Container::getObject('session');
 
-        if( isset( $_SESSION['connected_ipaddress'] ) == false )
-        {
+			if ($session->isLoggedIn() == false)
+			{
 
-            return null;
-        }
+				return null;
+			}
 
-        return $_SESSION['connected_ipaddress'];
-    }
+			if (isset($_SESSION['connected_ipaddress']) == false)
+			{
 
-    /**
-     * Sets the current connected address of the user
-     *
-     * @param $ipaddress
-     */
+				return null;
+			}
 
-    public function setCurrentConnectedAddress( $ipaddress )
-    {
+			return $_SESSION['connected_ipaddress'];
+		}
 
-        $_SESSION['connected_ipaddress'] = $ipaddress;
-    }
+		/**
+		 * Sets the current connected address of the user
+		 *
+		 * @param $ipaddress
+		 */
 
-    /**
-     * Changes the computers password
-     *
-     * @param $computerid
-     *
-     * @return string
-     */
+		public function setCurrentConnectedAddress($ipaddress)
+		{
 
-    public function changePassword( $computerid )
-    {
+			$_SESSION['connected_ipaddress'] = $ipaddress;
+		}
 
-        $password = $this->getPassword();
+		/**
+		 * Changes the computers password
+		 *
+		 * @param $computerid
+		 *
+		 * @return string
+		 */
 
-        $array = array(
-            'password' => $password
-        );
+		public function changePassword($computerid)
+		{
 
-        $this->computers->updateComputer( $computerid, $array );
+			$password = $this->getPassword();
 
-        return $password;
-    }
+			$array = array(
+				'password' => $password
+			);
 
-    /**
-     * Returns a new random IP address
-     *
-     * @return string
-     */
+			self::$computer->updateComputer($computerid, $array);
 
-    public function getIP()
-    {
+			return $password;
+		}
 
-        return rand(0,255) . '.' . rand(0,255)  . '.' .  rand(0,255)  . '.' .  rand(0,255);
-    }
+		/**
+		 * Returns a new random IP address
+		 *
+		 * @return string
+		 */
 
-    /**
-     * Returns a new random computer password
-     *
-     * @return string
-     */
+		public function getIP()
+		{
 
-    private function getPassword()
-    {
+			return rand(0, 255) . '.' . rand(0, 255) . '.' . rand(0, 255) . '.' . rand(0, 255);
+		}
 
-        return Hashes::randomBytes( rand(6,18 ) );
-    }
-}
+		/**
+		 * Returns a new random computer password
+		 *
+		 * @return string
+		 */
+
+		private function getPassword()
+		{
+
+			return Hashes::randomBytes(rand(6, 18));
+		}
+	}

@@ -1,274 +1,278 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
-
-/**
- * Lewis Lancaster 2017
- *
- * Class RemoteAdmin
- *
- * @package Framework\Syscrack\Game\Operations
- */
-
-use Framework\Application\Settings;
-use Framework\Application\Utilities\PostHelper;
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Finance;
 
+	namespace Framework\Syscrack\Game\Operations;
+
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class RemoteAdmin
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class RemoteAdmin extends BaseOperation
-{
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Finance;
 
-    /**
-     * @var Finance
-     */
 
-    protected static $finance;
+	class RemoteAdmin extends BaseOperation
+	{
 
-    /**
-     * View constructor.
-     */
-
-    public function __construct()
-    {
+		/**
+		 * @var Finance
+		 */
 
-        if( isset( self::$finance ) == false )
-            self::$finance = new Finance();
+		protected static $finance;
 
-        parent::__construct( true );
-    }
+		/**
+		 * View constructor.
+		 */
 
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
-
-    public function configuration()
-    {
-
-        return array(
-            'allowsoftware'    => false,
-            'allowlocal'        => false,
-            'requiresoftware'  => false,
-            'requireloggedin'   => false,
-            'allowpost'         => true
-        );
-    }
-
-    /**
-     * @param null $ipaddress
-     * @return string
-     */
-
-    public function url($ipaddress = null)
-    {
-
-        if( $ipaddress == null )
-            return( parent::url( $ipaddress ) );
-
-        return('game/internet/' . @$ipaddress . '/remoteadmin');
-    }
-
-    /**
-     * Called when this process request is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
-
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
-
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
+		public function __construct()
+		{
+
+			if (isset(self::$finance) == false)
+				self::$finance = new Finance();
 
+			parent::__construct(true);
+		}
 
-        $computer = self::$internet->getComputer( $data['ipaddress'] );
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
+
+		public function configuration()
+		{
+
+			return array(
+				'allowsoftware' => false,
+				'allowlocal' => false,
+				'requiresoftware' => false,
+				'requireloggedin' => false,
+				'allowpost' => true
+			);
+		}
+
+		/**
+		 * @param null $ipaddress
+		 *
+		 * @return string
+		 */
+
+		public function url($ipaddress = null)
+		{
+
+			if ($ipaddress == null)
+				return (parent::url($ipaddress));
+
+			return ('game/internet/' . @$ipaddress . '/remoteadmin');
+		}
+
+		/**
+		 * Called when this process request is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return mixed
+		 */
+
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
+
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
+
 
-        if( $computer->type != Settings::setting('syscrack_computers_bank_type') )
-            return false;
+			$computer = self::$internet->getComputer($data['ipaddress']);
 
-        if( self::$finance->hasCurrentActiveAccount() == false )
-            return false;
+			if ($computer->type != Settings::setting('syscrack_computers_bank_type'))
+				return false;
 
-        else
-        {
+			if (self::$finance->hasCurrentActiveAccount() == false)
+				return false;
 
-            if( self::$finance->accountNumberExists( self::$finance->getCurrentActiveAccount() ) == false )
-            {
+			else
+			{
 
-                if( Settings::setting('syscrack_operations_bank_clearonfail') )
-                    self::$finance->setCurrentActiveAccount( null );
+				if (self::$finance->accountNumberExists(self::$finance->getCurrentActiveAccount()) == false)
+				{
 
-                return false;
-            }
+					if (Settings::setting('syscrack_operations_bank_clearonfail'))
+						self::$finance->setCurrentActiveAccount(null);
 
-            if( self::$finance->getByAccountNumber( self::$finance->getCurrentActiveAccount() )->computerid !== $computer->computerid )
-                return false;
+					return false;
+				}
 
-        }
+				if (self::$finance->getByAccountNumber(self::$finance->getCurrentActiveAccount())->computerid !== $computer->computerid)
+					return false;
 
-        return true;
-    }
+			}
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool
-     */
+			return true;
+		}
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            throw new SyscrackException();
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-        if( self::$finance->accountNumberExists( self::$finance->getCurrentActiveAccount() ) == false )
-            return false;
-        else
-            $this->render('operations/operations.bank.adminaccount',
-                array(
-                    'ipaddress'         => $data['ipaddress'],
-                    'userid'        => $userid,
-                    'account'       => self::$finance->getByAccountNumber( self::$finance->getCurrentActiveAccount() ),
-                    'accounts'      => self::$finance->getUserBankAccounts( $userid ),
-                    'accounts_location'   => $this->getAddresses( self::$finance->getUserBankAccounts( $userid ) ),
-                    'computer'      => self::$internet->getComputer( $data['ipaddress'] )
-                ), true );
+			if ($this->checkData($data, ['ipaddress']) == false)
+				throw new SyscrackException();
 
-        return null;
-    }
+			if (self::$finance->accountNumberExists(self::$finance->getCurrentActiveAccount()) == false)
+				return false;
+			else
+				$this->render('operations/operations.bank.adminaccount',
+					array(
+						'ipaddress' => $data['ipaddress'],
+						'userid' => $userid,
+						'account' => self::$finance->getByAccountNumber(self::$finance->getCurrentActiveAccount()),
+						'accounts' => self::$finance->getUserBankAccounts($userid),
+						'accounts_location' => $this->getAddresses(self::$finance->getUserBankAccounts($userid)),
+						'computer' => self::$internet->getComputer($data['ipaddress'])
+					), true);
 
+			return null;
+		}
 
-    /**
-     * @param $data
-     * @param $ipaddress
-     * @param $userid
-     * @return bool
-     */
 
-    public function onPost( $data, $ipaddress, $userid )
-    {
+		/**
+		 * @param $data
+		 * @param $ipaddress
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-        if( PostHelper::hasPostData() == false )
-        {
+		public function onPost($data, $ipaddress, $userid)
+		{
 
-            $this->redirect( $this->getRedirect( $ipaddress ) . '/remoteadmin' );
-        }
+			if (PostHelper::hasPostData() == false)
+			{
 
-        if( PostHelper::checkForRequirements( ['action'] ) == false )
-            return false;
-        else
-        {
+				$this->redirect($this->getRedirect($ipaddress) . '/remoteadmin');
+			}
 
-            if( self::$finance->hasCurrentActiveAccount() == false )
-                return false;
+			if (PostHelper::checkForRequirements(['action']) == false)
+				return false;
+			else
+			{
 
-            if( self::$finance->accountNumberExists( self::$finance->getCurrentActiveAccount() ) == false )
-            {
+				if (self::$finance->hasCurrentActiveAccount() == false)
+					return false;
 
-                if( Settings::setting('syscrack_operations_bank_clearonfail') )
-                {
+				if (self::$finance->accountNumberExists(self::$finance->getCurrentActiveAccount()) == false)
+				{
 
-                    self::$finance->setCurrentActiveAccount( null );
-                }
+					if (Settings::setting('syscrack_operations_bank_clearonfail'))
+					{
 
-                return false;
-            }
+						self::$finance->setCurrentActiveAccount(null);
+					}
 
-            $action = PostHelper::getPostData('action');
+					return false;
+				}
 
-            if( $action == 'transfer' )
-            {
+				$action = PostHelper::getPostData('action');
 
-                if( PostHelper::checkForRequirements( ['accountnumber','ipaddress','amount'] ) )
-                {
+				if ($action == 'transfer')
+				{
 
-                    $accountnumber = PostHelper::getPostData('accountnumber');
-                    $targetipaddress = PostHelper::getPostData('ipaddress');
-                    $amount = PostHelper::getPostData('amount');
+					if (PostHelper::checkForRequirements(['accountnumber', 'ipaddress', 'amount']))
+					{
 
-                    if( is_numeric( $amount ) == false )
-                    {
+						$accountnumber = PostHelper::getPostData('accountnumber');
+						$targetipaddress = PostHelper::getPostData('ipaddress');
+						$amount = PostHelper::getPostData('amount');
 
-                        return false;
-                    }
+						if (is_numeric($amount) == false)
+						{
 
-                    $amount = abs( $amount );
+							return false;
+						}
 
-                    if( empty( $amount ) || $amount == 0 )
-                    {
+						$amount = abs($amount);
 
-                        return false;
-                    }
+						if (empty($amount) || $amount == 0)
+						{
 
-                    if( self::$finance->accountNumberExists( $accountnumber ) == false )
-                    {
+							return false;
+						}
 
-                        return false;
-                    }
+						if (self::$finance->accountNumberExists($accountnumber) == false)
+						{
 
-                    if( self::$internet->ipExists( $targetipaddress ) == false )
-                    {
+							return false;
+						}
 
-                        return false;
-                    }
+						if (self::$internet->ipExists($targetipaddress) == false)
+						{
 
-                    $account = self::$finance->getByAccountNumber( $accountnumber );
+							return false;
+						}
 
-                    $activeaccount = self::$finance->getByAccountNumber( self::$finance->getCurrentActiveAccount() );
+						$account = self::$finance->getByAccountNumber($accountnumber);
 
-                    if( self::$computer->getComputer( $account->computerid )->ipaddress !== $targetipaddress )
-                    {
+						$activeaccount = self::$finance->getByAccountNumber(self::$finance->getCurrentActiveAccount());
 
-                        return false;
-                    }
+						if (self::$computer->getComputer($account->computerid)->ipaddress !== $targetipaddress)
+						{
 
-                    if( self::$finance->canAfford( $activeaccount->computerid, $activeaccount->userid, $amount ) == false )
-                    {
+							return false;
+						}
 
-                        return false;
-                    }
+						if (self::$finance->canAfford($activeaccount->computerid, $activeaccount->userid, $amount) == false)
+						{
 
-                    self::$finance->deposit( $account->computerid, $account->userid, $amount );
+							return false;
+						}
 
-                    self::$finance->withdraw( $activeaccount->computerid, $activeaccount->userid, $amount );
+						self::$finance->deposit($account->computerid, $account->userid, $amount);
 
-                    $this->logActions('Transfered ' . Settings::setting('syscrack_currency') . number_format( $amount ) . ' from (' . self::$finance->getCurrentActiveAccount() . ') to (' . $account->accountnumber . ') to bank <' . $targetipaddress . '>',
-                        self::$computer->computerid(),
-                        $ipaddress);
+						self::$finance->withdraw($activeaccount->computerid, $activeaccount->userid, $amount);
 
-                    return false;
-                }
-                else
-                {
+						$this->logActions('Transfered ' . Settings::setting('syscrack_currency') . number_format($amount) . ' from (' . self::$finance->getCurrentActiveAccount() . ') to (' . $account->accountnumber . ') to bank <' . $targetipaddress . '>',
+							self::$computer->computerid(),
+							$ipaddress);
 
-                    return false;
-                }
-            }
-            elseif( $action == "disconnect" )
-            {
+						return false;
+					}
+					else
+					{
 
-                self::$finance->setCurrentActiveAccount( null );
+						return false;
+					}
+				}
+				else if ($action == "disconnect")
+				{
 
-                $this->redirect( $this->getRedirect( $ipaddress ) );
-            }
-        }
+					self::$finance->setCurrentActiveAccount(null);
 
-        return true;
-    }
-}
+					$this->redirect($this->getRedirect($ipaddress));
+				}
+			}
+
+			return true;
+		}
+	}

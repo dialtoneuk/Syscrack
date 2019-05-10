@@ -1,210 +1,211 @@
 <?php
-namespace Framework\Syscrack;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Register
- *
- * @package Framework\Syscrack
- */
+	namespace Framework\Syscrack;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\Hashes;
-use Framework\Database\Tables\Users as Database;
-use Framework\Exceptions\SyscrackException;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Register
+	 *
+	 * @package Framework\Syscrack
+	 */
 
-class Register
-{
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\Hashes;
+	use Framework\Database\Tables\Users as Database;
+	use Framework\Exceptions\SyscrackException;
 
-    /**
-     * @var Database
-     */
+	class Register
+	{
 
-    protected $database;
+		/**
+		 * @var Database
+		 */
 
-    /**
-     * Register constructor.
-     */
+		protected $database;
 
-    public function __construct()
-    {
+		/**
+		 * Register constructor.
+		 */
 
-        $this->database = new Database();
-    }
+		public function __construct()
+		{
 
-    /**
-     * Registers a new user and returns a verification token
-     *
-     * @param $username
-     *
-     * @param $password
-     *
-     * @param $email
-     *
-     * @return mixed
-     */
+			$this->database = new Database();
+		}
 
-    public function register( $username, $password, $email )
-    {
+		/**
+		 * Registers a new user and returns a verification token
+		 *
+		 * @param $username
+		 *
+		 * @param $password
+		 *
+		 * @param $email
+		 *
+		 * @return mixed
+		 */
 
-        if( filter_var( $email, FILTER_VALIDATE_EMAIL ) == false )
-        {
+		public function register($username, $password, $email)
+		{
 
-            throw new SyscrackException('Your email is not a valid email');
-        }
+			if (filter_var($email, FILTER_VALIDATE_EMAIL) == false)
+			{
 
-        if( $this->isUsernameTaken( $username ) )
-        {
+				throw new SyscrackException('Your email is not a valid email');
+			}
 
-            throw new SyscrackException('Username is already taken');
-        }
+			if ($this->isUsernameTaken($username))
+			{
 
-        if( $this->isEmailUnused( $email ) )
-        {
+				throw new SyscrackException('Username is already taken');
+			}
 
-            throw new SyscrackException('Email is already taken');
-        }
+			if ($this->isEmailUnused($email))
+			{
 
-        $data = $this->prepareArray( $username, $password, $email );
+				throw new SyscrackException('Email is already taken');
+			}
 
-        if( empty( $data ) )
-        {
+			$data = $this->prepareArray($username, $password, $email);
 
-            throw new SyscrackException('Failed to prepare array');
-        }
+			if (empty($data))
+			{
 
-        $userid = $this->database->insertUser( $data );
+				throw new SyscrackException('Failed to prepare array');
+			}
 
-        if( empty( $userid ) )
-        {
+			$userid = $this->database->insertUser($data);
 
-            throw new SyscrackException('Internal error');
-        }
+			if (empty($userid))
+			{
 
-        $verification = new Verification();
+				throw new SyscrackException('Internal error');
+			}
 
-        if( $verification->hasVerificationRequest( $userid ) )
-        {
+			$verification = new Verification();
 
-            return $verification->getToken( $userid );
-        }
+			if ($verification->hasVerificationRequest($userid))
+			{
 
-        return $verification->addRequest( $userid, $email );
-    }
+				return $verification->getToken($userid);
+			}
 
-    /**
-     * Returns true if an email is unused
-     *
-     * @param $email
-     *
-     * @return bool
-     */
+			return $verification->addRequest($userid, $email);
+		}
 
-    public function isEmailUnused( $email )
-    {
+		/**
+		 * Returns true if an email is unused
+		 *
+		 * @param $email
+		 *
+		 * @return bool
+		 */
 
-        if( $this->database->getByEmail( $email ) == null )
-        {
+		public function isEmailUnused($email)
+		{
 
-            return false;
-        }
+			if ($this->database->getByEmail($email) == null)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Checks if the username is taken
-     *
-     * @param $username
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function isUsernameTaken( $username )
-    {
+		/**
+		 * Checks if the username is taken
+		 *
+		 * @param $username
+		 *
+		 * @return bool
+		 */
 
-        if( $this->database->getByUsername( $username ) == null )
-        {
+		public function isUsernameTaken($username)
+		{
 
-            return false;
-        }
+			if ($this->database->getByUsername($username) == null)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Prepares the array of data to be passed to the database ( query builder )
-     *
-     * @param $username
-     *
-     * @param $password
-     *
-     * @param $email
-     *
-     * @return array
-     */
+			return true;
+		}
 
-    private function prepareArray( $username, $password, $email )
-    {
+		/**
+		 * Prepares the array of data to be passed to the database ( query builder )
+		 *
+		 * @param $username
+		 *
+		 * @param $password
+		 *
+		 * @param $email
+		 *
+		 * @return array
+		 */
 
-        $salt = $this->generateSalt();
+		private function prepareArray($username, $password, $email)
+		{
 
-        if( $salt == null )
-        {
+			$salt = $this->generateSalt();
 
-            throw new SyscrackException();
-        }
+			if ($salt == null)
+			{
 
-        $password = $this->saltPassword( $password, $salt );
+				throw new SyscrackException();
+			}
 
-        if( $this->database->getUsers()->isEmpty() && Settings::setting('user_first_signup_admin') )
-        {
+			$password = $this->saltPassword($password, $salt);
 
-            $group = Settings::setting('user_group_admin');
-        }
-        else
-        {
+			if ($this->database->getUsers()->isEmpty() && Settings::setting('user_first_signup_admin'))
+			{
 
-            $group = Settings::setting('user_default_group');
-        }
+				$group = Settings::setting('user_group_admin');
+			}
+			else
+			{
 
-        $array = array(
-            'username'  => $username,
-            'email'     => $email,
-            'password'  => $password,
-            'salt'      => $salt,
-            'group'     => $group
-        );
+				$group = Settings::setting('user_default_group');
+			}
 
-        return $array;
-    }
+			$array = array(
+				'username' => $username,
+				'email' => $email,
+				'password' => $password,
+				'salt' => $salt,
+				'group' => $group
+			);
 
-    /**
-     * Generates a new salt
-     *
-     * @return array|null|string
-     */
+			return $array;
+		}
 
-    private function generateSalt()
-    {
+		/**
+		 * Generates a new salt
+		 *
+		 * @return array|null|string
+		 */
 
-        return Hashes::sha1( Hashes::randomBytes() );
-    }
+		private function generateSalt()
+		{
 
-    /**
-     * Gives that password some nice salt
-     *
-     * @param $password
-     *
-     * @param $salt
-     *
-     * @return array|null|string
-     */
+			return Hashes::sha1(Hashes::randomBytes());
+		}
 
-    private function saltPassword( $password, $salt )
-    {
+		/**
+		 * Gives that password some nice salt
+		 *
+		 * @param $password
+		 *
+		 * @param $salt
+		 *
+		 * @return array|null|string
+		 */
 
-        return Hashes::sha1( $salt, $password );
-    }
-}
+		private function saltPassword($password, $salt)
+		{
+
+			return Hashes::sha1($salt, $password);
+		}
+	}

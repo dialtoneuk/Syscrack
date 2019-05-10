@@ -1,244 +1,252 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 30/06/2018
- * Time: 15:41
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 30/06/2018
+	 * Time: 15:41
+	 */
 
-namespace Framework\Application\UtilitiesV2;
+	namespace Framework\Application\UtilitiesV2;
 
 
-use Framework\Application\UtilitiesV2\Conventions\FileData;
-use function GuzzleHttp\Psr7\mimetype_from_filename;
+	use Framework\Application\UtilitiesV2\Conventions\FileData;
+	use function GuzzleHttp\Psr7\mimetype_from_filename;
 
-class FileOperator
-{
+	class FileOperator
+	{
 
-    protected $path;
-    public $contents;
+		protected $path;
+		public $contents;
 
-    /**
-     * FileOperator constructor.
-     * @param $path
-     * @param bool $auto_read
-     * @throws \RuntimeException
-     */
+		/**
+		 * FileOperator constructor.
+		 *
+		 * @param $path
+		 * @param bool $auto_read
+		 *
+		 * @throws \RuntimeException
+		 */
 
-    public function __construct( $path, $auto_read = true )
-    {
+		public function __construct($path, $auto_read = true)
+		{
 
-        if( file_exists( SYSCRACK_ROOT . $path ) == false )
-            throw new \RuntimeException('File does not exist: ' . SYSCRACK_ROOT . $path );
+			if (file_exists(SYSCRACK_ROOT . $path) == false)
+				throw new \RuntimeException('File does not exist: ' . SYSCRACK_ROOT . $path);
 
-        if( is_dir( SYSCRACK_ROOT . $path ) )
-            throw new \RuntimeException('File operator can only operate files');
+			if (is_dir(SYSCRACK_ROOT . $path))
+				throw new \RuntimeException('File operator can only operate files');
 
-        $this->path = $path;
+			$this->path = $path;
 
-        if( $auto_read )
-            $this->read();
-    }
+			if ($auto_read)
+				$this->read();
+		}
 
-    /**
-     * @return bool
-     */
+		/**
+		 * @return bool
+		 */
 
-    public function isEmpty()
-    {
+		public function isEmpty()
+		{
 
-        if( $this->hasContents() == false )
-            $this->read();
+			if ($this->hasContents() == false)
+				$this->read();
 
-        return $this->hasContents();
-    }
+			return $this->hasContents();
+		}
 
-    /**
-     * @return bool
-     */
+		/**
+		 * @return bool
+		 */
 
-    public function isJSON()
-    {
+		public function isJSON()
+		{
 
-        if( $this->hasContents() == false )
-            $this->read();
+			if ($this->hasContents() == false)
+				$this->read();
 
-        json_decode( $this->contents );
+			json_decode($this->contents);
 
-        if( json_last_error() !== JSON_ERROR_NONE )
-            return false;
+			if (json_last_error() !== JSON_ERROR_NONE)
+				return false;
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * @param bool $array
-     * @return mixed
-     */
+		/**
+		 * @param bool $array
+		 *
+		 * @return mixed
+		 */
 
-    public function decodeJSON( $array = true )
-    {
+		public function decodeJSON($array = true)
+		{
 
-        if( $this->hasContents() == false )
-            $this->read();
+			if ($this->hasContents() == false)
+				$this->read();
 
-        return json_decode( $this->contents, $array );
-    }
+			return json_decode($this->contents, $array);
+		}
 
-    /**
-     * Appends to a file
-     *
-     * @param $data
-     * @throws \RuntimeException
-     */
+		/**
+		 * Appends to a file
+		 *
+		 * @param $data
+		 *
+		 * @throws \RuntimeException
+		 */
 
-    public function append( $data )
-    {
+		public function append($data)
+		{
 
-        $handle = fopen( SYSCRACK_ROOT . $this->path, 'a' );
+			$handle = fopen(SYSCRACK_ROOT . $this->path, 'a');
 
-        if( $handle == false )
-            throw new \RuntimeException('Unable to open file, probably due to permissions error');
+			if ($handle == false)
+				throw new \RuntimeException('Unable to open file, probably due to permissions error');
 
-        fwrite( $handle, $data );
-        fclose( $handle );
-    }
+			fwrite($handle, $data);
+			fclose($handle);
+		}
 
-    /**
-     * @param $data
-     */
+		/**
+		 * @param $data
+		 */
 
-    public function write( $data )
-    {
+		public function write($data)
+		{
 
-        file_put_contents( SYSCRACK_ROOT . $this->path, $data );
-    }
+			file_put_contents(SYSCRACK_ROOT . $this->path, $data);
+		}
 
-    /**
-     * Gets the name of the file, alone with out the extension
-     *
-     * @return mixed
-     */
+		/**
+		 * Gets the name of the file, alone with out the extension
+		 *
+		 * @return mixed
+		 */
 
-    public function getBaseName()
-    {
+		public function getBaseName()
+		{
 
-        $exploded = explode("/", $this->path );
-        $file = end( $exploded );
-        $filename = explode('.', $file );
+			$exploded = explode("/", $this->path);
+			$file = end($exploded);
+			$filename = explode('.', $file);
 
-        return( $filename[0] );
-    }
+			return ($filename[0]);
+		}
 
-    /**
-     * @return FileData
-     */
+		/**
+		 * @return FileData
+		 */
 
-    public function object(): FileData
-    {
+		public function object(): FileData
+		{
 
-        if( $this->hasContents() == false )
-            $this->read();
+			if ($this->hasContents() == false)
+				$this->read();
 
-        return( self::dataInstance([
-            "path"      => $this->path,
-            "info"      => pathinfo( SYSCRACK_ROOT . $this->path ),
-            "contents"  => $this->contents
-        ]));
-    }
+			return (self::dataInstance([
+				"path" => $this->path,
+				"info" => pathinfo(SYSCRACK_ROOT . $this->path),
+				"contents" => $this->contents
+			]));
+		}
 
-    /**
-     * @return bool
-     */
+		/**
+		 * @return bool
+		 */
 
-    private function hasContents()
-    {
+		private function hasContents()
+		{
 
-        return( empty( $this->contents ) );
-    }
+			return (empty($this->contents));
+		}
 
-    /**
-     * Reads
-     */
+		/**
+		 * Reads
+		 */
 
-    private function read()
-    {
+		private function read()
+		{
 
-        $this->contents = file_get_contents( SYSCRACK_ROOT . $this->path );
-    }
+			$this->contents = file_get_contents(SYSCRACK_ROOT . $this->path);
+		}
 
-    /**
-     * @param $filepath
-     * @param array $extensions
-     * @return bool
-     * @throws \RuntimeException
-     */
+		/**
+		 * @param $filepath
+		 * @param array $extensions
+		 *
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-    public static function checkExtension( $filepath, $extensions=["mp3"] )
-    {
+		public static function checkExtension($filepath, $extensions = ["mp3"])
+		{
 
-        if( file_exists( SYSCRACK_ROOT . $filepath ) == false )
-            throw new \RuntimeException("File must exist");
+			if (file_exists(SYSCRACK_ROOT . $filepath) == false)
+				throw new \RuntimeException("File must exist");
 
-        $file_parts = pathinfo(SYSCRACK_ROOT . $filepath);
+			$file_parts = pathinfo(SYSCRACK_ROOT . $filepath);
 
-        foreach( $extensions as $extension )
-        {
+			foreach ($extensions as $extension)
+			{
 
-            if(  $file_parts["extension"] == $extension )
-                return true;
-        }
+				if ($file_parts["extension"] == $extension)
+					return true;
+			}
 
-        return false;
-    }
+			return false;
+		}
 
-    /**
-     * @param array $values
-     * @return FileData
-     */
+		/**
+		 * @param array $values
+		 *
+		 * @return FileData
+		 */
 
-    public static function dataInstance( $values )
-    {
+		public static function dataInstance($values)
+		{
 
-        return( new FileData( $values ) );
-    }
+			return (new FileData($values));
+		}
 
-    /**
-     * @param $path
-     * @return FileData
-     */
+		/**
+		 * @param $path
+		 *
+		 * @return FileData
+		 */
 
-    public static function pathDataInstance( $path )
-    {
+		public static function pathDataInstance($path)
+		{
 
-        $instance = new FileOperator( $path );
-        $object = $instance->object();
-        unset( $instance );
-        return(  $object );
-    }
+			$instance = new FileOperator($path);
+			$object = $instance->object();
+			unset($instance);
+			return ($object);
+		}
 
-    /**
-     * @param $filepath
-     * @param array $mimes
-     * @return bool
-     * @throws \RuntimeException
-     */
+		/**
+		 * @param $filepath
+		 * @param array $mimes
+		 *
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-    public static function checkMimeType($filepath, $mimes=["mp3"] )
-    {
+		public static function checkMimeType($filepath, $mimes = ["mp3"])
+		{
 
-        if( file_exists( SYSCRACK_ROOT . $filepath ) == false )
-            throw new \RuntimeException("File must exist");
+			if (file_exists(SYSCRACK_ROOT . $filepath) == false)
+				throw new \RuntimeException("File must exist");
 
-        $mimetype = mimetype_from_filename(SYSCRACK_ROOT . $filepath);
+			$mimetype = mimetype_from_filename(SYSCRACK_ROOT . $filepath);
 
-        foreach($mimes as $mime )
-        {
+			foreach ($mimes as $mime)
+			{
 
-            if( $mimetype == $mime )
-                return true;
-        }
+				if ($mimetype == $mime)
+					return true;
+			}
 
-        return false;
-    }
-}
+			return false;
+		}
+	}

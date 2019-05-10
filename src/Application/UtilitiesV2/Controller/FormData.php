@@ -1,66 +1,67 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 05/08/2018
- * Time: 02:13
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 05/08/2018
+	 * Time: 02:13
+	 */
 
-namespace Framework\Application\UtilitiesV2\Controller;
+	namespace Framework\Application\UtilitiesV2\Controller;
 
 
-use Framework\Application\UtilitiesV2\Interfaces\Response;
+	use Framework\Application\UtilitiesV2\Interfaces\Response;
 
-class FormData implements Response
-{
+	class FormData implements Response
+	{
 
-    /**
-     * @var string
-     */
+		/**
+		 * @var string
+		 */
 
-    protected $data;
+		protected $data;
 
-    /**
-     * @var string
-     */
+		/**
+		 * @var string
+		 */
 
-    protected $type;
+		protected $type;
 
-    /**
-     * @var bool
-     */
+		/**
+		 * @var bool
+		 */
 
-    protected $success = true;
+		protected $success = true;
 
-    /**
-     * FormData constructor.
-     * @param string $type
-     * @param $data
-     * @param null $success
-     */
+		/**
+		 * FormData constructor.
+		 *
+		 * @param string $type
+		 * @param $data
+		 * @param null $success
+		 */
 
-    public function __construct( $type=FORM_MESSAGE_INFO, $data, $success=null )
-    {
+		public function __construct($type = FORM_MESSAGE_INFO, $data, $success = null)
+		{
 
-        if( $success !== null )
-            if( is_bool( $success ) )
-                $this->success = $success;
+			if ($success !== null)
+				if (is_bool($success))
+					$this->success = $success;
 
-        $this->data = $data;
-        $this->type = $type;
-    }
+			$this->data = $data;
+			$this->type = $type;
+		}
 
-    /**
-     * @return array
-     */
+		/**
+		 * @return array
+		 */
 
-    public function get()
-    {
+		public function get()
+		{
 
-        return( array(
-            "success"   => $this->success,
-            "data"      => $this->data,
-            "type"      => $this->type
-        ));
-    }
-}
+			return (array(
+				"success" => $this->success,
+				"data" => $this->data,
+				"type" => $this->type
+			));
+		}
+	}

@@ -1,122 +1,123 @@
 <?php
-    namespace Framework\Views\Pages;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Login
-     *
-     * @package Framework\Views\Pages
-     */
+	namespace Framework\Views\Pages;
 
-    use Framework\Application\Render;
-    use Framework\Application\Settings;
-    use Framework\Application\Utilities\PostHelper;
-    use Framework\Exceptions\ViewException;
-    use Framework\Syscrack\Login\Account;
-    use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page as Structure;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Login
+	 *
+	 * @package Framework\Views\Pages
+	 */
 
-    class Login extends BaseClass implements Structure
-    {
+	use Framework\Application\Render;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Exceptions\ViewException;
+	use Framework\Syscrack\Login\Account;
+	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Views\Structures\Page as Structure;
 
-        /**
-         * @var Account
-         */
+	class Login extends BaseClass implements Structure
+	{
 
-        protected static $login;
+		/**
+		 * @var Account
+		 */
 
-        /**
-         * Login constructor.
-         */
+		protected static $login;
 
-        public function __construct()
-        {
+		/**
+		 * Login constructor.
+		 */
 
-            if( isset( self::$login ) == false )
-                self::$login = new Account();
+		public function __construct()
+		{
 
-            parent::__construct( true, true, false, true );
+			if (isset(self::$login) == false)
+				self::$login = new Account();
 
-        }
+			parent::__construct(true, true, false, true);
 
-        /**
-         * Returns the pages mapping
-         *
-         * @return array
-         */
+		}
 
-        public function mapping()
-        {
+		/**
+		 * Returns the pages mapping
+		 *
+		 * @return array
+		 */
 
-            return array(
-                [
-                    'GET /login/', 'page'
-                ],
-                [
-                    'POST /login/', 'process'
-                ]
-            );
-        }
+		public function mapping()
+		{
 
-        /**
-         * Default page
-         */
+			return array(
+				[
+					'GET /login/', 'page'
+				],
+				[
+					'POST /login/', 'process'
+				]
+			);
+		}
 
-        public function page()
-        {
+		/**
+		 * Default page
+		 */
 
-            Render::view('syscrack/page.login', [], $this->model() );
-        }
+		public function page()
+		{
 
-        /**
-         * Processes a login request
-         */
+			Render::view('syscrack/page.login', [], $this->model());
+		}
 
-        public function process()
-        {
+		/**
+		 * Processes a login request
+		 */
 
-            if (PostHelper::hasPostData() == false)
-                $this->redirectError('Blank Form');
-            elseif (PostHelper::checkForRequirements(['username', 'password']) == false)
-                $this->redirectError('Missing Information');
-            else
-            {
+		public function process()
+		{
 
-                $username = PostHelper::getPostData('username');
-                $password = PostHelper::getPostData('password');
+			if (PostHelper::hasPostData() == false)
+				$this->redirectError('Blank Form');
+			else if (PostHelper::checkForRequirements(['username', 'password']) == false)
+				$this->redirectError('Missing Information');
+			else
+			{
 
-                $result = @self::$login->loginAccount( $username, $password );
+				$username = PostHelper::getPostData('username');
+				$password = PostHelper::getPostData('password');
 
-                if( $result === false )
-                    $this->redirectError( self::$login::$error->getMessage() );
-                else
-                {
+				$result = @self::$login->loginAccount($username, $password);
 
-                    $userid = self::$login->getUserID( $username );
+				if ($result === false)
+					$this->redirectError(self::$login::$error->getMessage());
+				else
+				{
 
-                    if( Settings::setting('login_cleanup_old_sessions') == true )
-                        self::$session->cleanupSession( $userid );
+					$userid = self::$login->getUserID($username);
 
-                    self::$session->insertSession( $userid );
-                    $this->addConnectedComputer( $userid );
-                    $this->redirectSuccess('game', false );
-                }
-            }
-        }
+					if (Settings::setting('login_cleanup_old_sessions') == true)
+						self::$session->cleanupSession($userid);
 
-        /**
-         * Adds the current connected computer to the session
-         *
-         * @param $userid
-         */
+					self::$session->insertSession($userid);
+					$this->addConnectedComputer($userid);
+					$this->redirectSuccess('game', false);
+				}
+			}
+		}
 
-        private function addConnectedComputer($userid)
-        {
+		/**
+		 * Adds the current connected computer to the session
+		 *
+		 * @param $userid
+		 */
 
-            if (self::$computer->userHasComputers($userid) == false)
-                throw new ViewException('User has no computers');
+		private function addConnectedComputer($userid)
+		{
 
-            self::$computer->setCurrentUserComputer(self::$computer->getUserMainComputer($userid)->computerid);
-        }
-    }
+			if (self::$computer->userHasComputers($userid) == false)
+				throw new ViewException('User has no computers');
+
+			self::$computer->setCurrentUserComputer(self::$computer->getUserMainComputer($userid)->computerid);
+		}
+	}

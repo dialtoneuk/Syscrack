@@ -1,92 +1,93 @@
 <?php
-    namespace Framework\Syscrack\Game\Computers;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Bank
-     *
-     * @package Framework\Syscrack\Game\Computer
-     */
+	namespace Framework\Syscrack\Game\Computers;
 
-    use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\Finance;
-    use Framework\Syscrack\Game\BaseClasses\BaseComputer;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Bank
+	 *
+	 * @package Framework\Syscrack\Game\Computer
+	 */
 
-    class Bank extends BaseComputer
-    {
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\BaseClasses\BaseComputer;
+	use Framework\Syscrack\Game\Finance;
 
-        /**
-         * @var Finance
-         */
+	class Bank extends BaseComputer
+	{
 
-        protected static $finance;
+		/**
+		 * @var Finance
+		 */
 
-        /**
-         * Npc constructor.
-         */
+		protected static $finance;
 
-        public function __construct()
-        {
+		/**
+		 * Npc constructor.
+		 */
 
-            if( isset( self::$finance ) == false )
-                self::$finance = new Finance();
+		public function __construct()
+		{
 
-            parent::__construct( true );
-        }
+			if (isset(self::$finance) == false)
+				self::$finance = new Finance();
 
-        /**
-         * The configuration of this computer
-         *
-         * @return array
-         */
+			parent::__construct(true);
+		}
 
-        public function configuration()
-        {
+		/**
+		 * The configuration of this computer
+		 *
+		 * @return array
+		 */
 
-            return array(
-                'installable' => false,
-                'type'        => 'bank'
-            );
-        }
+		public function configuration()
+		{
 
-        /**
-         * What to do when you login to this computer
-         *
-         * @param $computerid
-         *
-         * @param $ipaddress
-         */
+			return array(
+				'installable' => false,
+				'type' => 'bank'
+			);
+		}
 
-        public function onLogin($computerid, $ipaddress)
-        {
+		/**
+		 * What to do when you login to this computer
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 */
 
-            if( self::$internet->ipExists( $ipaddress ) == false )
-                throw new SyscrackException();
+		public function onLogin($computerid, $ipaddress)
+		{
 
-            self::$internet->setCurrentConnectedAddress( $ipaddress );
+			if (self::$internet->ipExists($ipaddress) == false)
+				throw new SyscrackException();
 
-            $this->log( $computerid, 'Logged in as root', $this->getCurrentComputerAddress() );
-            $this->logToIP( $this->getCurrentComputerAddress(), 'Logged in as root at <' . $ipaddress . '>');
-        }
+			self::$internet->setCurrentConnectedAddress($ipaddress);
 
-        /**
-         * What to do when you logout of a computer
-         *
-         * @param $computerid
-         *
-         * @param $ipaddress
-         */
+			$this->log($computerid, 'Logged in as root', $this->getCurrentComputerAddress());
+			$this->logToIP($this->getCurrentComputerAddress(), 'Logged in as root at <' . $ipaddress . '>');
+		}
 
-        public function onLogout($computerid, $ipaddress)
-        {
+		/**
+		 * What to do when you logout of a computer
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 */
 
-            if( self::$internet->ipExists( $ipaddress ) == false )
-                throw new SyscrackException();
+		public function onLogout($computerid, $ipaddress)
+		{
 
-            if( self::$finance->hasCurrentActiveAccount() == true )
-                self::$finance->setCurrentActiveAccount( null );
+			if (self::$internet->ipExists($ipaddress) == false)
+				throw new SyscrackException();
 
-            self::$internet->setCurrentConnectedAddress( null );
-        }
-    }
+			if (self::$finance->hasCurrentActiveAccount() == true)
+				self::$finance->setCurrentActiveAccount(null);
+
+			self::$internet->setCurrentConnectedAddress(null);
+		}
+	}

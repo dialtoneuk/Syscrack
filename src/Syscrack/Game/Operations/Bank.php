@@ -1,142 +1,145 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Bank
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Finance;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Bank
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class Bank extends BaseOperation
-{
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Finance;
 
-    /**
-     * @var Finance
-     */
+	class Bank extends BaseOperation
+	{
 
-    protected static $finance;
+		/**
+		 * @var Finance
+		 */
 
-    /**
-     * View constructor.
-     */
+		protected static $finance;
 
-    public function __construct()
-    {
+		/**
+		 * View constructor.
+		 */
 
-        if( isset( self::$finance ) == false )
-            self::$finance = new Finance();
+		public function __construct()
+		{
 
-        parent::__construct( true );
-    }
+			if (isset(self::$finance) == false)
+				self::$finance = new Finance();
 
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
+			parent::__construct(true);
+		}
 
-    public function configuration()
-    {
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'allowsoftware'    => false,
-            'allowlocal'        => false,
-            'requiresoftware'  => false,
-            'requireloggedin'   => false,
-            'allowpost'         => true,
-            'postrequirements'  => [
-                'action'
-            ]
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * Called when this process request is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
+			return array(
+				'allowsoftware' => false,
+				'allowlocal' => false,
+				'requiresoftware' => false,
+				'requireloggedin' => false,
+				'allowpost' => true,
+				'postrequirements' => [
+					'action'
+				]
+			);
+		}
 
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * Called when this process request is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return mixed
+		 */
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-        $computer = self::$internet->getComputer( $data['ipaddress'] );
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-        if( self::$computer->isBank( $computer->computerid ) == false )
-            return false;
+			$computer = self::$internet->getComputer($data['ipaddress']);
 
-        return true;
-    }
+			if (self::$computer->isBank($computer->computerid) == false)
+				return false;
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool
-     */
+			return true;
+		}
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-        $this->render('operations/operations.bank', array( 'ipaddress' => $data['ipaddress'], 'account' => self::$finance->getAccountAtBank( $this->getComputerId( $data["ipaddress"]), $userid )), true );
-        return null;
-    }
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
 
-    /**
-     * @param $data
-     * @param $ipaddress
-     * @param $userid
-     * @return bool
-     */
+			$this->render('operations/operations.bank', array('ipaddress' => $data['ipaddress'], 'account' => self::$finance->getAccountAtBank($this->getComputerId($data["ipaddress"]), $userid)), true);
+			return null;
+		}
 
-    public function onPost( $data, $ipaddress, $userid )
-    {
+		/**
+		 * @param $data
+		 * @param $ipaddress
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-        $computer = self::$internet->getComputer( $ipaddress );
+		public function onPost($data, $ipaddress, $userid)
+		{
 
-        if( $data['action'] == 'create' )
-        {
+			$computer = self::$internet->getComputer($ipaddress);
 
-            if( self::$finance->hasAccountAtComputer( $computer->computerid, $userid ) )
-                return true;
+			if ($data['action'] == 'create')
+			{
 
-            self::$finance->createAccount( $computer->computerid, $userid );
-        }
-        elseif( $data['action'] == "delete" )
-        {
+				if (self::$finance->hasAccountAtComputer($computer->computerid, $userid))
+					return true;
 
-            if( self::$finance->hasAccountAtComputer( $computer->computerid, $userid ) == false )
-                return true;
+				self::$finance->createAccount($computer->computerid, $userid);
+			}
+			else if ($data['action'] == "delete")
+			{
 
-            self::$finance->removeAccount( $computer->computerid, $userid );
-        }
+				if (self::$finance->hasAccountAtComputer($computer->computerid, $userid) == false)
+					return true;
 
-        return true;
-    }
-}
+				self::$finance->removeAccount($computer->computerid, $userid);
+			}
+
+			return true;
+		}
+	}

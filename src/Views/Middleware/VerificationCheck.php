@@ -1,106 +1,107 @@
 <?php
-namespace Framework\Views\Middleware;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class VerificationCheck
- *
- * @package Framework\Views\Middleware
- */
+	namespace Framework\Views\Middleware;
 
-use Error;
-use Framework\Application\Container;
-use Framework\Application\Session;
-use Framework\Syscrack\Verification;
-use Framework\Views\BaseClasses\Middleware as BaseClass;
-use Framework\Views\Structures\Middleware as Structure;
+	/**
+	 * Lewis Lancaster 2016
+	 *
+	 * Class VerificationCheck
+	 *
+	 * @package Framework\Views\Middleware
+	 */
 
-class VerificationCheck extends BaseClass implements Structure
-{
+	use Error;
+	use Framework\Application\Container;
+	use Framework\Application\Session;
+	use Framework\Syscrack\Verification;
+	use Framework\Views\BaseClasses\Middleware as BaseClass;
+	use Framework\Views\Structures\Middleware as Structure;
 
-    /**
-     * @var Session
-     */
+	class VerificationCheck extends BaseClass implements Structure
+	{
 
-    protected $session;
+		/**
+		 * @var Session
+		 */
 
-    /**
-     * @var Verification
-     */
+		protected $session;
 
-    protected $verification;
+		/**
+		 * @var Verification
+		 */
 
-    /**
-     * VerificationCheck constructor.
-     *
-     * @throws Error
-     */
+		protected $verification;
 
-    public function __construct()
-    {
+		/**
+		 * VerificationCheck constructor.
+		 *
+		 * @throws Error
+		 */
 
-        if( Container::hasObject('session') == false )
-        {
+		public function __construct()
+		{
 
-            throw new Error();
-        }
+			if (Container::hasObject('session') == false)
+			{
 
-        $this->session = Container::getObject('session');
+				throw new Error();
+			}
 
-        if( session_status() !== PHP_SESSION_ACTIVE )
-        {
+			$this->session = Container::getObject('session');
 
-            session_start();
-        }
+			if (session_status() !== PHP_SESSION_ACTIVE)
+			{
 
-        if( $this->session->isLoggedIn() == false )
-        {
+				session_start();
+			}
 
-            throw new Error();
-        }
+			if ($this->session->isLoggedIn() == false)
+			{
 
-        $this->verification = new Verification();
-    }
+				throw new Error();
+			}
 
-
-    /**
-     * Checks if the user has verified their email
-     *
-     * @return bool
-     */
-
-    public function onRequest()
-    {
-
-        $userid = $this->session->userid();
-
-        if( $this->verification->isVerified( $userid ) == false )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Called when the user passes the middleware
-     */
-
-    public function onSuccess()
-    {
+			$this->verification = new Verification();
+		}
 
 
-    }
+		/**
+		 * Checks if the user has verified their email
+		 *
+		 * @return bool
+		 */
 
-    /**
-     * If the user has not verified their email, they'll be sent here.
-     */
+		public function onRequest()
+		{
 
-    public function onFailure()
-    {
+			$userid = $this->session->userid();
 
-        $this->redirect('/verify/');
-    }
-}
+			if ($this->verification->isVerified($userid) == false)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Called when the user passes the middleware
+		 */
+
+		public function onSuccess()
+		{
+
+
+		}
+
+		/**
+		 * If the user has not verified their email, they'll be sent here.
+		 */
+
+		public function onFailure()
+		{
+
+			$this->redirect('/verify/');
+		}
+	}

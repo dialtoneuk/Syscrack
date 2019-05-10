@@ -1,184 +1,189 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Bank
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Application\Settings;
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Market as Database;
-use Framework\Syscrack\Game\Metadata;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Bank
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class Market extends BaseOperation
-{
+	use Framework\Application\Settings;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Market as Database;
+	use Framework\Syscrack\Game\Metadata;
 
-    /**
-     * @var Database
-     */
+	class Market extends BaseOperation
+	{
 
-    protected static $market;
+		/**
+		 * @var Database
+		 */
 
-    /**
-     * @var Metadata
-     */
+		protected static $market;
 
-    protected static $metadata;
+		/**
+		 * @var Metadata
+		 */
 
-    /**
-     * Market constructor.
-     * @param bool $createclasses
-     */
+		protected static $metadata;
 
-    public function __construct(bool $createclasses = true)
-    {
+		/**
+		 * Market constructor.
+		 *
+		 * @param bool $createclasses
+		 */
 
-        if( isset( self::$market ) == false  )
-            self::$market = new Database();
+		public function __construct(bool $createclasses = true)
+		{
 
-        if( isset( self::$metadata ) == false )
-            self::$metadata = new Metadata();
+			if (isset(self::$market) == false)
+				self::$market = new Database();
 
-        parent::__construct($createclasses);
-    }
+			if (isset(self::$metadata) == false)
+				self::$metadata = new Metadata();
 
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
+			parent::__construct($createclasses);
+		}
 
-    public function configuration()
-    {
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'allowsoftware'    => false,
-            'allowlocal'        => false,
-            'requiresoftware'  => false,
-            'requireloggedin'   => false,
-            'allowpost'         => false
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * @param null $ipaddress
-     * @return string
-     */
+			return array(
+				'allowsoftware' => false,
+				'allowlocal' => false,
+				'requiresoftware' => false,
+				'requireloggedin' => false,
+				'allowpost' => false
+			);
+		}
 
-    public function url($ipaddress = null)
-    {
+		/**
+		 * @param null $ipaddress
+		 *
+		 * @return string
+		 */
 
-        return('game/internet/' . $ipaddress . "/market");
-    }
+		public function url($ipaddress = null)
+		{
 
-    /**
-     * Called when this process request is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
+			return ('game/internet/' . $ipaddress . "/market");
+		}
 
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * Called when this process request is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return mixed
+		 */
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-        $computer = self::$internet->getComputer( $data['ipaddress'] );
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-        if( $computer->type != Settings::setting('syscrack_computers_market_type') )
-            return false;
+			$computer = self::$internet->getComputer($data['ipaddress']);
 
-        return true;
-    }
+			if ($computer->type != Settings::setting('syscrack_computers_market_type'))
+				return false;
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool|null
-     */
+			return true;
+		}
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool|null
+		 */
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            throw new SyscrackException();
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
+			if ($this->checkData($data, ['ipaddress']) == false)
+				throw new SyscrackException();
 
-        $computer = self::$internet->getComputer( $data["ipaddress"] );
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
 
-        $this->render('operations/operations.market', array( 'ipaddress' => $data['ipaddress'],
-            'metadata'  => self::$metadata->get( $computer->computerid ),
-            'items'     => self::$market->getStock( $computer->computerid ),
-            'purchases' => self::$market->getPurchases( $computer->computerid ) ), true );
+			$computer = self::$internet->getComputer($data["ipaddress"]);
 
-        return null;
-    }
+			$this->render('operations/operations.market', array('ipaddress' => $data['ipaddress'],
+				'metadata' => self::$metadata->get($computer->computerid),
+				'items' => self::$market->getStock($computer->computerid),
+				'purchases' => self::$market->getPurchases($computer->computerid)), true);
 
-    /**
-     * Gets the completion time
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return null
-     */
+			return null;
+		}
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
-    {
+		/**
+		 * Gets the completion time
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return null
+		 */
 
-        return null;
-    }
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array
-     */
+			return null;
+		}
 
-    public function getCustomData($ipaddress, $userid)
-    {
+		/**
+		 * Gets the custom data for this operation
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return array
+		 */
 
-        return array();
-    }
+		public function getCustomData($ipaddress, $userid)
+		{
 
-    /**
-     * @param $data
-     * @param $ipaddress
-     * @param $userid
-     * @return bool
-     */
+			return array();
+		}
 
-    public function onPost( $data, $ipaddress, $userid )
-    {
+		/**
+		 * @param $data
+		 * @param $ipaddress
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-        return true;
-    }
-}
+		public function onPost($data, $ipaddress, $userid)
+		{
+
+			return true;
+		}
+	}

@@ -1,231 +1,232 @@
 <?php
-namespace Framework\Syscrack\Game;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Log
- *
- * @package Framework\Syscrack\Game
- */
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\FileSystem;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Log
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-class Log
-{
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\FileSystem;
 
-    /**
-     * Updates the users log
-     *
-     * @param $message
-     *
-     * @param $computerid
-     *
-     * @param string $ipaddress
-     *
-     * @param null $log
-     */
+	class Log
+	{
 
-    public function updateLog( $message, $computerid, $ipaddress='localhost', $log=null )
-    {
+		/**
+		 * Updates the users log
+		 *
+		 * @param $message
+		 *
+		 * @param $computerid
+		 *
+		 * @param string $ipaddress
+		 *
+		 * @param null $log
+		 */
 
-        if( $log == null )
-        {
+		public function updateLog($message, $computerid, $ipaddress = 'localhost', $log = null)
+		{
 
-            $log = Settings::setting('syscrack_log_current');
-        }
+			if ($log == null)
+			{
 
-        $computerlog = $this->getCustomLog( $computerid, $log );
+				$log = Settings::setting('syscrack_log_current');
+			}
 
-        $computerlog[] = array(
-            'ipaddress'     => $ipaddress,
-            'message'       => $message,
-            'time'          => time()
-        );
+			$computerlog = $this->getCustomLog($computerid, $log);
 
-        $this->saveLog( $computerid, $computerlog, $log );
-    }
+			$computerlog[] = array(
+				'ipaddress' => $ipaddress,
+				'message' => $message,
+				'time' => time()
+			);
 
-    /**
-     * Creates a new log
-     *
-     * @param $computerid
-     *
-     * @param null $log
-     *
-     * @param array $data
-     */
+			$this->saveLog($computerid, $computerlog, $log);
+		}
 
-    public function createLog( $computerid, $log=null, $data=[] )
-    {
+		/**
+		 * Creates a new log
+		 *
+		 * @param $computerid
+		 *
+		 * @param null $log
+		 *
+		 * @param array $data
+		 */
 
-        if( $log == null )
-        {
+		public function createLog($computerid, $log = null, $data = [])
+		{
 
-            $log = Settings::setting('syscrack_log_current');
-        }
+			if ($log == null)
+			{
 
-        if( $this->hasCurrentLog( $computerid ) )
-        {
+				$log = Settings::setting('syscrack_log_current');
+			}
 
-            return;
-        }
+			if ($this->hasCurrentLog($computerid))
+			{
 
-        $this->createDirectory( $computerid );
+				return;
+			}
 
-        $this->saveLog( $computerid, $data, $log );
-    }
+			$this->createDirectory($computerid);
 
-    /**
-     * Gets the current log of the computer
-     *
-     * @param $computerid
-     *
-     * @return mixed
-     */
+			$this->saveLog($computerid, $data, $log);
+		}
 
-    public function getCurrentLog( $computerid )
-    {
+		/**
+		 * Gets the current log of the computer
+		 *
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 
-        return FileSystem::readJson( $this->getFilepath( $computerid ) . Settings::setting('syscrack_log_current') . '.json' );
-    }
+		public function getCurrentLog($computerid)
+		{
 
-    /**
-     * Reads a custom log
-     *
-     * @param $computerid
-     *
-     * @param $log
-     *
-     * @return mixed
-     */
+			return FileSystem::readJson($this->getFilepath($computerid) . Settings::setting('syscrack_log_current') . '.json');
+		}
 
-    public function getCustomLog( $computerid, $log )
-    {
+		/**
+		 * Reads a custom log
+		 *
+		 * @param $computerid
+		 *
+		 * @param $log
+		 *
+		 * @return mixed
+		 */
 
-        return FileSystem::readJson( $this->getFilepath( $computerid ) . $log . '.json' );
-    }
+		public function getCustomLog($computerid, $log)
+		{
 
-    /**
-     * Returns true if the user has a log from this date
-     *
-     * @param $computerid
-     *
-     * @param $date
-     *
-     * @return bool
-     */
+			return FileSystem::readJson($this->getFilepath($computerid) . $log . '.json');
+		}
 
-    public function hasDate( $computerid, $date )
-    {
+		/**
+		 * Returns true if the user has a log from this date
+		 *
+		 * @param $computerid
+		 *
+		 * @param $date
+		 *
+		 * @return bool
+		 */
 
-        if( FileSystem::fileExists( $this->getFilepath( $computerid ) . $date ) == false )
-        {
+		public function hasDate($computerid, $date)
+		{
 
-            return false;
-        }
+			if (FileSystem::fileExists($this->getFilepath($computerid) . $date) == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns false if no current log is found
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function hasCurrentLog( $computerid )
-    {
+		/**
+		 * Returns false if no current log is found
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        if( empty( FileSystem::readJson( $this->getFilepath( $computerid ) . Settings::setting('syscrack_log_current') ) ) )
-        {
+		public function hasCurrentLog($computerid)
+		{
 
-            return false;
-        }
+			if (empty(FileSystem::readJson($this->getFilepath($computerid) . Settings::setting('syscrack_log_current'))))
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if the user has a log
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function hasLog( $computerid )
-    {
+		/**
+		 * Returns true if the user has a log
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        if( FileSystem::directoryExists( $this->getFilepath( $computerid) ) == false )
-        {
+		public function hasLog($computerid)
+		{
 
-            return false;
-        }
+			if (FileSystem::directoryExists($this->getFilepath($computerid)) == false)
+			{
 
-        if( FileSystem::fileExists( $this->getFilepath( $computerid ) . Settings::setting('syscrack_log_current') . '.json' ) == false )
-        {
+				return false;
+			}
 
-            return false;
-        }
+			if (FileSystem::fileExists($this->getFilepath($computerid) . Settings::setting('syscrack_log_current') . '.json') == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Saves a log
-     *
-     * @param $computerid
-     *
-     * @param array $data
-     *
-     * @param null $log
-     */
+			return true;
+		}
 
-    public function saveLog( $computerid, array $data, $log=null )
-    {
+		/**
+		 * Saves a log
+		 *
+		 * @param $computerid
+		 *
+		 * @param array $data
+		 *
+		 * @param null $log
+		 */
 
-        if( $log == null )
-        {
+		public function saveLog($computerid, array $data, $log = null)
+		{
 
-            $log = Settings::setting('syscrack_log_current');
-        }
+			if ($log == null)
+			{
 
-        FileSystem::writeJson( $this->getFilepath( $computerid ) . $log . '.json', $data );
-    }
+				$log = Settings::setting('syscrack_log_current');
+			}
 
-    /**
-     * Creates the directory for this computers logs
-     *
-     * @param $computerid
-     */
+			FileSystem::writeJson($this->getFilepath($computerid) . $log . '.json', $data);
+		}
 
-    private function createDirectory( $computerid )
-    {
+		/**
+		 * Creates the directory for this computers logs
+		 *
+		 * @param $computerid
+		 */
 
-        if( FileSystem::directoryExists( $this->getFilepath( $computerid ) ) )
-        {
+		private function createDirectory($computerid)
+		{
 
-            return;
-        }
+			if (FileSystem::directoryExists($this->getFilepath($computerid)))
+			{
 
-        FileSystem::createDirectory( $this->getFilepath( $computerid ) );
-    }
+				return;
+			}
 
-    /**
-     * Gets the filepath for the computers logs
-     *
-     * @param $computerid
-     *
-     * @return string
-     */
+			FileSystem::createDirectory($this->getFilepath($computerid));
+		}
 
-    private function getFilepath( $computerid )
-    {
+		/**
+		 * Gets the filepath for the computers logs
+		 *
+		 * @param $computerid
+		 *
+		 * @return string
+		 */
 
-        return Settings::setting('syscrack_log_location') . $computerid . '/';
-    }
-}
+		private function getFilepath($computerid)
+		{
+
+			return Settings::setting('syscrack_log_location') . $computerid . '/';
+		}
+	}

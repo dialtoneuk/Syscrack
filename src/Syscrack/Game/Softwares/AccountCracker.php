@@ -1,57 +1,59 @@
 <?php
-    namespace Framework\Syscrack\Game\Softwares;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class AccountCracker
-     *
-     * @package Framework\Syscrack\Game\Softwares
-     */
+	namespace Framework\Syscrack\Game\Softwares;
 
-    use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
-    use Framework\Syscrack\Game\Tool;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class AccountCracker
+	 *
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 
-    class AccountCracker extends BaseSoftware
-    {
+	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	use Framework\Syscrack\Game\Tool;
 
-        /**
-         * The configuration of this Structure
-         *
-         * @return array
-         */
+	class AccountCracker extends BaseSoftware
+	{
 
-        public function configuration()
-        {
+		/**
+		 * The configuration of this Structure
+		 *
+		 * @return array
+		 */
 
-            return array(
-                'uniquename'        => 'accountcracker',
-                'extension'         => '.acc',
-                'type'              => 'accountcracker',
-                'installable'       => true,
-                'executable'        => true,
-                'localexecuteonly'  => true,
-            );
-        }
+		public function configuration()
+		{
 
-        /**
-         * @param null $userid
-         * @param null $sofwareid
-         * @param null $computerid
-         * @return Tool
-         */
+			return array(
+				'uniquename' => 'accountcracker',
+				'extension' => '.acc',
+				'type' => 'accountcracker',
+				'installable' => true,
+				'executable' => true,
+				'localexecuteonly' => true,
+			);
+		}
 
-        public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
-        {
+		/**
+		 * @param null $userid
+		 * @param null $sofwareid
+		 * @param null $computerid
+		 *
+		 * @return Tool
+		 */
 
-            $tool = new Tool("Hack account", "warning");
-            $tool->hasSoftwareInstalled('accountcracker');
-            $tool->setAction('crackaccount');
-            $tool->addInput('accountnumber', 'text', "", "#0123456789");
-            $tool->isComputerType('bank');
-            $tool->isConnected();
-            $tool->icon = "eye-open";
+		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
+		{
 
-            return( $tool );
-        }
-    }
+			$tool = new Tool("Hack account", "warning");
+			$tool->hasSoftwareInstalled('accountcracker');
+			$tool->setAction('crackaccount');
+			$tool->addInput('accountnumber', 'text', "", "#0123456789");
+			$tool->isComputerType('bank');
+			$tool->isConnected();
+			$tool->icon = "eye-open";
+
+			return ($tool);
+		}
+	}

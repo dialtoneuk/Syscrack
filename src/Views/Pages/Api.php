@@ -1,172 +1,172 @@
 <?php
-    namespace Framework\Views\Pages;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Api
-     *
-     * @package Framework\Views\Pages
-     */
+	namespace Framework\Views\Pages;
 
-    use Flight;
-    use Framework\Application\Api\Controller;
-    use Framework\Application\Api\Manager;
-    use Framework\Application\Render;
-    use Framework\Application\Settings;
-    use Framework\Application\Utilities\PostHelper;
-    use Framework\Exceptions\ViewException;
-    use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page as Structure;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Api
+	 *
+	 * @package Framework\Views\Pages
+	 */
 
-    class Api extends BaseClass implements Structure
-    {
+	use Flight;
+	use Framework\Application\Api\Controller;
+	use Framework\Application\Api\Manager;
+	use Framework\Application\Render;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Exceptions\ViewException;
+	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Views\Structures\Page as Structure;
 
-        /**
-         * @var Manager
-         */
+	class Api extends BaseClass implements Structure
+	{
 
-        protected $manager;
+		/**
+		 * @var Manager
+		 */
 
-        /**
-         * @var Controller
-         */
+		protected $manager;
 
-        protected $controller;
+		/**
+		 * @var Controller
+		 */
 
-        /**
-         * @var mixed|string
-         */
+		protected $controller;
 
-        public $apikey = "";
+		/**
+		 * @var mixed|string
+		 */
 
-        /**
-         * Api constructor.
-         */
+		public $apikey = "";
 
-        public function __construct()
-        {
+		/**
+		 * Api constructor.
+		 */
 
-            parent::__construct( false );
+		public function __construct()
+		{
 
-            if( isset( $this->manager ) == false )
-            {
+			parent::__construct(false);
 
-                $this->manager = new Manager();
-            }
+			if (isset($this->manager) == false)
+			{
 
-            if( isset( $this->computer ) == false )
-            {
+				$this->manager = new Manager();
+			}
 
-                $this->controller = new Controller();
-            }
+			if (isset($this->computer) == false)
+			{
 
-            if (PostHelper::hasPostData())
-            {
+				$this->controller = new Controller();
+			}
 
-                if (PostHelper::checkForRequirements(['apikey']) == false)
-                {
+			if (PostHelper::hasPostData())
+			{
 
-                    Flight::json(array(
-                        'error' => true,
-                        'code'  => 401,
-                        'info'  => [
-                            'message' => 'Apikey required as post key'
-                        ]
-                    ));
+				if (PostHelper::checkForRequirements(['apikey']) == false)
+				{
 
-                    exit;
-                }
-                else
-                {
+					Flight::json(array(
+						'error' => true,
+						'code' => 401,
+						'info' => [
+							'message' => 'Apikey required as post key'
+						]
+					));
 
-                    $this->apikey = PostHelper::getPostData('apikey');
+					exit;
+				}
+				else
+				{
 
-                    if ($this->manager->hasApiKey($this->apikey) == false)
-                    {
+					$this->apikey = PostHelper::getPostData('apikey');
 
-                        Render::redirect('/api/', 401);
-                    }
-                }
-            }
-            else
-            {
+					if ($this->manager->hasApiKey($this->apikey) == false)
+					{
 
-                Flight::json(array(
-                    'error' => true,
-                    'code'  => 401,
-                    'info'  => [
-                        'message' => 'Apikey required as post key'
-                    ]
-                ));
+						Render::redirect('/api/', 401);
+					}
+				}
+			}
+			else
+			{
 
-                exit;
-            }
-        }
+				Flight::json(array(
+					'error' => true,
+					'code' => 401,
+					'info' => [
+						'message' => 'Apikey required as post key'
+					]
+				));
 
-        /**
-         * The themes mapping
-         *
-         * @return array
-         */
+				exit;
+			}
+		}
 
-        public function mapping()
-        {
+		/**
+		 * The themes mapping
+		 *
+		 * @return array
+		 */
 
-            return array(
-                [
-                    '/api/@endpoint/(@method)/', 'process'
-                ]
-            );
-        }
+		public function mapping()
+		{
 
-        /**
-         * Processes the API request
-         *
-         * @param $endpoint
-         *
-         * @param null $method
-         */
+			return array(
+				[
+					'/api/@endpoint/(@method)/', 'process'
+				]
+			);
+		}
 
-        public function process($endpoint, $method = null)
-        {
+		/**
+		 * Processes the API request
+		 *
+		 * @param $endpoint
+		 *
+		 * @param null $method
+		 */
 
-            $result = null;
+		public function process($endpoint, $method = null)
+		{
 
-            try
-            {
+			$result = null;
 
-                if ($method == null)
-                {
+			try
+			{
 
-                    $result = $this->controller->processEndpoint($endpoint, Settings::setting('api_default_method'));
-                }
-                else
-                {
+				if ($method == null)
+				{
 
-                    $result = $this->controller->processEndpoint($endpoint, $method);
-                }
-            }
-            catch (\Exception $error)
-            {
+					$result = $this->controller->processEndpoint($endpoint, Settings::setting('api_default_method'));
+				}
+				else
+				{
 
-                Flight::json(array(
-                    'error' => true,
-                    'code'  => 502,
-                    'info'  => [
-                        'message' => $error->getMessage(),
-                        'line' => $error->getLine(),
-                        'file' => $error->getFile()
-                    ]
-                ));
-            }
+					$result = $this->controller->processEndpoint($endpoint, $method);
+				}
+			} catch (\Exception $error)
+			{
 
-            if (is_array($result) == false)
-            {
+				Flight::json(array(
+					'error' => true,
+					'code' => 502,
+					'info' => [
+						'message' => $error->getMessage(),
+						'line' => $error->getLine(),
+						'file' => $error->getFile()
+					]
+				));
+			}
 
-                throw new ViewException();
-            }
+			if (is_array($result) == false)
+			{
 
-            Flight::json($result);
-        }
-    }
+				throw new ViewException();
+			}
+
+			Flight::json($result);
+		}
+	}

@@ -1,157 +1,158 @@
 <?php
-namespace Framework\Application\Utilities;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class CommandManager
- *
- * @package Framework\Command
- */
-
-use Exception;
-use Framework\Exceptions\ConsoleException;
-
-class CommandManager
-{
+	namespace Framework\Application\Utilities;
 
 	/**
-	 * @var array
-	 */
-
-	protected $arguments;
-
-	/**
-	 * Manager constructor.
+	 * Lewis Lancaster 2016
 	 *
-	 * @param $arguments
+	 * Class CommandManager
+	 *
+	 * @package Framework\Command
 	 */
 
-	public function __construct( $arguments )
+	use Exception;
+	use Framework\Exceptions\ConsoleException;
+
+	class CommandManager
 	{
 
-		$this->arguments = $arguments;
+		/**
+		 * @var array
+		 */
 
-		if( php_sapi_name() !== 'cli' )
+		protected $arguments;
+
+		/**
+		 * Manager constructor.
+		 *
+		 * @param $arguments
+		 */
+
+		public function __construct($arguments)
 		{
 
-			throw new ConsoleException();
-		}
-	}
+			$this->arguments = $arguments;
 
-	/**
-	 * Handles an error for the console class
-	 *
-	 * @param Exception $error
-	 */
-
-	final public function error( Exception $error )
-	{
-
-		die( $this->output( 'CRITICAL ERROR: ' . $error->getMessage() ) );
-	}
-
-	/**
-	 * Returns true if the commands has arguments
-	 *
-	 * @return bool
-	 */
-
-	final public function hasArguments()
-	{
-
-		if( empty( $this->arguments[1] ) )
-		{
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Outputs a string into the console
-	 *
-	 * @param $text
-	 *
-	 * @return null
-	 */
-
-	final public function output( $text, $prefix='Syscrack' )
-	{
-
-		echo "[" . $prefix . "] " . "\n" . $text;
-
-		return null;
-	}
-
-	/**
-	 * Returns the number of arguments given
-	 *
-	 * @param null $array
-	 *
-	 * @return int
-	 */
-
-	final public function getArgumentCount( $array=null )
-	{
-
-		return count( $this->getArguments( $array ) );
-	}
-
-	/**
-	 * Gets the arguments of this console commands.
-	 *
-	 * @param string $separator
-	 *
-	 * @param null $array
-	 *
-	 * @return array
-	 */
-
-	final public function getArguments( $array=null, $separator=':' )
-	{
-
-		if( empty( $this->arguments ) )
-		{
-
-			throw new ConsoleException('No arguments stored');
-		}
-
-		$commands = explode( $separator, $this->arguments[1] );
-
-		if( empty( $commands ) )
-		{
-
-			throw new ConsoleException('Commands are empty');
-		}
-
-		if( $array !== null )
-		{
-
-			$result = array();
-
-			if( count( $array ) != count( $commands ) )
+			if (php_sapi_name() !== 'cli')
 			{
 
-				throw new ConsoleException('Missmatch in arrays, please enter all information required');
+				throw new ConsoleException();
 			}
-
-			foreach( $array as $key=>$value )
-			{
-
-				$result[ $value ] = $commands[ $key ];
-			}
-
-			if( empty( $array ) )
-			{
-
-				throw new ConsoleException('Failed to set headers');
-			}
-
-			return $result;
 		}
 
-		return $commands;
+		/**
+		 * Handles an error for the console class
+		 *
+		 * @param Exception $error
+		 */
+
+		final public function error(Exception $error)
+		{
+
+			die($this->output('CRITICAL ERROR: ' . $error->getMessage()));
+		}
+
+		/**
+		 * Returns true if the commands has arguments
+		 *
+		 * @return bool
+		 */
+
+		final public function hasArguments()
+		{
+
+			if (empty($this->arguments[1]))
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Outputs a string into the console
+		 *
+		 * @param $text
+		 *
+		 * @return null
+		 */
+
+		final public function output($text, $prefix = 'Syscrack')
+		{
+
+			echo "[" . $prefix . "] " . "\n" . $text;
+
+			return null;
+		}
+
+		/**
+		 * Returns the number of arguments given
+		 *
+		 * @param null $array
+		 *
+		 * @return int
+		 */
+
+		final public function getArgumentCount($array = null)
+		{
+
+			return count($this->getArguments($array));
+		}
+
+		/**
+		 * Gets the arguments of this console commands.
+		 *
+		 * @param string $separator
+		 *
+		 * @param null $array
+		 *
+		 * @return array
+		 */
+
+		final public function getArguments($array = null, $separator = ':')
+		{
+
+			if (empty($this->arguments))
+			{
+
+				throw new ConsoleException('No arguments stored');
+			}
+
+			$commands = explode($separator, $this->arguments[1]);
+
+			if (empty($commands))
+			{
+
+				throw new ConsoleException('Commands are empty');
+			}
+
+			if ($array !== null)
+			{
+
+				$result = array();
+
+				if (count($array) != count($commands))
+				{
+
+					throw new ConsoleException('Missmatch in arrays, please enter all information required');
+				}
+
+				foreach ($array as $key => $value)
+				{
+
+					$result[$value] = $commands[$key];
+				}
+
+				if (empty($array))
+				{
+
+					throw new ConsoleException('Failed to set headers');
+				}
+
+				return $result;
+			}
+
+			return $commands;
+		}
 	}
-}

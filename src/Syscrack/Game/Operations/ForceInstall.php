@@ -1,199 +1,203 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class ForceInstall
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\PostHelper;
-use Framework\Syscrack\Game\AddressDatabase;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Viruses;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class ForceInstall
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class ForceInstall extends BaseOperation
-{
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Syscrack\Game\AddressDatabase;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Viruses;
 
-    /**
-     * @var Viruses
-     */
+	class ForceInstall extends BaseOperation
+	{
 
-    protected static $viruses;
+		/**
+		 * @var Viruses
+		 */
 
-    /**
-     * @var AddressDatabase
-     */
+		protected static $viruses;
 
-    protected static $addressdatabase;
+		/**
+		 * @var AddressDatabase
+		 */
 
-    /**
-     * Install constructor.
-     */
+		protected static $addressdatabase;
 
-    public function __construct()
-    {
+		/**
+		 * Install constructor.
+		 */
 
-        if( isset( self::$viruses ) == false )
-            self::$viruses = new Viruses();
+		public function __construct()
+		{
 
-        if( isset( self::$addressdatabase ) == false )
-            self::$addressdatabase = new AddressDatabase();
+			if (isset(self::$viruses) == false)
+				self::$viruses = new Viruses();
 
-        parent::__construct( true );
-    }
+			if (isset(self::$addressdatabase) == false)
+				self::$addressdatabase = new AddressDatabase();
 
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
+			parent::__construct(true);
+		}
 
-    public function configuration()
-    {
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'allowsoftware'    => true,
-            'allowlocal'        => true,
-            'requiresoftware'  => false,
-            'requireloggedin'   => true,
-            'allowpost'         => false,
-            'allowcustomdata'   => true,
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * @param null $ipaddress
-     * @return string
-     */
+			return array(
+				'allowsoftware' => true,
+				'allowlocal' => true,
+				'requiresoftware' => false,
+				'requireloggedin' => true,
+				'allowpost' => false,
+				'allowcustomdata' => true,
+			);
+		}
 
-    public function url($ipaddress = null)
-    {
+		/**
+		 * @param null $ipaddress
+		 *
+		 * @return string
+		 */
 
-        return("admin/computer/edit/" . @$this->getComputerId( $ipaddress  ) );
-    }
+		public function url($ipaddress = null)
+		{
 
-    /**
-     * Called when a process with the corresponding operation is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     *
-     * @return bool
-     */
+			return ("admin/computer/edit/" . @$this->getComputerId($ipaddress));
+		}
 
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * Called when a process with the corresponding operation is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 *
+		 * @return bool
+		 */
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-        if( $this->checkCustomData( $data, ['softwareid'] ) == false )
-            return false;
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
 
-        if( self::$software->softwareExists( $data['custom']['softwareid'] ) == false )
-            return false;
+			if ($this->checkCustomData($data, ['softwareid']) == false)
+				return false;
 
-        return true;
-    }
+			if (self::$software->softwareExists($data['custom']['softwareid']) == false)
+				return false;
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool|mixed
-     */
+			return true;
+		}
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool|mixed
+		 */
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-        if( $this->checkCustomData( $data, ['softwareid'] ) == false )
-            return false;
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
 
-        if( self::$software->softwareExists( $data['custom']['softwareid'] ) == false )
-            return false;
+			if ($this->checkCustomData($data, ['softwareid']) == false)
+				return false;
 
-        self::$software->installSoftware( $data['custom']['softwareid'], $userid );
-        self::$computer->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['custom']['softwareid'] );
-        self::$software->executeSoftwareMethod( self::$software->getSoftwareNameFromSoftwareID( $data['custom']['softwareid'] ), 'onInstalled', array(
-            'softwareid'    => $data['custom']['softwareid'],
-            'userid'        => $userid,
-            'computerid'    => $this->getComputerId( $data['ipaddress'] )
-        ));
+			if (self::$software->softwareExists($data['custom']['softwareid']) == false)
+				return false;
 
-        if( self::$viruses->isVirus( $data['custom']['softwareid'] ) == true )
-        {
+			self::$software->installSoftware($data['custom']['softwareid'], $userid);
+			self::$computer->installSoftware($this->getComputerId($data['ipaddress']), $data['custom']['softwareid']);
+			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['custom']['softwareid']), 'onInstalled', array(
+				'softwareid' => $data['custom']['softwareid'],
+				'userid' => $userid,
+				'computerid' => $this->getComputerId($data['ipaddress'])
+			));
 
-            if( Settings::setting('syscrack_statistics_enabled') == true )
-                self::$statistics->addStatistic('virusinstalls');
+			if (self::$viruses->isVirus($data['custom']['softwareid']) == true)
+			{
 
-            self::$addressdatabase->addVirus( $data['ipaddress'], $data['custom']['softwareid'], $userid );
-        }
+				if (Settings::setting('syscrack_statistics_enabled') == true)
+					self::$statistics->addStatistic('virusinstalls');
 
-        if( isset( $data['redirect'] ) == false )
-            return true;
-        else
-            return( $data['redirect'] );
-    }
+				self::$addressdatabase->addVirus($data['ipaddress'], $data['custom']['softwareid'], $userid);
+			}
 
-    /**
-     * @param $ipaddress
-     * @param $userid
-     * @return array|null
-     */
+			if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
+		}
 
-    public function getCustomData($ipaddress, $userid)
-    {
+		/**
+		 * @param $ipaddress
+		 * @param $userid
+		 *
+		 * @return array|null
+		 */
 
-        if (PostHelper::hasPostData() == false)
-            return null;
+		public function getCustomData($ipaddress, $userid)
+		{
+
+			if (PostHelper::hasPostData() == false)
+				return null;
 
 
-        if (PostHelper::checkForRequirements(['softwareid']) == false)
-            return null;
+			if (PostHelper::checkForRequirements(['softwareid']) == false)
+				return null;
 
 
-        return array('softwareid' => PostHelper::getPostData('softwareid'));
-    }
+			return array('softwareid' => PostHelper::getPostData('softwareid'));
+		}
 
-    /**
-     * Gets the completion speed
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return int
-     */
+		/**
+		 * Gets the completion speed
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return int
+		 */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
-    {
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-        return null;
-    }
-}
+			return null;
+		}
+	}

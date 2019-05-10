@@ -1,63 +1,65 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 06/07/2018
- * Time: 01:20
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 06/07/2018
+	 * Time: 01:20
+	 */
 
-namespace Framework\Application\UtilitiesV2;
+	namespace Framework\Application\UtilitiesV2;
 
-use Parsedown;
+	use Parsedown;
 
-class Markdown
-{
+	class Markdown
+	{
 
-    /**
-     * @var Parsedown
-     */
+		/**
+		 * @var Parsedown
+		 */
 
-    protected $parsedown;
+		protected $parsedown;
 
-    /**
-     * Markdown constructor.
-     */
+		/**
+		 * Markdown constructor.
+		 */
 
-    public function __construct()
-    {
+		public function __construct()
+		{
 
-        $this->parsedown = new Parsedown();
-    }
+			$this->parsedown = new Parsedown();
+		}
 
-    /**
-     * @param string $text
-     * @return string
-     */
+		/**
+		 * @param string $text
+		 *
+		 * @return string
+		 */
 
-    public function markup( string $text )
-    {
+		public function markup(string $text)
+		{
 
-        return( $this->parsedown->text( $text ) );
-    }
+			return ($this->parsedown->text($text));
+		}
 
-    /**
-     * @param string $text
-     * @return string
-     */
+		/**
+		 * @param string $text
+		 *
+		 * @return string
+		 */
 
-    public function markdown( string $text )
-    {
+		public function markdown(string $text)
+		{
 
-        return( $this->parsedown->parse( $text ) );
-    }
+			return ($this->parsedown->parse($text));
+		}
 
-    /**
-     * @param bool $switch
-     */
+		/**
+		 * @param bool $switch
+		 */
 
-    public function safeMode( $switch=true )
-    {
+		public function safeMode($switch = true)
+		{
 
-        $this->parsedown->setSafeMode( $switch );
-    }
-}
+			$this->parsedown->setSafeMode($switch);
+		}
+	}

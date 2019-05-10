@@ -1,252 +1,264 @@
 <?php
 
-namespace Framework\Application\UtilitiesV2;
-use Framework\Application\UtilitiesV2\Conventions\AmbiguousData;
+	namespace Framework\Application\UtilitiesV2;
 
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 31/08/2018
- * Time: 01:11
- */
+	use Framework\Application\UtilitiesV2\Conventions\AmbiguousData;
 
-abstract class Convention
-{
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 31/08/2018
+	 * Time: 01:11
+	 */
+	abstract class Convention
+	{
 
-    protected $array = [];
+		protected $array = [];
 
-    /**
-     * @var array
-     */
+		/**
+		 * @var array
+		 */
 
-    protected $requirements = [
-    ];
+		protected $requirements = [
+		];
 
-    /**
-     * Convention constructor.
-     * @param mixed $array
-     */
+		/**
+		 * Convention constructor.
+		 *
+		 * @param mixed $array
+		 */
 
-    public function __construct( $array )
-    {
+		public function __construct($array)
+		{
 
-        if( $array !== null )
-            if( $this->parse( $array ) == false )
-                throw new \RuntimeException("invalid array given to convention, does not meet requirements: " . print_r( $array ));
+			if ($array !== null)
+				if ($this->parse($array) == false)
+					throw new \RuntimeException("invalid array given to convention, does not meet requirements: " . print_r($array));
 
-        $this->array = $array;
-    }
+			$this->array = $array;
+		}
 
-    /**
-     * @param $name
-     * @return bool
-     */
+		/**
+		 * @param $name
+		 *
+		 * @return bool
+		 */
 
-    public function __isset($name)
-    {
+		public function __isset($name)
+		{
 
-        return( $this->exist( $name ) );
-    }
+			return ($this->exist($name));
+		}
 
-    /**
-     * @param $name
-     * @return mixed
-     */
+		/**
+		 * @param $name
+		 *
+		 * @return mixed
+		 */
 
-    public function __get($name)
-    {
+		public function __get($name)
+		{
 
-        return( $this->get( $name ) );
-    }
+			return ($this->get($name));
+		}
 
-    /**
-     * @param $key
-     * @return mixed
-     */
+		/**
+		 * @param $key
+		 *
+		 * @return mixed
+		 */
 
-    public function get( $key )
-    {
+		public function get($key)
+		{
 
-        return( $this->array[ $key ] );
-    }
+			return ($this->array[$key]);
+		}
 
-    /**
-     * @param $key
-     * @param $index
-     * @return bool|null
-     */
+		/**
+		 * @param $key
+		 * @param $index
+		 *
+		 * @return bool|null
+		 */
 
-    public function query( $key, $index )
-    {
+		public function query($key, $index)
+		{
 
-        if( isset( $this->array[ $key ] ) == false )
-            return null;
+			if (isset($this->array[$key]) == false)
+				return null;
 
-        if( is_array( $this->array[ $key ] ) == false )
-            return null;
+			if (is_array($this->array[$key]) == false)
+				return null;
 
-        if( isset( $this->array[ $key ][$index ] ) )
-            return true;
+			if (isset($this->array[$key][$index]))
+				return true;
 
-        return false;
-    }
+			return false;
+		}
 
-    /**
-     * @param $key
-     * @param $index
-     * @return mixed
-     */
+		/**
+		 * @param $key
+		 * @param $index
+		 *
+		 * @return mixed
+		 */
 
-    public function arrayValue( $key, $index )
-    {
+		public function arrayValue($key, $index)
+		{
 
-        return( $this->array[ $key ][ $index ] );
-    }
+			return ($this->array[$key][$index]);
+		}
 
-    /**
-     * @param $key
-     * @param $index
-     * @return bool|null
-     */
+		/**
+		 * @param $key
+		 * @param $index
+		 *
+		 * @return bool|null
+		 */
 
-    public function isTrueAndExists( $key, $index )
-    {
+		public function isTrueAndExists($key, $index)
+		{
 
-        $result = $this->query( $key, $index );
+			$result = $this->query($key, $index);
 
-        if( $result == null )
-            return false;
+			if ($result == null)
+				return false;
 
-        if( is_bool( $result ) )
-            return false;
+			if (is_bool($result))
+				return false;
 
-        return( $result );
-    }
+			return ($result);
+		}
 
-    /**
-     * @param $key
-     * @return bool
-     */
+		/**
+		 * @param $key
+		 *
+		 * @return bool
+		 */
 
-    public function exist( $key )
-    {
+		public function exist($key)
+		{
 
-        return( isset( $this->array[ $key ] ) );
-    }
+			return (isset($this->array[$key]));
+		}
 
-    /**
-     * @param $value
-     * @return bool
-     */
+		/**
+		 * @param $value
+		 *
+		 * @return bool
+		 */
 
-    public function contains( $value )
-    {
+		public function contains($value)
+		{
 
-        foreach( $this->array as $key=>$item )
-            if( $item == $value )
-                return true;
+			foreach ($this->array as $key => $item)
+				if ($item == $value)
+					return true;
 
-        return false;
-    }
+			return false;
+		}
 
-    public function contents()
-    {
+		public function contents()
+		{
 
-        return( $this->array );
-    }
+			return ($this->array);
+		}
 
-    /**
-     * @param $value
-     * @return int|null|string
-     */
+		/**
+		 * @param $value
+		 *
+		 * @return int|null|string
+		 */
 
-    public function indexOf( $value )
-    {
+		public function indexOf($value)
+		{
 
-        foreach( $this->array as $key=>$item )
-            if( $item == $value )
-                return $key;
+			foreach ($this->array as $key => $item)
+				if ($item == $value)
+					return $key;
 
-        return null;
-    }
+			return null;
+		}
 
-    /**
-     * @return array
-     */
+		/**
+		 * @return array
+		 */
 
-    public function getRequirements()
-    {
+		public function getRequirements()
+		{
 
-        return( $this->requirements );
-    }
+			return ($this->requirements);
+		}
 
-    /**
-     * @param $array
-     * @return bool
-     */
+		/**
+		 * @param $array
+		 *
+		 * @return bool
+		 */
 
-    public function parse( $array )
-    {
+		public function parse($array)
+		{
 
-        //Empty requirements kinda defaults the point
-        if( empty( $this->requirements ) )
-            return true;
+			//Empty requirements kinda defaults the point
+			if (empty($this->requirements))
+				return true;
 
-        foreach( $this->requirements as $key=>$requirement )
-        {
+			foreach ($this->requirements as $key => $requirement)
+			{
 
-            if( isset( $array[$key] ) == false )
-                return false;
-            else
-            {
+				if (isset($array[$key]) == false)
+					return false;
+				else
+				{
 
-                switch ( $requirement )
-                {
+					switch ($requirement)
+					{
 
-                    case "array":
-                        if( is_array( $array[ $key ] ) == false )
-                            return false;
-                        break;
-                    case "string":
-                        if( is_string( $array[ $key ] ) == false )
-                            return false;
-                        break;
-                    case "bool"||"boolean":
-                            continue;
-                        break;
-                    case "int"||"integer":
-                        if( is_int( $array[ $key ] ) == false )
-                            return false;
-                        break;
-                    case "float":
-                        if( is_float( $array[ $key ] ) == false )
-                            return false;
-                        break;
-                    case "dynamic":
-                            continue;
-                        break;
-                    default:
-                        if( is_null( $array[ $key ] ) == false )
-                            return false;
-                        break;
-                }
-            }
-        }
+						case "array":
+							if (is_array($array[$key]) == false)
+								return false;
+							break;
+						case "string":
+							if (is_string($array[$key]) == false)
+								return false;
+							break;
+						case "bool" || "boolean":
+							continue;
+							break;
+						case "int" || "integer":
+							if (is_int($array[$key]) == false)
+								return false;
+							break;
+						case "float":
+							if (is_float($array[$key]) == false)
+								return false;
+							break;
+						case "dynamic":
+							continue;
+							break;
+						default:
+							if (is_null($array[$key]) == false)
+								return false;
+							break;
+					}
+				}
+			}
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * @param Convention $convention
-     * @return AmbiguousData
-     */
+		/**
+		 * @param Convention $convention
+		 *
+		 * @return AmbiguousData
+		 */
 
-    public static function toAmbigious( Convention $convention )
-    {
+		public static function toAmbigious(Convention $convention)
+		{
 
-        if( $convention instanceof AmbiguousData )
-            return $convention;
+			if ($convention instanceof AmbiguousData)
+				return $convention;
 
-        return( new AmbiguousData( $convention->contents() ) );
-    }
-}
+			return (new AmbiguousData($convention->contents()));
+		}
+	}

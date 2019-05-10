@@ -1,190 +1,191 @@
 <?php
-namespace Framework\Syscrack\Game;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class Viruses
- *
- * @package Framework\Syscrack\Game
- */
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Database\Tables\Computer;
-use Framework\Database\Tables\Software;
+	/**
+	 * Lewis Lancaster 2016
+	 *
+	 * Class Viruses
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-class Viruses
-{
+	use Framework\Application\Settings;
+	use Framework\Database\Tables\Computer;
+	use Framework\Database\Tables\Software;
 
-    /**
-     * @var Computer
-     */
+	class Viruses
+	{
 
-    protected $computers;
+		/**
+		 * @var Computer
+		 */
 
-    /**
-     * @var Software
-     */
+		protected $computers;
 
-    protected $software;
+		/**
+		 * @var Software
+		 */
 
-    /**
-     * Viruses constructor.
-     */
+		protected $software;
 
-    public function __construct()
-    {
+		/**
+		 * Viruses constructor.
+		 */
 
-        $this->computers = new Computer();
+		public function __construct()
+		{
 
-        $this->software = new Software();
-    }
+			$this->computers = new Computer();
 
-    /**
-     * Updates the time since the virus has been modified
-     *
-     * @param $softwareid
-     */
+			$this->software = new Software();
+		}
 
-    public function updateVirusModified( $softwareid )
-    {
+		/**
+		 * Updates the time since the virus has been modified
+		 *
+		 * @param $softwareid
+		 */
 
-        $this->software->updateSoftware( $softwareid, array(
-            'lastmodified'  => time()
-        ));
-    }
+		public function updateVirusModified($softwareid)
+		{
 
-    /**
-     * Returns true if there are viruses on the computer
-     *
-     * @param $computerid
-     *
-     * @param null $userid
-     *
-     * @return bool
-     */
+			$this->software->updateSoftware($softwareid, array(
+				'lastmodified' => time()
+			));
+		}
 
-    public function hasVirusesOnComputer( $computerid, $userid=null )
-    {
+		/**
+		 * Returns true if there are viruses on the computer
+		 *
+		 * @param $computerid
+		 *
+		 * @param null $userid
+		 *
+		 * @return bool
+		 */
 
-        if( $userid != null )
-        {
+		public function hasVirusesOnComputer($computerid, $userid = null)
+		{
 
-            if( empty( $this->getVirusesOnComputer( $computerid, $userid ) ) || $this->getVirusesOnComputer( $computerid, $userid ) == null )
-            {
+			if ($userid != null)
+			{
 
-                return false;
-            }
+				if (empty($this->getVirusesOnComputer($computerid, $userid)) || $this->getVirusesOnComputer($computerid, $userid) == null)
+				{
 
-            return true;
-        }
+					return false;
+				}
 
-        if( $this->software->getTypeOnComputer( Settings::setting('syscrack_software_virus_type'), $computerid ) == null )
-        {
+				return true;
+			}
 
-            return false;
-        }
+			if ($this->software->getTypeOnComputer(Settings::setting('syscrack_software_virus_type'), $computerid) == null)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if this software is a virus
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function isVirus( $softwareid )
-    {
+		/**
+		 * Returns true if this software is a virus
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-        if( $this->software->getSoftware( $softwareid )->type == Settings::setting('syscrack_software_virus_type') )
-        {
+		public function isVirus($softwareid)
+		{
 
-            return true;
-        }
+			if ($this->software->getSoftware($softwareid)->type == Settings::setting('syscrack_software_virus_type'))
+			{
 
-        return false;
-    }
+				return true;
+			}
 
-    /**
-     * Checks if this type virus is already installed
-     *
-     * @param $uniquename
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
+			return false;
+		}
 
-    public function virusAlreadyInstalled( $uniquename, $computerid, $userid )
-    {
+		/**
+		 * Checks if this type virus is already installed
+		 *
+		 * @param $uniquename
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-        $viruses = $this->software->getTypeOnComputer( Settings::setting('syscrack_software_virus_type'), $computerid );
+		public function virusAlreadyInstalled($uniquename, $computerid, $userid)
+		{
 
-        foreach( $viruses as $virus )
-        {
+			$viruses = $this->software->getTypeOnComputer(Settings::setting('syscrack_software_virus_type'), $computerid);
 
-            if( $virus->userid == $userid )
-            {
+			foreach ($viruses as $virus)
+			{
 
-                if( $virus->uniquename == $uniquename )
-                {
+				if ($virus->userid == $userid)
+				{
 
-                    if( $virus->installed == true )
-                    {
+					if ($virus->uniquename == $uniquename)
+					{
 
-                        return true;
-                    }
-                }
-            }
-        }
+						if ($virus->installed == true)
+						{
 
-        return false;
-    }
+							return true;
+						}
+					}
+				}
+			}
 
-    /**
-     * Gets the viruses on the computer
-     *
-     * @param $computerid
-     *
-     * @param null $userid
-     *
-     * @return array|\Illuminate\Support\Collection|null
-     */
+			return false;
+		}
 
-    public function getVirusesOnComputer( $computerid, $userid=null )
-    {
+		/**
+		 * Gets the viruses on the computer
+		 *
+		 * @param $computerid
+		 *
+		 * @param null $userid
+		 *
+		 * @return array|\Illuminate\Support\Collection|null
+		 */
 
-        if( $userid != null )
-        {
+		public function getVirusesOnComputer($computerid, $userid = null)
+		{
 
-            $viruses = $this->software->getTypeOnComputer( Settings::setting('syscrack_software_virus_type'), $computerid );
+			if ($userid != null)
+			{
 
-            if( empty( $viruses ) )
-            {
+				$viruses = $this->software->getTypeOnComputer(Settings::setting('syscrack_software_virus_type'), $computerid);
 
-                return null;
-            }
+				if (empty($viruses))
+				{
 
-            $result = [];
+					return null;
+				}
 
-            foreach( $viruses as $virus )
-            {
+				$result = [];
 
-                if( $virus->userid == $userid )
-                {
+				foreach ($viruses as $virus)
+				{
 
-                    $result[] = $virus;
-                }
-            }
+					if ($virus->userid == $userid)
+					{
 
-            return $result;
-        }
+						$result[] = $virus;
+					}
+				}
 
-        return $this->software->getTypeOnComputer( Settings::setting('syscrack_software_virus_type'), $computerid );
-    }
-}
+				return $result;
+			}
+
+			return $this->software->getTypeOnComputer(Settings::setting('syscrack_software_virus_type'), $computerid);
+		}
+	}

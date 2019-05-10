@@ -1,133 +1,134 @@
 <?php
-namespace Framework\Database\Tables;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Bitcoin
- *
- * @package Framework\Database\Tables
- */
+	namespace Framework\Database\Tables;
 
-use Framework\Database\Table;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Bitcoin
+	 *
+	 * @package Framework\Database\Tables
+	 */
 
-class Bitcoin extends Table
-{
+	use Framework\Database\Table;
 
-    /**
-     * Gets a bitcoin wallet
-     *
-     * @param $bitcoinid
-     *
-     * @return mixed|null
-     */
+	class Bitcoin extends Table
+	{
 
-    public function getBitcoinWallet( $bitcoinid )
-    {
+		/**
+		 * Gets a bitcoin wallet
+		 *
+		 * @param $bitcoinid
+		 *
+		 * @return mixed|null
+		 */
 
-        $array = array(
-            'bitcoinid' => $bitcoinid
-        );
+		public function getBitcoinWallet($bitcoinid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'bitcoinid' => $bitcoinid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Returns the users bitcoins wallets
-     *
-     * @param $userid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function getUserBitcoinWallets( $userid )
-    {
+		/**
+		 * Returns the users bitcoins wallets
+		 *
+		 * @param $userid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        $array = array(
-            'userid' => $userid
-        );
+		public function getUserBitcoinWallets($userid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'userid' => $userid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Finds a bitcoin wallet through its wallet
-     *
-     * @param $wallet
-     *
-     * @return mixed|null
-     */
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-    public function findBitcoinWallet( $wallet )
-    {
+		/**
+		 * Finds a bitcoin wallet through its wallet
+		 *
+		 * @param $wallet
+		 *
+		 * @return mixed|null
+		 */
 
-        $array = array(
-            'wallet' => $wallet
-        );
+		public function findBitcoinWallet($wallet)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'wallet' => $wallet
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Finds the wallets by their server and computerid
-     *
-     * @param $computerid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function findByServer( $wallet, $computerid )
-    {
+		/**
+		 * Finds the wallets by their server and computerid
+		 *
+		 * @param $computerid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        $array = array(
-            'wallet'    => $wallet,
-            'computerid' => $computerid
-        );
+		public function findByServer($wallet, $computerid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'wallet' => $wallet,
+				'computerid' => $computerid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets all the wallets tied to a specific computerid
-     *
-     * @param $computerid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-    public function getByServer( $computerid )
-    {
+		/**
+		 * Gets all the wallets tied to a specific computerid
+		 *
+		 * @param $computerid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        $array = array(
-            'computerid' => $computerid
-        );
+		public function getByServer($computerid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'computerid' => $computerid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    public function insertWallet( $array )
-    {
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-        return $this->getTable()->insertGetId( $array );
-    }
+		public function insertWallet($array)
+		{
 
-    public function updateWallet( $wallet, $values )
-    {
+			return $this->getTable()->insertGetId($array);
+		}
 
-        $array = array(
-            'wallet' => $wallet
-        );
+		public function updateWallet($wallet, $values)
+		{
 
-        $this->getTable()->where( $array )->update( $values );
-    }
-}
+			$array = array(
+				'wallet' => $wallet
+			);
+
+			$this->getTable()->where($array)->update($values);
+		}
+	}

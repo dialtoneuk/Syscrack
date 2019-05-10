@@ -1,65 +1,65 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 21/07/2018
- * Time: 03:14
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 21/07/2018
+	 * Time: 03:14
+	 */
 
-namespace Framework\Application\UtilitiesV2\Setups;
+	namespace Framework\Application\UtilitiesV2\Setups;
 
 
-class Database extends Base
-{
+	class Database extends Base
+	{
 
-    /**
-     * Database constructor.
-     * @throws \RuntimeException
-     */
+		/**
+		 * Database constructor.
+		 * @throws \RuntimeException
+		 */
 
-    public function __construct()
-    {
+		public function __construct()
+		{
 
-        if( $this->exists( DATABASE_MAP ) == false )
-            throw new \RuntimeException("File does not exist");
+			if ($this->exists(DATABASE_MAP) == false)
+				throw new \RuntimeException("File does not exist");
 
-        parent::__construct();
-    }
+			parent::__construct();
+		}
 
-    /**
-     * @return bool
-     * @throws \RuntimeException
-     */
+		/**
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-    public function process()
-    {
+		public function process()
+		{
 
-        $map = $this->getMap();
+			$map = $this->getMap();
 
-        if( empty( $map ) )
-            throw new \RuntimeException("Invalid map");
+			if (empty($map))
+				throw new \RuntimeException("Invalid map");
 
-        $inputs = $this->getInputs( $map );
+			$inputs = $this->getInputs($map);
 
-        if( count( $map ) !== count( $inputs ) )
-            throw new \RuntimeException("Count mismatch");
+			if (count($map) !== count($inputs))
+				throw new \RuntimeException("Count mismatch");
 
-        foreach( $inputs as $key=>$value )
-            if( isset( $map[ $key ] ) == false )
-                throw new \RuntimeException("Key not set");
+			foreach ($inputs as $key => $value)
+				if (isset($map[$key]) == false)
+					throw new \RuntimeException("Key not set");
 
-        $this->write( DATABASE_CREDENTIALS, $inputs );
+			$this->write(DATABASE_CREDENTIALS, $inputs);
 
-        return parent::process();
-    }
+			return parent::process();
+		}
 
-    /**
-     * @return mixed
-     */
+		/**
+		 * @return mixed
+		 */
 
-    private function getMap()
-    {
+		private function getMap()
+		{
 
-        return( $this->read( DATABASE_MAP ) );
-    }
-}
+			return ($this->read(DATABASE_MAP));
+		}
+	}

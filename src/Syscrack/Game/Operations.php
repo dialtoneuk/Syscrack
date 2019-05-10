@@ -1,870 +1,874 @@
 <?php
-namespace Framework\Syscrack\Game;
-
-/**
- * Lewis Lancaster 2017
- *
- * Class Operations
- *
- * @package Framework\Syscrack\Game
- */
-
-use Framework\Application\Settings;
-use Framework\Application\Utilities\Factory;
-use Framework\Application\Utilities\FileSystem;
-use Framework\Database\Tables\Processes as Database;
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Structures\Operation;
-
-class Operations
-{
-
-    /**
-     * @var Factory
-     */
-
-    protected $factory;
-
-    /**
-     * @var Database
-     */
-
-    protected $database;
-
-    /**
-     * @var Hardware
-     */
-
-    protected $hardware;
-
-    /**
-     * Processes constructor.
-     *
-     * @param bool $autoload
-     */
-
-    public function __construct( $autoload=true )
-    {
-
-        $this->factory = new Factory( "Framework\\Syscrack\\Game\\Operations\\" );
-
-        $this->database = new Database();
 
-        if( $autoload )
-        {
+	namespace Framework\Syscrack\Game;
 
-            $this->getProcessesClasses();
-        }
-    }
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Operations
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-    /**
-     * Returns true if a process exists
-     *
-     * @param $processid
-     *
-     * @return bool
-     */
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\Factory;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Database\Tables\Processes as Database;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Structures\Operation;
+
+	class Operations
+	{
+
+		/**
+		 * @var Factory
+		 */
+
+		protected $factory;
+
+		/**
+		 * @var Database
+		 */
+
+		protected $database;
+
+		/**
+		 * @var Hardware
+		 */
+
+		protected $hardware;
+
+		/**
+		 * Processes constructor.
+		 *
+		 * @param bool $autoload
+		 */
+
+		public function __construct($autoload = true)
+		{
 
-    public function processExists( $processid )
-    {
+			$this->factory = new Factory("Framework\\Syscrack\\Game\\Operations\\");
 
-        if( $this->database->getProcess( $processid ) == null )
-        {
+			$this->database = new Database();
 
-            return false;
-        }
+			if ($autoload)
+			{
 
-        return true;
-    }
+				$this->getProcessesClasses();
+			}
+		}
 
-    /**
-     * Gets a process
-     *
-     * @param $processid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
-
-    public function getProcess( $processid )
-    {
-
-        return $this->database->getProcess( $processid );
-    }
-
-    /**
-     * Gets all of the users processes
-     *
-     * @param $userid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
-
-    public function getUserProcesses( $userid )
-    {
+		/**
+		 * Returns true if a process exists
+		 *
+		 * @param $processid
+		 *
+		 * @return bool
+		 */
 
-        return $this->database->getUserProcesses( $userid );
-    }
+		public function processExists($processid)
+		{
 
-    /**
-     * Gets the processes of a computer
-     *
-     * @param $computerid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
-
-    public function getComputerProcesses( $computerid )
-    {
-
-        return $this->database->getComputerProcesses( $computerid );
-    }
+			if ($this->database->getProcess($processid) == null)
+			{
 
-    /**
-     * Returns true if we already have a process like this on a users computer
-     *
-     * @param $computerid
-     *
-     * @param $process
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    public function hasProcess( $computerid, $process, $ipaddress, $softwareid=null )
-    {
-
-        $processes = $this->getComputerProcesses( $computerid );
-
-        if( empty( $processes ) )
-        {
-
-            return false;
-        }
-
-        foreach( $processes as $key=>$value )
-        {
-
-            if( $value->process == $process )
-            {
-
-                $data = json_decode( $value->data, true );
-
-                if( $data['ipaddress'] == $ipaddress )
-                {
-
-                    if( $softwareid !== null )
-                    {
-
-                        if( isset( $data['softwareid'] ) == false )
-                        {
-
-                            return false;
-                        }
-
-                        if( $data['softwareid'] == $softwareid )
-                        {
-
-                            return true;
-                        }
-                    }
-
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Creates a new process and adds it to the database
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return int
-     */
-
-    public function createProcess( $timecompleted, $computerid, $userid, $process, array $data )
-    {
-
-        if( $this->findProcessClass( $process ) == false )
-        {
-
-            throw new SyscrackException();
-        }
-
-        return $this->addToDatabase( $timecompleted, $computerid, $userid, $process, $data );
-    }
-
-    /**
-     * Returns true if the process can be completed
-     *
-     * @param $processid
-     *
-     * @return bool
-     */
-
-    public function canComplete( $processid )
-    {
-
-        $process = $this->database->getProcess( $processid );
-
-        if( time() - $process->timecompleted < 0 )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Adds a process to the database
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return int
-     */
-
-    public function addToDatabase( $timecompleted, $computerid, $userid, $process, array $data )
-    {
-
-        $array = array(
-            'timecompleted' => $timecompleted,
-            'timestarted'   => time(),
-            'computerid'    => $computerid,
-            'userid'        => $userid,
-            'process'       => $process,
-            'data'          => json_encode( $data )
-        );
-
-        return $this->database->insertProcess( $array );
-    }
-
-    /**
-     * Deletes a process
-     *
-     * @param $processid
-     */
-
-    public function deleteProcess( $processid )
-    {
-
-        $this->database->trashProcess( $processid );
-    }
-
-    /**
-     * @param $processid
-     * @return mixed
-     */
-
-    public function completeProcess( $processid )
-    {
-
-        $process = $this->getProcess( $processid );
-
-        if( empty( $process ) )
-        {
-
-            throw new SyscrackException();
-        }
-
-        $this->database->trashProcess( $processid );
-
-        $result = $this->callProcessMethod( $this->findProcessClass( $process->process ), 'onCompletion', array(
-            'timecompleted' => $process->timecompleted,
-            'timestarted'   => $process->timestarted,
-            'computerid'    => $process->computerid,
-            'userid'        => $process->userid,
-            'process'       => $process->process,
-            'data'          => json_decode( $process->data, true )
-        ));
-
-        return( $result );
-    }
-
-    /**
-     * Returns true if the user has processes
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
-
-    public function userHasProcesses( $userid )
-    {
-
-        if( $this->database->getUserProcesses( $userid ) == null )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns true if the computer has processes
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
-
-    public function computerHasProcesses( $computerid )
-    {
-
-        if( $this->database->getComputerProcesses( $computerid ) == null )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns true if we have this process class
-     *
-     * @param $process
-     *
-     * @return bool
-     */
-
-    public function hasProcessClass( $process )
-    {
-
-        if( $this->factory->hasClass( $process ) == false )
-        {
-
-            return false;
-        }
+			return true;
+		}
 
-        return true;
-    }
+		/**
+		 * Gets a process
+		 *
+		 * @param $processid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-    /**
-     * Finds a process class
-     *
-     * @param $process
-     *
-     * @return BaseOperation
-     */
-
-    public function findProcessClass( $process )
-    {
-
-        return $this->factory->findClass( $process );
-    }
-
-    /**
-     * @param $process
-     * @return bool
-     */
+		public function getProcess($processid)
+		{
+
+			return $this->database->getProcess($processid);
+		}
+
+		/**
+		 * Gets all of the users processes
+		 *
+		 * @param $userid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
+
+		public function getUserProcesses($userid)
+		{
 
-    public function isElevatedProcess( $process )
-    {
+			return $this->database->getUserProcesses($userid);
+		}
 
-        /**
-         * @var $class BaseOperation
-         */
-        $class = $this->findProcessClass( $process );
+		/**
+		 * Gets the processes of a computer
+		 *
+		 * @param $computerid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
+
+		public function getComputerProcesses($computerid)
+		{
+
+			return $this->database->getComputerProcesses($computerid);
+		}
+
+		/**
+		 * Returns true if we already have a process like this on a users computer
+		 *
+		 * @param $computerid
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 
-        return( $class->isElevated() );
-    }
+		public function hasProcess($computerid, $process, $ipaddress, $softwareid = null)
+		{
+
+			$processes = $this->getComputerProcesses($computerid);
+
+			if (empty($processes))
+			{
+
+				return false;
+			}
+
+			foreach ($processes as $key => $value)
+			{
+
+				if ($value->process == $process)
+				{
+
+					$data = json_decode($value->data, true);
+
+					if ($data['ipaddress'] == $ipaddress)
+					{
+
+						if ($softwareid !== null)
+						{
+
+							if (isset($data['softwareid']) == false)
+							{
+
+								return false;
+							}
+
+							if ($data['softwareid'] == $softwareid)
+							{
+
+								return true;
+							}
+						}
+
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		/**
+		 * Creates a new process and adds it to the database
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return int
+		 */
+
+		public function createProcess($timecompleted, $computerid, $userid, $process, array $data)
+		{
+
+			if ($this->findProcessClass($process) == false)
+			{
+
+				throw new SyscrackException();
+			}
+
+			return $this->addToDatabase($timecompleted, $computerid, $userid, $process, $data);
+		}
+
+		/**
+		 * Returns true if the process can be completed
+		 *
+		 * @param $processid
+		 *
+		 * @return bool
+		 */
+
+		public function canComplete($processid)
+		{
+
+			$process = $this->database->getProcess($processid);
+
+			if (time() - $process->timecompleted < 0)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Adds a process to the database
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return int
+		 */
+
+		public function addToDatabase($timecompleted, $computerid, $userid, $process, array $data)
+		{
+
+			$array = array(
+				'timecompleted' => $timecompleted,
+				'timestarted' => time(),
+				'computerid' => $computerid,
+				'userid' => $userid,
+				'process' => $process,
+				'data' => json_encode($data)
+			);
+
+			return $this->database->insertProcess($array);
+		}
+
+		/**
+		 * Deletes a process
+		 *
+		 * @param $processid
+		 */
+
+		public function deleteProcess($processid)
+		{
+
+			$this->database->trashProcess($processid);
+		}
+
+		/**
+		 * @param $processid
+		 *
+		 * @return mixed
+		 */
+
+		public function completeProcess($processid)
+		{
+
+			$process = $this->getProcess($processid);
+
+			if (empty($process))
+			{
+
+				throw new SyscrackException();
+			}
+
+			$this->database->trashProcess($processid);
+
+			$result = $this->callProcessMethod($this->findProcessClass($process->process), 'onCompletion', array(
+				'timecompleted' => $process->timecompleted,
+				'timestarted' => $process->timestarted,
+				'computerid' => $process->computerid,
+				'userid' => $process->userid,
+				'process' => $process->process,
+				'data' => json_decode($process->data, true)
+			));
+
+			return ($result);
+		}
+
+		/**
+		 * Returns true if the user has processes
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
+
+		public function userHasProcesses($userid)
+		{
+
+			if ($this->database->getUserProcesses($userid) == null)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Returns true if the computer has processes
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
+
+		public function computerHasProcesses($computerid)
+		{
+
+			if ($this->database->getComputerProcesses($computerid) == null)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Returns true if we have this process class
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
+
+		public function hasProcessClass($process)
+		{
+
+			if ($this->factory->hasClass($process) == false)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Finds a process class
+		 *
+		 * @param $process
+		 *
+		 * @return BaseOperation
+		 */
+
+		public function findProcessClass($process)
+		{
+
+			return $this->factory->findClass($process);
+		}
+
+		/**
+		 * @param $process
+		 *
+		 * @return bool
+		 */
+
+		public function isElevatedProcess($process)
+		{
 
-    /**
-     * Returns true if this operation allows software
-     *
-     * @param $process
-     *
-     * @return bool
-     */
+			/**
+			 * @var $class BaseOperation
+			 */
+			$class = $this->findProcessClass($process);
 
-    public function allowSoftware( $process )
-    {
+			return ($class->isElevated());
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Returns true if this operation allows software
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 
-            throw new SyscrackException();
-        }
+		public function allowSoftware($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['allowsoftware'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$class = $this->findProcessClass($process);
 
-        if( $class->configuration()['allowsoftware'] == false )
-        {
+			if (isset($class->configuration()['allowsoftware']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($class->configuration()['allowsoftware'] == false)
+			{
 
-    /**
-     * Returns true if this process requires software
-     *
-     * @param $process
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    public function requireSoftware( $process )
-    {
+			return true;
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Returns true if this process requires software
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 
-            throw new SyscrackException();
-        }
+		public function requireSoftware($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['requiresoftware'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$class = $this->findProcessClass($process);
 
-        if( $class->configuration()['requiresoftware'] == false )
-        {
+			if (isset($class->configuration()['requiresoftware']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($class->configuration()['requiresoftware'] == false)
+			{
 
-    /**
-     * Returns true if the user is required to login in order to complete this process
-     *
-     * @param $process
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    public function requireLoggedIn( $process )
-    {
+			return true;
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Returns true if the user is required to login in order to complete this process
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 
-            throw new SyscrackException();
-        }
+		public function requireLoggedIn($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['requireloggedin'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$class = $this->findProcessClass($process);
 
-        if( $class->configuration()['requireloggedin'] == false )
-        {
+			if (isset($class->configuration()['requireloggedin']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($class->configuration()['requireloggedin'] == false)
+			{
 
-    /**
-     * Returns true if this operation allows post
-     *
-     * @param $process
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    public function allowPost( $process )
-    {
+			return true;
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Returns true if this operation allows post
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 
-            throw new SyscrackException();
-        }
+		public function allowPost($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['allowpost'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$class = $this->findProcessClass($process);
 
-        if( $class->configuration()['allowpost'] == false )
-        {
+			if (isset($class->configuration()['allowpost']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($class->configuration()['allowpost'] == false)
+			{
 
-    /**
-     * Returns true if we allow custom data to be passed
-     *
-     * @param $process
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    public function allowCustomData( $process )
-    {
+			return true;
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Returns true if we allow custom data to be passed
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 
-            throw new SyscrackException();
-        }
+		public function allowCustomData($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['allowcustomdata'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$class = $this->findProcessClass($process);
 
-        if( $class->configuration()['allowcustomdata'] == false )
-        {
+			if (isset($class->configuration()['allowcustomdata']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($class->configuration()['allowcustomdata'] == false)
+			{
 
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $process
-     *
-     * @return array
-     */
+				return false;
+			}
 
-    public function getCustomData( $process, $ipaddress, $userid )
-    {
+			return true;
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Gets the custom data for this operation
+		 *
+		 * @param $process
+		 *
+		 * @return array
+		 */
 
-            throw new SyscrackException();
-        }
+		public function getCustomData($process, $ipaddress, $userid)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['allowcustomdata'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            throw new SyscrackException();
-        }
+			$class = $this->findProcessClass($process);
 
-        return $class->getCustomData( $ipaddress, $userid );
-    }
+			if (isset($class->configuration()['allowcustomdata']) == false)
+			{
 
-    /**
-     * Returns true if we have post requirements
-     *
-     * @param $process
-     *
-     * @return bool
-     */
+				throw new SyscrackException();
+			}
 
-    public function hasPostRequirements( $process )
-    {
+			return $class->getCustomData($ipaddress, $userid);
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Returns true if we have post requirements
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 
-            throw new SyscrackException();
-        }
+		public function hasPostRequirements($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['postrequirements'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$class = $this->findProcessClass($process);
 
-        if( empty( $class->configuration()['postrequirements'] ) )
-        {
+			if (isset($class->configuration()['postrequirements']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if (empty($class->configuration()['postrequirements']))
+			{
 
-    /**
-     * Gets the post requirements for this operation
-     *
-     * @param $process
-     *
-     * @return mixed
-     */
+				return false;
+			}
 
-    public function getPostRequirements( $process )
-    {
+			return true;
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Gets the post requirements for this operation
+		 *
+		 * @param $process
+		 *
+		 * @return mixed
+		 */
 
-            throw new SyscrackException();
-        }
+		public function getPostRequirements($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['postrequirements'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            throw new SyscrackException();
-        }
+			$class = $this->findProcessClass($process);
 
-        return $class->configuration()['postrequirements'];
-    }
+			if (isset($class->configuration()['postrequirements']) == false)
+			{
 
-    /**
-     * Returns true if this operation uses the software of your computer and not the software of your current connection
-     *
-     * @param $process
-     *
-     * @return bool
-     */
+				throw new SyscrackException();
+			}
 
-    public function useLocalSoftware( $process )
-    {
+			return $class->configuration()['postrequirements'];
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Returns true if this operation uses the software of your computer and not the software of your current
+		 * connection
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 
-            throw new SyscrackException();
-        }
+		public function useLocalSoftware($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['uselocalsoftware'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$class = $this->findProcessClass($process);
 
-        if( $class->configuration()['uselocalsoftware'] == false )
-        {
+			if (isset($class->configuration()['uselocalsoftware']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($class->configuration()['uselocalsoftware'] == false)
+			{
 
-    /**
-     * Returns true if this action can be preformed with out logging in ( used when dealing with software )
-     *
-     * @param $process
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    public function allowAnonymous( $process )
-    {
+			return true;
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Returns true if this action can be preformed with out logging in ( used when dealing with software )
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 
-            throw new SyscrackException();
-        }
+		public function allowAnonymous($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['allowanonymous'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$class = $this->findProcessClass($process);
 
-        if( $class->configuration()['allowanonymous'] == false )
-        {
+			if (isset($class->configuration()['allowanonymous']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($class->configuration()['allowanonymous'] == false)
+			{
 
-    /**
-     * Returns true if this operation can be ran on the local users computer
-     *
-     * @param $process
-     *
-     * @return bool
-     */
+				return false;
+			}
 
-    public function allowLocal( $process )
-    {
+			return true;
+		}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+		/**
+		 * Returns true if this operation can be ran on the local users computer
+		 *
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 
-            throw new SyscrackException();
-        }
+		public function allowLocal($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['allowlocal'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$class = $this->findProcessClass($process);
 
-        if( $class->configuration()['allowlocal'] == false )
-        {
+			if (isset($class->configuration()['allowlocal']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($class->configuration()['allowlocal'] == false)
+			{
 
-    public function localOnly( $process )
-    {
+				return false;
+			}
 
-        if( $this->hasProcessClass( $process ) == false )
-        {
+			return true;
+		}
 
-            throw new SyscrackException();
-        }
+		public function localOnly($process)
+		{
 
-        $class = $this->findProcessClass( $process );
+			if ($this->hasProcessClass($process) == false)
+			{
 
-        if( isset( $class->configuration()['localonly'] ) == false )
-        {
+				throw new SyscrackException();
+			}
 
-            return false;
-        }
+			$class = $this->findProcessClass($process);
 
-        if( $class->configuration()['localonly'] == false )
-        {
+			if (isset($class->configuration()['localonly']) == false)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($class->configuration()['localonly'] == false)
+			{
 
-    /**
-     * Calls a method inside the process class
-     *
-     * @param Operation $process
-     *
-     * @param string $method
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
+				return false;
+			}
 
-    private function callProcessMethod(Operation $process, $method='onCreation', array $data )
-    {
+			return true;
+		}
 
-        if( $process instanceof Operation === false )
-        {
+		/**
+		 * Calls a method inside the process class
+		 *
+		 * @param Operation $process
+		 *
+		 * @param string $method
+		 *
+		 * @param array $data
+		 *
+		 * @return mixed
+		 */
 
-            throw new SyscrackException();
-        }
+		private function callProcessMethod(Operation $process, $method = 'onCreation', array $data)
+		{
 
-        if( $this->isCallable( $process, $method ) == false )
-        {
+			if ($process instanceof Operation === false)
+			{
 
-            throw new SyscrackException();
-        }
+				throw new SyscrackException();
+			}
 
-        return call_user_func_array( array( $process, $method ), $data );
-    }
+			if ($this->isCallable($process, $method) == false)
+			{
 
-    /**
-     * Returns true if the function is callable
-     *
-     * @param $process
-     *
-     * @param $method
-     *
-     * @return bool
-     */
+				throw new SyscrackException();
+			}
 
-    private function isCallable( $process, $method )
-    {
+			return call_user_func_array(array($process, $method), $data);
+		}
 
-        $class = new \ReflectionClass( $process );
+		/**
+		 * Returns true if the function is callable
+		 *
+		 * @param $process
+		 *
+		 * @param $method
+		 *
+		 * @return bool
+		 */
 
-        if( empty( $class ) )
-        {
+		private function isCallable($process, $method)
+		{
 
-            return false;
-        }
+			$class = new \ReflectionClass($process);
 
-        if( $class->getMethod( $method )->isPublic() == false )
-        {
+			if (empty($class))
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			if ($class->getMethod($method)->isPublic() == false)
+			{
 
-    /**
-     * Gets all the processes
-     *
-     * @return array|Structures\Software|null|\stdClass
-     */
+				return false;
+			}
 
-    private function getProcessesClasses()
-    {
+			return true;
+		}
 
-        if( empty( $this->factory->getAllClasses() ) == false )
-        {
+		/**
+		 * Gets all the processes
+		 *
+		 * @return array|Structures\Software|null|\stdClass
+		 */
 
-            throw new SyscrackException();
-        }
+		private function getProcessesClasses()
+		{
 
-        $files = FileSystem::getFilesInDirectory( Settings::setting('syscrack_operations_location') );
+			if (empty($this->factory->getAllClasses()) == false)
+			{
 
-        if( empty( $files ) )
-        {
+				throw new SyscrackException();
+			}
 
-            throw new SyscrackException();
-        }
+			$files = FileSystem::getFilesInDirectory(Settings::setting('syscrack_operations_location'));
 
-        foreach( $files as $file )
-        {
+			if (empty($files))
+			{
 
-            $this->factory->createClass( FileSystem::getFileName( $file ) );
-        }
-    }
+				throw new SyscrackException();
+			}
 
-}
+			foreach ($files as $file)
+			{
+
+				$this->factory->createClass(FileSystem::getFileName($file));
+			}
+		}
+
+	}

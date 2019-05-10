@@ -1,168 +1,172 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class ForceDelete
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Application\Utilities\PostHelper;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Viruses;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class ForceDelete
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class ForceDelete extends BaseOperation
-{
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Viruses;
 
-    /**
-     * @var Viruses
-     */
+	class ForceDelete extends BaseOperation
+	{
 
-    protected static $viruses;
+		/**
+		 * @var Viruses
+		 */
 
-    /**
-     * Delete constructor.
-     */
+		protected static $viruses;
 
-    public function __construct()
-    {
+		/**
+		 * Delete constructor.
+		 */
 
-        if( isset( self::$viruses ) == false )
-            self::$viruses = new Viruses();
+		public function __construct()
+		{
 
-        parent::__construct( true );
-    }
+			if (isset(self::$viruses) == false)
+				self::$viruses = new Viruses();
 
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
+			parent::__construct(true);
+		}
 
-    public function configuration()
-    {
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'allowsoftware'    => true,
-            'allowlocal'        => true,
-            'requiresoftware'  => false,
-            'requireloggedin'   => true,
-            'allowpost'         => false,
-            'allowcustomdata'   => true
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * @param null $ipaddress
-     * @return string
-     */
+			return array(
+				'allowsoftware' => true,
+				'allowlocal' => true,
+				'requiresoftware' => false,
+				'requireloggedin' => true,
+				'allowpost' => false,
+				'allowcustomdata' => true
+			);
+		}
 
-    public function url($ipaddress = null)
-    {
+		/**
+		 * @param null $ipaddress
+		 *
+		 * @return string
+		 */
 
-        return("admin/computer/edit/" . @$this->getComputerId( $ipaddress  ) );
-    }
+		public function url($ipaddress = null)
+		{
 
-
-    /**
-     * Called when this process request is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
-
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
-
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
-
-        if( $this->checkCustomData( $data, ['softwareid'] ) == false )
-            return false;
-
-        if( self::$user->isAdmin( $userid ) == false )
-           return false;
-
-        return true;
-    }
-
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool|string
-     */
-
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
-
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
-
-        if( $this->checkCustomData( $data, ['softwareid'] ) == false )
-            return false;
-        
-        if( self::$user->isAdmin( $userid ) == false )
-            return false;
-
-        $software = self::$software->getSoftware( $data['custom']['softwareid'] );
-        self::$software->deleteSoftware( $software->softwareid );
-        self::$computer->removeSoftware( $this->getComputerId( $data['ipaddress'] ), $software->softwareid );
-
-        if( isset( $data['redirect'] ) == false )
-            return true;
-        else
-            return( $data['redirect'] );
-    }
-
-    /**
-     * @param $ipaddress
-     * @param $userid
-     * @return array|null
-     */
-
-    public function getCustomData($ipaddress, $userid)
-    {
-
-        if (PostHelper::hasPostData() == false)
-            return null;
+			return ("admin/computer/edit/" . @$this->getComputerId($ipaddress));
+		}
 
 
-        if (PostHelper::checkForRequirements(['softwareid']) == false)
-            return null;
+		/**
+		 * Called when this process request is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return mixed
+		 */
 
-        return array('softwareid' => PostHelper::getPostData('softwareid'));
-    }
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-    /**
-     * Returns the completion time for this action
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return int
-     */
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
-    {
+			if ($this->checkCustomData($data, ['softwareid']) == false)
+				return false;
 
-        return null;
-    }
-}
+			if (self::$user->isAdmin($userid) == false)
+				return false;
+
+			return true;
+		}
+
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool|string
+		 */
+
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
+
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
+
+			if ($this->checkCustomData($data, ['softwareid']) == false)
+				return false;
+
+			if (self::$user->isAdmin($userid) == false)
+				return false;
+
+			$software = self::$software->getSoftware($data['custom']['softwareid']);
+			self::$software->deleteSoftware($software->softwareid);
+			self::$computer->removeSoftware($this->getComputerId($data['ipaddress']), $software->softwareid);
+
+			if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
+		}
+
+		/**
+		 * @param $ipaddress
+		 * @param $userid
+		 *
+		 * @return array|null
+		 */
+
+		public function getCustomData($ipaddress, $userid)
+		{
+
+			if (PostHelper::hasPostData() == false)
+				return null;
+
+
+			if (PostHelper::checkForRequirements(['softwareid']) == false)
+				return null;
+
+			return array('softwareid' => PostHelper::getPostData('softwareid'));
+		}
+
+		/**
+		 * Returns the completion time for this action
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return int
+		 */
+
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
+
+			return null;
+		}
+	}

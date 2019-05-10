@@ -1,55 +1,57 @@
 <?php
-namespace Framework\Syscrack\Game\Softwares;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Shop
- *
- * @package Framework\Syscrack\Game\Softwares
- */
+	namespace Framework\Syscrack\Game\Softwares;
 
-use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
-use Framework\Syscrack\Game\Tool;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Shop
+	 *
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 
-class Shop extends BaseSoftware
-{
+	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	use Framework\Syscrack\Game\Tool;
 
-    /**
-     * The configuration of this Structure
-     *
-     * @return array
-     */
+	class Shop extends BaseSoftware
+	{
 
-    public function configuration()
-    {
+		/**
+		 * The configuration of this Structure
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'uniquename'        => 'shop',
-            'extension'         => '.amz',
-            'type'              => 'shop',
-            'installable'       => true,
-            'executable'        => true,
-            'localexecuteonly'  => true,
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * @param null $userid
-     * @param null $sofwareid
-     * @param null $computerid
-     * @return Tool
-     */
+			return array(
+				'uniquename' => 'shop',
+				'extension' => '.amz',
+				'type' => 'shop',
+				'installable' => true,
+				'executable' => true,
+				'localexecuteonly' => true,
+			);
+		}
 
-    public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
-    {
+		/**
+		 * @param null $userid
+		 * @param null $sofwareid
+		 * @param null $computerid
+		 *
+		 * @return Tool
+		 */
 
-        $tool = new Tool("Open Market", "info");
-        $tool->setAction('market');
-        $tool->isExternal();
-        $tool->isComputerType('market');
-        $tool->icon = "gbp";
+		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
+		{
 
-        return( $tool );
-    }
-}
+			$tool = new Tool("Open Market", "info");
+			$tool->setAction('market');
+			$tool->isExternal();
+			$tool->isComputerType('market');
+			$tool->icon = "gbp";
+
+			return ($tool);
+		}
+	}

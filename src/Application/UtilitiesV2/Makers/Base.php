@@ -1,99 +1,101 @@
 <?php
 
-namespace Framework\Application\UtilitiesV2\Makers;
+	namespace Framework\Application\UtilitiesV2\Makers;
 
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 31/08/2018
- * Time: 21:48
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 31/08/2018
+	 * Time: 21:48
+	 */
 
-use Framework\Application\UtilitiesV2\Conventions\FileData;
-use Framework\Application\UtilitiesV2\Conventions\TokenData;
-use Framework\Application\UtilitiesV2\Interfaces\Maker;
-use Framework\Application\UtilitiesV2\TokenReader;
+	use Framework\Application\UtilitiesV2\Conventions\FileData;
+	use Framework\Application\UtilitiesV2\Conventions\TokenData;
+	use Framework\Application\UtilitiesV2\Interfaces\Maker;
+	use Framework\Application\UtilitiesV2\TokenReader;
 
-abstract class Base implements Maker
-{
+	abstract class Base implements Maker
+	{
 
-    /**
-     * @var FileData
-     */
+		/**
+		 * @var FileData
+		 */
 
-    protected $template;
+		protected $template;
 
-    /**
-     * @var TokenReader
-     */
+		/**
+		 * @var TokenReader
+		 */
 
-    protected $tokenreader;
+		protected $tokenreader;
 
-    /**
-     * Base constructor.
-     */
+		/**
+		 * Base constructor.
+		 */
 
-    public function __construct()
-    {
+		public function __construct()
+		{
 
-        $this->tokenreader = new TokenReader();
-    }
+			$this->tokenreader = new TokenReader();
+		}
 
-    /**
-     * @param FileData $template
-     */
+		/**
+		 * @param FileData $template
+		 */
 
-    public function before(FileData $template=null): void
-    {
+		public function before(FileData $template = null): void
+		{
 
-        if( $template == null )
-            throw new \RuntimeException("template is null and has not been set by inheritor");
+			if ($template == null)
+				throw new \RuntimeException("template is null and has not been set by inheritor");
 
-        if( $this->exist( $template->path ) == false )
-            throw new \RuntimeException("path does not exist: " . $template->path );
+			if ($this->exist($template->path) == false)
+				throw new \RuntimeException("path does not exist: " . $template->path);
 
-        $this->template = $template;
-    }
+			$this->template = $template;
+		}
 
-    /**
-     * @return array
-     */
+		/**
+		 * @return array
+		 */
 
-    public function requiredTokens(): array
-    {
+		public function requiredTokens(): array
+		{
 
-        return(["classname","namespace"]);
-    }
+			return (["classname", "namespace"]);
+		}
 
-    /**
-     * @param TokenData $values
-     * @param $path
-     * @return FileData|bool
-     */
+		/**
+		 * @param TokenData $values
+		 * @param $path
+		 *
+		 * @return FileData|bool
+		 */
 
-    public function make(TokenData $values, $path ): FileData
-    {
+		public function make(TokenData $values, $path): FileData
+		{
 
-        if( count(  explode(".", $path ) ) == 1 )
-            $path = $path . $values->arrayValue("values", "classname") . ".php";
+			if (count(explode(".", $path)) == 1)
+				$path = $path . $values->arrayValue("values", "classname") . ".php";
 
-        $result = $this->tokenreader->parse( $this->template, $values, $path );
+			$result = $this->tokenreader->parse($this->template, $values, $path);
 
-        if( $result == false )
-            if( TokenReader::hasLastError() )
-                throw TokenReader::getLastError();
+			if ($result == false)
+				if (TokenReader::hasLastError())
+					throw TokenReader::getLastError();
 
-        return( $result );
-    }
+			return ($result);
+		}
 
-    /**
-     * @param $path
-     * @return bool
-     */
+		/**
+		 * @param $path
+		 *
+		 * @return bool
+		 */
 
-    private function exist( $path )
-    {
+		private function exist($path)
+		{
 
-        return( file_exists( SYSCRACK_ROOT . $path ) );
-    }
-}
+			return (file_exists(SYSCRACK_ROOT . $path));
+		}
+	}

@@ -1,213 +1,215 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Install
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\AddressDatabase;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Viruses;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Install
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class Install extends BaseOperation
-{
+	use Framework\Application\Settings;
+	use Framework\Syscrack\Game\AddressDatabase;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Viruses;
 
-    /**
-     * @var Viruses
-     */
+	class Install extends BaseOperation
+	{
 
-    protected static $viruses;
+		/**
+		 * @var Viruses
+		 */
 
-    /**
-     * @var AddressDatabase
-     */
+		protected static $viruses;
 
-    protected static $addressdatabase;
+		/**
+		 * @var AddressDatabase
+		 */
 
-    /**
-     * Install constructor.
-     */
+		protected static $addressdatabase;
 
-    public function __construct()
-    {
+		/**
+		 * Install constructor.
+		 */
 
-        if( isset( self::$viruses ) == false )
-            self::$viruses = new Viruses();
+		public function __construct()
+		{
 
-        if( isset( self::$addressdatabase ) == false )
-            self::$addressdatabase = new AddressDatabase();
+			if (isset(self::$viruses) == false)
+				self::$viruses = new Viruses();
 
-        parent::__construct( true );
-    }
+			if (isset(self::$addressdatabase) == false)
+				self::$addressdatabase = new AddressDatabase();
 
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
+			parent::__construct(true);
+		}
 
-    public function configuration()
-    {
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'allowsoftware'    => true,
-            'allowlocal'        => true,
-            'requiresoftware'  => true,
-            'requireloggedin'   => true
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * Called when a process with the corresponding operation is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     *
-     * @return bool
-     */
+			return array(
+				'allowsoftware' => true,
+				'allowlocal' => true,
+				'requiresoftware' => true,
+				'requireloggedin' => true
+			);
+		}
 
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * Called when a process with the corresponding operation is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 *
+		 * @return bool
+		 */
 
-        if( $this->checkData( $data ) == false )
-            return false;
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-        if( self::$software->canInstall( $data['softwareid'] ) == false )
-            return false;
+			if ($this->checkData($data) == false)
+				return false;
 
-        if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
-            return false;
+			if (self::$software->canInstall($data['softwareid']) == false)
+				return false;
 
-        if( self::$viruses->isVirus( $data['softwareid'] ) )
-        {
+			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])))
+				return false;
 
-            $software = self::$software->getSoftware( $data['softwareid'] );
+			if (self::$viruses->isVirus($data['softwareid']))
+			{
 
-            if( $this->getComputerId( $data['ipaddress'] ) == $computerid )
-                return false;
+				$software = self::$software->getSoftware($data['softwareid']);
 
-            if( self::$viruses->virusAlreadyInstalled( $software->uniquename, $this->getComputerId( $data['ipaddress'] ) , $userid ) )
-                return false;
-        }
+				if ($this->getComputerId($data['ipaddress']) == $computerid)
+					return false;
 
-        return true;
-    }
+				if (self::$viruses->virusAlreadyInstalled($software->uniquename, $this->getComputerId($data['ipaddress']), $userid))
+					return false;
+			}
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool|mixed
-     */
+			return true;
+		}
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool|mixed
+		 */
 
-        if( $this->checkData( $data ) == false )
-            return false;
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
+			if ($this->checkData($data) == false)
+				return false;
 
 
-        if( self::$software->softwareExists( $data['softwareid'] ) == false )
-            return false;
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
 
 
-        if( self::$software->isInstalled( $data['softwareid'], $this->getComputerId( $data['ipaddress'] ) ) )
-            return false;
+			if (self::$software->softwareExists($data['softwareid']) == false)
+				return false;
 
-        self::$software->installSoftware( $data['softwareid'], $userid );
-        self::$computer->installSoftware( $this->getComputerId( $data['ipaddress'] ), $data['softwareid'] );
 
-        $this->logInstall( $this->getSoftwareName( $data['softwareid' ] ),
-        $this->getComputerId( $data['ipaddress'] ),$this->getCurrentComputerAddress() );
-        $this->logLocal( $this->getSoftwareName( $data['softwareid' ] ),
-            self::$computer->computerid(), $data['ipaddress']);
+			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])))
+				return false;
 
-        self::$software->executeSoftwareMethod( self::$software->getSoftwareNameFromSoftwareID( $data['softwareid'] ), 'onInstalled', array(
-            'softwareid'    => $data['softwareid'],
-            'userid'        => $userid,
-            'computerid'    => $this->getComputerId( $data['ipaddress'] )
-        ));
+			self::$software->installSoftware($data['softwareid'], $userid);
+			self::$computer->installSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']);
 
-        if( self::$viruses->isVirus( $data['softwareid'] ) == true )
-        {
+			$this->logInstall($this->getSoftwareName($data['softwareid']),
+				$this->getComputerId($data['ipaddress']), $this->getCurrentComputerAddress());
+			$this->logLocal($this->getSoftwareName($data['softwareid']),
+				self::$computer->computerid(), $data['ipaddress']);
 
-            if( Settings::setting('syscrack_statistics_enabled') == true )
-                self::$statistics->addStatistic('virusinstalls');
+			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['softwareid']), 'onInstalled', array(
+				'softwareid' => $data['softwareid'],
+				'userid' => $userid,
+				'computerid' => $this->getComputerId($data['ipaddress'])
+			));
 
-            self::$addressdatabase->addVirus( $data['ipaddress'], $data['softwareid'], $userid );
-        }
+			if (self::$viruses->isVirus($data['softwareid']) == true)
+			{
 
-        if( isset( $data['redirect'] ) == false )
-            return true;
-        else
-            return( $data['redirect'] );
-    }
+				if (Settings::setting('syscrack_statistics_enabled') == true)
+					self::$statistics->addStatistic('virusinstalls');
 
-    /**
-     * Gets the completion speed
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return int
-     */
+				self::$addressdatabase->addVirus($data['ipaddress'], $data['softwareid'], $userid);
+			}
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
-    {
+			if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
+		}
 
-        return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_cpu_type'), 1, $softwareid );
-    }
+		/**
+		 * Gets the completion speed
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return int
+		 */
 
-    /**
-     * @param $softwarename
-     * @param $computerid
-     * @param $ipaddress
-     */
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-    private function logInstall( $softwarename, $computerid, $ipaddress )
-    {
+			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_cpu_type'), 1, $softwareid);
+		}
 
-        if( self::$computer->computerid() == $computerid )
-        {
+		/**
+		 * @param $softwarename
+		 * @param $computerid
+		 * @param $ipaddress
+		 */
 
-            return;
-        }
+		private function logInstall($softwarename, $computerid, $ipaddress)
+		{
 
-        $this->logToComputer('Installed file (' . $softwarename . ') on root', $computerid, $ipaddress );
-    }
+			if (self::$computer->computerid() == $computerid)
+			{
 
-    /**
-     * @param $softwarename
-     * @param $computerid
-     * @param $ipaddress
-     */
+				return;
+			}
 
-    private function logLocal( $softwarename, $computerid, $ipaddress )
-    {
+			$this->logToComputer('Installed file (' . $softwarename . ') on root', $computerid, $ipaddress);
+		}
 
-        $this->logToComputer('Installed file (' . $softwarename . ') on <' . $ipaddress . '>', $computerid, 'localhost' );
-    }
-}
+		/**
+		 * @param $softwarename
+		 * @param $computerid
+		 * @param $ipaddress
+		 */
+
+		private function logLocal($softwarename, $computerid, $ipaddress)
+		{
+
+			$this->logToComputer('Installed file (' . $softwarename . ') on <' . $ipaddress . '>', $computerid, 'localhost');
+		}
+	}

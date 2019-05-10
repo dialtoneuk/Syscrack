@@ -1,96 +1,97 @@
 <?php
-namespace Framework\Application\Api;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Manager
- *
- * @package Framework\Application\Api
- */
+	namespace Framework\Application\Api;
 
-use Framework\Database\Tables\Api;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Manager
+	 *
+	 * @package Framework\Application\Api
+	 */
 
-class Manager
-{
+	use Framework\Database\Tables\Api;
 
-    protected $database;
+	class Manager
+	{
 
-    /**
-     * Manager constructor.
-     */
+		protected $database;
 
-    public function __construct()
-    {
+		/**
+		 * Manager constructor.
+		 */
 
-        $this->database = new Api();
-    }
+		public function __construct()
+		{
 
-    /**
-     * Returns true if the apikey is valid
-     *
-     * @param $apikey
-     *
-     * @return bool
-     */
+			$this->database = new Api();
+		}
 
-    public function hasApiKey( $apikey )
-    {
+		/**
+		 * Returns true if the apikey is valid
+		 *
+		 * @param $apikey
+		 *
+		 * @return bool
+		 */
 
-        if( $this->database->getApiByKey( $apikey ) == null )
-        {
+		public function hasApiKey($apikey)
+		{
 
-            return false;
-        }
+			if ($this->database->getApiByKey($apikey) == null)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if the user has an API
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function userHasApi( $userid )
-    {
+		/**
+		 * Returns true if the user has an API
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-        if( $this->database->getApiByUser( $userid ) == null )
-        {
+		public function userHasApi($userid)
+		{
 
-            return false;
-        }
+			if ($this->database->getApiByUser($userid) == null)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Gets an API via its key
-     *
-     * @param $apikey
-     *
-     * @return mixed
-     */
+			return true;
+		}
 
-    public function getApi( $apikey )
-    {
+		/**
+		 * Gets an API via its key
+		 *
+		 * @param $apikey
+		 *
+		 * @return mixed
+		 */
 
-        return $this->database->getApiByKey( $apikey );
-    }
+		public function getApi($apikey)
+		{
 
-    /**
-     * Gets the API by the user
-     *
-     * @param $userid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			return $this->database->getApiByKey($apikey);
+		}
 
-    public function getUserApi( $userid )
-    {
+		/**
+		 * Gets the API by the user
+		 *
+		 * @param $userid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        return $this->database->getApiByUser( $userid );
-    }
-}
+		public function getUserApi($userid)
+		{
+
+			return $this->database->getApiByUser($userid);
+		}
+	}

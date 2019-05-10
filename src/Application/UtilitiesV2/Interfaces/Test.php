@@ -1,20 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 05/08/2018
- * Time: 21:42
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 05/08/2018
+	 * Time: 21:42
+	 */
 
-namespace Framework\Application\UtilitiesV2\Interfaces;
+	namespace Framework\Application\UtilitiesV2\Interfaces;
 
 
-interface Test
-{
+	interface Test
+	{
 
-    /**
-     * @return bool
-     */
+		/**
+		 * @return bool
+		 */
 
-    public function execute();
-}
+		public function execute();
+	}

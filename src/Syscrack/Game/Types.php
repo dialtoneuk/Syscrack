@@ -1,67 +1,67 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: newsy
- * Date: 05/05/2019
- * Time: 21:30
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: newsy
+	 * Date: 05/05/2019
+	 * Time: 21:30
+	 */
 
-namespace Framework\Syscrack\Game;
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\FileSystem;
 
-class Types
-{
+	class Types
+	{
 
-    /**
-     * @var Computer
-     */
+		/**
+		 * @var Computer
+		 */
 
-    protected static $computer;
+		protected static $computer;
 
-    /**
-     * Types constructor.
-     */
+		/**
+		 * Types constructor.
+		 */
 
-    public function __construct()
-    {
+		public function __construct()
+		{
 
-        if( isset( self::$computer ) == false )
-            self::$computer = new Computer();
-    }
+			if (isset(self::$computer) == false)
+				self::$computer = new Computer();
+		}
 
-    /**
-     * @return mixed
-     */
+		/**
+		 * @return mixed
+		 */
 
-    public function get()
-    {
+		public function get()
+		{
 
-        if( FileSystem::fileExists( Settings::setting("computer_types_filepath") ) == false )
-            $this->generate();
+			if (FileSystem::fileExists(Settings::setting("computer_types_filepath")) == false)
+				$this->generate();
 
-        return ( FileSystem::readJson( Settings::setting("computer_types_filepath") ) );
-    }
+			return (FileSystem::readJson(Settings::setting("computer_types_filepath")));
+		}
 
-    /**
-     * Generates the types
-     */
+		/**
+		 * Generates the types
+		 */
 
-    public function generate()
-    {
+		public function generate()
+		{
 
-        $types = [];
+			$types = [];
 
-        foreach( self::$computer->getComputerClasses() as $class )
-        {
+			foreach (self::$computer->getComputerClasses() as $class)
+			{
 
-            if( $class instanceof \Framework\Syscrack\Game\Structures\Computer == false )
-                continue;
+				if ($class instanceof \Framework\Syscrack\Game\Structures\Computer == false)
+					continue;
 
-            $types[] = $class->configuration()["type"];
-        }
+				$types[] = $class->configuration()["type"];
+			}
 
-        FileSystem::writeJson( Settings::setting("computer_types_filepath"), $types );
-    }
-}
+			FileSystem::writeJson(Settings::setting("computer_types_filepath"), $types);
+		}
+	}

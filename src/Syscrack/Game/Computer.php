@@ -1,1051 +1,1053 @@
 <?php
-namespace Framework\Syscrack\Game;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class BaseComputer
- *
- * @package Framework\Syscrack\Game
- */
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Container;
-use Framework\Application\Settings;
-use Framework\Application\Utilities\Factory;
-use Framework\Application\Utilities\FileSystem;
-use Framework\Database\Tables\Computer as Database;
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\Structures\Computer as Structure;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class BaseComputer
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-class Computer
-{
+	use Framework\Application\Container;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\Factory;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Database\Tables\Computer as Database;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\Structures\Computer as Structure;
 
-    /**
-     * @var Factory;
-     */
+	class Computer
+	{
 
-    protected static $factory;
+		/**
+		 * @var Factory;
+		 */
 
-    /**
-     * @var Database
-     */
+		protected static $factory;
 
-    protected static $database;
+		/**
+		 * @var Database
+		 */
 
-    /**
-     * BaseComputer constructor.
-     */
+		protected static $database;
 
-    public function __construct()
-    {
+		/**
+		 * BaseComputer constructor.
+		 */
 
-        if( isset( self::$database ) == false )
-            self::$database = new Database();
+		public function __construct()
+		{
 
-        if( empty( self::$factory ) )
-            $this->loadComputers();
-    }
+			if (isset(self::$database) == false)
+				self::$database = new Database();
 
-    /**
-     * Loads the computers into the array
-     */
+			if (empty(self::$factory))
+				$this->loadComputers();
+		}
 
-    public function loadComputers()
-    {
+		/**
+		 * Loads the computers into the array
+		 */
 
-        self::$factory = new Factory( Settings::setting('syscrack_computers_namespace') );
+		public function loadComputers()
+		{
 
-        foreach(FileSystem::getFilesInDirectory( Settings::setting('syscrack_computers_location') ) as $file )
-        {
+			self::$factory = new Factory(Settings::setting('syscrack_computers_namespace'));
 
-            $name = FileSystem::getFileName( $file );
+			foreach (FileSystem::getFilesInDirectory(Settings::setting('syscrack_computers_location')) as $file)
+			{
 
-            if( self::$factory->hasClass( $name ) )
-            {
+				$name = FileSystem::getFileName($file);
 
-                continue;
-            }
+				if (self::$factory->hasClass($name))
+				{
 
-            self::$factory->createClass( $name );
-        }
-    }
+					continue;
+				}
 
-    /**
-     * Gets a computer class
-     *
-     * @param $name
-     *
-     * @return \Framework\Syscrack\Game\Structures\Computer
-     */
+				self::$factory->createClass($name);
+			}
+		}
 
-    public function getComputerClass( $name )
-    {
+		/**
+		 * Gets a computer class
+		 *
+		 * @param $name
+		 *
+		 * @return \Framework\Syscrack\Game\Structures\Computer
+		 */
 
-        if( self::$factory->hasClass( $name ) == false )
-        {
+		public function getComputerClass($name)
+		{
 
-            throw new SyscrackException();
-        }
+			if (self::$factory->hasClass($name) == false)
+			{
 
-        return self::$factory->findClass( $name );
-    }
+				throw new SyscrackException();
+			}
 
-    /**
-     * @return array|Structure|Structures\Software|\stdClass
-     */
+			return self::$factory->findClass($name);
+		}
 
-    public function getComputerClasses()
-    {
+		/**
+		 * @return array|Structure|Structures\Software|\stdClass
+		 */
 
-        return( self::$factory->getAllClasses() );
-    }
+		public function getComputerClasses()
+		{
 
-    /**
-     * Returns true if we have this computer class
-     *
-     * @param $name
-     *
-     * @return bool
-     */
+			return (self::$factory->getAllClasses());
+		}
 
-    public function hasComputerClass( $name )
-    {
+		/**
+		 * Returns true if we have this computer class
+		 *
+		 * @param $name
+		 *
+		 * @return bool
+		 */
 
-        if( self::$factory->hasClass( $name ) == false )
-        {
+		public function hasComputerClass($name)
+		{
 
-            return false;
-        }
+			if (self::$factory->hasClass($name) == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Gets the computers configuration
-     *
-     * @param $name
-     *
-     * @return mixed
-     */
+			return true;
+		}
 
-    public function getComputerConfiguration( $name )
-    {
+		/**
+		 * Gets the computers configuration
+		 *
+		 * @param $name
+		 *
+		 * @return mixed
+		 */
 
-        $configuration = self::$factory->findClass( $name )->configuration();
+		public function getComputerConfiguration($name)
+		{
 
-        if( empty( $configuration ) )
-        {
+			$configuration = self::$factory->findClass($name)->configuration();
 
-            throw new SyscrackException();
-        }
+			if (empty($configuration))
+			{
 
-        return $configuration;
-    }
+				throw new SyscrackException();
+			}
 
-    /**
-     * Calls the computer start up method
-     *
-     * @param $name
-     *
-     * @return mixed
-     */
+			return $configuration;
+		}
 
-    public function onComputerStartup( $name )
-    {
+		/**
+		 * Calls the computer start up method
+		 *
+		 * @param $name
+		 *
+		 * @return mixed
+		 */
 
-        $class = self::$factory->findClass( $name );
+		public function onComputerStartup($name)
+		{
 
-        if( empty( $class ) )
-        {
+			$class = self::$factory->findClass($name);
 
-            throw new SyscrackException();
-        }
+			if (empty($class))
+			{
 
-        return $class->onStartup();
-    }
+				throw new SyscrackException();
+			}
 
-    /**
-     * Finds a computer by its type
-     *
-     * @param $type
-     *
-     * @return Computer|null
-     */
+			return $class->onStartup();
+		}
 
-    public function findComputerByType( $type )
-    {
+		/**
+		 * Finds a computer by its type
+		 *
+		 * @param $type
+		 *
+		 * @return Computer|null
+		 */
 
-        $classes = self::$factory->getAllClasses();
+		public function findComputerByType($type)
+		{
 
-        foreach( $classes as $class )
-        {
+			$classes = self::$factory->getAllClasses();
 
-            if( $class instanceof Structure  == false )
-            {
+			foreach ($classes as $class)
+			{
 
-                throw new SyscrackException();
-            }
+				if ($class instanceof Structure == false)
+				{
 
-            /**
-             * @var $class Structure
-             */
+					throw new SyscrackException();
+				}
 
-            if( $class->configuration()['type'] == $type )
-            {
+				/**
+				 * @var $class Structure
+				 */
 
-                return $class;
-            }
-        }
+				if ($class->configuration()['type'] == $type)
+				{
 
-        return null;
-    }
+					return $class;
+				}
+			}
 
-    /**
-     * Returns true if we have this computer type
-     *
-     * @param $type
-     *
-     * @return bool
-     */
+			return null;
+		}
 
-    public function hasComputerType( $type )
-    {
+		/**
+		 * Returns true if we have this computer type
+		 *
+		 * @param $type
+		 *
+		 * @return bool
+		 */
 
-        if( $this->findComputerByType( $type ) == null )
-        {
+		public function hasComputerType($type)
+		{
 
-            return false;
-        }
+			if ($this->findComputerByType($type) == null)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * @param int $pick
-     * @return \Illuminate\Support\Collection|mixed
-     */
+			return true;
+		}
 
-    public function getAllComputers()
-    {
+		/**
+		 * @param int $pick
+		 *
+		 * @return \Illuminate\Support\Collection|mixed
+		 */
 
-        return self::$database->getAllComputers();
-    }
+		public function getAllComputers()
+		{
 
-    /**
-     * Gets the computer count
-     *
-     * @return int
-     */
+			return self::$database->getAllComputers();
+		}
 
-    public function getComputerCount()
-    {
+		/**
+		 * Gets the computer count
+		 *
+		 * @return int
+		 */
 
-        return self::$database->getComputerCount();
-    }
+		public function getComputerCount()
+		{
 
-    /**
-     * Returns true if the user has computers
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
+			return self::$database->getComputerCount();
+		}
 
-    public function userHasComputers( $userid )
-    {
+		/**
+		 * Returns true if the user has computers
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
+
+		public function userHasComputers($userid)
+		{
 
-        if( self::$database->getComputersByUser( $userid ) == null )
-        {
+			if (self::$database->getComputersByUser($userid) == null)
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			return true;
+		}
+
+		/**
+		 * Changes a computers IP address
+		 *
+		 * @param $computerid
+		 *
+		 * @param $address
+		 */
+
+		public function changeIPAddress($computerid, $address)
+		{
 
-    /**
-     * Changes a computers IP address
-     *
-     * @param $computerid
-     *
-     * @param $address
-     */
+			$array = array(
+				'ipaddress' => $address
+			);
 
-    public function changeIPAddress( $computerid, $address )
-    {
+			self::$database->updateComputer($computerid, $array);
+		}
 
-        $array = array(
-            'ipaddress' => $address
-        );
+		/**
+		 * Formats a computer to the default software
+		 *
+		 * @param $computerid
+		 */
+
+		public function format($computerid)
+		{
+
+			$array = array(
+				'software' => json_encode([])
+			);
+
+			self::$database->updateComputer($computerid, $array);
+		}
+
+		/**
+		 * Resets the hardware of a computer
+		 *
+		 * @param $computerid
+		 */
+
+		public function resetHardware($computerid)
+		{
 
-        self::$database->updateComputer( $computerid, $array );
-    }
+			$array = array(
+				'hardware' => json_encode([])
+			);
 
-    /**
-     * Formats a computer to the default software
-     *
-     * @param $computerid
-     */
-
-    public function format( $computerid )
-    {
-
-        $array = array(
-            'software' => json_encode([])
-        );
-
-        self::$database->updateComputer( $computerid, $array );
-    }
-
-    /**
-     * Resets the hardware of a computer
-     *
-     * @param $computerid
-     */
+			self::$database->updateComputer($computerid, $array);
+		}
+
+		/**
+		 * Sets the hardware of a computer
+		 *
+		 * @param $computerid
+		 *
+		 * @param array $hardware
+		 */
+
+		public function setHardware($computerid, array $hardware)
+		{
+
+			$array = array(
+				'hardware' => json_encode($hardware)
+			);
+
+			self::$database->updateComputer($computerid, $array);
+		}
+
+		/**
+		 * Gets the computer at the id
+		 *
+		 * @param $computerid
+		 *
+		 * @return mixed||\stdClass
+		 */
+
+		public function getComputer($computerid)
+		{
+
+			return self::$database->getComputer($computerid);
+		}
+
+		/**
+		 * Gets the current list of software in the system
+		 *
+		 * @param $computerid
+		 *
+		 * @return array
+		 */
+
+		public function getComputerSoftware($computerid)
+		{
+
+			return json_decode($this->getComputer($computerid)->software, true);
+		}
+
+		/**
+		 * Returns true if the computer exists
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
+
+		public function computerExists($computerid)
+		{
+
+			if (self::$database->getComputer($computerid) == null)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Returns true if the computer has this software
+		 *
+		 * @param $computerid
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
+
+		public function hasSoftware($computerid, $softwareid)
+		{
+
+			$software = $this->getComputerSoftware($computerid);
+
+			foreach ($software as $softwares)
+			{
+
+				if ($softwares['softwareid'] == $softwareid)
+				{
+
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/**
+		 * Creates a new computer
+		 *
+		 * @param $userid
+		 *
+		 * @param $type
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param array $software
+		 *
+		 * @param array $hardware
+		 *
+		 * @return int
+		 */
+
+		public function createComputer($userid, $type, $ipaddress, $software = [], $hardware = [])
+		{
+
+			$array = array(
+				'userid' => $userid,
+				'type' => $type,
+				'ipaddress' => $ipaddress,
+				'software' => json_encode($software),
+				'hardware' => json_encode($hardware)
+			);
+
+			return self::$database->insertComputer($array);
+		}
+
+		/**
+		 * @param $computerid
+		 * @param $softwareid
+		 * @param $type
+		 * @param null $userid
+		 */
+
+		public function addSoftware($computerid, $softwareid, $type, $userid = null)
+		{
+
+			if ($userid == null)
+				$userid = @Container::getObject('session')->userid();
+
+			$software = $this->getComputerSoftware($computerid);
+
+			$software[] = array(
+				'softwareid' => $softwareid,
+				'type' => $type,
+				'installed' => false,
+				'timeinstalled' => time(),
+				'userid' => $userid
+			);
+
+			self::$database->updateComputer($computerid, array('software' => json_encode($software)));
+		}
+
+		/**
+		 * removes a software from the computers list
+		 *
+		 * @param $computerid
+		 *
+		 * @param $softwareid
+		 */
+
+		public function removeSoftware($computerid, $softwareid)
+		{
+
+			$software = $this->getComputerSoftware($computerid);
+
+			if (empty($software))
+			{
+
+				throw new SyscrackException();
+			}
+
+			foreach ($software as $key => $softwares)
+			{
+
+				if ($softwares['softwareid'] == $softwareid)
+				{
+
+					unset($softwares[$key]);
+				}
+			}
+
+			self::$database->updateComputer($computerid, array('software' => json_encode($software)));
+		}
+
+		/**
+		 * Installs a software on the computer side software list
+		 *
+		 * @param $computerid
+		 *
+		 * @param $softwareid
+		 */
+
+		public function installSoftware($computerid, $softwareid)
+		{
+
+			$software = $this->getComputerSoftware($computerid);
+
+			if (empty($software))
+			{
+
+				throw new SyscrackException();
+			}
+
+			foreach ($software as $key => $softwares)
+			{
+
+				if ($softwares['softwareid'] == $softwareid)
+				{
+
+					$software[$key]['installed'] = true;
+				}
+			}
+
+			self::$database->updateComputer($computerid, array('software' => json_encode($software)));
+		}
+
+		/**
+		 * Uninstalls a software
+		 *
+		 * @param $computerid
+		 *
+		 * @param $softwareid
+		 */
+
+		public function uninstallSoftware($computerid, $softwareid)
+		{
+
+			$software = $this->getComputerSoftware($computerid);
+
+			if (empty($software))
+			{
+
+				throw new SyscrackException();
+			}
+
+			foreach ($software as $key => $softwares)
+			{
+
+				if ($softwares['softwareid'] == $softwareid)
+				{
+
+					$software[$key]['installed'] = false;
+				}
+			}
+
+			self::$database->updateComputer($computerid, array('software' => json_encode($software)));
+		}
+
+
+		/**
+		 * Gets the computers hardware
+		 *
+		 * @param $computerid
+		 *
+		 * @return array
+		 */
+
+		public function getComputerHardware($computerid)
+		{
+
+			return json_decode(self::$database->getComputer($computerid)->hardware, true);
+		}
 
-    public function resetHardware( $computerid )
-    {
+		/**
+		 * Returns the main ( first ) computer
+		 *
+		 * @param $userid
+		 *
+		 * @return mixed|\stdClass
+		 */
+
+		public function getUserMainComputer($userid)
+		{
+
+			return self::$database->getComputersByUser($userid)[0];
+		}
+
+		/**
+		 * Gets all the users computers
+		 *
+		 * @param $userid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        $array = array(
-            'hardware' => json_encode( [] )
-        );
+		public function getUserComputers($userid)
+		{
 
-        self::$database->updateComputer( $computerid, $array );
-    }
-
-    /**
-     * Sets the hardware of a computer
-     *
-     * @param $computerid
-     *
-     * @param array $hardware
-     */
-
-    public function setHardware( $computerid, array $hardware )
-    {
-
-        $array = array(
-            'hardware' => json_encode( $hardware )
-        );
-
-        self::$database->updateComputer( $computerid, $array );
-    }
-
-    /**
-     * Gets the computer at the id
-     *
-     * @param $computerid
-     *
-     * @return mixed||\stdClass
-     */
-
-    public function getComputer( $computerid )
-    {
-
-        return self::$database->getComputer( $computerid );
-    }
-
-    /**
-     * Gets the current list of software in the system
-     *
-     * @param $computerid
-     *
-     * @return array
-     */
-
-    public function getComputerSoftware( $computerid )
-    {
-
-        return json_decode( $this->getComputer( $computerid )->software, true );
-    }
-
-    /**
-     * Returns true if the computer exists
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
-
-    public function computerExists( $computerid )
-    {
-
-        if( self::$database->getComputer( $computerid ) == null )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns true if the computer has this software
-     *
-     * @param $computerid
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
-
-    public function hasSoftware( $computerid, $softwareid )
-    {
-
-        $software = $this->getComputerSoftware( $computerid );
-
-        foreach( $software as $softwares )
-        {
-
-            if( $softwares['softwareid'] == $softwareid )
-            {
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Creates a new computer
-     *
-     * @param $userid
-     *
-     * @param $type
-     *
-     * @param $ipaddress
-     *
-     * @param array $software
-     *
-     * @param array $hardware
-     *
-     * @return int
-     */
-
-    public function createComputer( $userid, $type, $ipaddress, $software = [], $hardware = [] )
-    {
-
-        $array = array(
-            'userid'    => $userid,
-            'type'      => $type,
-            'ipaddress' => $ipaddress,
-            'software' => json_encode( $software ),
-            'hardware' => json_encode( $hardware )
-        );
-
-        return self::$database->insertComputer( $array );
-    }
-
-    /**
-     * @param $computerid
-     * @param $softwareid
-     * @param $type
-     * @param null $userid
-     */
-
-    public function addSoftware( $computerid, $softwareid, $type, $userid=null )
-    {
-
-        if( $userid == null )
-            $userid = @Container::getObject('session')->userid();
-
-        $software = $this->getComputerSoftware( $computerid );
-
-        $software[] = array(
-            'softwareid'        => $softwareid,
-            'type'              => $type,
-            'installed'         => false,
-            'timeinstalled'     => time(),
-            'userid'            => $userid
-        );
+			return self::$database->getComputersByUser($userid);
+		}
 
-        self::$database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
-    }
+		/**
+		 * Gets the computers type
+		 *
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 
-    /**
-     * removes a software from the computers list
-     *
-     * @param $computerid
-     *
-     * @param $softwareid
-     */
-
-    public function removeSoftware( $computerid, $softwareid )
-    {
-
-        $software = $this->getComputerSoftware( $computerid );
+		public function getComputerType($computerid)
+		{
 
-        if( empty( $software ) )
-        {
-
-            throw new SyscrackException();
-        }
-
-        foreach( $software as $key=>$softwares )
-        {
-
-            if( $softwares['softwareid'] == $softwareid )
-            {
-
-                unset( $softwares[ $key ] );
-            }
-        }
-
-        self::$database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
-    }
-
-    /**
-     * Installs a software on the computer side software list
-     *
-     * @param $computerid
-     *
-     * @param $softwareid
-     */
-
-    public function installSoftware( $computerid, $softwareid )
-    {
-
-        $software = $this->getComputerSoftware( $computerid );
-
-        if( empty( $software ) )
-        {
-
-            throw new SyscrackException();
-        }
-
-        foreach( $software as $key=>$softwares )
-        {
-
-            if( $softwares['softwareid'] == $softwareid )
-            {
-
-                $software[ $key ]['installed'] = true;
-            }
-        }
-
-        self::$database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
-    }
-
-    /**
-     * Uninstalls a software
-     *
-     * @param $computerid
-     *
-     * @param $softwareid
-     */
-
-    public function uninstallSoftware( $computerid, $softwareid )
-    {
-
-        $software = $this->getComputerSoftware( $computerid );
-
-        if( empty( $software ) )
-        {
-
-            throw new SyscrackException();
-        }
-
-        foreach( $software as $key=>$softwares )
-        {
-
-            if( $softwares['softwareid'] == $softwareid )
-            {
-
-                $software[ $key ]['installed'] = false;
-            }
-        }
-
-        self::$database->updateComputer( $computerid, array('software' => json_encode( $software ) ) );
-    }
-
-
-    /**
-     * Gets the computers hardware
-     *
-     * @param $computerid
-     *
-     * @return array
-     */
+			return self::$database->getComputer($computerid)->type;
+		}
+
+		/**
+		 * Gets all the installed software on a computer
+		 *
+		 * @param $computerid
+		 *
+		 * @return array
+		 */
 
-    public function getComputerHardware( $computerid )
-    {
+		public function getInstalledSoftware($computerid)
+		{
 
-        return json_decode( self::$database->getComputer( $computerid )->hardware, true );
-    }
+			$software = $this->getComputerSoftware($computerid);
 
-    /**
-     * Returns the main ( first ) computer
-     *
-     * @param $userid
-     *
-     * @return mixed|\stdClass
-     */
-
-    public function getUserMainComputer( $userid )
-    {
-
-        return self::$database->getComputersByUser( $userid )[0];
-    }
+			$result = array();
 
-    /**
-     * Gets all the users computers
-     *
-     * @param $userid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			foreach ($software as $key => $value)
+			{
 
-    public function getUserComputers( $userid )
-    {
+				if ($value['installed'] == true)
+				{
 
-        return self::$database->getComputersByUser( $userid );
-    }
+					$result[] = $value['softwareid'];
+				}
+			}
 
-    /**
-     * Gets the computers type
-     *
-     * @param $computerid
-     *
-     * @return mixed
-     */
+			return $result;
+		}
 
-    public function getComputerType( $computerid )
-    {
+		/**
+		 * Gets the install cracker on the machine
+		 *
+		 * @param $computerid
+		 *
+		 * @return null
+		 */
 
-        return self::$database->getComputer( $computerid )->type;
-    }
+		public function getCracker($computerid)
+		{
 
-    /**
-     * Gets all the installed software on a computer
-     *
-     * @param $computerid
-     *
-     * @return array
-     */
+			$software = $this->getComputerSoftware($computerid);
 
-    public function getInstalledSoftware( $computerid )
-    {
+			foreach ($software as $softwares)
+			{
 
-        $software = $this->getComputerSoftware( $computerid );
+				if ($softwares['type'] == Settings::setting('syscrack_software_cracker_type'))
+				{
 
-        $result = array();
+					if ($softwares['installed'] == false)
+					{
 
-        foreach( $software as $key=>$value )
-        {
+						continue;
+					}
 
-            if( $value['installed'] == true )
-            {
+					return $softwares['softwareid'];
+				}
+			}
 
-                $result[] = $value['softwareid'];
-            }
-        }
+			return null;
+		}
 
-        return $result;
-    }
+		/**
+		 * Gets the firewall
+		 *
+		 * @param $computerid
+		 *
+		 * @return null
+		 */
 
-    /**
-     * Gets the install cracker on the machine
-     *
-     * @param $computerid
-     *
-     * @return null
-     */
+		public function getFirewall($computerid)
+		{
 
-    public function getCracker( $computerid )
-    {
+			$software = $this->getComputerSoftware($computerid);
 
-        $software = $this->getComputerSoftware( $computerid );
+			foreach ($software as $softwares)
+			{
 
-        foreach( $software as $softwares )
-        {
+				if ($softwares['type'] == Settings::setting('syscrack_software_hasher_type'))
+				{
 
-            if( $softwares['type'] == Settings::setting('syscrack_software_cracker_type') )
-            {
+					if ($softwares['installed'] == false)
+					{
 
-                if( $softwares['installed'] == false )
-                {
+						continue;
+					}
 
-                    continue;
-                }
+					return $softwares['softwareid'];
+				}
+			}
 
-                return $softwares['softwareid'];
-            }
-        }
+			return null;
+		}
 
-        return null;
-    }
+		/**
+		 * Gets the hasher
+		 *
+		 * @param $computerid
+		 *
+		 * @return null
+		 */
 
-    /**
-     * Gets the firewall
-     *
-     * @param $computerid
-     *
-     * @return null
-     */
+		public function getHasher($computerid)
+		{
 
-    public function getFirewall( $computerid )
-    {
+			$software = $this->getComputerSoftware($computerid);
 
-        $software = $this->getComputerSoftware( $computerid );
+			foreach ($software as $softwares)
+			{
 
-        foreach( $software as $softwares )
-        {
+				if ($softwares['type'] == Settings::setting('syscrack_software_hasher_type'))
+				{
 
-            if( $softwares['type'] == Settings::setting('syscrack_software_hasher_type') )
-            {
+					if ($softwares['installed'] == false)
+					{
 
-                if( $softwares['installed'] == false )
-                {
+						continue;
+					}
 
-                    continue;
-                }
+					return $softwares['softwareid'];
+				}
+			}
 
-                return $softwares['softwareid'];
-            }
-        }
+			return null;
+		}
 
-        return null;
-    }
+		/**
+		 * Returns the collector
+		 *
+		 * @param $computerid
+		 *
+		 * @return null
+		 */
 
-    /**
-     * Gets the hasher
-     *
-     * @param $computerid
-     *
-     * @return null
-     */
+		public function getCollector($computerid)
+		{
 
-    public function getHasher( $computerid )
-    {
+			$software = $this->getComputerSoftware($computerid);
 
-        $software = $this->getComputerSoftware( $computerid );
+			foreach ($software as $softwares)
+			{
 
-        foreach( $software as $softwares )
-        {
+				if ($softwares['type'] == Settings::setting('syscrack_software_collector_type'))
+				{
 
-            if( $softwares['type'] == Settings::setting('syscrack_software_hasher_type') )
-            {
+					if ($softwares['installed'] == false)
+					{
 
-                if( $softwares['installed'] == false )
-                {
+						continue;
+					}
 
-                    continue;
-                }
+					return $softwares['softwareid'];
+				}
+			}
 
-                return $softwares['softwareid'];
-            }
-        }
+			return null;
+		}
 
-        return null;
-    }
+		/**
+		 * Gets the current connected user commputer
+		 *
+		 * @param $computerid
+		 */
 
-    /**
-     * Returns the collector
-     *
-     * @param $computerid
-     *
-     * @return null
-     */
+		public function setCurrentUserComputer($computerid)
+		{
 
-    public function getCollector( $computerid )
-    {
+			$_SESSION['current_computer'] = $computerid;
+		}
 
-        $software = $this->getComputerSoftware( $computerid );
+		/**
+		 * Gets the current connected user computer
+		 *
+		 * @return mixed
+		 */
 
-        foreach( $software as $softwares )
-        {
+		public function computerid()
+		{
 
-            if( $softwares['type'] == Settings::setting('syscrack_software_collector_type') )
-            {
+			return @$_SESSION['current_computer'];
+		}
 
-                if( $softwares['installed'] == false )
-                {
+		/**
+		 * Returns true if we have a current connected computer
+		 *
+		 * @return bool
+		 */
 
-                    continue;
-                }
+		public function hasCurrentComputer()
+		{
 
-                return $softwares['softwareid'];
-            }
-        }
+			if (isset($_SESSION['current_computer']) == false)
+			{
 
-        return null;
-    }
+				return false;
+			}
 
-    /**
-     * Gets the current connected user commputer
-     *
-     * @param $computerid
-     */
+			if (empty($_SESSION['current_computer']))
+			{
 
-    public function setCurrentUserComputer( $computerid )
-    {
+				return false;
+			}
 
-        $_SESSION['current_computer'] = $computerid;
-    }
+			return true;
+		}
 
-    /**
-     * Gets the current connected user computer
-     *
-     * @return mixed
-     */
+		/**
+		 * Checks if the user has this type of software installed
+		 *
+		 * @param $computerid
+		 *
+		 * @param $type
+		 *
+		 * @param bool $checkinstall
+		 *
+		 * @return bool
+		 */
 
-    public function computerid()
-    {
+		public function hasType($computerid, $type, $checkinstall = true)
+		{
 
-        return @$_SESSION['current_computer'];
-    }
+			$software = $this->getComputerSoftware($computerid);
 
-    /**
-     * Returns true if we have a current connected computer
-     *
-     * @return bool
-     */
+			foreach ($software as $softwares)
+			{
 
-    public function hasCurrentComputer()
-    {
+				if ($softwares['type'] == $type)
+				{
 
-        if( isset( $_SESSION['current_computer'] ) == false )
-        {
+					if ($checkinstall && $softwares['installed'] == false)
+					{
 
-            return false;
-        }
+						continue;
+					}
 
-        if( empty( $_SESSION['current_computer'] ) )
-        {
+					return true;
+				}
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        return true;
-    }
+		/**
+		 * Gets a software by its name
+		 *
+		 * @param $computerid
+		 *
+		 * @param $softwarename
+		 *
+		 * @param bool $checkinstalled
+		 *
+		 * @return mixed|null
+		 */
 
-    /**
-     * Checks if the user has this type of software installed
-     *
-     * @param $computerid
-     *
-     * @param $type
-     *
-     * @param bool $checkinstall
-     *
-     * @return bool
-     */
+		public function getSoftwareByName($computerid, $softwarename, $checkinstalled = true)
+		{
 
-    public function hasType( $computerid, $type, $checkinstall=true )
-    {
+			$software = $this->getComputerSoftware($computerid);
 
-        $software = $this->getComputerSoftware( $computerid );
+			foreach ($software as $softwares)
+			{
 
-        foreach( $software as $softwares )
-        {
+				if ($softwares['softwarename'] == $softwarename)
+				{
 
-            if( $softwares['type'] == $type )
-            {
+					if ($checkinstalled)
+					{
 
-                if( $checkinstall && $softwares['installed'] == false )
-                {
+						if ($softwares['installed'] == true)
+						{
 
-                    continue;
-                }
+							return $softwares;
+						}
+					}
+					else
+					{
 
-                return true;
-            }
-        }
+						return $softwares;
+					}
+				}
+			}
 
-        return false;
-    }
+			return null;
+		}
 
-    /**
-     * Gets a software by its name
-     *
-     * @param $computerid
-     *
-     * @param $softwarename
-     *
-     * @param bool $checkinstalled
-     *
-     * @return mixed|null
-     */
+		/**
+		 * Returns true if this software is installed
+		 *
+		 * @param $computerid
+		 *
+		 * @param $softwareid
+		 *
+		 * @return bool
+		 */
 
-    public function getSoftwareByName( $computerid, $softwarename, $checkinstalled=true )
-    {
-        
-        $software = $this->getComputerSoftware( $computerid );
+		public function isInstalled($computerid, $softwareid)
+		{
 
-        foreach( $software as $softwares )
-        {
+			$software = $this->getComputerSoftware($computerid);
 
-            if( $softwares['softwarename'] == $softwarename )
-            {
+			if (empty($software))
+			{
 
-                if( $checkinstalled )
-                {
+				return false;
+			}
 
-                    if( $softwares['installed'] == true )
-                    {
+			foreach ($software as $softwares)
+			{
 
-                        return $softwares;
-                    }
-                }
-                else
-                {
+				if ($softwares['softwareid'] == $softwareid)
+				{
 
-                    return $softwares;
-                }
-            }
-        }
+					return $softwares['installed'];
+				}
+			}
 
-        return null;
-    }
+			return false;
+		}
 
-    /**
-     * Returns true if this software is installed
-     *
-     * @param $computerid
-     *
-     * @param $softwareid
-     *
-     * @return bool
-     */
+		public function installedByUser($computerid, $type, $userid)
+		{
+			$softwares = $this->getComputerSoftware($computerid);
 
-    public function isInstalled( $computerid, $softwareid )
-    {
+			if (empty($softwares))
+				return false;
 
-        $software = $this->getComputerSoftware( $computerid );
+			foreach ($softwares as $software)
+				if ($software['type'] == $type)
+					if (@$software['userid'] == $userid)
+						if ($software['installed'])
+							return true;
 
-        if( empty( $software ) )
-        {
+			return false;
+		}
 
-            return false;
-        }
+		/**
+		 * Returns true if the computer is a bank
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        foreach( $software as $softwares )
-        {
+		public function isBank($computerid)
+		{
 
-            if( $softwares['softwareid'] == $softwareid )
-            {
+			if ($this->getComputerType($computerid) !== Settings::setting('syscrack_computers_bank_type'))
+			{
 
-                return $softwares['installed'];
-            }
-        }
+				return false;
+			}
 
-        return false;
-    }
+			return true;
+		}
 
-    public function installedByUser( $computerid, $type, $userid )
-    {
-        $softwares = $this->getComputerSoftware( $computerid );
+		/**
+		 * Returns true if the computer is a bitcoin server
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        if( empty( $softwares ) )
-            return false;
+		public function isBitcoin($computerid)
+		{
 
-        foreach( $softwares as $software )
-            if( $software['type'] == $type )
-                if( @$software['userid'] == $userid )
-                    if( $software['installed'] )
-                        return true;
+			if ($this->getComputerType($computerid) !== Settings::setting('syscrack_computers_bitcoin_type'))
+			{
 
-        return false;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if the computer is a bank
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function isBank( $computerid )
-    {
+		/**
+		 * Returns true if the computer is a market server
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        if( $this->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_bank_type') )
-        {
+		public function isMarket($computerid)
+		{
 
-            return false;
-        }
+			if ($this->getComputerType($computerid) !== Settings::setting('syscrack_computers_market_type'))
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if the computer is a bitcoin server
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function isBitcoin( $computerid )
-    {
+		/**
+		 * Returns true if the computer is an NPCs
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        if( $this->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_bitcoin_type') )
-        {
+		public function isNPC($computerid)
+		{
 
-            return false;
-        }
+			if ($this->getComputerType($computerid) !== Settings::setting('syscrack_computers_npc_type'))
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if the computer is a market server
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public function isMarket( $computerid )
-    {
+		/**
+		 * Returns true if the computer is a VPC
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-        if( $this->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_market_type') )
-        {
+		public function isVPC($computerid)
+		{
 
-            return false;
-        }
+			if ($this->getComputerType($computerid) !== Settings::setting('syscrack_computers_vpc_type'))
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Returns true if the computer is an NPCs
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
-
-    public function isNPC( $computerid )
-    {
-
-        if( $this->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_npc_type') )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns true if the computer is a VPC
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
-
-    public function isVPC( $computerid )
-    {
-
-        if( $this->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_vpc_type') )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-}
+			return true;
+		}
+	}

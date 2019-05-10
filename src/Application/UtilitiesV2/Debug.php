@@ -1,428 +1,436 @@
 <?php
-namespace Framework\Application\UtilitiesV2;
 
+	namespace Framework\Application\UtilitiesV2;
 
-class Debug
-{
 
-    /**
-     * @var \stdClass
-     */
+	class Debug
+	{
 
-    protected static $objects;
+		/**
+		 * @var \stdClass
+		 */
 
-    /**
-     * @var bool
-     */
+		protected static $objects;
 
-    protected static $supressed = false;
+		/**
+		 * @var bool
+		 */
 
-    /**
-     *
-     */
+		protected static $supressed = false;
 
-    public static function initialization()
-    {
+		/**
+		 *
+		 */
 
-        self::$objects = new \stdClass();
-        self::$objects->timers = new \stdClass();
-    }
+		public static function initialization()
+		{
 
-    /**
-     * @param string $message
-     * @param bool $include_time
-     * @throws \RuntimeException
-     */
+			self::$objects = new \stdClass();
+			self::$objects->timers = new \stdClass();
+		}
 
-    public static function message( string $message, bool $include_time=true )
-    {
+		/**
+		 * @param string $message
+		 * @param bool $include_time
+		 *
+		 * @throws \RuntimeException
+		 */
 
-        if( DEBUG_ENABLED == false )
-            return;
+		public static function message(string $message, bool $include_time = true)
+		{
 
-        if( self::isInit() == false )
-            self::initialization();
+			if (DEBUG_ENABLED == false)
+				return;
 
-        if( Debug::isCMD() )
-            Debug::echo( "debug message: " . $message, 4 );
+			if (self::isInit() == false)
+				self::initialization();
 
-        if( isset( self::$objects->messages ) == false )
-            self::$objects->messages = [];
+			if (Debug::isCMD())
+				Debug::echo("debug message: " . $message, 4);
 
-        if( $include_time )
-            $time = time();
-        else
-            $time = false;
+			if (isset(self::$objects->messages) == false)
+				self::$objects->messages = [];
 
-        self::$objects->messages[] = [
-            'message'   => $message,
-            'time'      => $time
-        ];
-    }
+			if ($include_time)
+				$time = time();
+			else
+				$time = false;
 
-    /**
-     * @return bool
-     */
+			self::$objects->messages[] = [
+				'message' => $message,
+				'time' => $time
+			];
+		}
 
-    public static function isPHPUnitTest()
-    {
+		/**
+		 * @return bool
+		 */
 
-        return( defined("PHPUNIT_ROOT") );
-    }
+		public static function isPHPUnitTest()
+		{
 
-    /**
-     * Shorthand msg
-     *
-     * @param string $msg
-     */
+			return (defined("PHPUNIT_ROOT"));
+		}
 
-    public static function msg( string $msg )
-    {
+		/**
+		 * Shorthand msg
+		 *
+		 * @param string $msg
+		 */
 
-        self::message( $msg );
-    }
+		public static function msg(string $msg)
+		{
 
-    /**
-     * @return bool
-     */
+			self::message($msg);
+		}
 
-    public static function isEnabled()
-    {
+		/**
+		 * @return bool
+		 */
 
-        return( DEBUG_ENABLED );
-    }
+		public static function isEnabled()
+		{
 
-    /**
-     * @param $name
-     * @param $time
-     * @throws \RuntimeException
-     */
+			return (DEBUG_ENABLED);
+		}
 
-    public static function setStartTime( $name, $time=null )
-    {
+		/**
+		 * @param $name
+		 * @param $time
+		 *
+		 * @throws \RuntimeException
+		 */
 
-        if( DEBUG_ENABLED == false )
-            return;
+		public static function setStartTime($name, $time = null)
+		{
 
-        if( $time == null )
-            $time = time();
+			if (DEBUG_ENABLED == false)
+				return;
 
-        if( self::isInit() == false )
-            throw new \RuntimeException('Please enable error debugging');
+			if ($time == null)
+				$time = time();
 
-        if( isset( self::$objects->timers->$name ) )
-        {
+			if (self::isInit() == false)
+				throw new \RuntimeException('Please enable error debugging');
 
-            if(isset( self::$objects->timers->$name["start"] ) )
-                throw new \RuntimeException("Start time has already been set");
-        }
+			if (isset(self::$objects->timers->$name))
+			{
 
-        self::$objects->timers->$name = [
-            "start" => $time
-        ];
-    }
+				if (isset(self::$objects->timers->$name["start"]))
+					throw new \RuntimeException("Start time has already been set");
+			}
 
-    /**
-     * @throws \RuntimeException
-     */
+			self::$objects->timers->$name = [
+				"start" => $time
+			];
+		}
 
-    public static function stashMessages()
-    {
+		/**
+		 * @throws \RuntimeException
+		 */
 
-        if( DEBUG_ENABLED == false )
-            return;
+		public static function stashMessages()
+		{
 
-        if( self::hasMessages() == false )
-            return;
+			if (DEBUG_ENABLED == false)
+				return;
 
+			if (self::hasMessages() == false)
+				return;
 
-        if( file_exists( SYSCRACK_ROOT . DEBUG_MESSAGES_FILE ) == false )
-            self::checkDirectory();
 
-        file_put_contents(SYSCRACK_ROOT . DEBUG_MESSAGES_FILE, json_encode( self::getMessages(), JSON_PRETTY_PRINT ) );
-    }
+			if (file_exists(SYSCRACK_ROOT . DEBUG_MESSAGES_FILE) == false)
+				self::checkDirectory();
 
-    /**
-     * @throws \RuntimeException
-     */
+			file_put_contents(SYSCRACK_ROOT . DEBUG_MESSAGES_FILE, json_encode(self::getMessages(), JSON_PRETTY_PRINT));
+		}
 
-    public static function stashTimers()
-    {
+		/**
+		 * @throws \RuntimeException
+		 */
 
-        if( DEBUG_ENABLED == false )
-            return;
+		public static function stashTimers()
+		{
 
-        if( self::hasTimers() == false )
-            return;
+			if (DEBUG_ENABLED == false)
+				return;
 
-        if( file_exists( SYSCRACK_ROOT . DEBUG_TIMERS_FILE ) == false )
-            self::checkDirectory();
+			if (self::hasTimers() == false)
+				return;
 
-        file_put_contents(SYSCRACK_ROOT . DEBUG_TIMERS_FILE, json_encode( self::getTimers(), JSON_PRETTY_PRINT ) );
-    }
+			if (file_exists(SYSCRACK_ROOT . DEBUG_TIMERS_FILE) == false)
+				self::checkDirectory();
 
-    /**
-     * @param $name
-     * @param $time
-     * @throws \RuntimeException
-     */
+			file_put_contents(SYSCRACK_ROOT . DEBUG_TIMERS_FILE, json_encode(self::getTimers(), JSON_PRETTY_PRINT));
+		}
 
-    public static function setEndTime( $name, $time=null )
-    {
+		/**
+		 * @param $name
+		 * @param $time
+		 *
+		 * @throws \RuntimeException
+		 */
 
-        if( DEBUG_ENABLED == false )
-            return;
+		public static function setEndTime($name, $time = null)
+		{
 
-        if( $time == null )
-            $time = time();
+			if (DEBUG_ENABLED == false)
+				return;
 
-        if( self::isInit() == false )
-            throw new \RuntimeException('Please enable error debugging');
+			if ($time == null)
+				$time = time();
 
-        if( isset( self::$objects->timers->$name ) )
-        {
+			if (self::isInit() == false)
+				throw new \RuntimeException('Please enable error debugging');
 
-            if(isset( self::$objects->timers->$name["end"] ) )
-                throw new \RuntimeException("End time has already been set");
-        }
-        else
-            throw new \RuntimeException('Invalid timer');
+			if (isset(self::$objects->timers->$name))
+			{
 
-        self::$objects->timers->$name['end'] = $time;
-    }
+				if (isset(self::$objects->timers->$name["end"]))
+					throw new \RuntimeException("End time has already been set");
+			}
+			else
+				throw new \RuntimeException('Invalid timer');
 
-    /**
-     * @param $name
-     * @return float
-     * @throws \RuntimeException
-     */
+			self::$objects->timers->$name['end'] = $time;
+		}
 
-    public static function getDifference( $name )
-    {
+		/**
+		 * @param $name
+		 *
+		 * @return float
+		 * @throws \RuntimeException
+		 */
 
-        if( isset( self::$objects->timers->$name ) == false )
-            throw new \RuntimeException('Invalid timer');
+		public static function getDifference($name)
+		{
 
-        $times = self::$objects->timers->$name;
+			if (isset(self::$objects->timers->$name) == false)
+				throw new \RuntimeException('Invalid timer');
 
-        return( $times['end'] - $times['start'] );
-    }
+			$times = self::$objects->timers->$name;
 
+			return ($times['end'] - $times['start']);
+		}
 
-    /**
-     * @param $name
-     * @return bool
-     */
 
-    public static function hasTimer( $name )
-    {
+		/**
+		 * @param $name
+		 *
+		 * @return bool
+		 */
 
-        return( isset( self::$objects->timers->$name ) );
-    }
+		public static function hasTimer($name)
+		{
 
-    /**
-     * @return mixed
-     */
+			return (isset(self::$objects->timers->$name));
+		}
 
-    public static function getMessages()
-    {
+		/**
+		 * @return mixed
+		 */
 
-        return( self::$objects->messages );
-    }
+		public static function getMessages()
+		{
 
-    /**
-     * @return mixed
-     */
+			return (self::$objects->messages);
+		}
 
-    public static function getTimers()
-    {
+		/**
+		 * @return mixed
+		 */
 
-        return( self::$objects->timers );
-    }
+		public static function getTimers()
+		{
 
-    /**
-     * @return bool
-     */
+			return (self::$objects->timers);
+		}
 
-    public static function hasMessages()
-    {
+		/**
+		 * @return bool
+		 */
 
-        if( isset( self::$objects->messages ) == false )
-            return false;
+		public static function hasMessages()
+		{
 
-        if( empty( self::$objects->messages ) )
-            return false;
+			if (isset(self::$objects->messages) == false)
+				return false;
 
-        return true;
-    }
+			if (empty(self::$objects->messages))
+				return false;
 
-    /**
-     * @param string $prompt
-     * @return string
-     */
+			return true;
+		}
 
-    public static function getLine( $prompt="Enter")
-    {
-        echo( $prompt . "\\\\: " );
+		/**
+		 * @param string $prompt
+		 *
+		 * @return string
+		 */
 
-        $result = readline();
+		public static function getLine($prompt = "Enter")
+		{
+			echo($prompt . "\\\\: ");
 
-        if( empty( $result ) )
-            throw new \RuntimeException("no input");
+			$result = readline();
 
-        return( $result );
-    }
-    /**
-     * @return bool
-     */
+			if (empty($result))
+				throw new \RuntimeException("no input");
 
-    public static function hasTimers()
-    {
+			return ($result);
+		}
 
-        if( isset( self::$objects->timers ) == false )
-            return false;
+		/**
+		 * @return bool
+		 */
 
-        if( empty( self::$objects->timers ) )
-            return false;
+		public static function hasTimers()
+		{
 
-        return true;
-    }
+			if (isset(self::$objects->timers) == false)
+				return false;
 
-    /**
-     * @return bool
-     */
+			if (empty(self::$objects->timers))
+				return false;
 
-    public static function isCMD()
-    {
+			return true;
+		}
 
-        return( defined( "CMD" ) );
-    }
+		/**
+		 * @return bool
+		 */
 
-    /**
-     * Sets CMD mode
-     */
+		public static function isCMD()
+		{
 
-    public static function setCMD()
-    {
+			return (defined("CMD"));
+		}
 
-        define("CMD", true );
-    }
+		/**
+		 * Sets CMD mode
+		 */
 
-    /**
-     * @return bool
-     */
+		public static function setCMD()
+		{
 
-    public static function isTest()
-    {
+			define("CMD", true);
+		}
 
-        return( defined( "TEST") );
-    }
+		/**
+		 * @return bool
+		 */
 
-    /**
-     * Sets test mode
-     */
+		public static function isTest()
+		{
 
-    public static function setTest()
-    {
+			return (defined("TEST"));
+		}
 
-        define("TEST", true );
-    }
+		/**
+		 * Sets test mode
+		 */
 
-    /**
-     * @param $message
-     * @param int $tabs
-     */
+		public static function setTest()
+		{
 
-    public static function echo( $message, $tabs=0 )
-    {
+			define("TEST", true);
+		}
 
-        //We don't want any straight up msg's to make their way onto the users HTML
-        if( Debug::isCMD() == false )
-            return;
+		/**
+		 * @param $message
+		 * @param int $tabs
+		 */
 
-        if( self::$supressed )
-            return;
+		public static function echo($message, $tabs = 0)
+		{
 
-        if( is_array( $message ) )
-            foreach( $message as $key=>$value )
-                if( is_array( $value ) )
-                    self::echo( $value );
-                else
-                    self::echo( $key . " => " . $value, $tabs );
-        else
-        {
+			//We don't want any straight up msg's to make their way onto the users HTML
+			if (Debug::isCMD() == false)
+				return;
 
-            if( $tabs == 0 )
-            {
+			if (self::$supressed)
+				return;
 
-                if( is_string( $message ) == false )
-                    $message = print_r( $message );
+			if (is_array($message))
+				foreach ($message as $key => $value)
+					if (is_array($value))
+						self::echo($value);
+					else
+						self::echo($key . " => " . $value, $tabs);
+			else
+			{
 
-                echo( $message . "\n" );
-                return;
-            }
+				if ($tabs == 0)
+				{
 
-            $prefix = "-";
+					if (is_string($message) == false)
+						$message = print_r($message);
 
-            for( $i = 0; $i < $tabs; $i++ )
-                $prefix = $prefix . "-";
+					echo($message . "\n");
+					return;
+				}
 
-            if( $tabs !== 1 )
-                $prefix .= ">";
+				$prefix = "-";
 
-            echo( $prefix . " " . $message . "\n");
-        }
-    }
+				for ($i = 0; $i < $tabs; $i++)
+					$prefix = $prefix . "-";
 
-    /**
-     * @return bool
-     */
+				if ($tabs !== 1)
+					$prefix .= ">";
 
-    public static function isSuppressed()
-    {
+				echo($prefix . " " . $message . "\n");
+			}
+		}
 
-        return( self::$supressed );
-    }
+		/**
+		 * @return bool
+		 */
 
-    /**
-     * @param bool $bool
-     */
+		public static function isSuppressed()
+		{
 
-    public static function setSupressed( $bool=true )
-    {
+			return (self::$supressed);
+		}
 
-        self::$supressed = $bool;
-    }
+		/**
+		 * @param bool $bool
+		 */
 
-    /**
-     * @return bool
-     */
+		public static function setSupressed($bool = true)
+		{
 
-    private static function isInit()
-    {
+			self::$supressed = $bool;
+		}
 
-        if( self::$objects instanceof \stdClass == false )
-            return false;
+		/**
+		 * @return bool
+		 */
 
-        return true;
-    }
+		private static function isInit()
+		{
 
-    /**
-     * @throws \RuntimeException
-     */
+			if (self::$objects instanceof \stdClass == false)
+				return false;
 
-    private static function checkDirectory()
-    {
+			return true;
+		}
 
-        $removed_filename = explode('/', DEBUG_MESSAGES_FILE );
-        array_pop( $removed_filename );
+		/**
+		 * @throws \RuntimeException
+		 */
 
-        $filename = implode( "/", $removed_filename ) . "/";
+		private static function checkDirectory()
+		{
 
-        if( is_file( SYSCRACK_ROOT . $filename ) )
-            throw new \RuntimeException('Returned path is not a directory');
+			$removed_filename = explode('/', DEBUG_MESSAGES_FILE);
+			array_pop($removed_filename);
 
-        if( file_exists( SYSCRACK_ROOT . $filename ) == false )
-            mkdir( SYSCRACK_ROOT . $filename );
-    }
-}
+			$filename = implode("/", $removed_filename) . "/";
+
+			if (is_file(SYSCRACK_ROOT . $filename))
+				throw new \RuntimeException('Returned path is not a directory');
+
+			if (file_exists(SYSCRACK_ROOT . $filename) == false)
+				mkdir(SYSCRACK_ROOT . $filename);
+		}
+	}

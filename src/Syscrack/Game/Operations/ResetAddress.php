@@ -1,202 +1,206 @@
 <?php
-    namespace Framework\Syscrack\Game\Operations;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class ResetAddress
-     *
-     * @package Framework\Syscrack\Game\Operations
-     */
+	namespace Framework\Syscrack\Game\Operations;
 
-    use Framework\Application\Settings;
-    use Framework\Application\Utilities\PostHelper;
-    use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-    use Framework\Syscrack\Game\Finance;
-    use Framework\Syscrack\Game\Utilities\TimeHelper;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class ResetAddress
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-    class ResetAddress extends BaseOperation
-    {
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Finance;
+	use Framework\Syscrack\Game\Utilities\TimeHelper;
 
-        /**
-         * @var Finance
-         */
+	class ResetAddress extends BaseOperation
+	{
 
-        protected static $finance;
+		/**
+		 * @var Finance
+		 */
 
-        /**
-         * ResetAddress constructor.
-         */
+		protected static $finance;
 
-        public function __construct()
-        {
+		/**
+		 * ResetAddress constructor.
+		 */
 
-            if( isset( self::$finance ) == false )
-                self::$finance = new Finance();
+		public function __construct()
+		{
 
-            parent::__construct(true);
-        }
+			if (isset(self::$finance) == false)
+				self::$finance = new Finance();
 
-        /**
-         * @return array
-         */
+			parent::__construct(true);
+		}
 
-        public function configuration()
-        {
+		/**
+		 * @return array
+		 */
 
-            return array(
-                'allowlocal'        => false,
-                'allowsoftware'    => false,
-                'requiresoftware'  => false,
-                'requireloggedin'   => false,
-                'allowcustomdata'   => true
-            );
-        }
+		public function configuration()
+		{
 
-        /**
-         * @param $timecompleted
-         * @param $computerid
-         * @param $userid
-         * @param $process
-         * @param array $data
-         * @return bool
-         */
+			return array(
+				'allowlocal' => false,
+				'allowsoftware' => false,
+				'requiresoftware' => false,
+				'requireloggedin' => false,
+				'allowcustomdata' => true
+			);
+		}
 
-        public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-        {
+		/**
+		 * @param $timecompleted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-            if( $this->checkData( $data, ['ipaddress'] ) == false )
-            {
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-                return false;
-            }
+			if ($this->checkData($data, ['ipaddress']) == false)
+			{
 
-            if( $this->checkCustomData( $data, ['accountnumber'] ) == false )
-            {
+				return false;
+			}
 
-                return false;
-            }
+			if ($this->checkCustomData($data, ['accountnumber']) == false)
+			{
 
-            if( self::$internet->getComputer( $data['ipaddress'] )->type != Settings::setting('syscrack_computers_isp_type') )
-            {
+				return false;
+			}
 
-                return false;
-            }
+			if (self::$internet->getComputer($data['ipaddress'])->type != Settings::setting('syscrack_computers_isp_type'))
+			{
 
-            if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
-            {
+				return false;
+			}
 
-                $this->redirectError('Account does not exist', $this->getRedirect( $data['ipaddress'] ) );
-            }
+			if (self::$finance->accountNumberExists($data['custom']['accountnumber']) == false)
+			{
 
-            $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
+				$this->redirectError('Account does not exist', $this->getRedirect($data['ipaddress']));
+			}
 
-            if( self::$finance->canAfford( $account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price') ) == false )
-            {
+			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
 
-                $this->redirectError('You cannot afford this transaction');
-            }
+			if (self::$finance->canAfford($account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price')) == false)
+			{
 
-            return true;
-        }
+				$this->redirectError('You cannot afford this transaction');
+			}
 
-        /**
-         * @param $timecompleted
-         * @param $timestarted
-         * @param $computerid
-         * @param $userid
-         * @param $process
-         * @param array $data
-         */
+			return true;
+		}
 
-        public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-        {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 */
 
-            if( $this->checkData( $data, ['ipaddress'] ) == false )
-            {
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-                throw new SyscrackException();
-            }
+			if ($this->checkData($data, ['ipaddress']) == false)
+			{
 
-            if( $this->checkCustomData( $data, ['accountnumber'] ) == false )
-            {
+				throw new SyscrackException();
+			}
 
-                throw new SyscrackException();
-            }
+			if ($this->checkCustomData($data, ['accountnumber']) == false)
+			{
 
-            if( self::$finance->accountNumberExists( $data['custom']['accountnumber'] ) == false )
-            {
+				throw new SyscrackException();
+			}
 
-                $this->redirectError('Account does not exist, maybe it has been deleted?', $this->getRedirect( $data['ipaddress'] ) );
-            }
+			if (self::$finance->accountNumberExists($data['custom']['accountnumber']) == false)
+			{
 
-            $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
+				$this->redirectError('Account does not exist, maybe it has been deleted?', $this->getRedirect($data['ipaddress']));
+			}
 
-            if( self::$finance->canAfford( $account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price') ) == false )
-            {
+			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
 
-                $this->redirectError('You cannot afford this transaction');
-            }
+			if (self::$finance->canAfford($account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price')) == false)
+			{
 
-            self::$finance->withdraw( $account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price') );
+				$this->redirectError('You cannot afford this transaction');
+			}
 
-            self::$internet->changeAddress( $computerid );
+			self::$finance->withdraw($account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price'));
 
-            self::$log->updateLog('Changed ip address for ' . Settings::setting('syscrack_currency') . number_format( Settings::setting('syscrack_operations_resetaddress_price') ). ' using account ' . $account->accountnumber,
-                    self::$computer->computerid(),
-                    'localhost');
+			self::$internet->changeAddress($computerid);
 
-            $this->redirectSuccess( $this->getRedirect( $data['ipaddress'] ) );
-        }
+			self::$log->updateLog('Changed ip address for ' . Settings::setting('syscrack_currency') . number_format(Settings::setting('syscrack_operations_resetaddress_price')) . ' using account ' . $account->accountnumber,
+				self::$computer->computerid(),
+				'localhost');
 
-        /**
-         * @param $computerid
-         * @param $ipaddress
-         * @param null $softwareid
-         * @return int
-         */
+			$this->redirectSuccess($this->getRedirect($data['ipaddress']));
+		}
 
-        public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
-        {
+		/**
+		 * @param $computerid
+		 * @param $ipaddress
+		 * @param null $softwareid
+		 *
+		 * @return int
+		 */
 
-            return TimeHelper::getSecondsInFuture( Settings::setting('syscrack_operations_resetaddress_time') );
-        }
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-        /**
-         * @param $ipaddress
-         * @param $userid
-         * @return array|null
-         */
+			return TimeHelper::getSecondsInFuture(Settings::setting('syscrack_operations_resetaddress_time'));
+		}
 
-        public function getCustomData($ipaddress, $userid)
-        {
+		/**
+		 * @param $ipaddress
+		 * @param $userid
+		 *
+		 * @return array|null
+		 */
 
-            if( PostHelper::hasPostData() == false )
-            {
+		public function getCustomData($ipaddress, $userid)
+		{
 
-                return null;
-            }
+			if (PostHelper::hasPostData() == false)
+			{
 
-            if( PostHelper::checkForRequirements(['accountnumber'] ) == false )
-            {
+				return null;
+			}
 
-                return null;
-            }
+			if (PostHelper::checkForRequirements(['accountnumber']) == false)
+			{
 
-            return array(
-                'accountnumber' => PostHelper::getPostData('accountnumber')
-            );
-        }
+				return null;
+			}
 
-        /**
-         * @param $data
-         * @param $ipaddress
-         * @param $userid
-         */
+			return array(
+				'accountnumber' => PostHelper::getPostData('accountnumber')
+			);
+		}
 
-        public function onPost($data, $ipaddress, $userid)
-        {
-            // TODO: Implement onPost() method.
-        }
-    }
+		/**
+		 * @param $data
+		 * @param $ipaddress
+		 * @param $userid
+		 */
+
+		public function onPost($data, $ipaddress, $userid)
+		{
+			// TODO: Implement onPost() method.
+		}
+	}

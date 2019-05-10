@@ -1,179 +1,180 @@
 <?php
-    namespace Framework\Application;
 
-    /**
-     * Lewis Lancaster 2018
-     *
-     * Class Memcache
-     *
-     * @package Framework\Application
-     */
+	namespace Framework\Application;
 
-    use Framework\Exceptions\ApplicationException;
-    use Memcache as MemcacheServer;
+	/**
+	 * Lewis Lancaster 2018
+	 *
+	 * Class Memcache
+	 *
+	 * @package Framework\Application
+	 */
 
-    class Memcache
-    {
+	use Framework\Exceptions\ApplicationException;
+	use Memcache as MemcacheServer;
 
-        /**
-         * @var MemcacheServer
-         */
+	class Memcache
+	{
 
-        protected $memcache;
+		/**
+		 * @var MemcacheServer
+		 */
 
-        /**
-         * Memcached constructor.
-         *
-         * @param bool $autoconnect
-         */
+		protected $memcache;
 
-        public function __construct( $autoconnect=true )
-        {
+		/**
+		 * Memcached constructor.
+		 *
+		 * @param bool $autoconnect
+		 */
 
-            if( Settings::setting('memcache_enabled') == false )
-            {
+		public function __construct($autoconnect = true)
+		{
 
-                return;
-            }
+			if (Settings::setting('memcache_enabled') == false)
+			{
 
-            if( extension_loaded('memcache') == false )
-            {
+				return;
+			}
 
-                throw new ApplicationException('Memcache is not enabled as an extension ( or it isnt installed )');
-            }
+			if (extension_loaded('memcache') == false)
+			{
 
-            $this->memcache = new MemcacheServer();
+				throw new ApplicationException('Memcache is not enabled as an extension ( or it isnt installed )');
+			}
 
-            if( $autoconnect == true )
-            {
+			$this->memcache = new MemcacheServer();
 
-                if( $this->hasConnection() == false )
-                {
+			if ($autoconnect == true)
+			{
 
-                    $this->createConnection();
-                }
-            }
-        }
+				if ($this->hasConnection() == false)
+				{
 
-        /**
-         * Adds a variable to the memcache
-         *
-         * @param $variable
-         *
-         * @param $value
-         *
-         * @param null $lifespan
-         */
+					$this->createConnection();
+				}
+			}
+		}
 
-        public function add( $variable, $value, $lifespan=null )
-        {
+		/**
+		 * Adds a variable to the memcache
+		 *
+		 * @param $variable
+		 *
+		 * @param $value
+		 *
+		 * @param null $lifespan
+		 */
 
-            if( $lifespan = null )
-            {
+		public function add($variable, $value, $lifespan = null)
+		{
 
-                $lifespan = Settings::setting('memcache_default_lifespan');
-            }
+			if ($lifespan = null)
+			{
 
-            $this->memcache->set( $variable, $value, MEMCACHE_COMPRESSED, $lifespan );
-        }
+				$lifespan = Settings::setting('memcache_default_lifespan');
+			}
 
-        /**
-         * Deletes a variable
-         *
-         * @param $variable
-         */
+			$this->memcache->set($variable, $value, MEMCACHE_COMPRESSED, $lifespan);
+		}
 
-        public function delete( $variable )
-        {
+		/**
+		 * Deletes a variable
+		 *
+		 * @param $variable
+		 */
 
-            $this->memcache->delete( $variable );
-        }
+		public function delete($variable)
+		{
 
-        /**
-         * Returns true if we have this key ( already )
-         *
-         * @param $variable
-         *
-         * @return bool
-         */
+			$this->memcache->delete($variable);
+		}
 
-        public function hasKey( $variable )
-        {
+		/**
+		 * Returns true if we have this key ( already )
+		 *
+		 * @param $variable
+		 *
+		 * @return bool
+		 */
 
-            if( $this->memcache->add( $variable, null ) )
-            {
+		public function hasKey($variable)
+		{
 
-                $this->memcache->delete( $variable );
+			if ($this->memcache->add($variable, null))
+			{
 
-                return false;
-            }
+				$this->memcache->delete($variable);
 
-            return true;
-        }
+				return false;
+			}
 
-        /**
-         * Gets a variable from the memcache
-         *
-         * @param $variable
-         *
-         * @return array|string
-         */
+			return true;
+		}
 
-        public function get( $variable )
-        {
+		/**
+		 * Gets a variable from the memcache
+		 *
+		 * @param $variable
+		 *
+		 * @return array|string
+		 */
 
-            return $this->memcache->get( $variable );
-        }
+		public function get($variable)
+		{
 
-        /**
-         * Flushes the memcache
-         */
+			return $this->memcache->get($variable);
+		}
 
-        public function flush()
-        {
+		/**
+		 * Flushes the memcache
+		 */
 
-            $this->memcache->flush();
-        }
+		public function flush()
+		{
 
-        /**
-         * Creates a new connection
-         */
+			$this->memcache->flush();
+		}
 
-        public function createConnection()
-        {
+		/**
+		 * Creates a new connection
+		 */
 
-            if( $this->hasConnection() == true )
-            {
+		public function createConnection()
+		{
 
-                return;
-            }
+			if ($this->hasConnection() == true)
+			{
 
-            $this->memcache->connect( Settings::setting('memcache_address'), Settings::setting('memcache_port'), Settings::setting('memcache_timeout') );
-        }
+				return;
+			}
 
-        /**
-         * Returns true if we have a memcache connection
-         *
-         * @return bool
-         */
+			$this->memcache->connect(Settings::setting('memcache_address'), Settings::setting('memcache_port'), Settings::setting('memcache_timeout'));
+		}
 
-        public function hasConnection()
-        {
+		/**
+		 * Returns true if we have a memcache connection
+		 *
+		 * @return bool
+		 */
 
-            $stats = $this->memcache->getStats();
+		public function hasConnection()
+		{
 
-            if( isset( $stats[ Settings::setting('memcache_address') . ':' . Settings::setting('memcache_port') ] ) == false )
-            {
+			$stats = $this->memcache->getStats();
 
-                return false;
-            }
+			if (isset($stats[Settings::setting('memcache_address') . ':' . Settings::setting('memcache_port')]) == false)
+			{
 
-            if( $stats[ Settings::setting('memcache_address') . ':' . Settings::setting('memcache_port') ]['uptime'] > 1 )
-            {
+				return false;
+			}
 
-                return false;
-            }
+			if ($stats[Settings::setting('memcache_address') . ':' . Settings::setting('memcache_port')]['uptime'] > 1)
+			{
 
-            return true;
-        }
-    }
+				return false;
+			}
+
+			return true;
+		}
+	}

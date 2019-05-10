@@ -1,85 +1,84 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 22/07/2018
- * Time: 01:01
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 22/07/2018
+	 * Time: 01:01
+	 */
 
-namespace Framework\Application\UtilitiesV2\Scripts;
-
-
-
-use Framework\Application\UtilitiesV2\Container;
-use Framework\Application\UtilitiesV2\Debug;
-use Framework\Application\UtilitiesV2\Migrator;
-
-class AutoMigrate extends Base
-{
-
-    /**
-     * @var Migrator
-     */
-
-    protected $migrator;
+	namespace Framework\Application\UtilitiesV2\Scripts;
 
 
-    /**
-     * @param $arguments
-     * @return bool
-     * @throws \RuntimeException
-     */
+	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Application\UtilitiesV2\Migrator;
 
-    public function execute($arguments)
-    {
+	class AutoMigrate extends Base
+	{
 
-        if( Container::exist("application") == false )
-            $this->initContainer();
+		/**
+		 * @var Migrator
+		 */
 
-        $application = Container::get("application");
+		protected $migrator;
 
-        if( $application->connection ->test() == false )
-            throw new \RuntimeException("Database test failed");
 
-        Debug::echo( "Instancing Migrator", 4);
+		/**
+		 * @param $arguments
+		 *
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-        $this->migrator = new Migrator();
+		public function execute($arguments)
+		{
 
-        Debug::echo( "Calling migrator", 4);
+			if (Container::exist("application") == false)
+				$this->initContainer();
 
-        try
-        {
+			$application = Container::get("application");
 
-            $this->migrator->process();
-        }
-        catch ( \RuntimeException $error )
-        {
+			if ($application->connection->test() == false)
+				throw new \RuntimeException("Database test failed");
 
-            return( false );
-        }
+			Debug::echo("Instancing Migrator", 4);
 
-        return( true );
-    }
+			$this->migrator = new Migrator();
 
-    /**
-     * @return array|null
-     */
+			Debug::echo("Calling migrator", 4);
 
-    public function requiredArguments()
-    {
+			try
+			{
 
-        return( null );
-    }
+				$this->migrator->process();
+			} catch (\RuntimeException $error)
+			{
 
-    /**
-     * @return array
-     */
+				return (false);
+			}
 
-    public function help()
-    {
-        return([
-            "arguments" => $this->requiredArguments(),
-            "help" => "Migrates database (creates tables) and some json files. Should be used when installing Colourspace and then never touched again."
-        ]);
-    }
-}
+			return (true);
+		}
+
+		/**
+		 * @return array|null
+		 */
+
+		public function requiredArguments()
+		{
+
+			return (null);
+		}
+
+		/**
+		 * @return array
+		 */
+
+		public function help()
+		{
+			return ([
+				"arguments" => $this->requiredArguments(),
+				"help" => "Migrates database (creates tables) and some json files. Should be used when installing Colourspace and then never touched again."
+			]);
+		}
+	}

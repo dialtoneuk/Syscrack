@@ -1,233 +1,236 @@
 <?php
 
-namespace Framework\Application\UtilitiesV2\Scripts;
+	namespace Framework\Application\UtilitiesV2\Scripts;
 
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 31/08/2018
- * Time: 15:57
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 31/08/2018
+	 * Time: 15:57
+	 */
 
-use Framework\Application\UtilitiesV2\Container;
-use Framework\Application\UtilitiesV2\Debug;
-use Framework\Application\UtilitiesV2\Format;
-use Framework\Application\UtilitiesV2\Scripts;
+	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Application\UtilitiesV2\Format;
+	use Framework\Application\UtilitiesV2\Scripts;
 
-class Instance extends Base
-{
+	class Instance extends Base
+	{
 
-    /**
-     * @var bool
-     */
+		/**
+		 * @var bool
+		 */
 
-    public static $active_instance = false;
+		public static $active_instance = false;
 
-    /**
-     * @var Scripts
-     */
+		/**
+		 * @var Scripts
+		 */
 
-    protected $scripts;
+		protected $scripts;
 
-    /**
-     * Instance constructor.
-     */
+		/**
+		 * Instance constructor.
+		 */
 
-    public function __construct()
-    {
+		public function __construct()
+		{
 
-        //Sets the time limit to zero so you don't get booted off
-        set_time_limit( 0 );
-    }
+			//Sets the time limit to zero so you don't get booted off
+			set_time_limit(0);
+		}
 
-    /**
-     * @param $arguments
-     * @return bool
-     */
+		/**
+		 * @param $arguments
+		 *
+		 * @return bool
+		 */
 
-    public function execute($arguments)
-    {
+		public function execute($arguments)
+		{
 
-        if( Container::exist("scripts") == false )
-            throw new \RuntimeException("Scripts does not exist");
+			if (Container::exist("scripts") == false)
+				throw new \RuntimeException("Scripts does not exist");
 
-        if( self::$active_instance == true )
-            throw new \RuntimeException("cannot run two instances at once");
+			if (self::$active_instance == true)
+				throw new \RuntimeException("cannot run two instances at once");
 
-        if( $this->scripts == null )
-            $this->refresh();
+			if ($this->scripts == null)
+				$this->refresh();
 
-        $this->scripts->execute("sysinfo", false, true );
-        $this->setProcessWindow( "Syscrack CLI", time() );
+			$this->scripts->execute("sysinfo", false, true);
+			$this->setProcessWindow("Syscrack CLI", time());
 
-        try
-        {
+			try
+			{
 
-            self::$active_instance = true;
-            Debug::echo("type help for help, commands for a list of commands. exit or 'e' to exit.");
+				self::$active_instance = true;
+				Debug::echo("type help for help, commands for a list of commands. exit or 'e' to exit.");
 
-            while( $input = Debug::getLine("execute") )
-            {
+				while ($input = Debug::getLine("execute"))
+				{
 
-                $data = $this->parseInput( $input );
+					$data = $this->parseInput($input);
 
-                if( $this->canExit( $data["script"] ) )
-                    $this->exit();
+					if ($this->canExit($data["script"]))
+						$this->exit();
 
-                if( $this->scripts->exists( $data["script"] ) == false )
-                    Debug::echo("script does not exist");
-                else
-                {
+					if ($this->scripts->exists($data["script"]) == false)
+						Debug::echo("script does not exist");
+					else
+					{
 
-                    $this->setProcessWindow( "Syscrack CLI [" . $data["script"] . "]",  time() );
+						$this->setProcessWindow("Syscrack CLI [" . $data["script"] . "]", time());
 
-                    if( empty( $data["arguments"]) == false )
-                        $this->scripts->setArguments( $data["arguments"] );
+						if (empty($data["arguments"]) == false)
+							$this->scripts->setArguments($data["arguments"]);
 
-                    $this->scripts->execute( $data["script"], false );
-                    $this->scripts->setArguments([]);
-                }
+						$this->scripts->execute($data["script"], false);
+						$this->scripts->setArguments([]);
+					}
 
-                if( $this->canRefresh( $data["script"] ) )
-                    $this->refresh();
+					if ($this->canRefresh($data["script"]))
+						$this->refresh();
 
-                Debug::echo("");
-            }
+					Debug::echo("");
+				}
 
-            $this->setProcessWindow( null, time() );
-        }
-        catch ( \RuntimeException $exception )
-        {
+				$this->setProcessWindow(null, time());
+			} catch (\RuntimeException $exception)
+			{
 
-            self::$active_instance = false;
+				self::$active_instance = false;
 
-            $this->printError( $exception );
+				$this->printError($exception);
 
-            Debug::echo("Restarting in 2 seconds...\n");
-            sleep( 2 );
+				Debug::echo("Restarting in 2 seconds...\n");
+				sleep(2);
 
-            $this->execute( $arguments );
-        }
-        finally
-        {
+				$this->execute($arguments);
+			} finally
+			{
 
-            $this->setProcessWindow( null,  time() );
-        }
+				$this->setProcessWindow(null, time());
+			}
 
-        return parent::execute($arguments); // TODO: Change the autogenerated stub
-    }
+			return parent::execute($arguments); // TODO: Change the autogenerated stub
+		}
 
-    /**
-     * @param string $input
-     * @return array
-     */
+		/**
+		 * @param string $input
+		 *
+		 * @return array
+		 */
 
-    public function parseInput( string $input )
-    {
+		public function parseInput(string $input)
+		{
 
-        $split = explode( " ", $input );
+			$split = explode(" ", $input);
 
-        if( count( $split ) == 1 )
-            $script = $input;
-        else
-            $script = $split[0];
+			if (count($split) == 1)
+				$script = $input;
+			else
+				$script = $split[0];
 
-        array_shift( $split );
+			array_shift($split);
 
-        return([
-            "script" => $script,
-            "arguments" => $split
-        ]);
-    }
+			return ([
+				"script" => $script,
+				"arguments" => $split
+			]);
+		}
 
-    /**
-     * @param string $title
-     * @param $timestamp
-     */
+		/**
+		 * @param string $title
+		 * @param $timestamp
+		 */
 
-    public function setProcessWindow( $title=null, $timestamp )
-    {
-        if( $title == null )
-            $title = cli_get_process_title();
+		public function setProcessWindow($title = null, $timestamp)
+		{
+			if ($title == null)
+				$title = cli_get_process_title();
 
-        $exp = explode( ":", $title );
+			$exp = explode(":", $title);
 
-        if( count( $exp ) != 1 )
-            $title = $exp[0];
+			if (count($exp) != 1)
+				$title = $exp[0];
 
-        cli_set_process_title( $title . ":" . Format::timestamp( $timestamp ) );
-    }
+			cli_set_process_title($title . ":" . Format::timestamp($timestamp));
+		}
 
-    /**
-     * @param \RuntimeException $exception
-     */
+		/**
+		 * @param \RuntimeException $exception
+		 */
 
-    private function printError( \RuntimeException $exception )
-    {
+		private function printError(\RuntimeException $exception)
+		{
 
-        Debug::echo("\n[EXCEPTION] " . $exception->getMessage() );
-        Debug::echo(" in file " . $exception->getFile() . "[" . $exception->getLine() . "]");
+			Debug::echo("\n[EXCEPTION] " . $exception->getMessage());
+			Debug::echo(" in file " . $exception->getFile() . "[" . $exception->getLine() . "]");
 
-        Debug::echo("\nStack Trace\n");
+			Debug::echo("\nStack Trace\n");
 
-        foreach( $exception->getTrace() as $key=>$trace )
-            Debug::echo(" " . $key . " : " . $trace["file"] . "[" . $trace["line"] . "]");
-    }
+			foreach ($exception->getTrace() as $key => $trace)
+				Debug::echo(" " . $key . " : " . $trace["file"] . "[" . $trace["line"] . "]");
+		}
 
-    /**
-     * @param $input
-     * @return bool
-     */
+		/**
+		 * @param $input
+		 *
+		 * @return bool
+		 */
 
-    private function canExit( $input )
-    {
+		private function canExit($input)
+		{
 
-        return(  $input == "exit" || $input == "e" || $input == "bye" );
-    }
+			return ($input == "exit" || $input == "e" || $input == "bye");
+		}
 
-    /**
-     * @param $input
-     * @return bool
-     */
+		/**
+		 * @param $input
+		 *
+		 * @return bool
+		 */
 
-    private function canRefresh( $input )
-    {
+		private function canRefresh($input)
+		{
 
-        return( $input == "r" || $input == "refresh" );
-    }
+			return ($input == "r" || $input == "refresh");
+		}
 
-    /**
-     * Refreshes the local instance
-     */
+		/**
+		 * Refreshes the local instance
+		 */
 
-    private function refresh()
-    {
+		private function refresh()
+		{
 
-        Debug::echo("\n! Refreshing instance !\n");
+			Debug::echo("\n! Refreshing instance !\n");
 
-        //Refreshes
-        $this->scripts = Container::get("scripts");
-    }
-    /**
-     * Exits the instance
-     */
+			//Refreshes
+			$this->scripts = Container::get("scripts");
+		}
 
-    private function exit()
-    {
+		/**
+		 * Exits the instance
+		 */
 
-        if( Debug::isCMD() )
-            Debug::echo("Exiting instance, have a nice day!");
+		private function exit()
+		{
 
-        exit( 0 );
-    }
+			if (Debug::isCMD())
+				Debug::echo("Exiting instance, have a nice day!");
 
-    /**
-     * @return array|null
-     */
+			exit(0);
+		}
 
-    public function requiredArguments()
-    {
+		/**
+		 * @return array|null
+		 */
 
-        return parent::requiredArguments();
-    }
-}
+		public function requiredArguments()
+		{
+
+			return parent::requiredArguments();
+		}
+	}

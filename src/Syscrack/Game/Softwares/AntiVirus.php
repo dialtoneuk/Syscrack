@@ -1,110 +1,113 @@
 <?php
-    namespace Framework\Syscrack\Game\Softwares;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class AntiVirus
-     *
-     * @package Framework\Syscrack\Game\Softwares
-     */
+	namespace Framework\Syscrack\Game\Softwares;
 
-    use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
-    use Framework\Syscrack\Game\Utilities\TimeHelper;
-    use Framework\Syscrack\Game\Viruses;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class AntiVirus
+	 *
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 
-    class AntiVirus extends BaseSoftware
-    {
+	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	use Framework\Syscrack\Game\Utilities\TimeHelper;
+	use Framework\Syscrack\Game\Viruses;
 
-        /**
-         * @var Viruses
-         */
+	class AntiVirus extends BaseSoftware
+	{
 
-        protected static $viruses;
+		/**
+		 * @var Viruses
+		 */
 
-        /**
-         * AntiVirus constructor.
-         */
+		protected static $viruses;
 
-        public function __construct()
-        {
+		/**
+		 * AntiVirus constructor.
+		 */
 
-            if( isset( self::$viruses ) == false )
-                self::$viruses = new Viruses();
+		public function __construct()
+		{
 
-            parent::__construct(true);
-        }
+			if (isset(self::$viruses) == false)
+				self::$viruses = new Viruses();
 
-        /**
-         * The configuration of this Structure
-         *
-         * @return array
-         */
+			parent::__construct(true);
+		}
 
-        public function configuration()
-        {
+		/**
+		 * The configuration of this Structure
+		 *
+		 * @return array
+		 */
 
-            return array(
-                'uniquename'    => 'antivirus',
-                'extension'     => '.av',
-                'type'          => 'exe',
-                'installable'   => true,
-                'executable'    => true
-            );
-        }
+		public function configuration()
+		{
 
-        /**
-         * @param $softwareid
-         * @param $userid
-         * @param $computerid
-         * @return mixed|void
-         */
+			return array(
+				'uniquename' => 'antivirus',
+				'extension' => '.av',
+				'type' => 'exe',
+				'installable' => true,
+				'executable' => true
+			);
+		}
 
-        public function onExecuted( $softwareid, $userid, $computerid )
-        {
+		/**
+		 * @param $softwareid
+		 * @param $userid
+		 * @param $computerid
+		 *
+		 * @return mixed|void
+		 */
 
-            $viruses = self::$viruses->getVirusesOnComputer( $computerid );
+		public function onExecuted($softwareid, $userid, $computerid)
+		{
 
-            if( empty( $viruses ) )
-                $this->redirectError('No viruses were found', $this->getRedirect( self::$internet->getComputerAddress( $computerid ) ) );
+			$viruses = self::$viruses->getVirusesOnComputer($computerid);
 
-            $software = parent::$software->getSoftware( $softwareid );
-            $results = [];
+			if (empty($viruses))
+				$this->redirectError('No viruses were found', $this->getRedirect(self::$internet->getComputerAddress($computerid)));
 
-            foreach( $viruses as $virus )
-            {
+			$software = parent::$software->getSoftware($softwareid);
+			$results = [];
 
-                if( $virus->level > $software->level )
-                    continue;
+			foreach ($viruses as $virus)
+			{
 
-
-                if( $virus->installed == false )
-                    continue;
+				if ($virus->level > $software->level)
+					continue;
 
 
-                $results[] = array(
-                    'softwareid' => $virus->softwareid
-                );
+				if ($virus->installed == false)
+					continue;
 
-                parent::$software->deleteSoftware( $virus->softwareid );
-                self::$computers->removeSoftware( $computerid, $virus->softwareid );
-            }
 
-            if( empty( $results ) )
-                $this->redirectError('No errors were deleted, this could be due to your anti-virus being too weak',  $this->getRedirect( self::$internet->getComputerAddress( $computerid ) ) );
+				$results[] = array(
+					'softwareid' => $virus->softwareid
+				);
 
-            $this->redirectSuccess( $this->getRedirect( self::$internet->getComputerAddress( $computerid ) ) );
-        }
+				parent::$software->deleteSoftware($virus->softwareid);
+				self::$computers->removeSoftware($computerid, $virus->softwareid);
+			}
 
-        /**
-         * @param $softwareid
-         * @param $computerid
-         * @return int|mixed|null
-         */
+			if (empty($results))
+				$this->redirectError('No errors were deleted, this could be due to your anti-virus being too weak', $this->getRedirect(self::$internet->getComputerAddress($computerid)));
 
-        public function getExecuteCompletionTime($softwareid, $computerid)
-        {
+			$this->redirectSuccess($this->getRedirect(self::$internet->getComputerAddress($computerid)));
+		}
 
-            return ( TimeHelper::getSecondsInFuture( 1 ) );
-        }
-    }
+		/**
+		 * @param $softwareid
+		 * @param $computerid
+		 *
+		 * @return int|mixed|null
+		 */
+
+		public function getExecuteCompletionTime($softwareid, $computerid)
+		{
+
+			return (TimeHelper::getSecondsInFuture(1));
+		}
+	}

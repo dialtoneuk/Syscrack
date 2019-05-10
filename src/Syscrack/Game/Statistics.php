@@ -1,143 +1,144 @@
 <?php
-    namespace Framework\Syscrack\Game;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Statistics
-     *
-     * @package Framework\Syscrack\Game
-     */
+	namespace Framework\Syscrack\Game;
 
-    use Framework\Application\Settings;
-    use Framework\Application\Utilities\FileSystem;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Statistics
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-    class Statistics
-    {
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\FileSystem;
 
-        /**
-         * @var array
-         */
+	class Statistics
+	{
 
-        protected $statistics = [];
+		/**
+		 * @var array
+		 */
 
-        /**
-         * Statistics constructor.
-         *
-         * @param bool $autoread
-         */
+		protected $statistics = [];
 
-        public function __construct( $autoread=true )
-        {
+		/**
+		 * Statistics constructor.
+		 *
+		 * @param bool $autoread
+		 */
 
-            if( $autoread == true )
-            {
+		public function __construct($autoread = true)
+		{
 
-                $this->readStatistics();
-            }
-        }
+			if ($autoread == true)
+			{
 
-        /**
-         * Gets a statistic
-         *
-         * @param $statistic
-         *
-         * @return mixed
-         */
+				$this->readStatistics();
+			}
+		}
 
-        public function getStatistic( $statistic )
-        {
+		/**
+		 * Gets a statistic
+		 *
+		 * @param $statistic
+		 *
+		 * @return mixed
+		 */
 
-            if( isset( $this->statistics[ $statistic ] ) == false )
-            {
+		public function getStatistic($statistic)
+		{
 
-                return 0;
-            }
+			if (isset($this->statistics[$statistic]) == false)
+			{
 
-            return $this->statistics[ $statistic ];
-        }
+				return 0;
+			}
 
-        /**
-         * Adds a statistic
-         *
-         * @param $statistic
-         */
+			return $this->statistics[$statistic];
+		}
 
-        public function addStatistic( $statistic, $value=null )
-        {
+		/**
+		 * Adds a statistic
+		 *
+		 * @param $statistic
+		 */
 
-            if( isset( $this->statistics[ $statistic ] ) == false )
-            {
+		public function addStatistic($statistic, $value = null)
+		{
 
-                $this->statistics[ $statistic ] = 0;
-            }
+			if (isset($this->statistics[$statistic]) == false)
+			{
 
-            if( $value == null )
-            {
+				$this->statistics[$statistic] = 0;
+			}
 
-                $this->statistics[ $statistic ] = $this->statistics[ $statistic ] + 1 ;
-            }
-            else
-            {
+			if ($value == null)
+			{
+
+				$this->statistics[$statistic] = $this->statistics[$statistic] + 1;
+			}
+			else
+			{
 
 
-                $this->statistics[ $statistic ] = $this->statistics[ $statistic ] + $value;
-            }
+				$this->statistics[$statistic] = $this->statistics[$statistic] + $value;
+			}
 
-            $this->saveStatistics();
-        }
+			$this->saveStatistics();
+		}
 
-        /**
-         * Saves our statistics to file
-         */
+		/**
+		 * Saves our statistics to file
+		 */
 
-        public function saveStatistics()
-        {
+		public function saveStatistics()
+		{
 
-            FileSystem::writeJson( Settings::setting('syscrack_statistics_file'), $this->statistics );
-        }
+			FileSystem::writeJson(Settings::setting('syscrack_statistics_file'), $this->statistics);
+		}
 
-        /**
-         * Returns true if we have statistics
-         *
-         * @return bool
-         */
+		/**
+		 * Returns true if we have statistics
+		 *
+		 * @return bool
+		 */
 
-        public function hasStatistics()
-        {
+		public function hasStatistics()
+		{
 
-            if( FileSystem::fileExists( Settings::setting('syscrack_statistics_file') ) == false )
-            {
+			if (FileSystem::fileExists(Settings::setting('syscrack_statistics_file')) == false)
+			{
 
-                return false;
-            }
+				return false;
+			}
 
-            if( empty( $this->readStatistics() ) )
-            {
+			if (empty($this->readStatistics()))
+			{
 
-                return false;
-            }
+				return false;
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        /**
-         * Reads the statistics from the file
-         *
-         * @return array|mixed
-         */
+		/**
+		 * Reads the statistics from the file
+		 *
+		 * @return array|mixed
+		 */
 
-        private function readStatistics()
-        {
+		private function readStatistics()
+		{
 
-            if( empty( $this->statistics ) == false )
-            {
+			if (empty($this->statistics) == false)
+			{
 
-                return $this->statistics;
-            }
+				return $this->statistics;
+			}
 
-            $this->statistics = FileSystem::readJson( Settings::setting('syscrack_statistics_file') );
+			$this->statistics = FileSystem::readJson(Settings::setting('syscrack_statistics_file'));
 
-            return $this->statistics;
-        }
-    }
+			return $this->statistics;
+		}
+	}

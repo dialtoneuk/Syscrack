@@ -1,310 +1,311 @@
 <?php
-namespace Framework\Syscrack;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class Verification
- *
- * @package Framework\Syscrack
- */
-
-use Framework\Application\Utilities\Hashes;
-use Framework\Database\Tables\Verifications as Database;
-use Framework\Exceptions\SyscrackException;
-
-class Verification
-{
+	namespace Framework\Syscrack;
 
 	/**
-	 * @var Database
+	 * Lewis Lancaster 2016
+	 *
+	 * Class Verification
+	 *
+	 * @package Framework\Syscrack
 	 */
 
-	protected $database;
+	use Framework\Application\Utilities\Hashes;
+	use Framework\Database\Tables\Verifications as Database;
+	use Framework\Exceptions\SyscrackException;
 
-	/**
-	 * Verification constructor.
-	 */
-
-	public function __construct ()
+	class Verification
 	{
 
-		$this->database = new Database();
-	}
+		/**
+		 * @var Database
+		 */
 
-	/**
-	 * Gets the request email of a user
-	 *
-	 * @param $userid
-	 *
-	 * @param bool $single
-	 *
-	 * @return array
-	 */
+		protected $database;
 
-	public function getRequestEmail( $userid, $single=false )
-	{
+		/**
+		 * Verification constructor.
+		 */
 
-		if( $this->isVerified( $userid ) == true )
+		public function __construct()
 		{
 
-			throw new SyscrackException();
+			$this->database = new Database();
 		}
 
-		$emails = $this->database->getUserRequests( $userid );
+		/**
+		 * Gets the request email of a user
+		 *
+		 * @param $userid
+		 *
+		 * @param bool $single
+		 *
+		 * @return array
+		 */
 
-		if( $single == true )
+		public function getRequestEmail($userid, $single = false)
 		{
 
-			return $emails[0]->email;
+			if ($this->isVerified($userid) == true)
+			{
+
+				throw new SyscrackException();
+			}
+
+			$emails = $this->database->getUserRequests($userid);
+
+			if ($single == true)
+			{
+
+				return $emails[0]->email;
+			}
+
+			$array = array();
+
+			foreach ($emails as $email)
+			{
+
+				$array[] = $email->email;
+			}
+
+			if (empty($array))
+			{
+
+				throw new SyscrackException();
+			}
+
+			return $array;
 		}
 
-		$array = array();
+		/**
+		 * Gets the users first token
+		 *
+		 * @param $userid
+		 *
+		 * @return mixed
+		 */
 
-		foreach( $emails as $email )
+		public function getToken($userid)
 		{
 
-			$array[] = $email->email;
+			return $this->database->getUserRequests($userid)[0]->token;
 		}
 
-		if( empty( $array ) )
+		/**
+		 * Gets the user behind a token
+		 *
+		 * @param $token
+		 *
+		 * @return mixed
+		 */
+
+		public function getTokenUser($token)
 		{
 
-			throw new SyscrackException();
+			$result = $this->database->getToken($token);
+
+			if ($result == null)
+			{
+
+				return null;
+			}
+
+			return $result->userid;
 		}
 
-		return $array;
-	}
+		/**
+		 * Resets the request
+		 *
+		 * @param $userid
+		 *
+		 * @param $email
+		 *
+		 * @return string
+		 */
 
-    /**
-     * Gets the users first token
-     *
-     * @param $userid
-     *
-     * @return mixed
-     */
-
-	public function getToken( $userid )
-    {
-
-        return $this->database->getUserRequests( $userid )[0]->token;
-    }
-
-    /**
-     * Gets the user behind a token
-     *
-     * @param $token
-     *
-     * @return mixed
-     */
-
-    public function getTokenUser( $token )
-    {
-
-        $result = $this->database->getToken( $token );
-
-        if( $result == null )
-        {
-
-            return null;
-        }
-
-        return $result->userid;
-    }
-
-	/**
-	 * Resets the request
-	 *
-	 * @param $userid
-	 *
-	 * @param $email
-	 *
-	 * @return string
-	 */
-
-	public function resetRequest( $userid, $email )
-	{
-
-		if( $this->isVerified( $userid ) == true )
+		public function resetRequest($userid, $email)
 		{
 
-			throw new SyscrackException();
+			if ($this->isVerified($userid) == true)
+			{
+
+				throw new SyscrackException();
+			}
+
+			if ($this->isEmail($email) == false)
+			{
+
+				throw new SyscrackException();
+			}
+
+			$this->database->deleteUserRequests($userid);
+
+			if ($this->isVerified($userid) == true)
+			{
+
+				throw new SyscrackException();
+			}
+
+			$token = $this->addRequest($userid, $email);
+
+			if (empty($token))
+			{
+
+				throw new SyscrackException();
+			}
+
+			return $token;
 		}
 
-		if( $this->isEmail( $email ) == false )
+		/**
+		 * Adds a verification request
+		 *
+		 * @param $userid
+		 *
+		 * @param $email
+		 *
+		 * @return string
+		 */
+
+		public function addRequest($userid, $email)
 		{
 
-			throw new SyscrackException();
+			if ($this->isVerified($userid) == false)
+			{
+
+				throw new SyscrackException('User is already has verification request');
+			}
+
+			$token = $this->generateToken();
+
+			if (empty($token))
+			{
+
+				throw new SyscrackException('Verification token is empty');
+			}
+
+			if ($this->isEmail($email) == false)
+			{
+
+				throw new SyscrackException('Email does not exist');
+			}
+
+			$array = array(
+				'userid' => $userid,
+				'token' => $token,
+				'email' => $email
+			);
+
+			$this->database->insertRequest($array);
+
+			return $token;
 		}
 
-		$this->database->deleteUserRequests( $userid );
+		/**
+		 * Verifies a user
+		 *
+		 * @param $token
+		 *
+		 * @return bool
+		 */
 
-		if( $this->isVerified( $userid ) == true )
+		public function verifyUser($token)
 		{
 
-			throw new SyscrackException();
-		}
+			if ($this->database->getToken($token) == null)
+			{
 
-		$token = $this->addRequest( $userid, $email );
+				throw new SyscrackException('token is invalid');
+			}
 
-		if( empty( $token ) )
-		{
+			$userid = $this->database->getToken($token)->userid;
 
-			throw new SyscrackException();
-		}
+			if ($this->isVerified($userid) == true)
+			{
 
-		return $token;
-	}
+				throw new SyscrackException();
+			}
 
-	/**
-	 * Adds a verification request
-	 *
-	 * @param $userid
-	 *
-	 * @param $email
-	 *
-	 * @return string
-	 */
+			$this->database->deleteUserRequests($userid);
 
-	public function addRequest( $userid, $email )
-	{
-		
-		if( $this->isVerified( $userid ) == false )
-		{
-			
-			throw new SyscrackException('User is already has verification request');
-		}
-		
-		$token = $this->generateToken();
+			if ($this->hasVerificationRequest($userid) == true)
+			{
 
-		if( empty( $token ) )
-		{
-
-			throw new SyscrackException('Verification token is empty');
-		}
-
-		if( $this->isEmail( $email ) == false )
-		{
-
-			throw new SyscrackException('Email does not exist');
-		}
-
-		$array = array(
-			'userid' => $userid,
-			'token'  => $token,
-			'email'  => $email
-		);
-
-		$this->database->insertRequest( $array );
-
-		return $token;
-	}
-
-	/**
-	 * Verifies a user
-	 *
-	 * @param $token
-	 *
-	 * @return bool
-	 */
-
-	public function verifyUser( $token )
-	{
-
-		if( $this->database->getToken( $token ) == null )
-		{
-
-			throw new SyscrackException('token is invalid');
-		}
-
-		$userid = $this->database->getToken( $token )->userid;
-		
-		if( $this->isVerified( $userid ) == true )
-		{
-			
-			throw new SyscrackException();
-		}
-
-		$this->database->deleteUserRequests( $userid );
-
-		if( $this->hasVerificationRequest( $userid ) == true )
-		{
-
-			throw new SyscrackException();
-		}
-
-		return true;
-	}
-
-	/**
-	 * Returns true if the user is verified
-	 *
-	 * @param $userid
-	 *
-	 * @return bool
-	 */
-
-	public function isVerified( $userid )
-	{
-
-		if( $this->hasVerificationRequest( $userid ) == true )
-		{
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Checks if the user has a verification request
-	 *
-	 * @param $userid
-	 *
-	 * @return bool
-	 */
-
-	public function hasVerificationRequest( $userid )
-	{
-
-		if( $this->database->getUserRequests( $userid ) == null )
-		{
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Returns true if the item is an email
-	 *
-	 * @param $email
-	 *
-	 * @return bool
-	 */
-
-	private function isEmail( $email )
-	{
-
-		if( filter_var($email, FILTER_VALIDATE_EMAIL) )
-		{
+				throw new SyscrackException();
+			}
 
 			return true;
 		}
 
-		return false;
+		/**
+		 * Returns true if the user is verified
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
+
+		public function isVerified($userid)
+		{
+
+			if ($this->hasVerificationRequest($userid) == true)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Checks if the user has a verification request
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
+
+		public function hasVerificationRequest($userid)
+		{
+
+			if ($this->database->getUserRequests($userid) == null)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Returns true if the item is an email
+		 *
+		 * @param $email
+		 *
+		 * @return bool
+		 */
+
+		private function isEmail($email)
+		{
+
+			if (filter_var($email, FILTER_VALIDATE_EMAIL))
+			{
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Generates a token
+		 *
+		 * @return string
+		 */
+
+		private function generateToken()
+		{
+
+			return md5(Hashes::randomBytes());
+		}
 	}
-
-	/**
-	 * Generates a token
-	 *
-	 * @return string
-	 */
-
-	private function generateToken()
-	{
-
-		return md5( Hashes::randomBytes() );
-	}
-}

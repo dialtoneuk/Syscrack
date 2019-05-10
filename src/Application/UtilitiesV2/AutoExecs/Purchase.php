@@ -1,106 +1,108 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 12/08/2018
- * Time: 20:49
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 12/08/2018
+	 * Time: 20:49
+	 */
 
-namespace Framework\Application\UtilitiesV2\AutoExecs;
+	namespace Framework\Application\UtilitiesV2\AutoExecs;
 
 
-use Framework\Application\UtilitiesV2\Balance;
-use Framework\Application\UtilitiesV2\Shop;
+	use Framework\Application\UtilitiesV2\Balance;
+	use Framework\Application\UtilitiesV2\Shop;
 
-class Purchase extends Base
-{
+	class Purchase extends Base
+	{
 
-    /**
-     * @var Balance
-     */
+		/**
+		 * @var Balance
+		 */
 
-    protected $balance;
+		protected $balance;
 
-    /**
-     * @var Shop
-     */
+		/**
+		 * @var Shop
+		 */
 
-    protected $shop;
+		protected $shop;
 
-    /**
-     * Purchase constructor.
-     * @throws \RuntimeException
-     */
+		/**
+		 * Purchase constructor.
+		 * @throws \RuntimeException
+		 */
 
-    public function __construct()
-    {
+		public function __construct()
+		{
 
-        $this->balance = new Balance();
-        $this->shop = new Shop();
+			$this->balance = new Balance();
+			$this->shop = new Shop();
 
-        parent::__construct();
-    }
+			parent::__construct();
+		}
 
-    /**
-     * @param array $data
-     * @throws \RuntimeException
-     */
+		/**
+		 * @param array $data
+		 *
+		 * @throws \RuntimeException
+		 */
 
-    public function execute(array $data)
-    {
+		public function execute(array $data)
+		{
 
-        $cost = $this->checkData( $data );
+			$cost = $this->checkData($data);
 
-        $this->shop->before( $data["item"] );
+			$this->shop->before($data["item"]);
 
-        if( $this->shop->authenticate( $data["userid"], $data["item"], $data ) == false )
-            throw new \RuntimeException("Failed to authenticate purchase. This is probably because you've maxed out your limit on a specific permission value!");
+			if ($this->shop->authenticate($data["userid"], $data["item"], $data) == false)
+				throw new \RuntimeException("Failed to authenticate purchase. This is probably because you've maxed out your limit on a specific permission value!");
 
-        if( @$this->shop->complete( $data["userid"], $data["item"], $data ) == false )
-            throw new \RuntimeException("Failed to complete.");
+			if (@$this->shop->complete($data["userid"], $data["item"], $data) == false)
+				throw new \RuntimeException("Failed to complete.");
 
-        $this->shop->createTransaction( $data["userid"], $data["item"], $cost,TRANSACTION_TYPE_WITHDRAW );
-        $this->balance->modify( $data["balanceid"], -$cost );
-    }
+			$this->shop->createTransaction($data["userid"], $data["item"], $cost, TRANSACTION_TYPE_WITHDRAW);
+			$this->balance->modify($data["balanceid"], -$cost);
+		}
 
-    /**
-     * @param $data
-     * @return int
-     * @throws \RuntimeException
-     */
+		/**
+		 * @param $data
+		 *
+		 * @return int
+		 * @throws \RuntimeException
+		 */
 
-    private function checkData( $data )
-    {
+		private function checkData($data)
+		{
 
-        if( isset( $data["userid"] ) == false )
-            throw new \RuntimeException("Expecting userid");
+			if (isset($data["userid"]) == false)
+				throw new \RuntimeException("Expecting userid");
 
-        if( isset( $data["balanceid"] ) == false )
-            throw new \RuntimeException("Expecting balance id");
+			if (isset($data["balanceid"]) == false)
+				throw new \RuntimeException("Expecting balance id");
 
-        if( isset( $data["item"] ) == false )
-            throw new \RuntimeException("Expecting item");
+			if (isset($data["item"]) == false)
+				throw new \RuntimeException("Expecting item");
 
-        if( $this->shop->exist( $data["item"] ) == false )
-            throw new \RuntimeException("Item does not exist");
+			if ($this->shop->exist($data["item"]) == false)
+				throw new \RuntimeException("Item does not exist");
 
-        if( $this->shop->hasTransactionItem( $data["userid"], $data["item"] ) )
-        {
+			if ($this->shop->hasTransactionItem($data["userid"], $data["item"]))
+			{
 
-            $item = $this->shop->getInventoryItem( $data["item"] );
+				$item = $this->shop->getInventoryItem($data["item"]);
 
-            if( $item["onetime"] == true )
-                throw new \RuntimeException("Cannot buy this item more than one time");
-        }
+				if ($item["onetime"] == true)
+					throw new \RuntimeException("Cannot buy this item more than one time");
+			}
 
-        if( $this->balance->exists( $data["balanceid"] ) == false )
-            throw new \RuntimeException("Balance ID does not exist");
+			if ($this->balance->exists($data["balanceid"]) == false)
+				throw new \RuntimeException("Balance ID does not exist");
 
-        $cost = (int)$this->shop->cost( $data["item"] );
+			$cost = (int)$this->shop->cost($data["item"]);
 
-        if( $this->balance->afford( $data["balanceid"], $cost ) == false )
-            throw new \RuntimeException("Cannot afford purchase");
+			if ($this->balance->afford($data["balanceid"], $cost) == false)
+				throw new \RuntimeException("Cannot afford purchase");
 
-        return $cost;
-    }
-}
+			return $cost;
+		}
+	}

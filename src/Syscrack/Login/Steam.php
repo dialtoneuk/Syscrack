@@ -1,8 +1,9 @@
 <?php
-namespace Framework\Syscrack\Login;
+
+	namespace Framework\Syscrack\Login;
 
 
-class Steam
-{
+	class Steam
+	{
 
-}
+	}

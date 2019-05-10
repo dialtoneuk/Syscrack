@@ -1,30 +1,29 @@
 <?php
-    namespace Framework\Syscrack\Game\Computers;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class FBI
-     *
-     * @package Framework\Syscrack\Game\Computers
-     */
+	namespace Framework\Syscrack\Game\Computers;
 
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class FBI
+	 *
+	 * @package Framework\Syscrack\Game\Computers
+	 */
+	class FBI extends Npc
+	{
 
-    class FBI extends Npc
-    {
+		/**
+		 * The configuration of this computer
+		 *
+		 * @return array
+		 */
 
-        /**
-         * The configuration of this computer
-         *
-         * @return array
-         */
+		public function configuration()
+		{
 
-        public function configuration()
-        {
-
-            return array(
-                'installable' => true,
-                'type'        => 'fbi'
-            );
-        }
-    }
+			return array(
+				'installable' => true,
+				'type' => 'fbi'
+			);
+		}
+	}

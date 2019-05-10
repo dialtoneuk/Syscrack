@@ -1,128 +1,129 @@
 <?php
-namespace Framework\Syscrack\Game;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class Hardware
- *
- * @package Framework\Syscrack\Game
- */
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Database\Tables\Computer;
-use Framework\Exceptions\SyscrackException;
+	/**
+	 * Lewis Lancaster 2016
+	 *
+	 * Class Hardware
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-class Hardware
-{
+	use Framework\Application\Settings;
+	use Framework\Database\Tables\Computer;
+	use Framework\Exceptions\SyscrackException;
 
-    protected $computers;
+	class Hardware
+	{
 
-    public function __construct()
-    {
+		protected $computers;
 
-        $this->computers = new Computer();
-    }
+		public function __construct()
+		{
 
-    public function getDownloadSpeed( $computerid )
-    {
+			$this->computers = new Computer();
+		}
 
-        return $this->getHardware( $computerid )[ Settings::setting('syscrack_internet_download_type') ]['value'];
-    }
+		public function getDownloadSpeed($computerid)
+		{
 
-    public function getUploadSpeed( $computerid )
-    {
+			return $this->getHardware($computerid)[Settings::setting('syscrack_internet_download_type')]['value'];
+		}
 
-        return $this->getHardware( $computerid )[ Settings::setting('syscrack_internet_upload_type') ]['value'];
-    }
+		public function getUploadSpeed($computerid)
+		{
 
-    public function getCPUSpeed( $computerid )
-    {
+			return $this->getHardware($computerid)[Settings::setting('syscrack_internet_upload_type')]['value'];
+		}
 
-        return $this->getHardware( $computerid )[ Settings::setting('syscrack_hardware_cpu_type') ]['value'];
-    }
+		public function getCPUSpeed($computerid)
+		{
 
-    public function getGPUSpeed( $computerid )
-    {
+			return $this->getHardware($computerid)[Settings::setting('syscrack_hardware_cpu_type')]['value'];
+		}
 
-        return $this->getHardware( $computerid )[ Settings::setting('syscrack_gpu_type') ]['value'];
-    }
+		public function getGPUSpeed($computerid)
+		{
 
-    public function updateHardware( $computerid, $type, $value )
-    {
+			return $this->getHardware($computerid)[Settings::setting('syscrack_gpu_type')]['value'];
+		}
 
-        $hardware = $this->getHardware( $computerid );
+		public function updateHardware($computerid, $type, $value)
+		{
 
-        if( isset( $hardware[ $type ] ) == false )
-        {
+			$hardware = $this->getHardware($computerid);
 
-            throw new SyscrackException();
-        }
+			if (isset($hardware[$type]) == false)
+			{
 
-        $hardware[ $type ] = array(
-            'value' => $value
-        );
+				throw new SyscrackException();
+			}
 
-        $this->computers->updateComputer( $computerid, array(
-            'hardware' => json_encode( $hardware, JSON_PRETTY_PRINT )
-        ));
-    }
+			$hardware[$type] = array(
+				'value' => $value
+			);
 
-    public function addHardware( $computerid, $type, $value )
-    {
+			$this->computers->updateComputer($computerid, array(
+				'hardware' => json_encode($hardware, JSON_PRETTY_PRINT)
+			));
+		}
 
-        $hardware = $this->getHardware( $computerid );
+		public function addHardware($computerid, $type, $value)
+		{
 
-        if( isset( $hardware[ $type ] ) )
-        {
+			$hardware = $this->getHardware($computerid);
 
-            throw new SyscrackException();
-        }
+			if (isset($hardware[$type]))
+			{
 
-        $hardware[ $type ] = array(
-            'value' => $value
-        );
+				throw new SyscrackException();
+			}
 
-        $this->computers->updateComputer( $computerid, array(
-            'hardware' => json_encode( $hardware, JSON_PRETTY_PRINT )
-        ));
-    }
+			$hardware[$type] = array(
+				'value' => $value
+			);
 
-    public function getHardwareType( $computerid, $type )
-    {
+			$this->computers->updateComputer($computerid, array(
+				'hardware' => json_encode($hardware, JSON_PRETTY_PRINT)
+			));
+		}
 
-        if( isset( $this->getHardware( $computerid )[ $type ] ) == false )
-        {
+		public function getHardwareType($computerid, $type)
+		{
 
-            return null;
-        }
+			if (isset($this->getHardware($computerid)[$type]) == false)
+			{
 
-        return $this->getHardware( $computerid )[ $type ];
-    }
+				return null;
+			}
 
-    public function hasHardwareType( $computerid, $type )
-    {
+			return $this->getHardware($computerid)[$type];
+		}
 
-        $hardware = $this->getHardware( $computerid );
+		public function hasHardwareType($computerid, $type)
+		{
 
-        if( empty( $hardware ) )
-        {
+			$hardware = $this->getHardware($computerid);
 
-            return false;
-        }
+			if (empty($hardware))
+			{
 
-        if( isset( $hardware[ $type ] ) == false )
-        {
+				return false;
+			}
 
-            return false;
-        }
+			if (isset($hardware[$type]) == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    public function getHardware( $computerid )
-    {
+			return true;
+		}
 
-        return json_decode( $this->computers->getComputer( $computerid )->hardware, true );
-    }
-}
+		public function getHardware($computerid)
+		{
+
+			return json_decode($this->computers->getComputer($computerid)->hardware, true);
+		}
+	}

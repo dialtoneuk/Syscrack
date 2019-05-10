@@ -1,72 +1,73 @@
 <?php
-namespace Framework\Syscrack\Login;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Facebook
- *
- * @package Framework\Syscrack\Login
- */
+	namespace Framework\Syscrack\Login;
 
-use Facebook\Facebook as NSA;
-use Framework\Application\Settings;
-use Framework\Exceptions\SyscrackException;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Facebook
+	 *
+	 * @package Framework\Syscrack\Login
+	 */
 
-class Facebook
-{
+	use Facebook\Facebook as NSA;
+	use Framework\Application\Settings;
+	use Framework\Exceptions\SyscrackException;
 
-    /**
-     * @var NSA
-     */
+	class Facebook
+	{
 
-    protected $facebook;
+		/**
+		 * @var NSA
+		 */
 
-    /**
-     * Facebook constructor.
-     */
+		protected $facebook;
 
-    public function __construct()
-    {
+		/**
+		 * Facebook constructor.
+		 */
 
-        $this->facebook = new NSA([
-            'api_id'                => Settings::setting('facebook_app_id'),
-            'api_secret'            => Settings::setting('facebook_app_secret'),
-            'default_graph_version' => Settings::setting('facebook_app_version')
-        ]);
-    }
+		public function __construct()
+		{
 
-    /**
-     * Gets the login URL
-     *
-     * @return string
-     */
+			$this->facebook = new NSA([
+				'api_id' => Settings::setting('facebook_app_id'),
+				'api_secret' => Settings::setting('facebook_app_secret'),
+				'default_graph_version' => Settings::setting('facebook_app_version')
+			]);
+		}
 
-    public function getLoginURL()
-    {
+		/**
+		 * Gets the login URL
+		 *
+		 * @return string
+		 */
 
-        $helper = $this->facebook->getRedirectLoginHelper();
+		public function getLoginURL()
+		{
 
-        if( empty( $helper ) )
-        {
+			$helper = $this->facebook->getRedirectLoginHelper();
 
-            throw new SyscrackException();
-        }
+			if (empty($helper))
+			{
 
-        return $helper->getLoginUrl( Settings::setting('facebook_redirect_url'), ['email'] );
-    }
+				throw new SyscrackException();
+			}
 
-    public function getAccessToken()
-    {
+			return $helper->getLoginUrl(Settings::setting('facebook_redirect_url'), ['email']);
+		}
 
-        $helper = $this->facebook->getRedirectLoginHelper();
+		public function getAccessToken()
+		{
 
-        if( empty( $helper ) )
-        {
+			$helper = $this->facebook->getRedirectLoginHelper();
 
-            throw new SyscrackException();
-        }
+			if (empty($helper))
+			{
 
-        return $helper->getAccessToken();
-    }
-}
+				throw new SyscrackException();
+			}
+
+			return $helper->getAccessToken();
+		}
+	}

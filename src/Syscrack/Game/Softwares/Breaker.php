@@ -1,34 +1,35 @@
 <?php
-    namespace Framework\Syscrack\Game\Softwares;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Breaker
-     *
-     * @package Framework\Syscrack\Game\Softwares
-     */
+	namespace Framework\Syscrack\Game\Softwares;
 
-    use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Breaker
+	 *
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 
-    class Breaker extends BaseSoftware
-    {
+	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
 
-        /**
-         * The configuration of this Structure
-         *
-         * @return array
-         */
+	class Breaker extends BaseSoftware
+	{
 
-        public function configuration()
-        {
+		/**
+		 * The configuration of this Structure
+		 *
+		 * @return array
+		 */
 
-            return array(
-                'uniquename'    => 'breaker',
-                'extension'     => '.brk',
-                'type'          => 'breaker',
-                'installable'   => false,
-                'executable'    => false
-            );
-        }
-    }
+		public function configuration()
+		{
+
+			return array(
+				'uniquename' => 'breaker',
+				'extension' => '.brk',
+				'type' => 'breaker',
+				'installable' => false,
+				'executable' => false
+			);
+		}
+	}

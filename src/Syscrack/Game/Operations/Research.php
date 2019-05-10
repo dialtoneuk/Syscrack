@@ -1,207 +1,210 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Research
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Application\Settings;
-use Framework\Application\Utilities\PostHelper;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\Game\Finance;
-use Framework\Syscrack\Game\Utilities\PageHelper;
-use Framework\Syscrack\Game\Utilities\TimeHelper;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Research
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class Research extends BaseOperation
-{
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Finance;
+	use Framework\Syscrack\Game\Utilities\PageHelper;
+	use Framework\Syscrack\Game\Utilities\TimeHelper;
 
-    /**
-     * @var PageHelper
-     */
+	class Research extends BaseOperation
+	{
 
-    protected static $pagehelper;
+		/**
+		 * @var PageHelper
+		 */
 
-    /**
-     * @var Finance
-     */
+		protected static $pagehelper;
 
-    protected static $finance;
+		/**
+		 * @var Finance
+		 */
 
-    /**
-     * View constructor.
-     */
+		protected static $finance;
 
-    public function __construct()
-    {
+		/**
+		 * View constructor.
+		 */
 
-        if( isset( self::$pagehelper ) == false )
-            self::$pagehelper = new PageHelper();
+		public function __construct()
+		{
 
-        if( isset( self::$finance ) == false )
-            self::$finance = new Finance();
+			if (isset(self::$pagehelper) == false)
+				self::$pagehelper = new PageHelper();
 
-        parent::__construct();
-    }
+			if (isset(self::$finance) == false)
+				self::$finance = new Finance();
 
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
+			parent::__construct();
+		}
 
-    public function configuration()
-    {
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'allowsoftware'    => true,
-            'allowlocal'        => true,
-            'allowcustomdata'   => true,
-            'localonly'         => true,
-            'requiresoftware'  => false,
-            'elevated'          => true
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * @param null $ipaddress
-     * @return string
-     */
+			return array(
+				'allowsoftware' => true,
+				'allowlocal' => true,
+				'allowcustomdata' => true,
+				'localonly' => true,
+				'requiresoftware' => false,
+				'elevated' => true
+			);
+		}
 
-    public function url($ipaddress = null)
-    {
+		/**
+		 * @param null $ipaddress
+		 *
+		 * @return string
+		 */
 
-        if( $ipaddress == null )
-            return( parent::url( $ipaddress ) );
+		public function url($ipaddress = null)
+		{
 
-        return('game/internet/' . @$ipaddress . '/');
-    }
+			if ($ipaddress == null)
+				return (parent::url($ipaddress));
 
-    /**
-     * Called when this process request is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
+			return ('game/internet/' . @$ipaddress . '/');
+		}
 
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * Called when this process request is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return mixed
+		 */
 
-        if( $this->checkData( $data, [ 'ipaddress'] ) == false )
-            return false;
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-        if( $this->checkCustomData( $data, ['softwareid'] ) == false )
-            return false;
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-        if ( PostHelper::checkForRequirements( ['accountnumber', 'name'] ) == false )
-            return false;
+			if ($this->checkCustomData($data, ['softwareid']) == false)
+				return false;
 
-        if( self::$computer->hasType( $computerid, Settings::setting('syscrack_software_research_type'), true ) == false )
-            return false;
+			if (PostHelper::checkForRequirements(['accountnumber', 'name']) == false)
+				return false;
 
-        if( self::$software->softwareExists( $data['custom']['softwareid'] ) == false )
-            return false;
+			if (self::$computer->hasType($computerid, Settings::setting('syscrack_software_research_type'), true) == false)
+				return false;
 
-        $software = self::$software->getSoftware( $data['custom']['softwareid'] );
-        $price = Settings::setting('syscrack_research_price_multiplier') * @$software->level;
+			if (self::$software->softwareExists($data['custom']['softwareid']) == false)
+				return false;
 
-        if ( self::$finance->accountNumberExists( PostHelper::getPostData('accountnumber' ) ) == false )
-            return false;
+			$software = self::$software->getSoftware($data['custom']['softwareid']);
+			$price = Settings::setting('syscrack_research_price_multiplier') * @$software->level;
 
-        $account = self::$finance->getByAccountNumber( PostHelper::getPostData('accountnumber') );
+			if (self::$finance->accountNumberExists(PostHelper::getPostData('accountnumber')) == false)
+				return false;
 
-        if ( self::$finance->canAfford( $account->computerid, $account->userid, $price ) == false )
-            return false;
+			$account = self::$finance->getByAccountNumber(PostHelper::getPostData('accountnumber'));
 
-        return true;
-    }
+			if (self::$finance->canAfford($account->computerid, $account->userid, $price) == false)
+				return false;
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool|mixed
-     */
+			return true;
+		}
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool|mixed
+		 */
 
-        $software = self::$software->getSoftware( $data['custom']['softwareid'] );
-        $price = Settings::setting('syscrack_research_price_multiplier') * $software->level;
-        $account = self::$finance->getByAccountNumber( $data['custom']['accountnumber'] );
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-        self::$finance->withdraw( $account->computerid, $account->userid, $price );
+			$software = self::$software->getSoftware($data['custom']['softwareid']);
+			$price = Settings::setting('syscrack_research_price_multiplier') * $software->level;
+			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
 
-        $newsoftware = self::$software->createSoftware( self::$software->getSoftwareNameFromSoftwareID(
-            $data['custom']['softwareid'] ),
-            $userid,
-            $computerid,
-            $data['custom']['name'],
-            $software->level + Settings::setting('syscrack_research_increase'),
-            $software->size * Settings::setting('syscrack_research_size_multiplyer'),
-            json_decode( $software->data, true )
-        );
+			self::$finance->withdraw($account->computerid, $account->userid, $price);
 
-        self::$computer->addSoftware( $computerid, $newsoftware, $software->type);
+			$newsoftware = self::$software->createSoftware(self::$software->getSoftwareNameFromSoftwareID(
+				$data['custom']['softwareid']),
+				$userid,
+				$computerid,
+				$data['custom']['name'],
+				$software->level + Settings::setting('syscrack_research_increase'),
+				$software->size * Settings::setting('syscrack_research_size_multiplyer'),
+				json_decode($software->data, true)
+			);
 
-        if( isset( $data['redirect'] ) == false )
-            return true;
-        else
-            return( $data['redirect'] );
-    }
+			self::$computer->addSoftware($computerid, $newsoftware, $software->type);
 
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array
-     */
+			if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
+		}
 
-    public function getCustomData($ipaddress, $userid)
-    {
+		/**
+		 * Gets the custom data for this operation
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'accountnumber' => PostHelper::getPostData('accountnumber', true ),
-            'name' => PostHelper::getPostData('name', true ),
-            'softwareid' => @PostHelper::getPostData('softwareid', true )
-        );
-    }
+		public function getCustomData($ipaddress, $userid)
+		{
 
-    /**
-     * Gets the completion time
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return null
-     */
+			return array(
+				'accountnumber' => PostHelper::getPostData('accountnumber', true),
+				'name' => PostHelper::getPostData('name', true),
+				'softwareid' => @PostHelper::getPostData('softwareid', true)
+			);
+		}
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
-    {
+		/**
+		 * Gets the completion time
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return null
+		 */
 
-        $research = self::$pagehelper->getInstalledType('research');
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-        return ( TimeHelper::getSecondsInFuture( Settings::setting("syscrack_operations_research_speed") / $research['level'] ) );
-    }
-}
+			$research = self::$pagehelper->getInstalledType('research');
+
+			return (TimeHelper::getSecondsInFuture(Settings::setting("syscrack_operations_research_speed") / $research['level']));
+		}
+	}

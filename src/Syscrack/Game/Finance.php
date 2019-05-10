@@ -1,424 +1,424 @@
 <?php
-namespace Framework\Syscrack\Game;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Finance
- *
- * @package Framework\Syscrack\Game
- */
+	namespace Framework\Syscrack\Game;
 
-use Framework\Application\Settings;
-use Framework\Database\Tables\Banks;
-use Framework\Database\Tables\Computer;
-use Framework\Exceptions\SyscrackException;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Finance
+	 *
+	 * @package Framework\Syscrack\Game
+	 */
 
-class Finance
-{
+	use Framework\Application\Settings;
+	use Framework\Database\Tables\Banks;
+	use Framework\Database\Tables\Computer;
+	use Framework\Exceptions\SyscrackException;
 
-    /**
-     * @var Computer
-     */
+	class Finance
+	{
 
-    protected $computers;
+		/**
+		 * @var Computer
+		 */
 
-    /**
-     * @var Banks
-     */
+		protected $computers;
 
-    protected $banks;
+		/**
+		 * @var Banks
+		 */
 
-    /**
-     * Finance constructor.
-     */
+		protected $banks;
 
-    public function __construct()
-    {
+		/**
+		 * Finance constructor.
+		 */
 
-        $this->computers = new Computer();
+		public function __construct()
+		{
 
-        $this->banks = new Banks();
-    }
+			$this->computers = new Computer();
 
-    /**
-     * @param int $pick
-     *
-     * @return \Illuminate\Support\Collection
-     */
+			$this->banks = new Banks();
+		}
 
-    public function getAllAccounts( $pick = 32 )
-    {
+		/**
+		 * @param int $pick
+		 *
+		 * @return \Illuminate\Support\Collection
+		 */
 
-        return $this->banks->getAllAccounts( $pick = 32 );
-    }
+		public function getAllAccounts($pick = 32)
+		{
 
-    /**
-     * Gets the number of accounts
-     *
-     * @return int
-     */
+			return $this->banks->getAllAccounts($pick = 32);
+		}
 
-    public function getAccountCount()
-    {
+		/**
+		 * Gets the number of accounts
+		 *
+		 * @return int
+		 */
 
-        return $this->banks->getAccountCount();
-    }
+		public function getAccountCount()
+		{
 
-    /**
-     * Gets the users cash at the specified bank
-     *
-     * @param $userid
-     *
-     * @param $computerid
-     *
-     * @return int
-     */
+			return $this->banks->getAccountCount();
+		}
 
-    public function getUserCash( $computerid, $userid )
-    {
+		/**
+		 * Gets the users cash at the specified bank
+		 *
+		 * @param $userid
+		 *
+		 * @param $computerid
+		 *
+		 * @return int
+		 */
 
-        $account = $this->getAccountAtBank( $computerid, $userid );
+		public function getUserCash($computerid, $userid)
+		{
 
-        if( $account == null )
-        {
+			$account = $this->getAccountAtBank($computerid, $userid);
 
-            throw new SyscrackException();
-        }
+			if ($account == null)
+			{
 
-        return $account->cash;
-    }
+				throw new SyscrackException();
+			}
 
-    /**
-     * Gets the total cash of a user
-     *
-     * @param $userid
-     *
-     * @return int
-     */
+			return $account->cash;
+		}
 
-    public function getTotalUserCash( $userid )
-    {
+		/**
+		 * Gets the total cash of a user
+		 *
+		 * @param $userid
+		 *
+		 * @return int
+		 */
 
-        $banks = $this->getUserBankAccounts( $userid );
+		public function getTotalUserCash($userid)
+		{
 
-        $sum = 0;
+			$banks = $this->getUserBankAccounts($userid);
 
-        foreach( $banks as $bank )
-        {
+			$sum = 0;
 
-            $sum += $bank->cash;
-        }
+			foreach ($banks as $bank)
+			{
 
-        return $sum;
-    }
+				$sum += $bank->cash;
+			}
 
-    /**
-     * Gets all the computers who are banks
-     *
-     * @return mixed|null
-     */
+			return $sum;
+		}
 
-    public function getBanks()
-    {
+		/**
+		 * Gets all the computers who are banks
+		 *
+		 * @return mixed|null
+		 */
 
-        return $this->computers->getComputerByType( Settings::setting('syscrack_computers_bank_type') );
-    }
+		public function getBanks()
+		{
 
-    /**
-     * Removes an account from the bank
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     */
+			return $this->computers->getComputerByType(Settings::setting('syscrack_computers_bank_type'));
+		}
 
-    public function removeAccount( $computerid, $userid )
-    {
+		/**
+		 * Removes an account from the bank
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 */
 
-        $this->banks->deleteAccount( $computerid, $userid );
-    }
+		public function removeAccount($computerid, $userid)
+		{
 
-    /**
-     * Gets the users account at the specified bank
-     *
-     * @param $userid
-     *
-     * @param $computerid
-     *
-     * @return mixed|null
-     */
+			$this->banks->deleteAccount($computerid, $userid);
+		}
 
-    public function getAccountAtBank( $computerid, $userid )
-    {
+		/**
+		 * Gets the users account at the specified bank
+		 *
+		 * @param $userid
+		 *
+		 * @param $computerid
+		 *
+		 * @return mixed|null
+		 */
 
-        $accounts = $this->banks->getAccountsOnComputer( $computerid );
+		public function getAccountAtBank($computerid, $userid)
+		{
 
-        if( empty( $accounts ) )
-        {
+			$accounts = $this->banks->getAccountsOnComputer($computerid);
 
-            return null;
-        }
+			if (empty($accounts))
+			{
 
-        foreach( $accounts as $account )
-        {
+				return null;
+			}
 
-            if( $account->userid == $userid )
-            {
+			foreach ($accounts as $account)
+			{
 
-                return $account;
-            }
-        }
+				if ($account->userid == $userid)
+				{
 
-        return null;
-    }
+					return $account;
+				}
+			}
 
-    public function setCurrentActiveAccount( $accountnumber )
-    {
+			return null;
+		}
 
-        if( session_status() !== PHP_SESSION_ACTIVE )
-        {
+		public function setCurrentActiveAccount($accountnumber)
+		{
 
-            throw new SyscrackException();
-        }
+			if (session_status() !== PHP_SESSION_ACTIVE)
+			{
 
-        $_SESSION['activeaccount'] = $accountnumber;
-    }
+				throw new SyscrackException();
+			}
 
-    public function getCurrentActiveAccount()
-    {
+			$_SESSION['activeaccount'] = $accountnumber;
+		}
 
-        return $_SESSION['activeaccount'];
-    }
+		public function getCurrentActiveAccount()
+		{
 
-    public function hasCurrentActiveAccount()
-    {
+			return $_SESSION['activeaccount'];
+		}
 
-        if( isset( $_SESSION['activeaccount'] ) == false )
-        {
+		public function hasCurrentActiveAccount()
+		{
 
-            return false;
-        }
+			if (isset($_SESSION['activeaccount']) == false)
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Gets the users bank account
-     *
-     * @param $userid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			return true;
+		}
 
-    public function getUserBankAccounts( $userid )
-    {
+		/**
+		 * Gets the users bank account
+		 *
+		 * @param $userid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        return $this->banks->getUserAccounts( $userid );
-    }
+		public function getUserBankAccounts($userid)
+		{
 
-    /**
-     * Gets the account by its account number
-     *
-     * @param $accountnumber
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			return $this->banks->getUserAccounts($userid);
+		}
 
-    public function getByAccountNumber( $accountnumber )
-    {
+		/**
+		 * Gets the account by its account number
+		 *
+		 * @param $accountnumber
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        return $this->banks->getByAccountNumber( $accountnumber );
-    }
+		public function getByAccountNumber($accountnumber)
+		{
 
-    /**
-     * Returns true if the account number exists
-     *
-     * @param $accountnumber
-     *
-     * @return bool
-     */
+			return $this->banks->getByAccountNumber($accountnumber);
+		}
 
-    public function accountNumberExists( $accountnumber )
-    {
+		/**
+		 * Returns true if the account number exists
+		 *
+		 * @param $accountnumber
+		 *
+		 * @return bool
+		 */
 
-        if( $this->banks->getByAccountNumber( $accountnumber ) == null )
-        {
+		public function accountNumberExists($accountnumber)
+		{
 
-            return false;
-        }
+			if ($this->banks->getByAccountNumber($accountnumber) == null)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
 
-        return true;
-    }
+		/**
+		 * Returns true if the user has an account
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
+
+		public function hasAccount($userid)
+		{
+
+			if ($this->banks->getUserAccounts($userid) == null)
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Returns true if we have an account at this computer
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
+
+		public function hasAccountAtComputer($computerid, $userid)
+		{
+
+			if ($this->getAccountAtBank($computerid, $userid) === null)
+				return false;
+
+			return true;
+		}
+
+		/**
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @return int
+		 */
+
+		public function createAccount($computerid, $userid)
+		{
+
 
-    /**
-     * Returns true if the user has an account
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
+			if ($this->getAccountAtBank($computerid, $userid) !== null)
+			{
+
+				throw new SyscrackException();
+			}
+
+			$this->banks->insertAccount(array(
+				'computerid' => $computerid,
+				'userid' => $userid,
+				'accountnumber' => $this->getAccountNumber(),
+				'cash' => Settings::setting('syscrack_bank_default_balance'),
+				'timecreated' => time()
+			));
+
+			return $this->getAccountNumber();
+		}
 
-    public function hasAccount( $userid )
-    {
-
-        if( $this->banks->getUserAccounts( $userid ) == null )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns true if we have an account at this computer
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
-
-    public function hasAccountAtComputer( $computerid, $userid )
-    {
-
-        if( $this->getAccountAtBank( $computerid, $userid ) === null )
-            return false;
-
-        return true;
-    }
-
-    /**
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @return int
-     */
-
-    public function createAccount( $computerid, $userid )
-    {
-
-
-
-        if( $this->getAccountAtBank( $computerid, $userid ) !== null )
-        {
-
-            throw new SyscrackException();
-        }
-
-        $this->banks->insertAccount( array(
-            'computerid'        => $computerid,
-            'userid'            => $userid,
-            'accountnumber'     => $this->getAccountNumber(),
-            'cash'              => Settings::setting('syscrack_bank_default_balance'),
-            'timecreated'       => time()
-        ));
-
-        return $this->getAccountNumber();
-    }
-
-    /**
-     * Deposits ( adds ) money into an account
-     *
-     * @param $userid
-     *
-     * @param $computerid
-     *
-     * @param $amount
-     */
-
-    public function deposit( $computerid, $userid, $amount )
-    {
-
-        $this->banks->updateAccount( $computerid, $userid, array(
-            'cash' => $this->getUserCash( $computerid, $userid ) + $amount
-        ));
-    }
-
-    /**
-     * Withdraws ( takes ) money from a specified account
-     *
-     * @param $userid
-     *
-     * @param $amount
-     *
-     * @param $computerid
-     */
-
-    public function withdraw( $computerid, $userid, $amount )
-    {
-
-        $this->banks->updateAccount( $computerid, $userid, array(
-            'cash' => $this->getUserCash( $computerid, $userid ) - $amount
-        ));
-    }
-
-    /**
-     * Returns true if the user has enough cash to afford this transaction
-     *
-     * @param $userid
-     *
-     * @param int $amount
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
-
-    public function canAfford( $computerid, $userid, int $amount )
-    {
-
-        $cash = $this->getUserCash( $computerid, $userid );
-
-        if( $cash - $amount >= 0 )
-        {
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Gets the account number
-     *
-     * @return int|string
-     */
-
-    private function getAccountNumber()
-    {
-
-        $number = 0;
-
-        for ($i = 0; $i < Settings::setting('syscrack_bank_accountnumber_length'); $i++)
-        {
-
-            $number = $number . rand(0,9);
-        }
-
-        return $number;
-    }
-
-    /**
-     * Returns true if the comptuer id is a bank
-     *
-     * @param $computerid
-     *
-     * @return bool
-     */
-
-    private function isBank( $computerid )
-    {
-
-        if( $this->computers->getComputer( $computerid )->type != Settings::setting('syscrack_computers_bank_type') )
-        {
-
-            return false;
-        }
-
-        return true;
-    }
-}
+		/**
+		 * Deposits ( adds ) money into an account
+		 *
+		 * @param $userid
+		 *
+		 * @param $computerid
+		 *
+		 * @param $amount
+		 */
+
+		public function deposit($computerid, $userid, $amount)
+		{
+
+			$this->banks->updateAccount($computerid, $userid, array(
+				'cash' => $this->getUserCash($computerid, $userid) + $amount
+			));
+		}
+
+		/**
+		 * Withdraws ( takes ) money from a specified account
+		 *
+		 * @param $userid
+		 *
+		 * @param $amount
+		 *
+		 * @param $computerid
+		 */
+
+		public function withdraw($computerid, $userid, $amount)
+		{
+
+			$this->banks->updateAccount($computerid, $userid, array(
+				'cash' => $this->getUserCash($computerid, $userid) - $amount
+			));
+		}
+
+		/**
+		 * Returns true if the user has enough cash to afford this transaction
+		 *
+		 * @param $userid
+		 *
+		 * @param int $amount
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
+
+		public function canAfford($computerid, $userid, int $amount)
+		{
+
+			$cash = $this->getUserCash($computerid, $userid);
+
+			if ($cash - $amount >= 0)
+			{
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Gets the account number
+		 *
+		 * @return int|string
+		 */
+
+		private function getAccountNumber()
+		{
+
+			$number = 0;
+
+			for ($i = 0; $i < Settings::setting('syscrack_bank_accountnumber_length'); $i++)
+			{
+
+				$number = $number . rand(0, 9);
+			}
+
+			return $number;
+		}
+
+		/**
+		 * Returns true if the comptuer id is a bank
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
+
+		private function isBank($computerid)
+		{
+
+			if ($this->computers->getComputer($computerid)->type != Settings::setting('syscrack_computers_bank_type'))
+			{
+
+				return false;
+			}
+
+			return true;
+		}
+	}

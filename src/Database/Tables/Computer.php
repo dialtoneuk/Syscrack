@@ -1,154 +1,155 @@
 <?php
-namespace Framework\Database\Tables;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class BaseComputer
- *
- * @package Framework\Database\Tables
- */
+	namespace Framework\Database\Tables;
 
-use Framework\Database\Table;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class BaseComputer
+	 *
+	 * @package Framework\Database\Tables
+	 */
 
-class Computer extends Table
-{
+	use Framework\Database\Table;
 
-    /**
-     * Gets all the computers in our array
-     *
-     * @param int $pick
-     *
-     * @return mixed|\Illuminate\Support\Collection
-     */
+	class Computer extends Table
+	{
 
-    public function getAllComputers()
-    {
+		/**
+		 * Gets all the computers in our array
+		 *
+		 * @param int $pick
+		 *
+		 * @return mixed|\Illuminate\Support\Collection
+		 */
 
-        return $this->getTable()->get();
-    }
+		public function getAllComputers()
+		{
 
-    /**
-     * Gets the computer count
-     *
-     * @return int
-     */
+			return $this->getTable()->get();
+		}
 
-    public function getComputerCount()
-    {
+		/**
+		 * Gets the computer count
+		 *
+		 * @return int
+		 */
 
-        return $this->getTable()->get()->count();
-    }
+		public function getComputerCount()
+		{
 
-    /**
-     * Gets a computer by its ID
-     *
-     * @param $computerid
-     *
-     * @return mixed|null
-     */
+			return $this->getTable()->get()->count();
+		}
 
-    public function getComputer( $computerid )
-    {
+		/**
+		 * Gets a computer by its ID
+		 *
+		 * @param $computerid
+		 *
+		 * @return mixed|null
+		 */
 
-        $array = array(
-            'computerid' => $computerid
-        );
+		public function getComputer($computerid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'computerid' => $computerid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets all the computers by a user
-     *
-     * @param $userid
-     *
-     * @return \Illuminate\Support\Collection|null
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function getComputersByUser( $userid )
-    {
+		/**
+		 * Gets all the computers by a user
+		 *
+		 * @param $userid
+		 *
+		 * @return \Illuminate\Support\Collection|null
+		 */
 
-        $array = array(
-            'userid' => $userid
-        );
+		public function getComputersByUser($userid)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'userid' => $userid
+			);
 
-        return ( $result->isEmpty() ) ? null : $result;
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets a computer by their IP address
-     *
-     * @param $ipaddress
-     *
-     * @return mixed|null
-     */
+			return ($result->isEmpty()) ? null : $result;
+		}
 
-    public function getComputerByIPAddress( $ipaddress )
-    {
+		/**
+		 * Gets a computer by their IP address
+		 *
+		 * @param $ipaddress
+		 *
+		 * @return mixed|null
+		 */
 
-        $array = array(
-            'ipaddress' => $ipaddress
-        );
+		public function getComputerByIPAddress($ipaddress)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'ipaddress' => $ipaddress
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Gets a computer depending on its type ( NPC, Bank, Clan Server )
-     *
-     * @param $computertype
-     *
-     * @return mixed|null
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function getComputerByType( $computertype )
-    {
+		/**
+		 * Gets a computer depending on its type ( NPC, Bank, Clan Server )
+		 *
+		 * @param $computertype
+		 *
+		 * @return mixed|null
+		 */
 
-        $array = array(
-            'computertype' => $computertype
-        );
+		public function getComputerByType($computertype)
+		{
 
-        $result = $this->getTable()->where( $array )->get();
+			$array = array(
+				'computertype' => $computertype
+			);
 
-        return ( $result->isEmpty() ) ? null : $result[0];
-    }
+			$result = $this->getTable()->where($array)->get();
 
-    /**
-     * Inserts a computer
-     *
-     * @param $array
-     *
-     * @return int
-     */
+			return ($result->isEmpty()) ? null : $result[0];
+		}
 
-    public function insertComputer( $array )
-    {
+		/**
+		 * Inserts a computer
+		 *
+		 * @param $array
+		 *
+		 * @return int
+		 */
 
-        return $this->getTable()->insertGetId( $array );
-    }
+		public function insertComputer($array)
+		{
 
-    /**
-     * Updates the computer
-     *
-     * @param $computerid
-     *
-     * @param $values
-     */
+			return $this->getTable()->insertGetId($array);
+		}
 
-    public function updateComputer( $computerid, $values )
-    {
+		/**
+		 * Updates the computer
+		 *
+		 * @param $computerid
+		 *
+		 * @param $values
+		 */
 
-        $array = array(
-            'computerid' => $computerid
-        );
+		public function updateComputer($computerid, $values)
+		{
 
-        $this->getTable()->where( $array )->update( $values );
-    }
-}
+			$array = array(
+				'computerid' => $computerid
+			);
+
+			$this->getTable()->where($array)->update($values);
+		}
+	}

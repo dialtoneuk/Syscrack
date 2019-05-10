@@ -1,31 +1,31 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: newsy
- * Date: 05/05/2019
- * Time: 15:36
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: newsy
+	 * Date: 05/05/2019
+	 * Time: 15:36
+	 */
 
-namespace Framework\Syscrack\Game\Computers;
+	namespace Framework\Syscrack\Game\Computers;
 
 
-use Framework\Syscrack\Game\Structures\Computer;
+	use Framework\Syscrack\Game\Structures\Computer;
 
-class Bulletin extends Npc implements Computer
-{
+	class Bulletin extends Npc implements Computer
+	{
 
-    /**
-     * The configuration of this computer
-     *
-     * @return array
-     */
+		/**
+		 * The configuration of this computer
+		 *
+		 * @return array
+		 */
 
-    public function configuration()
-    {
+		public function configuration()
+		{
 
-        return array(
-            'installable' => false,
-            'type'        => 'bulletin'
-        );
-    }
-}
+			return array(
+				'installable' => false,
+				'type' => 'bulletin'
+			);
+		}
+	}

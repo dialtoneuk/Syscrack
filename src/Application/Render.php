@@ -1,127 +1,133 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 26/01/2018
- * Time: 22:31
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 26/01/2018
+	 * Time: 22:31
+	 */
 
-namespace Framework\Application;
+	namespace Framework\Application;
 
-use Flight;
+	use Flight;
 
-class Render
-{
 
-    /**
-     * @var array
-     */
+	/**
+	 * Class Render
+	 * @package Framework\Application
+	 */
 
-    public static $stack = [];
+	class Render
+	{
 
-    /**
-     * Renders a template, takes a model if the mode is MVC
-     *
-     * @param $template
-     *
-     * @param array $array
-     *
-     * @param mixed $model
-     */
-    
-    public static function view($template, $array=[], $model=null )
-    {
+		/**
+		 * @var array
+		 */
 
-        if ( Settings::setting('render_log') )
-        {
+		public static $stack = [];
 
-            self::$stack[] = [
-                'template' => $template,
-                'array' => $array
-            ];
-        }
+		/**
+		 * Renders a template, takes a model if the mode is MVC
+		 *
+		 * @param $template
+		 *
+		 * @param array $array
+		 *
+		 * @param mixed $model
+		 */
 
-        $array["settings"] = Settings::settings();
+		public static function view($template, $array = [], $model = null)
+		{
 
-        if ( empty( $model ) == false )
-        {
+			if (Settings::setting('render_log'))
+			{
 
-            if ( Settings::setting('render_mvc_output') == true  )
-            {
+				self::$stack[] = [
+					'template' => $template,
+					'array' => $array
+				];
+			}
 
-                if ( Settings::setting('render_json_mode') == true )
-                {
+			$array["settings"] = Settings::settings();
 
-                    Flight::json(array(
-                        'model' => $model,
-                        'data' => $array ));
-                }
-                else
-                {
-                    Flight::render( self::getViewFolder() . DIRECTORY_SEPARATOR . $template, array(
-                        'model' => $model,
-                        'data' => $array
-                    ));
-                }
-            }
-        }
-        else
-        {
+			if (empty($model) == false)
+			{
 
-            Flight::render( self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array );
-        }
-    }
+				if (Settings::setting('render_mvc_output') == true)
+				{
 
-    /**
-     * Redirects the header
-     *
-     * @param $url
-     *
-     * @param int $code
-     */
+					if (Settings::setting('render_json_mode') == true)
+					{
 
-    public static function redirect( $url, $code=303 )
-    {
+						Flight::json(array(
+							'model' => $model,
+							'data' => $array));
+					}
+					else
+					{
+						Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, array(
+							'model' => $model,
+							'data' => $array
+						));
+					}
+				}
+			}
+			else
+			{
 
-        if ( Settings::setting('render_mvc_output') == true  )
-        {
-            if ( Settings::setting('render_json_mode') == true )
-            {
+				Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array);
+			}
+		}
 
-                Flight::json( array('redirect' => $url, 'session' => $_SESSION ) );
-            }
-            else
-            {
+		/**
+		 * Redirects the header
+		 *
+		 * @param $url
+		 *
+		 * @param int $code
+		 */
 
-                Flight::redirect( $url, $code );
-            }
-        }
-        else
-        {
+		public static function redirect($url, $code = 303)
+		{
 
-            Flight::redirect( $url, $code );
-        }
-    }
+			if (Settings::setting('render_mvc_output') == true)
+			{
+				if (Settings::setting('render_json_mode') == true)
+				{
 
-    public static function getAssetsLocation()
-    {
+					Flight::json(array('redirect' => $url, 'session' => $_SESSION));
+				}
+				else
+				{
 
-        return '/'
-            . Settings::setting('syscrack_view_location')
-            . '/'
-            . Settings::setting('render_folder')
-            . '/';
-    }
+					Flight::redirect($url, $code);
+				}
+			}
+			else
+			{
 
-    /**
-     * Gets the current view folder
-     *
-     * @return mixed
-     */
+				Flight::redirect($url, $code);
+			}
+		}
 
-    private static function getViewFolder()
-    {
+		public static function getAssetsLocation()
+		{
 
-        return Settings::setting('render_folder');
-    }
-}
+			return '/'
+				. Settings::setting('syscrack_view_location')
+				. '/'
+				. Settings::setting('render_folder')
+				. '/';
+		}
+
+		/**
+		 * Gets the current view folder
+		 *
+		 * @return mixed
+		 */
+
+		private static function getViewFolder()
+		{
+
+			return Settings::setting('render_folder');
+		}
+	}

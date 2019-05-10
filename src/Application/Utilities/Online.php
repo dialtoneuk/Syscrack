@@ -1,74 +1,75 @@
 <?php
-namespace Framework\Application\Utilities;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Online
- *
- * @package Framework\Application
- */
+	namespace Framework\Application\Utilities;
 
-use Framework\Database\Tables\Sessions;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Online
+	 *
+	 * @package Framework\Application
+	 */
 
-class Online
-{
+	use Framework\Database\Tables\Sessions;
 
-    /**
-     * @var Sessions
-     */
+	class Online
+	{
 
-    protected $database;
+		/**
+		 * @var Sessions
+		 */
 
-    /**
-     * Online constructor.
-     */
+		protected $database;
 
-    public function __construct()
-    {
+		/**
+		 * Online constructor.
+		 */
 
-        $this->database = new Sessions();
-    }
+		public function __construct()
+		{
 
-    /**
-     * Gets the count
-     *
-     * @return int|null
-     */
+			$this->database = new Sessions();
+		}
 
-    public function getCount()
-    {
+		/**
+		 * Gets the count
+		 *
+		 * @return int|null
+		 */
 
-        $sessions = $this->database->getAllSessions();
+		public function getCount()
+		{
 
-        if( $sessions->isEmpty() )
-        {
+			$sessions = $this->database->getAllSessions();
 
-            return null;
-        }
+			if ($sessions->isEmpty())
+			{
 
-        return $sessions->count();
-    }
+				return null;
+			}
 
-    /**
-     * Gets the most recent online users ( default is within an hour )
-     *
-     * @param $timeframe
-     *
-     * @return mixed
-     */
+			return $sessions->count();
+		}
 
-    public function getRecent( $timeframe )
-    {
+		/**
+		 * Gets the most recent online users ( default is within an hour )
+		 *
+		 * @param $timeframe
+		 *
+		 * @return mixed
+		 */
 
-        $sessions = $this->database->getAllSessions();
+		public function getRecent($timeframe)
+		{
 
-        if( $sessions->isEmpty() )
-        {
+			$sessions = $this->database->getAllSessions();
 
-            return null;
-        }
+			if ($sessions->isEmpty())
+			{
 
-        return $sessions->where('lastaction','>', $timeframe );
-    }
-}
+				return null;
+			}
+
+			return $sessions->where('lastaction', '>', $timeframe);
+		}
+	}

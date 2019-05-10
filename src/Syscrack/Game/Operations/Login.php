@@ -1,165 +1,166 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class Login
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Login
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
+
+	use Framework\Application\Settings;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 
 
-class Login extends BaseOperation
-{
+	class Login extends BaseOperation
+	{
 
-    /**
-     * The configuration of this operation
-     */
+		/**
+		 * The configuration of this operation
+		 */
 
-    public function configuration()
-    {
+		public function configuration()
+		{
 
-        return array(
-            'allowsoftware'    => false,
-            'allowlocal'        => false
-        );
-    }
+			return array(
+				'allowsoftware' => false,
+				'allowlocal' => false
+			);
+		}
 
-    public function url($ipaddress = null)
-    {
+		public function url($ipaddress = null)
+		{
 
-        return("game/internet/" . $ipaddress );
-    }
+			return ("game/internet/" . $ipaddress);
+		}
 
-    /**
-     * Called when this process request is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return bool
-     */
+		/**
+		 * Called when this process request is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-        if( self::$computer->hasType( $computerid, Settings::setting('syscrack_software_cracker_type'), true ) == false )
-            return false;
+			if (self::$computer->hasType($computerid, Settings::setting('syscrack_software_cracker_type'), true) == false)
+				return false;
 
-        if( self::$internet->hasCurrentConnection() )
-            if( self::$internet->getCurrentConnectedAddress() == $data['ipaddress'] )
-                return false;
+			if (self::$internet->hasCurrentConnection())
+				if (self::$internet->getCurrentConnectedAddress() == $data['ipaddress'])
+					return false;
 
-        $victimid = $this->getComputerId( $data['ipaddress'] );
+			$victimid = $this->getComputerId($data['ipaddress']);
 
-        if( self::$computer->hasType( $victimid, Settings::setting('syscrack_software_hasher_type'), true ) == true )
-            if( $this->getHighestLevelSoftware( $victimid, Settings::setting('syscrack_software_hasher_type') )['level'] > $this->getHighestLevelSoftware( $computerid, Settings::setting('syscrack_software_cracker_type') )['level'] )
-                return false;
+			if (self::$computer->hasType($victimid, Settings::setting('syscrack_software_hasher_type'), true) == true)
+				if ($this->getHighestLevelSoftware($victimid, Settings::setting('syscrack_software_hasher_type'))['level'] > $this->getHighestLevelSoftware($computerid, Settings::setting('syscrack_software_cracker_type'))['level'])
+					return false;
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * @param $timecompleted
-     *
-     * @param $timestarted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
+		/**
+		 * @param $timecompleted
+		 *
+		 * @param $timestarted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return mixed
+		 */
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-        if( $this->checkData( $data, ['ipaddress'] ) == false )
-            return false;
+			if ($this->checkData($data, ['ipaddress']) == false)
+				return false;
 
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
 
-        $computer = self::$internet->getComputer( $data['ipaddress'] );
+			$computer = self::$internet->getComputer($data['ipaddress']);
 
-        if( self::$computer->hasComputerClass( $computer->type ) == false )
-            return false;
+			if (self::$computer->hasComputerClass($computer->type) == false)
+				return false;
 
-        self::$computer->getComputerClass( $computer->type )->onLogin( $computer->computerid, $data['ipaddress'] );
+			self::$computer->getComputerClass($computer->type)->onLogin($computer->computerid, $data['ipaddress']);
 
-        if( isset( $data['redirect'] ) == false )
-            return true;
-        else
-            return( $data['redirect'] );
-    }
+			if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
+		}
 
-    /**
-     * Gets the time of which to complete this process
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param $softwareid
-     *
-     * @return null
-     */
+		/**
+		 * Gets the time of which to complete this process
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $softwareid
+		 *
+		 * @return null
+		 */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null)
-    {
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-        return null;
-    }
+			return null;
+		}
 
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array
-     */
+		/**
+		 * Gets the custom data for this operation
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return array
+		 */
 
-    public function getCustomData($ipaddress, $userid)
-    {
+		public function getCustomData($ipaddress, $userid)
+		{
 
-        return array();
-    }
+			return array();
+		}
 
-    /**
-     * Called upon a post request to this operation
-     *
-     * @param $data
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
+		/**
+		 * Called upon a post request to this operation
+		 *
+		 * @param $data
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-    public function onPost($data, $ipaddress, $userid)
-    {
+		public function onPost($data, $ipaddress, $userid)
+		{
 
-        return true;
-    }
-}
+			return true;
+		}
+	}

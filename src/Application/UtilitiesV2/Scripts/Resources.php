@@ -1,105 +1,106 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 22/07/2018
- * Time: 01:01
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 22/07/2018
+	 * Time: 01:01
+	 */
 
-namespace Framework\Application\UtilitiesV2\Scripts;
+	namespace Framework\Application\UtilitiesV2\Scripts;
 
-use Framework\Application\UtilitiesV2\Debug;
-use Framework\Application\UtilitiesV2\ResourceCombiner;
-use Framework\Application\UtilitiesV2\ResourceUnpacker;
+	use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Application\UtilitiesV2\ResourceCombiner;
+	use Framework\Application\UtilitiesV2\ResourceUnpacker;
 
-class Resources extends Base
-{
+	class Resources extends Base
+	{
 
-    /**
-     * @var ResourceUnpacker
-     */
+		/**
+		 * @var ResourceUnpacker
+		 */
 
-    protected $unpacker;
+		protected $unpacker;
 
-    /**
-     * @var ResourceCombiner
-     */
+		/**
+		 * @var ResourceCombiner
+		 */
 
-    protected $packer;
+		protected $packer;
 
-    /**
-     * Resources constructor.
-     * @throws \RuntimeException
-     */
-    
-    public function __construct()
-    {
-        
-        $this->unpacker = new ResourceUnpacker();
-        $this->packer = new ResourceCombiner();
-    }
+		/**
+		 * Resources constructor.
+		 * @throws \RuntimeException
+		 */
 
-    /**
-     * @param $arguments
-     * @return bool
-     * @throws \RuntimeException
-     */
+		public function __construct()
+		{
 
-    public function execute($arguments)
-    {
+			$this->unpacker = new ResourceUnpacker();
+			$this->packer = new ResourceCombiner();
+		}
 
-        if( $arguments["action"] == "pack" )
-        {
+		/**
+		 * @param $arguments
+		 *
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-            if( Debug::isCMD() )
-                Debug::echo("Packing resources", 3);
+		public function execute($arguments)
+		{
 
-            $build = $this->packer->build();
+			if ($arguments["action"] == "pack")
+			{
 
-            if( empty( $build ) )
-                throw new \RuntimeException("Build returned null ");
+				if (Debug::isCMD())
+					Debug::echo("Packing resources", 3);
 
-            $this->packer->save( $build );
+				$build = $this->packer->build();
 
-            if( Debug::isCMD() )
-                Debug::echo("Finished Packing resources", 3);
-        }
-        elseif( $arguments["action"] == "unpack")
-        {
+				if (empty($build))
+					throw new \RuntimeException("Build returned null ");
 
-            if( Debug::isCMD() )
-                Debug::echo("Unpacking resources", 3);
+				$this->packer->save($build);
 
-            $this->unpacker->process();
-        }
-        else
-            throw new \RuntimeException("Unknown action");
+				if (Debug::isCMD())
+					Debug::echo("Finished Packing resources", 3);
+			}
+			else if ($arguments["action"] == "unpack")
+			{
 
-        return( true );
-    }
+				if (Debug::isCMD())
+					Debug::echo("Unpacking resources", 3);
 
-    /**
-     * @return array
-     */
+				$this->unpacker->process();
+			}
+			else
+				throw new \RuntimeException("Unknown action");
 
-    public function requiredArguments()
-    {
+			return (true);
+		}
 
-        return([
-            "action"
-        ]);
-    }
+		/**
+		 * @return array
+		 */
+
+		public function requiredArguments()
+		{
+
+			return ([
+				"action"
+			]);
+		}
 
 
-    /**
-     * @return array
-     */
+		/**
+		 * @return array
+		 */
 
-    public function help()
-    {
-        return([
-            "arguments" => $this->requiredArguments(),
-            "help" => "Unpacks and packs resources. action can either be pack or unpack."
-        ]);
-    }
-}
+		public function help()
+		{
+			return ([
+				"arguments" => $this->requiredArguments(),
+				"help" => "Unpacks and packs resources. action can either be pack or unpack."
+			]);
+		}
+	}

@@ -1,70 +1,69 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: newsy
- * Date: 05/05/2019
- * Time: 14:19
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: newsy
+	 * Date: 05/05/2019
+	 * Time: 14:19
+	 */
 
-namespace Framework\Tests;
+	namespace Framework\Tests;
 
-use Framework\Syscrack\Game\Metadata;
+	use Framework\Syscrack\Game\Metadata;
 
-class MetadataTest extends BaseTestCase
-{
+	class MetadataTest extends BaseTestCase
+	{
 
-    /**
-     * @var Metadata
-     */
+		/**
+		 * @var Metadata
+		 */
 
-    protected static $metadata;
-    protected static $computerid = 1000;
+		protected static $metadata;
+		protected static $computerid = 1000;
 
-    public static function setUpBeforeClass(): void
-    {
+		public static function setUpBeforeClass(): void
+		{
 
-        self::$metadata = new Metadata();
+			self::$metadata = new Metadata();
 
-        try
-        {
-            self::$computerid += random_int(0, self::$computerid);
-        }
-        catch (\Exception $e)
-        {
-            //No
-        }
+			try
+			{
+				self::$computerid += random_int(0, self::$computerid);
+			} catch (\Exception $e)
+			{
+				//No
+			}
 
-        parent::setUpBeforeClass();
-    }
+			parent::setUpBeforeClass();
+		}
 
-    public static function tearDownAfterClass(): void
-    {
+		public static function tearDownAfterClass(): void
+		{
 
-        if( self::$metadata->exists( self::$computerid ) )
-            self::$metadata->delete( self::$computerid );
+			if (self::$metadata->exists(self::$computerid))
+				self::$metadata->delete(self::$computerid);
 
-        parent::tearDownAfterClass();
-    }
+			parent::tearDownAfterClass();
+		}
 
-    public function testCreate()
-    {
+		public function testCreate()
+		{
 
-        self::$metadata->create( self::$computerid, Metadata::generateData("Test",
-            "npc",[],[],[]) );
+			self::$metadata->create(self::$computerid, Metadata::generateData("Test",
+				"npc", [], [], []));
 
-        $this->assertTrue( self::$metadata->exists( self::$computerid ) );
-    }
+			$this->assertTrue(self::$metadata->exists(self::$computerid));
+		}
 
 
-    public function testExists()
-    {
+		public function testExists()
+		{
 
-        $this->assertTrue( self::$metadata->exists( self::$computerid ) );
-    }
+			$this->assertTrue(self::$metadata->exists(self::$computerid));
+		}
 
-    public function testGet()
-    {
+		public function testGet()
+		{
 
-        $this->assertNotEmpty( self::$metadata->get( self::$computerid ) );
-    }
-}
+			$this->assertNotEmpty(self::$metadata->get(self::$computerid));
+		}
+	}

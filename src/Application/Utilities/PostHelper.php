@@ -1,152 +1,153 @@
 <?php
-namespace Framework\Application\Utilities;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class PostHelper
- *
- * @package Framework\Application\Utilities
- */
+	namespace Framework\Application\Utilities;
 
-use Framework\Exceptions\ApplicationException;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class PostHelper
+	 *
+	 * @package Framework\Application\Utilities
+	 */
 
-class PostHelper
-{
+	use Framework\Exceptions\ApplicationException;
 
-    /**
-     * Picks from the global post array and brings back only our requirements
-     *
-     * @param $requirements
-     *
-     * @return array
-     */
+	class PostHelper
+	{
 
-    public static function returnRequirements( $requirements )
-    {
+		/**
+		 * Picks from the global post array and brings back only our requirements
+		 *
+		 * @param $requirements
+		 *
+		 * @return array
+		 */
 
-        $post = self::getPost();
+		public static function returnRequirements($requirements)
+		{
 
-        $return = array();
+			$post = self::getPost();
 
-        foreach( $requirements as $key=>$value )
-        {
+			$return = array();
 
-            if( isset( $post[ $value ] ) == false )
-            {
+			foreach ($requirements as $key => $value)
+			{
 
-                throw new ApplicationException('Post key invalid');
-            }
+				if (isset($post[$value]) == false)
+				{
 
-            $return[ $value ] = $post[ $value ];
-        }
+					throw new ApplicationException('Post key invalid');
+				}
 
-        return $return;
-    }
+				$return[$value] = $post[$value];
+			}
 
-    /**
-     * Gets an index from the post array
-     *
-     * @param $index
-     *
-     * @param bool $escape
-     *
-     * @return string
-     */
+			return $return;
+		}
 
-    public static function getPostData( $index, $escape=false )
-    {
+		/**
+		 * Gets an index from the post array
+		 *
+		 * @param $index
+		 *
+		 * @param bool $escape
+		 *
+		 * @return string
+		 */
 
-        if ( isset( $_POST[ $index ] ) == false )
-        {
+		public static function getPostData($index, $escape = false)
+		{
 
-            return null;
-        }
+			if (isset($_POST[$index]) == false)
+			{
 
-        if( $escape == true )
-        {
+				return null;
+			}
 
-            return htmlspecialchars( trim( $_POST[ $index ] ), ENT_QUOTES, 'UTF-8' );
-        }
+			if ($escape == true)
+			{
 
-        return trim( $_POST[ $index ] );
-    }
+				return htmlspecialchars(trim($_POST[$index]), ENT_QUOTES, 'UTF-8');
+			}
 
-    /**
-     * Checks the post data to see if the keys that we need exist
-     *
-     * @param array $requirements
-     *
-     * @return bool
-     */
+			return trim($_POST[$index]);
+		}
 
-    public static function checkForRequirements( array $requirements )
-    {
+		/**
+		 * Checks the post data to see if the keys that we need exist
+		 *
+		 * @param array $requirements
+		 *
+		 * @return bool
+		 */
 
-        if( self::hasPostData() == false )
-        {
+		public static function checkForRequirements(array $requirements)
+		{
 
-            return false;
-        }
+			if (self::hasPostData() == false)
+			{
 
-        $post = self::getPost();
+				return false;
+			}
 
-        foreach( $requirements as $requirement )
-        {
+			$post = self::getPost();
 
-            if( isset( $post[ $requirement ] ) == false )
-            {
+			foreach ($requirements as $requirement)
+			{
 
-                return false;
-            }
-            else
-            {
+				if (isset($post[$requirement]) == false)
+				{
 
-                if( $post[ $requirement ] === '0' )
-                {
+					return false;
+				}
+				else
+				{
 
-                    continue;
-                }
+					if ($post[$requirement] === '0')
+					{
 
-                if( $post[ $requirement ] == null || $post[ $requirement ] == "" || empty( $post[ $requirement ] ) )
-                {
+						continue;
+					}
 
-                    return false;
-                }
-            }
-        }
+					if ($post[$requirement] == null || $post[$requirement] == "" || empty($post[$requirement]))
+					{
 
-        return true;
-    }
+						return false;
+					}
+				}
+			}
 
-    /**
-     * Returns true if post data is present
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    public static function hasPostData()
-    {
+		/**
+		 * Returns true if post data is present
+		 *
+		 * @return bool
+		 */
 
-        if( empty( $_POST ) )
-        {
+		public static function hasPostData()
+		{
 
-            return false;
-        }
+			if (empty($_POST))
+			{
 
-        return true;
-    }
+				return false;
+			}
 
-    /**
-     * Gets the post data
-     *
-     * @return mixed
-     */
+			return true;
+		}
 
-    public static function getPost()
-    {
+		/**
+		 * Gets the post data
+		 *
+		 * @return mixed
+		 */
 
-        return $_POST;
-    }
+		public static function getPost()
+		{
 
-}
+			return $_POST;
+		}
+
+	}

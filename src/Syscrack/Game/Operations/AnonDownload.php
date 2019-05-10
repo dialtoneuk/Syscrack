@@ -1,127 +1,129 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class AnonDownload
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Application\Settings;
-use Framework\Exceptions\SyscrackException;
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class AnonDownload
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class AnonDownload extends BaseOperation
-{
+	use Framework\Application\Settings;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
 
-    /**
-     * Allows for anonymous downloads
-     *
-     * @return array
-     */
+	class AnonDownload extends BaseOperation
+	{
 
-    public function configuration()
-    {
+		/**
+		 * Allows for anonymous downloads
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'allowlocal'        => false,
-            'allowsoftware'    => true,
-            'allowanonymous'    => true,
-            'requiresoftware'   => true,
-            'requireloggedin'   => false,
-            'elevated'          => true,
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * Called when the operation is created
-     *
-     * @param self::$financeimecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return bool
-     */
+			return array(
+				'allowlocal' => false,
+				'allowsoftware' => true,
+				'allowanonymous' => true,
+				'requiresoftware' => true,
+				'requireloggedin' => false,
+				'elevated' => true,
+			);
+		}
 
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * Called when the operation is created
+		 *
+		 * @param self::$financeimecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-        if( $this->checkData( $data ) == false )
-            return false;
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
 
-        $computer   = self::$internet->getComputer( $data['ipaddress'] );
-        $software   = self::$software->getSoftware( $data['softwareid'] );
+			if ($this->checkData($data) == false)
+				return false;
 
-        if( $computer->type !== Settings::setting('syscrack_computers_download_type') )
-            return false;
-        elseif( $this->hasSpace( self::$computer->computerid(), $software->size ) == false )
-            return false;
-        elseif( self::$software->isAnonDownloadSoftware($software->softwareid ) == false  )
-            return false;
+			$computer = self::$internet->getComputer($data['ipaddress']);
+			$software = self::$software->getSoftware($data['softwareid']);
 
-        return true;
-    }
+			if ($computer->type !== Settings::setting('syscrack_computers_download_type'))
+				return false;
+			else if ($this->hasSpace(self::$computer->computerid(), $software->size) == false)
+				return false;
+			else if (self::$software->isAnonDownloadSoftware($software->softwareid) == false)
+				return false;
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool|string
-     */
+			return true;
+		}
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool|string
+		 */
+
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
 
-        if( $this->checkData( $data ) == false )
-            return false;
+			if ($this->checkData($data) == false)
+				return false;
 
-        $computer   = self::$internet->getComputer( $data['ipaddress'] );
-        $software   = self::$software->getSoftware( $data['softwareid'] );
+			$computer = self::$internet->getComputer($data['ipaddress']);
+			$software = self::$software->getSoftware($data['softwareid']);
 
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
-        elseif( self::$software->softwareExists( $data['softwareid'] ) == false )
-            return false;
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
+			else if (self::$software->softwareExists($data['softwareid']) == false)
+				return false;
 
-        $new_software = self::$software->getSoftware( self::$software->copySoftware( $data['softwareid'], self::$computer->computerid(), $userid ) );
-        self::$computer->addSoftware( self::$computer->computerid(), $new_software->softwareid, $new_software->type );
+			$new_software = self::$software->getSoftware(self::$software->copySoftware($data['softwareid'], self::$computer->computerid(), $userid));
+			self::$computer->addSoftware(self::$computer->computerid(), $new_software->softwareid, $new_software->type);
 
-        if( isset( $data['redirect'] ) == false )
-            return true;
-        else
-            return( $data['redirect'] );
-    }
+			if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
+		}
 
-    /**
-     * Gets the completion speed of this operation
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param $softwareid
-     *
-     * @return int
-     */
+		/**
+		 * Gets the completion speed of this operation
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $softwareid
+		 *
+		 * @return int
+		 */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
-    {
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-        if( self::$software->softwareExists( $softwareid ) == false )
-            throw new SyscrackException();
+			if (self::$software->softwareExists($softwareid) == false)
+				throw new SyscrackException();
 
-        return $this->calculateProcessingTime( $computerid, Settings::setting('syscrack_hardware_download_type'), self::$software->getSoftware( $softwareid )->size / 5, $softwareid );
-    }
-}
+			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_download_type'), self::$software->getSoftware($softwareid)->size / 5, $softwareid);
+		}
+	}

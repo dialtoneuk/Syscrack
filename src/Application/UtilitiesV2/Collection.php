@@ -1,169 +1,172 @@
 <?php
 
-namespace Framework\Application\UtilitiesV2;
-use Framework\Application\UtilitiesV2\Interfaces\Upload;
+	namespace Framework\Application\UtilitiesV2;
 
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 29/08/2018
- * Time: 21:35
- */
-abstract class Collection
-{
+	use Framework\Application\UtilitiesV2\Interfaces\Upload;
 
-    /**
-     * @var Constructor
-     */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 29/08/2018
+	 * Time: 21:35
+	 */
+	abstract class Collection
+	{
 
-    protected $constructor;
+		/**
+		 * @var Constructor
+		 */
 
-    /**
-     * @var \RuntimeException|null
-     */
+		protected $constructor;
 
-    protected $last_error = null;
+		/**
+		 * @var \RuntimeException|null
+		 */
 
-    /**
-     * ConstructorClass constructor.
-     * @param $filepath
-     * @param $namespace
-     * @param bool $auto_create
-     */
+		protected $last_error = null;
 
-    public function __construct( $filepath, $namespace, $auto_create=true )
-    {
+		/**
+		 * ConstructorClass constructor.
+		 *
+		 * @param $filepath
+		 * @param $namespace
+		 * @param bool $auto_create
+		 */
 
-        $this->constructor = new Constructor( $filepath, $namespace );
+		public function __construct($filepath, $namespace, $auto_create = true)
+		{
 
-        if( $auto_create )
-            $this->create();
-    }
+			$this->constructor = new Constructor($filepath, $namespace);
 
-    /**
-     * @return bool
-     */
+			if ($auto_create)
+				$this->create();
+		}
 
-    protected final function create()
-    {
+		/**
+		 * @return bool
+		 */
 
-        if( $this->getLastError() == null )
-            $this->setLastError();
+		protected final function create()
+		{
 
-        try
-        {
+			if ($this->getLastError() == null)
+				$this->setLastError();
 
-            $this->constructor->createAll();
-            return true;
-        }
-        catch ( \RuntimeException $error )
-        {
+			try
+			{
 
-           $this->setLastError( $error );
-        }
+				$this->constructor->createAll();
+				return true;
+			} catch (\RuntimeException $error)
+			{
 
-        return false;
-    }
+				$this->setLastError($error);
+			}
 
-    /**
-     * @param callable $callback
-     */
+			return false;
+		}
 
-    public final function iterate( callable $callback )
-    {
+		/**
+		 * @param callable $callback
+		 */
 
-        if( $this->constructor->isEmpty() )
-            throw new \RuntimeException("constructor is empty");
+		public final function iterate(callable $callback)
+		{
 
-        $instances = $this->constructor->getAll( true );
+			if ($this->constructor->isEmpty())
+				throw new \RuntimeException("constructor is empty");
 
-        foreach( $instances as $key=>$instance )
-            $callback( $instance, $key, $this->constructor );
-    }
+			$instances = $this->constructor->getAll(true);
 
-    /**
-     * @param $class_name
-     * @return mixed
-     */
+			foreach ($instances as $key => $instance)
+				$callback($instance, $key, $this->constructor);
+		}
 
-    public final function get( $class_name )
-    {
+		/**
+		 * @param $class_name
+		 *
+		 * @return mixed
+		 */
 
-        return( $this->constructor->get( $class_name ) );
-    }
+		public final function get($class_name)
+		{
 
-    /**
-     * Creates a single class
-     *
-     * @param $class_name
-     */
+			return ($this->constructor->get($class_name));
+		}
 
-    public final function single( $class_name )
-    {
+		/**
+		 * Creates a single class
+		 *
+		 * @param $class_name
+		 */
 
-        $this->constructor->createSingular( $class_name );
-    }
+		public final function single($class_name)
+		{
 
-    /**
-     * @param $class_name
-     * @return bool
-     */
+			$this->constructor->createSingular($class_name);
+		}
 
-    public function exist( $class_name )
-    {
+		/**
+		 * @param $class_name
+		 *
+		 * @return bool
+		 */
 
-        return( $this->constructor->exist( $class_name ) );
-    }
+		public function exist($class_name)
+		{
 
-    /**
-     * @return \Exception null
-     */
+			return ($this->constructor->exist($class_name));
+		}
 
-    public final function getLastError()
-    {
+		/**
+		 * @return \Exception null
+		 */
 
-        if( empty( $this->last_error ) || $this->last_error == null )
-            return null;
+		public final function getLastError()
+		{
 
-        return( $this->last_error );
-    }
+			if (empty($this->last_error) || $this->last_error == null)
+				return null;
 
-    /**
-     * @param null|\Exception $error
-     */
+			return ($this->last_error);
+		}
 
-    protected final function setLastError( $error=null )
-    {
+		/**
+		 * @param null|\Exception $error
+		 */
 
-        if( $error !== null )
-            if( $error instanceof \Exception == false )
-                throw new \RuntimeException("invalid error type");
+		protected final function setLastError($error = null)
+		{
 
-        $this->last_error = $error;
-    }
+			if ($error !== null)
+				if ($error instanceof \Exception == false)
+					throw new \RuntimeException("invalid error type");
 
-    /**
-     * iteration test
-     *
-     * @param $data
-     * @param $userid
-     */
+			$this->last_error = $error;
+		}
 
-    private function interationTest( $data, $userid )
-    {
+		/**
+		 * iteration test
+		 *
+		 * @param $data
+		 * @param $userid
+		 */
 
-        $results = [];
+		private function interationTest($data, $userid)
+		{
 
-        $this->iterate( function( $instance, $key, $collection ) use ( $data, $userid, $results )
-        {
+			$results = [];
 
-            /** @var Upload $instance */
-            if( $instance instanceof Upload == false )
-                throw new \RuntimeException("Invalid");
+			$this->iterate(function ($instance, $key, $collection) use ($data, $userid, $results)
+			{
 
-            $results[$key] = $instance->authenticate($data, $userid );
-        });
+				/** @var Upload $instance */
+				if ($instance instanceof Upload == false)
+					throw new \RuntimeException("Invalid");
 
-        print_r( $results );
-    }
-}
+				$results[$key] = $instance->authenticate($data, $userid);
+			});
+
+			print_r($results);
+		}
+	}

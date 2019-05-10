@@ -1,186 +1,186 @@
 <?php
-    namespace Framework\Views\Pages;
 
-    /**
-     * Lewis Lancaster 2016
-     *
-     * Class Verify
-     *
-     * @package Framework\Views\Pages
-     */
+	namespace Framework\Views\Pages;
 
-    use Framework\Application\Settings;
-    use Framework\Application\Utilities\PostHelper;
-    use Framework\Exceptions\SyscrackException;
-    use Framework\Syscrack\Game\Structures\Computer;
-    use Framework\Syscrack\Verification;
-    use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page as Structure;
+	/**
+	 * Lewis Lancaster 2016
+	 *
+	 * Class Verify
+	 *
+	 * @package Framework\Views\Pages
+	 */
 
-    class Verify extends BaseClass implements Structure
-    {
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\PostHelper;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Syscrack\Game\Structures\Computer;
+	use Framework\Syscrack\Verification;
+	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Views\Structures\Page as Structure;
 
-        /**
-         * @var Verification
-         */
+	class Verify extends BaseClass implements Structure
+	{
 
-        protected static $verification;
+		/**
+		 * @var Verification
+		 */
 
-        /**
-         * Verify constructor.
-         */
+		protected static $verification;
 
-        public function __construct()
-        {
-            
-            if( isset( self::$verification ) == false )
-                self::$verification = new Verification();
+		/**
+		 * Verify constructor.
+		 */
 
-            parent::__construct( true, true, false, true );
+		public function __construct()
+		{
 
-        }
+			if (isset(self::$verification) == false)
+				self::$verification = new Verification();
 
-        /**
-         * Returns the pages mapping
-         *
-         * @return array
-         */
+			parent::__construct(true, true, false, true);
 
-        public function mapping()
-        {
+		}
 
-            return array(
-                [
-                    'GET /verify/', 'page'
-                ],
-                [
-                    'POST /verify/', 'process'
-                ]
-            );
-        }
+		/**
+		 * Returns the pages mapping
+		 *
+		 * @return array
+		 */
 
-        /**
-         * Default page
-         */
+		public function mapping()
+		{
 
-        public function page()
-        {
+			return array(
+				[
+					'GET /verify/', 'page'
+				],
+				[
+					'POST /verify/', 'process'
+				]
+			);
+		}
 
-            if (isset($_GET['token']))
-            {
+		/**
+		 * Default page
+		 */
 
-                $_GET['token'] = htmlspecialchars( $_GET['token'], ENT_QUOTES, 'UTF-8' );
+		public function page()
+		{
 
-                if (self::$verification->getTokenUser($_GET['token']) == null)
-                {
+			if (isset($_GET['token']))
+			{
 
-                    $this->redirectError('Sorry, this token is invalid...' );
-                }
+				$_GET['token'] = htmlspecialchars($_GET['token'], ENT_QUOTES, 'UTF-8');
 
-                $userid = self::$verification->getTokenUser($_GET['token']);
+				if (self::$verification->getTokenUser($_GET['token']) == null)
+				{
 
-                if ($userid == null)
-                {
+					$this->redirectError('Sorry, this token is invalid...');
+				}
 
-                    $this->redirectError('Sorry, this token isnt tied to a user, try again?');
-                }
+				$userid = self::$verification->getTokenUser($_GET['token']);
 
-                if (self::$verification->verifyUser( $_GET['token'] ) == false)
-                {
+				if ($userid == null)
+				{
 
-                    $this->redirectError('Sorry, failed to verify, try again?');
-                }
+					$this->redirectError('Sorry, this token isnt tied to a user, try again?');
+				}
 
+				if (self::$verification->verifyUser($_GET['token']) == false)
+				{
 
-                if( Settings::setting('syscrack_startup_on_verification') == true )
-                {
-
-                    $computerid = self::$computer->createComputer( $userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP() );
-
-                    if( empty( $computerid ) )
-                        throw new SyscrackException();
-
-                    $class = self::$computer->getComputerClass( Settings::setting('syscrack_startup_default_computer') );
-
-                    if( $class instanceof Computer == false )
-                        throw new SyscrackException();
-
-                    $class->onStartup( $computerid, $userid, [], Settings::setting('syscrack_default_hardware') );
-                }
+					$this->redirectError('Sorry, failed to verify, try again?');
+				}
 
 
-                $this->redirectSuccess('login');
-            }
-            else
-                $this->getRender('syscrack/page.verify', []);
-        }
+				if (Settings::setting('syscrack_startup_on_verification') == true)
+				{
 
-        /**
-         * Processes the verification request
-         */
+					$computerid = self::$computer->createComputer($userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP());
 
-        public function process()
-        {
+					if (empty($computerid))
+						throw new SyscrackException();
 
-            if (PostHelper::hasPostData() == false)
-            {
+					$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
 
-                $this->redirectError('Please enter a token');
-            }
+					if ($class instanceof Computer == false)
+						throw new SyscrackException();
 
-            if (PostHelper::checkForRequirements(['token']) == false)
-            {
+					$class->onStartup($computerid, $userid, [], Settings::setting('syscrack_default_hardware'));
+				}
 
-                $this->redirectError('Please enter a token');
-            }
 
-            $token = PostHelper::getPostData( 'token', true );
+				$this->redirectSuccess('login');
+			}
+			else
+				$this->getRender('syscrack/page.verify', []);
+		}
 
-            $userid = self::$verification->getTokenUser($token);
+		/**
+		 * Processes the verification request
+		 */
 
-            if ($userid == null)
-            {
+		public function process()
+		{
 
-                $this->redirectError('Sorry, this token is not tied to a user, try again?');
-            }
+			if (PostHelper::hasPostData() == false)
+			{
 
-            if (self::$verification->verifyUser( $token ) == false)
-            {
+				$this->redirectError('Please enter a token');
+			}
 
-                $this->redirectError('Sorry, failed to verify, try again?');
-            }
+			if (PostHelper::checkForRequirements(['token']) == false)
+			{
 
-            try
-            {
+				$this->redirectError('Please enter a token');
+			}
 
-                if( Settings::setting('syscrack_startup_on_verification') == true )
-                {
+			$token = PostHelper::getPostData('token', true);
 
-                    $computerid = self::$computer->createComputer( $userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP() );
+			$userid = self::$verification->getTokenUser($token);
 
-                    if( empty( $computerid ) )
-                    {
+			if ($userid == null)
+			{
 
-                        throw new SyscrackException();
-                    }
+				$this->redirectError('Sorry, this token is not tied to a user, try again?');
+			}
 
-                    $class = self::$computer->getComputerClass( Settings::setting('syscrack_startup_default_computer') );
+			if (self::$verification->verifyUser($token) == false)
+			{
 
-                    if( $class instanceof Computer == false )
-                    {
+				$this->redirectError('Sorry, failed to verify, try again?');
+			}
 
-                        throw new SyscrackException();
-                    }
+			try
+			{
 
-                    $class->onStartup( $computerid, $userid, [], Settings::setting('syscrack_default_hardware') );
-                }
-            }
-            catch( \Exception $error )
-            {
+				if (Settings::setting('syscrack_startup_on_verification') == true)
+				{
 
-                $this->redirectError('Sorry, your account has been verified but we encountered an error: ' . $error->getMessage() );
-            }
+					$computerid = self::$computer->createComputer($userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP());
 
-            $this->redirectSuccess('login');
-        }
-    }
+					if (empty($computerid))
+					{
+
+						throw new SyscrackException();
+					}
+
+					$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
+
+					if ($class instanceof Computer == false)
+					{
+
+						throw new SyscrackException();
+					}
+
+					$class->onStartup($computerid, $userid, [], Settings::setting('syscrack_default_hardware'));
+				}
+			} catch (\Exception $error)
+			{
+
+				$this->redirectError('Sorry, your account has been verified but we encountered an error: ' . $error->getMessage());
+			}
+
+			$this->redirectSuccess('login');
+		}
+	}

@@ -1,256 +1,257 @@
 <?php
-    namespace Framework\Views\Pages;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Processes
-     *
-     * @package Framework\Views\Pages
-     */
+	namespace Framework\Views\Pages;
 
-    use Framework\Application\Container;
-    use Framework\Syscrack\Game\Operations;
-    use Framework\Views\BaseClasses\Page as BaseClass;
-    use Framework\Views\Structures\Page as Structure;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Processes
+	 *
+	 * @package Framework\Views\Pages
+	 */
 
-    class Processes extends BaseClass implements Structure
-    {
+	use Framework\Application\Container;
+	use Framework\Syscrack\Game\Operations;
+	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Views\Structures\Page as Structure;
 
-        /**
-         * @var Operations
-         */
+	class Processes extends BaseClass implements Structure
+	{
 
-        protected static $operations;
+		/**
+		 * @var Operations
+		 */
 
-        /**
-         * Processes constructor.
-         */
+		protected static $operations;
 
-        public function __construct()
-        {
+		/**
+		 * Processes constructor.
+		 */
 
-            if( isset( self::$operations ) == false )
-                self::$operations = new Operations();
+		public function __construct()
+		{
 
-            parent::__construct( true, true, true, false );
-        }
+			if (isset(self::$operations) == false)
+				self::$operations = new Operations();
 
-        /**
-         * Returns the pages mapping
-         *
-         * @return array
-         */
+			parent::__construct(true, true, true, false);
+		}
 
-        public function mapping()
-        {
+		/**
+		 * Returns the pages mapping
+		 *
+		 * @return array
+		 */
 
-            return array(
-                [
-                    '/processes/', 'page'
-                ],
-                [
-                    '/processes/@processid', 'viewProcess'
-                ],
-                [
-                    '/processes/@processid/complete', 'completeProcess'
-                ],
-                [
-                    '/processes/@processid/delete', 'deleteProcess'
-                ],
-                [
-                    '/processes/computer/@computerid/','machineProcess'
-                ]
-            );
-        }
+		public function mapping()
+		{
 
-        /**
-         * Default page
-         */
+			return array(
+				[
+					'/processes/', 'page'
+				],
+				[
+					'/processes/@processid', 'viewProcess'
+				],
+				[
+					'/processes/@processid/complete', 'completeProcess'
+				],
+				[
+					'/processes/@processid/delete', 'deleteProcess'
+				],
+				[
+					'/processes/computer/@computerid/', 'machineProcess'
+				]
+			);
+		}
 
-        public function page()
-        {
+		/**
+		 * Default page
+		 */
 
-            $processes = self::$operations->getUserProcesses( Container::getObject('session')->userid() );
+		public function page()
+		{
 
-            if ( empty( $processes ) )
-            {
+			$processes = self::$operations->getUserProcesses(Container::getObject('session')->userid());
 
-                $array = [];
-            }
-            else
-            {
+			if (empty($processes))
+			{
 
-                $array = array();
+				$array = [];
+			}
+			else
+			{
 
-                foreach( $processes as $key=>$value )
-                {
+				$array = array();
 
-                    $array[ $value->computerid ][] = $value;
-                }
-            }
-            $this->getRender('syscrack/page.process.php', array('processes' => $array, 'operations' => self::$operations, 'computerid' => self::$computer->computerid() ));
-        }
+				foreach ($processes as $key => $value)
+				{
 
-        /**
-         * Views a process
-         *
-         * @param $processid
-         */
+					$array[$value->computerid][] = $value;
+				}
+			}
+			$this->getRender('syscrack/page.process.php', array('processes' => $array, 'operations' => self::$operations, 'computerid' => self::$computer->computerid()));
+		}
 
-        public function viewProcess($processid)
-        {
+		/**
+		 * Views a process
+		 *
+		 * @param $processid
+		 */
 
-            if (self::$operations->processExists($processid) == false)
-            {
+		public function viewProcess($processid)
+		{
 
-                $this->redirectError('This process does not exist');
-            }
-            else
-            {
+			if (self::$operations->processExists($processid) == false)
+			{
 
-                $process = self::$operations->getProcess($processid);
+				$this->redirectError('This process does not exist');
+			}
+			else
+			{
 
-                if ($process->userid != Container::getObject('session')->userid())
-                {
+				$process = self::$operations->getProcess($processid);
 
-                    $this->redirectError('This process isnt yours');
-                }
-                else
-                {
+				if ($process->userid != Container::getObject('session')->userid())
+				{
 
-                    if ($process->computerid != self::$computer->computerid())
-                    {
+					$this->redirectError('This process isnt yours');
+				}
+				else
+				{
 
-                        $this->redirectError('You are connected as a different computer');
-                    }
-                    else
-                    {
+					if ($process->computerid != self::$computer->computerid())
+					{
 
-                        $this->getRender('syscrack/page.process.view', array('processid' => $processid, 'processclass' => self::$operations, 'auto' => true));
-                    }
-                }
-            }
-        }
+						$this->redirectError('You are connected as a different computer');
+					}
+					else
+					{
+
+						$this->getRender('syscrack/page.process.view', array('processid' => $processid, 'processclass' => self::$operations, 'auto' => true));
+					}
+				}
+			}
+		}
 
 
-        public function completeProcess( $processid )
-        {
+		public function completeProcess($processid)
+		{
 
-            $userid = Container::getObject('session')->userid();
+			$userid = Container::getObject('session')->userid();
 
-            if (self::$operations->processExists($processid) == false)
-                $this->redirectError('Process not found');
-            elseif( self::$operations->canComplete($processid) == false )
-                $this->redirectError('Process not finished');
-            else
-            {
+			if (self::$operations->processExists($processid) == false)
+				$this->redirectError('Process not found');
+			else if (self::$operations->canComplete($processid) == false)
+				$this->redirectError('Process not finished');
+			else
+			{
 
-                $process    = self::$operations->getProcess($processid);
-                $class      = self::$operations->findProcessClass( $process->process );
+				$process = self::$operations->getProcess($processid);
+				$class = self::$operations->findProcessClass($process->process);
 
-                if ( $process->userid != $userid )
-                    $this->redirectError('Process ownership error');
-                else
-                {
+				if ($process->userid != $userid)
+					$this->redirectError('Process ownership error');
+				else
+				{
 
-                    $data = json_decode($process->data, true);
+					$data = json_decode($process->data, true);
 
-                    if (isset($data['ipaddress']) == false)
-                        $this->redirectError('Process error');
-                    elseif (self::$internet->ipExists($data['ipaddress']) == false)
-                        $this->redirectError('404');
-                    else
-                    {
+					if (isset($data['ipaddress']) == false)
+						$this->redirectError('Process error');
+					else if (self::$internet->ipExists($data['ipaddress']) == false)
+						$this->redirectError('404');
+					else
+					{
 
-                        $target = self::$internet->getComputer($data["ipaddress"]);
+						$target = self::$internet->getComputer($data["ipaddress"]);
 
-                        if (self::$operations->requireLoggedIn($process->process))
-                            if( self::$internet->hasCurrentConnection() )
-                                if( $target->ipaddress != self::$computer->getComputer( self::$computer->computerid() )->ipaddress
-                                    && $target->ipaddress !== self::$internet->getCurrentConnectedAddress()
-                                    && self::$operations->allowLocal($process->process) == false
-                                    && self::$operations->isElevatedProcess( $process->process ) == false )
-                                    $this->redirectError("Connection error 1");
-                        else
-                            if( self::$internet->hasCurrentConnection() == false )
-                                if ( self::$operations->isElevatedProcess( $process->process ) == false || self::$operations->allowLocal($process->process) == false )
-                                    $this->redirectError("Connection error 2");
+						if (self::$operations->requireLoggedIn($process->process))
+							if (self::$internet->hasCurrentConnection())
+								if ($target->ipaddress != self::$computer->getComputer(self::$computer->computerid())->ipaddress
+									&& $target->ipaddress !== self::$internet->getCurrentConnectedAddress()
+									&& self::$operations->allowLocal($process->process) == false
+									&& self::$operations->isElevatedProcess($process->process) == false)
+									$this->redirectError("Connection error 1");
+								else
+									if (self::$internet->hasCurrentConnection() == false)
+										if (self::$operations->isElevatedProcess($process->process) == false || self::$operations->allowLocal($process->process) == false)
+											$this->redirectError("Connection error 2");
 
-                        $result = self::$operations->completeProcess($processid);
+						$result = self::$operations->completeProcess($processid);
 
-                        if( is_string( $result ) )
-                            $this->redirectSuccess( $result );
-                        elseif( $result === null )
-                            exit;
-                        elseif( is_bool( $result ) && $result == false )
-                            $this->redirectError("Error completing process", $class->url( $data['ipaddress'] ) );
-                        elseif(  is_bool( $result ) && $result == true )
-                            $this->redirectSuccess( $class->url( $data['ipaddress']));
-                        else
-                            throw new \Error("Unknown result from process: " . $process . " => " . print_r( $result ) );
-                    }
+						if (is_string($result))
+							$this->redirectSuccess($result);
+						else if ($result === null)
+							exit;
+						else if (is_bool($result) && $result == false)
+							$this->redirectError("Error completing process", $class->url($data['ipaddress']));
+						else if (is_bool($result) && $result == true)
+							$this->redirectSuccess($class->url($data['ipaddress']));
+						else
+							throw new \Error("Unknown result from process: " . $process . " => " . print_r($result));
+					}
 
-                }
-            }
-        }
+				}
+			}
+		}
 
-        /**
-         * Deletes a process
-         *
-         * @param $processid
-         */
+		/**
+		 * Deletes a process
+		 *
+		 * @param $processid
+		 */
 
-        public function deleteProcess( $processid )
-        {
+		public function deleteProcess($processid)
+		{
 
-            if (self::$operations->processExists($processid) == false)
-            {
+			if (self::$operations->processExists($processid) == false)
+			{
 
-                $this->redirectError('This process does not exist');
-            }
-            else
-            {
+				$this->redirectError('This process does not exist');
+			}
+			else
+			{
 
-                $process = self::$operations->getProcess( $processid );
+				$process = self::$operations->getProcess($processid);
 
-                if( $process->userid !== Container::getObject('session')->userid() )
-                {
+				if ($process->userid !== Container::getObject('session')->userid())
+				{
 
-                    $this->redirectError('You do not own this process');
-                }
+					$this->redirectError('You do not own this process');
+				}
 
-                if( $process->computerid != self::$computer->computerid() )
-                {
+				if ($process->computerid != self::$computer->computerid())
+				{
 
-                    $this->redirectError('You need to currently be switched to the computer this process was initiated on');
-                }
+					$this->redirectError('You need to currently be switched to the computer this process was initiated on');
+				}
 
-                self::$operations->deleteProcess( $processid );
+				self::$operations->deleteProcess($processid);
 
-                $this->redirectSuccess('processes/computer/' . self::$computer->computerid() );
-            }
-        }
+				$this->redirectSuccess('processes/computer/' . self::$computer->computerid());
+			}
+		}
 
-        public function machineProcess( $computerid )
-        {
+		public function machineProcess($computerid)
+		{
 
-            if( self::$computer->computerExists( $computerid ) == false )
-            {
+			if (self::$computer->computerExists($computerid) == false)
+			{
 
-                $this->redirect('This computer does not exist');
-            }
+				$this->redirect('This computer does not exist');
+			}
 
-            $computer = self::$computer->getComputer( $computerid );
+			$computer = self::$computer->getComputer($computerid);
 
-            if( $computer->userid !== Container::getObject('session')->userid() )
-            {
+			if ($computer->userid !== Container::getObject('session')->userid())
+			{
 
-                $this->redirect('Sorry, this computer is not yours, please try another one');
-            }
+				$this->redirect('Sorry, this computer is not yours, please try another one');
+			}
 
-            $processes = self::$operations->getComputerProcesses( $computer->computerid );
+			$processes = self::$operations->getComputerProcesses($computer->computerid);
 
-            $this->getRender('syscrack/page.process.machine', array('processes' => $processes, 'operations' => self::$operations, 'computerid' => $computerid, 'ipaddress' => $computer->ipaddress ));
-        }
-    }
+			$this->getRender('syscrack/page.process.machine', array('processes' => $processes, 'operations' => self::$operations, 'computerid' => $computerid, 'ipaddress' => $computer->ipaddress));
+		}
+	}

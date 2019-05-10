@@ -1,409 +1,408 @@
 <?php
-namespace Framework\Views;
 
-/**
- * Lewis Lancaster 2016
- *
- * Class Controller
- *
- * @package Framework\Views
- */
+	namespace Framework\Views;
 
-use Error;
-use Flight;
-use Framework\Application\Settings;
-use Framework\Application\Utilities\Factory;
-use Framework\Exceptions\SyscrackException;
-use Framework\Exceptions\ViewException;
-use Framework\Views\Structures\Page;
+	/**
+	 * Lewis Lancaster 2016
+	 *
+	 * Class Controller
+	 *
+	 * @package Framework\Views
+	 */
 
-class Controller
-{
+	use Error;
+	use Flight;
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\Factory;
+	use Framework\Exceptions\SyscrackException;
+	use Framework\Exceptions\ViewException;
+	use Framework\Views\Structures\Page;
 
-    /**
-     * @var array
-     */
+	class Controller
+	{
 
-    protected $middlewares;
+		/**
+		 * @var array
+		 */
 
-    /**
-     * @var Factory
-     */
+		protected $middlewares;
 
-    protected $factory;
+		/**
+		 * @var Factory
+		 */
 
-    /**
-     * Public variable of the current page
-     *
-     * @var string
-     */
+		protected $factory;
 
-    public $page;
+		/**
+		 * Public variable of the current page
+		 *
+		 * @var string
+		 */
 
-    /**
-     * Controller constructor.
-     */
+		public $page;
 
-	public function __construct()
-    {
+		/**
+		 * Controller constructor.
+		 */
 
-        $this->factory = new Factory( Settings::setting('controller_namespace') );
-    }
+		public function __construct()
+		{
 
-    /**
-     * Runs the controller
-     */
+			$this->factory = new Factory(Settings::setting('controller_namespace'));
+		}
 
-    public function run()
-    {
+		/**
+		 * Runs the controller
+		 */
 
-        $url = $this->getURL();
+		public function run()
+		{
 
-        if( $this->checkURL( $url ) == false )
-        {
+			$url = $this->getURL();
 
-            Flight::notFound();
+			if ($this->checkURL($url) == false)
+			{
 
-            exit;
-        }
+				Flight::notFound();
 
-        $page = $this->getPage( $url );
+				exit;
+			}
 
-        if( empty( $page ) )
-        {
+			$page = $this->getPage($url);
 
-            $page = Settings::setting('controller_index_page');
-        }
-        else
-        {
+			if (empty($page))
+			{
 
-            //TODO: Make the index root work.. kinda works now but...
+				$page = Settings::setting('controller_index_page');
+			}
+			else
+			{
 
-            if( Settings::setting('controller_index_root') !== '/' )
-            {
+				//TODO: Make the index root work.. kinda works now but...
 
-                if( '/' . $page[0] == Settings::setting('controller_index_root') )
-                {
+				if (Settings::setting('controller_index_root') !== '/')
+				{
 
-                    if( isset( $page[1] ) == false )
-                    {
+					if ('/' . $page[0] == Settings::setting('controller_index_root'))
+					{
 
-                        $page = $page[0];
-                    }
-                    else
-                    {
+						if (isset($page[1]) == false)
+						{
 
-                        $page = $page[1];
-                    }
-                }
-                else
-                {
+							$page = $page[0];
+						}
+						else
+						{
 
-                    $page = $page[0];
-                }
-            }
-            else
-            {
+							$page = $page[1];
+						}
+					}
+					else
+					{
 
-                $page = $page[0];
-            }
-        }
+						$page = $page[0];
+					}
+				}
+				else
+				{
 
-        if( $this->isIndex( $page ))
-        {
+					$page = $page[0];
+				}
+			}
 
-            $page = Settings::setting('controller_index_page');
-        }
+			if ($this->isIndex($page))
+			{
 
-        $this->page = $page;
+				$page = Settings::setting('controller_index_page');
+			}
 
-        //Disables the developer page from the root
+			$this->page = $page;
 
-        if( Settings::setting('developer_disabled') == true )
-        {
+			//Disables the developer page from the root
 
-            if( $page == Settings::setting('developer_page') )
-            {
+			if (Settings::setting('developer_disabled') == true)
+			{
 
-                Flight::notFound();
+				if ($page == Settings::setting('developer_page'))
+				{
 
-                exit;
-            }
-        }
+					Flight::notFound();
 
-        if( $this->hasURLKey( $page ) )
-        {
+					exit;
+				}
+			}
 
-            $page = $this->removeURLKey( $page );
-        }
+			if ($this->hasURLKey($page))
+			{
 
-        try
-        {
+				$page = $this->removeURLKey($page);
+			}
 
-            $this->createPage( $page );
-        }
-        catch( Error $error )
-        {
+			try
+			{
 
-            throw new SyscrackException( $page . " =>" . $error->getMessage() . " at line " . $error->getLine() );
-        }
+				$this->createPage($page);
+			} catch (Error $error)
+			{
 
-        if( Settings::setting('middlewares_enabled') )
-        {
+				throw new SyscrackException($page . " =>" . $error->getMessage() . " at line " . $error->getLine());
+			}
 
-            if( $this->canExecuteMiddlewaresOnPage( $page ) == true )
-            {
+			if (Settings::setting('middlewares_enabled'))
+			{
 
-                $this->processMiddlewares();
-            }
-        }
-    }
+				if ($this->canExecuteMiddlewaresOnPage($page) == true)
+				{
 
-    /**
-     * Gets an instance of the page class
-     *
-     * @param $page
-     *
-     * @return Page
-     */
+					$this->processMiddlewares();
+				}
+			}
+		}
 
-    public function getPageClass( $page )
-    {
+		/**
+		 * Gets an instance of the page class
+		 *
+		 * @param $page
+		 *
+		 * @return Page
+		 */
 
-        if( $this->factory->classExists( $page ) == false )
-        {
+		public function getPageClass($page)
+		{
 
-            return null;
-        }
+			if ($this->factory->classExists($page) == false)
+			{
 
-        return $this->factory->createClass( $page );
-    }
+				return null;
+			}
 
-    /**
-     * Processes the middlewares
-     */
+			return $this->factory->createClass($page);
+		}
 
-    private function processMiddlewares()
-    {
+		/**
+		 * Processes the middlewares
+		 */
 
-        $middlewares = new Middlewares();
+		private function processMiddlewares()
+		{
 
-        if( $middlewares->hasMiddlewares() )
-        {
+			$middlewares = new Middlewares();
 
-            $middlewares->processMiddlewares();
-        }
-    }
+			if ($middlewares->hasMiddlewares())
+			{
 
-    /**
-     * Returns true if we are the index
-     *
-     * @param $page
-     *
-     * @return bool
-     */
+				$middlewares->processMiddlewares();
+			}
+		}
 
-    private function isIndex( $page )
-    {
+		/**
+		 * Returns true if we are the index
+		 *
+		 * @param $page
+		 *
+		 * @return bool
+		 */
 
-        if( Settings::setting('controller_index_root') !== '/' )
-        {
+		private function isIndex($page)
+		{
 
-            if( '/' . $page == Settings::setting('controller_index_root') )
-            {
+			if (Settings::setting('controller_index_root') !== '/')
+			{
 
-                return true;
-            }
-        }
-        else
-        {
+				if ('/' . $page == Settings::setting('controller_index_root'))
+				{
 
-            if( $page == Settings::setting('controller_index_root') )
-            {
+					return true;
+				}
+			}
+			else
+			{
 
-                return true;
-            }
-        }
+				if ($page == Settings::setting('controller_index_root'))
+				{
 
-        return false;
-    }
+					return true;
+				}
+			}
 
-    /**
-     * Creates the page class
-     *
-     * @param $page
-     */
+			return false;
+		}
 
-    private function createPage( $page )
-    {
+		/**
+		 * Creates the page class
+		 *
+		 * @param $page
+		 */
 
-        if( $this->factory->classExists( $page ) == false )
-        {
+		private function createPage($page)
+		{
 
-            return;
-        }
+			if ($this->factory->classExists($page) == false)
+			{
 
-        $this->processClass( $this->factory->createClass( $page ) );
-    }
+				return;
+			}
 
+			$this->processClass($this->factory->createClass($page));
+		}
 
-    /**
-     * Processes the class
-     *
-     * @param Page $class
-     */
 
-    private function processClass( Page $class )
-    {
+		/**
+		 * Processes the class
+		 *
+		 * @param Page $class
+		 */
 
-        if( $class instanceof Page == false )
-        {
+		private function processClass(Page $class)
+		{
 
-            throw new ViewException('Class does not have required interface');
-        }
+			if ($class instanceof Page == false)
+			{
 
-        $this->processFlightRoutes( $class, $class->mapping() );
-    }
+				throw new ViewException('Class does not have required interface');
+			}
 
-    /**
-     * Returns true if we can execute middlewares on the current page
-     *
-     * @param $page
-     *
-     * @return bool
-     */
+			$this->processFlightRoutes($class, $class->mapping());
+		}
 
-    private function canExecuteMiddlewaresOnPage( $page )
-    {
+		/**
+		 * Returns true if we can execute middlewares on the current page
+		 *
+		 * @param $page
+		 *
+		 * @return bool
+		 */
 
-        foreach(Settings::setting('middlewares_disabled_pages') as $value )
-        {
+		private function canExecuteMiddlewaresOnPage($page)
+		{
 
-            if( $page == $value )
-            {
+			foreach (Settings::setting('middlewares_disabled_pages') as $value)
+			{
 
-                return false;
-            }
-        }
+				if ($page == $value)
+				{
 
-        return true;
-    }
+					return false;
+				}
+			}
 
-    /**
-     * Processes the flight route
-     *
-     * @param $class
-     *
-     * @param $array
-     *
-     * @return bool
-     */
+			return true;
+		}
 
-    private function processFlightRoutes( $class, $array )
-    {
+		/**
+		 * Processes the flight route
+		 *
+		 * @param $class
+		 *
+		 * @param $array
+		 *
+		 * @return bool
+		 */
 
-        foreach( $array as $route )
-        {
+		private function processFlightRoutes($class, $array)
+		{
 
+			foreach ($array as $route)
+			{
 
 
-            if( method_exists( $class, $route[1] ) == false )
-            {
+				if (method_exists($class, $route[1]) == false)
+				{
 
-                throw new ViewException('Method does not exist in class: ' . $route[0] . " => " . $route[1] );
-            }
+					throw new ViewException('Method does not exist in class: ' . $route[0] . " => " . $route[1]);
+				}
 
-            Flight::route( $route[0], array( $class, $route[1] ) );
-        }
+				Flight::route($route[0], array($class, $route[1]));
+			}
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * Returns true if we have URL Keys
-     *
-     * @param $page
-     *
-     * @return bool
-     */
+		/**
+		 * Returns true if we have URL Keys
+		 *
+		 * @param $page
+		 *
+		 * @return bool
+		 */
 
-    private function hasURLKey( $page )
-    {
+		private function hasURLKey($page)
+		{
 
-        if( explode('?', $page ) )
-        {
+			if (explode('?', $page))
+			{
 
-            return true;
-        }
+				return true;
+			}
 
-        return false;
-    }
+			return false;
+		}
 
-    /**
-     * Removes a URL key from the page
-     *
-     * @param $page
-     *
-     * @return mixed
-     */
+		/**
+		 * Removes a URL key from the page
+		 *
+		 * @param $page
+		 *
+		 * @return mixed
+		 */
 
-    private function removeURLKey( $page )
-    {
+		private function removeURLKey($page)
+		{
 
-        $keys = explode('?', $page );
+			$keys = explode('?', $page);
 
-        if( empty( $keys ) )
-        {
+			if (empty($keys))
+			{
 
-            throw new ViewException();
-        }
+				throw new ViewException();
+			}
 
-        return reset( $keys );
-    }
+			return reset($keys);
+		}
 
-    /**
-     * Gets the page
-     *
-     * @param $url
-     *
-     * @return array
-     */
+		/**
+		 * Gets the page
+		 *
+		 * @param $url
+		 *
+		 * @return array
+		 */
 
-    private function getPage( $url )
-    {
+		private function getPage($url)
+		{
 
-        return array_values( array_filter( explode('/', $url ) ) );
-    }
+			return array_values(array_filter(explode('/', $url)));
+		}
 
-    /**
-     * Checks the URL
-     *
-     * @param $url
-     *
-     * @return bool
-     */
+		/**
+		 * Checks the URL
+		 *
+		 * @param $url
+		 *
+		 * @return bool
+		 */
 
-    private function checkURL( $url )
-    {
+		private function checkURL($url)
+		{
 
-        if( strlen( $url ) > Settings::setting('controller_url_length') )
-        {
+			if (strlen($url) > Settings::setting('controller_url_length'))
+			{
 
-            return false;
-        }
+				return false;
+			}
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * Gets the URL
-     *
-     * @return mixed
-     */
+		/**
+		 * Gets the URL
+		 *
+		 * @return mixed
+		 */
 
-    private function getURL()
-    {
+		private function getURL()
+		{
 
-        return strip_tags( $_SERVER['REQUEST_URI'] );
-    }
-}
+			return strip_tags($_SERVER['REQUEST_URI']);
+		}
+	}

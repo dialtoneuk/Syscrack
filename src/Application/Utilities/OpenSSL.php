@@ -1,105 +1,106 @@
 <?php
-namespace Framework\Application\Utilities;
-use Framework\Exceptions\ApplicationException;
 
-/**
- * Class OpenSSL
- *
- * @package Framework\Application\Utilities
- */
+	namespace Framework\Application\Utilities;
 
-class OpenSSL
-{
+	use Framework\Exceptions\ApplicationException;
 
-    public function encrypt( $data, $key, $iv, $cipher='AES-128-CBC' )
-    {
+	/**
+	 * Class OpenSSL
+	 *
+	 * @package Framework\Application\Utilities
+	 */
+	class OpenSSL
+	{
 
-        return base64_encode( openssl_encrypt( $data, $cipher, $key, 0, $iv ) );
-    }
+		public function encrypt($data, $key, $iv, $cipher = 'AES-128-CBC')
+		{
 
-    public function encryptArray( $array=[], $key, $iv, $cipher='AES-128-CBC' )
-    {
+			return base64_encode(openssl_encrypt($data, $cipher, $key, 0, $iv));
+		}
 
-        if ( empty( $array ) )
-        {
+		public function encryptArray($array = [], $key, $iv, $cipher = 'AES-128-CBC')
+		{
 
-            throw new ApplicationException('Array must not be empty');
-        }
+			if (empty($array))
+			{
 
-        $encrypted = [];
+				throw new ApplicationException('Array must not be empty');
+			}
 
-        foreach ( $array as $item=>$value )
-        {
+			$encrypted = [];
 
-            if ( is_array( $value ) )
-            {
+			foreach ($array as $item => $value)
+			{
 
-                $encrypted[ $this->encrypt( $item, $key, $iv, $cipher ) ] = $this->encryptArray( $value, $key, $iv, $cipher );
-            }
-            elseif( is_string( $value ) )
-            {
+				if (is_array($value))
+				{
 
-                $encrypted[ $this->encrypt( $item, $key, $iv, $cipher ) ] = $this->encrypt( $value, $key, $iv, $cipher );
-            }
-            else
-            {
+					$encrypted[$this->encrypt($item, $key, $iv, $cipher)] = $this->encryptArray($value, $key, $iv, $cipher);
+				}
+				else if (is_string($value))
+				{
 
-                throw new ApplicationException('Unknown type');
-            }
-        }
+					$encrypted[$this->encrypt($item, $key, $iv, $cipher)] = $this->encrypt($value, $key, $iv, $cipher);
+				}
+				else
+				{
 
-        return $encrypted;
-    }
+					throw new ApplicationException('Unknown type');
+				}
+			}
 
-    public function getKey( $length=32 )
-    {
+			return $encrypted;
+		}
 
-        return base64_encode( openssl_random_pseudo_bytes( $length ) );
-    }
+		public function getKey($length = 32)
+		{
 
-    public function getIV( $cipher='AES-128-CBC' )
-    {
+			return base64_encode(openssl_random_pseudo_bytes($length));
+		}
 
-        return openssl_random_pseudo_bytes( openssl_cipher_iv_length( $cipher ) );
-    }
+		public function getIV($cipher = 'AES-128-CBC')
+		{
 
-    public function decrypt( $data, $key, $iv, $cipher='AES-128-CBC')
-    {
+			return openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
+		}
 
-        return openssl_decrypt( base64_decode( $data ), $cipher, $key, $options=OPENSSL_RAW_DATA, $iv);
-    }
+		public function decrypt($data, $key, $iv, $cipher = 'AES-128-CBC')
+		{
 
-    public function decryptArray( $array=[], $key, $iv, $cipher='AES-128-CBC' )
-    {
+			return openssl_decrypt(base64_decode($data), $cipher, $key, $options = OPENSSL_RAW_DATA, $iv);
+		}
 
-        if ( empty( $array ) )
-        {
+		public function decryptArray($array = [], $key, $iv, $cipher = 'AES-128-CBC')
+		{
 
-            throw new ApplicationException('Array must not be empty');
-        }
+			if (empty($array))
+			{
 
-        $decrypted = [];
+				throw new ApplicationException('Array must not be empty');
+			}
 
-        foreach ( $array as $item=>$value )
-        {
+			$decrypted = [];
 
-            if ( is_array( $value ) )
-            {
+			foreach ($array as $item => $value)
+			{
 
-                $decrypted[ $this->decrypt( $item, $key, $iv, $cipher ) ] = $this->decryptArray( $value, $key, $iv, $cipher );
-            }
-            elseif( is_string( $value ) )
-            {
+				if (is_array($value))
+				{
 
-                $decrypted[ $this->decrypt( $item, $key, $iv, $cipher ) ] = $this->decrypt( $value, $key, $iv, $cipher );
-            }
-            else
-            {
+					$decrypted[$this->decrypt($item, $key, $iv, $cipher)] = $this->decryptArray($value, $key, $iv, $cipher);
+				}
+				else if (is_string($value))
+				{
 
-                throw new ApplicationException('Unknown type');
-            }
-        }
+					$decrypted[$this->decrypt($item, $key, $iv, $cipher)] = $this->decrypt($value, $key, $iv, $cipher);
+				}
+				else
+				{
 
-        return $decrypted;
-    }
-}
+					throw new ApplicationException('Unknown type');
+				}
+			}
+
+			return $decrypted;
+		}
+	}

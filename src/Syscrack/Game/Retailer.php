@@ -1,202 +1,203 @@
 <?php
-    namespace Framework\Syscrack\Game;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Retailer
-     *
-     * @package Framework\Syscrack
-     */
+	namespace Framework\Syscrack\Game;
 
-    use Framework\Application\Settings;
-    use Framework\Application\Utilities\FileSystem;
-    use Framework\Exceptions\SyscrackException;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Retailer
+	 *
+	 * @package Framework\Syscrack
+	 */
 
-    class Retailer
-    {
+	use Framework\Application\Settings;
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Exceptions\SyscrackException;
 
-        /**
-         * @var Computer
-         */
+	class Retailer
+	{
 
-        protected $computer;
+		/**
+		 * @var Computer
+		 */
 
-        /**
-         * Retailer constructor.
-         */
+		protected $computer;
 
-        public function __construct()
-        {
+		/**
+		 * Retailer constructor.
+		 */
 
-            if( isset( $this->computers ) == false )
-            {
+		public function __construct()
+		{
 
-                $this->computers = new Computer();
-            }
-        }
+			if (isset($this->computers) == false)
+			{
 
-        /**
-         * Returns true if this computer is a retailer
-         *
-         * @param $computerid
-         *
-         * @return bool
-         */
+				$this->computers = new Computer();
+			}
+		}
 
-        public function isRetailer( $computerid )
-        {
+		/**
+		 * Returns true if this computer is a retailer
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-            if( $this->computers->getComputerType( $computerid ) !== Settings::setting('syscrack_computers_retailer_type') )
-            {
+		public function isRetailer($computerid)
+		{
 
-                return false;
-            }
+			if ($this->computers->getComputerType($computerid) !== Settings::setting('syscrack_computers_retailer_type'))
+			{
 
-            return true;
-        }
+				return false;
+			}
 
-        /**
-         * Returns true if this computer has stock
-         *
-         * @param $computerid
-         *
-         * @return bool
-         */
+			return true;
+		}
 
-        public function hasStock( $computerid )
-        {
+		/**
+		 * Returns true if this computer has stock
+		 *
+		 * @param $computerid
+		 *
+		 * @return bool
+		 */
 
-            if( FileSystem::fileExists( $this->getFilePath( $computerid ) . 'stock.json' ) == false )
-            {
+		public function hasStock($computerid)
+		{
 
-                return false;
-            }
+			if (FileSystem::fileExists($this->getFilePath($computerid) . 'stock.json') == false)
+			{
 
-            if( empty( $this->getFilePath( $computerid ) ) )
-            {
+				return false;
+			}
 
-                return false;
-            }
+			if (empty($this->getFilePath($computerid)))
+			{
 
-            return true;
-        }
+				return false;
+			}
 
-        /**
-         * Adds a stock item to the market
-         *
-         * @param $computerid
-         *
-         * @param $itemid
-         *
-         * @param array $data
-         */
+			return true;
+		}
 
-        public function addStockItem( $computerid, $itemid, array $data = ['name' => 'Default CPU', 'type' => 'hardware', 'hardware' => 'cpu', 'value' => '1000', 'price' => 100, 'quantity' => 10 ] )
-        {
+		/**
+		 * Adds a stock item to the market
+		 *
+		 * @param $computerid
+		 *
+		 * @param $itemid
+		 *
+		 * @param array $data
+		 */
 
-            $stock = $this->getStock( $computerid );
+		public function addStockItem($computerid, $itemid, array $data = ['name' => 'Default CPU', 'type' => 'hardware', 'hardware' => 'cpu', 'value' => '1000', 'price' => 100, 'quantity' => 10])
+		{
 
-            if( isset( $stock[ $itemid ] ) )
-            {
+			$stock = $this->getStock($computerid);
 
-                throw new SyscrackException();
-            }
+			if (isset($stock[$itemid]))
+			{
 
-            $stock[ $itemid ] = array_merge( $data, [
-                'timeadded' => time()
-            ]);
+				throw new SyscrackException();
+			}
 
-            $this->save( $computerid, $stock );
-        }
+			$stock[$itemid] = array_merge($data, [
+				'timeadded' => time()
+			]);
 
-        /**
-         * Removes a stock item
-         *
-         * @param $computerid
-         *
-         * @param $itemid
-         */
+			$this->save($computerid, $stock);
+		}
 
-        public function removeStockItem( $computerid, $itemid )
-        {
+		/**
+		 * Removes a stock item
+		 *
+		 * @param $computerid
+		 *
+		 * @param $itemid
+		 */
 
-            $stock = $this->getStock( $computerid );
+		public function removeStockItem($computerid, $itemid)
+		{
 
-            if( isset( $stock[ $itemid ] ) == false )
-            {
+			$stock = $this->getStock($computerid);
 
-                throw new SyscrackException();
-            }
+			if (isset($stock[$itemid]) == false)
+			{
 
-            unset( $stock[ $itemid ] );
+				throw new SyscrackException();
+			}
 
-            $this->save( $computerid, $stock );
-        }
+			unset($stock[$itemid]);
 
-        /**
-         * Gets the retailers stock
-         *
-         * @param $computerid
-         *
-         * @return mixed
-         */
+			$this->save($computerid, $stock);
+		}
 
-        public function getStock( $computerid )
-        {
+		/**
+		 * Gets the retailers stock
+		 *
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 
-            return FileSystem::readJson( $this->getFilePath( $computerid ) . 'stock.json' );
-        }
+		public function getStock($computerid)
+		{
 
-        /**
-         * Returns true if we have this stock items
-         *
-         * @param $computerid
-         *
-         * @param $itemid
-         *
-         * @return bool
-         */
+			return FileSystem::readJson($this->getFilePath($computerid) . 'stock.json');
+		}
 
-        public function hasStockItem( $computerid, $itemid )
-        {
+		/**
+		 * Returns true if we have this stock items
+		 *
+		 * @param $computerid
+		 *
+		 * @param $itemid
+		 *
+		 * @return bool
+		 */
 
-            $stock = $this->getStock( $computerid );
+		public function hasStockItem($computerid, $itemid)
+		{
 
-            if( isset( $stock[ $itemid ] ) == false )
-            {
+			$stock = $this->getStock($computerid);
 
-                return false;
-            }
+			if (isset($stock[$itemid]) == false)
+			{
 
-            return true;
-        }
+				return false;
+			}
 
-        /**
-         * Saves the retailers stock
-         *
-         * @param $computerid
-         *
-         * @param array $data
-         */
+			return true;
+		}
 
-        private function save( $computerid, array $data=[] )
-        {
+		/**
+		 * Saves the retailers stock
+		 *
+		 * @param $computerid
+		 *
+		 * @param array $data
+		 */
 
-            FileSystem::writeJson( $this->getFilePath( $computerid ) . 'stocks.json', $data );
-        }
+		private function save($computerid, array $data = [])
+		{
 
-        /**
-         * Gets the filepath
-         *
-         * @param $computerid
-         *
-         * @return string
-         */
+			FileSystem::writeJson($this->getFilePath($computerid) . 'stocks.json', $data);
+		}
 
-        private function getFilePath( $computerid )
-        {
+		/**
+		 * Gets the filepath
+		 *
+		 * @param $computerid
+		 *
+		 * @return string
+		 */
 
-            return Settings::setting('syscrack_retailer_location') . $computerid . '/';
-        }
-    }
+		private function getFilePath($computerid)
+		{
+
+			return Settings::setting('syscrack_retailer_location') . $computerid . '/';
+		}
+	}

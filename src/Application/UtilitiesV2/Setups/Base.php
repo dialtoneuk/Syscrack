@@ -1,89 +1,92 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 21/07/2018
- * Time: 03:06
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 21/07/2018
+	 * Time: 03:06
+	 */
 
-namespace Framework\Application\UtilitiesV2\Setups;
+	namespace Framework\Application\UtilitiesV2\Setups;
 
 
-use Framework\Application\UtilitiesV2\Debug;
-use Framework\Application\UtilitiesV2\Interfaces\Setup;
+	use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Application\UtilitiesV2\Interfaces\Setup;
 
-abstract class Base implements Setup
-{
+	abstract class Base implements Setup
+	{
 
-    /**
-     * Base constructor.
-     * @throws \RuntimeException
-     */
+		/**
+		 * Base constructor.
+		 * @throws \RuntimeException
+		 */
 
-    public function __construct()
-    {
+		public function __construct()
+		{
 
-        if( Debug::isCMD() == false )
-            throw new \RuntimeException("Not in CMD mode");
-    }
+			if (Debug::isCMD() == false)
+				throw new \RuntimeException("Not in CMD mode");
+		}
 
-    /**
-     * @return bool
-     */
+		/**
+		 * @return bool
+		 */
 
-    public function process()
-    {
+		public function process()
+		{
 
-        return( true );
-    }
+			return (true);
+		}
 
-    /**
-     * @param array $inputs
-     * @return array
-     */
+		/**
+		 * @param array $inputs
+		 *
+		 * @return array
+		 */
 
-    public function getInputs( array $inputs )
-    {
+		public function getInputs(array $inputs)
+		{
 
-        $results = [];
+			$results = [];
 
-        foreach( $inputs as $key=>$value )
-            $results[ $key ] = Debug::getLine( $key );
+			foreach ($inputs as $key => $value)
+				$results[$key] = Debug::getLine($key);
 
-        return( $results );
-    }
+			return ($results);
+		}
 
-    /**
-     * @param $file
-     * @param bool $array
-     * @return mixed
-     */
+		/**
+		 * @param $file
+		 * @param bool $array
+		 *
+		 * @return mixed
+		 */
 
-    public function read( $file, $array=true )
-    {
+		public function read($file, $array = true)
+		{
 
-        return( json_decode( file_get_contents( SYSCRACK_ROOT . $file ), $array ) );
-    }
+			return (json_decode(file_get_contents(SYSCRACK_ROOT . $file), $array));
+		}
 
-    /**
-     * @param $file
-     * @param array $data
-     */
+		/**
+		 * @param $file
+		 * @param array $data
+		 */
 
-    public function write( $file, array $data )
-    {
+		public function write($file, array $data)
+		{
 
-        file_put_contents( SYSCRACK_ROOT . $file, json_encode( $data ) );
-    }
+			file_put_contents(SYSCRACK_ROOT . $file, json_encode($data));
+		}
 
-    /**
-     * @param $file
-     * @return bool
-     */
+		/**
+		 * @param $file
+		 *
+		 * @return bool
+		 */
 
-    public function exists( $file )
-    {
+		public function exists($file)
+		{
 
-        return( file_exists( SYSCRACK_ROOT . $file ) );
-    }
-}
+			return (file_exists(SYSCRACK_ROOT . $file));
+		}
+	}

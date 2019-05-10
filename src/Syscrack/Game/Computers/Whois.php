@@ -1,70 +1,71 @@
 <?php
-    namespace Framework\Syscrack\Game\Computers;
 
-    /**
-     * Lewis Lancaster 2017
-     *
-     * Class Whois
-     *
-     * @package Framework\Syscrack\Game\Computers
-     */
+	namespace Framework\Syscrack\Game\Computers;
 
-    use Framework\Application\Settings;
-    use Framework\Syscrack\Game\BaseClasses\BaseComputer;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class Whois
+	 *
+	 * @package Framework\Syscrack\Game\Computers
+	 */
 
-    class Whois extends Npc
-    {
+	use Framework\Application\Settings;
 
-        /**
-         * The configuration of this computer
-         *
-         * @return array
-         */
+	class Whois extends Npc
+	{
 
-        public function configuration()
-        {
+		/**
+		 * The configuration of this computer
+		 *
+		 * @return array
+		 */
 
-            return array(
-                'installable'   => false,
-                'type'          => 'whois',
-                'data'          => true
-            );
-        }
+		public function configuration()
+		{
 
-        /**
-         * @param $computerid
-         * @param $userid
-         * @return array
-         */
+			return array(
+				'installable' => false,
+				'type' => 'whois',
+				'data' => true
+			);
+		}
 
-        public function data($computerid, $userid)
-        {
+		/**
+		 * @param $computerid
+		 * @param $userid
+		 *
+		 * @return array
+		 */
 
-            $computers = [];
-            $metaset = [];
+		public function data($computerid, $userid)
+		{
 
-            if( self::$metadata->exists( $computerid ) )
-                $metadata =  self::$metadata->get( $computerid );
-            else
-                $metadata = [];
+			$computers = [];
+			$metaset = [];
 
-            if( isset( $metadata->whois ) )
-                $array = $metadata->whois;
-            else
-                $array = Settings::setting("syscrack_whois_default_computers");
+			if (self::$metadata->exists($computerid))
+				$metadata = self::$metadata->get($computerid);
+			else
+				$metadata = [];
 
-            foreach( $array as $computerid )
-            {
+			if (isset($metadata->whois))
+				$array = $metadata->whois;
+			else
+				$array = Settings::setting("syscrack_whois_default_computers");
 
-                $computers[ $computerid ] = self::$computer->getComputer( $computerid );
+			foreach ($array as $computerid)
+			{
 
-                if( self::$metadata->exists( $computerid ) )
-                    $metaset[ $computerid ] = self::$metadata->get( $computerid );
-            }
+				$computers[$computerid] = self::$computer->getComputer($computerid);
 
-            return([
-                "whois_computers" => $computers,
-                "metaset"       => $metaset
-            ]);
-        }
-    }
+				if (self::$metadata->exists($computerid))
+					$metaset[$computerid] = self::$metadata->get($computerid);
+			}
+
+			return ([
+				"whois_computers" => $computers,
+				"metaset" => $metaset
+			]);
+		}
+	}

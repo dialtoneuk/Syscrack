@@ -1,284 +1,296 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lewis
- * Date: 30/06/2018
- * Time: 00:25
- */
-namespace Framework\Application\UtilitiesV2;
+	/**
+	 * Created by PhpStorm.
+	 * User: lewis
+	 * Date: 30/06/2018
+	 * Time: 00:25
+	 */
 
-class Constructor
-{
+	namespace Framework\Application\UtilitiesV2;
 
-    /**
-     * @var \stdClass
-     */
+	class Constructor
+	{
 
-    private $objects;
+		/**
+		 * @var \stdClass
+		 */
 
-    /**
-     * @var string
-     */
+		private $objects;
 
-    private $filepath;
+		/**
+		 * @var string
+		 */
 
-    /**
-     * @var string
-     */
+		private $filepath;
 
-    private $namespace;
+		/**
+		 * @var string
+		 */
 
-    /**
-     * Factory constructor.
-     * @param $filepath
-     * @param $namespace
-     * @throws \RuntimeException
-     */
+		private $namespace;
 
-    public function __construct( $filepath, $namespace )
-    {
+		/**
+		 * Factory constructor.
+		 *
+		 * @param $filepath
+		 * @param $namespace
+		 *
+		 * @throws \RuntimeException
+		 */
 
-        Debug::message('Constructor created with file_path ' . $filepath . ' and namespace of ' . $namespace );
+		public function __construct($filepath, $namespace)
+		{
 
-        $this->objects = new \stdClass();
+			Debug::message('Constructor created with file_path ' . $filepath . ' and namespace of ' . $namespace);
 
-        if ( file_exists( SYSCRACK_ROOT . $filepath ) == false || is_dir( SYSCRACK_ROOT . $filepath ) == false )
-            throw new \RuntimeException('Root filepath is invalid');
+			$this->objects = new \stdClass();
 
-        $this->file_path = SYSCRACK_ROOT . $filepath;
-        $this->namespace = $namespace;
-    }
+			if (file_exists(SYSCRACK_ROOT . $filepath) == false || is_dir(SYSCRACK_ROOT . $filepath) == false)
+				throw new \RuntimeException('Root filepath is invalid');
 
-    /**
-     * Destructor
-     */
+			$this->file_path = SYSCRACK_ROOT . $filepath;
+			$this->namespace = $namespace;
+		}
 
-    public function __destruct()
-    {
+		/**
+		 * Destructor
+		 */
 
-        unset( $this->objects );
-    }
+		public function __destruct()
+		{
 
-    /**
-     * @return bool
-     */
+			unset($this->objects);
+		}
 
-    public function isEmpty()
-    {
+		/**
+		 * @return bool
+		 */
 
-        return( empty( $this->objects ) );
-    }
+		public function isEmpty()
+		{
 
-    /**
-     * @param bool $overwrite
-     * @return \stdClass
-     */
+			return (empty($this->objects));
+		}
 
-    public function createAll( $overwrite=true )
-    {
+		/**
+		 * @param bool $overwrite
+		 *
+		 * @return \stdClass
+		 */
 
-        Debug::message('Creating classes in directory');
+		public function createAll($overwrite = true)
+		{
 
-        $files = $this->crawl();
+			Debug::message('Creating classes in directory');
 
-        if ( empty( $files ) )
-            throw new \RuntimeException('No files found');
+			$files = $this->crawl();
 
-        if( $overwrite )
-            if( empty($this->objects ) == false )
-                $this->objects = new \stdClass();
+			if (empty($files))
+				throw new \RuntimeException('No files found');
 
-        if( $this->check( $files ) == false )
-            throw new \RuntimeException('Either one or more classes do not exist in namespace ' . $this->namespace . ' : ' . print_r( $files ));
+			if ($overwrite)
+				if (empty($this->objects) == false)
+					$this->objects = new \stdClass();
 
-        foreach ( $files as $file )
-        {
+			if ($this->check($files) == false)
+				throw new \RuntimeException('Either one or more classes do not exist in namespace ' . $this->namespace . ' : ' . print_r($files));
 
-            if( strtolower( $file ) == FRAMEWORK_BASECLASS )
-                continue;
+			foreach ($files as $file)
+			{
 
-            $namespace = $this->build( $file );
+				if (strtolower($file) == FRAMEWORK_BASECLASS)
+					continue;
 
-            Debug::message('Working with class: ' . $namespace );
+				$namespace = $this->build($file);
 
-            $class = new $namespace;
+				Debug::message('Working with class: ' . $namespace);
 
-            $file = strtolower( $file );
+				$class = new $namespace;
 
-            if( isset( $this->objects->$file ) )
-                if( $this->objects->$file === $class )
-                    continue;
+				$file = strtolower($file);
 
-            $this->objects->$file = $class;
-        }
+				if (isset($this->objects->$file))
+					if ($this->objects->$file === $class)
+						continue;
 
-        Debug::message('Finished creating classes');
+				$this->objects->$file = $class;
+			}
 
-        return $this->objects;
-    }
+			Debug::message('Finished creating classes');
 
-    /**
-     * @param $class_name
-     * @return mixed
-     * @throws \RuntimeException
-     */
+			return $this->objects;
+		}
 
-    public function createSingular( $class_name )
-    {
+		/**
+		 * @param $class_name
+		 *
+		 * @return mixed
+		 * @throws \RuntimeException
+		 */
 
-        if( class_exists( $this->namespace . $class_name ) == false )
-            throw new \RuntimeException('Class does not exist');
+		public function createSingular($class_name)
+		{
 
-        $namespace = $this->build( $class_name );
-        $class_name = strtolower( $class_name );
+			if (class_exists($this->namespace . $class_name) == false)
+				throw new \RuntimeException('Class does not exist');
 
-        $this->objects->$class_name = new $namespace;
+			$namespace = $this->build($class_name);
+			$class_name = strtolower($class_name);
 
-        return $this->objects->$class_name;
-    }
+			$this->objects->$class_name = new $namespace;
 
-    /**
-     * @param bool $array
-     * @return array|\stdClass
-     */
+			return $this->objects->$class_name;
+		}
 
-    public function getAll( $array=false )
-    {
+		/**
+		 * @param bool $array
+		 *
+		 * @return array|\stdClass
+		 */
 
-        if( empty( $this->objects ) )
-            return null;
+		public function getAll($array = false)
+		{
 
-        if( $array )
-            return Format::toArray( $this->objects );
+			if (empty($this->objects))
+				return null;
 
-        return $this->objects;
-    }
+			if ($array)
+				return Format::toArray($this->objects);
 
-    /**
-     * @param $class_name
-     * @return mixed
-     */
+			return $this->objects;
+		}
 
-    public function get( $class_name )
-    {
+		/**
+		 * @param $class_name
+		 *
+		 * @return mixed
+		 */
 
-        $class_name = strtolower( $class_name );
+		public function get($class_name)
+		{
 
-        return $this->objects->$class_name;
-    }
+			$class_name = strtolower($class_name);
 
-    public function getClassNames()
-    {
+			return $this->objects->$class_name;
+		}
 
+		public function getClassNames()
+		{
 
-    }
 
-    /**
-     * @param $class_name
-     * @return bool
-     */
+		}
 
-    public function existsInDir( $class_name )
-    {
+		/**
+		 * @param $class_name
+		 *
+		 * @return bool
+		 */
 
-        $files = $this->crawl();
+		public function existsInDir($class_name)
+		{
 
-        foreach( $files as $file )
-        {
+			$files = $this->crawl();
 
-            if( strtolower( $file ) == strtolower( $class_name ) )
-                return true;
-        }
+			foreach ($files as $file)
+			{
 
-        return false;
-    }
+				if (strtolower($file) == strtolower($class_name))
+					return true;
+			}
 
-    /**
-     * @param $class_name
-     */
+			return false;
+		}
 
-    public function remove( $class_name)
-    {
+		/**
+		 * @param $class_name
+		 */
 
-        unset( $this->objects->$class_name );
-    }
+		public function remove($class_name)
+		{
 
-    /**
-     * @param string $class_name
-     * @return bool
-     */
+			unset($this->objects->$class_name);
+		}
 
-    public function exist( string $class_name )
-    {
+		/**
+		 * @param string $class_name
+		 *
+		 * @return bool
+		 */
 
-        $class_name = strtolower( $class_name  );
+		public function exist(string $class_name)
+		{
 
-        return( isset( $this->objects-> $class_name ) );
-    }
+			$class_name = strtolower($class_name);
 
-    /**
-     * @return array
-     */
+			return (isset($this->objects->$class_name));
+		}
 
-    private function crawl()
-    {
+		/**
+		 * @return array
+		 */
 
-        $files = glob( $this->file_path . '*.php' );
+		private function crawl()
+		{
 
-        foreach ( $files as $key=>$file )
-        {
+			$files = glob($this->file_path . '*.php');
 
-            $files[ $key ] = $this->trim( $file );
-        }
+			foreach ($files as $key => $file)
+			{
 
-        return $files;
-    }
+				$files[$key] = $this->trim($file);
+			}
 
-    /**
-     * @param array $class_names
-     * @return bool
-     * @throws \RuntimeException
-     */
+			return $files;
+		}
 
-    private function check( array $class_names )
-    {
+		/**
+		 * @param array $class_names
+		 *
+		 * @return bool
+		 * @throws \RuntimeException
+		 */
 
-        foreach ( $class_names as $class )
-        {
+		private function check(array $class_names)
+		{
 
-            if ( is_string( $class ) == false )
-                throw new \RuntimeException('Type Error');
+			foreach ($class_names as $class)
+			{
 
-            if ( class_exists( $this->namespace . $class ) == false )
-                return false;
-        }
+				if (is_string($class) == false)
+					throw new \RuntimeException('Type Error');
 
-        return true;
-    }
+				if (class_exists($this->namespace . $class) == false)
+					return false;
+			}
 
-    /**
-     * @param $class_name
-     * @return string
-     */
+			return true;
+		}
 
-    private function build( $class_name )
-    {
+		/**
+		 * @param $class_name
+		 *
+		 * @return string
+		 */
 
-        return( $this->namespace . $class_name );
-    }
+		private function build($class_name)
+		{
 
-    /**
-     * @param $filename
-     * @return string
-     */
+			return ($this->namespace . $class_name);
+		}
 
-    private function trim( $filename )
-    {
+		/**
+		 * @param $filename
+		 *
+		 * @return string
+		 */
 
-        $exploded = explode("/", $filename );#
-        $file = end( $exploded );
-        $filename = explode('.', $file );
+		private function trim($filename)
+		{
 
-        return( $filename[0] );
-    }
-}
+			$exploded = explode("/", $filename);#
+			$file = end($exploded);
+			$filename = explode('.', $file);
+
+			return ($filename[0]);
+		}
+	}

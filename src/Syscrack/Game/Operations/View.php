@@ -1,165 +1,167 @@
 <?php
-namespace Framework\Syscrack\Game\Operations;
 
-/**
- * Lewis Lancaster 2017
- *
- * Class View
- *
- * @package Framework\Syscrack\Game\Operations
- */
+	namespace Framework\Syscrack\Game\Operations;
 
-use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-use Framework\Syscrack\User;
+	/**
+	 * Lewis Lancaster 2017
+	 *
+	 * Class View
+	 *
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 
-class View extends BaseOperation
-{
+	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\User;
 
-    protected static $user;
+	class View extends BaseOperation
+	{
 
-    /**
-     * View constructor.
-     */
+		protected static $user;
 
-    public function __construct()
-    {
+		/**
+		 * View constructor.
+		 */
 
-        if( isset( self::$user ) == false )
-            self::$user = new User();
+		public function __construct()
+		{
 
-        parent::__construct( true );
-    }
+			if (isset(self::$user) == false)
+				self::$user = new User();
 
-    /**
-     * Returns the configuration
-     *
-     * @return array
-     */
+			parent::__construct(true);
+		}
 
-    public function configuration()
-    {
+		/**
+		 * Returns the configuration
+		 *
+		 * @return array
+		 */
 
-        return array(
-            'allowsoftware'     => true,
-            'allowlocal'        => true,
-            'requiresoftware'   => true,
-            'requireloggedin'   => true,
-            'elevated'          => true
-        );
-    }
+		public function configuration()
+		{
 
-    /**
-     * Called when this process request is created
-     *
-     * @param $timecompleted
-     *
-     * @param $computerid
-     *
-     * @param $userid
-     *
-     * @param $process
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
+			return array(
+				'allowsoftware' => true,
+				'allowlocal' => true,
+				'requiresoftware' => true,
+				'requireloggedin' => true,
+				'elevated' => true
+			);
+		}
 
-    public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-    {
+		/**
+		 * Called when this process request is created
+		 *
+		 * @param $timecompleted
+		 *
+		 * @param $computerid
+		 *
+		 * @param $userid
+		 *
+		 * @param $process
+		 *
+		 * @param array $data
+		 *
+		 * @return mixed
+		 */
 
-        if( $this->checkData( $data ) == false )
-            return false;
+		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
+		{
+
+			if ($this->checkData($data) == false)
+				return false;
 
 
-        if( self::$software->hasData( $data['softwareid'] ) == false )
-            return false;
+			if (self::$software->hasData($data['softwareid']) == false)
+				return false;
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * @param $timecompleted
-     * @param $timestarted
-     * @param $computerid
-     * @param $userid
-     * @param $process
-     * @param array $data
-     * @return bool
-     */
+		/**
+		 * @param $timecompleted
+		 * @param $timestarted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
 
-    public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
-    {
+		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
+		{
 
-        if( $this->checkData( $data ) == false )
-            return false;
+			if ($this->checkData($data) == false)
+				return false;
 
-        if( self::$internet->ipExists( $data['ipaddress'] ) == false )
-            return false;
-        if( self::$software->softwareExists( $data['softwareid'] ) == false )
-            return false;
+			if (self::$internet->ipExists($data['ipaddress']) == false)
+				return false;
+			if (self::$software->softwareExists($data['softwareid']) == false)
+				return false;
 
-        if( self::$software->hasData( $data['softwareid'] ) == false )
-            return false;
+			if (self::$software->hasData($data['softwareid']) == false)
+				return false;
 
-        $software = self::$software->getSoftware( $data['softwareid']);
+			$software = self::$software->getSoftware($data['softwareid']);
 
-        $this->render('operations/operations.view', array(
-            'software'  => $software,
-            'ipaddress' => self::$internet->getCurrentConnectedAddress(),
-            'data'      => json_decode( $software->data ),
-            'softwaredata'  => self::$software->getSoftwareData( $data['softwareid'] )
-        ), true  );
-    }
+			$this->render('operations/operations.view', array(
+				'software' => $software,
+				'ipaddress' => self::$internet->getCurrentConnectedAddress(),
+				'data' => json_decode($software->data),
+				'softwaredata' => self::$software->getSoftwareData($data['softwareid'])
+			), true);
+		}
 
-    /**
-     * Gets the custom data for this operation
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return array
-     */
+		/**
+		 * Gets the custom data for this operation
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return array
+		 */
 
-    public function getCustomData($ipaddress, $userid)
-    {
+		public function getCustomData($ipaddress, $userid)
+		{
 
-        return array();
-    }
+			return array();
+		}
 
-    /**
-     * Called upon a post request to this operation
-     *
-     * @param $data
-     *
-     * @param $ipaddress
-     *
-     * @param $userid
-     *
-     * @return bool
-     */
+		/**
+		 * Called upon a post request to this operation
+		 *
+		 * @param $data
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
 
-    public function onPost($data, $ipaddress, $userid)
-    {
+		public function onPost($data, $ipaddress, $userid)
+		{
 
-        return true;
-    }
+			return true;
+		}
 
-    /**
-     * Gets the completion time
-     *
-     * @param $computerid
-     *
-     * @param $ipaddress
-     *
-     * @param null $softwareid
-     *
-     * @return null
-     */
+		/**
+		 * Gets the completion time
+		 *
+		 * @param $computerid
+		 *
+		 * @param $ipaddress
+		 *
+		 * @param null $softwareid
+		 *
+		 * @return null
+		 */
 
-    public function getCompletionSpeed($computerid, $ipaddress, $softwareid=null )
-    {
+		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
+		{
 
-        return null;
-    }
-}
+			return null;
+		}
+	}
