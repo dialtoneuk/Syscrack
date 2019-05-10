@@ -20,7 +20,7 @@
 		 * @var Computer
 		 */
 
-		protected $computer;
+		protected static $computer;
 
 		/**
 		 * Market constructor.
