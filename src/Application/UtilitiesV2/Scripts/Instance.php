@@ -50,10 +50,10 @@
 		{
 
 			if (Container::exist("scripts") == false)
-				throw new \RuntimeException("Scripts does not exist");
+				throw new \Error("Scripts does not exist");
 
 			if (self::$active_instance == true)
-				throw new \RuntimeException("cannot run two instances at once");
+				throw new \Error("cannot run two instances at once");
 
 			if ($this->scripts == null)
 				$this->refresh();
@@ -96,7 +96,7 @@
 				}
 
 				$this->setProcessWindow(null, time());
-			} catch (\RuntimeException $exception)
+			} catch (\Error $exception)
 			{
 
 				self::$active_instance = false;
@@ -159,10 +159,10 @@
 		}
 
 		/**
-		 * @param \RuntimeException $exception
+		 * @param \Error $exception
 		 */
 
-		private function printError(\RuntimeException $exception)
+		private function printError(\Error $exception)
 		{
 
 			Debug::echo("\n[EXCEPTION] " . $exception->getMessage());

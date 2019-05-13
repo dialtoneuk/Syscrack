@@ -19,7 +19,7 @@
 		 * @param $arguments
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute($arguments)
@@ -46,7 +46,7 @@
 					Debug::echo("Table successfully quiried", 4);
 				else
 					Debug::echo("Table successfully quiried", 4);
-			} catch (\RuntimeException $error)
+			} catch (\Error $error)
 			{
 
 				return (false);

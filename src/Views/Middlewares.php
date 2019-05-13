@@ -77,7 +77,7 @@
 			{
 
 				$this->getMiddlewares();
-			} catch (\RuntimeException $error)
+			} catch (\Error $error)
 			{
 
 				return false;

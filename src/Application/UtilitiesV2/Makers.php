@@ -49,13 +49,13 @@
 		{
 
 			if ($this->exist($class_name) == false)
-				throw new \RuntimeException("class does not exist");
+				throw new \Error("class does not exist");
 
 			$instance = $this->constructor->get($class_name);
 
 			/** @var Maker $instance */
 			if ($instance instanceof Maker == false)
-				throw new \RuntimeException("invalid instance");
+				throw new \Error("invalid instance");
 
 			try
 			{
@@ -64,7 +64,7 @@
 
 				if (empty($instance->requiredTokens()) == false)
 					if ($this->checkTokenData($values, $instance->requiredTokens()) == false)
-						throw new \RuntimeException("invalid token data");
+						throw new \Error("invalid token data");
 
 				return ($instance->make($values, $path));
 
@@ -86,13 +86,13 @@
 
 
 			if ($this->exist($class_name) == false)
-				throw new \RuntimeException("class does not exist");
+				throw new \Error("class does not exist");
 
 			$instance = $this->constructor->get($class_name);
 
 			/** @var Maker $instance */
 			if ($instance instanceof Maker == false)
-				throw new \RuntimeException("invalid instance");
+				throw new \Error("invalid instance");
 
 			return ($instance->requiredTokens());
 		}

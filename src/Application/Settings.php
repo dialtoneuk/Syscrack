@@ -276,7 +276,7 @@
 				{
 
 					eval("\$parsed = {$match};");
-				} catch (\RuntimeException $error)
+				} catch (\Error $error)
 				{
 
 					throw new ApplicationException($error->getMessage());

@@ -39,14 +39,14 @@
 		 * @param int $delay
 		 * @param null $success
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($url, $delay = 0, $success = null)
 		{
 
 			if (is_string($url) == false || is_int($delay) == false)
-				throw new \RuntimeException("Invalid param types");
+				throw new \Error("Invalid param types");
 
 			if ($success !== null)
 				if (is_bool($success))

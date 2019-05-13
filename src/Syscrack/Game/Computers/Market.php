@@ -12,7 +12,7 @@
 
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Exceptions\SyscrackException;
-	use Framework\Syscrack\Game\BaseClasses\BaseComputer;
+	use Framework\Syscrack\Game\Bases\BaseComputer;
 	use Framework\Syscrack\Game\Market as MarketController;
 
 	class Market extends BaseComputer

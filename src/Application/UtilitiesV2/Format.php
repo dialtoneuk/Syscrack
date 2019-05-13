@@ -62,7 +62,7 @@
 		{
 
 			if (is_array($mixed) == false && is_object($mixed) == false)
-				throw new \RuntimeException("Invalid type");
+				throw new \Error("Invalid type");
 
 			if ($pretty)
 				return (json_encode($mixed, JSON_PRETTY_PRINT));
@@ -155,7 +155,7 @@
 					return (rand(0, 255) . "," . rand(0, 255) . "," . rand(0, 255));
 					break;
 				default:
-					throw new \RuntimeException("Unknown output");
+					throw new \Error("Unknown output");
 					break;
 			}
 		}

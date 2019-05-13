@@ -13,7 +13,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
 	use Framework\Exceptions\SyscrackException;
-	use Framework\Syscrack\Game\Structures\Computer;
+	use Framework\Syscrack\Game\Interfaces\Computer;
 	use Framework\Syscrack\Verification;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 	use Framework\Views\Structures\Page as Structure;

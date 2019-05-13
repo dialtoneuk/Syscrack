@@ -14,14 +14,14 @@
 
 		/**
 		 * Aws constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
 		{
 
 			if ($this->exists(AMAZON_CREDENTIALS_FILE) == false)
-				throw new \RuntimeException("File does not exist");
+				throw new \Error("File does not exist");
 
 			parent::__construct();
 		}

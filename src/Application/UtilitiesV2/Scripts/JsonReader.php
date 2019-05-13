@@ -18,7 +18,7 @@
 		 * @param $arguments
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute($arguments)
@@ -28,7 +28,7 @@
 				$arguments["file"] = $arguments["file"] . ".json";
 
 			if (file_exists(SYSCRACK_ROOT . "config/" . $arguments["file"]) == false)
-				throw new \RuntimeException("File does not exist");
+				throw new \Error("File does not exist");
 
 			if (Debug::isCMD())
 				Debug::echo("Opening file: " . $arguments["file"], 1);

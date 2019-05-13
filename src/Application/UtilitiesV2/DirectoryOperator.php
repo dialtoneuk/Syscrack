@@ -27,17 +27,17 @@
 		 * @param $path
 		 * @param bool $auto_read
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($path, $auto_read = true)
 		{
 
 			//if( file_exists( SYSCRACK_ROOT . $path ) == false )
-			//throw new \RuntimeException("Directory does not exist");
+			//throw new \Error("Directory does not exist");
 
 			if (is_file(SYSCRACK_ROOT . $path))
-				throw new \RuntimeException("Path references file not directory");
+				throw new \Error("Path references file not directory");
 
 			$this->path = $path;
 
@@ -84,7 +84,7 @@
 
 		/**
 		 * @return array|null
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function getDirs()
@@ -147,14 +147,14 @@
 		 * @param array $extension
 		 *
 		 * @return array
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function search(array $extension = [".js"])
 		{
 
 			if (is_array($extension) == false)
-				throw new \RuntimeException();
+				throw new \Error();
 
 
 			if ($this->hasContents() == false)
@@ -180,7 +180,7 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function read()
@@ -191,7 +191,7 @@
 
 		/**
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function isEmpty()
@@ -206,7 +206,7 @@
 
 		/**
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function hasDirs()
@@ -254,7 +254,7 @@
 		 * @param bool $dir_only
 		 *
 		 * @return array|null
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function scrape($dir_only = false)

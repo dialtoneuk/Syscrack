@@ -122,7 +122,7 @@
 
 			$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
 
-			if ($class instanceof \Framework\Syscrack\Game\Structures\Computer == false)
+			if ($class instanceof \Framework\Syscrack\Game\Interfaces\Computer == false)
 				throw new \Error();
 
 			$class->onStartup($computerid, $userid, [], Settings::setting('syscrack_default_hardware'));

@@ -9,7 +9,7 @@
 	namespace Framework\Syscrack\Game\Operations;
 
 
-	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Bases\BaseOperation;
 
 	class ResearchCentre extends BaseOperation
 	{

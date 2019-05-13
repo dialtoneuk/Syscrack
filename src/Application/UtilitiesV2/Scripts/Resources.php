@@ -29,7 +29,7 @@
 
 		/**
 		 * Resources constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
@@ -43,7 +43,7 @@
 		 * @param $arguments
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute($arguments)
@@ -58,7 +58,7 @@
 				$build = $this->packer->build();
 
 				if (empty($build))
-					throw new \RuntimeException("Build returned null ");
+					throw new \Error("Build returned null ");
 
 				$this->packer->save($build);
 
@@ -74,7 +74,7 @@
 				$this->unpacker->process();
 			}
 			else
-				throw new \RuntimeException("Unknown action");
+				throw new \Error("Unknown action");
 
 			return (true);
 		}

@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Exceptions\SyscrackException;
-	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Bases\BaseOperation;
 
 
 	class Logout extends BaseOperation

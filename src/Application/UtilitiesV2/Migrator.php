@@ -25,7 +25,7 @@
 		 *
 		 * @param bool $auto_create
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($auto_create = true)
@@ -38,18 +38,18 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function create()
 		{
 
 			if (empty($this->constructor->createAll()))
-				throw new \RuntimeException("No classes found");
+				throw new \Error("No classes found");
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function process()
@@ -65,7 +65,7 @@
 					continue;
 
 				if ($instance instanceof MigratorInterface == false)
-					throw new \RuntimeException("Incorrect class type: " . $class);
+					throw new \Error("Incorrect class type: " . $class);
 
 				if (Debug::isCMD())
 					Debug::echo("Starting: " . MIGRATOR_NAMESPACE . $class, 5);

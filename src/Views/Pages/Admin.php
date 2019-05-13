@@ -20,7 +20,7 @@
 	use Framework\Syscrack\Game\Market;
 	use Framework\Syscrack\Game\Metadata;
 	use Framework\Syscrack\Game\Riddles;
-	use Framework\Syscrack\Game\Structures\Computer;
+	use Framework\Syscrack\Game\Interfaces\Computer;
 	use Framework\Syscrack\Game\Themes;
 	use Framework\Syscrack\Game\Types;
 	use Framework\Views\BaseClasses\Page as BaseClass;

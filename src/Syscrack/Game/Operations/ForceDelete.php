@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Viruses;
 
 	class ForceDelete extends BaseOperation

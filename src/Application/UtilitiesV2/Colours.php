@@ -14,7 +14,7 @@
 		 * @param int $output
 		 *
 		 * @return string
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 * @deprecated
 		 */
 
@@ -31,7 +31,7 @@
 					return (rand(0, 255) . "," . rand(0, 255) . "," . rand(0, 255));
 					break;
 				default:
-					throw new \RuntimeException("Unknown output");
+					throw new \Error("Unknown output");
 					break;
 			}
 		}

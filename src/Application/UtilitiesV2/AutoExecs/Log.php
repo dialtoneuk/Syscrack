@@ -23,17 +23,17 @@
 
 		/**
 		 * Log constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
 		{
 
 			if (file_exists(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION) == false)
-				throw new \RuntimeException("Please run auto migrate");
+				throw new \Error("Please run auto migrate");
 
 			if (file_exists(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json") == false)
-				throw new \RuntimeException("Please run auto migrate");
+				throw new \Error("Please run auto migrate");
 
 			$this->getConfig();
 
@@ -47,7 +47,7 @@
 		 * @param array $data
 		 *
 		 * @return mixed|void
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute(array $data)

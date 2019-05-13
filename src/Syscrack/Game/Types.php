@@ -56,7 +56,7 @@
 			foreach (self::$computer->getComputerClasses() as $class)
 			{
 
-				if ($class instanceof \Framework\Syscrack\Game\Structures\Computer == false)
+				if ($class instanceof \Framework\Syscrack\Game\Interfaces\Computer == false)
 					continue;
 
 				$types[] = $class->configuration()["type"];

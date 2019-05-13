@@ -47,10 +47,10 @@
 		{
 
 			if ($template == null)
-				throw new \RuntimeException("template is null and has not been set by inheritor");
+				throw new \Error("template is null and has not been set by inheritor");
 
 			if ($this->exist($template->path) == false)
-				throw new \RuntimeException("path does not exist: " . $template->path);
+				throw new \Error("path does not exist: " . $template->path);
 
 			$this->template = $template;
 		}

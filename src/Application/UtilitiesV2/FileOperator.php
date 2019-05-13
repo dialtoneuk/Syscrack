@@ -24,17 +24,17 @@
 		 * @param $path
 		 * @param bool $auto_read
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($path, $auto_read = true)
 		{
 
 			if (file_exists(SYSCRACK_ROOT . $path) == false)
-				throw new \RuntimeException('File does not exist: ' . SYSCRACK_ROOT . $path);
+				throw new \Error('File does not exist: ' . SYSCRACK_ROOT . $path);
 
 			if (is_dir(SYSCRACK_ROOT . $path))
-				throw new \RuntimeException('File operator can only operate files');
+				throw new \Error('File operator can only operate files');
 
 			$this->path = $path;
 
@@ -93,7 +93,7 @@
 		 *
 		 * @param $data
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function append($data)
@@ -102,7 +102,7 @@
 			$handle = fopen(SYSCRACK_ROOT . $this->path, 'a');
 
 			if ($handle == false)
-				throw new \RuntimeException('Unable to open file, probably due to permissions error');
+				throw new \Error('Unable to open file, probably due to permissions error');
 
 			fwrite($handle, $data);
 			fclose($handle);
@@ -176,14 +176,14 @@
 		 * @param array $extensions
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function checkExtension($filepath, $extensions = ["mp3"])
 		{
 
 			if (file_exists(SYSCRACK_ROOT . $filepath) == false)
-				throw new \RuntimeException("File must exist");
+				throw new \Error("File must exist");
 
 			$file_parts = pathinfo(SYSCRACK_ROOT . $filepath);
 
@@ -229,14 +229,14 @@
 		 * @param array $mimes
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function checkMimeType($filepath, $mimes = ["mp3"])
 		{
 
 			if (file_exists(SYSCRACK_ROOT . $filepath) == false)
-				throw new \RuntimeException("File must exist");
+				throw new \Error("File must exist");
 
 			$mimetype = mimetype_from_filename(SYSCRACK_ROOT . $filepath);
 

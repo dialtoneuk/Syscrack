@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Exceptions\SyscrackException;
-	use Framework\Syscrack\Game\BaseClasses\BaseComputer;
+	use Framework\Syscrack\Game\Bases\BaseComputer;
 	use Framework\Syscrack\Game\Finance;
 
 	class Bank extends BaseComputer

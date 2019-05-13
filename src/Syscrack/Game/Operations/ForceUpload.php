@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Bases\BaseOperation;
 
 
 	class ForceUpload extends BaseOperation

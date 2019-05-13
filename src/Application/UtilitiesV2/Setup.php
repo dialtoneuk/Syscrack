@@ -29,7 +29,7 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function process()
@@ -39,13 +39,13 @@
 				$this->setLastError();
 
 			if ($this->constructor->isEmpty())
-				throw new \RuntimeException("constructor is empty");
+				throw new \Error("constructor is empty");
 
 			foreach ($this->constructor->getAll() as $class => $instance)
 			{
 
 				if ($instance instanceof SetupInterface == false)
-					throw new \RuntimeException("Incorrect class type: " . $class);
+					throw new \Error("Incorrect class type: " . $class);
 
 				/**
 				 * @var $instance Setup

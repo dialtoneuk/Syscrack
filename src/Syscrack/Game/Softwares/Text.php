@@ -10,7 +10,7 @@
 	 * @package Framework\Syscrack\Game\Softwares
 	 */
 
-	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	use Framework\Syscrack\Game\Bases\BaseSoftware;
 
 
 	class Text extends BaseSoftware

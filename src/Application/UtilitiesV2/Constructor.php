@@ -35,7 +35,7 @@
 		 * @param $filepath
 		 * @param $namespace
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($filepath, $namespace)
@@ -46,7 +46,7 @@
 			$this->objects = new \stdClass();
 
 			if (file_exists(SYSCRACK_ROOT . $filepath) == false || is_dir(SYSCRACK_ROOT . $filepath) == false)
-				throw new \RuntimeException('Root filepath is invalid');
+				throw new \Error('Root filepath is invalid');
 
 			$this->file_path = SYSCRACK_ROOT . $filepath;
 			$this->namespace = $namespace;
@@ -86,14 +86,14 @@
 			$files = $this->crawl();
 
 			if (empty($files))
-				throw new \RuntimeException('No files found');
+				throw new \Error('No files found');
 
 			if ($overwrite)
 				if (empty($this->objects) == false)
 					$this->objects = new \stdClass();
 
 			if ($this->check($files) == false)
-				throw new \RuntimeException('Either one or more classes do not exist in namespace ' . $this->namespace . ' : ' . print_r($files));
+				throw new \Error('Either one or more classes do not exist in namespace ' . $this->namespace . ' : ' . print_r($files));
 
 			foreach ($files as $file)
 			{
@@ -125,14 +125,14 @@
 		 * @param $class_name
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function createSingular($class_name)
 		{
 
 			if (class_exists($this->namespace . $class_name) == false)
-				throw new \RuntimeException('Class does not exist');
+				throw new \Error('Class does not exist');
 
 			$namespace = $this->build($class_name);
 			$class_name = strtolower($class_name);
@@ -247,7 +247,7 @@
 		 * @param array $class_names
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function check(array $class_names)
@@ -257,7 +257,7 @@
 			{
 
 				if (is_string($class) == false)
-					throw new \RuntimeException('Type Error');
+					throw new \Error('Type Error');
 
 				if (class_exists($this->namespace . $class) == false)
 					return false;

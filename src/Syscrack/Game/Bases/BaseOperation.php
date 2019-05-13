@@ -1,6 +1,6 @@
 <?php
 
-	namespace Framework\Syscrack\Game\BaseClasses;
+	namespace Framework\Syscrack\Game\Bases;
 
 	/**
 	 * Lewis Lancaster 2017
@@ -22,7 +22,7 @@
 	use Framework\Syscrack\Game\Log;
 	use Framework\Syscrack\Game\Software;
 	use Framework\Syscrack\Game\Statistics;
-	use Framework\Syscrack\Game\Structures\Operation;
+	use Framework\Syscrack\Game\Interfaces\Operation;
 	use Framework\Syscrack\Game\Utilities\TimeHelper;
 	use Framework\Syscrack\User;
 	use Illuminate\Support\Collection;

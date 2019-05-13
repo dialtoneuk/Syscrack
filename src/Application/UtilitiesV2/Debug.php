@@ -33,7 +33,7 @@
 		 * @param string $message
 		 * @param bool $include_time
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function message(string $message, bool $include_time = true)
@@ -98,7 +98,7 @@
 		 * @param $name
 		 * @param $time
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function setStartTime($name, $time = null)
@@ -111,13 +111,13 @@
 				$time = time();
 
 			if (self::isInit() == false)
-				throw new \RuntimeException('Please enable error debugging');
+				throw new \Error('Please enable error debugging');
 
 			if (isset(self::$objects->timers->$name))
 			{
 
 				if (isset(self::$objects->timers->$name["start"]))
-					throw new \RuntimeException("Start time has already been set");
+					throw new \Error("Start time has already been set");
 			}
 
 			self::$objects->timers->$name = [
@@ -126,7 +126,7 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function stashMessages()
@@ -146,7 +146,7 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function stashTimers()
@@ -168,7 +168,7 @@
 		 * @param $name
 		 * @param $time
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function setEndTime($name, $time = null)
@@ -181,16 +181,16 @@
 				$time = time();
 
 			if (self::isInit() == false)
-				throw new \RuntimeException('Please enable error debugging');
+				throw new \Error('Please enable error debugging');
 
 			if (isset(self::$objects->timers->$name))
 			{
 
 				if (isset(self::$objects->timers->$name["end"]))
-					throw new \RuntimeException("End time has already been set");
+					throw new \Error("End time has already been set");
 			}
 			else
-				throw new \RuntimeException('Invalid timer');
+				throw new \Error('Invalid timer');
 
 			self::$objects->timers->$name['end'] = $time;
 		}
@@ -199,14 +199,14 @@
 		 * @param $name
 		 *
 		 * @return float
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function getDifference($name)
 		{
 
 			if (isset(self::$objects->timers->$name) == false)
-				throw new \RuntimeException('Invalid timer');
+				throw new \Error('Invalid timer');
 
 			$times = self::$objects->timers->$name;
 
@@ -275,7 +275,7 @@
 			$result = readline();
 
 			if (empty($result))
-				throw new \RuntimeException("no input");
+				throw new \Error("no input");
 
 			return ($result);
 		}
@@ -416,7 +416,7 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private static function checkDirectory()
@@ -428,7 +428,7 @@
 			$filename = implode("/", $removed_filename) . "/";
 
 			if (is_file(SYSCRACK_ROOT . $filename))
-				throw new \RuntimeException('Returned path is not a directory');
+				throw new \Error('Returned path is not a directory');
 
 			if (file_exists(SYSCRACK_ROOT . $filename) == false)
 				mkdir(SYSCRACK_ROOT . $filename);

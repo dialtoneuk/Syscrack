@@ -38,19 +38,19 @@
 		 *
 		 * @param $filepath
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($filepath)
 		{
 
 			if (file_exists(SYSCRACK_ROOT . $filepath) == false)
-				throw new \RuntimeException("File does not exist");
+				throw new \Error("File does not exist");
 
 			$this->config = $this->read();
 
 			if ($this->check() == false)
-				throw new \RuntimeException("Invalid ffmeg file structure");
+				throw new \Error("Invalid ffmeg file structure");
 
 			if ($this->config->real)
 				$path = $this->config->root;
@@ -94,14 +94,14 @@
 		/**
 		 * @param $filepath
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function toMP3($filepath)
 		{
 
 			if ($this->getExtension() == "mp3")
-				throw new \RuntimeException("File already a MP3");
+				throw new \Error("File already a MP3");
 
 			$audio = $this->ffmpeg->open(SYSCRACK_ROOT . $this->filepath);
 			$audio->save(new Mp3, $filepath);
@@ -110,14 +110,14 @@
 		/**
 		 * @param $filepath
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function toWAV($filepath)
 		{
 
 			if ($this->getExtension() == "wav")
-				throw new \RuntimeException("File already a wav");
+				throw new \Error("File already a wav");
 
 			$audio = $this->ffmpeg->open(SYSCRACK_ROOT . $this->filepath);
 			$audio->save(new Wav, $filepath);
@@ -159,14 +159,14 @@
 
 		/**
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function read()
 		{
 
 			if (file_exists(SYSCRACK_ROOT . FFMPEG_CONFIG_FILE) == false)
-				throw new \RuntimeException("FFmpeg file invalid");
+				throw new \Error("FFmpeg file invalid");
 
 			return (json_decode(file_get_contents(SYSCRACK_ROOT . FFMPEG_CONFIG_FILE)));
 		}

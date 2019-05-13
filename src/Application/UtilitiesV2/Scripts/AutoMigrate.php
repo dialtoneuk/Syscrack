@@ -27,7 +27,7 @@
 		 * @param $arguments
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute($arguments)
@@ -39,7 +39,7 @@
 			$application = Container::get("application");
 
 			if ($application->connection->test() == false)
-				throw new \RuntimeException("Database test failed");
+				throw new \Error("Database test failed");
 
 			Debug::echo("Instancing Migrator", 4);
 
@@ -51,7 +51,7 @@
 			{
 
 				$this->migrator->process();
-			} catch (\RuntimeException $error)
+			} catch (\Error $error)
 			{
 
 				return (false);

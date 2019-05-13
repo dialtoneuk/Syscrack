@@ -8,14 +8,14 @@
 	 * @package Framework\Exceptions
 	 */
 
-	use RuntimeException;
+	use Error;
 
 	/**
 	 * Class ApplicationExeption
 	 *
 	 * @package Framework\Exceptions
 	 */
-	class ApplicationException extends RuntimeException
+	class ApplicationException extends Error
 	{
 
 	}
@@ -27,7 +27,7 @@
 	 *
 	 * @package Framework\Exceptions
 	 */
-	class DatabaseException extends RuntimeException
+	class DatabaseException extends Error
 	{
 
 	}
@@ -39,7 +39,7 @@
 	 *
 	 * @package Framework\Exceptions
 	 */
-	class ViewException extends RuntimeException
+	class ViewException extends Error
 	{
 
 	}
@@ -51,7 +51,7 @@
 	 *
 	 * @package Framework\Exceptions
 	 */
-	class ApiException extends RuntimeException
+	class ApiException extends Error
 	{
 
 		public function getArray()
@@ -73,7 +73,7 @@
 	 *
 	 * @package Framework\Exceptions
 	 */
-	class ConsoleException extends RuntimeException
+	class ConsoleException extends Error
 	{
 
 	}
@@ -85,7 +85,7 @@
 	 *
 	 * @package Framework\Exceptions
 	 */
-	class SyscrackException extends RuntimeException
+	class SyscrackException extends Error
 	{
 
 	}
@@ -97,7 +97,7 @@
 	 *
 	 * @package Framework\Exceptions
 	 */
-	class SessionException extends RuntimeException
+	class SessionException extends Error
 	{
 
 	}
@@ -109,7 +109,7 @@
 	 *
 	 * @package Framework\Exceptions
 	 */
-	class LoginException extends RuntimeException
+	class LoginException extends Error
 	{
 
 	}

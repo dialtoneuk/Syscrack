@@ -23,7 +23,7 @@
 
 		/**
 		 * Deploy constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
@@ -91,14 +91,14 @@
 
 		/**
 		 * @return array|mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function requiredArguments()
 		{
 
 			if (file_exists(SYSCRACK_ROOT . DATABASE_MAP) == false)
-				throw new \RuntimeException("Database map does not exist. Have you unpacked your resources?");
+				throw new \Error("Database map does not exist. Have you unpacked your resources?");
 
 			$contents = file_get_contents(SYSCRACK_ROOT . DATABASE_MAP);
 
@@ -108,7 +108,7 @@
 
 		/**
 		 * @return array
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function help()

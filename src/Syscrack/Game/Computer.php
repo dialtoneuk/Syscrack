@@ -16,7 +16,7 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Database\Tables\Computer as Database;
 	use Framework\Exceptions\SyscrackException;
-	use Framework\Syscrack\Game\Structures\Computer as Structure;
+	use Framework\Syscrack\Game\Interfaces\Computer as Structure;
 
 	class Computer
 	{
@@ -76,7 +76,7 @@
 		 *
 		 * @param $name
 		 *
-		 * @return \Framework\Syscrack\Game\Structures\Computer
+		 * @return \Framework\Syscrack\Game\Interfaces\Computer
 		 */
 
 		public function getComputerClass($name)
@@ -92,7 +92,7 @@
 		}
 
 		/**
-		 * @return array|Structure|Structures\Software|\stdClass
+		 * @return array|Structure|Interfaces\Software|\stdClass
 		 */
 
 		public function getComputerClasses()

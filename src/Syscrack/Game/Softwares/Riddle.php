@@ -12,7 +12,7 @@
 
 	use Framework\Application\Render;
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
+	use Framework\Syscrack\Game\Bases\BaseSoftware;
 	use Framework\Syscrack\Game\Riddles;
 
 

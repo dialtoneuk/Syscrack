@@ -20,7 +20,7 @@
 		protected $constructor;
 
 		/**
-		 * @var \RuntimeException|null
+		 * @var \Error|null
 		 */
 
 		protected $last_error = null;
@@ -57,7 +57,7 @@
 
 				$this->constructor->createAll();
 				return true;
-			} catch (\RuntimeException $error)
+			} catch (\Error $error)
 			{
 
 				$this->setLastError($error);
@@ -74,7 +74,7 @@
 		{
 
 			if ($this->constructor->isEmpty())
-				throw new \RuntimeException("constructor is empty");
+				throw new \Error("constructor is empty");
 
 			$instances = $this->constructor->getAll(true);
 
@@ -140,7 +140,7 @@
 
 			if ($error !== null)
 				if ($error instanceof \Exception == false)
-					throw new \RuntimeException("invalid error type");
+					throw new \Error("invalid error type");
 
 			$this->last_error = $error;
 		}
@@ -162,7 +162,7 @@
 
 				/** @var Upload $instance */
 				if ($instance instanceof Upload == false)
-					throw new \RuntimeException("Invalid");
+					throw new \Error("Invalid");
 
 				$results[$key] = $instance->authenticate($data, $userid);
 			});

@@ -33,7 +33,7 @@
 
 			if ($array !== null)
 				if ($this->parse($array) == false)
-					throw new \RuntimeException("invalid array given to convention, does not meet requirements: " . print_r($array));
+					throw new \Error("invalid array given to convention, does not meet requirements: " . print_r($array));
 
 			$this->array = $array;
 		}

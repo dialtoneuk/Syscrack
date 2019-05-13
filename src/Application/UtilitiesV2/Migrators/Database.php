@@ -18,7 +18,7 @@
 
 		/**
 		 * Database constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
@@ -28,17 +28,17 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function migrate()
 		{
 
 			if (Container::exist("application") == false)
-				throw new \RuntimeException("Application does not exist");
+				throw new \Error("Application does not exist");
 
 			if (Container::get("application")->connection->test() == false)
-				throw new \RuntimeException("Failed connction test, have you verified that your connection settings are correct?");
+				throw new \Error("Failed connction test, have you verified that your connection settings are correct?");
 
 			$this->migrator->process();
 		}

@@ -13,7 +13,7 @@
 	use Framework\Application\Settings;
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\AddressDatabase;
-	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Bases\BaseOperation;
 
 	class Hack extends BaseOperation
 	{

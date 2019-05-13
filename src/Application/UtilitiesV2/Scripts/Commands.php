@@ -20,14 +20,14 @@
 		 * @param $arguments
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute($arguments)
 		{
 
 			if (Container::exist("scripts") == false)
-				throw new \RuntimeException("Scripts invalid");
+				throw new \Error("Scripts invalid");
 
 			/** @var Scripts $scripts */
 			$scripts = Container::get("scripts");

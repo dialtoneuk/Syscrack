@@ -32,12 +32,10 @@
 		 */
 
 		protected $requirements = [
-			"name" => "string",
-			"item" => "string",
-			"description" => "string",
-			"cost" => "int",
-			"requirements" => "array",
-			"onetime" => "bool",
-			"discontinued" => "bool"
+			'userid'        => 'int',
+			'name'          => 'string',
+			'icon'          => 'string',
+			'description'   => 'string',
+			'item'          => 'string'
 		];
 	}

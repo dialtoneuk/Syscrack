@@ -17,14 +17,14 @@
 
 		/**
 		 * Base constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
 		{
 
 			if (Debug::isCMD() == false)
-				throw new \RuntimeException("Not in CMD mode");
+				throw new \Error("Not in CMD mode");
 		}
 
 		/**

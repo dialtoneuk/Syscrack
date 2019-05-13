@@ -30,7 +30,7 @@
 
 		/**
 		 * Group constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
@@ -46,21 +46,21 @@
 		 * @param array $data
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute(array $data)
 		{
 
 			if (isset($data["userid"]) == false)
-				throw new \RuntimeException("Expecting userid");
+				throw new \Error("Expecting userid");
 
 
 			if (isset($data["group"]) == false)
-				throw new \RuntimeException("Expecting group");
+				throw new \Error("Expecting group");
 
 			if ($this->group->exist($data["group"]) == false)
-				throw new \RuntimeException("Group does not exist: " . $data["group"]);
+				throw new \Error("Group does not exist: " . $data["group"]);
 
 
 			$this->user->update($data["userid"], ["group" => $data["group"]]);

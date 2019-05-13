@@ -22,7 +22,7 @@
 
 		/**
 		 * Balance constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
@@ -37,14 +37,14 @@
 		 * @param array $data
 		 *
 		 * @return void
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute(array $data)
 		{
 
 			if (isset($data["userid"]) == false)
-				throw new \RuntimeException("expecting userid");
+				throw new \Error("expecting userid");
 
 			if ($this->userpermissions->exist($data["userid"]))
 				$this->userpermissions->remove($data["userid"]);

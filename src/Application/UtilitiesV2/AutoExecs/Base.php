@@ -23,14 +23,14 @@
 
 		/**
 		 * Base constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
 		{
 
 			if (Container::exist("application") == false)
-				throw new \RuntimeException("Needs application");
+				throw new \Error("Needs application");
 
 			$this->session = Container::get("application")->session;
 		}

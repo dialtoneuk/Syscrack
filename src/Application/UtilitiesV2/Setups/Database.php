@@ -14,21 +14,21 @@
 
 		/**
 		 * Database constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
 		{
 
 			if ($this->exists(DATABASE_MAP) == false)
-				throw new \RuntimeException("File does not exist");
+				throw new \Error("File does not exist");
 
 			parent::__construct();
 		}
 
 		/**
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function process()
@@ -37,16 +37,16 @@
 			$map = $this->getMap();
 
 			if (empty($map))
-				throw new \RuntimeException("Invalid map");
+				throw new \Error("Invalid map");
 
 			$inputs = $this->getInputs($map);
 
 			if (count($map) !== count($inputs))
-				throw new \RuntimeException("Count mismatch");
+				throw new \Error("Count mismatch");
 
 			foreach ($inputs as $key => $value)
 				if (isset($map[$key]) == false)
-					throw new \RuntimeException("Key not set");
+					throw new \Error("Key not set");
 
 			$this->write(DATABASE_CREDENTIALS, $inputs);
 

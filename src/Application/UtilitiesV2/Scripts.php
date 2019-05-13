@@ -37,14 +37,14 @@
 		 * @param array $arguments ( Should be $argv )
 		 * @param bool $auto_create
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct(array $arguments, $auto_create = true)
 		{
 
 			if (count($arguments) < 2)
-				throw new \RuntimeException("Invalid argument count");
+				throw new \Error("Invalid argument count");
 
 			//Unsets the file, leaving the first element the script
 			array_shift($arguments);
@@ -80,7 +80,7 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function create()
@@ -89,7 +89,7 @@
 			$this->constructor->createAll();
 
 			if (empty($this->constructor->getAll()))
-				throw new \RuntimeException("No scripts found");
+				throw new \Error("No scripts found");
 		}
 
 		/**
@@ -122,7 +122,7 @@
 			$name = $script;
 
 			if ($this->exists($script) == false)
-				throw new \RuntimeException("Script does not exist");
+				throw new \Error("Script does not exist");
 
 			if ($quiet)
 				Debug::setSupressed();
@@ -137,7 +137,7 @@
 			$script = $this->constructor->get($script);
 
 			if ($script instanceof Script == false)
-				throw new \RuntimeException("Script is invalid type");
+				throw new \Error("Script is invalid type");
 
 			$arguments = $this->parseArguments();
 
@@ -210,7 +210,7 @@
 		 * @param $script
 		 *
 		 * @return array
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function help($script)
@@ -221,7 +221,7 @@
 			$name = $script;
 
 			if ($this->exists($script) == false)
-				throw new \RuntimeException("Script does not exist");
+				throw new \Error("Script does not exist");
 
 			if (Debug::isCMD())
 				Debug::echo("Getting instance of " . $name, 1);
@@ -234,7 +234,7 @@
 			$result = $script->help();
 
 			if (is_array($result) == false)
-				throw new \RuntimeException("Invalid return type");
+				throw new \Error("Invalid return type");
 
 			return ($result);
 		}
@@ -253,7 +253,7 @@
 		 * Gets the file names of all the scripts
 		 *
 		 * @return array
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function scripts()
@@ -262,7 +262,7 @@
 			$directory = new DirectoryOperator(SCRIPTS_ROOT);
 
 			if ($directory->isEmpty())
-				throw new \RuntimeException("Invalid directory: " . SCRIPTS_ROOT);
+				throw new \Error("Invalid directory: " . SCRIPTS_ROOT);
 
 			$result = $directory->omit($directory->search([".php"]));
 			$names = [];

@@ -38,8 +38,6 @@
         $_SERVER["DOCUMENT_ROOT"] = PHPUNIT_ROOT;
     }
 
-
-
 //<editor-fold defaultstate="collapsed" desc="Application Settings">
 
     /**
@@ -52,6 +50,7 @@
 
     if( defined("SYSCRACK_ROOT") == false )
         define("SYSCRACK_ROOT", $root );
+
     define("SYSCRACK_URL_ROOT", "/");
     define("SYSCRACK_NAMESPACE_ROOT", "Framework\\");
     define("SYSCRACK_URL_ADDRESS", "http://localhost");
@@ -270,7 +269,7 @@
     define("DEBUG_ENABLED", true ); //Will write debug messages and echo them inside the terminal instance
     define("DEBUG_WRITE_FILE", true );
     define("DEBUG_MESSAGES_FILE", 'data/config/debug/messages.json');
-    define("DEBUG_TIMERS_FILE", 'cdata/config/debug/timers.json');
+    define("DEBUG_TIMERS_FILE", 'data/config/debug/timers.json');
 
     //Mailer
     define("MAILER_CONFIGURATION_FILE", "data/config/templates.json");
@@ -437,6 +436,15 @@
     try
     {
 
+
+	    if( DEBUG_ENABLED )
+	    {
+		    //This will automatically allow all the debug methods in the application to function
+		    Debug::initialization();
+		    Debug::message("Request initiated");
+		    Debug::setStartTime('application');
+	    }
+
         $application = new Application( false );
 
         if( Debug::isCMD() )
@@ -496,8 +504,29 @@
         Flight::before('start', function ()
         {
 
+	        if ( DEBUG_ENABLED )
+		        Debug::setStartTime('flight_route');
+
             define('SYSCRACK_TIME_END', microtime( true ) );
         });
+
+	    /**
+	     * After start
+	     */
+
+	    Flight::after('start', function()
+	    {
+		    if( DEBUG_ENABLED  )
+		    {
+			    Debug::message("Request Complete");
+			    Debug::setEndTime('flight_route' );
+			    if( DEBUG_WRITE_FILE )
+			    {
+				    Debug::stashMessages();
+				    Debug::stashTimers();
+			    }
+		    }
+	    });
 
         /**
          * Starts the applications controllers
@@ -610,5 +639,6 @@
             </html>
         <?php
     }
-
 //</editor-fold>
+//EOL
+Debug::setEndTime('application');

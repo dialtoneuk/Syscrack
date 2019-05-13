@@ -44,21 +44,21 @@
 		 *
 		 * @param bool $auto_read
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($auto_read = true)
 		{
 
 			if (Container::exist('application') == false)
-				throw new \RuntimeException("Please init application");
+				throw new \Error("Please init application");
 
 			$this->session = Container::get('application')->session;
 
 			if ($this->session->isLoggedIn())
 				$this->userid = $this->session->userid();
 			else
-				throw new \RuntimeException("User needs to be logged in");
+				throw new \Error("User needs to be logged in");
 
 			$this->userpermissions = new Permissions();
 		}

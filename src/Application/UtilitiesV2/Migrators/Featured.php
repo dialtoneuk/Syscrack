@@ -22,7 +22,7 @@
 
 		/**
 		 * Featured constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
@@ -32,7 +32,7 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function migrate()
@@ -41,7 +41,7 @@
 			$default = $this->default();
 
 			if (isset($default["name"]) == false || isset($default["default"]) == false)
-				throw new \RuntimeException("Invalid default structure");
+				throw new \Error("Invalid default structure");
 
 			foreach ($default['default'] as $name => $item)
 			{
@@ -63,14 +63,14 @@
 
 		/**
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function default()
 		{
 
 			if (file_exists(SYSCRACK_ROOT . FEATURED_ROOT . "default.json") == false)
-				throw new \RuntimeException("Default file does not exist");
+				throw new \Error("Default file does not exist");
 
 			return (json_decode(file_get_contents(SYSCRACK_ROOT . FEATURED_ROOT . "default.json"), true));
 		}

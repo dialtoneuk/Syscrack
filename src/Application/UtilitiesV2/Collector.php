@@ -13,7 +13,7 @@
 		protected static $classes = null;
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function initialize()
@@ -30,20 +30,20 @@
 		 * @param $class
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function new($class, $namespace = null)
 		{
 
 			if (self::hasInitialized() == false)
-				throw new \RuntimeException("Initialize first");
+				throw new \Error("Initialize first");
 
 			if ($namespace == null)
 				$namespace = COLLECTOR_DEFAULT_NAMESPACE;
 
 			if (self::exists($namespace, $class) == false)
-				throw new \RuntimeException("Namespace does not exist: " . $namespace . $class);
+				throw new \Error("Namespace does not exist: " . $namespace . $class);
 
 			if (isset(self::$classes[$namespace . $class]))
 			{
@@ -67,14 +67,14 @@
 		 * @param null $namespace
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function get($class, $namespace = null)
 		{
 
 			if (self::hasInitialized() == false)
-				throw new \RuntimeException("Initialize first");
+				throw new \Error("Initialize first");
 
 			if ($namespace == null)
 				$namespace = COLLECTOR_DEFAULT_NAMESPACE;
@@ -88,23 +88,23 @@
 		 * @param null $namespace
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public static function as($class, $as, $namespace = null)
 		{
 
 			if (self::hasInitialized() == false)
-				throw new \RuntimeException("Initialize first");
+				throw new \Error("Initialize first");
 
 			if ($namespace == null)
 				$namespace = COLLECTOR_DEFAULT_NAMESPACE;
 
 			if (isset(self::$classes->$as))
-				throw new \RuntimeException("Class already exists");
+				throw new \Error("Class already exists");
 
 			if (self::exists($namespace, $class) == false)
-				throw new \RuntimeException("Namespace does not exist: " . $namespace . $class);
+				throw new \Error("Namespace does not exist: " . $namespace . $class);
 
 			$full_namespace = $namespace . $class;
 			self::$classes[$as] = new $full_namespace;

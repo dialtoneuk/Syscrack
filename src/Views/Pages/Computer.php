@@ -19,7 +19,7 @@
 	use Framework\Syscrack\Game\Log;
 	use Framework\Syscrack\Game\Operations;
 	use Framework\Syscrack\Game\Statistics;
-	use Framework\Syscrack\Game\Structures\Software;
+	use Framework\Syscrack\Game\Interfaces\Software;
 	use Framework\Syscrack\Game\Utilities\PageHelper;
 	use Framework\Syscrack\Game\Viruses;
 	use Framework\Views\BaseClasses\Page as BaseClass;

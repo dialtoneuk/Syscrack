@@ -18,7 +18,7 @@
 		{
 
 			if (Instance::$active_instance == false)
-				throw new \RuntimeException("Needs an active instance");
+				throw new \Error("Needs an active instance");
 
 			//Do desctrutor
 			$scripts = Container::get("scripts");

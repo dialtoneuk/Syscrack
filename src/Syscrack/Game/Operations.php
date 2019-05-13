@@ -15,8 +15,8 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Database\Tables\Processes as Database;
 	use Framework\Exceptions\SyscrackException;
-	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-	use Framework\Syscrack\Game\Structures\Operation;
+	use Framework\Syscrack\Game\Bases\BaseOperation;
+	use Framework\Syscrack\Game\Interfaces\Operation;
 
 	class Operations
 	{
@@ -844,7 +844,7 @@
 		/**
 		 * Gets all the processes
 		 *
-		 * @return array|Structures\Software|null|\stdClass
+		 * @return array|Interfaces\Software|null|\stdClass
 		 */
 
 		private function getProcessesClasses()

@@ -15,7 +15,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
 	use Framework\Exceptions\SyscrackException;
-	use Framework\Syscrack\Game\BaseClasses\BaseComputer;
+	use Framework\Syscrack\Game\Bases\BaseComputer;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Log;
 	use Framework\Syscrack\Game\Metadata;
@@ -216,7 +216,7 @@
 								throw new SyscrackException();
 
 							/**
-							 * @var $class \Framework\Syscrack\Game\Structures\Computer
+							 * @var $class \Framework\Syscrack\Game\Interfaces\Computer
 							 */
 
 							$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));

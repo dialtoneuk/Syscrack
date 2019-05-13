@@ -152,7 +152,7 @@
 			{
 
 				$loader->loadPaypload();
-			} catch (\RuntimeException $error)
+			} catch (\Error $error)
 			{
 
 				if (Debug::isCMD())

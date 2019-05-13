@@ -40,14 +40,14 @@
 				if (isset($arguments["make"]))
 					$class_name = $arguments["make"];
 				else
-					throw new \RuntimeException("please include a class name");
+					throw new \Error("please include a class name");
 			else
 				$class_name = $keys[0];
 
 			array_shift($arguments);
 
 			if ($this->makers->exist($class_name) == false)
-				throw new \RuntimeException("script does not exist: " . $class_name);
+				throw new \Error("script does not exist: " . $class_name);
 
 			$required = $this->makers->getRequiredTokens($class_name);
 
@@ -60,7 +60,7 @@
 					$keys = array_keys($arguments);
 
 					if (isset($keys[0]) == false)
-						throw new \RuntimeException("arguments not present");
+						throw new \Error("arguments not present");
 					else
 					{
 
@@ -101,7 +101,7 @@
 			$path = $path . $arguments["classname"] . ".php";
 
 			if (file_exists($path))
-				throw new \RuntimeException("file exists! unsafe to make class.");
+				throw new \Error("file exists! unsafe to make class.");
 
 			try
 			{

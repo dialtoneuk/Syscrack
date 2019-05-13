@@ -13,7 +13,7 @@
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\AccountDatabase;
 	use Framework\Syscrack\Game\AddressDatabase;
-	use Framework\Syscrack\Game\BaseClasses\BaseComputer;
+	use Framework\Syscrack\Game\Bases\BaseComputer;
 
 	class Vpc extends BaseComputer
 	{

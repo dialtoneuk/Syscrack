@@ -23,7 +23,7 @@
 		 *
 		 * @param null $filepath
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($filepath = null)
@@ -33,13 +33,13 @@
 				$filepath = RESOURCE_COMBINER_FILEPATH;
 
 			//if( file_exists( SYSCRACK_ROOT . $filepath ) == false )
-			//throw new \RuntimeException("File does not exist " . SYSCRACK_ROOT . $filepath);
+			//throw new \Error("File does not exist " . SYSCRACK_ROOT . $filepath);
 
 			$this->filepath = $filepath;
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function process()
@@ -48,7 +48,7 @@
 			$resources = $this->get();
 
 			if (empty($resources))
-				throw new \RuntimeException("Resources are empty");
+				throw new \Error("Resources are empty");
 
 			if (Debug::isCMD())
 				Debug::echo("Total Packed Objects: " . count($resources), 4);
@@ -98,7 +98,7 @@
 
 		/**
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function get()
@@ -128,7 +128,7 @@
 		 * @param $filepath
 		 * @param string $contents
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function createFile($filepath, string $contents)
@@ -136,10 +136,10 @@
 
 
 			if (is_dir(SYSCRACK_ROOT . $filepath))
-				throw new \RuntimeException("Not a file");
+				throw new \Error("Not a file");
 
 			if (file_exists(SYSCRACK_ROOT . $filepath))
-				throw new \RuntimeException("File already exists");
+				throw new \Error("File already exists");
 
 			file_put_contents(SYSCRACK_ROOT . $filepath, $contents);
 
@@ -150,17 +150,17 @@
 		/**
 		 * @param $directory
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function createFolder($directory)
 		{
 
 			if (is_file(SYSCRACK_ROOT . $directory))
-				throw new \RuntimeException("Not a folder");
+				throw new \Error("Not a folder");
 
 			if (file_exists(SYSCRACK_ROOT . $directory))
-				throw new \RuntimeException("Folder already exists");
+				throw new \Error("Folder already exists");
 
 			mkdir(SYSCRACK_ROOT . $directory);
 
@@ -189,7 +189,7 @@
 		 * @param bool $array
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function read($decode = true, $array = true)
@@ -198,7 +198,7 @@
 			$contents = Format::decodeLargeText(file_get_contents(SYSCRACK_ROOT . $this->filepath));
 
 			if (empty($contents))
-				throw new \RuntimeException("Empty contents");
+				throw new \Error("Empty contents");
 
 			return (json_decode($contents, $array));
 		}

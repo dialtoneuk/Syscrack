@@ -31,7 +31,7 @@
 		 *
 		 * @param bool $auto_create
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($auto_create = true)
@@ -47,7 +47,7 @@
 		 * @param $script
 		 * @param null $data
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute($script, $data = null)
@@ -56,7 +56,7 @@
 			$classes = $this->getClasses($script);
 
 			if ($this->checkClasses($classes) == false)
-				throw new \RuntimeException("Invalid classes given. One or more does not exist: " . print_r($classes));
+				throw new \Error("Invalid classes given. One or more does not exist: " . print_r($classes));
 
 			Debug::message("Processing classes");
 			Container::add("script", $script);
@@ -71,7 +71,7 @@
 				/** @var AutoExecInterface $instance */
 
 				if ($instance instanceof AutoExecInterface == false)
-					throw new \RuntimeException("Invalid class");
+					throw new \Error("Invalid class");
 
 				Debug::message("Calling class execute function: " . $class);
 
@@ -138,7 +138,7 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function create()
@@ -157,7 +157,7 @@
 
 		/**
 		 * @return array
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function getScripts()
@@ -166,7 +166,7 @@
 			$directory = new DirectoryOperator(AUTOEXEC_SCRIPTS_ROOT);
 
 			if ($directory->isEmpty())
-				throw new \RuntimeException("No scripts");
+				throw new \Error("No scripts");
 
 			return ($directory->omit($directory->search([".json"])));
 		}

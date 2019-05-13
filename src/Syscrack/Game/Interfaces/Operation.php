@@ -1,13 +1,13 @@
 <?php
 
-	namespace Framework\Syscrack\Game\Structures;
+	namespace Framework\Syscrack\Game\Interfaces;
 
 	/**
 	 * Lewis Lancaster 2017
 	 *
 	 * Interface Operation
 	 *
-	 * @package Framework\Syscrack\Game\Structures
+	 * @package Framework\Syscrack\Game\Interfaces
 	 */
 	interface Operation
 	{

@@ -13,7 +13,7 @@
 	{
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function migrate()

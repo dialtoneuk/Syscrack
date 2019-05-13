@@ -28,7 +28,7 @@
 		 * @param null $scripts_path
 		 * @param bool $auto_init
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($scripts_path = null, $auto_init = true)
@@ -38,7 +38,7 @@
 				$scripts_path = SCRIPT_BUILDER_ROOT;
 
 			if (file_exists(SYSCRACK_ROOT . $scripts_path) == false)
-				throw new \RuntimeException("Scripts do not exist");
+				throw new \Error("Scripts do not exist");
 
 			$this->path = $scripts_path;
 
@@ -48,7 +48,7 @@
 
 		/**
 		 * @return null
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function initialize()
@@ -85,7 +85,7 @@
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function build()
@@ -100,7 +100,7 @@
 
 
 			if (empty($this->scripts))
-				throw new \RuntimeException("Scripts have not been initialized");
+				throw new \Error("Scripts have not been initialized");
 
 
 			$contents = "// Automatic script combiner/builder written by Lewis Lancsater" . "\n"
@@ -158,7 +158,7 @@ EOD;
 		 * @param $script
 		 *
 		 * @return null
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function readContents($script)
@@ -174,7 +174,7 @@ EOD;
 
 		/**
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function getContents()
@@ -183,7 +183,7 @@ EOD;
 			$directory = new DirectoryOperator($this->path);
 
 			if ($directory->isEmpty())
-				throw new \RuntimeException('No contents found');
+				throw new \Error('No contents found');
 
 			return ($this->omitRoot($directory->get()));
 		}
@@ -192,7 +192,7 @@ EOD;
 		 * @param null $folder
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function getScripts($folder = null)
@@ -201,14 +201,14 @@ EOD;
 			$directory = new DirectoryOperator($this->path . $folder);
 
 			if ($directory->isEmpty())
-				throw new \RuntimeException('No contents found');
+				throw new \Error('No contents found');
 
 			return ($this->omitRoot($directory->search()));
 		}
 
 		/**
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function getFolders()
@@ -217,14 +217,14 @@ EOD;
 			$directory = new DirectoryOperator($this->path);
 
 			if ($directory->isEmpty())
-				throw new \RuntimeException('No contents found');
+				throw new \Error('No contents found');
 
 			return ($this->omitRoot($directory->getDirs()));
 		}
 
 		/**
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function hasFolders()
@@ -243,7 +243,7 @@ EOD;
 		 * @param null $folder
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function hasScripts($folder = null)
@@ -261,7 +261,7 @@ EOD;
 		 * @param $folder
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		private function scrape($folder)
@@ -270,7 +270,7 @@ EOD;
 			$directory = new DirectoryOperator($this->path . $folder);
 
 			if ($directory->isEmpty())
-				throw new \RuntimeException('No contents found');
+				throw new \Error('No contents found');
 
 			return ($this->omitRoot($directory->get()));
 		}

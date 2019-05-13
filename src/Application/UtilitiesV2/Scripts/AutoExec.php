@@ -23,7 +23,7 @@
 
 		/**
 		 * AutoExec constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
@@ -36,7 +36,7 @@
 		 * @param $arguments
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute($arguments)
@@ -48,7 +48,7 @@
 			$this->autoexecmanager->create();
 
 			if ($this->autoexecmanager->exist($arguments["script"]) == false)
-				throw new \RuntimeException("Script does not exist: " . $arguments["script"]);
+				throw new \Error("Script does not exist: " . $arguments["script"]);
 
 			if (Debug::isCMD())
 				Debug::echo("Executing autoexec script: " . $arguments["script"], 5);

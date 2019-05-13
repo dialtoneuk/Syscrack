@@ -46,10 +46,7 @@
 		{
 
 			if (self::$computer->getComputerType($computerid) != Settings::setting('syscrack_computers_market_type'))
-			{
-
 				return false;
-			}
 
 			return true;
 		}
@@ -70,16 +67,12 @@
 			$stock = $this->getStock($computerid);
 
 			if (isset($stock[$itemid]) == false)
-			{
-
 				throw new SyscrackException();
-			}
+
 
 			if ($stock[$itemid]['type'] == 'software')
-			{
-
 				return true;
-			}
+
 
 			return false;
 		}
@@ -100,16 +93,12 @@
 			$stock = $this->getStock($computerid);
 
 			if (isset($stock[$itemid]) == false)
-			{
-
 				throw new SyscrackException();
-			}
+
 
 			if (isset($stock[$itemid]['softwareid']) == false)
-			{
-
 				return false;
-			}
+
 
 			return true;
 		}
@@ -130,16 +119,12 @@
 			$stock = $this->getStock($computerid);
 
 			if (isset($stock[$itemid]) == false)
-			{
-
 				throw new SyscrackException();
-			}
+
 
 			if ($stock[$itemid]['type'] == 'hardware')
-			{
-
 				return true;
-			}
+
 
 			return false;
 		}
@@ -174,22 +159,14 @@
 			$purchases = $this->getPurchases($computerid);
 
 			if (empty($purchases))
-			{
-
 				return null;
-			}
+
 
 			$result = [];
 
 			foreach ($purchases as $purchase)
-			{
-
-				if ($purchase['computerid'] == $targetid)
-				{
-
+				if($purchase['computerid'] == $targetid)
 					$result[] = $purchase;
-				}
-			}
 
 			return $result;
 		}
@@ -224,10 +201,7 @@
 			$stock = $this->getStock($computerid);
 
 			if (isset($stock[$itemid]) == false)
-			{
-
 				throw new SyscrackException();
-			}
 
 			return $stock[$itemid];
 		}
@@ -240,26 +214,20 @@
 		 * @return bool
 		 */
 
-		public function checkMarket($computerid)
+		public function check($computerid)
 		{
 
 			if (FileSystem::directoryExists($this->getFilePath($computerid)) == false)
-			{
-
 				return false;
-			}
+
 
 			if (FileSystem::fileExists($this->getFilePath($computerid) . 'purchases.json') == false)
-			{
-
 				return false;
-			}
+
 
 			if (FileSystem::fileExists($this->getFilePath($computerid) . 'stock.json') == false)
-			{
-
 				return false;
-			}
+
 
 			return true;
 		}
@@ -276,16 +244,11 @@
 		{
 
 			if (FileSystem::fileExists($this->getFilePath($computerid) . 'stock.json') == false)
-			{
-
 				return false;
-			}
+
 
 			if (empty($this->getStock($computerid)))
-			{
-
 				return false;
-			}
 
 			return true;
 		}
@@ -307,29 +270,12 @@
 			$purchases = $this->getPurchases($computerid);
 
 			foreach ($purchases as $purchase)
-			{
-
 				if ($purchase['computerid'] == $targetid)
-				{
-
 					if ($itemid !== null)
-					{
-
 						if ($purchase['itemid'] == $itemid)
-						{
-
 							return true;
-						}
 						else
-						{
-
 							continue;
-						}
-					}
-
-					return true;
-				}
-			}
 
 			return false;
 		}

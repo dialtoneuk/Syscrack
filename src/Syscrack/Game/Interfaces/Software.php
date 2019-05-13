@@ -1,6 +1,6 @@
 <?php
 
-	namespace Framework\Syscrack\Game\Structures;
+	namespace Framework\Syscrack\Game\Interfaces;
 
 	use Framework\Syscrack\Game\Tool;
 
@@ -9,7 +9,7 @@
 	 *
 	 * Interface Software
 	 *
-	 * @package Framework\Syscrack\Game\Structures
+	 * @package Framework\Syscrack\Game\Interfaces
 	 */
 	interface Software
 	{

@@ -11,8 +11,8 @@
 	 */
 
 	use Framework\Exceptions\ViewException;
-	use Framework\Syscrack\Game\Structures\Computer;
-	use Framework\Syscrack\Game\Structures\Software;
+	use Framework\Syscrack\Game\Interfaces\Computer;
+	use Framework\Syscrack\Game\Interfaces\Software;
 	use ReflectionClass;
 
 	class Factory

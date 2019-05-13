@@ -16,4 +16,15 @@
 
 		//Blank requirements
 		protected $requirements = [];
+
+		/**
+		 * @param $index
+		 * @param $value
+		 */
+
+		public function __set( $index, $value )
+		{
+
+			$this->array[ $index ] = $value;
+		}
 	}

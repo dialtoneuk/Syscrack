@@ -66,7 +66,7 @@
 		 * @param $arguments
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function execute($arguments)
@@ -82,14 +82,14 @@
 			{
 
 				if (Container::exist("scripts") == false)
-					throw new \RuntimeException("Scripts does not exist");
+					throw new \Error("Scripts does not exist");
 
 				/** @var Scripts $scripts */
 
 				$scripts = Container::get("scripts");
 
 				if ($scripts->exists($arguments["script"]) == false)
-					throw new \RuntimeException("Script does not exist: " . $arguments["script"]);
+					throw new \Error("Script does not exist: " . $arguments["script"]);
 
 				$help = $scripts->help($arguments["script"]);
 
@@ -131,7 +131,7 @@
 					}
 				}
 				else
-					throw new \RuntimeException("Invalid help return type is not array");
+					throw new \Error("Invalid help return type is not array");
 
 			}
 			else

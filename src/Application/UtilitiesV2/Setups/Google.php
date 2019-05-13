@@ -14,14 +14,14 @@
 
 		/**
 		 * Aws constructor.
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct()
 		{
 
 			if ($this->exists(GOOGLE_RECAPTCHA_CREDENTIALS) == false)
-				throw new \RuntimeException("File does not exist");
+				throw new \Error("File does not exist");
 
 			parent::__construct();
 		}

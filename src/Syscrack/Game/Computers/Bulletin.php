@@ -9,7 +9,7 @@
 	namespace Framework\Syscrack\Game\Computers;
 
 
-	use Framework\Syscrack\Game\Structures\Computer;
+	use Framework\Syscrack\Game\Interfaces\Computer;
 
 	class Bulletin extends Npc implements Computer
 	{

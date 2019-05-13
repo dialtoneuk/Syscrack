@@ -39,14 +39,14 @@
 		 * @param string $message
 		 * @param null $success
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($type = FORM_ERROR_GENERAL, $message = "", $success = null)
 		{
 
 			if (is_string($message) == false || is_string($type) == false)
-				throw new \RuntimeException("Invalid param types");
+				throw new \Error("Invalid param types");
 
 			if ($success !== null)
 				if (is_bool($success))

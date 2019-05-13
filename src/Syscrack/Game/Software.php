@@ -18,8 +18,8 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Database\Tables\Software as Database;
 	use Framework\Exceptions\SyscrackException;
-	use Framework\Syscrack\Game\BaseClasses\BaseSoftware;
-	use Framework\Syscrack\Game\Structures\Software as Structure;
+	use Framework\Syscrack\Game\Bases\BaseSoftware;
+	use Framework\Syscrack\Game\Interfaces\Software as Structure;
 
 	class Software
 	{

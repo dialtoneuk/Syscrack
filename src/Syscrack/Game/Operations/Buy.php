@@ -12,7 +12,7 @@
 
 	use Framework\Application\Utilities\PostHelper;
 	use Framework\Exceptions\SyscrackException;
-	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Market;
 	use Framework\Syscrack\Game\Utilities\TimeHelper;
@@ -120,7 +120,7 @@
 			$item = self::$market->getStockItem($computer->computerid, $data['custom']['itemid']);
 			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
 
-			if (self::$market->checkMarket($computer->computerid) == false)
+			if (self::$market->check($computer->computerid) == false)
 				return false;
 
 			if (self::$finance->canAfford($account->computerid, $userid, $item['price']) == false)

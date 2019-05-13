@@ -56,7 +56,7 @@
 		 * @param $arguments
 		 *
 		 * @return array
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		protected function parse($arguments)
@@ -68,7 +68,7 @@
 			{
 
 				if (count(explode(":", $arguments)) == 1)
-					throw new \RuntimeException("Invalid arguments");
+					throw new \Error("Invalid arguments");
 				else
 				{
 
@@ -85,7 +85,7 @@
 				{
 
 					if (count(explode(":", $argument)) == 1)
-						throw new \RuntimeException("Invalid arguments");
+						throw new \Error("Invalid arguments");
 					else
 					{
 
@@ -101,7 +101,7 @@
 		/**
 		 * @param bool $session
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public final function initContainer($session = false)

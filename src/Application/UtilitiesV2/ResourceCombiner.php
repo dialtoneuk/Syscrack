@@ -23,7 +23,7 @@
 		 *
 		 * @param null $directory
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($directory = null)
@@ -33,14 +33,14 @@
 				$directory = RESOURCE_COMBINER_ROOT;
 
 			//if( file_exists( SYSCRACK_ROOT . $directory ) == false )
-			//throw new \RuntimeException("Folder does not exist " . SYSCRACK_ROOT . $directory);
+			//throw new \Error("Folder does not exist " . SYSCRACK_ROOT . $directory);
 
 			$this->directory = new DirectoryOperator($directory);
 		}
 
 		/**
 		 * @return array|null
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function build()
@@ -143,7 +143,7 @@
 		 * @param null $filepath
 		 * @param bool $encode
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function save($build, $filepath = null, $encode = true)
@@ -153,7 +153,7 @@
 				$filepath = RESOURCE_COMBINER_FILEPATH;
 
 			if (is_array($build) == false && is_object($build) == false)
-				throw new \RuntimeException("Should either be array or object");
+				throw new \Error("Should either be array or object");
 
 
 			if (RESOURCE_COMBINER_PRETTY)
@@ -174,7 +174,7 @@
 		 * @param $dirs
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function scrapeDirectory($dirs)
@@ -198,7 +198,7 @@
 		 * @param $files
 		 *
 		 * @return array
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function scrapeFiles($files)
@@ -224,7 +224,7 @@
 		 * @param $dir
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function hasDirs($dir)
@@ -245,7 +245,7 @@
 		 * @param $dir
 		 *
 		 * @return array|bool|null
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function getDirs($dir)
@@ -261,7 +261,7 @@
 
 		/**
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function exist()
@@ -275,7 +275,7 @@
 
 		/**
 		 * @return array
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function files()
@@ -286,7 +286,7 @@
 
 		/**
 		 * @return array|null
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function folders()

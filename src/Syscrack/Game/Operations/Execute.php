@@ -11,8 +11,8 @@
 	 */
 
 	use Framework\Exceptions\SyscrackException;
-	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
-	use Framework\Syscrack\Game\Structures\Software;
+	use Framework\Syscrack\Game\Bases\BaseOperation;
+	use Framework\Syscrack\Game\Interfaces\Software;
 
 	class Execute extends BaseOperation
 	{

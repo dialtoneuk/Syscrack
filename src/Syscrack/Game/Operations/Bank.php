@@ -10,7 +10,7 @@
 	 * @package Framework\Syscrack\Game\Operations
 	 */
 
-	use Framework\Syscrack\Game\BaseClasses\BaseOperation;
+	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Finance;
 
 	class Bank extends BaseOperation

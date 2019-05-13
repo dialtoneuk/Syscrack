@@ -69,6 +69,8 @@
         "error",
         "error_page"
     ],
+    "items_location": "src\/Syscrack\/Game\/Items\/",
+    "items_namespace": "Framework\\Syscrack\\Game\\Items\\",
     "session_timeout": "<php60 * 60 * 2>",
     "session_update_lastaction": true,
     "settings_php_enabled": true,

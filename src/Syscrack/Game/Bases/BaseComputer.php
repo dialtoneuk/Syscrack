@@ -1,13 +1,13 @@
 <?php
 
-	namespace Framework\Syscrack\Game\BaseClasses;
+	namespace Framework\Syscrack\Game\Bases;
 
 	/**
 	 * Lewis Lancaster 2017
 	 *
 	 * Class BaseComputer
 	 *
-	 * @package Framework\Syscrack\Game\BaseClasses
+	 * @package Framework\Syscrack\Game\Bases
 	 */
 
 	use Framework\Application\Settings;
@@ -18,7 +18,7 @@
 	use Framework\Syscrack\Game\Log;
 	use Framework\Syscrack\Game\Metadata;
 	use Framework\Syscrack\Game\Software;
-	use Framework\Syscrack\Game\Structures\Computer as Structure;
+	use Framework\Syscrack\Game\Interfaces\Computer as Structure;
 
 	class BaseComputer implements Structure
 	{
@@ -323,7 +323,7 @@
 		/**
 		 * @param $uniquename
 		 *
-		 * @return \Framework\Syscrack\Game\Structures\Software
+		 * @return \Framework\Syscrack\Game\Interfaces\Software
 		 */
 
 		public function getSoftwareClass($uniquename)

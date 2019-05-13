@@ -13,14 +13,14 @@
 		 *
 		 * @param string $cipher
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($cipher = "AES-128-CBC")
 		{
 
 			if ($this->check($cipher) == false)
-				throw new \RuntimeException("Cipher invalid");
+				throw new \Error("Cipher invalid");
 
 			$this->cipher = $cipher;
 		}

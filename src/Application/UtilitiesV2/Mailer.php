@@ -22,7 +22,7 @@
 		 * @param bool $auto_load
 		 * @param bool $exceptions
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($auto_load = true, $exceptions = true)
@@ -41,7 +41,7 @@
 		 * @param null $from
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function send($recipricant, $subject, $content, $from = null)
@@ -74,7 +74,7 @@
 			} catch (\Exception $error)
 			{
 
-				throw new \RuntimeException($error->getMessage());
+				throw new \Error($error->getMessage());
 			}
 
 			return true;
@@ -83,7 +83,7 @@
 		/**
 		 * @param $configuration
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function setConfiguration($configuration)
@@ -93,7 +93,7 @@
 			{
 
 				if (isset($this->phpmailer->$key) == false)
-					throw new \RuntimeException("Invalid key:" . $key);
+					throw new \Error("Invalid key:" . $key);
 
 				$this->phpmailer->$key = $value;
 			}
@@ -101,20 +101,20 @@
 
 		/**
 		 * @return bool|string
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function getConfiguration()
 		{
 
 			if (file_exists(SYSCRACK_ROOT . MAILER_CONFIGURATION_FILE) == false)
-				throw new \RuntimeException("Configuration file invalid");
+				throw new \Error("Configuration file invalid");
 
 			return (file_get_contents(SYSCRACK_ROOT . MAILER_CONFIGURATION_FILE));
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function preload()
@@ -123,7 +123,7 @@
 			$dir = new DirectoryOperator($this->path());
 
 			if ($dir->isEmpty())
-				throw new \RuntimeException("No templates");
+				throw new \Error("No templates");
 
 			$files = $dir->search([".html"]);
 
@@ -144,7 +144,7 @@
 		 * @param array $values
 		 *
 		 * @return array
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function paraseAll(array $values)
@@ -166,14 +166,14 @@
 		 * @param $template
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function parse(array $values, $template)
 		{
 
 			if ($this->exist($template) == false)
-				throw new \RuntimeException("Template does not exist");
+				throw new \Error("Template does not exist");
 
 			if (isset($values["url"]) == false)
 				$values["url"] = SYSCRACK_URL_ADDRESS;
@@ -202,7 +202,7 @@
 		 * @param $template
 		 *
 		 * @return mixed
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function get($template)
@@ -218,7 +218,7 @@
 		 * @param $template
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function exist($template)
@@ -234,14 +234,14 @@
 		 * @param $template
 		 *
 		 * @return bool|string
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function getRawTemplate($template)
 		{
 
 			if (file_exists(SYSCRACK_ROOT . $this->path($template)) == false)
-				throw new \RuntimeException("Unknown template");
+				throw new \Error("Unknown template");
 
 			return (file_get_contents(SYSCRACK_ROOT . $this->path($template)));
 

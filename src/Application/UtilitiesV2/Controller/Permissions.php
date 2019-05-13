@@ -46,21 +46,21 @@
 		 *
 		 * @param bool $auto_create
 		 *
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function __construct($auto_create = true)
 		{
 
 			if (Container::exist("application") == false)
-				throw new \RuntimeException("Needs application");
+				throw new \Error("Needs application");
 
 			if ($auto_create)
 				$this->create();
 		}
 
 		/**
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function create()
@@ -75,7 +75,7 @@
 		 * @param $flag
 		 *
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function hasPermission($flag)
@@ -96,7 +96,7 @@
 		 * @param $flag
 		 *
 		 * @return mixed|null
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function getPermission($flag)
@@ -116,7 +116,7 @@
 
 		/**
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function isAdmin()
@@ -130,7 +130,7 @@
 
 		/**
 		 * @return bool
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function canUploadLoessless()
@@ -146,7 +146,7 @@
 		 * @param bool $use_cache
 		 *
 		 * @return null
-		 * @throws \RuntimeException
+		 * @throws \Error
 		 */
 
 		public function getUserGroupName($use_cache = true)
