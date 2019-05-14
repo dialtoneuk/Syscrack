@@ -34,7 +34,6 @@
 			if (isset(self::$viruses) == false)
 				self::$viruses = new Viruses();
 
-
 			parent::__construct(true);
 		}
 
@@ -140,7 +139,10 @@
 			$this->logDownload($software->softwarename, $this->getComputerId($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
 			$this->logLocal($software->softwarename, $data['ipaddress']);
 
-			return @$data["redirect"];
+			if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
 		}
 
 		/**

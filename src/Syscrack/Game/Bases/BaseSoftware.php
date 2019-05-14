@@ -21,6 +21,7 @@
 	use Framework\Syscrack\Game\Software as Database;
 	use Framework\Syscrack\Game\Interfaces\Software;
 	use Framework\Syscrack\Game\Tool;
+	use Framework\Syscrack\Game\Tab;
 	use Framework\Syscrack\Game\Utilities\EmptyTool;
 	use Framework\Syscrack\User;
 	use Illuminate\Support\Collection;
@@ -201,6 +202,20 @@
 		}
 
 		/**
+		 * @param $computerid
+		 * @param $userid
+		 * @param $softwareid
+		 *
+		 * @return array
+		 */
+
+		public function data( $computerid = null, $userid = null, $softwareid = null ): array
+		{
+
+			return([]);
+		}
+
+		/**
 		 * @param null $userid
 		 * @param null $sofwareid
 		 * @param null $computerid
@@ -212,6 +227,20 @@
 		{
 
 			return (new EmptyTool());
+		}
+
+		/**
+		 * @param null $userid
+		 * @param null $sofwareid
+		 * @param null $computerid
+		 *
+		 * @return Tab
+		 */
+
+		public function tab($userid = null, $sofwareid = null, $computerid = null): Tab
+		{
+
+			return (new Tab());
 		}
 
 		/**

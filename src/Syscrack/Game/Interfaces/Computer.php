@@ -57,6 +57,16 @@
 		public function onLogout($computerid, $ipaddress);
 
 		/**
+		 * @param null $userid
+		 * @param null $softwareid
+		 * @param null $computerid
+		 *
+		 * @return Tab
+		 */
+
+		public function tab( $userid = null, $softwareid = null, $computerid = null ): Tab;
+
+		/**
 		 * @param $computerid
 		 * @param $userid
 		 *

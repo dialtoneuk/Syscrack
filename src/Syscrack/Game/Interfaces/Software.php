@@ -3,6 +3,7 @@
 	namespace Framework\Syscrack\Game\Interfaces;
 
 	use Framework\Syscrack\Game\Tool;
+	use Framework\Syscrack\Game\Tab;
 
 	/**
 	 * Lewis Lancaster 2017
@@ -111,4 +112,24 @@
 		 */
 
 		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool;
+
+		/**
+		 * @param null $userid
+		 * @param null $softwareid
+		 * @param null $computerid
+		 *
+		 * @return Tab
+		 */
+
+		public function tab( $userid = null, $softwareid = null, $computerid = null ): Tab;
+
+
+		/**
+		 * @param null $userid
+		 * @param null $softwareid
+		 * @param null $computer
+		 *
+		 * @return array
+		 */
+		public function data( $userid = null, $softwareid = null, $computer = null ): array;
 	}

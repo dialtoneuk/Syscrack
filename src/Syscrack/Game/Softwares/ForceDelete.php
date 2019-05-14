@@ -46,10 +46,11 @@
 		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
 		{
 
-			$tool = new Tool("Force Delete", "default");
+			$tool = new Tool("Force Delete", "danger");
 			$tool->admin();
 			$tool->addInput("softwareid", "softwares");
 			$tool->setAction('forcedelete');
+			$tool->panel("danger");
 			$tool->icon = "fire";
 
 			return ($tool);

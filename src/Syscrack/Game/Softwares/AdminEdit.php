@@ -46,10 +46,11 @@
 		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
 		{
 
-			$tool = new Tool("Admin Edit", "success");
+			$tool = new Tool("Admin Edit", "danger");
 			$tool->setAction('adminedit');
 			$tool->admin();
 			$tool->localAllowed();
+			$tool->panel("danger");
 			$tool->icon = "wrench";
 
 			return ($tool);

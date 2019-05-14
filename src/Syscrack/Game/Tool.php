@@ -111,6 +111,12 @@
 			$this->requirements['hacked'] = false;
 		}
 
+		public function panel( $panel )
+		{
+
+			$this->requirements['panel'] = $panel;
+		}
+
 		public function isComputerType(string $type)
 		{
 

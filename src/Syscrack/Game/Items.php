@@ -6,7 +6,7 @@
 	 * Time: 22:53
 	 */
 
-	namespace Framework\Syscrack;
+	namespace Framework\Syscrack\Game;
 
 	use Framework\Application\UtilitiesV2\Constructor;
 	use Framework\Application\Settings;

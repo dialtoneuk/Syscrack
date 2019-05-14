@@ -26,9 +26,16 @@ use Framework\Application\Render;
                 <div class="row">
                     <div class="col-lg-12">
                         <form action="/game/internet/<?=$ipaddress ?>/<?=$tool["action"]?>" method="post">
-                            <div class="panel panel-default">
+                            <?php
+                            if( isset( $tool["requirements"]["panel"] ) )
+                                echo "<div class=\"panel panel-" .  $tool["requirements"]["panel"]  . "\">";
+                            else
+                                echo"<div class=\"panel panel-default\">"
+                            ?>
                                 <div class="panel-body">
-                                    <?php
+                                <?php
+	                                if( @$tool["requirements"]["local"] )
+	                                    echo "<p class='text-center'>Local Executable</p>";
                                         if( !empty( $tool["inputs"] ) )
                                             foreach( $tool["inputs"] as $input )
                                             {
@@ -42,7 +49,7 @@ use Framework\Application\Render;
                                                     echo( $input["html"] );
                                             }
 
-                                    ?>
+                                        ?>
                                     <button style="width: 100%;" class="btn btn-<?=@$tool["class"]?>" type="submit">
                                         <span class="glyphicon glyphicon-<?=@$tool["icon"]?> aria-hidden="true"></span> <?=$tool["description"]?>
                                     </button>

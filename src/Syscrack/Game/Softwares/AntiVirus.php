@@ -48,7 +48,7 @@
 			return array(
 				'uniquename' => 'antivirus',
 				'extension' => '.av',
-				'type' => 'exe',
+				'type' => 'antivirus',
 				'installable' => true,
 				'executable' => true
 			);

@@ -80,13 +80,13 @@
 		}
 
 		/**
-		 * @return bool
+		 * @return array
 		 */
 
 		public function configuration()
 		{
 
-			return (true);
+			return ([]);
 		}
 
 		/**
@@ -112,6 +112,8 @@
 		public function onLogin($computerid, $ipaddress)
 		{
 
+			//TODO: Code for login executed softwares go here
+
 			return (true);
 		}
 
@@ -124,6 +126,9 @@
 
 		public function onLogout($computerid, $ipaddress)
 		{
+
+
+			//TODO: Code for logout executed softwares go here
 
 			return (true);
 		}
@@ -158,7 +163,7 @@
 		 * @return mixed
 		 */
 
-		public function canGetData()
+		public function hasData()
 		{
 
 			return (@$this->configuration()["data"]);
@@ -262,6 +267,20 @@
 		}
 
 		/**
+		 * @param null $userid
+		 * @param null $sofwareid
+		 * @param null $computerid
+		 *
+		 * @return Tab
+		 */
+
+		public function tab($userid = null, $sofwareid = null, $computerid = null): Tab
+		{
+
+			return (new Tab());
+		}
+
+		/**
 		 * Clears the software
 		 *
 		 * @param $computerid
@@ -321,18 +340,6 @@
 		}
 
 		/**
-		 * @param $uniquename
-		 *
-		 * @return \Framework\Syscrack\Game\Interfaces\Software
-		 */
-
-		public function getSoftwareClass($uniquename)
-		{
-
-			return self::$software->findSoftwareByUniqueName($uniquename);
-		}
-
-		/**
 		 * @param $computerid
 		 * @param $message
 		 * @param $ipaddress
@@ -349,7 +356,7 @@
 		 * @param $message
 		 */
 
-		public function logToIP($ipaddress, $message)
+		public function logRemote($ipaddress, $message)
 		{
 
 			$computer = self::$internet->getComputer($ipaddress);
@@ -364,7 +371,7 @@
 		 * @return mixed
 		 */
 
-		public function getCurrentComputerAddress()
+		public function localhost()
 		{
 
 			return self::$computer->getComputer(self::$computer->computerid())->ipaddress;

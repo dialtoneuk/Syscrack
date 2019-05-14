@@ -67,8 +67,10 @@
 
 			self::$internet->setCurrentConnectedAddress($ipaddress);
 
-			$this->log($computerid, 'Logged in as root', $this->getCurrentComputerAddress());
-			$this->logToIP($this->getCurrentComputerAddress(), 'Logged in as root at <' . $ipaddress . '>');
+			$this->log($computerid, 'Logged in as root', $this->localhost());
+			$this->logRemote($this->localhost(), 'Logged in as root at <' . $ipaddress . '>');
+
+			parent::onLogin( $computerid, $userid );
 		}
 
 		/**

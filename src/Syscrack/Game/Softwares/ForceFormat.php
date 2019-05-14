@@ -46,9 +46,10 @@
 		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
 		{
 
-			$tool = new Tool("Force Format", "default");
+			$tool = new Tool("Force Format", "danger");
 			$tool->admin();
 			$tool->setAction('forceformat');
+			$tool->panel("danger");
 			$tool->icon = "hdd";
 
 			return ($tool);

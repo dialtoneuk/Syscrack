@@ -50,10 +50,11 @@
 		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
 		{
 
-			$tool = new Tool("Research Centre", "default");
+			$tool = new Tool("Research Centre", "success");
 			$tool->hasSoftwareInstalled('research');
 			$tool->setAction('researchcentre');
 			$tool->localAllowed();
+			$tool->panel("success");
 			$tool->icon = 'apple';
 
 			return ($tool);

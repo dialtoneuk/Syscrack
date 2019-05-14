@@ -98,7 +98,9 @@
 				if (is_object($value))
 				{
 
-					$sort[] = $value->{$by};
+					$sort[ $key ] = [
+						"level" => $value->$by
+					];
 				}
 				else
 				{
@@ -106,17 +108,18 @@
 					if (is_array($value))
 					{
 
-						$soft[] = $value[$by];
+						$sort[ $key ] = ["level" => $value[$by]];
 					}
 					else
 					{
 
-						throw new ApplicationException();
+						continue;
+
 					}
 				}
 			}
 
-			$result = array_multisort($sort, $sorttype, $array);
+			$result = array_multisort($sort, $sorttype, $array );
 
 			if ($result == false)
 			{

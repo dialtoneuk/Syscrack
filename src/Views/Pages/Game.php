@@ -347,7 +347,7 @@
 
 				$class = self::$computer->getComputerClass($computer->type);
 
-				if ($class->canGetData())
+				if ($class->hasData())
 					$data = $class->data($computer->computerid, $computer->userid);
 				else
 					$data = [];
@@ -362,7 +362,11 @@
 				{
 
 					$tools_software = [];
-					$softwares = [];
+
+					if( self::$user->isAdmin( self::$session->userid() ) )
+						$softwares = self::$software->getSoftwareOnComputer($computer->computerid);
+					else
+						$softwares = [];
 				}
 
 

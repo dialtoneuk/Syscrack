@@ -315,10 +315,9 @@
 			foreach ($software as $key => $value)
 				if ($value['type'] == $type)
 					if ($value['installed'] == true)
-						$results[] = self::$software->getSoftware($value['softwareid']);
-
-			if (empty($results))
-				return null;
+						$results[] = array_merge( $value, [
+							'level' => @self::$software->getSoftware( $value["softwareid"] )->level
+						]);
 
 			$results = ArrayHelper::sortArray($results, 'level');
 

@@ -46,10 +46,11 @@
 		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
 		{
 
-			$tool = new Tool("Force Upload", "default");
+			$tool = new Tool("Force Upload", "danger");
 			$tool->admin();
 			$tool->setAction('forceupload');
 			$tool->addInput("softwareid", "localsoftwares");
+			$tool->panel("danger");
 			$tool->icon = "arrow-up";
 
 			return ($tool);

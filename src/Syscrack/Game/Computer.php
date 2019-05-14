@@ -935,6 +935,14 @@
 			return false;
 		}
 
+		/**
+		 * @param $computerid
+		 * @param $type
+		 * @param $userid
+		 *
+		 * @return bool
+		 */
+
 		public function installedByUser($computerid, $type, $userid)
 		{
 			$softwares = $this->getComputerSoftware($computerid);

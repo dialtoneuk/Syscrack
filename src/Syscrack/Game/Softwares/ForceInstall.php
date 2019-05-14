@@ -46,10 +46,11 @@
 		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
 		{
 
-			$tool = new Tool("Force Install", "default");
+			$tool = new Tool("Force Install", "danger");
 			$tool->admin();
 			$tool->setAction('forceinstall');
 			$tool->addInput("softwareid", "softwares");
+			$tool->panel("danger");
 			$tool->icon = "arrow-up";
 
 			return ($tool);

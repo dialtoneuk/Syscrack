@@ -5,7 +5,7 @@
 	/**
 	 * Lewis Lancaster 2017
 	 *
-	 * Class ForceLogin
+	 * Class ForceDownload
 	 *
 	 * @package Framework\Syscrack\Game\Softwares
 	 */
@@ -13,7 +13,7 @@
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 	use Framework\Syscrack\Game\Tool;
 
-	class ForceLogin extends BaseSoftware
+	class ForceDownload extends BaseSoftware
 	{
 
 		/**
@@ -26,7 +26,7 @@
 		{
 
 			return array(
-				'uniquename' => 'forcelogin',
+				'uniquename' => 'forceupload',
 				'extension' => '.admin',
 				'type' => 'admin',
 				'installable' => true,
@@ -46,11 +46,12 @@
 		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
 		{
 
-			$tool = new Tool("Force Login", "danger");
+			$tool = new Tool("Force Download", "danger");
 			$tool->admin();
-			$tool->setAction('forcelogin');
-			$tool->icon = "info-sign";
-			$tool->panel('danger');
+			$tool->setAction('forcedownload');
+			$tool->addInput("softwareid", "softwares");
+			$tool->panel("danger");
+			$tool->icon = "arrow-up";
 
 			return ($tool);
 		}

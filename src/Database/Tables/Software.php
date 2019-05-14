@@ -33,7 +33,7 @@
 
 			$result = $this->getTable()->where($array)->get();
 
-			return ($result->isEmpty()) ? null : $result[0];
+			return ($result->isEmpty()) ? null : $result->first();
 		}
 
 		/**
