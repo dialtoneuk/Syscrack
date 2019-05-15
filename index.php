@@ -1,17 +1,18 @@
 <?php
     require_once "vendor/autoload.php";
+
     /**
+         ____ ____ ____ ____ ____ ____ ____ ____
+        ||S |||y |||s |||c |||r |||a |||c |||k || Alpha 2019
+        ||__|||__|||__|||__|||__|||__|||__|||__|| Written by Lewis Lancaster 2019
+        |/__\|/__\|/__\|/__\|/__\|/__\|/__\|/__\| Appache-2.0 License
+     * [==================================================================================]
+     * This open source project is protected by the Apache-2.0 License. For more license
+     * information as well as FAQ on what exactly you can do with this code. Please visit
+     * the github and read the license at:-
      *
-     _____                                _
-    / ____|                              | |
-    | (___  _   _ ___  ___ _ __ __ _  ___| | __
-     \___ \| | | / __|/ __| '__/ _` |/ __| |/ /
-     ____) | |_| \__ \ (__| | | (_| | (__|   <
-    |_____/ \__, |___/\___|_|  \__,_|\___|_|\_\
-            __/ | 2015/2018 - Alpha / Prototype
-           |___/
-     *
-     * Written by Lewis Lancaster 2019.
+     *        https://github.com/dialtoneuk/syscrack-prototype/blob/master/LICENSE
+     * [==================================================================================]
      */
 
     use Framework\Application\UtilitiesV2\Debug;
@@ -35,14 +36,13 @@
 
         //Maybe we are PHP Unit
         $root = PHPUNIT_ROOT;
-        $_SERVER["DOCUMENT_ROOT"] = PHPUNIT_ROOT;
     }
 
 //<editor-fold defaultstate="collapsed" desc="Application Settings">
 
     /**
      * Written by Lewis 'mkultra2018' Lancaster
-     * in 2018 (June to August)
+     * in 2017 (March to May), 2018 (March to May), 2019 (May-Present)
      * =======================================
      */
 
@@ -640,5 +640,6 @@
         <?php
     }
 //</editor-fold>
-//EOL
+
+//And that's all folks
 Debug::setEndTime('application');

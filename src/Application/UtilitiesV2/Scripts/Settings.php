@@ -92,7 +92,13 @@
 
 			foreach ($settings as $item => $value)
 				if (strstr($item, $arguments["setting"]) !== false)
-					$results[] = $item . " => " . $value;
+				{
+
+					if( is_array( $value ) )
+						$results[] = $item . " => " . implode( $value );
+					else
+						$results[] = $item . " => " . @$value;
+				}
 
 			Debug::echo("");
 			Debug::echo("Search complete gathered " . count($results) . " results:");

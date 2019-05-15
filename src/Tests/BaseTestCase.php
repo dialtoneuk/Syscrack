@@ -23,20 +23,18 @@
 		protected static $application;
 
 		/**
-		 * Saves some time when setting the env ready to test. Just need to preload settings and set document root
+		 * Starts up syscrack in CMD mode, CMD mode essentially just doesn't run the flight micro engine
 		 */
 
 		public static function setUpBeforeClass(): void
 		{
 
-
+			//only does this once
 			if (defined("PHPUNIT_FINISHED") == false)
 			{
 
 				Debug::setCMD();
-				include("../index.php");
-				Settings::preloadSettings();
-
+				include_once "../index.php";
 				self::$application = new Application(false);
 				self::$application->addToGlobalContainer();
 			}

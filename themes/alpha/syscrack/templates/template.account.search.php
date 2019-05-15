@@ -9,9 +9,11 @@
                 ?>
                 <option value="<?= $account->accountnumber ?>">#<?= $account->accountnumber ?>
                     (<?= $settings['syscrack_currency'] . number_format($account->cash) ?>
-                    ) @<?=@$ipaddress?></option>
+                    ) @<?=@$ipaddresses[ $account->computerid ]?></option>
                 <?php
             }
         }
+        else
+            echo '<option value="">Error retrieving data</option>'
         ?>
 </select>

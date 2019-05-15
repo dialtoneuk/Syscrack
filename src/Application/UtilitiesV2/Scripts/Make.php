@@ -105,7 +105,8 @@
 
 			try
 			{
-				$result = $this->makers->process($tokens, $class_name, $path);
+
+				$result = $this->makers->process($tokens, ucfirst( $class_name ), $path);
 
 				if (empty($result) || $result == null)
 					throw new \Exception("object passed was null but file could have still been made");
@@ -177,13 +178,15 @@
 			return ([
 				"arguments" => [
 					"[type] Refers to what kind of thing to make. For instance, a controller, model, or view. Not case sensitive.",
-					"[classname] The name of the class",
-					"[namespace:optional] Specify a custom namespace. Optional" .
-					"[path:optional] Specify a custom output path. Optional make "
+					"[classname] The name of the class (Case Sensitive).",
+					"[namespace:optional] Specify a custom namespace.",
+					"[path:optional] Specify a custom output path."
 				],
 				"help" => [
-					"Makes PHP Class files. Look inside the Util/Makers folder for a list of the current supported templates. Arguments can both be special case ",
-					"as well the conventional argument syntax. Remember that the arguments are order sensitive when using special cases."
+					"Creates class based based off of a template. Useful when developing. Supports a wide range of class types",
+					"such as Computers, Softwares and Scripts. The arguments for this script are worked out implicity by the",
+					"order they are typed so be sure to follow the order of which the arguments appear above or implicitly ",
+					"specifcy the index using normal console syntax."
 				]
 			]);
 		}

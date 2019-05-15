@@ -19,6 +19,8 @@
 	use Framework\Syscrack\Game\Metadata;
 	use Framework\Syscrack\Game\Software;
 	use Framework\Syscrack\Game\Interfaces\Computer as Structure;
+	use Framework\Syscrack\Game\Tabs;
+	use Framework\Syscrack\Game\Tabs;
 
 	class BaseComputer implements Structure
 	{
@@ -53,6 +55,7 @@
 
 		protected static $metadata;
 
+
 		/**
 		 * BaseComputer constructor.
 		 *
@@ -77,6 +80,9 @@
 				if ($createclasses && isset(self::$log) == false)
 					self::$log = new Log();
 			}
+
+			if( isset( $this->self ) == false )
+				$this->self = get_called_class();
 		}
 
 		/**
@@ -271,13 +277,56 @@
 		 * @param null $sofwareid
 		 * @param null $computerid
 		 *
-		 * @return Tab
+		 * @return Tabs
 		 */
 
-		public function tab($userid = null, $sofwareid = null, $computerid = null): Tab
+		public function tabs($userid = null, $sofwareid = null, $computerid = null, $tabs = []): Tabs
 		{
 
-			return (new Tab());
+			$tabs       = new Tabs( $tabs );
+			$sofware    = &self::$software;
+			$computer   = &self::$computer;
+			$interent   = &self::$internet;
+			$log        = &self::$log;
+
+			$tabhardware = new Tab('hardware', false );
+			$tabhardware->postMethod(function( $computerid, $userid ){
+				return( true );
+			});
+			$tabhardware->dataMethod(function( $computerid, $userid ) use( $computer ){
+
+				$icons      = Settings:setting("syscrack_hardware_icons");
+				$hardware   = $computer->getComputerHardware( $computerid );
+
+				return( array('icons' => $icons, 'hardware' => $hardware ) );
+			});
+
+			$tabsoftware = new Tab('software', false );
+			$tabsoftware->bypass();
+			$tabsoftware->render("sycrack/templates/template.softwares");
+
+			$tabstorage = new Tab('storage', false );
+			$tabstorage->bypass();
+			$tabstorage->render("sycrack/templates/template.storage");
+
+			$tablog = new Tab('log', false );
+			$tablog->bypass();
+			$tablog->render("sycrack/templates/template.log");
+
+			$tabhistory = new Tab('history', true );
+			$tabhistory->postMethod(function( $computerid, $userid ){
+				return( true );
+			});
+			$tabhistory->dataMethod(function( $computerid, $userid ){
+				//Nothing
+			});
+
+			$tabs->add( $tabhardware );
+			$tabs->add( $tabsoftware );
+			$tabs->add( $tablog );
+			$tabs->add( $tabhistory );
+
+			return( $tabs );
 		}
 
 		/**

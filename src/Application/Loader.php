@@ -36,7 +36,7 @@
 			if (empty($array))
 			{
 
-				throw new ApplicationException();
+				throw new ApplicationException('No payload');
 			}
 
 			foreach ($array as $class => $method)
@@ -140,10 +140,7 @@
 		{
 
 			if (file_exists($this->getFileLocation()) == false)
-			{
-
-				return null;
-			}
+				throw new \Error("Invalid file location: " . $this->getFileLocation() );
 
 			return json_decode(file_get_contents($this->getFileLocation()), true);
 		}
@@ -157,7 +154,18 @@
 		private function getFileLocation()
 		{
 
-			return $_SERVER['DOCUMENT_ROOT'] . '/data/config/autoloader.json';
+			if( defined("SYSCRACK_ROOT") == false )
+			{
+
+				if( defined("PHPUNIT_ROOT") )
+					$root = PHPUNIT_ROOT;
+				else
+					$root = getcwd();
+			}
+			else
+				$root = SYSCRACK_ROOT;
+
+			return $root . '/data/config/autoloader.json';
 		}
 
 		/**
