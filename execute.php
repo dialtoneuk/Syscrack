@@ -6,18 +6,7 @@ use Framework\Application\UtilitiesV2\Debug;
 use Framework\Application\UtilitiesV2\Container;
 use Framework\Application\UtilitiesV2\Scripts;
 use Framework\Application\Settings;
-
-
-
-Debug::setCMD();
-
-if (empty( $_SERVER["DOCUMENT_ROOT"] ) )
-    $root = getcwd();
-else
-    $root = $_SERVER["DOCUMENT_ROOT"];
-
-if( substr( $root, -1 ) !== DIRECTORY_SEPARATOR )
-    $root = $root . DIRECTORY_SEPARATOR;
+use Framework\Application;
 
 if( version_compare(PHP_VERSION, '7.0.0') == -1 )
     die('Please upgrade to PHP 7.0.0+ to run this web application. Your current PHP version is ' . PHP_VERSION );
@@ -28,11 +17,10 @@ if( php_sapi_name() !== 'cli' && Debug::isCMD() == true )
     exit;
 }
 
-define("SYSCRACK_ROOT", $root );
-
-Settings::preloadSettings();
-
-include "index.php";
+Debug::setCMD();
+include_once "index.php";
+$application = new Application(false);
+$application->addToGlobalContainer();
 
 try
 {
