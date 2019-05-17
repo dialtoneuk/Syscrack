@@ -496,7 +496,7 @@
 					FileSystem::writeJson(Settings::setting('database_connection_file'), $array);
 				}
 
-				if (FileSystem::fileExists(Settings::setting('database_connection_file')) == false)
+				if (FileSystem::exists(Settings::setting('database_connection_file')) == false)
 				{
 
 					$this->redirectError('Failed to create connection file, this could be due to a permissions error', $this->getRedirect('connection/creator'));

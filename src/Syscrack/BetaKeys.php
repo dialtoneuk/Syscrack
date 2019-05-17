@@ -83,7 +83,7 @@
 		public function keys()
 		{
 
-			if (FileSystem::fileExists(Settings::setting('syscrack_betakey_location')) == false)
+			if (FileSystem::exists(Settings::setting('syscrack_betakey_location')) == false)
 				return null;
 
 			$this->keys = FileSystem::readJson(Settings::setting('syscrack_betakey_location'));

@@ -206,6 +206,9 @@
 			foreach ($this->requirements as $key => $requirement)
 			{
 
+				if( $array[$key] == null )
+					continue;
+
 				if (isset($array[$key]) == false)
 					return false;
 				else

@@ -163,7 +163,7 @@
 		public function hasLogFile()
 		{
 
-			if (FileSystem::fileExists($this->getFileLocation()))
+			if (FileSystem::exists($this->getFileLocation()))
 			{
 
 				return true;

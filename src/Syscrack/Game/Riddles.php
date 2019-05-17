@@ -243,7 +243,7 @@
 		private function riddleFileExists()
 		{
 
-			if (FileSystem::fileExists(Settings::setting('syscrack_riddle_location')) == false)
+			if (FileSystem::exists(Settings::setting('syscrack_riddle_location')) == false)
 			{
 
 				return false;

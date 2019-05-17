@@ -21,7 +21,7 @@
 		public function get()
 		{
 
-			if (FileSystem::fileExists(Settings::setting("browser_pages_filepath")) == false)
+			if (FileSystem::exists(Settings::setting("browser_pages_filepath")) == false)
 				$this->generate();
 
 			return (FileSystem::readJson(Settings::setting("browser_pages_filepath")));

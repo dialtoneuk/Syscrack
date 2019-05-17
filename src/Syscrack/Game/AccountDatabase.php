@@ -165,7 +165,7 @@
 		public function hasDatabase($userid)
 		{
 
-			if (FileSystem::fileExists($this->getFile($userid)) == false)
+			if (FileSystem::exists($this->getFile($userid)) == false)
 			{
 
 				return false;

@@ -38,7 +38,7 @@
 		public function get()
 		{
 
-			if (FileSystem::fileExists(Settings::setting("computer_types_filepath")) == false)
+			if (FileSystem::exists(Settings::setting("computer_types_filepath")) == false)
 				$this->generate();
 
 			return (FileSystem::readJson(Settings::setting("computer_types_filepath")));

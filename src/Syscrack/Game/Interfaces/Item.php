@@ -19,21 +19,22 @@
 		/**
 		 * @param $itemid
 		 * @param $userid
+		 * @param $targetid
 		 *
 		 * @return bool
 		 */
 
-		public function used( $itemid, $userid ): bool
+		public function used( $itemid, $userid, $targetid ): bool;
 
 		/**
 		 * @param $itemid
 		 * @param $userid
-		 * @param $computer
+		 * @param $computerid
 		 *
 		 * @return bool
 		 */
 
-		public function equipped( $itemid, $userid, $computerid ): bool
+		public function equipped( $itemid, $userid, $computerid ): bool;
 
 		/**
 		 * @param $itemud
@@ -43,5 +44,5 @@
 		 * @return bool
 		 */
 
-		public function traded( $itemud, $userid, $targetid ): bool
+		public function traded( $itemud, $userid, $targetid ): bool;
 	}

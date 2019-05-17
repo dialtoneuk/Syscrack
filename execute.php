@@ -28,7 +28,7 @@ try
     Debug::echo("Script Preload \n" );
 
     if( count( $argv ) == 1 )
-        throw new Error("Not enough arguments, please provide a script");
+        $argv[] = "instance";
 
     $scripts = new Scripts( $argv );
 

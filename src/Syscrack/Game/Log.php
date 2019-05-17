@@ -121,7 +121,7 @@
 		public function hasDate($computerid, $date)
 		{
 
-			if (FileSystem::fileExists($this->getFilepath($computerid) . $date) == false)
+			if (FileSystem::exists($this->getFilepath($computerid) . $date) == false)
 			{
 
 				return false;
@@ -167,7 +167,7 @@
 				return false;
 			}
 
-			if (FileSystem::fileExists($this->getFilepath($computerid) . Settings::setting('syscrack_log_current') . '.json') == false)
+			if (FileSystem::exists($this->getFilepath($computerid) . Settings::setting('syscrack_log_current') . '.json') == false)
 			{
 
 				return false;

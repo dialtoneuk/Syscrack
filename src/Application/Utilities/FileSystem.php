@@ -103,7 +103,7 @@
 				$file = $file . '.json';
 			}
 
-			if (self::fileExists($file) == false)
+			if (self::exists($file) == false)
 			{
 
 				if (Debug::isEnabled())
@@ -189,7 +189,7 @@
 		 * @return bool
 		 */
 
-		public static function fileExists($file)
+		public static function exists($file)
 		{
 
 			if (is_dir(self::getFilePath($file)))

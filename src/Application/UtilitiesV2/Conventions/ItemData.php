@@ -10,8 +10,6 @@
 	 * Time: 01:16
 	 */
 
-	use Framework\Application\UtilitiesV2\Convention;
-
 	/**
 	 * Class UploadData
 	 * @package Framework\Application\UtilitiesV2\Conventions
@@ -24,7 +22,7 @@
 	 * @property bool onetime
 	 * @property bool discontinued
 	 */
-	class ItemData extends Convention
+	class ItemData extends AmbiguousData
 	{
 
 		/**

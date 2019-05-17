@@ -8,12 +8,11 @@
 
 	namespace Framework\Syscrack\Game;
 
+	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
-	use Framework\Syscrack\Game\Items;
 	use Framework\Syscrack\Game\Bases\BaseItem;
 	use Framework\Application\UtilitiesV2\Conventions\ItemData;
 	use Framework\Application\UtilitiesV2\Conventions\InventoryData;
-	use Framework\Application\UtilitiesV2\Conventions\ItemSettingsData;
 
 	class Inventory
 	{
@@ -47,7 +46,7 @@
 		{
 
 			$this->last_inventory = $inventory->contents();
-			$this->write( $userid, $inventory );
+			$this->write( $this->path( $userid ), $inventory );
 		}
 
 		/**
@@ -56,17 +55,17 @@
 		 * @return InventoryData
 		 */
 
-		public function get( $userid ):InventoryData
+		public function get( $userid ):?InventoryData
 		{
 
 			$data = @$this->read( $this->path( $userid ) );
 
-			if( $data === false )
-				throw new \Error("Path does not exist: " . $this->path( $userid ) );
+			if( $data === false || empty( $data ) )
+				return self::dataInstance(["items" => []]);
 
 			$this->last_inventory = $data;
 
-			return( new InventoryData( $data ) );
+			return( self::dataInstance( $data ) );
 		}
 
 		/**
@@ -83,14 +82,15 @@
 
 		/**
 		 * @param $itemid
+		 * @param $userid
 		 *
-		 * @return mixed
+		 * @return ItemData
 		 */
 
-		public function find( $itemid ): ItemData
+		public function find( $itemid, $userid ): ItemData
 		{
 
-			if( $this->exists( $itemid ) == false )
+			if( $this->exists( $itemid, $userid ) == false )
 				throw new \Error("Item does not exist: " . $itemid );
 
 			$inventory = $this->get( $userid );
@@ -101,30 +101,30 @@
 		 * @param $item
 		 * @param $userid
 		 *
-		 * @return InventoryData
+		 * @return int
 		 */
 
-		public function add( $item, $userid ): InventoryData
+		public function add( $item, $userid ): int
 		{
 
 			if( self::$items->has( $item ) == false )
 				throw new \Error("Item does not exist: " . $item );
 
-			$inventory = $this->get( $userid );
+			$inventory = $this->get( $userid )->contents();
 			$settings = self::$items->settings( $item );
-			$data = new ItemData();
-			$itemid = $inventory->lastid + 1;
+			$itemid = @$inventory["lastid"] + 1;
+			$inventory["items"][ $itemid ] = [
+					'userid'        => $userid,
+					'name'          => @$settings->name,
+					'icon'          => @$settings->icon,
+					'description'   => @$settings->description,
+					'item'          => @$item
+				];
 
-			$inventory->items[ $itemid ] = [
-				'userid'        => @$settings->userid,
-				'name'          => @$settings->name,
-				'icon'          => @$settings->icon,
-				'description'   => @$settings->description,
-				'item'          => @$item
-			]
+			$inventory["lastid"] = $itemid;
+			$this->save( $userid, self::dataInstance( $inventory ) );
 
-			$inventory->lastid = $itemid;
-			return( $inventory );
+			return( $itemid );
 		}
 
 		/**
@@ -134,11 +134,11 @@
 		 * @return bool
 		 */
 
-		public function has( $itemid, $userid ): bool
+		public function exists( $itemid, $userid ): bool
 		{
 
 			$inventory = $this->get( $userid );
-			return( isset( $inventory->items[ $itemid ] ) )
+			return( isset( $inventory->items[ $itemid ] ) );
 		}
 
 		/**
@@ -151,12 +151,23 @@
 		public function delete( $itemid, $userid ): InventoryData
 		{
 
-			if( $this->exists( $itemid ) == false )
+			if( $this->exists( $itemid, $userid) == false )
 				throw new \Error("Item does not exist: " . $itemid );
 
-			$inventory = $this->get( $userid );
-			unset( $inventory->items[ $itemid ] );
-			return( $inventory );
+			$inventory = $this->get( $userid )->contents();
+			unset( $inventory["items"][ $itemid ] );
+
+			return( self::dataInstance( $inventory ) );
+		}
+
+		/**
+		 * @param $userid
+		 */
+
+		public function wipe( $userid )
+		{
+
+			FileSystem::delete( $this->path( $userid ) );
 		}
 
 		/**
@@ -166,7 +177,7 @@
 		public function last():InventoryData
 		{
 
-			return( new InventoryData( $this->last_inventory ) );
+			return( self::dataInstance( $this->last_inventory ) );
 		}
 
 		/**
@@ -178,7 +189,7 @@
 		private function path( $userid ):string
 		{
 
-			return( Settings:setting("inventory_filepath") . $userid );
+			return( Settings::setting("inventory_filepath") . $userid  . ".json");
 		}
 
 		/**
@@ -191,9 +202,9 @@
 		{
 
 			if( FileSystem::exists( $path ) == false )
-				throw new \Error("Path does not exist: " . $path );
+				return [];
 
-			return( FileSystem:readJson( $path ) );
+			return( FileSystem::readJson( $path ) );
 		}
 
 		/**
@@ -204,9 +215,12 @@
 		private function write( $path, InventoryData $inventory ): void
 		{
 
-			if( FileSystem::exists( $path ) == false )
-				throw new \Error("Path does not exist: " . $path );
+			FileSystem::writeJson( $path, $inventory->contents() );
+		}
 
-			FileSystem::write( $path, $inventory->contents() );
+		public static function dataInstance( array $data=null )
+		{
+
+			return new InventoryData( $data );
 		}
 	}

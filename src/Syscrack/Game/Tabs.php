@@ -53,6 +53,76 @@
 		}
 
 		/**
+		 * @param $name
+		 *
+		 * @return Tab
+		 */
+
+		public function find( $name )
+		{
+
+			return( $this->tabs[ $name ] );
+		}
+
+		/**
+		 * @param $name
+		 *
+		 * @return bool
+		 */
+
+		public function has( $name )
+		{
+
+			return( isset( $this->tabs[ $name ] ) );
+		}
+
+		/**
+		 * @param $name
+		 * @param mixed ...$arguments
+		 *
+		 * @return bool
+		 */
+
+		public function data( $name, ...$arguments ): bool
+		{
+
+			$tab = $this->find( $name );
+
+			if( $tab->canPost() == false )
+				throw new \Error("Data method must be set");
+
+			$data = $tab->get()["data"];
+
+			if( is_callable( $data ) == false )
+				throw new \Error("Data method invalid");
+
+			return( @$data( $arguments ) );
+		}
+
+		/**
+		 * @param $name
+		 * @param mixed ...$arguments
+		 *
+		 * @return bool
+		 */
+
+		public function post( $name, ...$arguments ): bool
+		{
+
+			$tab = $this->find( $name );
+
+			if( $tab->canPost() == false )
+				throw new \Error("Post method must be set");
+
+			$post = $tab->get()["post"];
+
+			if( is_callable( $post ) == false )
+				throw new \Error("Post method invalid");
+
+			return( @$post( $arguments ) );
+		}
+
+		/**
 		 * @return array
 		 */
 

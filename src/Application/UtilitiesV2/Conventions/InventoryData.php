@@ -5,11 +5,15 @@ namespace Framework\Application\UtilitiesV2\Conventions;
  * Class InventoryData
  *
  * Automatically created at: 2019-05-14 00:09:14
+ *
+ * @property int last_id
+ * @property string name
+ * @property string icon
+ * @property string description
+ * @property string item
  */
 
-use Framework\Application\UtilitiesV2\Convention;
-
-class InventoryData extends Convention
+class InventoryData extends AmbiguousData
 {
 
     /**
@@ -26,11 +30,4 @@ class InventoryData extends Convention
      *  "dynamic"   => null     : Specifies that it is a "dynamic" field, thus may or may not have a value
      * @var array
      */
-
-    protected $requirements = [
-    	"userid"    => "int",
-	    "created"   => "float",
-	    "items"     => "array",
-	    "lastid"    => "int"
-    ];
 }

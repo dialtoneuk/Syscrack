@@ -34,7 +34,7 @@
 		public function hasDatabase($userid)
 		{
 
-			if (FileSystem::fileExists($this->getPath() . $userid . '.json') == false)
+			if (FileSystem::exists($this->getPath() . $userid . '.json') == false)
 			{
 
 				return false;

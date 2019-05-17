@@ -22,27 +22,5 @@ use Framework\Application\UtilitiesV2\Convention;
 class InputData extends Convention
 {
 
-    /**
-     * The syntax for requirements is as follows
-     *
-     *  "key" => "type"
-     *
-     * so for instance
-     *
-     *  "settings"  => "array"  : Specifies that this should be an array
-     *  "filename"  => "string" : Specifies that this should be a string
-     *  "admin"     => "bool"   : Specifies that this should be a bool
-     *  "admin"     => "int"    : Specifies that this should be a number
-     *  "dynamic"   => null     : Specifies that it is a "dynamic" field, thus may or may not have a value
-     * @var array
-     */
 
-    protected $requirements = [
-    	"name"          => "string",
-	    "type"          => null,
-	    "value"         => null,
-	    "placeholder"   => null,
-	    "class"         => null,
-	    "id"            => null
-    ];
 }

@@ -107,7 +107,7 @@
 		public function hasStatistics()
 		{
 
-			if (FileSystem::fileExists(Settings::setting('syscrack_statistics_file')) == false)
+			if (FileSystem::exists(Settings::setting('syscrack_statistics_file')) == false)
 			{
 
 				return false;

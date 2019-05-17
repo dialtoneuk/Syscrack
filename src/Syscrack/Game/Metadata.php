@@ -104,7 +104,7 @@
 		public function exists($computerid)
 		{
 
-			return (FileSystem::fileExists($this->path($computerid)));
+			return (FileSystem::exists($this->path($computerid)));
 		}
 
 		/**

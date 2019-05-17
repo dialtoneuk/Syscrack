@@ -30,7 +30,7 @@
 		public function __construct( $auto_create = true )
 		{
 
-			if( isset( self::$items ) == false && $autocreate )
+			if( isset( self::$items ) == false && $auto_create )
 				$this->create();
 		}
 
@@ -38,16 +38,16 @@
 		 * Creates the item classes ready for reading
 		 */
 
-		public function create(): object
+		public function create()
 		{
 
 			if( isset( self::$items ) == false )
 				self::$items = [];
 			else
-				return;
+				return null;
 
 			$constructor = new Constructor( Settings::setting('items_location') , Settings::setting('items_namespace') );
-			$result = @constructor->createAll( true );
+			$result = @$constructor->createAll( true );
 
 			if( $result === false )
 				throw new \Error("Unable to create item classes");
@@ -56,10 +56,12 @@
 		}
 
 		/**
+		 * @param $item
+		 *
 		 * @return ItemSettingData
 		 */
 
-		public function settings(): ItemSettingData
+		public function settings( $item ): ItemSettingData
 		{
 
 
@@ -74,18 +76,19 @@
 		 * @param $item
 		 * @param $itemid
 		 * @param $userid
+		 * @param $targetid
 		 *
 		 * @return bool
 		 */
 
-		public function used( $item, $itemid, $userid ): bool
+		public function used( $item, $itemid, $userid, $targetid ): bool
 		{
 
 			if( $this->has( $item ) == false )
 				throw new \Error("item does not exist: " . $item );
 
 			$class = $this->item( $item );
-			return( $class->used( $itemid, $userid ) );
+			return( $class->used( $itemid, $userid, $targetid ) );
 		}
 
 		/**
@@ -135,7 +138,7 @@
 		public function item( $item ): BaseItem
 		{
 
-			return( (BaseItem) $this->items->$item );
+			return(self::$items->$item);
 		}
 
 		/**
@@ -147,6 +150,6 @@
 		public function has( $item ): bool
 		{
 
-			return( isset( $this->items->$item ) );
+			return( isset(self::$items->$item) );
 		}
 	}

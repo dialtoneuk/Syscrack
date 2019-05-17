@@ -8,18 +8,19 @@
 
 	namespace Framework\Syscrack\Game\Bases;
 
+	use Framework\Syscrack\Game\Computer;
+	use Framework\Syscrack\Game\Software;
 	use Framework\Syscrack\Game\Interfaces\Item;
-	use Framework\Syscrack\Computer;
 	use Framework\Syscrack\User;
-	use Framework\Syscrack\Software;
 	use Framework\Application\UtilitiesV2\Conventions\ItemSettingData;
 
-	class BaseItem extends Item
+	class BaseItem implements Item
 	{
 
 		/**
 		 * @var Computer
 		 */
+
 		protected static $computer;
 		/**
 		 * @var User
@@ -68,11 +69,12 @@
 		/**
 		 * @param $itemid
 		 * @param $userid
+		 * @param $targetid
 		 *
 		 * @return bool
 		 */
 
-		public function used( $itemid, $userid ): bool
+		public function used( $itemid, $userid, $targetid ): bool
 		{
 
 			return( true );
@@ -86,10 +88,10 @@
 		 * @return bool
 		 */
 
-		public function equipped( $itemid, $userid, $computerid )
+		public function equipped($itemid, $userid, $computerid): bool
 		{
 
-			return ( true );
+			return( true );
 		}
 
 		/**
@@ -100,7 +102,7 @@
 		 * @return bool
 		 */
 
-		public function traded( $itemid, $userid, $targetid )
+		public function traded( $itemid, $userid, $targetid ): bool
 		{
 
 			return( true );

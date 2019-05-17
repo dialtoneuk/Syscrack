@@ -69,7 +69,7 @@
         "error",
         "error_page"
     ],
-    "items_location": "src\/Syscrack\/Game\/Items\/",
+    "items_location": "\\\/src\/Syscrack\/Game\/Items\/",
     "items_namespace": "Framework\\Syscrack\\Game\\Items\\",
     "session_timeout": "<php60 * 60 * 2>",
     "session_update_lastaction": true,
@@ -271,5 +271,6 @@
     "computer_types_filepath": "data\\\/metadata\\\/types.json",
     "browser_pages_filepath": "data\\\/metadata\\\/browserpages.json",
     "browser_pages_root": "resources\\\/browser\\\/",
-    "admin_settings_filepath": "data\\\/metadata\\\/settings.json"
+    "admin_settings_filepath": "data\\\/metadata\\\/settings.json",
+    "inventory_filepath": "\\\/data\\\/inventory\\\/"
 }

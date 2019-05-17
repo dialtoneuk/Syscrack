@@ -46,7 +46,7 @@
 			$this->objects = new \stdClass();
 
 			if (file_exists(SYSCRACK_ROOT . $filepath) == false || is_dir(SYSCRACK_ROOT . $filepath) == false)
-				throw new \Error('Root filepath is invalid');
+				throw new \Error('Root filepath is invalid: ' . SYSCRACK_ROOT . $filepath );
 
 			$this->file_path = SYSCRACK_ROOT . $filepath;
 			$this->namespace = $namespace;

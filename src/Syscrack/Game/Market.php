@@ -221,11 +221,11 @@
 				return false;
 
 
-			if (FileSystem::fileExists($this->getFilePath($computerid) . 'purchases.json') == false)
+			if (FileSystem::exists($this->getFilePath($computerid) . 'purchases.json') == false)
 				return false;
 
 
-			if (FileSystem::fileExists($this->getFilePath($computerid) . 'stock.json') == false)
+			if (FileSystem::exists($this->getFilePath($computerid) . 'stock.json') == false)
 				return false;
 
 
@@ -243,7 +243,7 @@
 		public function hasStock($computerid)
 		{
 
-			if (FileSystem::fileExists($this->getFilePath($computerid) . 'stock.json') == false)
+			if (FileSystem::exists($this->getFilePath($computerid) . 'stock.json') == false)
 				return false;
 
 

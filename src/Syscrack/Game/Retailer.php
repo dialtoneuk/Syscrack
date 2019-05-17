@@ -68,7 +68,7 @@
 		public function hasStock($computerid)
 		{
 
-			if (FileSystem::fileExists($this->getFilePath($computerid) . 'stock.json') == false)
+			if (FileSystem::exists($this->getFilePath($computerid) . 'stock.json') == false)
 			{
 
 				return false;

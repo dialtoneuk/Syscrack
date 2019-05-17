@@ -2,6 +2,8 @@
 
 	namespace Framework\Syscrack\Game\Interfaces;
 
+	use Framework\Syscrack\Game\Tabs;
+
 	/**
 	 * Lewis Lancaster 2017
 	 *
@@ -61,10 +63,10 @@
 		 * @param null $softwareid
 		 * @param null $computerid
 		 *
-		 * @return Tab
+		 * @return Tabs
 		 */
 
-		public function tab( $userid = null, $softwareid = null, $computerid = null ): Tab;
+		public function tab( $userid = null, $softwareid = null, $computerid = null ): Tabs;
 
 		/**
 		 * @param $computerid

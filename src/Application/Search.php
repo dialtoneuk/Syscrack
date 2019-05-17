@@ -98,7 +98,7 @@
 		public function exists($database)
 		{
 
-			return (FileSystem::fileExists($this->path($database)));
+			return (FileSystem::exists($this->path($database)));
 		}
 
 		/**

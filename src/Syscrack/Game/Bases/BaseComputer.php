@@ -19,7 +19,7 @@
 	use Framework\Syscrack\Game\Metadata;
 	use Framework\Syscrack\Game\Software;
 	use Framework\Syscrack\Game\Interfaces\Computer as Structure;
-	use Framework\Syscrack\Game\Tabs;
+	use Framework\Syscrack\Game\Tab;
 	use Framework\Syscrack\Game\Tabs;
 
 	class BaseComputer implements Structure
@@ -276,11 +276,12 @@
 		 * @param null $userid
 		 * @param null $sofwareid
 		 * @param null $computerid
+		 * @param array $tabs
 		 *
 		 * @return Tabs
 		 */
 
-		public function tabs($userid = null, $sofwareid = null, $computerid = null, $tabs = []): Tabs
+		public function tab($userid = null, $sofwareid = null, $computerid = null, $tabs = []): Tabs
 		{
 
 			$tabs       = new Tabs( $tabs );
@@ -295,7 +296,7 @@
 			});
 			$tabhardware->dataMethod(function( $computerid, $userid ) use( $computer ){
 
-				$icons      = Settings:setting("syscrack_hardware_icons");
+				$icons      = Settings::setting("syscrack_hardware_icons");
 				$hardware   = $computer->getComputerHardware( $computerid );
 
 				return( array('icons' => $icons, 'hardware' => $hardware ) );

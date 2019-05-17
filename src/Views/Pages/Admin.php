@@ -817,7 +817,7 @@
 		private function getSettings(): array
 		{
 
-			if (FileSystem::fileExists(Settings::setting("admin_settings_filepath")) == false)
+			if (FileSystem::exists(Settings::setting("admin_settings_filepath")) == false)
 				return [];
 
 			$settings = FileSystem::readJson(Settings::setting("admin_settings_filepath"));

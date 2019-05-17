@@ -109,7 +109,7 @@
 		public function SchemaPageExists($computerid)
 		{
 
-			if (FileSystem::fileExists('/themes/' . Settings::setting('render_folder') . DIRECTORY_SEPARATOR . $this->getSchemaPageLocation($computerid)) == false)
+			if (FileSystem::exists('/themes/' . Settings::setting('render_folder') . DIRECTORY_SEPARATOR . $this->getSchemaPageLocation($computerid)) == false)
 			{
 
 				return false;
@@ -171,7 +171,7 @@
 		public function hasSchema($computerid)
 		{
 
-			if (FileSystem::fileExists($this->getSchemaPath($computerid)) == false)
+			if (FileSystem::exists($this->getSchemaPath($computerid)) == false)
 			{
 
 				return false;

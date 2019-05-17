@@ -14,9 +14,14 @@
 	/**
 	 * Class ItemSettingData
 	 * @package Framework\Application\UtilitiesV2\Conventions
-	 * @property int name
+	 * @property int cost
+	 * @property string name
 	 * @property string equippable
-	 * @property string tradeable
+	 * @property string description
+	 * @property bool adminonly
+	 * @property bool disabled
+	 * @property bool onceonly
+	 * @property bool tradeable
 	 */
 	class ItemSettingData extends AmbiguousData
 	{

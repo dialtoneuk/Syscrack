@@ -17,6 +17,7 @@
 		//Blank requirements
 		protected $requirements = [];
 
+
 		/**
 		 * @param $index
 		 * @param $value

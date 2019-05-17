@@ -9,6 +9,8 @@
 	namespace Framework\Syscrack\Game;
 
 
+	use Framework\Application\UtilitiesV2\Conventions\InputData;
+
 	class Tab
 	{
 
@@ -33,7 +35,18 @@
 		}
 
 		/**
+		 * @return array
+		 */
+
+		public function get()
+		{
+
+			return( $this->information );
+		}
+
+		/**
 		 * @param string $file
+		 * @param array $data
 		 */
 
 		public function render( string $file, array $data = [] ): void
@@ -42,7 +55,7 @@
 			$this->information["render"] = [
 				"file" => $file,
 				"data" => $data,
-			]
+			];
 		}
 
 		/**
@@ -96,36 +109,6 @@
 		{
 
 			return( isset( $this->information["inputs"] ) && empty( $this->information["inputs"] ) == false );
-		}
-
-		/**
-		 * @param mixed ...$arguments
-		 *
-		 * @return bool
-		 */
-
-		public function post( ...$arguments ): bool
-		{
-
-			if( $this->canPost() == false )
-				throw new \Error("Post method must be set");
-
-			return( call_user_method_array( array( $this->arguments["post"] ), $arguments ) );
-		}
-
-		/**
-		 * @param mixed ...$arguments
-		 *
-		 * @return bool
-		 */
-
-		public function data( ...$arguments ): bool
-		{
-
-			if( $this->canPost() == false )
-				throw new \Error("Post method must be set");
-
-			return( call_user_method_array( array( $this->arguments["data"] ), $arguments ) );
 		}
 
 		/**
