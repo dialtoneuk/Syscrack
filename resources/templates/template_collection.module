@@ -9,7 +9,7 @@ namespace _namespace_;
 
 use Framework\Application\UtilitiesV2\Collection;
 use Framework\Application\UtilitiesV2\Convention;
-use Framework\Application\UtilitiesV2\Conventions\AmbiguousData;
+use Framework\Application\UtilitiesV2\Conventions\EditableData;
 
 class _classname_ extends Collection
 {
@@ -38,6 +38,6 @@ class _classname_ extends Collection
     public static function dataInstance( $values )
     {
 
-        return( new AmbiguousData( $values ) );
+        return( new EditableData( $values ) );
     }
 }

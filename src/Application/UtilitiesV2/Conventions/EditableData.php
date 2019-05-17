@@ -11,12 +11,8 @@
 
 	use Framework\Application\UtilitiesV2\Convention;
 
-	class AmbiguousData extends Convention
+	class EditableData extends Convention
 	{
-
-		//Blank requirements
-		protected $requirements = [];
-
 
 		/**
 		 * @param $index

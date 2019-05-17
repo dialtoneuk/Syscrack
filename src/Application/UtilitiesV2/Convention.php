@@ -2,7 +2,7 @@
 
 	namespace Framework\Application\UtilitiesV2;
 
-	use Framework\Application\UtilitiesV2\Conventions\AmbiguousData;
+	use Framework\Application\UtilitiesV2\Conventions\EditableData;
 
 	/**
 	 * Created by PhpStorm.
@@ -13,14 +13,17 @@
 	abstract class Convention
 	{
 
+		/**
+		 * @var array|mixed
+		 */
+
 		protected $array = [];
 
 		/**
 		 * @var array
 		 */
 
-		protected $requirements = [
-		];
+		protected $requirements = [];
 
 		/**
 		 * Convention constructor.
@@ -71,7 +74,7 @@
 		public function get($key)
 		{
 
-			return ($this->array[$key]);
+			return ( @$this->array[$key] );
 		}
 
 		/**
@@ -253,15 +256,15 @@
 		/**
 		 * @param Convention $convention
 		 *
-		 * @return AmbiguousData
+		 * @return EditableData
 		 */
 
 		public static function toAmbigious(Convention $convention)
 		{
 
-			if ($convention instanceof AmbiguousData)
+			if ($convention instanceof EditableData)
 				return $convention;
 
-			return (new AmbiguousData($convention->contents()));
+			return (new EditableData($convention->contents()));
 		}
 	}

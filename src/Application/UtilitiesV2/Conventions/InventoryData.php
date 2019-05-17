@@ -13,7 +13,7 @@ namespace Framework\Application\UtilitiesV2\Conventions;
  * @property string item
  */
 
-class InventoryData extends AmbiguousData
+class InventoryData extends EditableData
 {
 
     /**

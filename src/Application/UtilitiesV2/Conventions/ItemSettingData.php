@@ -23,7 +23,7 @@
 	 * @property bool onceonly
 	 * @property bool tradeable
 	 */
-	class ItemSettingData extends AmbiguousData
+	class ItemSettingData extends EditableData
 	{
 
 		//Blank

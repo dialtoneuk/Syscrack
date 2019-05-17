@@ -7,8 +7,6 @@ namespace Framework\Application\UtilitiesV2\Conventions;
  * Automatically created at: 2019-05-15 01:23:42
  */
 
-use Framework\Application\UtilitiesV2\Convention;
-
 /**
  * Class InputData
  * @package Framework\Application\UtilitiesV2\Conventions
@@ -19,7 +17,7 @@ use Framework\Application\UtilitiesV2\Convention;
  * @property string placeholder
  */
 
-class InputData extends Convention
+class InputData extends EditableData
 {
 
 

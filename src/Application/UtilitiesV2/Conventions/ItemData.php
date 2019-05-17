@@ -3,6 +3,8 @@
 	namespace Framework\Application\UtilitiesV2\Conventions;
 
 
+	use Framework\Application\UtilitiesV2\Convention;
+
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -22,7 +24,7 @@
 	 * @property bool onetime
 	 * @property bool discontinued
 	 */
-	class ItemData extends AmbiguousData
+	class ItemData extends Convention
 	{
 
 		/**
