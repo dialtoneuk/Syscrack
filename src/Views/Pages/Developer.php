@@ -162,13 +162,13 @@
 			if ($this->database == null)
 			{
 
-				$this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
+				$this->formError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
 			}
 
 			if ($this->hasDatabaseConnection() == false)
 			{
 
-				$this->redirectError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer');
+				$this->formError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer');
 			}
 
 			$this->getRender('developer/page.migrator');
@@ -184,13 +184,13 @@
 			if ($this->database == null)
 			{
 
-				$this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
+				$this->formError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
 			}
 
 			if ($this->hasDatabaseConnection() == false)
 			{
 
-				$this->redirectError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer');
+				$this->formError('Your database connection is invalid, please make sure it is valid before using the migrator', 'developer');
 			}
 
 			if (PostHelper::hasPostData() == false)
@@ -204,7 +204,7 @@
 				if (PostHelper::checkForRequirements(['json']) == false)
 				{
 
-					$this->redirectError('Missing information', $this->getRedirect('migrator'));
+					$this->formError('Missing information', $this->getRedirect('migrator'));
 				}
 
 				$json = PostHelper::getPostData('json');
@@ -212,7 +212,7 @@
 				if ($this->isJson($json) == false)
 				{
 
-					$this->redirectError('Invalid Json: ' . json_last_error_msg(), $this->getRedirect('migrator'));
+					$this->formError('Invalid Json: ' . json_last_error_msg(), $this->getRedirect('migrator'));
 				}
 
 				try
@@ -222,10 +222,10 @@
 				} catch (\Exception $error)
 				{
 
-					$this->redirectError('Migrator Error: ' . $error->getMessage(), $this->getRedirect('migrator'));
+					$this->formError('Migrator Error: ' . $error->getMessage(), $this->getRedirect('migrator'));
 				}
 
-				$this->redirectSuccess($this->getRedirect('migrator'));
+				$this->formSuccess($this->getRedirect('migrator'));
 			}
 		}
 
@@ -241,7 +241,7 @@
 			if ($routes == null)
 			{
 
-				$this->redirectError('No routes were found', 'developer');
+				$this->formError('No routes were found', 'developer');
 			}
 			else
 			{
@@ -278,7 +278,7 @@
 				if (PostHelper::checkForRequirements(['action']) == false)
 				{
 
-					$this->redirectError('Missing information', $this->getRedirect('errors'));
+					$this->formError('Missing information', $this->getRedirect('errors'));
 				}
 				else
 				{
@@ -290,7 +290,7 @@
 
 						$this->errorhandler->deleteErrorLog();
 
-						$this->redirectSuccess($this->getRedirect('errors'));
+						$this->formSuccess($this->getRedirect('errors'));
 					}
 				}
 			}
@@ -310,7 +310,7 @@
 			if (isset($errors[$id]) == false)
 			{
 
-				$this->redirectError('Error does not exist', $this->getRedirect('errors'));
+				$this->formError('Error does not exist', $this->getRedirect('errors'));
 			}
 			else
 			{
@@ -343,7 +343,7 @@
 				if (PostHelper::checkForRequirements(['action']) == false)
 				{
 
-					$this->redirectError('Missing information', $this->getRedirect('settings'));
+					$this->formError('Missing information', $this->getRedirect('settings'));
 				}
 
 				$action = PostHelper::getPostData('action');
@@ -353,7 +353,7 @@
 
 					Settings::updateSetting('developer_disabled', true);
 
-					$this->redirectSuccess('index');
+					$this->formSuccess('index');
 				}
 			}
 		}
@@ -386,7 +386,7 @@
 				if (PostHelper::checkForRequirements(['action', 'setting_name', 'setting_value']) == false)
 				{
 
-					$this->redirectError('Missing information', $this->getRedirect('settings'));
+					$this->formError('Missing information', $this->getRedirect('settings'));
 				}
 
 				$action = PostHelper::getPostData('action');
@@ -400,12 +400,12 @@
 					if (Settings::hasSetting($settings_name))
 					{
 
-						$this->redirectError('Setting already exists under that name');
+						$this->formError('Setting already exists under that name');
 					}
 
 					Settings::addSetting($settings_name, $this->parseSetting($settings_value), true);
 
-					$this->redirectSuccess($this->getRedirect('settings'));
+					$this->formSuccess($this->getRedirect('settings'));
 				}
 				else if ($action == "save")
 				{
@@ -416,12 +416,12 @@
 					if (Settings::hasSetting($settings_name) == false)
 					{
 
-						$this->redirectError('This setting does not exist', $this->getRedirect('settings'));
+						$this->formError('This setting does not exist', $this->getRedirect('settings'));
 					}
 
 					Settings::updateSetting($settings_name, $this->parseSetting($settings_value));
 
-					$this->redirectSuccess($this->getRedirect('settings'));
+					$this->formSuccess($this->getRedirect('settings'));
 				}
 				else if ($action == "delete")
 				{
@@ -431,12 +431,12 @@
 					if (Settings::hasSetting($settings_name) == false)
 					{
 
-						$this->redirectError('This setting does not exist', $this->getRedirect('settings'));
+						$this->formError('This setting does not exist', $this->getRedirect('settings'));
 					}
 
 					Settings::removeSetting($settings_name);
 
-					$this->redirectSuccess($this->getRedirect('settings'));
+					$this->formSuccess($this->getRedirect('settings'));
 				}
 			}
 		}
@@ -469,7 +469,7 @@
 				if (PostHelper::checkForRequirements(['username', 'password', 'host', 'database']) == false)
 				{
 
-					$this->redirectError('Missing information', $this->getRedirect('connection/creator'));
+					$this->formError('Missing information', $this->getRedirect('connection/creator'));
 				}
 
 				if (FileSystem::directoryExists('config/database/') == false)
@@ -499,10 +499,10 @@
 				if (FileSystem::exists(Settings::setting('database_connection_file')) == false)
 				{
 
-					$this->redirectError('Failed to create connection file, this could be due to a permissions error', $this->getRedirect('connection/creator'));
+					$this->formError('Failed to create connection file, this could be due to a permissions error', $this->getRedirect('connection/creator'));
 				}
 
-				$this->redirectSuccess($this->getRedirect('connection/creator'));
+				$this->formSuccess($this->getRedirect('connection/creator'));
 			}
 		}
 
@@ -516,7 +516,7 @@
 			if ($this->database == null)
 			{
 
-				$this->redirectError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
+				$this->formError('The database class failed to be created, this is usually due to the connection file not existing, maybe you should create one?', 'developer');
 			}
 
 			$this->getRender('developer/page.connection');

@@ -200,7 +200,7 @@
 			if ($this->isUser($userid))
 				$this->getRender('syscrack/page.admin.users.edit');
 			else
-				$this->redirectError('This user does not exist, please try another', 'admin/users/');
+				$this->formError('This user does not exist, please try another', 'admin/users/');
 		}
 
 		/**
@@ -211,17 +211,17 @@
 		{
 
 			if ($this->isUser($userid) == false)
-				$this->redirectError('This user does not exist', "admin/users/edit/" . $userid . "/");
+				$this->formError('This user does not exist', "admin/users/edit/" . $userid . "/");
 			else
 			{
 
 				if (PostHelper::hasPostData() == false)
-					$this->redirectError('Post data is false', "admin/users/edit/" . $userid);
+					$this->formError('Post data is false', "admin/users/edit/" . $userid);
 				else
 				{
 
 					if (PostHelper::checkForRequirements(['action']) == false)
-						$this->redirectError('Post data is false', "admin/users/edit/" . $userid);
+						$this->formError('Post data is false', "admin/users/edit/" . $userid);
 					else
 					{
 
@@ -230,12 +230,12 @@
 						{
 
 							if (PostHelper::checkForRequirements(['group']) == false)
-								$this->redirectError('Post data is false', "admin/users/edit/" . $userid);
+								$this->formError('Post data is false', "admin/users/edit/" . $userid);
 							else
 							{
 
 								self::$user->updateGroup($userid, PostHelper::getPostData('group', true));
-								$this->redirectSuccess('admin/users/edit/' . $userid);
+								$this->formSuccess('admin/users/edit/' . $userid);
 							}
 						}
 					}
@@ -261,14 +261,14 @@
 		{
 
 			if (PostHelper::checkForRequirements(['theme']) == false)
-				$this->redirectError("This theme does not exist");
+				$this->formError("This theme does not exist");
 			else
 			{
 
 				$theme = PostHelper::getPostData('theme', true);
 
 				if (self::$themes->themeExists($theme) == false)
-					$this->redirectError("This theme does not exist");
+					$this->formError("This theme does not exist");
 				else
 					self::$themes->set($theme);
 			}
@@ -282,7 +282,7 @@
 		{
 
 			if (parent::$computer->computerExists($computerid) == false)
-				$this->redirectError('This computer does not exist, please try another');
+				$this->formError('This computer does not exist, please try another');
 			else
 			{
 				$computer = parent::$computer->getComputer($computerid);
@@ -310,7 +310,7 @@
 		{
 
 			if (parent::$computer->computerExists($computerid) == false)
-				$this->redirectError('This computer does not exist, please try another', "admin/computer/edit/" . $computerid);
+				$this->formError('This computer does not exist, please try another', "admin/computer/edit/" . $computerid);
 
 			if (PostHelper::hasPostData() == false)
 				$this->redirect('admin/computer');
@@ -318,7 +318,7 @@
 			{
 
 				if (isset($_POST["action"]) == false)
-					$this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid);
+					$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
 				else
 				{
 
@@ -335,7 +335,7 @@
 						];
 
 						if (PostHelper::checkForRequirements($requirements) == false)
-							$this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid);
+							$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
 						else
 						{
 
@@ -374,7 +374,7 @@
 							if (isset($_POST['schema']))
 								$this->addToSchema($computerid, $software);
 
-							$this->redirectSuccess('admin/computer/edit/' . $computerid);
+							$this->formSuccess('admin/computer/edit/' . $computerid);
 						}
 					}
 					else if ($action == "stall")
@@ -388,7 +388,7 @@
 						if (PostHelper::checkForRequirements($requirements) == false)
 						{
 
-							$this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid);
+							$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
 						}
 						else
 						{
@@ -396,7 +396,7 @@
 							if (self::$software->softwareExists(PostHelper::getPostData('softwareid', true)) == false)
 							{
 
-								$this->redirectError('Invalid Software', "admin/computer/edit/" . $computerid);
+								$this->formError('Invalid Software', "admin/computer/edit/" . $computerid);
 							}
 
 							if (PostHelper::getPostData('task', true) == 'install')
@@ -415,7 +415,7 @@
 								parent::$computer->uninstallSoftware($computerid, PostHelper::getPostData('softwareid', true));
 							}
 
-							$this->redirectSuccess('admin/computer/edit/' . $computerid);
+							$this->formSuccess('admin/computer/edit/' . $computerid);
 						}
 					}
 					else if ($action == "delete")
@@ -428,7 +428,7 @@
 						if (PostHelper::checkForRequirements($requirements) == false)
 						{
 
-							$this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid);
+							$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
 						}
 						else
 						{
@@ -436,14 +436,14 @@
 							if (self::$software->softwareExists(PostHelper::getPostData('softwareid', true)) == false)
 							{
 
-								$this->redirectError('Invalid Software', "admin/computer/edit/" . $computerid);
+								$this->formError('Invalid Software', "admin/computer/edit/" . $computerid);
 							}
 
 							self::$software->deleteSoftware(PostHelper::getPostData('softwareid', true));
 
 							parent::$computer->removeSoftware($computerid, PostHelper::getPostData('softwareid', true));
 
-							$this->redirectSuccess('admin/computer/edit/' . $computerid);
+							$this->formSuccess('admin/computer/edit/' . $computerid);
 						}
 					}
 					else if ($action == "stock")
@@ -459,7 +459,7 @@
 						if (PostHelper::checkForRequirements($requirements) == false)
 						{
 
-							$this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid);
+							$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
 						}
 						else
 						{
@@ -469,7 +469,7 @@
 							if (parent::$computer->isMarket($computerid) == false)
 							{
 
-								$this->redirectError('Wrong computer type', "admin/computer/edit/" . $computerid);
+								$this->formError('Wrong computer type', "admin/computer/edit/" . $computerid);
 							}
 							else
 							{
@@ -480,7 +480,7 @@
 									if (empty($_POST['value']) || empty($_POST['hardware']))
 									{
 
-										$this->redirectError('Incomplete Data', "admin/computer/edit/" . $computerid);
+										$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
 									}
 									else
 									{
@@ -496,7 +496,7 @@
 
 										$market->addStockItem($computerid, base64_encode(openssl_random_pseudo_bytes(16)), $stock);
 
-										$this->redirectSuccess("admin/computer/edit/" . $computerid);
+										$this->formSuccess("admin/computer/edit/" . $computerid);
 									}
 								}
 							}
@@ -546,7 +546,7 @@
 			if (PostHelper::hasPostData() == false)
 			{
 
-				$this->redirectError();
+				$this->formError();
 			}
 			else
 			{
@@ -554,7 +554,7 @@
 				if (PostHelper::checkForRequirements(['question', 'answer']) == false)
 				{
 
-					$this->redirectError();
+					$this->formError();
 				}
 				else
 				{
@@ -563,7 +563,7 @@
 
 					$riddles->addRiddle(PostHelper::getPostData('question', true), PostHelper::getPostData('answer', true));
 
-					$this->redirectSuccess();
+					$this->formSuccess();
 				}
 			}
 		}
@@ -613,7 +613,7 @@
 					$this->cleanAccounts();
 				}
 
-				$this->redirectSuccess('admin/reset');
+				$this->formSuccess('admin/reset');
 			}
 		}
 
@@ -645,7 +645,7 @@
 				if (PostHelper::checkForRequirements(['query']) == false)
 				{
 
-					$this->redirectError('Please enter a search query', 'admin/computer');
+					$this->formError('Please enter a search query', 'admin/computer');
 				}
 
 				$query = PostHelper::getPostData('query');
@@ -656,7 +656,7 @@
 					if (self::$internet->ipExists($query) == false)
 					{
 
-						$this->redirectError('Address is invalid', 'admin/computer');
+						$this->formError('Address is invalid', 'admin/computer');
 					}
 
 					$this->redirect('admin/computer/' . self::$internet->getComputer($query)->computerid);
@@ -667,13 +667,13 @@
 					if (is_numeric($query) == false)
 					{
 
-						$this->redirectError('Invalid query', 'admin/computer');
+						$this->formError('Invalid query', 'admin/computer');
 					}
 
 					if (parent::$computer->computerExists($query) == false)
 					{
 
-						$this->redirectError('BaseComputer not found', 'admin/computer');
+						$this->formError('BaseComputer not found', 'admin/computer');
 					}
 
 					$this->redirect('admin/computer/' . parent::$computer->getComputer($query)->computerid);
@@ -728,9 +728,9 @@
 		{
 
 			if (PostHelper::hasPostData() == false)
-				$this->redirectError('Missing information', $this->path);
+				$this->formError('Missing information', $this->path);
 			else if (PostHelper::checkForRequirements(['userid', 'ipaddress', 'type', 'hardware', 'software']) == false)
-				$this->redirectError('Missing information', $this->path);
+				$this->formError('Missing information', $this->path);
 			else
 			{
 
@@ -743,12 +743,12 @@
 				];
 
 				if ($this->isValidJson($values["hardware"]) == false || $this->isValidJson($values["software"]) == false)
-					$this->redirectError("Json is invalid");
+					$this->formError("Json is invalid");
 				else
 				{
 
 					if (is_numeric($values["userid"]) == false)
-						$this->redirectError("Invalid userid must be numerical");
+						$this->formError("Invalid userid must be numerical");
 					else
 					{
 
@@ -759,11 +759,11 @@
 						$object = new CreatorData($values);
 
 						if ($this->isUser($object->userid) == false)
-							$this->redirectError("Userid is invalid", $this->path);
+							$this->formError("Userid is invalid", $this->path);
 						else if ($this->validAddress($object->ipaddress) == false)
-							$this->redirectError("Address is invalid", $this->path);
+							$this->formError("Address is invalid", $this->path);
 						else if (parent::$computer->hasComputerClass($object->type) == false)
-							$this->redirectError("Unknown type of computer");
+							$this->formError("Unknown type of computer");
 
 						$computerid = parent::$computer->createComputer($object->userid, $object->type, $object->ipaddress, $object->software, $object->hardware);
 
@@ -776,7 +776,7 @@
 							throw new \Error("Instanceof check returned false");
 
 						$class->onStartup($computerid, $object->userid, $object->software, $object->hardware, $this->custom());
-						$this->redirectSuccess('admin/computer/edit/' . $computerid);
+						$this->formSuccess('admin/computer/edit/' . $computerid);
 					}
 				}
 			}
@@ -792,7 +792,7 @@
 		{
 
 			if (PostHelper::checkForRequirements(["setting"]) == false)
-				$this->redirectError("Missing information", 'admin/settings/');
+				$this->formError("Missing information", 'admin/settings/');
 			else
 			{
 
@@ -807,7 +807,7 @@
 				Settings::updateSetting(PostHelper::getPostData('setting', true), $value);
 			}
 
-			$this->redirectSuccess('admin/settings/');
+			$this->formSuccess('admin/settings/');
 		}
 
 		/**

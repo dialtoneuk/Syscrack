@@ -42,6 +42,9 @@
 					case "update":
 						return $this->update($arguments);
 						break;
+					case "rename":
+						return $this->rename($arguments);
+						break;
 					case "delete":
 						return $this->delete($arguments);
 						break;
@@ -67,6 +70,40 @@
 			Debug::echo("Displaying all " . count($settings) . " settings...");
 			Debug::echo("");
 			Debug::echo($settings);
+		}
+
+		public function rename( $arguments )
+		{
+
+			if( isset( $arguments["setting"] ) == false )
+			{
+				Debug::echo("Missing key: setting");
+				return false;
+			}
+
+			if( isset( $arguments["value"] ) == false )
+			{
+				Debug::echo("Missing key: value");
+				return false;
+			}
+
+			if( ApplicationSettings::hasSetting( $arguments["setting"] ) == false )
+			{
+				Debug::echo("Setting does not exist: " . $arguments["setting"]);
+				return false;
+			}
+
+			if( ApplicationSettings::hasSetting( $arguments["value"] ))
+			{
+				Debug::echo("Setting already exists unsafe to rename: " . $arguments["value"]);
+				return false;
+			}
+
+			$setting = ApplicationSettings::setting( $arguments["setting"] );
+			ApplicationSettings::addSetting( $arguments["value"], $setting );
+			ApplicationSettings::removeSetting( $arguments["setting"] );
+
+			return true;
 		}
 
 		/**

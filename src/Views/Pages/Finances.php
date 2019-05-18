@@ -128,7 +128,7 @@
 				if (PostHelper::checkForRequirements(['accountnumber', 'targetaccount', 'ipaddress', 'amount']) == false)
 				{
 
-					$this->redirectError('Missing information', 'finances/transfer');
+					$this->formError('Missing information', 'finances/transfer');
 				}
 
 				$accountnumber = PostHelper::getPostData('accountnumber');
@@ -139,7 +139,7 @@
 				if (is_numeric($amount) == false)
 				{
 
-					$this->redirectError('Please enter a number for the amount', 'finances/transfer');
+					$this->formError('Please enter a number for the amount', 'finances/transfer');
 				}
 
 				$amount = abs($amount);
@@ -147,25 +147,25 @@
 				if ($amount == 0)
 				{
 
-					$this->redirectError('Please enter a number higher than zero', 'finances/transfer');
+					$this->formError('Please enter a number higher than zero', 'finances/transfer');
 				}
 
 				if ($accountnumber == $targetaccount)
 				{
 
-					$this->redirectError('You cant transfer to your self, funnily enough', 'finances/transfer');
+					$this->formError('You cant transfer to your self, funnily enough', 'finances/transfer');
 				}
 
 				if (self::$finance->accountNumberExists($accountnumber) == false)
 				{
 
-					$this->redirectError('Account does not exist', 'finances/transfer');
+					$this->formError('Account does not exist', 'finances/transfer');
 				}
 
 				if (self::$finance->accountNumberExists($targetaccount) == false)
 				{
 
-					$this->redirectError('Account does not exist', 'finances/transfer');
+					$this->formError('Account does not exist', 'finances/transfer');
 				}
 
 				$account = self::$finance->getByAccountNumber($accountnumber);
@@ -173,7 +173,7 @@
 				if ($account->userid !== self::$session->userid())
 				{
 
-					$this->redirectError('You do not own this account', 'finances/transfer');
+					$this->formError('You do not own this account', 'finances/transfer');
 				}
 
 				$target = self::$finance->getByAccountNumber($targetaccount);
@@ -181,20 +181,20 @@
 				if ($this->computer->getComputer($target->computerid)->ipaddress !== $ipaddress)
 				{
 
-					$this->redirectError('Account does not exist at remote bank', 'finances/transfer');
+					$this->formError('Account does not exist at remote bank', 'finances/transfer');
 				}
 
 				if (self::$finance->canAfford($account->computerid, self::$session->userid(), $amount) == false)
 				{
 
-					$this->redirectError('You cannot afford this transaction', 'finances/transfer');
+					$this->formError('You cannot afford this transaction', 'finances/transfer');
 				}
 
 				self::$finance->deposit($target->computerid, $target->userid, $amount);
 
 				self::$finance->withdraw($account->computerid, $account->userid, $amount);
 
-				$this->redirectSuccess('finances/transfer');
+				$this->formSuccess('finances/transfer');
 			}
 		}
 	}

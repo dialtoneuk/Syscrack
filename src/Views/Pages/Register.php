@@ -95,20 +95,20 @@
 				Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
 
 			if (PostHelper::hasPostData() == false)
-				$this->redirectError('Missing Information');
+				$this->formError('Missing Information');
 			else if (Settings::setting('user_allow_registrations') == false)
-				$this->redirectError('Registration is currently disabled, sorry...');
+				$this->formError('Registration is currently disabled, sorry...');
 			else if (PostHelper::checkForRequirements(['username', 'password', 'email']) == false)
-				$this->redirectError('Missing Information');
+				$this->formError('Missing Information');
 
 			$username = PostHelper::getPostData('username');
 			$password = PostHelper::getPostData('password');
 			$email = PostHelper::getPostData('email');
 
 			if (empty($username) || empty($password) || empty($email))
-				$this->redirectError('Missing Information');
+				$this->formError('Missing Information');
 			else if (strlen($password) < Settings::setting('registration_password_length'))
-				$this->redirectError('Your password is too small, it needs to be longer than ' . Settings::setting('registration_password_length') . ' characters');
+				$this->formError('Your password is too small, it needs to be longer than ' . Settings::setting('registration_password_length') . ' characters');
 			else
 			{
 
@@ -116,7 +116,7 @@
 
 				if (Settings::setting('user_require_betakey') && PostHelper::checkForRequirements(['betakey']) == false
 					&& self::$betakeys->exists(PostHelper::getPostData('betakey')) == false)
-					$this->redirectError('Invalid key, please check for any white spaces or errors in the key and try again');
+					$this->formError('Invalid key, please check for any white spaces or errors in the key and try again');
 				else
 				{
 
@@ -126,7 +126,7 @@
 					$result = @$register->register($username, $password, $email);
 
 					if ($result === false)
-						$this->redirectError("An error occured while trying to create your account. Its been logged and we are on it. Please try again later.");
+						$this->formError("An error occured while trying to create your account. Its been logged and we are on it. Please try again later.");
 					else
 					{
 

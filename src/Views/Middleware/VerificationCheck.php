@@ -10,14 +10,12 @@
 	 * @package Framework\Views\Middleware
 	 */
 
-	use Error;
 	use Framework\Application\Container;
 	use Framework\Application\Session;
 	use Framework\Syscrack\Verification;
-	use Framework\Views\BaseClasses\Middleware as BaseClass;
-	use Framework\Views\Structures\Middleware as Structure;
+	use Framework\Views\BaseClasses\Middleware;
 
-	class VerificationCheck extends BaseClass implements Structure
+	class VerificationCheck extends Middleware
 	{
 
 		/**
@@ -35,31 +33,25 @@
 		/**
 		 * VerificationCheck constructor.
 		 *
-		 * @throws Error
+		 * @throws \Error
 		 */
 
 		public function __construct()
 		{
 
 			if (Container::hasObject('session') == false)
-			{
+				throw new \Error();
 
-				throw new Error();
-			}
 
 			$this->session = Container::getObject('session');
 
 			if (session_status() !== PHP_SESSION_ACTIVE)
-			{
-
 				session_start();
-			}
+
 
 			if ($this->session->isLoggedIn() == false)
-			{
+				throw new \Error();
 
-				throw new Error();
-			}
 
 			$this->verification = new Verification();
 		}
@@ -92,7 +84,7 @@
 		public function onSuccess()
 		{
 
-
+			parent::onSuccess();
 		}
 
 		/**

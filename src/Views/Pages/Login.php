@@ -78,9 +78,9 @@
 		{
 
 			if (PostHelper::hasPostData() == false)
-				$this->redirectError('Blank Form');
+				$this->formError('Blank Form');
 			else if (PostHelper::checkForRequirements(['username', 'password']) == false)
-				$this->redirectError('Missing Information');
+				$this->formError('Missing Information');
 			else
 			{
 
@@ -90,7 +90,7 @@
 				$result = @self::$login->loginAccount($username, $password);
 
 				if ($result === false)
-					$this->redirectError(self::$login::$error->getMessage());
+					$this->formError(self::$login::$error->getMessage());
 				else
 				{
 
@@ -101,7 +101,7 @@
 
 					self::$session->insertSession($userid);
 					$this->addConnectedComputer($userid);
-					$this->redirectSuccess('game', false);
+					$this->formSuccess('game' );
 				}
 			}
 		}

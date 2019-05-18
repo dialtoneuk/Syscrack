@@ -11,9 +11,11 @@
 	 */
 
 	use Framework\Application\Container;
+	use Framework\Application\FormContainer;
 	use Framework\Application\Render;
 	use Framework\Application\Session;
 	use Framework\Application\Settings;
+	use Framework\Application\UtilitiesV2\Controller\FormMessage;
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Computer;
@@ -284,39 +286,13 @@
 		 * @param string $path
 		 */
 
-		public function redirectError($message = '', $path = '')
+		public function formError($message = '', $path = '')
 		{
 
-			if (Settings::setting('error_use_session'))
-			{
+			if( Settings::setting('error_use_session') )
+				$_SESSION["errors"] = FormContainer::contents();
 
-				$_SESSION['error'] = $message;
-
-				if ($path !== '')
-				{
-
-					if (empty(explode('/', $path)))
-						$_SESSION['error_page'] = explode('/', $path)[0];
-					else
-						if (substr($path, 0, 1) == '/')
-							$_SESSION['error_page'] = substr($path, 1);
-						else
-							$_SESSION['error_page'] = $path;
-				}
-
-				if ($path !== '')
-					$this->redirect($path . '?error');
-				else
-					$this->redirect($this->getCurrentPage() . '?error');
-			}
-			else
-			{
-
-				if ($path !== '')
-					$this->redirect($path . '?error=' . $message);
-				else
-					$this->redirect($this->getCurrentPage() . '?error=' . $message);
-			}
+			$this->redirect( $path );
 		}
 
 		/**
@@ -325,16 +301,15 @@
 		 * @param string $path
 		 */
 
-		public function redirectSuccess($path = '')
+		public function formSuccess($path = '', $optional_message = '')
 		{
 
-			if ($path !== '')
-			{
+			FormContainer::add( new FormMessage( FORM_MESSAGE_SUCCESS, $optional_message, true ) );
 
-				$this->redirect($path . '?success');
-			}
+			if( Settings::setting('error_use_session') )
+				$_SESSION["errors"] = FormContainer::contents();
 
-			$this->redirect($this->getCurrentPage() . '?success');
+			$this->redirect( $path );
 		}
 
 		/**

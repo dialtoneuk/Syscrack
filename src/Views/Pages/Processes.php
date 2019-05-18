@@ -105,7 +105,7 @@
 			if (self::$operations->processExists($processid) == false)
 			{
 
-				$this->redirectError('This process does not exist');
+				$this->formError('This process does not exist');
 			}
 			else
 			{
@@ -115,7 +115,7 @@
 				if ($process->userid != Container::getObject('session')->userid())
 				{
 
-					$this->redirectError('This process isnt yours');
+					$this->formError('This process isnt yours');
 				}
 				else
 				{
@@ -123,7 +123,7 @@
 					if ($process->computerid != self::$computer->computerid())
 					{
 
-						$this->redirectError('You are connected as a different computer');
+						$this->formError('You are connected as a different computer');
 					}
 					else
 					{
@@ -141,9 +141,9 @@
 			$userid = Container::getObject('session')->userid();
 
 			if (self::$operations->processExists($processid) == false)
-				$this->redirectError('Process not found');
+				$this->formError('Process not found');
 			else if (self::$operations->canComplete($processid) == false)
-				$this->redirectError('Process not finished');
+				$this->formError('Process not finished');
 			else
 			{
 
@@ -151,16 +151,16 @@
 				$class = self::$operations->findProcessClass($process->process);
 
 				if ($process->userid != $userid)
-					$this->redirectError('Process ownership error');
+					$this->formError('Process ownership error');
 				else
 				{
 
 					$data = json_decode($process->data, true);
 
 					if (isset($data['ipaddress']) == false)
-						$this->redirectError('Process error');
+						$this->formError('Process error');
 					else if (self::$internet->ipExists($data['ipaddress']) == false)
-						$this->redirectError('404');
+						$this->formError('404');
 					else
 					{
 
@@ -172,22 +172,22 @@
 									&& $target->ipaddress !== self::$internet->getCurrentConnectedAddress()
 									&& self::$operations->allowLocal($process->process) == false
 									&& self::$operations->isElevatedProcess($process->process) == false)
-									$this->redirectError("Connection error 1");
+									$this->formError("Connection error 1");
 								else
 									if (self::$internet->hasCurrentConnection() == false)
 										if (self::$operations->isElevatedProcess($process->process) == false || self::$operations->allowLocal($process->process) == false)
-											$this->redirectError("Connection error 2");
+											$this->formError("Connection error 2");
 
 						$result = self::$operations->completeProcess($processid);
 
 						if (is_string($result))
-							$this->redirectSuccess($result);
+							$this->formSuccess($result);
 						else if ($result === null)
 							exit;
 						else if (is_bool($result) && $result == false)
-							$this->redirectError("Error completing process", $class->url($data['ipaddress']));
+							$this->formError("Error completing process", $class->url($data['ipaddress']));
 						else if (is_bool($result) && $result == true)
-							$this->redirectSuccess($class->url($data['ipaddress']));
+							$this->formSuccess($class->url($data['ipaddress']));
 						else
 							throw new \Error("Unknown result from process: " . $process . " => " . print_r($result));
 					}
@@ -208,7 +208,7 @@
 			if (self::$operations->processExists($processid) == false)
 			{
 
-				$this->redirectError('This process does not exist');
+				$this->formError('This process does not exist');
 			}
 			else
 			{
@@ -218,18 +218,18 @@
 				if ($process->userid !== Container::getObject('session')->userid())
 				{
 
-					$this->redirectError('You do not own this process');
+					$this->formError('You do not own this process');
 				}
 
 				if ($process->computerid != self::$computer->computerid())
 				{
 
-					$this->redirectError('You need to currently be switched to the computer this process was initiated on');
+					$this->formError('You need to currently be switched to the computer this process was initiated on');
 				}
 
 				self::$operations->deleteProcess($processid);
 
-				$this->redirectSuccess('processes/computer/' . self::$computer->computerid());
+				$this->formSuccess('processes/computer/' . self::$computer->computerid());
 			}
 		}
 

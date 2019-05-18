@@ -187,26 +187,26 @@
 		{
 
 			if (PostHelper::hasPostData() == false)
-				$this->redirectError('Missing Information', 'game/computer/');
+				$this->formError('Missing Information', 'game/computer/');
 			else
 			{
 
 				if (PostHelper::checkForRequirements(['accountnumber']) == false)
-					$this->redirectError('Account number is invalid', 'game/computer/');
+					$this->formError('Account number is invalid', 'game/computer/');
 				else
 				{
 
 					if (self::$finance->accountNumberExists(PostHelper::getPostData('accountnumber', true)) == false)
-						$this->redirectError('Account number is invalid', 'game/computer/');
+						$this->formError('Account number is invalid', 'game/computer/');
 					else
 					{
 
 						$account = self::$finance->getByAccountNumber(PostHelper::getPostData('accountnumber', true));
 
 						if ($account->userid !== self::$session->userid())
-							$this->redirectError('Invalid', 'game/computer/');
+							$this->formError('Invalid', 'game/computer/');
 						else if (self::$finance->canAfford($account->computerid, $account->userid, $this->getVPCPrice(self::$session->userid())) == false)
-							$this->redirectError('Sorry, you cannot afford this transaction!', 'game/computer/');
+							$this->formError('Sorry, you cannot afford this transaction!', 'game/computer/');
 						else
 						{
 
@@ -222,7 +222,7 @@
 							$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
 							$class->onStartup($computerid, self::$session->userid(), [], Settings::setting('syscrack_default_hardware'));
 							self::$finance->withdraw($account->computerid, $account->userid, $this->getVPCPrice(self::$session->userid()));
-							$this->redirectSuccess('game/computer/');
+							$this->formSuccess('game/computer/');
 						}
 					}
 				}
@@ -256,7 +256,7 @@
 		{
 
 			if (self::$computer->computerExists($computerid) == false)
-				$this->redirectError('Invalid computer', 'game/computer/');
+				$this->formError('Invalid computer', 'game/computer/');
 			else
 			{
 
@@ -267,7 +267,7 @@
 
 					self::$computer->setCurrentUserComputer($computerid);
 					self::$internet->setCurrentConnectedAddress(null);
-					$this->redirectSuccess('game/computer/');
+					$this->formSuccess('game/computer/');
 				}
 			}
 		}
@@ -303,7 +303,7 @@
 			{
 
 				if ($this->validAddress() == false)
-					$this->redirectError('404 Not Found', $this->getRedirect() . '/internet');
+					$this->formError('404 Not Found', $this->getRedirect() . '/internet');
 				else
 					$this->redirect($this->getRedirect(PostHelper::getPostData('ipaddress')));
 			}
@@ -321,7 +321,7 @@
 		{
 
 			if ($this->validAddress($ipaddress) == false)
-				$this->redirectError('404 Not Found', $this->getRedirect() . '/internet');
+				$this->formError('404 Not Found', $this->getRedirect() . '/internet');
 			else
 			{
 
@@ -426,23 +426,23 @@
 		{
 
 			if ($this->validAddress($ipaddress) == false)
-				$this->redirectError('404 Not Found', $this->getRedirect() . '/internet');
+				$this->formError('404 Not Found', $this->getRedirect() . '/internet');
 
 			if (self::$operations->hasProcessClass($process) == false)
-				$this->redirectError('Invalid action', $this->getRedirect($ipaddress));
+				$this->formError('Invalid action', $this->getRedirect($ipaddress));
 			else
 			{
 
 				$computer = self::$computer->getComputer(self::$computer->computerid());
 
 				if (self::$operations->hasProcess($computer->computerid, $process, $ipaddress) == true)
-					$this->redirectError('You already have an action of this nature processing', $this->getRedirect($ipaddress));
+					$this->formError('You already have an action of this nature processing', $this->getRedirect($ipaddress));
 				else if ($ipaddress == $computer->ipaddress && self::$operations->allowLocal($process) == false)
-					$this->redirectError('This action must be ran on a remote computer', $this->getRedirect($ipaddress));
+					$this->formError('This action must be ran on a remote computer', $this->getRedirect($ipaddress));
 				else if (self::$operations->localOnly($process) && $ipaddress !== $computer->ipaddress)
-					$this->redirectError('This action can only be ran locally', $this->getRedirect($ipaddress));
+					$this->formError('This action can only be ran locally', $this->getRedirect($ipaddress));
 				else if (self::$operations->requireSoftware($process))
-					$this->redirectError('A software is required to preform this action', $this->getRedirect($ipaddress));
+					$this->formError('A software is required to preform this action', $this->getRedirect($ipaddress));
 				else
 				{
 
@@ -455,7 +455,7 @@
 						{
 
 							if (PostHelper::checkForRequirements(self::$operations->getPostRequirements($process)) == false)
-								$this->redirectError('Missing information', $this->getRedirect($ipaddress));
+								$this->formError('Missing information', $this->getRedirect($ipaddress));
 							else
 								$result = $class->onPost(PostHelper::getPost(), $ipaddress, self::$session->userid());
 						}
@@ -466,7 +466,7 @@
 						$result = true;
 
 					if ($result === false)
-						$this->redirectError('Post invalid process', $this->getRedirect($ipaddress));
+						$this->formError('Post invalid process', $this->getRedirect($ipaddress));
 					else if ($result === null)
 						return true;
 					else
@@ -483,7 +483,7 @@
 								'ipaddress' => $ipaddress,
 								'custom' => $data
 							)) == false)
-							$this->redirectError("Error creating process", $class->url($ipaddress));
+							$this->formError("Error creating process", $class->url($ipaddress));
 						else
 						{
 
@@ -498,13 +498,13 @@
 								));
 
 								if (is_string($result))
-									$this->redirectSuccess($result);
+									$this->formSuccess($result);
 								else if ($result === null)
 									exit;
 								else if (is_bool($result) && $result == false)
-									$this->redirectError("Error creating process", $class->url($ipaddress));
+									$this->formError("Error creating process", $class->url($ipaddress));
 								else if (is_bool($result) && $result == true)
-									$this->redirectSuccess($class->url($ipaddress));
+									$this->formSuccess($class->url($ipaddress));
 								else
 									throw new \Error("Unknown result from process: " . $process . " => " . print_r($result));
 							}
@@ -533,30 +533,30 @@
 		{
 
 			if ($this->validAddress($ipaddress) == false)
-				$this->redirectError('404 Not Found', $this->getRedirect($ipaddress));
+				$this->formError('404 Not Found', $this->getRedirect($ipaddress));
 			else
 			{
 
 				$computer = self::$computer->getComputer(self::$computer->computerid());
 
 				if (self::$operations->hasProcessClass($process) == false)
-					$this->redirectError('Error in action', $this->getRedirect($ipaddress));
+					$this->formError('Error in action', $this->getRedirect($ipaddress));
 				else if (self::$operations->hasProcess($computer->computerid, $process, $ipaddress, $softwareid))
-					$this->redirectError('Multiple actions running', $this->getRedirect($ipaddress));
+					$this->formError('Multiple actions running', $this->getRedirect($ipaddress));
 				else if (self::$operations->allowSoftware($process) == false)
 					$this->redirect($this->getRedirect($ipaddress) . $process);
 				else if ($ipaddress !== $computer->ipaddress && self::$operations->allowAnonymous($process) == false && self::$operations->allowLocal($process) == false)
-					$this->redirectError('Invalid permissions action', $this->getRedirect($ipaddress));
+					$this->formError('Invalid permissions action', $this->getRedirect($ipaddress));
 				else if (self::$operations->localOnly($process) && $ipaddress !== $computer->ipaddress)
-					$this->redirectError('Invalid permissions action', $this->getRedirect($ipaddress));
+					$this->formError('Invalid permissions action', $this->getRedirect($ipaddress));
 				else if (self::$operations->requireLoggedIn($process) && self::$internet->getCurrentConnectedAddress() != $ipaddress)
-					$this->redirectError('Invalid credentials', $this->getRedirect($ipaddress));
+					$this->formError('Invalid credentials', $this->getRedirect($ipaddress));
 				else if (self::$software->softwareExists($softwareid) == false)
 				{
 					if (self::$operations->allowAnonymous($process))
-						$this->redirectError("Invalid action", $this->getRedirect($ipaddress));
+						$this->formError("Invalid action", $this->getRedirect($ipaddress));
 					else
-						$this->redirectError("Invalid software", $this->getRedirect($ipaddress));
+						$this->formError("Invalid software", $this->getRedirect($ipaddress));
 				}
 				else
 				{
@@ -566,9 +566,9 @@
 					$class = self::$operations->findProcessClass($process);
 
 					if ($target->computerid !== $software->computerid)
-						$this->redirectError("Invalid software", $this->getRedirect($ipaddress));
+						$this->formError("Invalid software", $this->getRedirect($ipaddress));
 					else if (self::$software->isEditable($softwareid) == false && self::$operations->isElevatedProcess($process) == false)
-						$this->redirectError("File locked", $this->getRedirect($ipaddress));
+						$this->formError("File locked", $this->getRedirect($ipaddress));
 					else if (self::$operations->allowPost($process))
 					{
 
@@ -600,7 +600,7 @@
 
 
 					if ($result == false)
-						$this->redirectError("Error creating process", $class->url($ipaddress));
+						$this->formError("Error creating process", $class->url($ipaddress));
 					else
 					{
 
@@ -616,13 +616,13 @@
 							));
 
 							if (is_string($result))
-								$this->redirectSuccess($result);
+								$this->formSuccess($result);
 							else if ($result === null)
 								exit;
 							else if (is_bool($result) && $result == false)
-								$this->redirectError("Error creating process", $class->url($ipaddress));
+								$this->formError("Error creating process", $class->url($ipaddress));
 							else if (is_bool($result) && $result == true)
-								$this->redirectSuccess($class->url($ipaddress));
+								$this->formSuccess($class->url($ipaddress));
 							else
 								throw new \Error("Unknown result from process: " . $process . " => " . print_r($result));
 						}

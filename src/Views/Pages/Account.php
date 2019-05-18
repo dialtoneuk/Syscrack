@@ -71,6 +71,6 @@
 			parent::$session->cleanupSession(parent::$session->userid());
 			parent::$session->destroySession(true);
 
-			$this->redirectSuccess('login');
+			$this->formSuccess('login');
 		}
 	}

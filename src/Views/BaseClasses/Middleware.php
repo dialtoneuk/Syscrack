@@ -12,108 +12,28 @@
 
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
+	use Framework\Views\Structures\Middleware as Structure;
 
-	class Middleware
+	class Middleware implements Structure
 	{
 
-		/**
-		 * Redirects the user to an error
-		 *
-		 * @param string $message
-		 *
-		 * @param string $path
-		 */
 
-		public function redirectError($message = '', $path = '')
+		public function onRequest()
 		{
 
-			if (Settings::setting('error_use_session'))
-			{
-
-				$_SESSION['error'] = $message;
-
-				if ($path !== '')
-				{
-
-					if (empty(explode('/', $path)))
-					{
-
-						$_SESSION['error_page'] = explode('/', $path)[0];
-					}
-					else
-					{
-
-						if (substr($path, 0, 1) == '/')
-						{
-
-							$_SESSION['error_page'] = substr($path, 1);
-						}
-						else
-						{
-
-							$_SESSION['error_page'] = $path;
-						}
-					}
-				}
-				else
-				{
-
-					$_SESSION['error_page'] = $this->getCurrentPage();
-				}
-
-				if ($path !== '')
-				{
-
-					Render::redirect(Settings::setting('controller_index_root') . $path . '?error');
-
-					exit;
-				}
-				else
-				{
-
-					Render::redirect(Settings::setting('controller_index_root') . $this->getCurrentPage() . '?error');
-
-					exit;
-				}
-			}
-			else
-			{
-
-				if ($path !== '')
-				{
-
-					Render::redirect(Settings::setting('controller_index_root') . $path . '?error=' . $message);
-
-					exit;
-				}
-				else
-				{
-
-					Render::redirect(Settings::setting('controller_index_root') . $this->getCurrentPage() . '?error=' . $message);
-
-					exit;
-				}
-			}
+			return( true );
 		}
 
-		/**
-		 * Redirects the user to a success
-		 *
-		 * @param string $path
-		 */
-
-		public function redirectSuccess($path = '')
+		public function onSuccess()
 		{
 
-			if ($path !== '')
-			{
+			return( true );
+		}
 
-				Render::redirect(Settings::setting('controller_index_root') . $path . "?success");
-				exit;
-			}
+		public function onFailure()
+		{
 
-			Render::redirect(Settings::setting('controller_index_root') . $this->getCurrentPage() . '?success');
-			exit;
+			return( true );
 		}
 
 		/**
@@ -130,13 +50,9 @@
 		{
 
 			if ($obclean == true)
-			{
-
 				ob_clean();
-			}
 
 			Render::view($file, $data);
-
 			exit;
 		}
 
@@ -154,10 +70,7 @@
 			Render::redirect($url);
 
 			if ($exit)
-			{
-
 				exit;
-			}
 		}
 
 		/**
@@ -172,16 +85,11 @@
 			$page = $this->getPageSplat();
 
 			if (empty($page))
-			{
-
 				return Settings::setting('controller_index_page');
-			}
+
 
 			if (empty(explode('?', $page[0])) == false)
-			{
-
 				return explode('?', $page[0])[0];
-			}
 
 			return $page[0];
 		}

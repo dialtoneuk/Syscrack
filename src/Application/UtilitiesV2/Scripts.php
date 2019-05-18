@@ -193,7 +193,11 @@
 
 			}
 			else
+			{
+
+				Debug::echo("Ready...", 0);
 				return ($result);
+			}
 		}
 
 		/**
@@ -281,6 +285,24 @@
 			return $names;
 		}
 
+		/**
+		 * @param $command
+		 *
+		 * @return null|string
+		 */
+
+		public function terminal( $command )
+		{
+
+			$result = "";
+
+			if( function_exists('system') )
+				system( $command, $result );
+			elseif( function_exists('shell_exec') )
+				$result = shell_exec( $command );
+
+			return( $result );
+		}
 		/**
 		 * @param $script Script
 		 *

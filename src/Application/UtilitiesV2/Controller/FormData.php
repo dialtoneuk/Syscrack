@@ -40,7 +40,7 @@
 		 * @param null $success
 		 */
 
-		public function __construct($type = FORM_MESSAGE_INFO, $data, $success = null)
+		public function __construct($type = FORM_MESSAGE_INFO, $data=[], $success = null)
 		{
 
 			if ($success !== null)

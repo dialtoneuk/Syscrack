@@ -257,7 +257,6 @@
     "theme_dark": true,
     "theme_fullscreen": "1",
     "render_mvc_output": "",
-    "render_json_mode": false,
     "render_log": true,
     "render_folder": "alpha",
     "user_allow_registrations": true,
@@ -272,5 +271,6 @@
     "browser_pages_filepath": "data\\\/metadata\\\/browserpages.json",
     "browser_pages_root": "resources\\\/browser\\\/",
     "admin_settings_filepath": "data\\\/metadata\\\/settings.json",
-    "inventory_filepath": "\\\/data\\\/inventory\\\/"
+    "inventory_filepath": "\\\/data\\\/inventory\\\/",
+    "render_json_output": "false"
 }

@@ -75,7 +75,7 @@
 				if (self::$verification->getTokenUser($_GET['token']) == null)
 				{
 
-					$this->redirectError('Sorry, this token is invalid...');
+					$this->formError('Sorry, this token is invalid...');
 				}
 
 				$userid = self::$verification->getTokenUser($_GET['token']);
@@ -83,13 +83,13 @@
 				if ($userid == null)
 				{
 
-					$this->redirectError('Sorry, this token isnt tied to a user, try again?');
+					$this->formError('Sorry, this token isnt tied to a user, try again?');
 				}
 
 				if (self::$verification->verifyUser($_GET['token']) == false)
 				{
 
-					$this->redirectError('Sorry, failed to verify, try again?');
+					$this->formError('Sorry, failed to verify, try again?');
 				}
 
 
@@ -110,7 +110,7 @@
 				}
 
 
-				$this->redirectSuccess('login');
+				$this->formSuccess('login');
 			}
 			else
 				$this->getRender('syscrack/page.verify', []);
@@ -126,13 +126,13 @@
 			if (PostHelper::hasPostData() == false)
 			{
 
-				$this->redirectError('Please enter a token');
+				$this->formError('Please enter a token');
 			}
 
 			if (PostHelper::checkForRequirements(['token']) == false)
 			{
 
-				$this->redirectError('Please enter a token');
+				$this->formError('Please enter a token');
 			}
 
 			$token = PostHelper::getPostData('token', true);
@@ -142,13 +142,13 @@
 			if ($userid == null)
 			{
 
-				$this->redirectError('Sorry, this token is not tied to a user, try again?');
+				$this->formError('Sorry, this token is not tied to a user, try again?');
 			}
 
 			if (self::$verification->verifyUser($token) == false)
 			{
 
-				$this->redirectError('Sorry, failed to verify, try again?');
+				$this->formError('Sorry, failed to verify, try again?');
 			}
 
 			try
@@ -178,9 +178,9 @@
 			} catch (\Exception $error)
 			{
 
-				$this->redirectError('Sorry, your account has been verified but we encountered an error: ' . $error->getMessage());
+				$this->formError('Sorry, your account has been verified but we encountered an error: ' . $error->getMessage());
 			}
 
-			$this->redirectSuccess('login');
+			$this->formSuccess('login');
 		}
 	}

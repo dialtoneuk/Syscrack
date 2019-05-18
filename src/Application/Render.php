@@ -9,6 +9,7 @@
 	namespace Framework\Application;
 
 	use Flight;
+	use Framework\Application\UtilitiesV2\Interfaces\Response;
 
 
 	/**
@@ -39,43 +40,35 @@
 		{
 
 			if (Settings::setting('render_log'))
-			{
-
 				self::$stack[] = [
 					'template' => $template,
 					'array' => $array
 				];
-			}
 
-			$array["settings"] = Settings::settings();
+			if( isset( $array["settings"] ) == false )
+				$array["settings"] = Settings::settings();
 
-			if (empty($model) == false)
-			{
+			if( isset( $array["form"] ) == false && FormContainer::empty() == false )
+				if( Settings::setting('error_use_session')
+					&& Container::getObject('session')->isLoggedIn()
+					&& isset( $_SESSION["errors"] ) )
+						$array["form"] = $_SESSION["errors"];
+				else
+					foreach( FormContainer::contents() as $response ) /** @var Response $response */
+						$array["form"][] = $response->get();
 
-				if (Settings::setting('render_mvc_output') == true)
-				{
-
-					if (Settings::setting('render_json_mode') == true)
-					{
-
-						Flight::json(array(
-							'model' => $model,
-							'data' => $array));
-					}
-					else
-					{
-						Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, array(
-							'model' => $model,
-							'data' => $array
-						));
-					}
-				}
-			}
+			if (empty($model) == false && Settings::setting('render_mvc_output') )
+				if (Settings::setting('render_json_output') == true)
+					Flight::json(array(
+						'model' => $model,
+						'data' => $array));
+				else
+					Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, array(
+						'model' => $model,
+						'data' => $array
+					));
 			else
-			{
-
 				Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array);
-			}
 		}
 
 		/**
@@ -91,7 +84,7 @@
 
 			if (Settings::setting('render_mvc_output') == true)
 			{
-				if (Settings::setting('render_json_mode') == true)
+				if (Settings::setting('render_json_output') == true)
 				{
 
 					Flight::json(array('redirect' => $url, 'session' => $_SESSION));

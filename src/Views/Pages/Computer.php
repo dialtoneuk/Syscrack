@@ -260,7 +260,7 @@
 				{
 
 					if (PostHelper::checkForRequirements(['accountnumber']) == false)
-						$this->redirectError('Invalid account number', $this->path);
+						$this->formError('Invalid account number', $this->path);
 					else
 					{
 
@@ -283,7 +283,7 @@
 							$collector = parent::$software->getSoftware(parent::$computer->getCollector(parent::$computer->computerid()));
 
 							if (empty($information) || $collection === 0)
-								$this->redirectError("You collected zero profits, this could be due to the frequency of which you are collected. Wait a while and try again.", $this->path);
+								$this->formError("You collected zero profits, this could be due to the frequency of which you are collected. Wait a while and try again.", $this->path);
 							else
 							{
 
@@ -294,7 +294,7 @@
 							}
 						}
 						else
-							$this->redirectError("Account does not exist", $this->path);
+							$this->formError("Account does not exist", $this->path);
 					}
 				}
 		}
@@ -408,7 +408,7 @@
 				if (PostHelper::checkForRequirements(['action']) == false)
 				{
 
-					$this->redirectError('Missing Information', 'computer/research');
+					$this->formError('Missing Information', 'computer/research');
 				}
 
 				$action = PostHelper::getPostData('action');
@@ -419,7 +419,7 @@
 					if (PostHelper::checkForRequirements(['softwareid', 'accountnumber']) == false)
 					{
 
-						$this->redirectError('Missing Information', 'computer/research');
+						$this->formError('Missing Information', 'computer/research');
 					}
 
 					$softwareid = PostHelper::getPostData('softwareid');
@@ -427,7 +427,7 @@
 					if (parent::$software->softwareExists($softwareid) == false)
 					{
 
-						$this->redirectError('Software does not exist', 'computer/research');
+						$this->formError('Software does not exist', 'computer/research');
 					}
 
 					$software = parent::$software->getSoftware($softwareid);
@@ -435,7 +435,7 @@
 					if (parent::$computer->hasSoftware(parent::$computer->computerid(), $softwareid) == false)
 					{
 
-						$this->redirectError('This computer does not have this current software', 'computer/research');
+						$this->formError('This computer does not have this current software', 'computer/research');
 					}
 
 					$data = parent::$software->getSoftwareData($software->softwareid);
@@ -446,7 +446,7 @@
 						if ($data['license'] !== null)
 						{
 
-							$this->redirectError('This software is already licensed', 'computer/research');
+							$this->formError('This software is already licensed', 'computer/research');
 						}
 					}
 
@@ -455,7 +455,7 @@
 					if (self::$finance->accountNumberExists($accountnumber) == false)
 					{
 
-						$this->redirectError('Account does not exist', 'computer/research');
+						$this->formError('Account does not exist', 'computer/research');
 					}
 
 					$account = self::$finance->getByAccountNumber($accountnumber);
@@ -463,7 +463,7 @@
 					if (self::$finance->canAfford($account->computerid, $account->userid, $this->getLicensePrice($softwareid)) == false)
 					{
 
-						$this->redirectError('You cannot afford to license this software', 'computer/research');
+						$this->formError('You cannot afford to license this software', 'computer/research');
 					}
 
 					self::$finance->withdraw($account->computerid, $account->userid, $this->getLicensePrice($softwareid));
@@ -472,7 +472,7 @@
 
 					self::$log->updateLog('Purchased license for ' . Settings::setting('syscrack_currency') . number_format($this->getLicensePrice($softwareid)) . ' payed with account (' . $accountnumber . ') at bank <' . parent::$internet->getComputerAddress($account->computerid) . '>', parent::$computer->computerid(), 'localhost');
 
-					$this->redirectSuccess('computer/research');
+					$this->formSuccess('computer/research');
 				}
 				if ($action == 'research')
 				{
@@ -480,7 +480,7 @@
 					if (PostHelper::checkForRequirements(['softwareid', 'accountnumber']) == false)
 					{
 
-						$this->redirectError('Missing Information', 'computer/research');
+						$this->formError('Missing Information', 'computer/research');
 					}
 
 					$softwareid = PostHelper::getPostData('softwareid');
@@ -488,7 +488,7 @@
 					if (parent::$software->softwareExists($softwareid) == false)
 					{
 
-						$this->redirectError('Software does not exist', 'computer/research');
+						$this->formError('Software does not exist', 'computer/research');
 					}
 
 					$software = parent::$software->getSoftware($softwareid);
@@ -496,7 +496,7 @@
 					if (parent::$computer->hasSoftware(parent::$computer->computerid(), $softwareid) == false)
 					{
 
-						$this->redirectError('This computer does not have this current software', 'computer/research');
+						$this->formError('This computer does not have this current software', 'computer/research');
 					}
 
 					$data = parent::$software->getSoftwareData($software->softwareid);
@@ -507,7 +507,7 @@
 						if ($data['license'] !== null)
 						{
 
-							$this->redirectError('This software is already licensed', 'computer/research');
+							$this->formError('This software is already licensed', 'computer/research');
 						}
 					}
 
@@ -516,7 +516,7 @@
 					if (self::$finance->accountNumberExists($accountnumber) == false)
 					{
 
-						$this->redirectError('Account does not exist', 'computer/research');
+						$this->formError('Account does not exist', 'computer/research');
 					}
 
 					$account = self::$finance->getByAccountNumber($accountnumber);
@@ -524,7 +524,7 @@
 					if (self::$finance->canAfford($account->computerid, $account->userid, $this->getLicensePrice($softwareid)) == false)
 					{
 
-						$this->redirectError('You cannot afford to research this software', 'computer/research');
+						$this->formError('You cannot afford to research this software', 'computer/research');
 					}
 
 
@@ -544,7 +544,7 @@
 			if (self::$operations->hasProcessClass($process) == false)
 			{
 
-				$this->redirectError('Invalid action');
+				$this->formError('Invalid action');
 			}
 
 			$computerid = parent::$computer->computerid();
@@ -554,19 +554,19 @@
 			if (self::$operations->hasProcess($computerid, $process, $ipaddress) == true)
 			{
 
-				$this->redirectError('You already have an action of this nature processing', 'computer/processes');
+				$this->formError('You already have an action of this nature processing', 'computer/processes');
 			}
 
 			if (self::$operations->allowLocal($process) == false)
 			{
 
-				$this->redirectError('This action must be ran on a remote computer');
+				$this->formError('This action must be ran on a remote computer');
 			}
 
 			if (self::$operations->requireSoftware($process) == true)
 			{
 
-				$this->redirectError('A software is required to preform this action');
+				$this->formError('A software is required to preform this action');
 			}
 
 			if (self::$operations->allowCustomData($process) == true)
@@ -590,7 +590,7 @@
 			if ($result == false)
 			{
 
-				$this->redirectError('Unable to complete process');
+				$this->formError('Unable to complete process');
 			}
 
 			$completiontime = $class->getCompletionSpeed(parent::$computer->computerid(), $ipaddress, null);
@@ -628,7 +628,7 @@
 			if (self::$operations->hasProcessClass($process) == false)
 			{
 
-				$this->redirectError('Invalid action');
+				$this->formError('Invalid action');
 			}
 
 			$computerid = parent::$computer->computerid();
@@ -638,13 +638,13 @@
 			if (self::$operations->hasProcess($computerid, $process, $ipaddress) == true)
 			{
 
-				$this->redirectError('You already have an action of this nature processing', 'computer/processes');
+				$this->formError('You already have an action of this nature processing', 'computer/processes');
 			}
 
 			if (self::$operations->allowLocal($process) == false)
 			{
 
-				$this->redirectError('This action must be ran on a remote computer');
+				$this->formError('This action must be ran on a remote computer');
 			}
 
 			if (self::$operations->allowSoftware($process) == false)
@@ -669,7 +669,7 @@
 						if (PostHelper::checkForRequirements($requirements) == false)
 						{
 
-							$this->redirectError('Missing information');
+							$this->formError('Missing information');
 						}
 
 						$result = $class->onPost(PostHelper::returnRequirements($requirements), $ipaddress, parent::$session->userid());
@@ -683,7 +683,7 @@
 					if ($result == false)
 					{
 
-						$this->redirectError('Unable to complete process');
+						$this->formError('Unable to complete process');
 					}
 				}
 			}
@@ -691,7 +691,7 @@
 			if (parent::$software->softwareExists($softwareid) == false)
 			{
 
-				$this->redirectError('Software does not exist');
+				$this->formError('Software does not exist');
 			}
 
 			$software = parent::$software->getSoftware($softwareid);
@@ -705,7 +705,7 @@
 					if (parent::$software->canView($software->softwareid) == false)
 					{
 
-						$this->redirectError('This software cannot be modified or edited');
+						$this->formError('This software cannot be modified or edited');
 					}
 				}
 				else
@@ -714,7 +714,7 @@
 					if (self::$operations->allowAnonymous($process) == false)
 					{
 
-						$this->redirectError('This software cannot be modified or edited');
+						$this->formError('This software cannot be modified or edited');
 					}
 				}
 			}
@@ -739,7 +739,7 @@
 			if ($result == false)
 			{
 
-				$this->redirectError('Unable to complete process');
+				$this->formError('Unable to complete process');
 			}
 
 			$completiontime = $class->getCompletionSpeed(parent::$computer->computerid(), $ipaddress, $software->softwareid);

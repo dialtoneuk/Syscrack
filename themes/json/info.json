@@ -1,0 +1,11 @@
+{
+  "name":"Syscrack Developer Json",
+  "description":"Converts the game to output in JSON only, you will have to manually reset your theme through a terminal instance after enabling.",
+  "author":"Lewis Lancaster",
+  "website":"https://github.com/dialtoneuk",
+  "version": 1.0,
+  "data":{
+    "mvc":true,
+    "json":true
+  }
+}

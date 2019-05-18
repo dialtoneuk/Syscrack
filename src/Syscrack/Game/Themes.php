@@ -77,6 +77,16 @@
 		}
 
 		/**
+		 * @return bool
+		 */
+
+		public function jsonOutput(): bool
+		{
+
+			return ((bool)Settings::setting("render_mvc_output"));
+		}
+
+		/**
 		 * @param $theme
 		 *
 		 * @return bool
