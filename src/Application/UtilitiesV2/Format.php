@@ -76,7 +76,7 @@
 		 * @return array
 		 */
 
-		public static function toArray(object $object): array
+		public static function toArray($object): array
 		{
 
 			return (json_decode(self::toJson($object), true));

@@ -1,14 +1,13 @@
 <?php
 
     use Framework\Application\Settings;
-
 ?>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><?= $pagetitle ?></title>
+    <title><?= @$pagetitle ?></title>
 
     <!--Fav Icons-->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">

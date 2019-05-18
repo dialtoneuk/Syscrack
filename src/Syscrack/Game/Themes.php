@@ -61,7 +61,12 @@
 			if ($this->requiresMVC($theme) && $this->mvcOutput() == false)
 				Settings::updateSetting("render_mvc_output", true);
 			else if ($this->requiresMVC($theme) == false && $this->mvcOutput())
-				Settings::updateSetting("render_mvc_output", true);
+				Settings::updateSetting("render_mvc_output", false);
+
+			if ($this->requiresJson($theme) && $this->jsonOutput() == false)
+				Settings::updateSetting("render_json_output", true);
+			else if ($this->requiresJson($theme) == false && $this->jsonOutput())
+				Settings::updateSetting("render_json_output", false);
 
 			Settings::updateSetting("render_folder", $theme);
 		}
@@ -83,7 +88,7 @@
 		public function jsonOutput(): bool
 		{
 
-			return ((bool)Settings::setting("render_mvc_output"));
+			return ((bool)Settings::setting("render_json_output"));
 		}
 
 		/**
@@ -100,6 +105,27 @@
 			if (empty($data))
 				return false;
 			else if ($data["mvc"])
+				return true;
+
+			return false;
+		}
+
+		/**
+		 * @param $theme
+		 *
+		 * @return bool
+		 */
+
+		public function requiresJson($theme)
+		{
+
+			$data = $this->getData($theme);
+
+			if (empty($data))
+				return false;
+			else if ( isset( $data["json"] ) == false )
+				return false;
+			elseif( $data["json"] )
 				return true;
 
 			return false;

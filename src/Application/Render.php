@@ -9,6 +9,7 @@
 	namespace Framework\Application;
 
 	use Flight;
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
 
 
@@ -26,6 +27,11 @@
 
 		public static $stack = [];
 
+		/**
+		 * @var string
+		 */
+
+		public static $last_redirect = "";
 		/**
 		 * Renders a template, takes a model if the mode is MVC
 		 *
@@ -45,30 +51,33 @@
 					'array' => $array
 				];
 
+			if( $model !== null )
+				if( isset( $array["model"] ) == false )
+					$array["model"] = $model;
+
 			if( isset( $array["settings"] ) == false )
 				$array["settings"] = Settings::settings();
 
 			if( isset( $array["form"] ) == false && FormContainer::empty() == false )
-				if( Settings::setting('error_use_session')
+			{
+				if (Settings::setting('error_use_session')
 					&& Container::getObject('session')->isLoggedIn()
-					&& isset( $_SESSION["errors"] ) )
-						$array["form"] = $_SESSION["errors"];
+					&& isset($_SESSION["errors"]))
+					$array["form"] = $_SESSION["errors"];
 				else
-					foreach( FormContainer::contents() as $response ) /** @var Response $response */
+					foreach (FormContainer::contents() as $response) /** @var Response $response */
 						$array["form"][] = $response->get();
 
-			if (empty($model) == false && Settings::setting('render_mvc_output') )
-				if (Settings::setting('render_json_output') == true)
-					Flight::json(array(
-						'model' => $model,
-						'data' => $array));
+				if (Settings::setting('render_json_output'))
+					Flight::json( Format::toArray( $array ) );
 				else
-					Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, array(
-						'model' => $model,
-						'data' => $array
-					));
+					Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array );
+			}
 			else
-				Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array);
+				if (Settings::setting('render_json_output'))
+					Flight::json( $array );
+				else
+					Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array );
 		}
 
 		/**
@@ -81,6 +90,8 @@
 
 		public static function redirect($url, $code = 303)
 		{
+
+			self::$last_redirect = $url;
 
 			if (Settings::setting('render_mvc_output') == true)
 			{

@@ -10,7 +10,9 @@
 	 * @package Framework\Views\Pages
 	 */
 
+	use Framework\Application\Container;
 	use Framework\Application\Render;
+	use Framework\Application\Settings;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 	use Framework\Views\Structures\Page as Structure;
 
@@ -24,7 +26,7 @@
 		public function __construct()
 		{
 
-			parent::__construct(false, false);
+			parent::__construct(true, false);
 		}
 
 		/**
@@ -50,6 +52,14 @@
 		public function page()
 		{
 
-			Render::view('error/page.error', [], []);
+			if( Settings::setting('error_logging') == false || Settings::setting('error_display_page') == false )
+				\Flight::notFound();
+
+			if( Container::getObject('application')->getErrorHandler()->hasErrors() == false )
+				\Flight::notFound();
+
+			$error = Container::getObject('application')->getErrorHandler()->getLastError();
+
+			Render::view('error/page.error', ['error' => $error ], $this->model() );
 		}
 	}

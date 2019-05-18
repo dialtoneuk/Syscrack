@@ -17,6 +17,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\UtilitiesV2\Controller\FormMessage;
 	use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Computer;
 	use Framework\Syscrack\Game\Internet;
@@ -212,9 +213,7 @@
 			{
 
 				Render::redirect(Settings::setting('controller_index_root') . $path);
-
-				if ($exit == true)
-					exit;
+				if( $exit ) exit;
 			}
 		}
 
@@ -248,6 +247,7 @@
 					'loggedin' => false,
 				];
 
+
 				$this->model->userid = null;
 			}
 			else
@@ -259,20 +259,23 @@
 					'data' => $_SESSION
 				];
 
-				$this->model->userid = Container::getObject('session')->userid();
+				if( isset( self::$user ) )
+				{
 
-				$user = new User();
+					$this->model->userid = Container::getObject('session')->userid();
 
-				if ($user->isAdmin($this->model->userid))
-					$this->model->admin = true;
+					if ( self::$user->isAdmin($this->model->userid))
+						$this->model->admin = true;
 
+					$this->model->user = [
+						'username'  => self::$user->getUsername( $this->model->userid ),
+						'email'     => self::$user->getEmail( $this->model->userid )
+					];
 
-				$this->model->user = [
-					'username' => $user->getUsername($this->model->userid),
-					'email' => $user->getUsername($this->model->userid)
-				];
+				}
 
-				$this->model->pagehelper = new PageHelper();
+				if( isset( self::$computer ) )
+					@$this->model->computer = @self::$computer->getComputer( @self::$computer->computerid() );
 			}
 
 			return $this->model;
@@ -289,25 +292,34 @@
 		public function formError($message = '', $path = '')
 		{
 
-			if( Settings::setting('error_use_session') )
-				$_SESSION["errors"] = FormContainer::contents();
+			FormContainer::add( new FormMessage( FORM_ERROR_GENERAL, $message, false ) );
+			$contents = FormContainer::contents();
+
+			if( Settings::setting('error_use_session') && empty( $contents ) == false  )
+				$_SESSION["form"][] = $contents;
+
+			if( $path == '' )
+				$path = "/" . $this->getCurrentPage();
 
 			$this->redirect( $path );
 		}
 
 		/**
-		 * Redirects the user to a success
-		 *
 		 * @param string $path
+		 * @param string $optional_message
 		 */
 
 		public function formSuccess($path = '', $optional_message = '')
 		{
 
 			FormContainer::add( new FormMessage( FORM_MESSAGE_SUCCESS, $optional_message, true ) );
+			$contents = FormContainer::contents();
 
-			if( Settings::setting('error_use_session') )
-				$_SESSION["errors"] = FormContainer::contents();
+			if( Settings::setting('error_use_session') && empty( $contents ) == false  )
+				$_SESSION["form"][] = $contents;
+
+			if( $path == '' )
+				$path = "/" . $this->getCurrentPage();
 
 			$this->redirect( $path );
 		}
@@ -327,7 +339,19 @@
 				$array["softwares"] = self::$software->getSoftwareOnComputer($computerid);
 
 			if (isset($array["user"]) == false && $userid !== null)
-				$array["user"] = self::$user->getUser($userid);
+			{
+
+				$array["user"] = Format::toArray( self::$user->getUser($userid) );
+
+				if( isset( $array["user"]["password"] ) )
+					unset( $array["user"]["password"] );
+
+				if( isset( $array["user"]["salt"] ) )
+					unset( $array["user"]["salt"] );
+
+				$array["user"] = Format::toObject( $array["user"] );
+			}
+
 
 			if (isset($array["localsoftwares"]) == false)
 				$array["localsoftwares"] = self::$software->getSoftwareOnComputer(self::$computer->computerid());
@@ -348,7 +372,7 @@
 
 				$results = [];
 
-				foreach ($tools as $key => $tool)
+				foreach ($tools as $key => $tool) /** @var Tool $tool */
 					$results[$key] = [
 						'inputs' => $tool->getInputs(),
 						'requirements' => $tool->getRequirements(),

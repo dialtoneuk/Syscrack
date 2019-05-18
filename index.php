@@ -528,6 +528,12 @@
 		    }
 	    });
 
+	    Flight::before('redirect', function()
+	    {
+
+	        Debug::message('Redirected to: ' . Application\Render::$last_redirect );
+	    });
+
         /**
          * Starts the applications controllers
          */

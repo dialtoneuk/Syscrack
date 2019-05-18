@@ -27,7 +27,7 @@
 		public function __construct()
 		{
 
-			parent::__construct(false, true);
+			parent::__construct(true, true);
 		}
 
 		/**
@@ -57,37 +57,5 @@
 		{
 
 			Render::view('syscrack/page.index', [], $this->model());
-		}
-
-		/**
-		 * Returns the MVC model for the index page when in MVC output mode
-		 *
-		 * @return bool|\stdClass
-		 */
-
-		public function model()
-		{
-
-			if (Settings::setting('render_mvc_output') == false)
-			{
-
-				return false;
-			}
-
-			$this->model->pagetitle = "Syscrack";
-
-			if (Container::getObject('session')->isLoggedIn())
-			{
-
-				if (isset($this->computer) == false)
-				{
-
-					$this->computer = new Computer();
-				}
-
-				$this->model->computer = $this->computer->getComputer($this->computer->computerid());
-			}
-
-			return parent::model();
 		}
 	}

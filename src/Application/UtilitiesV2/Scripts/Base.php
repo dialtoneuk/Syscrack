@@ -9,10 +9,11 @@
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
 	use Framework\Application\UtilitiesV2\Interfaces\Script;
-
-//use Colourspace\Application;
-//use Colourspace\Database\Connection;
-//use Framework\Application\UtilitiesV2\Session;
+	use Framework\Application\UtilitiesV2\Debug;
+	/**
+	 * Class Base
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 
 	abstract class Base implements Script
 	{
@@ -96,6 +97,19 @@
 			}
 
 			return ($returns);
+		}
+
+		/**
+		 * @param $message
+		 *
+		 * @return bool
+		 */
+
+		protected function error( $message ): bool
+		{
+
+			Debug::echo( $message );
+			return( false );
 		}
 
 		/**

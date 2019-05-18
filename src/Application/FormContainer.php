@@ -18,7 +18,7 @@
 		 * @var array
 		 */
 
-		protected static $array;
+		protected static $array = [];
 
 		/**
 		 * @param Response $response
@@ -27,7 +27,33 @@
 		public static function add( Response $response ): void
 		{
 
-			self::$array[] = $response;
+			if( isset( $_SESSION["form"] ) )
+				if( empty( $_SESSION["form"] ) )
+					array_push( self::$array, $response->get() );
+				else
+				{
+
+					$response = $response->get();
+
+					try
+					{
+
+						foreach( $_SESSION["form"] as $error )
+							if( $error["message"] == $response["message"] )
+								return;
+					}
+					catch ( \Exception $error )
+					{
+
+						return;
+					}
+
+
+
+					array_push( self::$array, $response );
+				}
+			else
+				array_push( self::$array, $response->get() );
 		}
 
 		/**
