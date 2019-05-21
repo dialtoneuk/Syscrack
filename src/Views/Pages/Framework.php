@@ -13,9 +13,8 @@
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Framework extends BaseClass implements Structure
+	class Framework extends BaseClass
 	{
 
 		/**

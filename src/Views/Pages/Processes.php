@@ -13,9 +13,8 @@
 	use Framework\Application\Container;
 	use Framework\Syscrack\Game\Operations;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Processes extends BaseClass implements Structure
+	class Processes extends BaseClass
 	{
 
 		/**

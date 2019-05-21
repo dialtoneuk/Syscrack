@@ -20,11 +20,10 @@
 	use Framework\Views\BaseClasses\Page as BaseClass;
 	use Framework\Views\Controller;
 	use Framework\Views\Structures\Page;
-	use Framework\Views\Structures\Page as Structure;
 	use Illuminate\Database\Schema\Blueprint;
 	use ReflectionClass;
 
-	class Developer extends BaseClass implements Structure
+	class Developer extends BaseClass
 	{
 
 		/**
@@ -720,7 +719,12 @@
 					throw new ViewException();
 				}
 
-				$reflection = new ReflectionClass(Settings::setting('controller_namespace') . ucfirst($file));
+				try
+				{
+					$reflection = new ReflectionClass(Settings::setting('controller_namespace') . ucfirst($file));
+				} catch (\ReflectionException $e)
+				{
+				}
 
 				if (empty($reflection))
 				{

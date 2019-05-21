@@ -12,6 +12,7 @@
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Makers;
 	use Framework\Application\UtilitiesV2\TokenReader;
+	use Framework\Application\Settings;
 
 	class Make extends Base
 	{
@@ -137,6 +138,7 @@
 				"view" => MVC_NAMESPACE . "Views",
 				"script" => SYSCRACK_NAMESPACE_ROOT . "Application\\UtilitiesV2\\Scripts",
 				"convention" => SYSCRACK_NAMESPACE_ROOT . "Application\\UtilitiesV2\\Conventions",
+				"page" => SYSCRACK_NAMESPACE_ROOT . "Views\\Pages",
 			];
 
 			if (isset($array[strtolower($class_name)]) == false)
@@ -159,7 +161,8 @@
 				"model" => MVC_ROOT . MVC_NAMESPACE_MODELS . DIRECTORY_SEPARATOR,
 				"view" => MVC_ROOT . MVC_NAMESPACE_VIEWS . DIRECTORY_SEPARATOR,
 				"convention" => "src/Application/UtilitiesV2/Conventions/",
-				"script" => SCRIPTS_ROOT
+				"script" => SCRIPTS_ROOT,
+				"page" => Settings::setting('controller_page_folder')
 			];
 
 			if (isset($array[strtolower($class_name)]) == false)

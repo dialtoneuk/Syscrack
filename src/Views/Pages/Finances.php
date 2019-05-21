@@ -16,9 +16,8 @@
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Metadata;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Finances extends BaseClass implements Structure
+	class Finances extends BaseClass
 	{
 
 		/**

@@ -1,0 +1,35 @@
+<?php
+	namespace Framework\Views\Pages;
+
+	/**
+	 * Class _classname_
+	 *
+	 * Automatically created at: _time_
+	 * @package _namespace_
+	 */
+
+	use Framework\Views\BaseClasses\Page;
+
+	class _classname_ extends Page
+	{
+
+		/**
+		 * Ajax constructor.
+		 */
+
+		public function __construct()
+		{
+
+			parent::__construct(true, true );
+		}
+
+		/**
+		 * @return array|mixed|void
+		 */
+
+		public function mapping()
+		{
+
+			parent::mapping();
+		}
+	}

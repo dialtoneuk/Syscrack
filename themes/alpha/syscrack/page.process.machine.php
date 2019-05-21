@@ -26,11 +26,10 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 ?>
 <body>
 <div class="container">
-
-    <?php
-
-    Render::view('syscrack/templates/template.navigation');
-    ?>
+	<?php
+		Render::view('syscrack/templates/template.navigation');
+		Render::view('syscrack/templates/template.errors');
+	?>
     <div class="row">
         <div class="col-sm-3">
             <div class="list-group">

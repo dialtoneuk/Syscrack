@@ -18,9 +18,8 @@
 	use Framework\Application\Utilities\PostHelper;
 	use Framework\Exceptions\ViewException;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Api extends BaseClass implements Structure
+	class Api extends BaseClass
 	{
 
 		/**

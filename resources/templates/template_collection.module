@@ -5,6 +5,7 @@ namespace _namespace_;
  * Class _classname_
  *
  * Automatically created at: _time_
+ * @package _namespace_
  */
 
 use Framework\Application\UtilitiesV2\Collection;

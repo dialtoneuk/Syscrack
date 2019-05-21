@@ -11,9 +11,8 @@
 	 */
 
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Account extends BaseClass implements Structure
+	class Account extends BaseClass
 	{
 
 		/**

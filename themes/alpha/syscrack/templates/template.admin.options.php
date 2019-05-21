@@ -48,6 +48,10 @@
         </a>
     </div>
     <div class="list-group">
+        <a href="/admin/test/" class="list-group-item list-group-item-warning">
+            <h4 class="list-group-item-heading">Test</h4>
+            <p class="list-group-item-text">Helpful tools to debug the user interface.</p>
+        </a>
         <a href="/admin/reset/" class="list-group-item list-group-item-danger">
             <h4 class="list-group-item-heading">Reset</h4>
             <p class="list-group-item-text">Resets the game back to square one.</p>

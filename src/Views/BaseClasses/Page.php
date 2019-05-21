@@ -23,11 +23,11 @@
 	use Framework\Syscrack\Game\Internet;
 	use Framework\Syscrack\Game\Software;
 	use Framework\Syscrack\Game\Tool;
-	use Framework\Syscrack\Game\Utilities\PageHelper;
+	use Framework\Views\Structures\Page as Structure;
 	use Framework\Syscrack\User;
 	use Illuminate\Support\Collection;
 
-	class Page
+	class Page implements Structure
 	{
 
 		/**
@@ -37,6 +37,12 @@
 		 */
 
 		public $model;
+
+		/**
+		 * @var bool
+		 */
+
+		private $cleanerrors;
 
 		/**
 		 * @var Software
@@ -84,7 +90,7 @@
 		 * @param bool $admin_only
 		 */
 
-		public function __construct($autoload = true, $session = false, $requirelogin = false, $clearerrors = true, $admin_only = false)
+		public function __construct(bool $autoload = true, bool $session = false, bool $requirelogin = false, bool $clearerrors = true, bool $admin_only = false)
 		{
 
 			if ($autoload)
@@ -129,20 +135,32 @@
 				else
 					self::$session->updateLastAction();
 
-			/**
-			 * if( $clearerrors && $session )
-			 * if( $this->isLoggedIn() && isset( $_SESSION["error_time"]) )
-			 * if( ( microtime( true ) - $_SESSION["error_time"] ) <= microtime( true ) + ( 60 * 60 * 2 ) )
-			 * {
-			 * $_SESSION["error"] = null;
-			 * $_SESSION["error_page"] = null;
-			 * $_SESSION["error_time"] = null;
-			 * }
-			 **/
+			if( $clearerrors )
+				$this->cleanerrors = $clearerrors;
 
 			if ($admin_only && $session)
 				if ($this->isAdmin() == false)
 					Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
+		}
+
+		/**
+		 * @return array|mixed
+		 */
+
+		public function mapping()
+		{
+
+			return([ __CLASS__ => 'default']);
+		}
+
+		/**
+		 * @return bool
+		 */
+
+		public function default()
+		{
+
+			return( true );
 		}
 
 		/**
@@ -292,14 +310,21 @@
 		public function formError($message = '', $path = '')
 		{
 
+
+			if( $path == '' )
+				$path = $this->getCurrentPage();
+
 			FormContainer::add( new FormMessage( FORM_ERROR_GENERAL, $message, false ) );
 			$contents = FormContainer::contents();
 
 			if( Settings::setting('error_use_session') && empty( $contents ) == false  )
-				$_SESSION["form"][] = $contents;
+			{
 
-			if( $path == '' )
-				$path = "/" . $this->getCurrentPage();
+				if( isset( $_SESSION["form"][ $path ] ) == false )
+					$_SESSION["form"][ $path ] = [];
+
+				$_SESSION["form"][ $path ] = $contents;
+			}
 
 			$this->redirect( $path );
 		}
@@ -312,14 +337,20 @@
 		public function formSuccess($path = '', $optional_message = '')
 		{
 
+			if( $path == '' )
+				$path = $this->getCurrentPage();
+
 			FormContainer::add( new FormMessage( FORM_MESSAGE_SUCCESS, $optional_message, true ) );
 			$contents = FormContainer::contents();
 
 			if( Settings::setting('error_use_session') && empty( $contents ) == false  )
-				$_SESSION["form"][] = $contents;
+			{
 
-			if( $path == '' )
-				$path = "/" . $this->getCurrentPage();
+				if( isset( $_SESSION["form"][ $path ] ) == false )
+					$_SESSION["form"][ $path ] = [];
+
+				$_SESSION["form"][ $path ] = $contents;
+			}
 
 			$this->redirect( $path );
 		}
@@ -352,6 +383,13 @@
 				$array["user"] = Format::toObject( $array["user"] );
 			}
 
+			if( $this->cleanerrors )
+				if( Settings::setting("error_use_session") )
+					if( isset( $_SESSION["form"]["drawn"] ) )
+						foreach( $_SESSION["form"]["drawn"] as $page=>$contents )
+							if( isset( $_SESSION["form"][ $page ][ $contents["key"] ] ) )
+								if( time() + ( 60 * 60 * 2 ) > $contents["modified"] )
+									unset( $_SESSION["form"][ $page ][ $contents["key"] ] );
 
 			if (isset($array["localsoftwares"]) == false)
 				$array["localsoftwares"] = self::$software->getSoftwareOnComputer(self::$computer->computerid());

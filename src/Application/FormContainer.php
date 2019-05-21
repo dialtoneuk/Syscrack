@@ -33,6 +33,7 @@
 				else
 				{
 
+					/**
 					$response = $response->get();
 
 					try
@@ -47,10 +48,10 @@
 
 						return;
 					}
+					**/
 
 
-
-					array_push( self::$array, $response );
+					array_push( self::$array, $response->get() );
 				}
 			else
 				array_push( self::$array, $response->get() );

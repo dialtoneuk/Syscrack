@@ -23,9 +23,8 @@
 	use Framework\Syscrack\Game\Utilities\PageHelper;
 	use Framework\Syscrack\Game\Viruses;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Computer extends BaseClass implements Structure
+	class Computer extends BaseClass
 	{
 
 		/**

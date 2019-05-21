@@ -5,17 +5,10 @@
     <?php Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Admin'));?>
     <body>
         <div class="container">
-            <?php Render::view('syscrack/templates/template.navigation'); ?>
-            <div class="row">
-                <div class="col-sm-12">
-                    <?php
-                    if (isset($_GET['error']))
-                            Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
-                        elseif (isset($_GET['success']))
-                            Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'], 'alert_type' => 'alert-success'));
-                    ?>
-                </div>
-            </div>
+	        <?php
+		        Render::view('syscrack/templates/template.navigation');
+		        Render::view('syscrack/templates/template.errors');
+	        ?>
             <div class="row">
                 <?php Render::view('syscrack/templates/template.admin.options'); ?>
                 <div class="col-lg-8">

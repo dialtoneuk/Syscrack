@@ -16,9 +16,8 @@
 	use Framework\Exceptions\ViewException;
 	use Framework\Syscrack\Login\Account;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Login extends BaseClass implements Structure
+	class Login extends BaseClass
 	{
 
 		/**
@@ -77,32 +76,42 @@
 		public function process()
 		{
 
-			if (PostHelper::hasPostData() == false)
-				$this->formError('Blank Form');
-			else if (PostHelper::checkForRequirements(['username', 'password']) == false)
-				$this->formError('Missing Information');
-			else
+			try
 			{
 
-				$username = PostHelper::getPostData('username');
-				$password = PostHelper::getPostData('password');
-
-				$result = @self::$login->loginAccount($username, $password);
-
-				if ($result === false)
-					$this->formError(self::$login::$error->getMessage());
+				if (PostHelper::hasPostData() == false)
+					$this->formError('Blank Form');
+				else if (PostHelper::checkForRequirements(['username', 'password']) == false)
+					$this->formError('Missing Information');
 				else
 				{
 
-					$userid = self::$login->getUserID($username);
+					$username = PostHelper::getPostData('username');
+					$password = PostHelper::getPostData('password');
 
-					if (Settings::setting('login_cleanup_old_sessions') == true)
-						self::$session->cleanupSession($userid);
+					$result = @self::$login->loginAccount($username, $password);
 
-					self::$session->insertSession($userid);
-					$this->addConnectedComputer($userid);
-					$this->formSuccess('game' );
+					if ($result === false)
+						/** @noinspection PhpUndefinedVariableInspection */
+						$this->formError(self::$login::$error->getMessage());
+					else
+					{
+
+						$userid = self::$login->getUserID($username);
+
+						if (Settings::setting('login_cleanup_old_sessions') == true)
+							self::$session->cleanupSession($userid);
+
+						self::$session->insertSession($userid);
+						$this->addConnectedComputer($userid);
+						$this->formSuccess('game' );
+					}
 				}
+			}
+			catch ( \Error $error )
+			{
+
+				$this->formError( $error->getMessage() );
 			}
 		}
 

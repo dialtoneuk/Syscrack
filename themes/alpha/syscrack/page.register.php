@@ -25,10 +25,10 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
 ?>
 <body>
 <div class="container">
-    <?php
-
-    Render::view('syscrack/templates/template.navigation');
-    ?>
+	<?php
+		Render::view('syscrack/templates/template.navigation');
+		Render::view('syscrack/templates/template.errors');
+	?>
     <div class="row">
         <div class="col-lg-12">
             <img style="width: 100%; height: 100%; border-radius: 5px;" src="<?=Render::getAssetsLocation()?>/img/art/art_login.png">

@@ -10,14 +10,10 @@
 	 * @package Framework\Views\Pages
 	 */
 
-	use Framework\Application\Container;
 	use Framework\Application\Render;
-	use Framework\Application\Settings;
-	use Framework\Syscrack\Game\Computer;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Index extends BaseClass implements Structure
+	class Index extends BaseClass
 	{
 
 		/**

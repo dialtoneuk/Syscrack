@@ -110,9 +110,9 @@ if ($settings['syscrack_globe_enabled']) {
 
 <body>
 <div class="container">
-    <?php
-
-    Render::view('syscrack/templates/template.navigation');
+	<?php
+		Render::view('syscrack/templates/template.navigation');
+		Render::view('syscrack/templates/template.errors');
 
     $stats = new \Framework\Syscrack\Game\Statistics();
     ?>

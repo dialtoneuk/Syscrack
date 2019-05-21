@@ -58,16 +58,16 @@
 		/**
 		 * Gets the API through the Api ID
 		 *
-		 * @param $apiid
+		 * @param $accessid
 		 *
 		 * @return mixed
 		 */
 
-		public function getApi($apiid)
+		public function getApi($accessid)
 		{
 
 			$array = array(
-				'apiid' => $apiid
+				'accessid' => $accessid
 			);
 
 			$result = $this->getTable()->where($array)->get();

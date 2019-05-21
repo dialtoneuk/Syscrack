@@ -24,9 +24,8 @@
 	use Framework\Syscrack\Game\Themes;
 	use Framework\Syscrack\Game\Types;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Admin extends BaseClass implements Structure
+	class Admin extends BaseClass
 	{
 
 		/**
@@ -156,6 +155,12 @@
 				],
 				[
 					'POST /admin/settings/', 'settingsProcess'
+				],
+				[
+					'GET /admin/test/', 'test'
+				],
+				[
+					'POST /admin/test/', 'testProcess'
 				]
 			);
 		}
@@ -252,6 +257,19 @@
 
 			$this->getRender('syscrack/page.admin.themes', array("themes" => self::$themes->getThemes(false)), $this->model());
 		}
+
+		public function test()
+		{
+
+			$this->getRender('syscrack/page.admin.test', array("themes" => self::$themes->getThemes(false)), $this->model());
+		}
+
+		public function testProcess()
+		{
+
+
+		}
+
 
 		/**
 		 *
@@ -837,7 +855,7 @@
 		private function resetComputer()
 		{
 
-			$computer = parent::$computer->getAllComputers(parent::$computer->getComputerCount());
+			$computer = parent::$computer->getAllComputers();
 
 			foreach ($computer as $computers)
 			{

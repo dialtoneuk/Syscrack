@@ -21,9 +21,8 @@
 	use Framework\Syscrack\Game\Metadata;
 	use Framework\Syscrack\Game\Operations;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Game extends BaseClass implements Structure
+	class Game extends BaseClass
 	{
 
 
@@ -71,7 +70,7 @@
 			if (isset(self::$finance) == false)
 				self::$finance = new Finance();
 
-			parent::__construct(true, true, true, true);
+			parent::__construct(true, true, true, false);
 		}
 
 		/**
@@ -446,6 +445,7 @@
 				else
 				{
 
+					$result = null;
 					$class = self::$operations->findProcessClass($process);
 
 					if (self::$operations->allowPost($process) == true && PostHelper::hasPostData() == true)

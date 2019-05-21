@@ -16,9 +16,8 @@
 	use Framework\Syscrack\Game\Interfaces\Computer;
 	use Framework\Syscrack\Verification;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Verify extends BaseClass implements Structure
+	class Verify extends BaseClass
 	{
 
 		/**

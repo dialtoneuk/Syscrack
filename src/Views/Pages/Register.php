@@ -19,9 +19,8 @@
 	use Framework\Syscrack\BetaKeys;
 	use Framework\Syscrack\Register as Account;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Views\Structures\Page as Structure;
 
-	class Register extends BaseClass implements Structure
+	class Register extends BaseClass
 	{
 
 		/**
@@ -153,6 +152,7 @@
 		{
 
 			$body = self::$mailer->parse(self::$mailer->getTemplate('email.verify.php'), $variables);
+			$result = null;
 
 			if (empty($body))
 			{
@@ -160,7 +160,12 @@
 				throw new SyscrackException();
 			}
 
-			$result = self::$mailer->send($body, 'Verify your email', $email);
+			try
+			{
+				$result = self::$mailer->send($body, 'Verify your email', $email);
+			} catch (\phpmailerException $e)
+			{
+			}
 
 			if ($result == false)
 			{
