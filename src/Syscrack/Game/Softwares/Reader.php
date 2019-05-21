@@ -48,6 +48,7 @@
 
 			$tool = new Tool("Read");
 			$tool->setAction('view');
+			$tool->localAllowed();
 			$tool->softwareAction();
 
 			return ($tool);

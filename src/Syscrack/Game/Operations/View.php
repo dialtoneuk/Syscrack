@@ -44,7 +44,6 @@
 				'allowsoftware' => true,
 				'allowlocal' => true,
 				'requiresoftware' => true,
-				'requireloggedin' => true,
 				'elevated' => true
 			);
 		}

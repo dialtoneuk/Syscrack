@@ -1,17 +1,8 @@
 <?php
     use Framework\Application\Render;
-    use Framework\Syscrack\User;
-
-    if ( isset( $users ) == false )
-    {
-
-        $users = new User();
-    }
 ?>
 <html>
-
     <?php
-
         Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Admin'));
     ?>
     <div class="container">
@@ -20,9 +11,7 @@
 		    Render::view('syscrack/templates/template.errors');
 	    ?>
         <div class="row">
-
             <?php
-
             Render::view('syscrack/templates/template.admin.options');
             ?>
             <div class="col-sm-8">
@@ -43,10 +32,7 @@
                     </div>
                 </div>
                 <?php
-
-                    $list = $users->getAllUsers();
-
-                    foreach ( $list as $key=>$value )
+                    foreach( $users as $value )
                     {
 
                         ?>

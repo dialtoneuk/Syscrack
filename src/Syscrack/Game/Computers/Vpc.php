@@ -121,7 +121,7 @@
 			$this->log($computerid, 'Logged in as root', $this->localhost());
 			$this->logRemote($this->localhost(), 'Logged in as root at <' . $ipaddress . '>');
 
-			parent::onLogin( $computerid, $userid );
+			parent::onLogin( $computerid, $ipaddress);
 		}
 
 		/**
@@ -140,6 +140,6 @@
 
 			self::$internet->setCurrentConnectedAddress(null);
 
-			parent::onLoout( $computerid, $userid );
+			parent::onLogout( $computerid, $ipaddress );
 		}
 	}

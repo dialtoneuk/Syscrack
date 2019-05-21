@@ -173,13 +173,9 @@
                                                                                 class="badge right"><?= @$settings['syscrack_currency'] . number_format($item['price']) ?></span>
                                                                     </li>
                                                                 </ul>
-                                                                <select name="accountnumber"
-                                                                        class="combobox input-sm form-control">
-                                                                    <option></option>
-                                                                    <?php
-                                                                        Render::view("syscrack/templates/template.account.search", array('values' => @$accounts ) );
-                                                                    ?>
-                                                                </select>
+                                                                <?php
+                                                                    Render::view("syscrack/templates/template.account.search", array('values' => @$accounts ) );
+                                                                ?>
                                                                 <button style="width: 100%; margin-top: 2.5%;"
                                                                         class="btn btn-sm btn-info" type="submit">
                                                                         <span class="glyphicon glyphicon-gbp"

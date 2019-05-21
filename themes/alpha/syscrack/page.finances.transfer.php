@@ -1,32 +1,9 @@
 <?php
-
-use Framework\Application\Container;
-use Framework\Application\Render;
-use Framework\Application\Settings;
-use Framework\Syscrack\Game\Computer;
-use Framework\Syscrack\Game\Finance;
-
-$session = Container::getObject('session');
-
-if ($session->isLoggedIn()) {
-
-    $session->updateLastAction();
-}
-
-if (isset($finance) == false) {
-
-    $finance = new Finance();
-}
-
-if (isset($computer_controller) == false) {
-
-    $computer_controller = new Computer();
-}
+    use Framework\Application\Render;
 ?>
 <!DOCTYPE html>
 <html>
 <?php
-
 Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrack | Game'));
 ?>
 <body>
@@ -35,17 +12,6 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
         Render::view('syscrack/templates/template.navigation');
         Render::view('syscrack/templates/template.errors');
 	?>
-    <div class="row">
-        <div class="col-sm-12">
-            <?php
-
-            if (isset($_GET['error']))
-                Render::view('syscrack/templates/template.alert', array('message' => $_GET['error']));
-            elseif (isset($_GET['success']))
-                Render::view('syscrack/templates/template.alert', array('message' => $settings['alert_success_message'), 'alert_type' => 'alert-success'));
-            ?>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-4">
             <h5 style="color: #ababab" class="text-uppercase">
@@ -76,8 +42,6 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 </div>
             </div>
             <?php
-            $accounts = $finance->getUserBankAccounts($session->userid());
-
             if (empty($accounts)) {
 
                 ?>
@@ -97,24 +61,9 @@ Render::view('syscrack/templates/template.header', array('pagetitle' => 'Syscrac
                 <div class="panel panel-info">
                     <div class="panel-body">
                         <form method="post" style="padding: 0; margin: 0;">
-                            <select name="accountnumber" class="combobox input-sm form-control">
-                                <option></option>
-
-                                <?php
-
-                                if (empty($accounts) == false) {
-
-                                    foreach ($accounts as $account) {
-
-                                        ?>
-                                        <option value="<?= $account->accountnumber ?>">#<?= $account->accountnumber ?>
-                                            (<?= $settings['syscrack_currency') . number_format($account->cash) ?>
-                                            ) @<?= $computer_controller->getComputer($account->computerid)->ipaddress ?></option>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                            </select>
+	                        <?php
+		                        Render::view("syscrack/templates/template.account.search", array('values' => @$accounts ) );
+	                        ?>
                             <div class="input-group input-group" style="margin-top: 2.5%;">
                                 <span class="input-group-addon" id="basic-addon1">To</span>
                                 <input type="text" class="form-control" name="targetaccount" placeholder="00000000"
