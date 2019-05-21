@@ -16,11 +16,11 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div id="error<?=$key?>" class="alert alert-success" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <button type="button" style="padding-left: 5px;" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <small>
-                                Message
+                                <span class="glyphicon glyphicon-star"></span> Message:
                             </small>
 							<?php
 
@@ -49,7 +49,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <small>
-                                <span class="glyphicon glyphicon-star"></span> Process response:
+                                <span class="glyphicon glyphicon-exclamation-sign"></span> Process response:
                             </small>
                             <b>
 	                            <?php

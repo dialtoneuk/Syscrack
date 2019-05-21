@@ -33,7 +33,7 @@
 			if (isset(self::$operations) == false)
 				self::$operations = new Operations();
 
-			parent::__construct(true, true, true, false);
+			parent::__construct(true, true, true, true);
 		}
 
 		/**

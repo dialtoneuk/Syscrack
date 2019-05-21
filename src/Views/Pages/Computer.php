@@ -98,7 +98,7 @@
 			if (isset(self::$statistics) == false)
 				self::$statistics = new Statistics();
 
-			parent::__construct(true, true, true, true);
+			parent::__construct(true, true, true, false);
 		}
 
 		/**
