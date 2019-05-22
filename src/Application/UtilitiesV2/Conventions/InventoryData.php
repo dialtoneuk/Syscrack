@@ -6,11 +6,7 @@ namespace Framework\Application\UtilitiesV2\Conventions;
  *
  * Automatically created at: 2019-05-14 00:09:14
  *
- * @property int last_id
- * @property string name
- * @property string icon
- * @property string description
- * @property string item
+ * @property array items
  */
 
 class InventoryData extends EditableData

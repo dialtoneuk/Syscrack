@@ -1,28 +1,5 @@
 <?php
     use Framework\Application\Render;
-    use Framework\Application\Settings;
-    use Framework\Syscrack\User;
-
-    if ( isset( $users ) == false )
-    {
-
-        $users = new User();
-    }
-
-    if ( isset( $computer_controller ) == false )
-    {
-
-        $computer_controller = new \Framework\Syscrack\Game\Computer();
-    }
-
-    if ( isset( $userid ) == false )
-    {
-
-        throw new \Framework\Exceptions\ViewException();
-    }
-
-    $user = $users->getUser( $userid );
-    $computer = $computer_controller->getUserComputers( $userid );
 ?>
 <html>
 
@@ -48,7 +25,7 @@
                     <div class="caption">
                         <h5>Total Virtual Computer</h5>
                         <h3 style="font-size: 1.5em;">
-                            <?=count( $computer )?>
+                            <?=count( $computers )?>
                         </h3>
                     </div>
                 </div>
@@ -82,10 +59,10 @@
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active">
-                                    <a href="#options" aria-controls="options" role="tab" data-toggle="tab">Options</a>
+                                    <a href="#options" aria-controls="options" role="tab" data-toggle="tab">Information</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#computers" aria-controls="computers" role="tab" data-toggle="tab">Computer</a>
+                                    <a href="#computers" aria-controls="computers" role="tab" data-toggle="tab">Computers</a>
                                 </li>
                                 <li style="float: right;"><a href="/admin/users/">Home <span class="glyphicon glyphicon-arrow-right"></span> </a></li>
                             </ul>
@@ -120,7 +97,7 @@
                                 <div role="tabpanel" class="tab-pane" id="computers" style="padding-top: 2.5%;">
                                     <?php
 
-                                        foreach ( $computer as $key=>$value )
+                                        foreach ( $computers as $key=>$value )
                                         {
                                             ?>
                                                 <div class="row">

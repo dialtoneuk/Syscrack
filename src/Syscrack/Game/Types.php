@@ -62,6 +62,7 @@
 				$types[] = $class->configuration()["type"];
 			}
 
-			FileSystem::writeJson(Settings::setting("computer_types_filepath"), $types);
+			array_unique( $types );
+			FileSystem::writeJson(Settings::setting("computer_types_filepath"), array_values( $types ) );
 		}
 	}

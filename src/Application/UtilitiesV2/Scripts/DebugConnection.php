@@ -44,11 +44,12 @@
 				return false;
 			}
 
-			Debug::echo("Information");
-			Debug::echo( $database->getConnection()->getDatabaseName() );
-			Debug::echo( $database->getConnection()->getDriverName() );
-			Debug::echo("Query Log");
+			Debug::echo("\nConnection Successful!\n");
+			Debug::echo("Database Information");
+			Debug::echo( "name: " . $database->getConnection()->getDatabaseName(), 1 );
+			Debug::echo( "driver: " . $database->getConnection()->getDriverName(), 1 );
 			Debug::echo( $database->getConnection()->getQueryLog() );
+			Debug::echo("");
 
 			return (true);
 		}

@@ -447,6 +447,16 @@
 		}
 
 		/**
+		 * @return array|Interfaces\Computer|Structure|\stdClass
+		 */
+
+		public function getAllClasses()
+		{
+
+			return( self::$factory->getAllClasses() );
+		}
+
+		/**
 		 * Gets the software class, which is used when processing what a software actually does
 		 *
 		 * @param $software

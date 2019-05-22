@@ -28,7 +28,7 @@
 		 * @param bool $autoread
 		 */
 
-		public function __construct($autoread = false)
+		public function __construct($autoread = true)
 		{
 
 			if ($autoread)
@@ -104,6 +104,8 @@
 
 			if (empty($data))
 				return false;
+			else if ( isset( $data["mvc"] ) == false )
+				return false;
 			else if ($data["mvc"])
 				return true;
 
@@ -129,6 +131,37 @@
 				return true;
 
 			return false;
+		}
+
+		/**
+		 * @param $theme
+		 *
+		 * @return bool
+		 */
+
+		public function hasBase($theme)
+		{
+
+			$data = $this->getData($theme);
+
+			if (empty($data))
+				return false;
+			else if ( isset( $data["base"] ) == false )
+				return false;
+
+			return true;
+		}
+
+		/**
+		 * @param $theme
+		 *
+		 * @return mixed
+		 */
+
+		public function base( $theme )
+		{
+
+			return( $this->getData( $theme )["base"] );
 		}
 
 		/**

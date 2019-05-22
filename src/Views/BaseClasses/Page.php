@@ -369,6 +369,9 @@
 			if (isset($array["softwares"]) == false && $computerid !== null)
 				$array["softwares"] = self::$software->getSoftwareOnComputer($computerid);
 
+			if( $userid === null )
+				$userid = self::$session->userid();
+
 			if (isset($array["user"]) == false && $userid !== null)
 			{
 

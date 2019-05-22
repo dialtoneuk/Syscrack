@@ -11,6 +11,7 @@
 	use Flight;
 	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
+	use Framework\Syscrack\Game\Themes;
 
 
 	/**
@@ -32,6 +33,13 @@
 		 */
 
 		public static $last_redirect = "";
+
+		/**
+		 * @var Themes
+		 */
+
+		public static $themes;
+
 		/**
 		 * Renders a template, takes a model if the mode is MVC
 		 *
@@ -44,6 +52,9 @@
 
 		public static function view($template, $array = [], $model = null)
 		{
+
+			if( isset( self::$themes ) == false )
+				self::$themes = new Themes();
 
 			if (Settings::setting('render_log'))
 				self::$stack[] = [
@@ -59,7 +70,6 @@
 				$array["settings"] = Settings::settings();
 
 			if( isset( $array["form"] ) == false && FormContainer::empty() == false )
-			{
 				if (Settings::setting('error_use_session')
 					&& Container::getObject('session')->isLoggedIn()
 					&& isset($_SESSION["errors"]))
@@ -68,16 +78,11 @@
 					foreach (FormContainer::contents() as $response) /** @var Response $response */
 						$array["form"][] = $response->get();
 
-				if (Settings::setting('render_json_output'))
-					Flight::json( Format::toArray( $array ) );
-				else
-					Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array );
-			}
+
+			if (Settings::setting('render_json_output'))
+				Flight::json( $array );
 			else
-				if (Settings::setting('render_json_output'))
-					Flight::json( $array );
-				else
-					Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array );
+				Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array );
 		}
 
 		/**
@@ -116,10 +121,12 @@
 		public static function getAssetsLocation()
 		{
 
+			$folder = Settings::setting('render_folder');
+
 			return '/'
 				. Settings::setting('syscrack_view_location')
 				. '/'
-				. Settings::setting('render_folder')
+				. $folder
 				. '/';
 		}
 
@@ -131,6 +138,9 @@
 
 		private static function getViewFolder()
 		{
+
+			if( self::$themes->hasBase( self::$themes->currentTheme() ) )
+				return( self::$themes->base( self::$themes->currentTheme() ) );
 
 			return Settings::setting('render_folder');
 		}

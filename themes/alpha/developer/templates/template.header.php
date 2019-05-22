@@ -19,25 +19,7 @@
     <meta name="application-name" content="Syscrack">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Stylesheets -->
-
-    <?php
-        if( $settings['theme_dark'] == true )
-        {
-
-            ?>
-            <link href="/themes/alpha/css/bootstrap.dark.css" rel="stylesheet">
-            <?php
-        }
-        else
-        {
-
-            ?>
-
-            <link href="/themes/alpha/css/bootstrap.min.css" rel="stylesheet">
-            <?php
-        }
-    ?>
+    <link href="/themes/alpha/css/bootstrap.min.css" rel="stylesheet">
     <link href="/themes/alpha/css/bootstrap-combobox.css" rel="stylesheet">
 
     <?php

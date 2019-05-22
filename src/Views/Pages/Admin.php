@@ -14,9 +14,11 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\Utilities\PostHelper;
 	use Framework\Application\UtilitiesV2\Conventions\CreatorData;
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\BrowserPages;
 	use Framework\Syscrack\Game\Finance;
+	use Framework\Syscrack\Game\Inventory;
 	use Framework\Syscrack\Game\Market;
 	use Framework\Syscrack\Game\Metadata;
 	use Framework\Syscrack\Game\Riddles;
@@ -59,6 +61,12 @@
 		protected static $browserpages;
 
 		/**
+		 * @var Inventory
+		 */
+
+		protected static $inventory;
+
+		/**
 		 * Admin Error constructor.
 		 */
 
@@ -79,6 +87,9 @@
 
 			if (isset(self::$browserpages) == false)
 				self::$browserpages = new BrowserPages();
+
+			if( isset( self::$inventory ) == false )
+				self::$inventory = new Inventory();
 
 			parent::__construct(true, true, true, false, true);
 		}
@@ -172,7 +183,7 @@
 		public function page()
 		{
 
-			$this->getRender('syscrack/page.admin');
+			$this->getRender('syscrack/page.admin', array('userscount' => count( self::$user->getAllUsers() ), 'activesessions' => count( self::$session->getActiveSessions() ) ) );
 		}
 
 		/**
@@ -203,7 +214,7 @@
 		{
 
 			if ($this->isUser($userid))
-				$this->getRender('syscrack/page.admin.users.edit');
+				$this->getRender('syscrack/page.admin.users.edit', ['inventory' => self::$inventory->get( $userid ), 'computers' => self::$computer->getUserComputers( $userid  )], true, $userid );
 			else
 				$this->formError('This user does not exist, please try another', 'admin/users/');
 		}
@@ -290,6 +301,8 @@
 				else
 					self::$themes->set($theme);
 			}
+
+			$this->redirect('admin/themes');
 		}
 
 		/**
@@ -815,9 +828,6 @@
 			{
 
 				$value = @PostHelper::getPostData('value', true);
-
-				if ($value == false)
-					return;
 
 				if ($this->isValidJson($value))
 					$value = json_decode($value, true);

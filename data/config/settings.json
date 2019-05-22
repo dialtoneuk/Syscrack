@@ -254,11 +254,11 @@
     "syscrack_whois_default_computers": [
         71
     ],
-    "theme_dark": true,
+    "theme_dark": 0,
     "theme_fullscreen": "1",
     "render_mvc_output": false,
     "render_log": true,
-    "render_folder": "alpha",
+    "render_folder": "dark",
     "user_allow_registrations": true,
     "user_default_group": "guest",
     "user_first_signup_admin": true,
@@ -273,5 +273,7 @@
     "admin_settings_filepath": "data\\\/metadata\\\/settings.json",
     "inventory_filepath": "\\\/data\\\/inventory\\\/",
     "render_json_output": false,
-    "theme_default": "alpha"
+    "theme_default": "alpha",
+    "software_types_filepath": "data\/metadata\/softwaretypes.json",
+    "inventory_reset": ""
 }

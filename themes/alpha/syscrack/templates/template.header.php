@@ -22,7 +22,7 @@ use Framework\Application\Render;
     <!-- Stylesheets -->
 
     <?php
-    if ( @$settings ) {
+    if ( @$settings["theme_dark"] ) {
 
         ?>
         <link href="<?=Render::getAssetsLocation()?>css/bootstrap.dark.css" rel="stylesheet">

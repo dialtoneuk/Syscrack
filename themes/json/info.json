@@ -6,6 +6,7 @@
   "version": 1.0,
   "data":{
     "mvc":true,
-    "json":true
+    "json":true,
+    "base":"alpha"
   }
 }

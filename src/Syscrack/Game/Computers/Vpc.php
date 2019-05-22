@@ -10,10 +10,12 @@
 	 * @package Framework\Syscrack\Game\Computer
 	 */
 
+	use Framework\Application\Settings;
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\AccountDatabase;
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Bases\BaseComputer;
+	use Framework\Syscrack\Game\Inventory;
 
 	class Vpc extends BaseComputer
 	{
@@ -31,6 +33,11 @@
 		protected static $accountdatabase;
 
 		/**
+		 * @var Inventory
+		 */
+
+		protected static $inventory;
+		/**
 		 * Vpc constructor.
 		 */
 
@@ -43,6 +50,9 @@
 
 			if (isset(self::$accountdatabase) == false)
 				self::$accountdatabase = new AccountDatabase();
+
+			if( isset( self::$inventory ) == false )
+				self::$inventory = new Inventory();
 
 			parent::__construct(true);
 		}
@@ -79,6 +89,9 @@
 			if (self::$accountdatabase->hasDatabase($userid) == false)
 				self::$accountdatabase->saveDatabase($userid, []);
 
+			if( empty( self::$inventory->get( $userid )->contents()["items"] ) )
+				self::$inventory->save( $userid, self::$inventory::dataInstance(["items" => []]));
+
 			parent::onStartup($computerid, $userid, $software, $hardware, $custom);
 		}
 
@@ -98,6 +111,9 @@
 
 			if (self::$accountdatabase->hasDatabase($userid) == false)
 				self::$accountdatabase->saveDatabase($userid, []);
+
+			if( Settings::setting("inventory_reset") )
+				self::$inventory->save( $userid, self::$inventory::dataInstance(["items" => []]));
 
 			parent::onReset($computerid);
 		}
