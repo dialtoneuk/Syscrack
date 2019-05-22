@@ -1,0 +1,11 @@
+{
+  "name":"Geocities",
+  "description":"Welcome to 1996.",
+  "author":"Lewis Lancaster",
+  "website":"https://github.com/dialtoneuk",
+  "version": 1.0,
+  "data":{
+    "base": "alpha",
+    "mvc": true
+  }
+}

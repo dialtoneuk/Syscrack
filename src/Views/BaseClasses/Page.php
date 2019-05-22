@@ -23,6 +23,7 @@
 	use Framework\Syscrack\Game\Internet;
 	use Framework\Syscrack\Game\Software;
 	use Framework\Syscrack\Game\Tool;
+	use Framework\Syscrack\Game\Finance;
 	use Framework\Views\Structures\Page as Structure;
 	use Framework\Syscrack\User;
 	use Illuminate\Support\Collection;
@@ -48,37 +49,43 @@
 		 * @var Software
 		 */
 
-		public static $software;
+		protected static $software;
 
 		/**
 		 * @var Internet
 		 */
 
-		public static $internet;
+		protected static $internet;
 
 		/**
 		 * @var Computer
 		 */
 
-		public static $computer;
+		protected static $computer;
 
 		/**
 		 * @var Session
 		 */
 
-		public static $session;
+		protected static $session;
 
 		/**
 		 * @var User
 		 */
 
-		public static $user;
+		protected static $user;
 
 		/**
 		 * @var AddressDatabase;
 		 */
 
-		public static $addressbook;
+		protected static $addressbook;
+
+		/**
+		 * @var Finance
+		 */
+
+		protected static $finance;
 
 		/**
 		 * Page constructor.
@@ -110,6 +117,9 @@
 
 				if (isset(self::$user) == false)
 					self::$user = new User();
+
+				if( isset( self::$finance ) == false )
+					self::$finance = new Finance();
 			}
 
 			if (Settings::setting('render_mvc_output'))
@@ -286,8 +296,8 @@
 						$this->model->admin = true;
 
 					$this->model->user = [
-						'username'  => self::$user->getUsername( $this->model->userid ),
-						'email'     => self::$user->getEmail( $this->model->userid )
+						'username'  => htmlspecialchars( self::$user->getUsername( $this->model->userid ) ),
+						'email'     => htmlspecialchars(  self::$user->getEmail( $this->model->userid ) )
 					];
 
 				}
@@ -372,7 +382,10 @@
 			if( $userid === null )
 				$userid = self::$session->userid();
 
-			if (isset($array["user"]) == false && $userid !== null)
+			if( $computerid == null )
+				$computerid = @self::$computer->computerid();
+
+			if (isset($array["user"]) == false && $userid !== null )
 			{
 
 				$array["user"] = Format::toArray( self::$user->getUser($userid) );
@@ -386,12 +399,18 @@
 				$array["user"] = Format::toObject( $array["user"] );
 			}
 
+			if( isset( $array["cash"] ) == false && $userid !== null )
+				$array["cash"] = self::$finance->getTotalUserCash( $userid );
+
+			if( isset( $array["computer"] ) == false && $computerid !== null )
+				$array["computer"] = self::$computer->getComputer( $computerid );
+
 			if( $this->cleanerrors )
 				if( Settings::setting("error_use_session") )
 					if( isset( $_SESSION["form"]["drawn"] ) )
 						foreach( $_SESSION["form"]["drawn"] as $page=>$contents )
 							if( isset( $_SESSION["form"][ $page ][ $contents["key"] ] ) )
-								if( time() + ( 60 * 60 * 2 ) > $contents["modified"] )
+								if( time() - ( 60 * 60 * 2  ) < $contents["modified"] )
 									unset( $_SESSION["form"][ $page ][ $contents["key"] ] );
 
 			if (isset($array["localsoftwares"]) == false)

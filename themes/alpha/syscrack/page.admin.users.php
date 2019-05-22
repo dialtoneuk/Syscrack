@@ -46,7 +46,7 @@
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <h5>
-                                                        <?=$value->username?>
+                                                        <?=htmlspecialchars($value->username)?>
                                                     </h5>
                                                 </div>
                                                 <div class="col-sm-4">

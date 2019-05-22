@@ -19,22 +19,8 @@ use Framework\Application\Render;
     <meta name="application-name" content="Syscrack">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Stylesheets -->
 
-    <?php
-    if ( @$settings["theme_dark"] ) {
-
-        ?>
-        <link href="<?=Render::getAssetsLocation()?>css/bootstrap.dark.css" rel="stylesheet">
-        <?php
-    } else {
-
-        ?>
-
-        <link href="<?=Render::getAssetsLocation()?>css/bootstrap.min.css" rel="stylesheet">
-        <?php
-    }
-    ?>
+    <link href="<?=Render::getAssetsLocation()?>css/bootstrap.min.css" rel="stylesheet">
     <link href="<?=Render::getAssetsLocation()?>css/bootstrap-combobox.css" rel="stylesheet">
 
     <?php
@@ -49,6 +35,7 @@ use Framework\Application\Render;
         }
     }
     ?>
+    <link href="<?=Render::getAssetsLocation()?>css/custom.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -69,87 +56,4 @@ use Framework\Application\Render;
     ?>
 
     <script src="<?=Render::getAssetsLocation()?>js/progressbar.js"></script>
-    <style>
-
-        pre, code {
-            white-space: pre-line;
-        <?php
-
-            if( $settings['theme_dark'] )
-            {
-
-                ?> background-color: #19171c;
-            color: #888888;
-            border: 0;
-        <?php
-    }
-?>
-        }
-
-        <?php
-
-            if( $settings['theme_dark'] )
-            {
-
-                ?>
-
-        textarea {
-
-            background-color: #19171c;
-            border: 0px;
-            color: #888888;
-        }
-
-        ::-webkit-scrollbar {
-            width: 12px; /* for vertical scrollbars */
-            height: 12px; /* for horizontal scrollbars */
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #888888;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #151515;
-        }
-
-        ::-webkit-resizer {
-            background-color: #424242;
-            border: 1px solid #888888;
-            /*size does not work*/
-            display: block;
-            width: 150px !important;
-            height: 150px !important;
-        }
-        <?php
-    }
-?>
-
-        @media (max-width: 980px) {
-            .navbar-fix {
-                display: none;
-            }
-        }
-
-        <?php
-
-        if (  $settings['theme_fullscreen'] == true )
-        {
-            ?>
-
-                .container
-                {
-                    width: 100%;
-                    overflow-x: hidden;
-                }
-
-                body, html{
-                    padding: 0.05%;
-                    margin: 0;
-                    overflow-x: hidden;
-                }
-            <?php
-        }
-        ?>
-    </style>
 </head>

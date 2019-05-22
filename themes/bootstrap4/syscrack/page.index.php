@@ -8,21 +8,21 @@
 <html>
     <head>
         <?php
-            Render::view('syscrack/templates/template.head', $data, $model );
+            Render::view('syscrack/templates/template.header');
         ?>
     </head>
     <body>
         <div class="container-fluid" style="padding: 0;">
             <div class="row">
                 <?php
-                    Render::view('syscrack/templates/template.navbar', $data, $model );
+                    Render::view('syscrack/templates/template.navigration');
                 ?>
             </div>
         </div>
     </body>
     <footer>
         <?php
-            Render::view('syscrack/templates/template.footer', $data, $model );
+            Render::view('syscrack/templates/template.footer');
         ?>
     </footer>
 </html>

@@ -66,6 +66,12 @@
 			try
 			{
 
+				if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $username))
+				{
+
+					throw new SyscrackException('Username is invalid and must not contain any special characters');
+				}
+
 				if ($this->user->usernameExists($username) == false)
 				{
 

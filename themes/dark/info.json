@@ -1,10 +1,11 @@
 {
-  "name":"Syscrack Dark (bootstrap 3)",
+  "name":"Dark",
   "description":"A mostly dark version of the original theme with various dark colours and more text density. Great for desktops.",
   "author":"Lewis Lancaster",
   "website":"https://github.com/dialtoneuk",
   "version": 1.0,
   "data":{
-    "base": "alpha"
+    "base": "alpha",
+    "mvc": true
   }
 }

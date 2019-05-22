@@ -256,7 +256,7 @@
     ],
     "theme_dark": 0,
     "theme_fullscreen": "1",
-    "render_mvc_output": false,
+    "render_mvc_output": true,
     "render_log": true,
     "render_folder": "dark",
     "user_allow_registrations": true,

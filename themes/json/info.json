@@ -1,6 +1,6 @@
 {
-  "name":"Syscrack Developer Json",
-  "description":"Converts the game to output in JSON only, you will have to manually reset your theme through a terminal instance after enabling.",
+  "name":"Developer",
+  "description":"Please be aware this is not a user interface theme and is purely JSON based. You will need to run the themes command in your terminal to change the theme back to something useful.",
   "author":"Lewis Lancaster",
   "website":"https://github.com/dialtoneuk",
   "version": 1.0,

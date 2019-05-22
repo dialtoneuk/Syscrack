@@ -103,6 +103,9 @@
 
 			$banks = $this->getUserBankAccounts($userid);
 
+			if( empty( $banks ) )
+				return 0;
+
 			$sum = 0;
 
 			foreach ($banks as $bank)

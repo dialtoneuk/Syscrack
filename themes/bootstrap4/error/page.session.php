@@ -25,7 +25,7 @@
 
     <?php
 
-        Render::view('developer/templates/template.header', array( 'pagetitle' => 'Database Error'));
+        Render::view('syscrack/templates/template.header', array( 'pagetitle' => 'Database Error'));
     ?>
 
     <body>

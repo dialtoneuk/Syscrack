@@ -9,6 +9,7 @@
 	namespace Framework\Application;
 
 	use Flight;
+	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
 	use Framework\Syscrack\Game\Themes;
@@ -78,11 +79,10 @@
 					foreach (FormContainer::contents() as $response) /** @var Response $response */
 						$array["form"][] = $response->get();
 
-
 			if (Settings::setting('render_json_output'))
 				Flight::json( $array );
 			else
-				Flight::render(self::getViewFolder() . DIRECTORY_SEPARATOR . $template, $array );
+				Flight::render(self::getViewFolder( $template ), $array );
 		}
 
 		/**
@@ -131,17 +131,38 @@
 		}
 
 		/**
-		 * Gets the current view folder
+		 * @param $template
 		 *
 		 * @return mixed
 		 */
 
-		private static function getViewFolder()
+		private static function getViewFolder( $template )
 		{
 
 			if( self::$themes->hasBase( self::$themes->currentTheme() ) )
-				return( self::$themes->base( self::$themes->currentTheme() ) );
+				$base = self::$themes->base( self::$themes->currentTheme() );
+			else
+				$base = null;
 
-			return Settings::setting('render_folder');
+			if( FileSystem::exists(
+				FileSystem::separate(
+					Settings::setting("syscrack_view_location"), Settings::setting("render_folder"), $template
+					) . ".php"
+				) == false)
+			{
+
+				if( $base === null )
+					throw new \Error("Unable to find template at: " . FileSystem::separate(
+							Settings::setting("syscrack_view_location"), Settings::setting("render_folder"), $template
+						));
+				elseif( FileSystem::exists( FileSystem::separate( Settings::setting("syscrack_view_location"), $base, $template) . ".php" ) )
+					return( FileSystem::separate( $base, $template ) );
+				else
+					throw new \Error("Unable to find template at: " . FileSystem::separate(
+							Settings::setting("syscrack_view_location"), $base, $template
+						));
+			}
+			else
+				return( FileSystem::separate( Settings::setting("render_folder"), $template ) );
 		}
 	}

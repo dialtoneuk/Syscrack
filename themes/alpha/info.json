@@ -1,10 +1,10 @@
 {
-  "name":"Syscrack Lite (bootstrap3)",
-  "description":"A mostly white version of the original theme with various bright colours and less text density. Great for mobile phones.",
+  "name":"Alpha Blue",
+  "description":"A mostly blueish version of the original theme with various bright colours and less text density. Great for mobile phones.",
   "author":"Lewis Lancaster",
   "website":"https://github.com/dialtoneuk",
   "version": 1.0,
   "data":{
-    "mvc":false
+    "mvc":true
   }
 }

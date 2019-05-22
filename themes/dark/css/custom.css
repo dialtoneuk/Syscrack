@@ -1,0 +1,45 @@
+textarea {
+     background-color: #fdf4f3;
+     border: 0px;
+     color: #888888;
+ }
+
+::-webkit-scrollbar {
+    width: 12px; /* for vertical scrollbars */
+    height: 12px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+    background: #888888;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #151515;
+}
+
+::-webkit-resizer {
+    background-color: #424242;
+    border: 1px solid #888888;
+    /*size does not work*/
+    display: block;
+    width: 150px !important;
+    height: 150px !important;
+}
+
+@media (max-width: 980px) {
+    .navbar-fix {
+        display: none;
+    }
+}
+
+.container
+{
+ width: 100%;
+ overflow-x: hidden;
+}
+
+body, html{
+    padding: 0.05%;
+    margin: 0;
+    overflow-x: hidden;
+}

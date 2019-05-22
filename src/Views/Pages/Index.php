@@ -15,13 +15,15 @@
 
 	class Index extends BaseClass
 	{
-
+		
 		/**
 		 * Index constructor.
 		 */
 
 		public function __construct()
 		{
+
+
 
 			parent::__construct(true, true);
 		}
@@ -52,6 +54,6 @@
 		public function page()
 		{
 
-			Render::view('syscrack/page.index', [], $this->model());
+			$this->getRender('syscrack/page.index', [] );
 		}
 	}

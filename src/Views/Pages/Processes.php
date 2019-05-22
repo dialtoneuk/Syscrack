@@ -89,7 +89,7 @@
 					$array[$value->computerid][] = $value;
 				}
 			}
-			$this->getRender('syscrack/page.process.php', array('processes' => $array, 'operations' => self::$operations, 'computerid' => self::$computer->computerid()));
+			$this->getRender('syscrack/page.process', array('processes' => $array, 'operations' => self::$operations, 'computerid' => self::$computer->computerid()));
 		}
 
 		/**

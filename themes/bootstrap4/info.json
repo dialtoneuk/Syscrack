@@ -1,10 +1,11 @@
 {
-  "name":"Syscrack Boostrap 4",
+  "name":"Remaster",
   "description":"A complete rewrite of the alpha interface but with the power of Bootstrap 4.",
   "author":"Lewis Lancaster",
   "website":"https://github.com/dialtoneuk",
   "version": 1.0,
   "data":{
-    "mvc":true
+    "mvc":true,
+    "base":"alpha"
   }
 }

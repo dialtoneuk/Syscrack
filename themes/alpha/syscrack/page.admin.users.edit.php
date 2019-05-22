@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h5 style="color: #ababab" class="text-uppercase">
-                    <span class="badge"><?= $user->userid ?></span> <?= $user->username ?>
+                    <span class="badge"><?= $user->userid ?></span> <?=htmlspecialchars( $user->username ) ?>
                 </h5>
             </div>
         </div>

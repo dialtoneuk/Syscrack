@@ -1,0 +1,11 @@
+{
+  "name":"Light",
+  "description":"A very light version of the original theme with bright colours and more text density. Great for phones.",
+  "author":"Lewis Lancaster",
+  "website":"https://github.com/dialtoneuk",
+  "version": 1.0,
+  "data":{
+    "base": "alpha",
+    "mvc": true
+  }
+}

@@ -61,6 +61,12 @@
 				throw new SyscrackException('Username is already taken');
 			}
 
+			if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $username))
+			{
+
+				throw new SyscrackException('Username is invalid and must not contain any special characters');
+			}
+
 			if ($this->isEmailUnused($email))
 			{
 
