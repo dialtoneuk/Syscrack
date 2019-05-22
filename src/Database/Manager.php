@@ -80,6 +80,26 @@
 		}
 
 		/**
+		 * @return bool
+		 */
+
+		public function test()
+		{
+
+			try
+			{
+
+				self::$capsule->getConnection()->getDatabaseName();
+			}
+			catch ( \Error $error )
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
 		 * Creates our database connection
 		 */
 

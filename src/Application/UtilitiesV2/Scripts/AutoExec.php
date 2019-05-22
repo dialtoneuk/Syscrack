@@ -43,7 +43,7 @@
 		{
 
 			if (Container::exist("application") == false)
-				$this->initContainer();
+				$this->initDatabase();
 
 			$this->autoexecmanager->create();
 

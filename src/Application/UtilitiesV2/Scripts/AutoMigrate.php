@@ -9,7 +9,7 @@
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
 
-	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\Container;
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Migrator;
 
@@ -32,14 +32,6 @@
 
 		public function execute($arguments)
 		{
-
-			if (Container::exist("application") == false)
-				$this->initContainer();
-
-			$application = Container::get("application");
-
-			if ($application->connection->test() == false)
-				throw new \Error("Database test failed");
 
 			Debug::echo("Instancing Migrator", 4);
 

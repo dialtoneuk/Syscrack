@@ -32,7 +32,7 @@
 		{
 
 			if (Container::exist("application") == false)
-				$this->initContainer();
+				$this->initDatabase();
 
 			//Created after container init and we have database connection
 			$this->moderation = new Moderation();

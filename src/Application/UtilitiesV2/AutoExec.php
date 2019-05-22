@@ -166,7 +166,7 @@
 			$directory = new DirectoryOperator(AUTOEXEC_SCRIPTS_ROOT);
 
 			if ($directory->isEmpty())
-				throw new \Error("No scripts");
+				return [];
 
 			return ($directory->omit($directory->search([".json"])));
 		}

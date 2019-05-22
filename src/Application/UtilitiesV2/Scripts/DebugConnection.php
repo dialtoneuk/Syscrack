@@ -8,9 +8,8 @@
 
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
-	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\Container;
 	use Framework\Application\UtilitiesV2\Debug;
-
 
 	class DebugConnection extends Base
 	{
@@ -25,32 +24,31 @@
 		public function execute($arguments)
 		{
 
-			if (Container::exist("application") == false)
-				$this->initContainer();
+			if( Container::hasObject('database') == false )
+				$this->initDatabase();
 
-			$application = Container::get("application");
-
-			Debug::echo("Testing database connection", 3);
-
-			if (@$application->connection->test() == false)
-				return false;
-
-			Debug::echo("Testing session capability", 3);
+			/**
+			 * @var $database \Illuminate\Database\Capsule\Manager
+			 */
+			$database = Container::getObject('database');
 
 			try
 			{
 
-				$application->session->initialize(false);
-
-				if ($application->session->all()->isEmpty())
-					Debug::echo("Table successfully quiried", 4);
-				else
-					Debug::echo("Table successfully quiried", 4);
-			} catch (\Error $error)
+				$database->getConnection()->getDatabaseName();
+			}
+			catch ( \Error $error )
 			{
 
-				return (false);
+				Debug::echo("ERROR: " . $error->getMessage() );
+				return false;
 			}
+
+			Debug::echo("Information");
+			Debug::echo( $database->getConnection()->getDatabaseName() );
+			Debug::echo( $database->getConnection()->getDriverName() );
+			Debug::echo("Query Log");
+			Debug::echo( $database->getConnection()->getQueryLog() );
 
 			return (true);
 		}

@@ -152,7 +152,7 @@
 
     //Setups
     define("SETUP_ROOT", "src/Application/UtilitiesV2/Setups/");
-    define("SETUP_NAMESPACE", "Framework\\Application\\UtilityV2\\Setups\\");
+    define("SETUP_NAMESPACE", "Framework\\Application\\UtilitiesV2\\Setups\\");
 
     //MVC
     define("MVC_NAMESPACE", "Framework\\Application\\MVC\\");
@@ -214,7 +214,7 @@
     define("TABLES_ROOT", "src/Database/Tables/");
 
     //Tests
-    define("TESTS_NAMESPACE", "Framework\\Application\\UtilityV2\\Tests\\");
+    define("TESTS_NAMESPACE", "Framework\\Application\\UtilitiesV2\\Tests\\");
     define("TESTS_ROOT", "src/Application/UtilitiesV2/Tests/");
 
     //Audit (Moderation)
@@ -230,7 +230,7 @@
 
     //Auto Execute
     define("AUTOEXEC_ROOT", "src/Application/UtilitiesV2/AutoExecs/");
-    define("AUTOEXEC_NAMESPACE", "Framework\\Application\\UtilityV2\\AutoExecs\\");
+    define("AUTOEXEC_NAMESPACE", "Framework\\Application\\UtilitiesV2\\AutoExecs\\");
     define("AUTOEXEC_SCRIPTS_ROOT","data/config/autoexec/");
     define("AUTOEXEC_LOG_REFRESH", 12 ); //In hours
     define("AUTOEXEC_LOG_LOCATION","data/config/log/");
@@ -313,7 +313,7 @@
 
     //Migrator Util
     define("MIGRATOR_ROOT", "src/Application/UtilitiesV2/Migrators/");
-    define("MIGRATOR_NAMESPACE","Framework\\Application\\UtilityV2\\Migrators\\");
+    define("MIGRATOR_NAMESPACE","Framework\\Application\\UtilitiesV2\\Migrators\\");
 
     define("PHPUNIT_FINISHED", true );
 

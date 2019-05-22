@@ -9,17 +9,25 @@
 	namespace Framework\Application\UtilitiesV2\AutoExecs;
 
 
-	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\Session;
+	use Framework\Application\Container;
 	use Framework\Application\UtilitiesV2\Interfaces\AutoExec;
+	use Framework\Database\Manager;
 
 	abstract class Base implements AutoExec
 	{
 
 		/**
-		 * @var \Framework\Application\UtilitiesV2\Session
+		 * @var Session
 		 */
 
-		protected $session;
+		protected static $session;
+
+		/**
+		 * @var Manager
+		 */
+
+		protected static $database;
 
 		/**
 		 * Base constructor.
@@ -29,10 +37,14 @@
 		public function __construct()
 		{
 
-			if (Container::exist("application") == false)
-				throw new \Error("Needs application");
+			if ( isset( self::$session ) == false )
+				self::$session = new Session();
 
-			$this->session = Container::get("application")->session;
+			if ( isset( self::$database ) == false )
+				self::$database = new Manager( true );
+
+			if( isset( self::$session ) == false )
+				self::$session  = Container::getObject("session");
 		}
 
 		/**

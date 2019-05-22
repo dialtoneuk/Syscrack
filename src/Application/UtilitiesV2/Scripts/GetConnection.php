@@ -11,7 +11,6 @@
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\UtilitiesV2\Debug;
 
-
 	class GetConnection extends Base
 	{
 
@@ -26,7 +25,7 @@
 		{
 
 			if (Container::exist("application") == false)
-				$this->initContainer();
+				$this->initDatabase();
 
 			Debug::echo(print_r(Container::get("application")->connection->connection));
 			return (true);

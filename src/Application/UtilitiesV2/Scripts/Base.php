@@ -10,6 +10,8 @@
 
 	use Framework\Application\UtilitiesV2\Interfaces\Script;
 	use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Database\Manager;
+
 	/**
 	 * Class Base
 	 * @package Framework\Application\UtilitiesV2\Scripts
@@ -113,22 +115,13 @@
 		}
 
 		/**
-		 * @param bool $session
 		 *
-		 * @throws \Error
 		 */
 
-		public final function initContainer($session = false)
+		public final function initDatabase()
 		{
 
-			/**
-			 * Debug::message("Instancing a global of the application inside the container" );
-			 *
-			 * $application = new Application();
-			 * $application->connection = new Connection();
-			 *
-			 * Container::add("application", $application );
-			 * Container::get("application")->session = new Session( $session );
-			 **/
+			 Debug::message("Instancing a global of the application inside the container" );
+			 new Manager( true );
 		}
 	}
