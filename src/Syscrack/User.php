@@ -107,14 +107,13 @@
 		}
 
 		/**
-		 * Gets the user
-		 *
 		 * @param $userid
+		 * @param bool $safe
 		 *
-		 * @return array|null|\stdClass
+		 * @return mixed|null
 		 */
 
-		public function getUser($userid)
+		public function getUser($userid, $safe = true)
 		{
 
 			if ($this->userExists($userid) == false)
@@ -123,7 +122,7 @@
 				throw new SyscrackException();
 			}
 
-			return self::$database->getUser($userid);
+			return self::$database->getUser($userid, $safe );
 		}
 
 		/**
@@ -163,7 +162,7 @@
 				throw new SyscrackException();
 			}
 
-			return $this->getUser($userid)->password;
+			return $this->getUser($userid, false)->password;
 		}
 
 		/**
@@ -203,7 +202,7 @@
 				throw new SyscrackException();
 			}
 
-			return $this->getUser($userid)->salt;
+			return $this->getUser($userid, false )->salt;
 		}
 
 		/**

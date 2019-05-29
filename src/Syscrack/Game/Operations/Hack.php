@@ -97,13 +97,27 @@
 			if (self::$computer->hasType($computerid, Settings::setting('syscrack_software_cracker_type'), true) == false)
 				return false;
 
-			$victimid = $this->getComputerId($data['ipaddress']);
+			$victimid = $this->getComputerId( $data['ipaddress'] );
 
-			if (self::$computer->hasType($victimid, Settings::setting('syscrack_software_hasher_type'), true) == true)
-				if ($this->getHighestLevelSoftware($victimid, Settings::setting('syscrack_software_hasher_type'))['level'] > $this->getHighestLevelSoftware($computerid, Settings::setting('syscrack_software_cracker_type'))['level'])
+			if( self::$computer->hasType( $victimid, Settings::setting('syscrack_software_hasher_type'), true ) )
+			{
+
+				$hasher = $this->getHighestLevelSoftware( $victimid, Settings::setting('syscrack_software_hasher_type') );
+				$cracker = $this->getHighestLevelSoftware( $computerid, Settings::setting('syscrack_software_cracker_type') );
+
+				if( empty( $hasher ) )
+					return true;
+
+				if( empty( $cracker ) )
 					return false;
 
-			return true;
+				if( @$cracker["level"] > $hasher["level"] )
+					return true;
+
+				return false;
+			}
+			else
+				return true;
 		}
 
 		/**

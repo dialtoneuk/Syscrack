@@ -405,6 +405,10 @@
 			if( isset( $array["computer"] ) == false && $computerid !== null )
 				$array["computer"] = self::$computer->getComputer( $computerid );
 
+			if( isset( $array["currentcomputer"] ) == false )
+				if( self::$computer->hasCurrentComputer() )
+					$array["currentcomputer"] = self::$computer->getComputer( self::$computer->computerid() );
+
 			if( $this->cleanerrors )
 				if( Settings::setting("error_use_session") )
 					if( isset( $_SESSION["form"]["drawn"] ) )
@@ -421,6 +425,14 @@
 
 			Render::view($file, $array, $this->model());
 		}
+
+		/**
+		 * @param null $userid
+		 * @param null $computerid
+		 * @param bool $software_action
+		 *
+		 * @return array
+		 */
 
 		public function tools($userid = null, $computerid = null, $software_action = false)
 		{

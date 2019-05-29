@@ -324,6 +324,9 @@
 			if (is_array($results) == false)
 				return (array)$results;
 
+			if( isset( $results[0]) == false )
+				return $results;
+
 			return (array)$results[0];
 		}
 

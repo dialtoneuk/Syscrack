@@ -16,33 +16,40 @@
 	{
 
 		/**
-		 * Gets all the users
+		 * @param bool $safe
 		 *
 		 * @return \Illuminate\Support\Collection
 		 */
 
-		public function getUsers()
+		public function getUsers( $safe = true )
 		{
 
-			return $this->getTable()->get();
+			if( $safe )
+				$result = $this->getTable()->get(["username","userid","email","group"]);
+			else
+				$result = $this->getTable()->get();
+
+			return( $result );
 		}
 
 		/**
-		 * Gets the user
-		 *
 		 * @param $userid
+		 * @param bool $safe
 		 *
-		 * @return mixed
+		 * @return mixed|null
 		 */
 
-		public function getUser($userid)
+		public function getUser($userid, $safe=true )
 		{
 
 			$array = array(
 				'userid' => $userid
 			);
 
-			$result = $this->getTable()->where($array)->get();
+			if( $safe )
+				$result = $this->getTable()->where($array)->get(["username","userid","email","group"]);
+			else
+				$result = $this->getTable()->where($array)->get();
 
 			return ($result->isEmpty()) ? null : $result[0];
 		}

@@ -27,14 +27,14 @@
             <div class="nav navbar-left navbar-fix">
                 <?php
                 if (@$model->session["loggedin"]) {
-                        if ( @$computer ) {
+                        if ( @$currentcomputer ) {
 
                             ?>
 
                             <a class="navbar-brand" style="font-size: 12px" href="/game/computer/" ata-toggle="tooltip"
                                data-placement="auto" title="Current IP Address">
                             <span class="glyphicon glyphicon-arrow-down" data-toggle="tooltip" data-placement="auto"
-                                  title="Address"></span> <?= @$computer->ipaddress ?>
+                                  title="Address"></span> <?= @$currentcomputer->ipaddress ?>
                             </a>
                             <?php
                         }
