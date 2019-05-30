@@ -368,6 +368,9 @@
 						$softwares = [];
 				}
 
+				if( empty( $metadata ) == false )
+					if( isset( $metadata->custom["browserpage"] ) )
+						@\Flight::render("resources/browser/" .  $metadata->custom["browserpage"], $data, 'browser_page');
 
 				$this->getRender('syscrack/page.game.internet',
 					array_merge($data, array('ipaddress' => $ipaddress,

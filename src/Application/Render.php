@@ -82,7 +82,7 @@
 			if (Settings::setting('render_json_output'))
 				Flight::json( $array );
 			else
-				Flight::render(self::getViewFolder( $template ), $array );
+				Flight::render(Settings::setting("syscrack_view_location") . DIRECTORY_SEPARATOR . self::getViewFolder( $template ), $array );
 		}
 
 		/**

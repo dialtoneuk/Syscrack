@@ -454,7 +454,7 @@
          * Set the view path for flight
          */
 
-        Flight::set('flight.views.path', Settings::setting("syscrack_view_location"));
+        Flight::set('flight.views.path', SYSCRACK_ROOT );
 
         /**
          * Handles an error with the render engine
