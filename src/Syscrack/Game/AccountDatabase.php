@@ -237,7 +237,7 @@
 		public function getFile($userid)
 		{
 
-			return Settings::setting('syscrack_accountdatabase_location') . $userid .
+			return Settings::setting('syscrack_accounts_location') . $userid .
 				Settings::setting('syscrack_filedatabase_extension');
 		}
 	}

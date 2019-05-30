@@ -223,10 +223,14 @@
 			Debug::echo("\n[ERROR] " . $exception->getMessage());
 			Debug::echo(" in file " . $exception->getFile() . "[" . $exception->getLine() . "]");
 
-			Debug::echo("\nStack Trace\n");
+			if( Debug::verbosity() >= Debug::VERBOSITY_ERRORS  )
+			{
 
-			foreach ($exception->getTrace() as $key => $trace)
-				Debug::echo(" " . $key . " : " . $trace["file"] . "[" . $trace["line"] . "]");
+				Debug::echo("\nStack Trace\n");
+
+				foreach ($exception->getTrace() as $key => $trace)
+					Debug::echo(" " . $key . " : " . $trace["file"] . "[" . $trace["line"] . "]");
+			}
 		}
 
 		/**
@@ -240,10 +244,14 @@
 			Debug::echo("\n[CRITICAL RUNTIME EXCEPTION] " . $exception->getMessage());
 			Debug::echo(" in file " . $exception->getFile() . "[" . $exception->getLine() . "]");
 
-			Debug::echo("\nStack Trace\n");
+			if( Debug::verbosity() >= Debug::VERBOSITY_ERRORS  )
+			{
 
-			foreach ($exception->getTrace() as $key => $trace)
-				Debug::echo(" " . $key . " : " . $trace["file"] . "[" . $trace["line"] . "]");
+				Debug::echo("\nStack Trace\n");
+
+				foreach ($exception->getTrace() as $key => $trace)
+					Debug::echo(" " . $key . " : " . $trace["file"] . "[" . $trace["line"] . "]");
+			}
 		}
 
 		/**
@@ -291,11 +299,12 @@
 		{
 
 			if( Debug::session()  )
-				Debug::echo("---[Terminating " . Debug::$session . "]--------------------[Terminated: " . date("j F Y c", time() ) . "]---");
+				Debug::echo(" @[Terminating " . Debug::$session . "]--------------------[Terminated: " . date("j F Y c", time() ) . "]", 1);
 			else
-				Debug::echo("---[End Of Instance]--------------------[Terminated: " . date("j F Y c", time() ) . "]---");
+				Debug::echo(" @[End Of Instance]--------------------[Terminated: " . date("j F Y c", time() ) . "]", 1);
 
-			Debug::echo("\n");
+			Debug::message("Ending instance and exiting PHP");
+
 			Debug::stashMessages();
 			Debug::stashTimers();
 

@@ -303,6 +303,6 @@
 		private function getPath()
 		{
 
-			return Settings::setting('syscrack_addressdatabase_location');
+			return Settings::setting('syscrack_addresses_location');
 		}
 	}

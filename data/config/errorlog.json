@@ -1607,5 +1607,17 @@
         },
         "timestamp": 1559178899,
         "ip": "10.3.0.1"
+    },
+    {
+        "message": "Setting does not exist: syscrack_addressdatabase_location",
+        "type": "rendererror",
+        "details": {
+            "url": "\/computer\/collect\/",
+            "line": 196,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Settings.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Syscrack\\Game\\AddressDatabase.php(306): Framework\\Application\\Settings::setting('syscrack_addres...')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Syscrack\\Game\\AddressDatabase.php(294): Framework\\Syscrack\\Game\\AddressDatabase->getPath()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Syscrack\\Game\\AddressDatabase.php(60): Framework\\Syscrack\\Game\\AddressDatabase->getUserDatabase(11)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Computer.php(351): Framework\\Syscrack\\Game\\AddressDatabase->getUserAddresses(11)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Computer.php(271): Framework\\Views\\Pages\\Computer->getAddresses(11)\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Computer->computerCollectProcess()\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#13 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#14 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(101): Flight::__callStatic('start', Array)\n#15 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(560): Framework\\Application->runFlight()\n#16 {main}"
+        },
+        "timestamp": 1559220566,
+        "ip": "10.3.0.1"
     }
 ]

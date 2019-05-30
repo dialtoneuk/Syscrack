@@ -349,7 +349,7 @@
 			$result = readline( $prompt . "\\\\:$" );
 
 			if( empty( $result ) )
-				throw new \RuntimeException("Invalid instance cannot read line?");
+				throw new \RuntimeException("Your terminal does not allow for nested read line inputs. Please launch me again the slow way.");
 
 			return ($result);
 		}
