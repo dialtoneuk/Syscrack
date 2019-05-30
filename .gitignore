@@ -19,8 +19,11 @@ composer.phar
 /data/logs/
 /data/market/
 
-# Omit this line to start inlcuding resources
+# Uncomment to start excluding resources
 # /resources/
+
+# Uncomment to stop excluding themes
+/themes/
 
 # PHPStorm
 
