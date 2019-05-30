@@ -27,6 +27,8 @@ try
 
     Debug::echo("Script Preload \n" );
 
+	Debug::session( time() );
+
     if( count( $argv ) == 1 )
         $argv[] = "instance";
 

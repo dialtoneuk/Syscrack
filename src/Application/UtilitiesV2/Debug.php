@@ -3,8 +3,16 @@
 	namespace Framework\Application\UtilitiesV2;
 
 
+	use Framework\Application\Utilities\FileSystem;
+
 	class Debug
 	{
+
+		/**
+		 * @var string
+		 */
+
+		public static $session;
 
 		/**
 		 * @var \stdClass
@@ -19,6 +27,38 @@
 		protected static $supressed = false;
 
 		/**
+		 * @var int
+		 */
+
+		protected static $verbosity = 0;
+
+		/**
+		 * Verbosity consts
+		 */
+		const VERBOSITY_FULL = 2;
+		const VERBOSITY_ERRORS = 1;
+		const VERBOSITY_NONE = 0;
+
+		/**
+		 * Works in two ways, passing an integer will set the current verbosity and also return it. Passing nothing will
+		 * just return the current verbosity;
+		 *
+		 * @param null $int
+		 *
+		 * @return int
+		 */
+
+		public static function verbosity( $int=null )
+		{
+
+			if( $int !== null )
+				if( is_int( $int ) )
+					self::$verbosity = $int;
+
+			return( self::$verbosity );
+		}
+
+		/**
 		 *
 		 */
 
@@ -27,6 +67,25 @@
 
 			self::$objects = new \stdClass();
 			self::$objects->timers = new \stdClass();
+		}
+
+		/**
+		 * @param string|null $session
+		 *
+		 * @return bool
+		 */
+
+		public static function session( string $session = null )
+		{
+
+			if( empty( $session ) || $session === null )
+				return( isset( self::$session ) );
+
+			self::$session = $session;
+
+			Debug::message("set session to: " . $session );
+
+			return( true );
 		}
 
 		/**
@@ -45,8 +104,9 @@
 			if (self::isInit() == false)
 				self::initialization();
 
-			if (Debug::isCMD())
-				Debug::echo("debug message: " . $message, 4);
+			if (Debug::isCMD() )
+				if( self::$verbosity > self::VERBOSITY_ERRORS )
+					Debug::echo("debug message: " . $message, 4);
 
 			if (isset(self::$objects->messages) == false)
 				self::$objects->messages = [];
@@ -138,11 +198,18 @@
 			if (self::hasMessages() == false)
 				return;
 
+			if( self::$verbosity < self::VERBOSITY_FULL )
+				return;
 
-			if (file_exists(SYSCRACK_ROOT . DEBUG_MESSAGES_FILE) == false)
-				self::checkDirectory();
+			if( self::session() )
+				$path = FileSystem::separate("data","cli", self::$session, "messages.json" );
+			else
+				$path = DEBUG_MESSAGES_FILE;
 
-			file_put_contents(SYSCRACK_ROOT . DEBUG_MESSAGES_FILE, json_encode(self::getMessages(), JSON_PRETTY_PRINT));
+			if (FileSystem::exists( $path ) == false)
+				self::checkDirectory( $path );
+
+			FileSystem::writeJson( $path, self::$objects->messages );
 		}
 
 		/**
@@ -155,13 +222,21 @@
 			if (DEBUG_ENABLED == false)
 				return;
 
-			if (self::hasTimers() == false)
+			if (self::hasMessages() == false)
 				return;
 
-			if (file_exists(SYSCRACK_ROOT . DEBUG_TIMERS_FILE) == false)
-				self::checkDirectory();
+			if( self::$verbosity < self::VERBOSITY_FULL )
+				return;
 
-			file_put_contents(SYSCRACK_ROOT . DEBUG_TIMERS_FILE, json_encode(self::getTimers(), JSON_PRETTY_PRINT));
+			if( self::session() )
+				$path = FileSystem::separate("data","cli", self::$session, "timers.json" );
+			else
+				$path = DEBUG_TIMERS_FILE;
+
+			if (FileSystem::exists( $path ) == false)
+				self::checkDirectory( $path );
+
+			FileSystem::writeJson( $path, self::$objects->timers );
 		}
 
 		/**
@@ -415,16 +490,18 @@
 		}
 
 		/**
-		 * @throws \Error
+		 * @param string $path
 		 */
 
-		private static function checkDirectory()
+		private static function checkDirectory( string $path )
 		{
 
-			$removed_filename = explode('/', DEBUG_MESSAGES_FILE);
+			$removed_filename = explode(DIRECTORY_SEPARATOR, $path );
 			array_pop($removed_filename);
 
-			$filename = implode("/", $removed_filename) . "/";
+			$filename = implode(DIRECTORY_SEPARATOR, $removed_filename) . DIRECTORY_SEPARATOR;
+
+			Debug::message("attempting to create: " . $filename . " from " . $path );
 
 			if (is_file(SYSCRACK_ROOT . $filename))
 				throw new \Error('Returned path is not a directory');

@@ -268,8 +268,8 @@
     //Debugging Options
     define("DEBUG_ENABLED", true ); //Will write debug messages and echo them inside the terminal instance
     define("DEBUG_WRITE_FILE", true );
-    define("DEBUG_MESSAGES_FILE", 'data/config/debug/messages.json');
-    define("DEBUG_TIMERS_FILE", 'data/config/debug/timers.json');
+    define("DEBUG_MESSAGES_FILE", 'data/cli/messages.json');
+    define("DEBUG_TIMERS_FILE", 'data/cli/timers.json');
 
     //Mailer
     define("MAILER_CONFIGURATION_FILE", "data/config/templates.json");

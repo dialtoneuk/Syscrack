@@ -1595,5 +1595,17 @@
         },
         "timestamp": 1559167130,
         "ip": "10.3.0.1"
+    },
+    {
+        "message": "Access to undeclared static property: Framework\\Syscrack\\Game\\Softwares\\AntiVirus::$computers",
+        "type": "rendererror",
+        "details": {
+            "url": "\/processes\/4\/complete",
+            "line": 92,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Syscrack\\Game\\Softwares\\AntiVirus.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Syscrack\\Game\\Operations\\Execute.php(82): Framework\\Syscrack\\Game\\Softwares\\AntiVirus->onExecuted('91', 11, 70)\n#1 [internal function]: Framework\\Syscrack\\Game\\Operations\\Execute->onCompletion(1559178898, 1559178897, 10, 11, 'execute', Array)\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Syscrack\\Game\\Operations.php(811): call_user_func_array(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Syscrack\\Game\\Operations.php(298): Framework\\Syscrack\\Game\\Operations->callProcessMethod(Object(Framework\\Syscrack\\Game\\Operations\\Execute), 'onCompletion', Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Processes.php(180): Framework\\Syscrack\\Game\\Operations->completeProcess('4')\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(202): Framework\\Views\\Pages\\Processes->completeProcess('4')\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#13 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#14 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(101): Flight::__callStatic('start', Array)\n#15 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(560): Framework\\Application->runFlight()\n#16 {main}"
+        },
+        "timestamp": 1559178899,
+        "ip": "10.3.0.1"
     }
 ]

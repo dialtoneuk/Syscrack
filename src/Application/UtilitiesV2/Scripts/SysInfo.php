@@ -120,7 +120,8 @@
 				" php version: " . PHP_VERSION,
 				" sapi: " . php_sapi_name(),
 				" cwd: " . getcwd(),
-				" syscrack root: " . SYSCRACK_ROOT
+				" syscrack root: " . SYSCRACK_ROOT,
+				" session: " . @Debug::$session
 			]);
 		}
 	}

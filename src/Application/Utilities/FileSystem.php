@@ -69,11 +69,13 @@
 			$result = "";
 
 			foreach ($paths as $value)
-				if ($value !== null)
+				if ($value !== null && is_string( $value ))
 					if (substr($value, -1) !== "\/" && self::hasFileExtension($value) == false)
 						$result = $result . $value . DIRECTORY_SEPARATOR;
 					else
 						$result = $result . $value;
+				elseif( is_array( $value ) )
+					continue;
 				else
 					$result = $result . $value;
 
@@ -120,11 +122,14 @@
 		 *
 		 * @param $file
 		 *
-		 * @param array $array
+		 * @param $array
 		 */
 
-		public static function writeJson($file, array $array = [])
+		public static function writeJson($file, $array=null )
 		{
+
+			if( is_object( $array ) == false && is_array( $array ) == false )
+				throw new ApplicationException("Invalid type given not an object or an array");
 
 			if (is_dir(self::getFilePath($file)))
 			{

@@ -24,10 +24,26 @@ class Reload extends Base
     public function execute($arguments)
     {
 
-    	Debug::echo("\nReloading instance...");
-	    Debug::echo(">>>---[END OF INSTANCE]--------------------[Terminated: " . date("j F Y c", time() ) . "]---<<<\n");
-	    Container::get('scripts')->terminal( "php -f execute.php");
-	    exit;
+	    if( Container::exist('scripts') == false )
+		    throw new \Error("Scripts global class does not exist");
+
+	    if( Container::exist('instance') == false )
+		    throw new \Error("Instance global class does not exist");
+
+	    /**
+	     * @var @scripts Scripts
+	     */
+	    $scripts = Container::get('scripts');
+
+	    /**
+	     * @var $instance Instance
+	     */
+	    $instance = Container::get('instance');
+
+	    $scripts->terminal( "php -f execute.php");
+	    $instance->exit();
+
+	    return parent::execute( $arguments );
     }
 
     /**

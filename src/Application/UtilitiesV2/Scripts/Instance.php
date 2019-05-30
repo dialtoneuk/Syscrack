@@ -9,6 +9,7 @@
 	 * Time: 15:57
 	 */
 
+	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Format;
@@ -44,6 +45,8 @@
 
 			//Sets the time limit to zero so you don't get booted off
 			set_time_limit(0);
+
+			parent::__construct();
 		}
 
 		/**
@@ -58,8 +61,14 @@
 			if (Container::exist("scripts") == false)
 				throw new \Error("Scripts does not exist");
 
+			if( Container::exist("instance" ) == false )
+				Container::add("instance", $this );
+
 			if ($this->scripts == null)
 				$this->refresh();
+
+			if( Debug::session() )
+				$this->session( Debug::$session );
 
 			if (self::$active_instance == true)
 				throw new \Error("cannot run two instances at once");
@@ -109,23 +118,19 @@
 			{
 
 				self::$active_instance = false;
-
 				$this->printError($exception);
-
 				Debug::echo("Restarting in 2 seconds...\n");
 				sleep(2);
-
 				$this->execute($arguments);
 			}
 			catch ( \RuntimeException $exception )
 			{
 
 				self::$active_instance = false;
-
 				$this->printRuntimeException($exception);
-
 				Debug::echo("Terminating instance in 2 seconds...\n");
 				sleep(2);
+				$this->exit();
 
 				return false;
 			}
@@ -137,6 +142,30 @@
 
 			self::$active_instance = false;
 			return parent::execute($arguments);
+		}
+
+		/**
+		 * @param $index
+		 */
+
+		public function session( $index )
+		{
+
+			if( FileSystem::exists( FileSystem::separate("data","cli","session.json") ) == false )
+				FileSystem::writeJson( FileSystem::separate("data","cli","session.json"), [ $index => [
+					'pid' => getmypid(),
+					'created' => time()
+				]]);
+			else
+			{
+
+				$data = FileSystem::readJson(  FileSystem::separate("data","cli","session.json") );
+				$data[ $index ] = [
+					'pid' => getmypid(),
+					'created' => time()
+				];
+				FileSystem::writeJson( FileSystem::separate("data","cli","session.json"), $data );
+			}
 		}
 
 		/**
@@ -223,7 +252,7 @@
 		 * @return bool
 		 */
 
-		private function canExit($input)
+		public function canExit($input)
 		{
 
 			return ($input == "exit" || $input == "e" || $input == "bye");
@@ -235,7 +264,7 @@
 		 * @return bool
 		 */
 
-		private function canRefresh($input)
+		public function canRefresh($input)
 		{
 
 			return ($input == "r" || $input == "refresh");
@@ -245,7 +274,7 @@
 		 * Refreshes the local instance
 		 */
 
-		private function refresh()
+		public function refresh()
 		{
 
 			Debug::echo("\n! Refreshing instance !\n");
@@ -258,13 +287,28 @@
 		 * Exits the instance
 		 */
 
-		private function exit()
+		public function exit()
 		{
 
+			if( Debug::session()  )
+				Debug::echo("---[Terminating " . Debug::$session . "]--------------------[Terminated: " . date("j F Y c", time() ) . "]---");
+			else
+				Debug::echo("---[End Of Instance]--------------------[Terminated: " . date("j F Y c", time() ) . "]---");
 
 			Debug::echo("\n");
-			Debug::echo(">>>---[END OF INSTANCE]--------------------[Terminated: " . date("j F Y c", time() ) . "]---<<<\n");
-			Debug::echo("\n");
+			Debug::stashMessages();
+			Debug::stashTimers();
+
+			if( Debug::session() )
+				if( FileSystem::exists( FileSystem::separate("data","cli","session.json") ) )
+				{
+
+					$data = FileSystem::readJson( FileSystem::separate("data","cli","session.json") );
+					if( isset( $data[ Debug::$session ] ) )
+						unset( $data[ Debug::$session ] );
+					FileSystem::writeJson( FileSystem::separate("data","cli","session.json"), $data );
+				}
+
 			exit(0);
 		}
 

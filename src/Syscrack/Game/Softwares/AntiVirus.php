@@ -89,7 +89,7 @@
 				);
 
 				parent::$software->deleteSoftware($virus->softwareid);
-				self::$computers->removeSoftware($computerid, $virus->softwareid);
+				self::$computer->removeSoftware($computerid, $virus->softwareid);
 			}
 
 			if (empty($results))

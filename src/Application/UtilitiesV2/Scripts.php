@@ -8,6 +8,7 @@
 
 	namespace Framework\Application\UtilitiesV2;
 
+	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\UtilitiesV2\Interfaces\Script;
 
 	class Scripts
@@ -55,6 +56,9 @@
 				if (Debug::isCMD() == false)
 					Debug::setCMD();
 
+			if( Debug::isCMD() )
+				Debug::verbosity( $this->verbosity() );
+
 			$this->constructor = new Constructor(SCRIPTS_ROOT, SCRIPTS_NAMESPACE);
 
 			if ($auto_create)
@@ -90,6 +94,37 @@
 
 			if (empty($this->constructor->getAll()))
 				throw new \Error("No scripts found");
+		}
+
+		/**
+		 * @param null $int
+		 *
+		 * @return int
+		 */
+
+		public function verbosity( $int=null )
+		{
+
+			if( $int !== null && is_int( $int ) )
+			{
+
+				FileSystem::writeJson( FileSystem::separate("data","cli","verbosity.json" ), ["verbosity" => $int ] );
+				return( $int );
+			}
+
+			if( FileSystem::exists( FileSystem::separate("data","cli","verbosity.json" ) ) == false )
+			{
+
+				FileSystem::writeJson( FileSystem::separate("data","cli","verbosity.json" ), ["verbosity" => 0 ] );
+				return( 0 );
+			}
+
+			$data = FileSystem::readJson( FileSystem::separate( "data","cli","verbosity.json" ) );
+
+			if( isset( $data["verbosity"] ) == false )
+				throw new \Error("Invalid Json: " . SYSCRACK_ROOT . FileSystem::separate(["data","cli","verbosity.json"] ) );
+			else
+				return( (int)$data["verbosity"] );
 		}
 
 		/**
