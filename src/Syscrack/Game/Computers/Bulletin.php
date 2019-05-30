@@ -24,8 +24,9 @@
 		{
 
 			return array(
-				'installable' => false,
-				'type' => 'bulletin'
+				'installable'   => false,
+				'type'          => 'bulletin',
+				'reloadable'    => true
 			);
 		}
 	}

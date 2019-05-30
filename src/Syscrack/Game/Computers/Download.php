@@ -32,8 +32,9 @@
 		{
 
 			return array(
-				'installable' => false,
-				'type' => 'download'
+				'installable'   => false,
+				'type'          => 'download',
+				'reloadable'    => true
 			);
 		}
 	}

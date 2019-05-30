@@ -23,7 +23,8 @@
 
 			return array(
 				'installable' => true,
-				'type' => 'fbi'
+				'type' => 'fbi',
+				'reloadable' => false,
 			);
 		}
 	}

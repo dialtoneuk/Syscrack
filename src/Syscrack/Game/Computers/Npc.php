@@ -37,7 +37,8 @@
 
 			return array(
 				'installable' => false,
-				'type' => 'npc'
+				'type' => 'npc',
+				'reloadable' => true
 			);
 		}
 

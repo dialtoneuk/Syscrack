@@ -68,7 +68,8 @@
 
 			return array(
 				'installable' => true,
-				'type' => 'vpc'
+				'type' => 'vpc',
+				'reloadable' => false,
 			);
 		}
 

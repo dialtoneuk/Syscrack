@@ -270,12 +270,11 @@
 
 		public static function getLine($prompt = "Enter")
 		{
-			echo($prompt . "\\\\: ");
 
-			$result = readline();
+			$result = readline( $prompt . "\\\\:$" );
 
-			if (empty($result))
-				throw new \Error("no input");
+			if( empty( $result ) )
+				throw new \RuntimeException("Invalid instance cannot read line?");
 
 			return ($result);
 		}

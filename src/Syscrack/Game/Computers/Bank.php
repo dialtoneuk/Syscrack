@@ -47,7 +47,8 @@
 
 			return array(
 				'installable' => false,
-				'type' => 'bank'
+				'type' => 'bank',
+				'reloadable' => true,
 			);
 		}
 

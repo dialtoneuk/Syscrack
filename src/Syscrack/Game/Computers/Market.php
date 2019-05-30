@@ -49,7 +49,8 @@
 
 			return array(
 				'installable' => false,
-				'type' => 'market'
+				'type' => 'market',
+				'reloadable' => true,
 			);
 		}
 

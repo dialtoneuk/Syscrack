@@ -24,6 +24,12 @@
 		public static $active_instance = false;
 
 		/**
+		 * @var string
+		 */
+
+		public static $raw_line = "";
+
+		/**
 		 * @var Scripts
 		 */
 
@@ -52,11 +58,11 @@
 			if (Container::exist("scripts") == false)
 				throw new \Error("Scripts does not exist");
 
-			if (self::$active_instance == true)
-				throw new \Error("cannot run two instances at once");
-
 			if ($this->scripts == null)
 				$this->refresh();
+
+			if (self::$active_instance == true)
+				throw new \Error("cannot run two instances at once");
 
 			$this->scripts->execute("sysinfo", false, true);
 			$this->setProcessWindow("Syscrack CLI", time());
@@ -64,11 +70,13 @@
 			try
 			{
 
-				self::$active_instance = true;
 				Debug::echo("type help for help, commands for a list of commands. exit or 'e' to exit.");
 
 				while ($input = Debug::getLine("execute"))
 				{
+
+					self::$active_instance = true;
+					self::$raw_line = $input;
 
 					$data = $this->parseInput($input);
 
@@ -96,7 +104,8 @@
 				}
 
 				$this->setProcessWindow(null, time());
-			} catch (\Error $exception)
+			}
+			catch (\Error $exception)
 			{
 
 				self::$active_instance = false;
@@ -107,12 +116,26 @@
 				sleep(2);
 
 				$this->execute($arguments);
-			} finally
+			}
+			catch ( \RuntimeException $exception )
+			{
+
+				self::$active_instance = false;
+
+				$this->printRuntimeException($exception);
+
+				Debug::echo("Terminating instance in 2 seconds...\n");
+				sleep(2);
+
+				return false;
+			}
+			finally
 			{
 
 				$this->setProcessWindow(null, time());
 			}
 
+			self::$active_instance = false;
 			return parent::execute($arguments);
 		}
 
@@ -168,7 +191,24 @@
 		private function printError(\Error $exception)
 		{
 
-			Debug::echo("\n[EXCEPTION] " . $exception->getMessage());
+			Debug::echo("\n[ERROR] " . $exception->getMessage());
+			Debug::echo(" in file " . $exception->getFile() . "[" . $exception->getLine() . "]");
+
+			Debug::echo("\nStack Trace\n");
+
+			foreach ($exception->getTrace() as $key => $trace)
+				Debug::echo(" " . $key . " : " . $trace["file"] . "[" . $trace["line"] . "]");
+		}
+
+		/**
+		 * @param \RuntimeException $exception
+		 */
+
+
+		private function printRuntimeException(\RuntimeException $exception)
+		{
+
+			Debug::echo("\n[CRITICAL RUNTIME EXCEPTION] " . $exception->getMessage());
 			Debug::echo(" in file " . $exception->getFile() . "[" . $exception->getLine() . "]");
 
 			Debug::echo("\nStack Trace\n");

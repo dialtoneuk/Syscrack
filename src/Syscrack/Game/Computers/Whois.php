@@ -27,7 +27,8 @@
 			return array(
 				'installable' => false,
 				'type' => 'whois',
-				'data' => true
+				'data' => true,
+				'reloadable' => true,
 			);
 		}
 

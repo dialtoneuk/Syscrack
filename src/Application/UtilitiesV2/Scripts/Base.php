@@ -21,6 +21,17 @@
 	{
 
 		/**
+		 * Base constructor.
+		 */
+
+		public function __construct()
+		{
+
+			if( Debug::isCMD() == false )
+				throw new \Error("Attempted to create script class when CMD mode is in inactive");
+		}
+
+		/**
 		 * @param $arguments
 		 *
 		 * @return bool
