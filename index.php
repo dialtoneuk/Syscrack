@@ -231,7 +231,7 @@
     //Auto Execute
     define("AUTOEXEC_ROOT", "src/Application/UtilitiesV2/AutoExecs/");
     define("AUTOEXEC_NAMESPACE", "Framework\\Application\\UtilitiesV2\\AutoExecs\\");
-    define("AUTOEXEC_SCRIPTS_ROOT","data/config/autoexec/");
+    define("AUTOEXEC_SCRIPTS_ROOT","resources/scripts/");
     define("AUTOEXEC_LOG_REFRESH", 12 ); //In hours
     define("AUTOEXEC_LOG_LOCATION","data/config/log/");
 
