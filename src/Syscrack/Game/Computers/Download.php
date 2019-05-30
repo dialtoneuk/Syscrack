@@ -34,7 +34,21 @@
 			return array(
 				'installable'   => false,
 				'type'          => 'download',
+				'data'          => true,
 				'reloadable'    => true
 			);
+		}
+
+		/**
+		 * @param $computerid
+		 * @param $userid
+		 *
+		 * @return array
+		 */
+
+		public function data($computerid, $userid)
+		{
+
+			return( ["downloads" => self::$software->getAnonDownloads( $computerid ) ]);
 		}
 	}

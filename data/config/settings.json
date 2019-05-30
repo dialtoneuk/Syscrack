@@ -208,7 +208,7 @@
     "syscrack_operations_clear_speed": 5.5,
     "syscrack_operations_default_processingtime": 10,
     "syscrack_operations_download_process": "download",
-    "syscrack_operations_global_speed": 30,
+    "syscrack_operations_global_speed": "2000",
     "syscrack_operations_hack_speed": 25,
     "syscrack_operations_research_speed": 4600,
     "syscrack_operations_view_process": "view",

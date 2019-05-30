@@ -23,13 +23,14 @@
                 <?php
             } else {
 
-                foreach ($downloads as $key=>$download) {
+                foreach ($downloads as $key=>$download)
+                {
 
 
 
                     ?>
                     <li class="list-group-item">
-                        <a href="/game/internet/<?= $ipaddress ?>/anondownload/<?= $download->softwareid ?>"><?= $download->softwarename . ' ' . $download->size . 'mb (' . $download->level . ')' ?></a>
+                        <a href="/game/internet/<?=$computer->ipaddress?>/anondownload/<?=$download->softwareid ?>"><?= $download->softwarename . ' ' . $download->size . 'mb (' . $download->level . ')' ?></a>
                     </li>
                     <?php
                 }

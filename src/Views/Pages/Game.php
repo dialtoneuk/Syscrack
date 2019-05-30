@@ -20,6 +20,8 @@
 	use Framework\Syscrack\Game\Log;
 	use Framework\Syscrack\Game\Metadata;
 	use Framework\Syscrack\Game\Operations;
+	use Framework\Syscrack\Game\SoftwareTypes;
+	use Framework\Syscrack\Game\Types;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
 	class Game extends BaseClass
@@ -50,6 +52,18 @@
 
 		protected static $finance;
 
+		/**
+		 * @var Types
+		 */
+
+		protected static $types;
+
+		/**
+		 * @var SoftwareTypes
+		 */
+
+		protected static $softwaretypes;
+
 
 		/**
 		 * Game constructor.
@@ -69,6 +83,12 @@
 
 			if (isset(self::$finance) == false)
 				self::$finance = new Finance();
+
+			if (isset(self::$softwaretypes) == false )
+				self::$softwaretypes = new SoftwareTypes();
+
+			if (isset(self::$types) == false )
+				self::$types = new Types();
 
 			parent::__construct(true, true, true, false);
 		}
@@ -368,20 +388,34 @@
 						$softwares = [];
 				}
 
+				if( self::$user->isAdmin( self::$session->userid() ) )
+					$softwaretypes = self::$softwaretypes->get();
+				else
+					$softwaretypes = [];
+
+				if( self::$user->isAdmin( self::$session->userid() ) )
+					$types = self::$types->get();
+				else
+					$types = [];
+
+				$data = array_merge($data, array('ipaddress' => $ipaddress,
+					'connection'        => $connection,
+					'computer'          => $computer,
+					'metadata'          => $metadata,
+					'downloads'         => $downloads,
+					'tools_software'    => $tools_software,
+					'softwares'         => $softwares,
+					'types'             => $types,
+					'softwaretypes'     => $softwaretypes,
+					'localsoftwares'    => self::$software->getSoftwareOnComputer(self::$computer->computerid())
+				));
+
 				if( empty( $metadata ) == false )
 					if( isset( $metadata->custom["browserpage"] ) )
 						@\Flight::render("resources/browser/" .  $metadata->custom["browserpage"], $data, 'browser_page');
 
 				$this->getRender('syscrack/page.game.internet',
-					array_merge($data, array('ipaddress' => $ipaddress,
-						'connection' => $connection,
-						'computer' => $computer,
-						'metadata' => $metadata,
-						'downloads' => $downloads,
-						'tools_software' => $tools_software,
-						'softwares' => $softwares,
-						'localsoftwares' => self::$software->getSoftwareOnComputer(self::$computer->computerid())
-					)),
+					$data,
 					true,
 					self::$session->userid(),
 					$computer->computerid);
@@ -540,7 +574,7 @@
 			else
 			{
 
-				$computer = self::$computer->getComputer(self::$computer->computerid());
+				$computer = self::$computer->getComputer( self::$computer->computerid() );
 
 				if (self::$operations->hasProcessClass($process) == false)
 					$this->formError('Error in action', $this->getRedirect($ipaddress));
@@ -548,8 +582,8 @@
 					$this->formError('Multiple actions running', $this->getRedirect($ipaddress));
 				else if (self::$operations->allowSoftware($process) == false)
 					$this->redirect($this->getRedirect($ipaddress) . $process);
-				else if ($ipaddress !== $computer->ipaddress && self::$operations->allowAnonymous($process) == false && self::$operations->allowLocal($process) == false)
-					$this->formError('Invalid permissions action', $this->getRedirect($ipaddress));
+				else if ($ipaddress != self::$internet->getCurrentConnectedAddress() && self::$operations->allowAnonymous($process) == false && self::$operations->allowLocal($process) == false)
+					$this->formError('Connection Invalid', $this->getRedirect($ipaddress));
 				else if (self::$operations->localOnly($process) && $ipaddress !== $computer->ipaddress)
 					$this->formError('Invalid permissions action', $this->getRedirect($ipaddress));
 				else if (self::$operations->requireLoggedIn($process) && self::$internet->getCurrentConnectedAddress() != $ipaddress)
@@ -588,7 +622,6 @@
 						if ($result == false)
 							return false;
 					}
-
 
 					$data = [];
 

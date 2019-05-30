@@ -81,26 +81,16 @@
 
 			$software = self::$software->getSoftware($data['softwareid']);
 
-			if (self::$viruses->isVirus($software->softwareid))
-			{
-
-				if ($software->userid == $userid)
-				{
-					if ($software->installed)
-						return false;
-					else
-						if (self::$software->canRemove($software->softwareid) == false)
-							return false;
-						else
-							return true;
-				}
-				else
+			if( $software->installed == false )
+				if (self::$viruses->isVirus($software->softwareid) && $software->userid !== $userid)
 					return false;
-			}
-			else if (self::$software->canRemove($software->softwareid))
-				return true;
+				elseif( self::$viruses->isVirus($software->softwareid) && $software->userid == $userid )
+					return true;
 
-			return false;
+			if(self::$software->canRemove($software->softwareid) == false )
+				return false;
+
+			return true;
 		}
 
 		/**

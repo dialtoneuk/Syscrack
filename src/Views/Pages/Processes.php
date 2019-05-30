@@ -57,9 +57,6 @@
 				],
 				[
 					'/processes/@processid/delete', 'deleteProcess'
-				],
-				[
-					'/processes/computer/@computerid/', 'machineProcess'
 				]
 			);
 		}
@@ -71,25 +68,27 @@
 		public function page()
 		{
 
-			$processes = self::$operations->getUserProcesses(Container::getObject('session')->userid());
+			$processes = self::$operations->getUserProcesses( self::$session->userid() );
 
 			if (empty($processes))
-			{
-
 				$array = [];
-			}
 			else
-			{
+				$array = $processes;
 
-				$array = array();
+			$computers = [];
+			$localprocesses = [];
 
-				foreach ($processes as $key => $value)
+			if( empty( $processes ) == false )
+				foreach( $processes as $value )
 				{
 
-					$array[$value->computerid][] = $value;
+					if( $value->computerid == self::$computer->computerid() )
+						$localprocesses[ $value->processid ] = $value;
+
+					$computers[ $value->computerid ] = self::$computer->getComputer( $value->computerid );
 				}
-			}
-			$this->getRender('syscrack/page.process', array('processes' => $array, 'operations' => self::$operations, 'computerid' => self::$computer->computerid()));
+
+			$this->getRender('syscrack/page.process', array('processes' => $array, 'localprocesses' => $localprocesses, 'computers' => $computers ), true, self::$session->userid(), self::$computer->computerid() );
 		}
 
 		/**
@@ -102,37 +101,25 @@
 		{
 
 			if (self::$operations->processExists($processid) == false)
-			{
-
-				$this->formError('This process does not exist');
-			}
+				$this->formError('Process not found');
 			else
 			{
 
 				$process = self::$operations->getProcess($processid);
 
-				if ($process->userid != Container::getObject('session')->userid())
-				{
+				if ($process->userid != self::$session->userid() )
+					$this->formError('Process not found');
+				elseif ($process->computerid != self::$computer->computerid() )
+					$this->formError('Process not found');
 
-					$this->formError('This process isnt yours');
-				}
 				else
-				{
-
-					if ($process->computerid != self::$computer->computerid())
-					{
-
-						$this->formError('You are connected as a different computer');
-					}
-					else
-					{
-
-						$this->getRender('syscrack/page.process.view', array('processid' => $processid, 'processclass' => self::$operations, 'auto' => true));
-					}
-				}
+					$this->getRender('syscrack/page.process.view', array('process' => $process, 'auto' => true) );
 			}
 		}
 
+		/**
+		 * @param $processid
+		 */
 
 		public function completeProcess($processid)
 		{
@@ -205,52 +192,19 @@
 		{
 
 			if (self::$operations->processExists($processid) == false)
-			{
-
 				$this->formError('This process does not exist');
-			}
 			else
 			{
-
 				$process = self::$operations->getProcess($processid);
 
 				if ($process->userid !== Container::getObject('session')->userid())
-				{
-
 					$this->formError('You do not own this process');
-				}
 
 				if ($process->computerid != self::$computer->computerid())
-				{
-
 					$this->formError('You need to currently be switched to the computer this process was initiated on');
-				}
-
 				self::$operations->deleteProcess($processid);
 
-				$this->formSuccess('processes/computer/' . self::$computer->computerid());
+				$this->formSuccess();
 			}
-		}
-
-		public function machineProcess($computerid)
-		{
-
-			if (self::$computer->computerExists($computerid) == false)
-			{
-
-				$this->redirect('This computer does not exist');
-			}
-
-			$computer = self::$computer->getComputer($computerid);
-
-			if ($computer->userid !== Container::getObject('session')->userid())
-			{
-
-				$this->redirect('Sorry, this computer is not yours, please try another one');
-			}
-
-			$processes = self::$operations->getComputerProcesses($computer->computerid);
-
-			$this->getRender('syscrack/page.process.machine', array('processes' => $processes, 'operations' => self::$operations, 'computerid' => $computerid, 'ipaddress' => $computer->ipaddress));
 		}
 	}

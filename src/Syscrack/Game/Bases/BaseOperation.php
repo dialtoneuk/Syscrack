@@ -14,6 +14,7 @@
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\ArrayHelper;
+	use Framework\Application\UtilitiesV2\Controller\FormMessage;
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\Computer;
 	use Framework\Syscrack\Game\Finance;
@@ -26,6 +27,8 @@
 	use Framework\Syscrack\Game\Utilities\TimeHelper;
 	use Framework\Syscrack\User;
 	use Illuminate\Support\Collection;
+	use Framework\Application\FormContainer;
+
 
 	class BaseOperation implements Operation
 	{
@@ -221,6 +224,27 @@
 				'elevated' => false,
 				'postrequirements' => []
 			);
+		}
+
+		/**
+		 * @param string $message
+		 */
+
+		public function formError($message = '')
+		{
+
+			FormContainer::add( new FormMessage( FORM_ERROR_GENERAL, $message, false ) );
+		}
+
+		/**
+		 * @param string $path
+		 * @param string $optional_message
+		 */
+
+		public function formSuccess($optional_message = '')
+		{
+
+			FormContainer::add( new FormMessage( FORM_MESSAGE_SUCCESS, $optional_message, true ) );
 		}
 
 		/**
