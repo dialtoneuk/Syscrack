@@ -457,18 +457,18 @@
 			if (self::$supressed)
 				return;
 
-			ob_start();
+			@ob_start();
 
 			if (is_array($message))
 				foreach ($message as $key => $value)
 					if (is_array($value))
 					{
-						ob_end_flush();
+						@ob_end_flush();
 						self::echo($value);
 					}
 					else
 					{
-						ob_end_flush();
+						@ob_end_flush();
 						self::echo($key . " => " . $value, $tabs);
 					}
 			else
@@ -498,7 +498,7 @@
 			}
 
 			$contents = ob_get_contents();
-			ob_end_flush();
+			@ob_end_flush();
 
 			self::$buffer .= $contents;
 		}

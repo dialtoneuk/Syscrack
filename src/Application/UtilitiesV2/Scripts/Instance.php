@@ -73,7 +73,7 @@
 			if (self::$active_instance == true)
 				throw new \Error("cannot run two instances at once");
 
-			$this->scripts->execute("sysinfo", false, true);
+			$this->scripts->execute("sysinfo", false, false);
 			$this->setProcessWindow("Syscrack CLI", time());
 
 			try
@@ -220,7 +220,7 @@
 		private function printError(\Error $exception)
 		{
 
-			Debug::echo("\n[ERROR] " . $exception->getMessage());
+			Debug::echo("\n[ERROR at " . Format::timestamp() . "] " . $exception->getMessage());
 			Debug::echo(" in file " . $exception->getFile() . "[" . $exception->getLine() . "]");
 
 			if( Debug::verbosity() >= Debug::VERBOSITY_ERRORS  )
@@ -241,7 +241,7 @@
 		private function printRuntimeException(\RuntimeException $exception)
 		{
 
-			Debug::echo("\n[CRITICAL RUNTIME EXCEPTION] " . $exception->getMessage());
+			Debug::echo("\n[CRITICAL RUNTIME EXCEPTION at " . Format::timestamp() . "] " . $exception->getMessage());
 			Debug::echo(" in file " . $exception->getFile() . "[" . $exception->getLine() . "]");
 
 			if( Debug::verbosity() >= Debug::VERBOSITY_ERRORS  )
@@ -299,9 +299,9 @@
 		{
 
 			if( Debug::session()  )
-				Debug::echo(" @[Terminating " . Debug::$session . "]--------------------[Terminated: " . date("j F Y c", time() ) . "]", 1);
+				Debug::echo(" @[Terminating " . Debug::$session . "]--------------------[Terminated: " . Format::timestamp() . "]", 1);
 			else
-				Debug::echo(" @[End Of Instance]--------------------[Terminated: " . date("j F Y c", time() ) . "]", 1);
+				Debug::echo(" @[End Of Instance]--------------------[Terminated: " . Format::timestamp() . "]", 1);
 
 			Debug::message("Ending instance and exiting PHP");
 

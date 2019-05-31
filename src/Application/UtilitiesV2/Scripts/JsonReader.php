@@ -27,13 +27,13 @@
 			if (count(explode(".", $arguments["file"])) == 1)
 				$arguments["file"] = $arguments["file"] . ".json";
 
-			if (file_exists(SYSCRACK_ROOT . "config/" . $arguments["file"]) == false)
+			if (file_exists(SYSCRACK_ROOT . "data/" . $arguments["file"]) == false)
 				throw new \Error("File does not exist");
 
 			if (Debug::isCMD())
 				Debug::echo("Opening file: " . $arguments["file"], 1);
 
-			$contents = file_get_contents(SYSCRACK_ROOT . "config/" . $arguments["file"]);
+			$contents = file_get_contents(SYSCRACK_ROOT . "data/" . $arguments["file"]);
 
 			if (Debug::isCMD())
 				Debug::echo($contents);

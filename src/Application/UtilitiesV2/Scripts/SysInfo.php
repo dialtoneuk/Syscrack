@@ -11,6 +11,7 @@
 
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Application\UtilitiesV2\Format;
 
 	class SysInfo extends Base
 	{
@@ -71,11 +72,10 @@
 
 				if (is_string($item) == false)
 					$string = print_r($item);
-
-				if (Debug::isSuppressed())
-					echo($item . "\n");
 				else
-					Debug::echo($item);
+					$string = $item;
+
+				Debug::echo($string);
 			}
 
 			$this->info = $this->default();
@@ -114,13 +114,16 @@
 		{
 
 			return ([
-				"[Syscrack CLI Instance]",
-				"Written by Lewis Lancaster (30/04/2019) in PHP 7\n",
-				"Server Info:\n",
+				"\n\nSyscrack Terminal Control Center (STCC)",
+				" - Written by Lewis Lancaster (30/04/2019) in PHP 7\n",
+				"Instance Info:\n",
 				" php version: " . PHP_VERSION,
 				" sapi: " . php_sapi_name(),
+				" pid: " . getmypid(),
+				" verbosity: " . Debug::verbosity(),
 				" cwd: " . getcwd(),
 				" syscrack root: " . SYSCRACK_ROOT,
+				" initialized: " . Format::timestamp(),
 				" session: " . @Debug::$session
 			]);
 		}

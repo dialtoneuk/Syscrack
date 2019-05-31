@@ -185,7 +185,7 @@
 					Debug::echo("");
 					Debug::echo($this->help($name));
 					Debug::echo("");
-					Debug::echo("! Please use 'help " . $name . "'' for more detail. !");
+					Debug::echo("! Please use 'help " . $name . " for more detail. !");
 
 					if ($exit)
 						exit(0);
@@ -329,14 +329,7 @@
 		public function terminal( $command )
 		{
 
-			$result = "";
-
-			if( function_exists('system') )
-				system( $command, $result );
-			elseif( function_exists('shell_exec') )
-				$result = shell_exec( $command );
-
-			return( $result );
+			return( shell_exec( $command ) );
 		}
 		/**
 		 * @param $script Script

@@ -40,7 +40,7 @@ class Reload extends Base
 	     */
 	    $instance = Container::get('instance');
 
-	    $scripts->terminal( "php -f execute.php");
+	    system( "php -f execute.php");
 
 	    Debug::echo("INSTANCE STILL ACTIVE! Self terminating instance [" . @Debug::$session . "]" );
 
