@@ -305,8 +305,10 @@
 
 			Debug::message("Ending instance and exiting PHP");
 
+			Debug::stashOutput();
 			Debug::stashMessages();
 			Debug::stashTimers();
+
 
 			if( Debug::session() )
 				if( FileSystem::exists( FileSystem::separate("data","cli","session.json") ) )

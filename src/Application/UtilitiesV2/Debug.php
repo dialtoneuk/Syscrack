@@ -33,6 +33,12 @@
 		protected static $verbosity = 0;
 
 		/**
+		 * @var string
+		 */
+
+		protected static $buffer = "";
+
+		/**
 		 * Verbosity consts
 		 */
 		const VERBOSITY_FULL = 2;
@@ -213,6 +219,30 @@
 		}
 
 		/**
+		 * Stashes the output
+		 */
+
+		public static function stashOutput()
+		{
+
+			if (DEBUG_ENABLED == false)
+				return;
+
+			if( empty( self::$buffer ) )
+				return;
+
+			if( self::session() )
+				$path = FileSystem::separate("data","cli", self::$session, "output.txt" );
+			else
+				$path = "data/cli/output.txt";
+
+			if (FileSystem::exists( $path ) == false)
+				self::checkDirectory( $path );
+
+			FileSystem::write( $path, self::$buffer );
+		}
+
+		/**
 		 * @throws \Error
 		 */
 
@@ -351,6 +381,8 @@
 			if( empty( $result ) )
 				throw new \RuntimeException("Your terminal does not allow for nested read line inputs. Please launch me again the slow way.");
 
+			self::$buffer .= $prompt . "\\\\:$" . addslashes( $result ) . "\n";
+
 			return ($result);
 		}
 
@@ -425,12 +457,20 @@
 			if (self::$supressed)
 				return;
 
+			ob_start();
+
 			if (is_array($message))
 				foreach ($message as $key => $value)
 					if (is_array($value))
+					{
+						ob_end_flush();
 						self::echo($value);
+					}
 					else
+					{
+						ob_end_flush();
 						self::echo($key . " => " . $value, $tabs);
+					}
 			else
 			{
 
@@ -441,19 +481,26 @@
 						$message = print_r($message);
 
 					echo($message . "\n");
-					return;
 				}
+				else
+				{
 
-				$prefix = "-";
+					$prefix = "-";
 
-				for ($i = 0; $i < $tabs; $i++)
-					$prefix = $prefix . "-";
+					for ($i = 0; $i < $tabs; $i++)
+						$prefix = $prefix . "-";
 
-				if ($tabs !== 1)
-					$prefix .= ">";
+					if ($tabs !== 1)
+						$prefix .= ">";
 
-				echo($prefix . " " . $message . "\n");
+					echo($prefix . " " . $message . "\n");
+				}
 			}
+
+			$contents = ob_get_contents();
+			ob_end_flush();
+
+			self::$buffer .= $contents;
 		}
 
 		/**
