@@ -14,6 +14,7 @@
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Bases\BaseOperation;
+	use Framework\Syscrack\Game\Preferences;
 
 	class Hack extends BaseOperation
 	{
@@ -25,6 +26,12 @@
 		protected static $addressdatabase;
 
 		/**
+		 * @var Preferences
+		 */
+
+		protected static $preferences;
+
+		/**
 		 * Hack constructor.
 		 */
 
@@ -33,6 +40,9 @@
 
 			if (isset(self::$addressdatabase) == false)
 				self::$addressdatabase = new AddressDatabase();
+
+			if( isset( self::$preferences ) == false )
+				self::$preferences = new Preferences();
 
 			parent::__construct();
 		}
@@ -66,6 +76,54 @@
 		}
 
 		/**
+		 * @param $timecompleted
+		 * @param $computerid
+		 * @param $userid
+		 * @param $process
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
+
+		public function onCreation( $timecompleted, $computerid, $userid, $process, array $data )
+		{
+
+			if( $this->checkData( $data, ["ipaddress"] ) == false )
+				return false;
+			else
+			{
+
+				$target = self::$internet->getComputer( $data["ipaddress"] );
+
+				if( self::$computer->hasType( $computerid, 'cracker') == false )
+					$this->formError("You need to install a cracker in order to hack into computers");
+				else
+				{
+
+					if( self::$preferences->hasSoftwarePreference( $userid, $computerid,'cracker') == false )
+						$cracker = $this->getHighestLevelSoftware( $computerid, 'cracker');
+					else
+						$cracker = self::$software->getSoftware( self::$preferences->getSoftwarePreference( $userid, $computerid,'cracker') );
+
+					if( self::$computer->hasType( $target->computerid, 'hasher') == false )
+						return true;
+					else
+					{
+
+						$hasher = $this->getHighestLevelSoftware( $target->computerid, 'hasher');
+
+						if( $hasher->level > $cracker->level )
+							return false;
+
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		/**
 		 * Called when this process request is created
 		 *
 		 * @param $timecompleted
@@ -81,6 +139,7 @@
 		 * @return mixed
 		 */
 
+		/**
 		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
 		{
 
@@ -119,6 +178,7 @@
 			else
 				return true;
 		}
+		 **/
 
 		/**
 		 * @param $timecompleted
@@ -137,19 +197,26 @@
 			if ($this->checkData($data, ['ipaddress']) == false)
 				throw new SyscrackException();
 
-
-			if (self::$internet->ipExists($data['ipaddress']) == false)
-				return false;
-
-			self::$addressdatabase->addAddress($data['ipaddress'], $userid);
-
-			if (Settings::setting('syscrack_statistics_enabled') == true)
-				self::$statistics->addStatistic('hacks');
-
-			if (isset($data['redirect']) == false)
-				return true;
+			if (self::$internet->ipExists($data['ipaddress']) == false )
+				$this->formError("Computer has changed IP Address");
 			else
-				return ($data['redirect']);
+			{
+
+				self::$addressdatabase->addAddress($data['ipaddress'], $userid);
+
+				//TODO: Rewrite statistics
+
+				/**
+				if (Settings::setting('syscrack_statistics_enabled') == true)
+					self::$statistics->addStatistic('hacks');
+				**/
+
+				if (isset($data['redirect']) == false)
+					return true;
+				else
+					return ($data['redirect']);
+			}
+
 		}
 
 		/**

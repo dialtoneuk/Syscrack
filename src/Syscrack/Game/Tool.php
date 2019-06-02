@@ -123,6 +123,13 @@
 			$this->requirements['type'] = $type;
 		}
 
+		public function preferenceType(string $type)
+		{
+
+			$this->requirements['preferencetype'] = $type;
+		}
+
+
 		public function hasSoftwareInstalled(string $type)
 		{
 

@@ -21,6 +21,7 @@
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Computer;
 	use Framework\Syscrack\Game\Internet;
+	use Framework\Syscrack\Game\Preferences;
 	use Framework\Syscrack\Game\Software;
 	use Framework\Syscrack\Game\Tool;
 	use Framework\Syscrack\Game\Finance;
@@ -88,6 +89,12 @@
 		protected static $finance;
 
 		/**
+		 * @var Preferences
+		 */
+
+		protected static $preferences;
+
+		/**
 		 * Page constructor.
 		 *
 		 * @param bool $autoload
@@ -120,6 +127,9 @@
 
 				if( isset( self::$finance ) == false )
 					self::$finance = new Finance();
+
+				if( isset( self::$preferences ) == false )
+					self::$preferences = new Preferences();
 			}
 
 			if (Settings::setting('render_mvc_output'))
@@ -401,6 +411,16 @@
 
 			if( isset( $array["cash"] ) == false && $userid !== null )
 				$array["cash"] = self::$finance->getTotalUserCash( $userid );
+
+			if( isset( $array["preferences"] ) == false && $userid !== null )
+				if( self::$preferences->has( $userid ) )
+				{
+
+					$preferences = self::$preferences->get( $userid );
+
+					if( isset( $preferences[ self::$computer->computerid() ] ) )
+						$array["preferences"] = $preferences[ self::$computer->computerid() ];
+				}
 
 			if( isset( $array["computer"] ) == false && $computerid !== null )
 				$array["computer"] = self::$computer->getComputer( $computerid );

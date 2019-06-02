@@ -49,6 +49,7 @@
 
 			$tool = new Tool('Hack');
 			$tool->setAction('hack');
+			$tool->preferenceType('cracker');
 			$tool->hacked();
 			$tool->hide();
 

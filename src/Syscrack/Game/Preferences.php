@@ -16,17 +16,21 @@
 
 		/**
 		 * @param int $userid
+		 * @param int $computerid
 		 * @param string $type
 		 *
 		 * @return null
 		 */
 
-		public function getSoftwarePreference( int $userid, string $type )
+		public function getSoftwarePreference( int $userid, int $computerid, string $type )
 		{
 
 			$data = $this->get( $userid );
 
-			foreach( $data as $key=>$datum )
+			if( isset( $data[ $computerid ] ) == false )
+				return null;
+
+			foreach( $data[ $computerid ]  as $key=>$datum )
 				if( $key == $type )
 					return $datum;
 
@@ -35,17 +39,21 @@
 
 		/**
 		 * @param int $userid
+		 * @param int $computerid
 		 * @param string $type
 		 *
 		 * @return bool
 		 */
 
-		public function hasSoftwarePreference( int $userid, string $type )
+		public function hasSoftwarePreference( int $userid, int $computerid, string $type )
 		{
 
 			$data = $this->get( $userid );
 
-			foreach( $data as $key=>$datum )
+			if( isset( $data[ $computerid ] ) == false )
+				return false;
+
+			foreach( $data[ $computerid ] as $key=>$datum )
 				if( $key == $type )
 					return true;
 
@@ -54,10 +62,11 @@
 
 		/**
 		 * @param int $userid
+		 * @param int $computerid
 		 * @param array $object
 		 */
 
-		public function add( int $userid, array $object )
+		public function add( int $userid, int $computerid, array $object )
 		{
 
 			if( $this->has( $userid ) == false )
@@ -65,24 +74,31 @@
 			else
 				$data = $this->get( $userid );
 
+			if( isset( $data[ $computerid ] ) == false )
+				$data[ $computerid ] = [];
+
 			$keys = array_keys( $object );
-			$data[ $keys[0] ] = reset( $object );
+			$data[ $computerid ][ $keys[0] ] = reset( $object );
 			$this->set( $userid, $data );
 		}
 
 		/**
 		 * @param int $userid
+		 * @param int $computerid
 		 * @param string $type
 		 */
 
-		public function remove( int $userid, string $type )
+		public function remove( int $userid, int $computerid, string $type )
 		{
 
 			$data = $this->get( $userid );
 
-			foreach( $data as $key=>$datum )
+			if( isset( $data[ $computerid ] ) == false )
+				return;
+
+			foreach( $data[ $computerid ] as $key=>$datum )
 				if( $key == $type )
-					unset( $data[ $key ] );
+					unset( $data[ $computerid ][ $key ] );
 
 			$this->set( $userid, $data );
 		}

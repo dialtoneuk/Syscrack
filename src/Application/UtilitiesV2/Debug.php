@@ -231,6 +231,9 @@
 			if( empty( self::$buffer ) )
 				return;
 
+			if( self::$verbosity < self::VERBOSITY_ERRORS )
+				return;
+
 			if( self::session() )
 				$path = FileSystem::separate("data","cli", self::$session, "output.txt" );
 			else

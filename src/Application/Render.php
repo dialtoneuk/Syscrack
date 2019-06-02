@@ -12,8 +12,8 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
+	use Framework\Syscrack\Game\Preferences;
 	use Framework\Syscrack\Game\Themes;
-
 
 	/**
 	 * Class Render
@@ -42,6 +42,12 @@
 		public static $themes;
 
 		/**
+		 * @var Preferences
+		 */
+
+		protected static $preferences;
+
+		/**
 		 * Renders a template, takes a model if the mode is MVC
 		 *
 		 * @param $template
@@ -56,6 +62,9 @@
 
 			if( isset( self::$themes ) == false )
 				self::$themes = new Themes();
+
+			if( isset( self::$preferences ) == false )
+				self::$preferences  = new Themes();
 
 			if (Settings::setting('render_log'))
 				self::$stack[] = [
