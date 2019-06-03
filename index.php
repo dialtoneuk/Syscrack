@@ -10,7 +10,7 @@
 	 * information as well as FAQ on what exactly you can do with this code. Please visit
 	 * the github and read the license at:-
 	 *
-	 *        https://github.com/dialtoneuk/syscrack-prototype/blob/master/LICENSE
+	 *              https://github.com/dialtoneuk/syscrack/blob/master/LICENSE
 	 * [==================================================================================]
 	 */
 
@@ -21,7 +21,6 @@
 			. "\n composer install --profile");
 
 //<editor-fold defaultstate="collapsed" desc="Application Root">
-
     use Framework\Application\UtilitiesV2\Debug;
 
     if( Debug::isPHPUnitTest() == false )
@@ -39,15 +38,10 @@
             die('Please upgrade to PHP 7.0.0+ to run this web application. Your current PHP version is ' . PHP_VERSION );
     }
     else
-    {
-
-        //Maybe we are PHP Unit
         $root = PHPUNIT_ROOT;
-    }
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Application Globals">
-
     /**
      * Written by Lewis 'mkultra2018' Lancaster
      * in 2017 (March to May), 2018 (March to May), 2019 (May-Present)
@@ -106,12 +100,12 @@
     define("UPLOADS_ERROR_TOO_LARGE", 4 );
     define("UPLOADS_ERROR_CANCELLED", 5 );
 
-
+	//Scripts
     define("SCRIPTS_ROOT","src/Application/UtilitiesV2/Scripts/");
     define("SCRIPTS_NAMESPACE", "Framework\\Application\\UtilitiesV2\\Scripts\\");
     define("SCRIPTS_REQUIRE_CMD", true );
 
-    //ffmeg
+    //FFMPEG
     define("FFMPEG_CONFIG_FILE","data/config/ffmpeg.json");
 
     //Verification
@@ -133,11 +127,9 @@
     define("AMAZON_LOCATION_EU_WEST_2", "eu-west-2");
     define("AMAZON_LOCATION_EU_CENTRAL", "eu-central-1");
 
-    //Google recaptcha
+    //Google
     define("GOOGLE_RECAPTCHA_ENABLED", false );
     define("GOOGLE_RECAPTCHA_CREDENTIALS", "data/config/google_recaptcha.json" );
-
-    //Google Cloud Storage
     define("GOOGLE_CLOUD_CREDENTIALS",  "data/config/storage/google.json");
 
     //Cloud Storage
@@ -193,7 +185,6 @@
     define("FORM_DATA", "data");
 
     //Resource combiner
-
     define("RESOURCE_COMBINER_ROOT", "data/config/");
     define("RESOURCE_COMBINER_CHMOD", true );
     define("RESOURCE_COMBINER_CHMOD_PERM", 0755 );
@@ -327,11 +318,9 @@
 
     //CLI
 	define("CLI_DEFAULT_COMMAND","instance");
-
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Initialization">
-
 	if( php_sapi_name() === 'cli' && Debug::isCMD() == false )
 		die('It seems you have tried to execute index.php inside a terminal. Congratulations. Please run execute.php instead.'
 			. "<br>If you require documentation and tutorials on how to use our fancy terminal instance. Please read the wiki on our official github."
@@ -347,6 +336,7 @@
             . "<br><br>https://github.com/dialtoneuk/syscrack"
         );
 
+    //Okay great lets try and use these classes and assume the user knows composer
     use Framework\Application;
     use Framework\Application\Settings;
     use Framework\Application\Utilities\FileSystem;
@@ -361,10 +351,7 @@
 	        . "<br><br>https://github.com/dialtoneuk/syscrack"
         );
 
-    /**
-    * Starts the application
-    */
-
+    //Initialize
     try
     {
 
