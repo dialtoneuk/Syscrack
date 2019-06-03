@@ -261,6 +261,8 @@
 		 *
 		 * @param $targetid
 		 *
+		 * @param null $itemid
+		 *
 		 * @return bool
 		 */
 

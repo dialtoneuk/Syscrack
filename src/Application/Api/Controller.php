@@ -78,6 +78,7 @@
 		 * @param $method
 		 *
 		 * @return mixed
+		 * @throws \ReflectionException
 		 */
 
 		public function processEndpoint($endpoint, $method)
@@ -148,6 +149,7 @@
 		 * @param $method
 		 *
 		 * @return bool
+		 * @throws \ReflectionException
 		 */
 
 		public function isMethodSafe(Endpoint $endpoint, $method)

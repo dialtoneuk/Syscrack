@@ -120,7 +120,7 @@
 		 *
 		 * @param $sessionid
 		 *
-		 * @param $array
+		 * @param $values
 		 */
 
 		public function updateSession($sessionid, $values)

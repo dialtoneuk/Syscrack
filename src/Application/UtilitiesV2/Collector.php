@@ -2,6 +2,12 @@
 
 	namespace Framework\Application\UtilitiesV2;
 
+	use Framework\Application;
+
+	/**
+	 * Class Collector
+	 * @package Framework\Application\UtilitiesV2
+	 */
 
 	class Collector
 	{
@@ -19,7 +25,7 @@
 		public static function initialize()
 		{
 
-			if (DEBUG_ENABLED)
+			if ( Application::globals()->DEBUG_ENABLED )
 				Debug::message("Collector intialized");
 
 			self::$classes = [];
@@ -40,7 +46,7 @@
 				throw new \Error("Initialize first");
 
 			if ($namespace == null)
-				$namespace = COLLECTOR_DEFAULT_NAMESPACE;
+				$namespace = Application::globals()->COLLECTOR_DEFAULT_NAMESPACE;
 
 			if (self::exists($namespace, $class) == false)
 				throw new \Error("Namespace does not exist: " . $namespace . $class);
@@ -77,7 +83,7 @@
 				throw new \Error("Initialize first");
 
 			if ($namespace == null)
-				$namespace = COLLECTOR_DEFAULT_NAMESPACE;
+				$namespace = Application::globals()->COLLECTOR_DEFAULT_NAMESPACE;
 
 			return (self::$classes[$namespace . $class]);
 		}
@@ -98,7 +104,7 @@
 				throw new \Error("Initialize first");
 
 			if ($namespace == null)
-				$namespace = COLLECTOR_DEFAULT_NAMESPACE;
+				$namespace = Application::globals()->COLLECTOR_DEFAULT_NAMESPACE;
 
 			if (isset(self::$classes->$as))
 				throw new \Error("Class already exists");

@@ -14,7 +14,6 @@
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Bases\BaseOperation;
-	use Framework\Syscrack\Game\Preferences;
 
 	class Hack extends BaseOperation
 	{

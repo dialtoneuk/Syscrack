@@ -87,18 +87,17 @@
 			}
 
 			if (self::$finance->accountNumberExists($data['custom']['accountnumber']) == false)
+				$this->redirect( $this->getRedirect($data['ipaddress'] ) );
+			else
 			{
 
-				$this->redirectError('Account does not exist', $this->getRedirect($data['ipaddress']));
+				$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
+
+				if (self::$finance->canAfford($account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price')) == false)
+					$this->redirect( $this->getRedirect($data['ipaddress'] ) );;
 			}
 
-			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
 
-			if (self::$finance->canAfford($account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price')) == false)
-			{
-
-				$this->redirectError('You cannot afford this transaction');
-			}
 
 			return true;
 		}
@@ -110,6 +109,8 @@
 		 * @param $userid
 		 * @param $process
 		 * @param array $data
+		 *
+		 * @return bool|mixed
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -130,7 +131,8 @@
 			if (self::$finance->accountNumberExists($data['custom']['accountnumber']) == false)
 			{
 
-				$this->redirectError('Account does not exist, maybe it has been deleted?', $this->getRedirect($data['ipaddress']));
+				$this->redirect($this->getRedirect($data['ipaddress']));
+				return false;
 			}
 
 			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
@@ -138,7 +140,8 @@
 			if (self::$finance->canAfford($account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price')) == false)
 			{
 
-				$this->redirectError('You cannot afford this transaction');
+				$this->redirect($this->getRedirect($data['ipaddress']));
+				return false;
 			}
 
 			self::$finance->withdraw($account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price'));
@@ -149,7 +152,10 @@
 				self::$computer->computerid(),
 				'localhost');
 
-			$this->redirectSuccess($this->getRedirect($data['ipaddress']));
+			if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
 		}
 
 		/**

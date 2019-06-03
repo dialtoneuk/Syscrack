@@ -20,11 +20,17 @@
 
 		protected static $themes;
 
+		/**
+		 * Theme constructor.
+		 */
+
 		public function __construct()
 		{
 
 			if( isset( self::$themes ) == false )
 				self::$themes = new Themes( true );
+
+			parent::__construct();
 		}
 
 		/**

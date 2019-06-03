@@ -8,6 +8,7 @@
 
 	namespace Framework\Application\UtilitiesV2;
 
+	use Framework\Application;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\UtilitiesV2\Interfaces\Script;
 
@@ -45,21 +46,21 @@
 		{
 
 			if (count($arguments) < 2)
-				throw new \Error("Invalid argument count");
+				throw new \Error("Invalid argument count: " . print_r( $arguments ));
 
 			//Unsets the file, leaving the first element the script
 			array_shift($arguments);
 			$this->script = $arguments[0];
 			$this->arguments = $arguments;
 
-			if (SCRIPTS_REQUIRE_CMD)
+			if ( Application::globals()->SCRIPTS_REQUIRE_CMD)
 				if (Debug::isCMD() == false)
 					Debug::setCMD();
 
 			if( Debug::isCMD() )
 				Debug::verbosity( $this->verbosity() );
 
-			$this->constructor = new Constructor(SCRIPTS_ROOT, SCRIPTS_NAMESPACE);
+			$this->constructor = new Constructor(Application::globals()->SCRIPTS_ROOT, Application::globals()->SCRIPTS_NAMESPACE);
 
 			if ($auto_create)
 				$this->create();
@@ -298,10 +299,10 @@
 		public function scripts()
 		{
 
-			$directory = new DirectoryOperator(SCRIPTS_ROOT);
+			$directory = new DirectoryOperator(Application::globals()->SCRIPTS_ROOT);
 
 			if ($directory->isEmpty())
-				throw new \Error("Invalid directory: " . SCRIPTS_ROOT);
+				throw new \Error("Invalid directory: " . Application::globals()->SCRIPTS_ROOT);
 
 			$result = $directory->omit($directory->search([".php"]));
 			$names = [];
@@ -311,7 +312,7 @@
 
 				$name = explode(".", $value)[0];
 
-				if (strtolower($name) == FRAMEWORK_BASECLASS)
+				if (strtolower($name) == Application::globals()->FRAMEWORK_BASECLASS)
 					continue;
 
 				$names[] = strtolower($name);
@@ -403,13 +404,4 @@
 			return ($result);
 		}
 
-		/**
-		 * @return bool
-		 */
-
-		private function hasCreate()
-		{
-
-			return (empty($this->constructor->getAll()));
-		}
 	}

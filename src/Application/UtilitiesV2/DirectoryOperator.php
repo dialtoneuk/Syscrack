@@ -171,7 +171,7 @@
 				foreach ($extension as $item)
 				{
 
-					if (str_contains($content, $item))
+					if (strpos($content, $item) !== false )
 						$results[] = $content;
 				}
 			}

@@ -9,6 +9,7 @@
 	namespace Framework\Application\UtilitiesV2\AutoExecs;
 
 
+	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Format;
@@ -29,16 +30,16 @@
 		public function __construct()
 		{
 
-			if (file_exists(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION) == false)
+			if (file_exists(SYSCRACK_ROOT . Application::globals()->Application::globals()->AUTOEXEC_LOG_LOCATION) == false)
 				throw new \Error("Please run auto migrate");
 
-			if (file_exists(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json") == false)
+			if (file_exists(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION . "config.json") == false)
 				throw new \Error("Please run auto migrate");
 
 			$this->getConfig();
 
-			if (file_exists(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json") == false)
-				file_put_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json", json_encode(["created" => time()]));
+			if (file_exists(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json") == false)
+				file_put_contents(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json", json_encode(["created" => time()]));
 
 			parent::__construct();
 		}
@@ -60,7 +61,7 @@
 					$data["message"] = false;
 
 			if (isset($data["type"]) == false)
-				$data["type"] = LOG_TYPE_DEFAULT;
+				$data["type"] = Application::globals()->LOG_TYPE_DEFAULT;
 
 			$values = $this->read();
 
@@ -95,7 +96,7 @@
 		{
 
 			if ($this->cache == null)
-				$this->cache = json_decode(file_get_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json"), true);
+				$this->cache = json_decode(file_get_contents(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json"), true);
 
 			return ($this->cache);
 		}
@@ -107,7 +108,7 @@
 		private function updateConfig($file)
 		{
 
-			file_put_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json", json_encode(["file" => $file]));
+			file_put_contents(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION . "config.json", json_encode(["file" => $file]));
 		}
 
 		/**
@@ -117,7 +118,7 @@
 		private function getConfig()
 		{
 
-			$this->config = json_decode(file_get_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json"), true);
+			$this->config = json_decode(file_get_contents(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION . "config.json"), true);
 		}
 
 		/**
@@ -130,13 +131,13 @@
 			if ($this->cache == null)
 				$this->read();
 
-			if ($this->cache["created"] < time() - (60 * 60 * AUTOEXEC_LOG_REFRESH))
+			if ($this->cache["created"] < time() - (60 * 60 * Application::globals()->AUTOEXEC_LOG_REFRESH))
 			{
 
 				$this->updateConfig(time());
 				$this->read();
 			}
 
-			file_put_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json", json_encode($values));
+			file_put_contents(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION . $this->config["file"] . ".json", json_encode($values));
 		}
 	}

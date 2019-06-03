@@ -405,23 +405,4 @@
 			return $number;
 		}
 
-		/**
-		 * Returns true if the comptuer id is a bank
-		 *
-		 * @param $computerid
-		 *
-		 * @return bool
-		 */
-
-		private function isBank($computerid)
-		{
-
-			if ($this->computers->getComputer($computerid)->type != Settings::setting('syscrack_computers_bank_type'))
-			{
-
-				return false;
-			}
-
-			return true;
-		}
 	}

@@ -170,7 +170,7 @@
 					unset($this->riddles[$riddleid]);
 				}
 
-				$this->saveRiddles();
+				$this->saveRiddles( $this->riddles );
 			}
 		}
 

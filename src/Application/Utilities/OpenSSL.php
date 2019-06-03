@@ -18,7 +18,7 @@
 			return base64_encode(openssl_encrypt($data, $cipher, $key, 0, $iv));
 		}
 
-		public function encryptArray($array = [], $key, $iv, $cipher = 'AES-128-CBC')
+		public function encryptArray($array = [], $key="", $iv="", $cipher = 'AES-128-CBC')
 		{
 
 			if (empty($array))
@@ -70,7 +70,7 @@
 			return openssl_decrypt(base64_decode($data), $cipher, $key, $options = OPENSSL_RAW_DATA, $iv);
 		}
 
-		public function decryptArray($array = [], $key, $iv, $cipher = 'AES-128-CBC')
+		public function decryptArray($array = [], $key="", $iv="", $cipher = 'AES-128-CBC')
 		{
 
 			if (empty($array))

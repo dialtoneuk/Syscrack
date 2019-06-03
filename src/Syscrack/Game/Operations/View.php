@@ -110,6 +110,8 @@
 				'data' => json_decode($software->data),
 				'softwaredata' => self::$software->getSoftwareData($data['softwareid'])
 			), true);
+
+			return( true );
 		}
 
 		/**

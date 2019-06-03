@@ -30,6 +30,7 @@
 		{
 
 			$this->info = $this->default();
+			parent::__construct();
 		}
 
 		/**
@@ -42,7 +43,7 @@
 		{
 
 			//Push some lines onto the stack which are only excessible when we execute
-			array_push($this->info, " loaded scripts: " . count(Container::get("scripts")->scripts()));
+			array_push($this->info, " loaded scripts: " . count(Container::get("application")->getScripts()->scripts() ));
 
 			$keys = array_keys($arguments);
 

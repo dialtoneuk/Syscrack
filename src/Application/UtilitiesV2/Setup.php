@@ -22,7 +22,7 @@
 		 * @param bool $auto_create
 		 */
 
-		public function __construct($filepath = SETUP_ROOT, $namespace = SETUP_NAMESPACE, bool $auto_create = true)
+		public function __construct($filepath, $namespace, bool $auto_create = true)
 		{
 
 			parent::__construct($filepath, $namespace, $auto_create);

@@ -79,9 +79,9 @@
 			if (is_array($result) == false)
 				throw new \Error("Result is not an array " . $database);
 
-			$result = array_push($result, $array);
+			array_push($result, $array);
 
-			if (count($result) < Settings::setting("search_entry_max"))
+			if (count( $result ) < Settings::setting("search_entry_max"))
 				throw new \Error("Search entry hit max");
 
 

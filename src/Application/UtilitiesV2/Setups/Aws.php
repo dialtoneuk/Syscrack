@@ -8,6 +8,12 @@
 
 	namespace Framework\Application\UtilitiesV2\Setups;
 
+	use Framework\Application;
+
+	/**
+	 * Class Aws
+	 * @package Framework\Application\UtilitiesV2\Setups
+	 */
 
 	class Aws extends Base
 	{
@@ -20,7 +26,7 @@
 		public function __construct()
 		{
 
-			if ($this->exists(AMAZON_CREDENTIALS_FILE) == false)
+			if ($this->exists(Application::globals()->AMAZON_CREDENTIALS_FILE) == false)
 				throw new \Error("File does not exist");
 
 			parent::__construct();
@@ -38,7 +44,7 @@
 				"secret"
 			]);
 
-			$this->write(AMAZON_CREDENTIALS_FILE, $inputs);
+			$this->write(Application::globals()->AMAZON_CREDENTIALS_FILE, $inputs);
 
 			return parent::process();
 		}

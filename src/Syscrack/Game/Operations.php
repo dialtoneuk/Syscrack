@@ -17,6 +17,7 @@
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Interfaces\Operation;
+	use Framework\Application\Container;
 
 	class Operations
 	{
@@ -49,14 +50,11 @@
 		{
 
 			$this->factory = new Factory("Framework\\Syscrack\\Game\\Operations\\");
-
 			$this->database = new Database();
 
 			if ($autoload)
-			{
-
 				$this->getProcessesClasses();
-			}
+
 		}
 
 		/**
@@ -127,6 +125,9 @@
 		 * @param $computerid
 		 *
 		 * @param $process
+		 *
+		 * @param $ipaddress
+		 * @param null $softwareid
 		 *
 		 * @return bool
 		 */
@@ -373,6 +374,8 @@
 		{
 
 			return $this->factory->findClass($process);
+
+			return null;
 		}
 
 		/**
@@ -567,6 +570,8 @@
 		 *
 		 * @param $process
 		 *
+		 * @param $ipaddress
+		 * @param $userid
 		 * @return array
 		 */
 
@@ -782,18 +787,14 @@
 		}
 
 		/**
-		 * Calls a method inside the process class
-		 *
 		 * @param Operation $process
-		 *
 		 * @param string $method
-		 *
 		 * @param array $data
 		 *
 		 * @return mixed
 		 */
 
-		private function callProcessMethod(Operation $process, $method = 'onCreation', array $data)
+		private function callProcessMethod(Operation $process, $method, array $data)
 		{
 
 			if ($process instanceof Operation === false)
@@ -812,10 +813,7 @@
 		}
 
 		/**
-		 * Returns true if the function is callable
-		 *
 		 * @param $process
-		 *
 		 * @param $method
 		 *
 		 * @return bool
@@ -824,7 +822,14 @@
 		private function isCallable($process, $method)
 		{
 
-			$class = new \ReflectionClass($process);
+			try
+			{
+				$class = new \ReflectionClass($process);
+			}
+			catch (\ReflectionException $e)
+			{
+
+			}
 
 			if (empty($class))
 			{
@@ -869,6 +874,8 @@
 
 				$this->factory->createClass(FileSystem::getFileName($file));
 			}
+
+			return( $this->factory->getAllClasses() );
 		}
 
 	}

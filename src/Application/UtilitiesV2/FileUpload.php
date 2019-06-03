@@ -13,11 +13,8 @@
 	use Delight\FileUpload\Throwable\Error;
 	use Delight\FileUpload\Throwable\FileTooLargeException;
 	use Delight\FileUpload\Throwable\InputNotFoundException;
-	use Delight\FileUpload\Throwable\InputNotSpecifiedError;
 	use Delight\FileUpload\Throwable\InvalidExtensionException;
-	use Delight\FileUpload\Throwable\TempDirectoryNotFoundError;
-	use Delight\FileUpload\Throwable\TempFileWriteError;
-	use Delight\FileUpload\Throwable\UploadCancelledError;
+	use Delight\FileUpload\Throwable\InvalidFilenameException;
 	use Delight\FileUpload\Throwable\UploadCancelledException;
 
 	class FileUpload
@@ -42,13 +39,18 @@
 		 * @param string $upload_key
 		 */
 
-		public function __construct($temporary_directory = UPLOADS_TEMPORARY_DIRECTORY, $upload_key = UPLOADS_POST_KEY)
+		public function __construct($temporary_directory, $upload_key)
 		{
 
 			if (self::hasLastError())
 				self::setLastError();
 
-			$this->delight = new Delight();
+			try
+			{
+				$this->delight = new Delight();
+			} catch (Error $e)
+			{
+			}
 			$this->delight->withTargetDirectory($temporary_directory);
 			$this->delight->from($upload_key);
 		}
@@ -81,33 +83,18 @@
 			try
 			{
 				$result = $this->delight->save();
-			} catch (InputNotSpecifiedError $e)
-			{
-				self::setLastError($e);
-			} catch (TempDirectoryNotFoundError $e)
-			{
-				self::setLastError($e);
-			} catch (TempFileWriteError $e)
-			{
-				self::setLastError($e);
-			} catch (UploadCancelledError $e)
-			{
-				self::setLastError($e);
 			} catch (Error $e)
 			{
-				self::setLastError($e);
 			} catch (FileTooLargeException $e)
 			{
-				self::setLastError($e);
 			} catch (InputNotFoundException $e)
 			{
-				self::setLastError($e);
 			} catch (InvalidExtensionException $e)
 			{
-				self::setLastError($e);
+			} catch (InvalidFilenameException $e)
+			{
 			} catch (UploadCancelledException $e)
 			{
-				self::setLastError($e);
 			}
 
 			if (self::hasLastError())

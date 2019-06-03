@@ -160,6 +160,8 @@
 		/**
 		 * Gets a computers type
 		 *
+		 * @param $computerid
+		 *
 		 * @return mixed
 		 */
 

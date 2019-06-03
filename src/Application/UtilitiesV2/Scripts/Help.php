@@ -60,6 +60,8 @@
 				"  resources" => 0,
 				" The syntax for arguments is eactly the same when in instance mode, minus php -f cmd/execute.php\n" => 0,
 			];
+
+			parent::__construct();
 		}
 
 		/**

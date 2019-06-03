@@ -13,6 +13,7 @@
 	use Framework\Application\UtilitiesV2\Makers;
 	use Framework\Application\UtilitiesV2\TokenReader;
 	use Framework\Application\Settings;
+	use Framework\Application;
 
 	class Make extends Base
 	{
@@ -21,7 +22,20 @@
 		 * @var Makers
 		 */
 
-		protected $makers;
+		protected static $makers;
+
+		/**
+		 * Make constructor.
+		 */
+
+		public function __construct()
+		{
+
+			if( isset( self::$makers ) )
+				self::$makers = new Makers();
+
+			parent::__construct();
+		}
 
 		/**
 		 * @param $arguments
@@ -33,8 +47,7 @@
 		public function execute($arguments)
 		{
 
-			$this->makers = new Makers();
-
+			
 			$keys = array_keys($arguments);
 
 			if (isset($keys[0]) == false)
@@ -47,10 +60,10 @@
 
 			array_shift($arguments);
 
-			if ($this->makers->exist($class_name) == false)
+			if (self::$makers->exist($class_name) == false)
 				throw new \Error("script does not exist: " . $class_name);
 
-			$required = $this->makers->getRequiredTokens($class_name);
+			$required = self::$makers->getRequiredTokens($class_name);
 
 			if (empty($required) == false)
 			{
@@ -107,7 +120,7 @@
 			try
 			{
 
-				$result = $this->makers->process($tokens, ucfirst( $class_name ), $path);
+				$result = self::$makers->process($tokens, ucfirst( $class_name ), $path);
 
 				if (empty($result) || $result == null)
 					throw new \Exception("object passed was null but file could have still been made");
@@ -133,16 +146,16 @@
 		{
 
 			$array = [
-				"controller" => MVC_NAMESPACE . "Controllers",
-				"model" => MVC_NAMESPACE . "Models",
-				"view" => MVC_NAMESPACE . "Views",
-				"script" => SYSCRACK_NAMESPACE_ROOT . "Application\\UtilitiesV2\\Scripts",
-				"convention" => SYSCRACK_NAMESPACE_ROOT . "Application\\UtilitiesV2\\Conventions",
-				"page" => SYSCRACK_NAMESPACE_ROOT . "Views\\Pages",
+				"controller" => Application::globals()->MVC_NAMESPACE . "Controllers",
+				"model" => Application::globals()->MVC_NAMESPACE . "Models",
+				"view" => Application::globals()->MVC_NAMESPACE . "Views",
+				"script" => Application::globals()->SYSCRACK_NAMESPACE_ROOT . "Application\\UtilitiesV2\\Scripts",
+				"convention" => Application::globals()->SYSCRACK_NAMESPACE_ROOT . "Application\\UtilitiesV2\\Conventions",
+				"page" => Application::globals()->SYSCRACK_NAMESPACE_ROOT . "Views\\Pages",
 			];
 
 			if (isset($array[strtolower($class_name)]) == false)
-				return (SYSCRACK_NAMESPACE_ROOT . "Application\\");
+				return (Application::globals()->SYSCRACK_NAMESPACE_ROOT . "Application\\");
 			else
 				return ($array[strtolower($class_name)]);
 		}
@@ -157,11 +170,11 @@
 		{
 
 			$array = [
-				"controller" => MVC_ROOT . MVC_NAMESPACE_CONTROLLERS . DIRECTORY_SEPARATOR,
-				"model" => MVC_ROOT . MVC_NAMESPACE_MODELS . DIRECTORY_SEPARATOR,
-				"view" => MVC_ROOT . MVC_NAMESPACE_VIEWS . DIRECTORY_SEPARATOR,
+				"controller" => Application::globals()->MVC_ROOT . Application::globals()->MVC_NAMESPACE_CONTROLLERS . DIRECTORY_SEPARATOR,
+				"model" => Application::globals()->MVC_ROOT . Application::globals()->MVC_NAMESPACE_MODELS . DIRECTORY_SEPARATOR,
+				"view" => Application::globals()->MVC_ROOT . Application::globals()->MVC_NAMESPACE_VIEWS . DIRECTORY_SEPARATOR,
 				"convention" => "src/Application/UtilitiesV2/Conventions/",
-				"script" => SCRIPTS_ROOT,
+				"script" => Application::globals()->SCRIPTS_ROOT,
 				"page" => Settings::setting('controller_page_folder')
 			];
 

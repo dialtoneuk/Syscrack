@@ -14,7 +14,6 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\Utilities\PostHelper;
 	use Framework\Application\UtilitiesV2\Conventions\CreatorData;
-	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\BrowserPages;
 	use Framework\Syscrack\Game\Finance;

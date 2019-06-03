@@ -8,6 +8,7 @@
 
 	namespace Framework\Application\UtilitiesV2\Migrators;
 
+	use Framework\Application;
 
 	class Log extends Base
 	{
@@ -19,11 +20,11 @@
 		public function migrate()
 		{
 
-			if (file_exists(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION) == false)
-				mkdir(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION);
+			if (file_exists(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION) == false)
+				mkdir(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION);
 
-			if (file_exists(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json") == false)
-				file_put_contents(SYSCRACK_ROOT . AUTOEXEC_LOG_LOCATION . "config.json", json_encode([
+			if (file_exists(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION . "config.json") == false)
+				file_put_contents(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION . "config.json", json_encode([
 					"file" => time()
 				]));
 

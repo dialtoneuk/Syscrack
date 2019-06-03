@@ -8,7 +8,6 @@ namespace Framework\Application\UtilitiesV2\Scripts;
  */
 
 use Framework\Application\UtilitiesV2\Container;
-use Framework\Application\Settings;
 use Framework\Application\UtilitiesV2\Debug;
 
 class Reinitialize extends Base
@@ -24,27 +23,13 @@ class Reinitialize extends Base
     public function execute($arguments)
     {
 
-	    if( Container::exist('scripts') == false )
-		    throw new \Error("Scripts global class does not exist");
-
 	    if( Container::exist('instance') == false )
 		    throw new \Error("Instance global class does not exist");
 
-	    /**
-	     * @var @scripts Scripts
-	     */
-	    $scripts = Container::get('scripts');
-
-	    /**
-	     * @var $instance Instance
-	     */
-	    $instance = Container::get('instance');
-
 	    system( "php -f execute.php");
 
-	    Debug::echo("INSTANCE STILL ACTIVE! Self terminating instance [" . @Debug::$session . "]" );
-
-	    $instance->exit();
+	    Debug::echo("Control back with [" . @Debug::$session . "]" );
+	    Container::get('instance')->exit();
 
 	    return parent::execute( $arguments );
     }

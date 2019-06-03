@@ -58,8 +58,7 @@
 		/**
 		 * Deletes a software
 		 *
-		 * @param $softwareid
-		 *
+		 * @param $userid
 		 */
 
 		public function deleteUser($userid)

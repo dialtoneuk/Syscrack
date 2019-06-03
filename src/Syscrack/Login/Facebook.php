@@ -10,6 +10,7 @@
 	 * @package Framework\Syscrack\Login
 	 */
 
+	use Facebook\Exceptions\FacebookSDKException;
 	use Facebook\Facebook as NSA;
 	use Framework\Application\Settings;
 	use Framework\Exceptions\SyscrackException;
@@ -25,6 +26,7 @@
 
 		/**
 		 * Facebook constructor.
+		 * @throws \Facebook\Exceptions\FacebookSDKException
 		 */
 
 		public function __construct()
@@ -68,6 +70,11 @@
 				throw new SyscrackException();
 			}
 
-			return $helper->getAccessToken();
+			try
+			{
+				return $helper->getAccessToken();
+			} catch (FacebookSDKException $e)
+			{
+			}
 		}
 	}

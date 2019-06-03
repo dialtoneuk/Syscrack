@@ -10,7 +10,6 @@
 
 	use Flight;
 	use Framework\Application\Utilities\FileSystem;
-	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
 	use Framework\Syscrack\Game\Preferences;
 	use Framework\Syscrack\Game\Themes;

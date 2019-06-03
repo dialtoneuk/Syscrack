@@ -134,9 +134,12 @@
 
 			self::$finance->setCurrentActiveAccount($data['custom']['accountnumber']);
 			self::$bankdatabase->addAccountNumber($data['custom']['accountnumber'], $data['ipaddress']);
+
 			$this->logCrack($data['custom']['accountnumber'], $this->getComputerId($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
 			$this->logLocal($computerid, $data['custom']['accountnumber'], $data['ipaddress']);
-			$this->redirectSuccess($this->getRedirect($data['ipaddress']));
+			$this->redirect( $this->getRedirect($data['ipaddress']) );
+
+			return true;
 		}
 
 		/**

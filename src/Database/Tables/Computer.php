@@ -18,8 +18,6 @@
 		/**
 		 * Gets all the computers in our array
 		 *
-		 * @param int $pick
-		 *
 		 * @return mixed|\Illuminate\Support\Collection
 		 */
 

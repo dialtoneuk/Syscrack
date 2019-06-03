@@ -2,8 +2,6 @@
 
 	namespace Framework\Application\UtilitiesV2;
 
-	use Framework\Application\UtilitiesV2\Interfaces\Upload;
-
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -119,7 +117,7 @@
 		}
 
 		/**
-		 * @return \Exception null
+		 * @return \Exception|\Error null
 		 */
 
 		public final function getLastError()
@@ -143,30 +141,5 @@
 					throw new \Error("invalid error type");
 
 			$this->last_error = $error;
-		}
-
-		/**
-		 * iteration test
-		 *
-		 * @param $data
-		 * @param $userid
-		 */
-
-		private function interationTest($data, $userid)
-		{
-
-			$results = [];
-
-			$this->iterate(function ($instance, $key, $collection) use ($data, $userid, $results)
-			{
-
-				/** @var Upload $instance */
-				if ($instance instanceof Upload == false)
-					throw new \Error("Invalid");
-
-				$results[$key] = $instance->authenticate($data, $userid);
-			});
-
-			print_r($results);
 		}
 	}

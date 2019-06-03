@@ -132,7 +132,14 @@
 			foreach ($this->classes as $class)
 			{
 
-				$reflection = new ReflectionClass($class);
+				try
+				{
+					$reflection = new ReflectionClass($class);
+				}
+				catch (\ReflectionException $e)
+				{
+
+				}
 
 				if (empty($reflection))
 				{

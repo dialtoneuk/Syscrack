@@ -35,6 +35,7 @@
       "ext-pdo": "*",
       "ext-json": "*",
       "ext-openssl": "*",
-      "ext-readline": "*"
+      "ext-readline": "*",
+    "ext-memcache": "*"
   }
 }

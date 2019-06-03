@@ -11,6 +11,7 @@
 
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\OpenSSL;
+	use Framework\Application;
 
 	class Deploy extends Base
 	{
@@ -19,7 +20,7 @@
 		 * @var OpenSSL|null
 		 */
 
-		protected $openssl = null;
+		protected static $openssl = null;
 
 		/**
 		 * Deploy constructor.
@@ -30,7 +31,9 @@
 		{
 
 			if ($this->isEncrypted())
-				$this->openssl = new OpenSSL();
+				self::$openssl = new OpenSSL();
+
+			parent::__construct();
 		}
 
 		/**
@@ -50,12 +53,12 @@
 			else
 				$result = json_encode($arguments);
 
-			if (file_exists(SYSCRACK_ROOT . DATABASE_CREDENTIALS))
-				unlink(SYSCRACK_ROOT . DATABASE_CREDENTIALS);
+			if (file_exists(SYSCRACK_ROOT . Application::globals()->DATABASE_CREDENTIALS))
+				unlink(SYSCRACK_ROOT . Application::globals()->DATABASE_CREDENTIALS);
 
 			Debug::echo("Writing database file", 3);
 
-			file_put_contents(SYSCRACK_ROOT . DATABASE_CREDENTIALS, $result);
+			file_put_contents(SYSCRACK_ROOT . Application::globals()->DATABASE_CREDENTIALS, $result);
 
 			return (true);
 		}
@@ -67,7 +70,7 @@
 		private function isEncrypted()
 		{
 
-			return (DATABASE_ENCRYPTION);
+			return ( Application::globals()->DATABASE_ENCRYPTION);
 		}
 
 		/**
@@ -81,12 +84,12 @@
 
 			Debug::echo("Encrypting database file", 3);
 
-			if (DATABSAE_ENCRYPTION_KEY == null)
-				$key = $this->openssl->generateKey();
+			if ( Application::globals()->DATABSAE_ENCRYPTION_KEY == null)
+				$key = self::$openssl->generateKey();
 			else
-				$key = DATABSAE_ENCRYPTION_KEY;
+				$key = Application::globals()->DATABSAE_ENCRYPTION_KEY;
 
-			return ($this->openssl->encrypt($arguments, $key, $this->openssl->iv(), true));
+			return (self::$openssl->encrypt($arguments, $key, self::$openssl->iv(), true));
 		}
 
 		/**
@@ -97,10 +100,10 @@
 		public function requiredArguments()
 		{
 
-			if (file_exists(SYSCRACK_ROOT . DATABASE_MAP) == false)
+			if (file_exists(SYSCRACK_ROOT . Application::globals()->DATABASE_MAP) == false)
 				throw new \Error("Database map does not exist. Have you unpacked your resources?");
 
-			$contents = file_get_contents(SYSCRACK_ROOT . DATABASE_MAP);
+			$contents = file_get_contents(SYSCRACK_ROOT . Application::globals()->DATABASE_MAP);
 
 			return (json_decode($contents, true));
 		}

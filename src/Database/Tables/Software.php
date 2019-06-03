@@ -152,8 +152,9 @@
 		 *
 		 * @param $time
 		 *
-		 * @return mixed|null
+		 * @param $type
 		 *
+		 * @return mixed|null
 		 */
 
 		public function getLastModified($computerid, $time, $type)

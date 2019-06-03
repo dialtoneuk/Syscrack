@@ -10,6 +10,8 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
+	use Framework\Syscrack\Game\Interfaces\Computer;
+	use Framework\Syscrack\Game\Computer as Controller;
 
 	class Types
 	{
@@ -28,7 +30,7 @@
 		{
 
 			if (isset(self::$computer) == false)
-				self::$computer = new Computer();
+				self::$computer = new Controller();
 		}
 
 		/**
@@ -56,9 +58,12 @@
 			foreach (self::$computer->getComputerClasses() as $class)
 			{
 
-				if ($class instanceof \Framework\Syscrack\Game\Interfaces\Computer == false)
+				if ($class instanceof Computer == false)
 					continue;
 
+				/**
+				 * @var $class Computer
+				 */
 				$types[] = $class->configuration()["type"];
 			}
 

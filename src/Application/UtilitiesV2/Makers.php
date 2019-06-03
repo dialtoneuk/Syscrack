@@ -5,6 +5,7 @@
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use Framework\Application\UtilitiesV2\Conventions\TokenData;
 	use Framework\Application\UtilitiesV2\Interfaces\Maker;
+	use Framework\Application;
 
 	/**
 	 * Created by PhpStorm.
@@ -27,10 +28,10 @@
 		{
 
 			if ($filepath === null)
-				$filepath = MAKER_FILEPATH;
+				$filepath = Application::globals()->MAKER_FILEPATH;
 
 			if ($namespace === null)
-				$namespace = MAKER_NAMESPACE;
+				$namespace = Application::globals()->MAKER_NAMESPACE;
 
 			parent::__construct($filepath, $namespace, $auto_create);
 		}

@@ -2,8 +2,13 @@
 
 	namespace Framework\Application\UtilitiesV2;
 
+	/**
+	 * Class Debug
+	 * @package Framework\Application\UtilitiesV2
+	 */
 
 	use Framework\Application\Utilities\FileSystem;
+	use Framework\Application;
 
 	class Debug
 	{
@@ -102,7 +107,7 @@
 		public static function message(string $message, bool $include_time = true)
 		{
 
-			if (DEBUG_ENABLED == false)
+			if (Application::globals()->DEBUG_ENABLED == false)
 				return;
 
 			if (self::isInit() == false)
@@ -155,7 +160,7 @@
 		public static function isEnabled()
 		{
 
-			return (DEBUG_ENABLED);
+			return (Application::globals()->DEBUG_ENABLED);
 		}
 
 		/**
@@ -168,7 +173,7 @@
 		public static function setStartTime($name, $time = null)
 		{
 
-			if (DEBUG_ENABLED == false)
+			if (Application::globals()->DEBUG_ENABLED == false)
 				return;
 
 			if ($time == null)
@@ -196,7 +201,7 @@
 		public static function stashMessages()
 		{
 
-			if (DEBUG_ENABLED == false)
+			if (Application::globals()->DEBUG_ENABLED == false)
 				return;
 
 			if (self::hasMessages() == false)
@@ -208,7 +213,7 @@
 			if( self::session() )
 				$path = FileSystem::separate("data","cli", self::$session, "messages.json" );
 			else
-				$path = DEBUG_MESSAGES_FILE;
+				$path = Application::globals()->DEBUG_MESSAGES_FILE;
 
 			if (FileSystem::exists( $path ) == false)
 				self::checkDirectory( $path );
@@ -226,7 +231,7 @@
 			if( self::session() )
 				$path = FileSystem::separate("data","cli", self::$session, "messages.json" );
 			else
-				$path = DEBUG_MESSAGES_FILE;
+				$path = Application::globals()->DEBUG_MESSAGES_FILE;
 
 			if (FileSystem::exists( $path ) == false)
 			{
@@ -245,7 +250,7 @@
 		public static function stashOutput()
 		{
 
-			if (DEBUG_ENABLED == false)
+			if (Application::globals()->DEBUG_ENABLED == false)
 				return;
 
 			if( empty( self::$buffer ) )
@@ -272,7 +277,7 @@
 		public static function stashTimers()
 		{
 
-			if (DEBUG_ENABLED == false)
+			if (Application::globals()->DEBUG_ENABLED == false)
 				return;
 
 			if (self::hasMessages() == false)
@@ -284,7 +289,7 @@
 			if( self::session() )
 				$path = FileSystem::separate("data","cli", self::$session, "timers.json" );
 			else
-				$path = DEBUG_TIMERS_FILE;
+				$path = Application::globals()->DEBUG_TIMERS_FILE;
 
 			if (FileSystem::exists( $path ) == false)
 				self::checkDirectory( $path );
@@ -302,7 +307,7 @@
 		public static function setEndTime($name, $time = null)
 		{
 
-			if (DEBUG_ENABLED == false)
+			if (Application::globals()->DEBUG_ENABLED == false)
 				return;
 
 			if ($time == null)

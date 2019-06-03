@@ -78,6 +78,7 @@
 		/**
 		 * Finds the wallets by their server and computerid
 		 *
+		 * @param $wallet
 		 * @param $computerid
 		 *
 		 * @return \Illuminate\Support\Collection|null

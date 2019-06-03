@@ -50,7 +50,7 @@
 		 * @param array $hardware
 		 */
 
-		public function createSchema($computerid, $name = 'Default', $page = 'schema.default', array $riddles, array $software, array $hardware)
+		public function createSchema($computerid, $name = 'Default', $page = 'schema.default', array $riddles=[], array $software=[], array $hardware=[])
 		{
 
 			$schema = array(

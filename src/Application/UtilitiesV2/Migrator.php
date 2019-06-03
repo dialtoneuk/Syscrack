@@ -10,6 +10,7 @@
 
 
 	use Framework\Application\UtilitiesV2\Interfaces\Migrator as MigratorInterface;
+	use Framework\Application;
 
 	class Migrator
 	{
@@ -31,7 +32,7 @@
 		public function __construct($auto_create = true)
 		{
 
-			$this->constructor = new Constructor(MIGRATOR_ROOT, MIGRATOR_NAMESPACE);
+			$this->constructor = new Constructor(Application::globals()->MIGRATOR_ROOT, Application::globals()->MIGRATOR_NAMESPACE);
 
 			if ($auto_create == true)
 				$this->create();
@@ -61,14 +62,14 @@
 			foreach ($this->constructor->getAll() as $class => $instance)
 			{
 
-				if ($class == FRAMEWORK_BASECLASS)
+				if ($class == Application::globals()->FRAMEWORK_BASECLASS)
 					continue;
 
 				if ($instance instanceof MigratorInterface == false)
 					throw new \Error("Incorrect class type: " . $class);
 
 				if (Debug::isCMD())
-					Debug::echo("Starting: " . MIGRATOR_NAMESPACE . $class, 5);
+					Debug::echo("Starting: " . Application::globals()->MIGRATOR_NAMESPACE . $class, 5);
 
 				/**
 				 * @var $instance MigratorInterface
@@ -77,7 +78,7 @@
 				$instance->migrate();
 
 				if (Debug::isCMD())
-					Debug::echo("Finished: " . MIGRATOR_NAMESPACE . $class, 5);
+					Debug::echo("Finished: " . Application::globals()->MIGRATOR_NAMESPACE . $class, 5);
 			}
 		}
 	}

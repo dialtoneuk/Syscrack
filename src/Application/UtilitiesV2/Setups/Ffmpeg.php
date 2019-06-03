@@ -8,6 +8,7 @@
 
 	namespace Framework\Application\UtilitiesV2\Setups;
 
+	use Framework\Application;
 
 	class Ffmpeg extends Base
 	{
@@ -20,7 +21,7 @@
 		public function __construct()
 		{
 
-			if ($this->exists(FFMPEG_CONFIG_FILE) == false)
+			if ($this->exists(Application::globals()->FFMPEG_CONFIG_FILE) == false)
 				throw new \Error("File does not exist");
 
 			parent::__construct();
@@ -50,7 +51,7 @@
 			unset($inputs["ffmeg"]);
 			unset($inputs["ffprobe"]);
 
-			$this->write(FFMPEG_CONFIG_FILE, $inputs);
+			$this->write(Application::globals()->FFMPEG_CONFIG_FILE, $inputs);
 
 			return parent::process();
 		}

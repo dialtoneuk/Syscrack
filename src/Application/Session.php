@@ -167,6 +167,8 @@
 
 		/**
 		 * Cleans up a users sessions
+		 *
+		 * @param $userid
 		 */
 
 		public function cleanupSession($userid)

@@ -19,13 +19,13 @@
 		 * @var ResourceUnpacker
 		 */
 
-		protected $unpacker;
+		protected static $unpacker;
 
 		/**
 		 * @var ResourceCombiner
 		 */
 
-		protected $packer;
+		protected static $packer;
 
 		/**
 		 * Resources constructor.
@@ -35,8 +35,13 @@
 		public function __construct()
 		{
 
-			$this->unpacker = new ResourceUnpacker();
-			$this->packer = new ResourceCombiner();
+			if( isset( self::$unpacker ) == false )
+				self::$unpacker = new ResourceUnpacker();
+
+			if( isset( self::$packer ) == false )
+				self::$packer = new ResourceCombiner();
+
+			parent::__construct();
 		}
 
 		/**
@@ -55,12 +60,12 @@
 				if (Debug::isCMD())
 					Debug::echo("Packing resources", 3);
 
-				$build = $this->packer->build();
+				$build = self::$packer->build();
 
 				if (empty($build))
 					throw new \Error("Build returned null ");
 
-				$this->packer->save($build);
+				self::$packer->save($build);
 
 				if (Debug::isCMD())
 					Debug::echo("Finished Packing resources", 3);
@@ -71,7 +76,7 @@
 				if (Debug::isCMD())
 					Debug::echo("Unpacking resources", 3);
 
-				$this->unpacker->process();
+				self::$unpacker->process();
 			}
 			else
 				throw new \Error("Unknown action");

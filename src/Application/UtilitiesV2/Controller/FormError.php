@@ -9,6 +9,7 @@
 	namespace Framework\Application\UtilitiesV2\Controller;
 
 
+	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
 
 	class FormError implements Response
@@ -42,8 +43,11 @@
 		 * @throws \Error
 		 */
 
-		public function __construct($type = FORM_ERROR_GENERAL, $message = "", $success = null)
+		public function __construct($type = null, $message = "", $success = null)
 		{
+
+			if( $type == null )
+				$type = Application::globals()->FORM_ERROR_GENERAL;
 
 			if (is_string($message) == false || is_string($type) == false)
 				throw new \Error("Invalid param types");

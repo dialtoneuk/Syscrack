@@ -10,6 +10,7 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\UtilitiesV2\Convention;
 	use Framework\Application\UtilitiesV2\Conventions\ComputerData;
 
 	class Metadata
@@ -48,6 +49,9 @@
 		public function create($computerid, array $values = null)
 		{
 
+			/**
+			 * @var $object Convention
+			 */
 			$object = self::dataInstance($values, true);
 
 			if ($object === false)

@@ -78,6 +78,8 @@
 		 *
 		 * @param int $sorttype
 		 *
+		 * @param bool $toarray
+		 *
 		 * @return array|mixed
 		 */
 

@@ -2,10 +2,11 @@
 
 	namespace Framework\Application\UtilitiesV2;
 
+	use Framework\Application;
+
 	/**
 	 * Class Colours
 	 * @package Framework\Application\UtilitiesV2\Util
-	 * @deprecated
 	 */
 	class Colours
 	{
@@ -15,19 +16,18 @@
 		 *
 		 * @return string
 		 * @throws \Error
-		 * @deprecated
 		 */
 
-		public static function generate($output = COLOURS_OUTPUT_RGB)
+		public static function generate($output)
 		{
 
 			switch ($output)
 			{
 
-				case COLOURS_OUTPUT_HEX:
+				case Application::globals()->COLOURS_OUTPUT_HEX:
 					return (dechex(rand(0x000000, 0xFFFFFF)));
 					break;
-				case COLOURS_OUTPUT_RGB:
+				case Application::globals()->COLOURS_OUTPUT_RGB:
 					return (rand(0, 255) . "," . rand(0, 255) . "," . rand(0, 255));
 					break;
 				default:

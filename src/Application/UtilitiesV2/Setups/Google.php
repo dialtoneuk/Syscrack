@@ -9,6 +9,8 @@
 	namespace Framework\Application\UtilitiesV2\Setups;
 
 
+	use Framework\Application;
+
 	class Google extends Base
 	{
 
@@ -20,7 +22,7 @@
 		public function __construct()
 		{
 
-			if ($this->exists(GOOGLE_RECAPTCHA_CREDENTIALS) == false)
+			if ($this->exists(Application::globals()->GOOGLE_RECAPTCHA_CREDENTIALS) == false)
 				throw new \Error("File does not exist");
 
 			parent::__construct();
@@ -38,7 +40,7 @@
 				"secret"
 			]);
 
-			$this->write(GOOGLE_RECAPTCHA_CREDENTIALS, $inputs);
+			$this->write(Application::globals()->GOOGLE_RECAPTCHA_CREDENTIALS, $inputs);
 
 			return parent::process();
 		}

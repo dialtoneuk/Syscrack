@@ -9,7 +9,6 @@
 	namespace Framework\Syscrack\Game\Items;
 
 
-	use Framework\Application\UtilitiesV2\Conventions\ItemSettingData;
 	use Framework\Syscrack\Game\Bases\BaseItem;
 
 	class Colours extends BaseItem

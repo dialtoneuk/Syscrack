@@ -2,15 +2,6 @@
 
 	namespace Framework\Views\Pages;
 
-	/**
-	 * Lewis Lancaster 2016
-	 *
-	 * Class Finances
-	 *
-	 * @package Framework\Views\Pages
-	 */
-
-	use Framework\Application\Render;
 	use Framework\Application\Utilities\PostHelper;
 	use Framework\Syscrack\Game\AccountDatabase;
 	use Framework\Syscrack\Game\Finance;

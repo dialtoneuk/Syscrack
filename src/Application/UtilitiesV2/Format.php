@@ -8,6 +8,7 @@
 
 	namespace Framework\Application\UtilitiesV2;
 
+	use Framework\Application;
 
 	class Format
 	{
@@ -134,10 +135,10 @@
 		 * @return string
 		 */
 
-		public static function asset($type = "js", $asset): string
+		public static function asset($type = "js", $asset=""): string
 		{
 
-			return (SYSCRACK_URL_ROOT . "assets/" . $type . "/" . $asset);
+			return ( Application::globals()->SYSCRACK_URL_ROOT . "assets/" . $type . "/" . $asset);
 		}
 
 		/**
@@ -156,27 +157,13 @@
 		}
 
 		/**
-		 * @param int $output
-		 *
 		 * @return string
 		 * @todo fix the hex output
 		 */
 
-		public static function colour($output = COLOURS_OUTPUT_RGB)
+		public static function colour()
 		{
 
-			switch ($output)
-			{
-
-				case COLOURS_OUTPUT_HEX:
-					return (dechex(rand(0x000000, 0xFFFFFF)));
-					break;
-				case COLOURS_OUTPUT_RGB:
-					return (rand(0, 255) . "," . rand(0, 255) . "," . rand(0, 255));
-					break;
-				default:
-					throw new \Error("Unknown output");
-					break;
-			}
+			return( Colours::generate( Application::globals()->COLOURS_OUTPUT_HEX ) );
 		}
 	}

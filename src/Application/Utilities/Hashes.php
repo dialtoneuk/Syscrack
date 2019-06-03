@@ -156,5 +156,7 @@
 
 				return sha1($data);
 			}
+
+			return null;
 		}
 	}

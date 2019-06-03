@@ -10,6 +10,7 @@
 
 
 	use Framework\Application\UtilitiesV2\Interfaces\AutoExec as AutoExecInterface;
+	use Framework\Application;
 
 	class AutoExec
 	{
@@ -37,7 +38,7 @@
 		public function __construct($auto_create = true)
 		{
 
-			$this->constructor = new Constructor(AUTOEXEC_ROOT, AUTOEXEC_NAMESPACE);
+			$this->constructor = new Constructor(Application::globals()->AUTOEXEC_ROOT, Application::globals()->AUTOEXEC_NAMESPACE);
 
 			if ($auto_create)
 				$this->create();
@@ -151,7 +152,7 @@
 			foreach ($scripts as $script)
 			{
 
-				$this->scripts[$this->getFileName($script)] = json_decode(file_get_contents(SYSCRACK_ROOT . AUTOEXEC_SCRIPTS_ROOT . $script), true);
+				$this->scripts[$this->getFileName($script)] = json_decode(file_get_contents(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_SCRIPTS_ROOT . $script), true);
 			}
 		}
 
@@ -163,7 +164,7 @@
 		public function getScripts()
 		{
 
-			$directory = new DirectoryOperator(AUTOEXEC_SCRIPTS_ROOT);
+			$directory = new DirectoryOperator(Application::globals()->AUTOEXEC_SCRIPTS_ROOT);
 
 			if ($directory->isEmpty())
 				return [];

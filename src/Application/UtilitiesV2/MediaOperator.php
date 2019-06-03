@@ -11,6 +11,7 @@
 	use FFMpeg\FFMpeg;
 	use FFMpeg\Format\Audio\Mp3;
 	use FFMpeg\Format\Audio\Wav;
+	use Framework\Application;
 
 	class MediaOperator
 	{
@@ -165,9 +166,9 @@
 		private function read()
 		{
 
-			if (file_exists(SYSCRACK_ROOT . FFMPEG_CONFIG_FILE) == false)
+			if (file_exists(SYSCRACK_ROOT . Application::globals()->FFMPEG_CONFIG_FILE) == false)
 				throw new \Error("FFmpeg file invalid");
 
-			return (json_decode(file_get_contents(SYSCRACK_ROOT . FFMPEG_CONFIG_FILE)));
+			return (json_decode(file_get_contents(SYSCRACK_ROOT . Application::globals()->FFMPEG_CONFIG_FILE)));
 		}
 	}

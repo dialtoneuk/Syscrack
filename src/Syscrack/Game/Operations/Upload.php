@@ -173,7 +173,7 @@
 		}
 
 		/**
-		 * @param $softwarename
+		 * @param $software
 		 * @param $computerid
 		 * @param $ipaddress
 		 */
@@ -187,8 +187,7 @@
 		/**
 		 * Logs to the local log
 		 *
-		 * @param $softwarename
-		 *
+		 * @param $software
 		 * @param $ipaddress
 		 */
 

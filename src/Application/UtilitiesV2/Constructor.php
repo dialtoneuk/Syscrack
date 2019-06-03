@@ -8,6 +8,8 @@
 
 	namespace Framework\Application\UtilitiesV2;
 
+	use Framework\Application;
+
 	class Constructor
 	{
 
@@ -98,7 +100,7 @@
 			foreach ($files as $file)
 			{
 
-				if (strtolower($file) == FRAMEWORK_BASECLASS)
+				if (strtolower($file) == Application::globals()->FRAMEWORK_BASECLASS )
 					continue;
 
 				$namespace = $this->build($file);

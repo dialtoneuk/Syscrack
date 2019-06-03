@@ -62,6 +62,7 @@
 		 * Adds a statistic
 		 *
 		 * @param $statistic
+		 * @param null $value
 		 */
 
 		public function addStatistic($statistic, $value = null)

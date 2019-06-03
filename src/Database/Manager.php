@@ -31,6 +31,8 @@
 
 		/**
 		 * Manager constructor.
+		 *
+		 * @param bool $autoload
 		 */
 
 		public function __construct($autoload = true)
@@ -101,6 +103,7 @@
 
 		/**
 		 * Creates our database connection
+		 * @param bool $addtocontainer
 		 */
 
 		public function createConnection($addtocontainer = true)

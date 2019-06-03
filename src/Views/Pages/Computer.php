@@ -525,8 +525,6 @@
 
 						$this->formError('You cannot afford to research this software', 'computer/research');
 					}
-
-
 				}
 			}
 		}

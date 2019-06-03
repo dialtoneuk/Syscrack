@@ -9,6 +9,8 @@
 	namespace Framework\Application\UtilitiesV2;
 
 
+	use Framework\Application;
+
 	class ResourceCombiner
 	{
 
@@ -30,7 +32,7 @@
 		{
 
 			if ($directory == null)
-				$directory = RESOURCE_COMBINER_ROOT;
+				$directory = Application::globals()->RESOURCE_COMBINER_ROOT;
 
 			//if( file_exists( SYSCRACK_ROOT . $directory ) == false )
 			//throw new \Error("Folder does not exist " . SYSCRACK_ROOT . $directory);
@@ -118,7 +120,7 @@
 					foreach ($dirs as $key => $dir)
 					{
 
-						$this->directory->setPath(RESOURCE_COMBINER_ROOT . $dir . "/");
+						$this->directory->setPath(Application::globals()->RESOURCE_COMBINER_ROOT . $dir . "/");
 						unset($dirs[$key]);
 
 						if (empty($dirs) == false)
@@ -150,13 +152,13 @@
 		{
 
 			if ($filepath == null)
-				$filepath = RESOURCE_COMBINER_FILEPATH;
+				$filepath = Application::globals()->RESOURCE_COMBINER_FILEPATH;
 
 			if (is_array($build) == false && is_object($build) == false)
 				throw new \Error("Should either be array or object");
 
 
-			if (RESOURCE_COMBINER_PRETTY)
+			if (Application::globals()->RESOURCE_COMBINER_PRETTY)
 				$json = json_encode($build, JSON_PRETTY_PRINT);
 			else
 				$json = json_encode($build);
@@ -166,8 +168,8 @@
 			else
 				file_put_contents(SYSCRACK_ROOT . $filepath, $json);
 
-			if (RESOURCE_COMBINER_CHMOD)
-				chmod(SYSCRACK_ROOT . $filepath, RESOURCE_COMBINER_CHMOD_PERM);
+			if (Application::globals()->RESOURCE_COMBINER_CHMOD)
+				chmod(SYSCRACK_ROOT . $filepath, Application::globals()->RESOURCE_COMBINER_CHMOD_PERM);
 		}
 
 		/**
@@ -318,28 +320,4 @@
 			return $contents;
 		}
 
-		/**
-		 * @param $result
-		 * @param $dir
-		 *
-		 * @return bool
-		 */
-
-		private function searchForDirectory($result, $dir)
-		{
-
-			foreach ($result as $key => $value)
-			{
-
-				if (preg_match("#" . $dir . "#", $key))
-				{
-
-					return true;
-				}
-
-				Debug::echo($key . "\n", 3);
-			}
-
-			return false;
-		}
 	}

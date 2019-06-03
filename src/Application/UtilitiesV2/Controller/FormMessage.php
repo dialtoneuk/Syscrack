@@ -10,6 +10,7 @@
 
 
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
+	use Framework\Application;
 
 	class FormMessage implements Response
 	{
@@ -42,8 +43,11 @@
 		 * @throws \Error
 		 */
 
-		public function __construct($type = FORM_MESSAGE_INFO, $message = "", $success = null)
+		public function __construct($type = null, $message = "", $success = null)
 		{
+
+			if( $type == null )
+				$type = Application::globals()->FORM_MESSAGE_INFO;
 
 			if (is_string($message) == false || is_string($type) == false)
 				throw new \Error("Invalid param types");

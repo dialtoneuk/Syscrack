@@ -9,6 +9,8 @@
 	namespace Framework\Application\UtilitiesV2;
 
 
+	use Framework\Application;
+
 	class Mailer
 	{
 
@@ -50,22 +52,22 @@
 			try
 			{
 
-				if (MAILER_IS_SMTP)
+				if ( Application::globals()->MAILER_IS_SMTP )
 					$this->phpmailer->isSMTP();
 
 				$this->setConfiguration($this->getConfiguration());
 				$this->phpmailer->addAddress($recipricant);
 				$this->phpmailer->Subject = $subject;
 
-				if (!MAILER_IS_HTML)
+				if (!Application::globals()->MAILER_IS_HTML)
 					$this->phpmailer->isHTML(false);
 				else
 					$this->phpmailer->isHTML(true);
 
 				if ($from == null)
-					$this->phpmailer->setFrom(MAILER_FROM_ADDRESS, MAILER_FROM_USER);
+					$this->phpmailer->setFrom(Application::globals()->MAILER_FROM_ADDRESS, Application::globals()->MAILER_FROM_USER);
 				else
-					$this->phpmailer->setFrom(MAILER_FROM_ADDRESS, $from);
+					$this->phpmailer->setFrom(Application::globals()->MAILER_FROM_ADDRESS, $from);
 
 				$this->phpmailer->Body = $content;
 				$this->phpmailer->AltBody = "Please view this email from an updated web browser.";
@@ -107,10 +109,10 @@
 		public function getConfiguration()
 		{
 
-			if (file_exists(SYSCRACK_ROOT . MAILER_CONFIGURATION_FILE) == false)
+			if (file_exists(SYSCRACK_ROOT . Application::globals()->MAILER_CONFIGURATION_FILE) == false)
 				throw new \Error("Configuration file invalid");
 
-			return (file_get_contents(SYSCRACK_ROOT . MAILER_CONFIGURATION_FILE));
+			return (file_get_contents(SYSCRACK_ROOT . Application::globals()->MAILER_CONFIGURATION_FILE));
 		}
 
 		/**
@@ -176,17 +178,17 @@
 				throw new \Error("Template does not exist");
 
 			if (isset($values["url"]) == false)
-				$values["url"] = SYSCRACK_URL_ADDRESS;
+				$values["url"] = Application::globals()->SYSCRACK_URL_ADDRESS;
 
 			if (isset($values["contact"]) == false)
-				$values["contact"] = MAILER_CONTACT_ADDRESS;
+				$values["contact"] = Application::globals()->MAILER_CONTACT_ADDRESS;
 
 			$contents = $this->get($template);
 
 			foreach ($values as $key => $value)
 			{
 
-				if (str_contains($contents, $this->parseKey($key)))
+				if (strpos($contents, $this->parseKey($key)) !== false )
 					str_replace($this->parseKey($key), $contents, $value);
 			}
 
@@ -270,18 +272,6 @@
 		}
 
 		/**
-		 * @param $file
-		 *
-		 * @return mixed
-		 */
-
-		private function omitRoot($file)
-		{
-
-			return (str_replace(SYSCRACK_ROOT . $this->path(), "", $file));
-		}
-
-		/**
 		 * @param null $template
 		 *
 		 * @return string
@@ -291,8 +281,8 @@
 		{
 
 			if ($template == null)
-				return (MAILER_TEMPLATES_ROOT);
+				return (Application::globals()->MAILER_TEMPLATES_ROOT);
 
-			return (MAILER_TEMPLATES_ROOT . $template . ".html");
+			return (Application::globals()->MAILER_TEMPLATES_ROOT . $template . ".html");
 		}
 	}

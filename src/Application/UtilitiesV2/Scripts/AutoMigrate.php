@@ -9,7 +9,6 @@
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
 
-	use Framework\Application\Container;
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Migrator;
 

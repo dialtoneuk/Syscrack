@@ -10,6 +10,7 @@
 
 
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
+	use Framework\Application;
 
 	class FormData implements Response
 	{
@@ -40,8 +41,11 @@
 		 * @param null $success
 		 */
 
-		public function __construct($type = FORM_MESSAGE_INFO, $data=[], $success = null)
+		public function __construct($type = null, $data=[], $success = null)
 		{
+
+			if( $type == null )
+				$type = Application::globals()->FORM_ERROR_GENERAL;
 
 			if ($success !== null)
 				if (is_bool($success))

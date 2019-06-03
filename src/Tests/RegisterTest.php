@@ -9,7 +9,6 @@
 	namespace Framework\Tests;
 
 	use Framework\Application\Settings;
-	use Framework\Application\Utilities\FileSystem;
 	use Framework\Syscrack\Game\Computer;
 	use Framework\Syscrack\Game\Internet;
 	use Framework\Syscrack\Register;

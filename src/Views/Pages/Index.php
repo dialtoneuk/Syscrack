@@ -2,15 +2,6 @@
 
 	namespace Framework\Views\Pages;
 
-	/**
-	 * Lewis Lancaster 2016
-	 *
-	 * Class Index
-	 *
-	 * @package Framework\Views\Pages
-	 */
-
-	use Framework\Application\Render;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
 	class Index extends BaseClass

@@ -9,6 +9,9 @@
 	namespace Framework\Application\UtilitiesV2;
 
 
+	use Framework\Application;
+	use Framework\Application\UtilitiesV2\Scripts\Instance;
+
 	/**
 	 * Class Container
 	 * @package Colourspace
@@ -58,7 +61,7 @@
 		/**
 		 * @param $name
 		 *
-		 * @return Application|Scripts
+		 * @return Application|Instance
 		 */
 
 		public static function get($name)

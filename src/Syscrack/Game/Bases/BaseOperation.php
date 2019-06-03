@@ -30,7 +30,7 @@
 	use Illuminate\Support\Collection;
 	use Framework\Application\FormContainer;
 	use Framework\Syscrack\Game\Preferences;
-
+	use Framework\Application;
 
 	class BaseOperation implements Operation
 	{
@@ -244,18 +244,17 @@
 		public function formError($message = '')
 		{
 
-			FormContainer::add( new FormMessage( FORM_ERROR_GENERAL, $message, false ) );
+			FormContainer::add( new FormMessage( Application::globals()->FORM_ERROR_GENERAL, $message, false ) );
 		}
 
 		/**
-		 * @param string $path
 		 * @param string $optional_message
 		 */
 
 		public function formSuccess($optional_message = '')
 		{
 
-			FormContainer::add( new FormMessage( FORM_MESSAGE_SUCCESS, $optional_message, true ) );
+			FormContainer::add( new FormMessage( Application::globals()->FORM_MESSAGE_SUCCESS, $optional_message, true ) );
 		}
 
 		/**
@@ -742,23 +741,4 @@
 			return self::$software->getSoftware($softwareid)->softwarename;
 		}
 
-		/**
-		 * Gets the current page
-		 *
-		 * @return string
-		 */
-
-		private function getCurrentPage()
-		{
-
-			$page = array_values(array_filter(explode('/', strip_tags($_SERVER['REQUEST_URI']))));
-
-			if (empty($page))
-			{
-
-				return Settings::setting('controller_index_page');
-			}
-
-			return $page[0];
-		}
 	}

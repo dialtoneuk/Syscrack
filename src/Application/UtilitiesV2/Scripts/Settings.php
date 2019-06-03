@@ -141,6 +141,8 @@
 			Debug::echo("Search complete gathered " . count($results) . " results:");
 			Debug::echo($results, 2);
 			Debug::echo("");
+
+			return true;
 		}
 
 		/**
@@ -168,6 +170,8 @@
 
 			Debug::echo("");
 			Debug::echo("Completed");
+
+			return true;
 		}
 
 		/**
@@ -198,6 +202,8 @@
 
 			Debug::echo("");
 			Debug::echo("Completed");
+
+			return true;
 		}
 
 		/**
@@ -232,6 +238,8 @@
 
 			Debug::echo("");
 			Debug::echo("Completed");
+
+			return true;
 		}
 
 

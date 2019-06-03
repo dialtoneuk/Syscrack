@@ -129,6 +129,8 @@
 				$this->redirect('computer?success');
 			else
 				$this->redirect('game/internet/' . $this->currentAddress() . '?success');
+
+			return true;
 		}
 
 		/**

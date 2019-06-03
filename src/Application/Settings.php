@@ -10,8 +10,6 @@
 	 * @package Framework
 	 */
 
-	use Framework\Application\UtilitiesV2\Debug;
-	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Exceptions\ApplicationException;
 
 	class Settings

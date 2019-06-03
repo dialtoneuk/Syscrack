@@ -20,7 +20,7 @@
 		public function __construct()
 		{
 
-			if ($this->exists(MAILER_CONFIGURATION_FILE) == false)
+			if ($this->exists(Application::globals()->MAILER_CONFIGURATION_FILE) == false)
 				throw new \Error("File does not exist");
 
 			parent::__construct();
@@ -41,7 +41,7 @@
 				"Port"
 			]);
 
-			$this->write(MAILER_CONFIGURATION_FILE, $inputs);
+			$this->write(Application::globals()->MAILER_CONFIGURATION_FILE, $inputs);
 
 			return parent::process();
 		}

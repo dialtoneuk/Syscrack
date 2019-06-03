@@ -61,9 +61,7 @@
 			if ( self::$active_instance == true )
 				throw new \Error("cannot run two instances at once");
 
-			if (Container::exist("scripts") == false)
-				throw new \Error("Scripts does not exist");
-			elseif( Debug::session() )
+			if( Debug::session() )
 				$this->session( Debug::$session );
 
 			if( Container::exist("instance" ) == false )
@@ -263,7 +261,7 @@
 			else
 				Debug::echo(" @[Refreshing]--------------------[Refreshed " . Format::timestamp() . "]");
 
-			$this->scripts = Container::get("scripts");
+			$this->scripts = Container::get("application")->getScripts();
 		}
 
 		/**
@@ -279,10 +277,6 @@
 				Debug::echo(" @[End Of Instance]--------------------[Terminated: " . Format::timestamp() . "]");
 
 			Debug::message("Ending instance and exiting PHP");
-
-			Debug::stashOutput();
-			Debug::stashMessages();
-			Debug::stashTimers();
 
 			if( Debug::session() )
 				if( FileSystem::exists( FileSystem::separate("data","cli","session.json") ) )

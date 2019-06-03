@@ -2,15 +2,6 @@
 
 	namespace Framework\Syscrack\Game\Operations;
 
-	/**
-	 * Lewis Lancaster 2017
-	 *
-	 * Class ForceDownload
-	 *
-	 * @package Framework\Syscrack\Game\Operations
-	 */
-
-	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\Bases\BaseOperation;

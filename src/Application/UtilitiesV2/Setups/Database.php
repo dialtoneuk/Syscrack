@@ -8,6 +8,7 @@
 
 	namespace Framework\Application\UtilitiesV2\Setups;
 
+	use Framework\Application;
 
 	class Database extends Base
 	{
@@ -20,7 +21,7 @@
 		public function __construct()
 		{
 
-			if ($this->exists(DATABASE_MAP) == false)
+			if ($this->exists( Application::globals()->DATABASE_MAP ) == false)
 				throw new \Error("File does not exist");
 
 			parent::__construct();
@@ -48,7 +49,7 @@
 				if (isset($map[$key]) == false)
 					throw new \Error("Key not set");
 
-			$this->write(DATABASE_CREDENTIALS, $inputs);
+			$this->write(Application::globals()->DATABASE_CREDENTIALS, $inputs);
 
 			return parent::process();
 		}
@@ -60,6 +61,6 @@
 		private function getMap()
 		{
 
-			return ($this->read(DATABASE_MAP));
+			return ($this->read(Application::globals()->DATABASE_MAP ));
 		}
 	}

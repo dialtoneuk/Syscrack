@@ -28,6 +28,7 @@
 	use Framework\Views\Structures\Page as Structure;
 	use Framework\Syscrack\User;
 	use Illuminate\Support\Collection;
+	use Framework\Application;
 
 	class Page implements Structure
 	{
@@ -334,7 +335,7 @@
 			if( $path == '' )
 				$path = $this->getCurrentPage();
 
-			FormContainer::add( new FormMessage( FORM_ERROR_GENERAL, $message, false ) );
+			FormContainer::add( new FormMessage( Application::globals()->FORM_ERROR_GENERAL, $message, false ) );
 			$contents = FormContainer::contents();
 
 			if( Settings::setting('error_use_session') && empty( $contents ) == false  )
@@ -360,7 +361,7 @@
 			if( $path == '' )
 				$path = $this->getCurrentPage();
 
-			FormContainer::add( new FormMessage( FORM_MESSAGE_SUCCESS, $optional_message, true ) );
+			FormContainer::add( new FormMessage( Application::globals()->FORM_MESSAGE_SUCCESS, $optional_message, true ) );
 			$contents = FormContainer::contents();
 
 			if( Settings::setting('error_use_session') && empty( $contents ) == false  )

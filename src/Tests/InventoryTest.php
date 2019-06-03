@@ -8,7 +8,6 @@
 
 	namespace Framework\Tests;
 
-	use Framework\Application\Settings;
 	use Framework\Syscrack\Game\Inventory;
 
 	class InventoryTest extends BaseTestCase

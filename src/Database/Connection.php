@@ -10,9 +10,10 @@
 	 * @package Framework\Database
 	 */
 
+	use Framework\Application;
 	use Framework\Application\Settings;
-	use Framework\Application\Utilities\Cyphers;
 	use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\UtilitiesV2\OpenSSL;
 	use Framework\Exceptions\DatabaseException;
 
 	class Connection
@@ -25,31 +26,29 @@
 		protected $connection;
 
 		/**
+		 * @var OpenSSL
+		 */
+
+		protected static $openssl;
+
+		/**
 		 * Connection constructor.
+		 *
+		 * @param bool $autoload
 		 */
 
 		public function __construct($autoload = true)
 		{
 
+			if( Application::globals()->DATABASE_ENCRYPTION )
+				self::$openssl = new OpenSSL();
+
 			if ($autoload)
-			{
+				$this->connection = @$this->readConnectionFile();
 
-				try
-				{
-
-					$connection = $this->readConnectionFile();
-				} catch (DatabaseException $error)
-				{
-
-					//Do nothing
-				}
-			}
-
-			if (empty($connection))
-			{
-
+			if (empty($this->connection))
 				throw new DatabaseException();
-			}
+
 		}
 
 		/**
@@ -64,37 +63,29 @@
 		{
 
 			if ($file == null)
-			{
-
 				$file = Settings::setting('database_connection_file');
-			}
 
 			if (file_exists(FileSystem::getFilePath($file)) == false)
-			{
-
 				throw new DatabaseException();
-			}
+
 
 			$json = FileSystem::read($file);
 
 			if (empty($json))
-			{
-
 				throw new DatabaseException();
-			}
 
-			if (DATABASE_ENCRYPTION == true)
+			if( Application::globals()->DATABASE_ENCRYPTION == true )
 			{
 
-				$connection = Cyphers::decryptJsonToArray($json);
+				$data = json_decode( $json );
 
-				if (empty($connection))
-				{
+				if( json_last_error() !== JSON_ERROR_NONE )
+					throw new DatabaseException("Json error in connection file");
 
-					throw new DatabaseException();
-				}
+				if( isset( $data["info"] ) == false )
+					throw new DatabaseException("Invalid connection file");
 
-				return $connection;
+				return self::$openssl->decrypt( $data, $data["info"]["key"], $data["info"]["iv"] );
 			}
 
 			return json_decode($json, true);

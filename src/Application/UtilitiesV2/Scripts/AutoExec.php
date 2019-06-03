@@ -19,7 +19,7 @@
 		 * @var AutoExecManager
 		 */
 
-		protected $autoexecmanager;
+		protected static $autoexecmanager;
 
 		/**
 		 * AutoExec constructor.
@@ -29,7 +29,10 @@
 		public function __construct()
 		{
 
-			$this->autoexecmanager = new AutoExecManager(false);
+			if( isset( self::$autoexecmanager ) == false )
+				self::$autoexecmanager = new AutoExecManager(false);
+
+			parent::__construct();
 		}
 
 		/**
@@ -45,21 +48,21 @@
 			if (Container::exist("application") == false)
 				$this->initDatabase();
 
-			$this->autoexecmanager->create();
+			self::$autoexecmanager->create();
 
-			if ($this->autoexecmanager->exist($arguments["script"]) == false)
+			if (self::$autoexecmanager->exist($arguments["script"]) == false)
 				throw new \Error("Script does not exist: " . $arguments["script"]);
 
 			if (Debug::isCMD())
 				Debug::echo("Executing autoexec script: " . $arguments["script"], 5);
 
 			if ($arguments["arguments"] == "false" || $arguments["arguments"] == "f" || $arguments["arguments"] == null)
-				$this->autoexecmanager->execute($arguments["script"]);
+				self::$autoexecmanager->execute($arguments["script"]);
 			else
 			{
 
 				$data = $this->parse($arguments["arguments"]);
-				$this->autoexecmanager->execute($arguments["script"], $data);
+				self::$autoexecmanager->execute($arguments["script"], $data);
 			}
 
 			if (Debug::isCMD())

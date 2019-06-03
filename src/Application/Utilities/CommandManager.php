@@ -75,6 +75,8 @@
 		 *
 		 * @param $text
 		 *
+		 * @param string $prefix
+		 *
 		 * @return null
 		 */
 

@@ -9,7 +9,6 @@
 	namespace Framework\Tests;
 
 	use Framework\Application;
-	use Framework\Application\Settings;
 	use Framework\Application\UtilitiesV2\Debug;
 	use PHPUnit\Framework\TestCase;
 

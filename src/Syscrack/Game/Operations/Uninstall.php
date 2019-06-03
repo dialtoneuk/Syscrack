@@ -104,19 +104,14 @@
 		}
 
 		/**
-		 * Called when the operation is completed
-		 *
 		 * @param $timecompleted
-		 *
 		 * @param $timestarted
-		 *
 		 * @param $computerid
-		 *
 		 * @param $userid
-		 *
 		 * @param $process
-		 *
 		 * @param array $data
+		 *
+		 * @return bool|mixed
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -131,23 +126,25 @@
 			if (self::$internet->ipExists($data['ipaddress']) == false)
 			{
 
-				$this->redirectError('Sorry, this ip address does not exist anymore', $this->getRedirect());
+				$this->redirect($this->getRedirect());
+				return false;
 			}
 
 			if (self::$software->softwareExists($data['softwareid']) == false)
 			{
 
-				$this->redirectError('Sorry, it looks like this software might have been deleted', $this->getRedirect($data['ipaddress']));
+				$this->redirect($this->getRedirect());
+				return false;
 			}
 
 			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])) == false)
 			{
 
-				$this->redirectError('Sorry, it looks like this software got uninstalled already', $this->getRedirect($data['ipaddress']));
+				$this->redirect($this->getRedirect());
+				return false;
 			}
 
 			self::$software->uninstallSoftware($data['softwareid']);
-
 			self::$computer->uninstallSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']);
 
 			$this->logUninstall($this->getSoftwareName($data['softwareid']),
@@ -162,16 +159,10 @@
 				'computerid' => $this->getComputerId($data['ipaddress'])
 			));
 
-			if (isset($data['redirect']))
-			{
-
-				$this->redirectSuccess($data['redirect']);
-			}
+			if (isset($data['redirect']) == false)
+				return true;
 			else
-			{
-
-				$this->redirectSuccess($this->getRedirect($data['ipaddress']));
-			}
+				return ($data['redirect']);
 		}
 
 		/**

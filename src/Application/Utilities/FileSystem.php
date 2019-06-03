@@ -152,6 +152,8 @@
 		 * @param $file
 		 *
 		 * @param $data
+		 * @param bool $permission
+		 * @param null $access
 		 */
 
 		public static function write($file, $data, $permission = true, $access = null)
@@ -549,19 +551,4 @@
 			return SYSCRACK_ROOT;
 		}
 
-		/**
-		 * Stitches the pattern to the path
-		 *
-		 * @param $path
-		 *
-		 * @param $pattern
-		 *
-		 * @return string
-		 */
-
-		private function stitchPattern($path, $pattern)
-		{
-
-			return sprintf("%s" . Settings::setting('filesystem_separator') . "%s", $path, $pattern);
-		}
 	}

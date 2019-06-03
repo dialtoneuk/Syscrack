@@ -8,6 +8,7 @@
 
 	namespace Framework\Application\UtilitiesV2;
 
+	use Framework\Application;
 
 	class ResourceUnpacker
 	{
@@ -30,7 +31,7 @@
 		{
 
 			if ($filepath == null)
-				$filepath = RESOURCE_COMBINER_FILEPATH;
+				$filepath = Application::globals()->RESOURCE_COMBINER_FILEPATH;
 
 			//if( file_exists( SYSCRACK_ROOT . $filepath ) == false )
 			//throw new \Error("File does not exist " . SYSCRACK_ROOT . $filepath);
@@ -75,10 +76,10 @@
 				if (file_exists(SYSCRACK_ROOT . $directory) == false)
 					$this->createFolder($directory);
 
-				if (str_contains($path, ".json"))
+				if (strpos($path, ".json") !== false )
 				{
 
-					if (RESOURCE_COMBINER_PRETTY)
+					if (Application::globals()->RESOURCE_COMBINER_PRETTY)
 						$this->createFile($path, json_encode($contents, JSON_PRETTY_PRINT));
 					else
 						$this->createFile($path, json_encode($contents));
@@ -86,8 +87,8 @@
 				else
 					$this->createFile($path, Format::decodeLargeText($contents));
 
-				if (RESOURCE_COMBINER_CHMOD)
-					chmod(SYSCRACK_ROOT . $path, RESOURCE_COMBINER_CHMOD_PERM);
+				if (Application::globals()->RESOURCE_COMBINER_CHMOD)
+					chmod(SYSCRACK_ROOT . $path, Application::globals()->RESOURCE_COMBINER_CHMOD_PERM);
 
 				$count++;
 			}
@@ -143,8 +144,8 @@
 
 			file_put_contents(SYSCRACK_ROOT . $filepath, $contents);
 
-			if (RESOURCE_COMBINER_CHMOD)
-				chmod(SYSCRACK_ROOT . $filepath, RESOURCE_COMBINER_CHMOD_PERM);
+			if (Application::globals()->RESOURCE_COMBINER_CHMOD)
+				chmod(SYSCRACK_ROOT . $filepath, Application::globals()->RESOURCE_COMBINER_CHMOD_PERM);
 		}
 
 		/**
@@ -164,8 +165,8 @@
 
 			mkdir(SYSCRACK_ROOT . $directory);
 
-			if (RESOURCE_COMBINER_CHMOD)
-				chmod(SYSCRACK_ROOT . $directory, RESOURCE_COMBINER_CHMOD_PERM);
+			if (Application::globals()->RESOURCE_COMBINER_CHMOD)
+				chmod(SYSCRACK_ROOT . $directory, Application::globals()->RESOURCE_COMBINER_CHMOD_PERM);
 		}
 
 		/**
