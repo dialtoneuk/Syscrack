@@ -10,6 +10,8 @@
 	 * @package Framework
 	 */
 
+	use Framework\Application\UtilitiesV2\Debug;
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Exceptions\ApplicationException;
 
 	class Settings
@@ -165,16 +167,13 @@
 		 *
 		 */
 
-		public static function preloadSettings()
+		public static function setup()
 		{
 
 			self::loadSettings();
 
 			if (self::$settings == null)
-			{
-
 				throw new ApplicationException();
-			}
 
 			return self::$settings;
 		}

@@ -1,3 +1,4 @@
 {
-    "Framework\\Application\\Settings":"preloadSettings"
+    "Framework\\Application\\Settings":"setup",
+    "Framework\\Application":"setup"
 }

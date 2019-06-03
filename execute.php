@@ -85,8 +85,8 @@
 			. "<br>If you are still struggling with this error. Please post an issue on our official github page."
 			. "<br><br>https://github.com/dialtoneuk/syscrack"
 		);
-	else
-		Settings::preloadSettings();
+	elseif( empty( Settings::settings() ) )
+		Settings::setup();
 
 	try
 	{

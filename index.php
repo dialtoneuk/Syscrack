@@ -1,19 +1,26 @@
 <?php
-    require_once "vendor/autoload.php";
 
-    /**
-         ____ ____ ____ ____ ____ ____ ____ ____
-        ||S |||y |||s |||c |||r |||a |||c |||k || Alpha 2019
-        ||__|||__|||__|||__|||__|||__|||__|||__|| Written by Lewis Lancaster 2019
-        |/__\|/__\|/__\|/__\|/__\|/__\|/__\|/__\| Appache-2.0 License
-     * [==================================================================================]
-     * This open source project is protected by the Apache-2.0 License. For more license
-     * information as well as FAQ on what exactly you can do with this code. Please visit
-     * the github and read the license at:-
-     *
-     *        https://github.com/dialtoneuk/syscrack-prototype/blob/master/LICENSE
-     * [==================================================================================]
-     */
+	/**
+		 ____ ____ ____ ____ ____ ____ ____ ____
+		||S |||y |||s |||c |||r |||a |||c |||k || Alpha 2019
+		||__|||__|||__|||__|||__|||__|||__|||__|| Written by Lewis Lancaster 2019
+		|/__\|/__\|/__\|/__\|/__\|/__\|/__\|/__\| Apache-2.0 License
+	 * [==================================================================================]
+	 * This open source project is protected by the Apache-2.0 License. For more license
+	 * information as well as FAQ on what exactly you can do with this code. Please visit
+	 * the github and read the license at:-
+	 *
+	 *        https://github.com/dialtoneuk/syscrack-prototype/blob/master/LICENSE
+	 * [==================================================================================]
+	 */
+
+	if( file_exists( "vendor/autoload.php") )
+		require_once "vendor/autoload.php";
+	else
+		die("Please install composer and run the following command in a terminal while in my root directory :-)"
+			. "\n composer install --profile");
+
+//<editor-fold defaultstate="collapsed" desc="Application Root">
 
     use Framework\Application\UtilitiesV2\Debug;
 
@@ -37,8 +44,9 @@
         //Maybe we are PHP Unit
         $root = PHPUNIT_ROOT;
     }
+//</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Application Settings">
+//<editor-fold defaultstate="collapsed" desc="Application Globals">
 
     /**
      * Written by Lewis 'mkultra2018' Lancaster
@@ -322,9 +330,7 @@
 
 //</editor-fold>
 
-
-
-//<editor-fold defaultstate="collapsed" desc="Syscrack Initialization">
+//<editor-fold defaultstate="collapsed" desc="Initialization">
 
 	if( php_sapi_name() === 'cli' && Debug::isCMD() == false )
 		die('It seems you have tried to execute index.php inside a terminal. Congratulations. Please run execute.php instead.'
@@ -367,81 +373,7 @@
 	    if( DEBUG_ENABLED )
 		    Debug::initialization();
 
-        Flight::set('flight.views.path', SYSCRACK_ROOT );
-        Flight::map('error', function(Error $error) use ( $application )
-        {
-
-            if( Settings::setting('error_logging') )
-            {
-
-                $application->getErrorHandler()->handleFlightError( $error );
-
-                if( Settings::setting('error_display_page') )
-                    if( $_SERVER['REQUEST_URI'] == '/' )
-                        Flight::redirect('/error?redirect=/index');
-                    else
-                        Flight::redirect('/error?redirect=' . $_SERVER['REQUEST_URI'] );
-                else
-                    Flight::redirect('/');
-
-            }
-            else
-                Flight::notFound();
-
-        });
-        Flight::map('notFound', function(){
-
-            Flight::redirect('/framework/error/notfound/');
-        });
-	    Flight::after('start', function()
-	    {
-
-		    if( DEBUG_ENABLED  )
-		    {
-			    Debug::message("Request Complete");
-
-			    if( DEBUG_WRITE_FILE )
-				    Debug::stashMessages();
-		    }
-	    });
-
-        try
-        {
-
-
-	        define('SYSCRACK_TIME_END', microtime( true ) );
-	        $application->addToGlobalContainer();
-
-            if( Debug::isCMD() == false )
-            {
-
-	            $application->runController();
-	            $application->runFlight();
-            }
-            else
-                Debug::echo("Flight engine halted due to CMD mode being active. Syscrack has loaded successfully!");
-        }
-        catch( Error $error )
-        {
-
-            if( Settings::setting('error_logging') )
-            {
-
-                $application->getErrorHandler()->handleError( $error );
-
-                if( Settings::setting('error_display_page') )
-                    if( $_SERVER['REQUEST_URI'] == '/' )
-                        Flight::redirect('/error?redirect=/index');
-                    else
-                        Flight::redirect('/error?redirect=' . $_SERVER['REQUEST_URI'] );
-                else
-                    Flight::redirect('/');
-
-            }
-            else
-                Flight::notFound();
-
-        }
+	    $application->go();
     }
     catch( RuntimeException $error )
     {
