@@ -253,7 +253,6 @@
     //User Permissions
     define("USER_PERMISSIONS_ROOT", "data/config/user/");
 
-
     //Featured
     define("FEATURED_ROOT", "data/featured/");
     define("FEATURED_ARTISTS", "artists");
@@ -315,119 +314,46 @@
     define("MIGRATOR_ROOT", "src/Application/UtilitiesV2/Migrators/");
     define("MIGRATOR_NAMESPACE","Framework\\Application\\UtilitiesV2\\Migrators\\");
 
+    //PHP Unit
     define("PHPUNIT_FINISHED", true );
 
-    //</editor-fold>
+    //CLI
+	define("CLI_DEFAULT_COMMAND","instance");
 
-    if( php_sapi_name() === 'cli' && Debug::isCMD() == false )
-        die('Please run this web application through your web browser. It wont work via the console!');
+//</editor-fold>
+
+
 
 //<editor-fold defaultstate="collapsed" desc="Syscrack Initialization">
 
-    /**
-     * Check if the framework application class exists
-     */
+	if( php_sapi_name() === 'cli' && Debug::isCMD() == false )
+		die('It seems you have tried to execute index.php inside a terminal. Congratulations. Please run execute.php instead.'
+			. "<br>If you require documentation and tutorials on how to use our fancy terminal instance. Please read the wiki on our official github."
+			. "<br><br>https://github.com/dialtoneuk/syscrack"
+		);
 
     if( class_exists('Framework\\Application') == false )
-    {
-
-        ob_clean();
-
-        ?>
-
-            <html>
-                <head>
-                    <meta charset="utf-8">
-                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-                    <title>Framework Error</title>
-
-                    <!-- Stylesheets -->
-                    <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
-                    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
-
-                    <!--[if lt IE 9]>
-                    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-                    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-                    <![endif]-->
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h5 style="color: #ababab" class="text-uppercase text-center">
-                                    Critical Error
-                                </h5>
-                                <div class="panel panel-danger">
-                                    <div class="panel-heading">
-                                        Major error
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        The framework was unable to find the Application class, this could be due to a few reasons, please check out the <a href="https://github.com/dialtoneuk/Syscrack2017/">github for solutions.</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </body>
-            </html>
-        <?php
-
-        exit;
-    }
+        die("Framework\\Application not found! Please check the following conditions have been met"
+            . "<br>Composer update has been ran on syscracks root directory."
+            . "<br>You are running PHP 7.2+ ( you are on " . PHP_VERSION . ")."
+            . "<br>Your PHP error log is clean."
+            . "<br>If you are still struggling with this error. Please post an issue on our official github page."
+            . "<br><br>https://github.com/dialtoneuk/syscrack"
+        );
 
     use Framework\Application;
     use Framework\Application\Settings;
+    use Framework\Application\Utilities\FileSystem;
 
     if( Settings::canFindSettings() == false )
-    {
-
-        ob_clean();
-
-        ?>
-
-            <html>
-                <head>
-                    <meta charset="utf-8">
-                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-                    <title>Framework Error</title>
-
-                    <!-- Stylesheets -->
-                    <link href="/assets/css/bootstrap.dark.css" rel="stylesheet">
-                    <link href="/assets/css/bootstrap-combobox.css" rel="stylesheet">
-
-                    <!--[if lt IE 9]>
-                    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-                    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-                    <![endif]-->
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h5 style="color: #ababab" class="text-uppercase text-center">
-                                    Critical Error
-                                </h5>
-                                <div class="panel panel-danger">
-                                    <div class="panel-heading">
-                                        Major error
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        The framework was unable to find your settings file located at <?=Settings::fileLocation()?>, this could be because of a few reasons. We suggest you check out <a href="https://github.com/dialtoneuk/Syscrack2017/">the github.</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-                </body>
-            </html>
-        <?php
-
-        exit;
-    }
+        die("Cannot find settings file! Please check the following information is correct"
+	        . "<br>Root: " . $root
+	        . "<br>CWD: " . getcwd()
+	        . "<br>Document Root: " . $_SERVER["DOCUMENT_ROOT"]
+	        . "<br>Settings file: " . $root . FileSystem::separate("data","config","settings.json" )
+	        . "<br>If you are still struggling with this error. Please post an issue on our official github page."
+	        . "<br><br>https://github.com/dialtoneuk/syscrack"
+        );
 
     /**
     * Starts the application
@@ -436,31 +362,14 @@
     try
     {
 
+	    $application = new Application( false );
 
 	    if( DEBUG_ENABLED )
-	    {
-		    //This will automatically allow all the debug methods in the application to function
 		    Debug::initialization();
-		    Debug::message("Request initiated");
-		    Debug::setStartTime('application');
-	    }
-
-        $application = new Application( false );
-
-        if( Debug::isCMD() )
-            Application\UtilitiesV2\Container::add("application", $application );
-
-        /**
-         * Set the view path for flight
-         */
 
         Flight::set('flight.views.path', SYSCRACK_ROOT );
-
-        /**
-         * Handles an error with the render engine
-         */
-
-        Flight::map('error', function(Error $error) use ( $application ){
+        Flight::map('error', function(Error $error) use ( $application )
+        {
 
             if( Settings::setting('error_logging') )
             {
@@ -468,101 +377,51 @@
                 $application->getErrorHandler()->handleFlightError( $error );
 
                 if( Settings::setting('error_display_page') )
-                {
-
                     if( $_SERVER['REQUEST_URI'] == '/' )
                         Flight::redirect('/error?redirect=/index');
                     else
                         Flight::redirect('/error?redirect=' . $_SERVER['REQUEST_URI'] );
-                }
                 else
-                {
-
                     Flight::redirect('/');
-                }
+
             }
             else
-            {
-
                 Flight::notFound();
-            }
+
         });
-
-        /**
-         * Maps the 'not found' page
-         */
-
         Flight::map('notFound', function(){
 
             Flight::redirect('/framework/error/notfound/');
         });
-
-        /**
-         * Map our time end
-         */
-
-        Flight::before('start', function ()
-        {
-
-	        if ( DEBUG_ENABLED )
-		        Debug::setStartTime('flight_route');
-
-            define('SYSCRACK_TIME_END', microtime( true ) );
-        });
-
-	    /**
-	     * After start
-	     */
-
 	    Flight::after('start', function()
 	    {
+
 		    if( DEBUG_ENABLED  )
 		    {
 			    Debug::message("Request Complete");
-			    Debug::setEndTime('flight_route' );
+
 			    if( DEBUG_WRITE_FILE )
-			    {
 				    Debug::stashMessages();
-				    Debug::stashTimers();
-			    }
 		    }
 	    });
-
-	    Flight::before('redirect', function()
-	    {
-
-	        Debug::message('Redirected to: ' . Application\Render::$last_redirect );
-	    });
-
-        /**
-         * Starts the applications controllers
-         */
 
         try
         {
 
+
+	        define('SYSCRACK_TIME_END', microtime( true ) );
+	        $application->addToGlobalContainer();
+
             if( Debug::isCMD() == false )
             {
 
-
-                $application->runController();
-
-                /**
-                 * Set the application to be global
-                 */
-
-                $application->addToGlobalContainer();
-
-                /**
-                 * Set the application to be global
-                 */
-
-                $application->runFlight();
+	            $application->runController();
+	            $application->runFlight();
             }
             else
-                Debug::echo("Syscrack has loaded but did not start the engine due to being in command line interface mode");
+                Debug::echo("Flight engine halted due to CMD mode being active. Syscrack has loaded successfully!");
         }
-        catch( Exception $error )
+        catch( Error $error )
         {
 
             if( Settings::setting('error_logging') )
@@ -571,81 +430,28 @@
                 $application->getErrorHandler()->handleError( $error );
 
                 if( Settings::setting('error_display_page') )
-                {
-
                     if( $_SERVER['REQUEST_URI'] == '/' )
                         Flight::redirect('/error?redirect=/index');
                     else
                         Flight::redirect('/error?redirect=' . $_SERVER['REQUEST_URI'] );
-                }
                 else
-                {
-
                     Flight::redirect('/');
-                }
+
             }
             else
-            {
-
                 Flight::notFound();
-            }
+
         }
     }
-    catch( Exception $error )
+    catch( RuntimeException $error )
     {
 
-        ob_clean();
-
-        ?>
-
-            <html>
-                <head>
-                    <meta charset="utf-8">
-                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-                    <title>Critical Error</title>
-
-                    <!-- Stylesheets -->
-                    <link href="/themes/alpha/css/bootstrap.dark.css" rel="stylesheet">
-                    <link href="/themes/alpha/css/bootstrap-combobox.css" rel="stylesheet">
-
-                    <!--[if lt IE 9]>
-                    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-                    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-                    <![endif]-->
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h5 style="color: #ababab" class="text-uppercase text-center">
-                                    Critical Error
-                                </h5>
-                                <div class="panel panel-danger">
-                                    <div class="panel-heading">
-                                        <?=$error->getMessage()?> @ <?=$error->getFile()?> line <?=$error->getLine()?>
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        <p>
-                                            An error occurred outside of the framework, this is usually due to a permission error, a rewrite error, or something completely different, check out the error stack below.
-                                        </p>
-
-                                        <div class="well">
-<pre>
-    <?=$error->getTraceAsString()?>
-</pre>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </body>
-            </html>
-        <?php
+        die("Oh no! Something really bad happened and Syscrack exploded when trying to load its engine."
+	        . "<br>Please post this as an issue to our github repository"
+	        . "<pre>" . $error->getFile() .  " line " . $error->getLine() ."</pre>"
+	        . "<pre>" . $error->getMessage() .  "</pre>"
+	        . "<pre>" . $error->getTraceAsString() .  "</pre>"
+	        . "<br><br>https://github.com/dialtoneuk/syscrack"
+        );
     }
 //</editor-fold>
-
-//And that's all folks
-Debug::setEndTime('application');

@@ -58,7 +58,7 @@
 			if ($this->checkData($data) == false)
 				return false;
 
-			$computer = self::$internet->getComputer($data['ipaddress']);
+			$computer = self::$internet->computer($data['ipaddress']);
 			$software = self::$software->getSoftware($data['softwareid']);
 
 			if ($computer->type !== Settings::setting('syscrack_computers_download_type'))
@@ -89,7 +89,7 @@
 			if ($this->checkData($data) == false)
 				return false;
 
-			$computer = self::$internet->getComputer($data['ipaddress']);
+			$computer = self::$internet->computer($data['ipaddress']);
 			$software = self::$software->getSoftware($data['softwareid']);
 
 			if (self::$internet->ipExists($data['ipaddress']) == false)

@@ -109,7 +109,7 @@
 			if (self::$finance->accountNumberExists($data['custom']['accountnumber']) == false)
 				return false;
 
-			$computer = self::$internet->getComputer($data['ipaddress']);
+			$computer = self::$internet->computer($data['ipaddress']);
 
 			if (self::$computer->isMarket($computer->computerid) == false)
 				return false;

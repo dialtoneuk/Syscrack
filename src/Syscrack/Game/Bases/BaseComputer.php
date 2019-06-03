@@ -301,18 +301,20 @@
 
 				return( array('icons' => $icons, 'hardware' => $hardware ) );
 			});
+			$tabhardware->bypass();
+			$tabhardware->render("syscrack/templates/template.hardware");
 
 			$tabsoftware = new Tab('software', false );
 			$tabsoftware->bypass();
-			$tabsoftware->render("sycrack/templates/template.softwares");
+			$tabsoftware->render("syscrack/templates/template.softwares");
 
 			$tabstorage = new Tab('storage', false );
 			$tabstorage->bypass();
-			$tabstorage->render("sycrack/templates/template.storage");
+			$tabstorage->render("syscrack/templates/template.storage");
 
 			$tablog = new Tab('log', false );
 			$tablog->bypass();
-			$tablog->render("sycrack/templates/template.log");
+			$tablog->render("syscrack/templates/template.log");
 
 			$tabhistory = new Tab('history', true );
 			$tabhistory->postMethod(function( $computerid, $userid ){
@@ -409,7 +411,7 @@
 		public function logRemote($ipaddress, $message)
 		{
 
-			$computer = self::$internet->getComputer($ipaddress);
+			$computer = self::$internet->computer($ipaddress);
 
 			if ($computer == null)
 				throw new SyscrackException();

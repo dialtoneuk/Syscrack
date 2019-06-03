@@ -101,7 +101,7 @@
 			if ($this->checkData($data, ['ipaddress']) == false)
 				return false;
 
-			$computer = self::$internet->getComputer($data['ipaddress']);
+			$computer = self::$internet->computer($data['ipaddress']);
 
 			if ($computer->type != Settings::setting('syscrack_computers_market_type'))
 				return false;
@@ -129,7 +129,7 @@
 			if (self::$internet->ipExists($data['ipaddress']) == false)
 				return false;
 
-			$computer = self::$internet->getComputer($data["ipaddress"]);
+			$computer = self::$internet->computer($data["ipaddress"]);
 
 			$this->render('operations/operations.market', array('ipaddress' => $data['ipaddress'],
 				'metadata' => self::$metadata->get($computer->computerid),

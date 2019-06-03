@@ -14,18 +14,38 @@
 
 		/**
 		 * @param null $time
+		 * @param bool $small
 		 *
 		 * @return false|string
 		 */
 
-		public static function timestamp($time = null)
+		public static function timestamp($time = null, $small=false )
 		{
 
 			if ($time == null)
 				$time = time();
 
+			if( $small )
+				return (date('m-d H:i', $time));
+
 			return (date('Y-m-d H:i:s', $time));
 		}
+
+		/**
+		 * @param null $time
+		 *
+		 * @return false|string
+		 */
+
+		public static function year($time = null )
+		{
+
+			if ($time == null)
+				$time = time();
+
+			return (date('Y', $time));
+		}
+
 
 		/**
 		 * @param string $text

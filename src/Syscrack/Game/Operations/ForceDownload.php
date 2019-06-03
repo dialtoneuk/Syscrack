@@ -94,7 +94,7 @@
 			if ($this->checkCustomData($data, ['softwareid']) == false)
 				return false;
 
-			if (self::$computer->hasSoftware(self::$internet->getComputer($data['ipaddress'])->computerid, $data['custom']['softwareid']) == false)
+			if (self::$computer->hasSoftware(self::$internet->computer($data['ipaddress'])->computerid, $data['custom']['softwareid']) == false)
 				return false;
 
 			$software = self::$software->getSoftware($data['custom']['softwareid']);

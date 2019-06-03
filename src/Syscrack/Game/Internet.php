@@ -63,7 +63,7 @@
 		 * @return mixed|null
 		 */
 
-		public function getComputer($ipaddress)
+		public function computer($ipaddress)
 		{
 
 			return self::$computer->getComputerByIPAddress($ipaddress);

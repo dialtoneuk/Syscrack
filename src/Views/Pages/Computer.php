@@ -360,7 +360,7 @@
 				else
 				{
 
-					$computerid = parent::$internet->getComputer($address["ipaddress"])->computerid;
+					$computerid = parent::$internet->computer($address["ipaddress"])->computerid;
 
 					if (self::$viruses->hasVirusesOnComputer($computerid, $userid) == false)
 						$results[] = array_merge($address, ["status" => 1]);

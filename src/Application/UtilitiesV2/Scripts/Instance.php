@@ -58,30 +58,23 @@
 		public function execute($arguments)
 		{
 
+			if ( self::$active_instance == true )
+				throw new \Error("cannot run two instances at once");
+
 			if (Container::exist("scripts") == false)
 				throw new \Error("Scripts does not exist");
+			elseif( Debug::session() )
+				$this->session( Debug::$session );
 
 			if( Container::exist("instance" ) == false )
 				Container::add("instance", $this );
 
-			if ($this->scripts == null)
-				$this->refresh();
-
-			if( Debug::session() )
-				$this->session( Debug::$session );
-
-			if (self::$active_instance == true)
-				throw new \Error("cannot run two instances at once");
-
-			$this->scripts->execute("sysinfo", false, false);
-			$this->setProcessWindow("Syscrack CLI", time());
-
 			try
 			{
 
-				Debug::echo("type help for help, commands for a list of commands. exit or 'e' to exit.");
+				Debug::echo("type help for help. type commands for a list of commands. terminate, end or 'e' to exit.");
 
-				while ($input = Debug::getLine("execute"))
+				while ( $input = Debug::getLine("execute") )
 				{
 
 					self::$active_instance = true;
@@ -89,15 +82,19 @@
 
 					$data = $this->parseInput($input);
 
-					if ($this->canExit($data["script"]))
-						$this->exit();
+					if ($this->scripts == null)
+					{
+
+						Debug::echo("\nrefreshing instance..." );
+						$this->refresh();
+					}
 
 					if ($this->scripts->exists($data["script"]) == false)
 						Debug::echo("script does not exist");
 					else
 					{
 
-						$this->setProcessWindow("Syscrack CLI [" . $data["script"] . "]", time());
+						$this->setProcessWindow("syscrack CLI [" . $data["script"] . "]", time());
 
 						if (empty($data["arguments"]) == false)
 							$this->scripts->setArguments($data["arguments"]);
@@ -105,11 +102,6 @@
 						$this->scripts->execute($data["script"], false);
 						$this->scripts->setArguments([]);
 					}
-
-					if ($this->canRefresh($data["script"]))
-						$this->refresh();
-
-					Debug::echo("");
 				}
 
 				$this->setProcessWindow(null, time());
@@ -117,30 +109,34 @@
 			catch (\Error $exception)
 			{
 
-				self::$active_instance = false;
+
 				$this->printError($exception);
-				Debug::echo("Restarting in 2 seconds...\n");
+				Debug::echo("restarting in 2 seconds...\n");
 				sleep(2);
+
+				self::$active_instance = false;
 				$this->execute($arguments);
 			}
 			catch ( \RuntimeException $exception )
 			{
 
-				self::$active_instance = false;
 				$this->printRuntimeException($exception);
-				Debug::echo("Terminating instance in 2 seconds...\n");
+				Debug::echo("terminating instance in 2 seconds...\n");
 				sleep(2);
+
+				self::$active_instance = false;
 				$this->exit();
 
 				return false;
 			}
 			finally
 			{
-
 				$this->setProcessWindow(null, time());
 			}
 
 			self::$active_instance = false;
+
+			Debug::echo("Instance exiting");
 			return parent::execute($arguments);
 		}
 
@@ -241,6 +237,7 @@
 		private function printRuntimeException(\RuntimeException $exception)
 		{
 
+			Debug::beep( 2 );
 			Debug::echo("\n[CRITICAL RUNTIME EXCEPTION at " . Format::timestamp() . "] " . $exception->getMessage());
 			Debug::echo(" in file " . $exception->getFile() . "[" . $exception->getLine() . "]");
 
@@ -255,39 +252,17 @@
 		}
 
 		/**
-		 * @param $input
-		 *
-		 * @return bool
-		 */
-
-		public function canExit($input)
-		{
-
-			return ($input == "exit" || $input == "e" || $input == "bye");
-		}
-
-		/**
-		 * @param $input
-		 *
-		 * @return bool
-		 */
-
-		public function canRefresh($input)
-		{
-
-			return ($input == "r" || $input == "refresh");
-		}
-
-		/**
-		 * Refreshes the local instance
+		 * Refreshes the instance
 		 */
 
 		public function refresh()
 		{
 
-			Debug::echo("\n! Refreshing instance !\n");
+			if( Debug::session()  )
+				Debug::echo(" $[Refreshing" . Debug::$session . "]--------------------[Refreshed: " . Format::timestamp() . "]");
+			else
+				Debug::echo(" @[Refreshing]--------------------[Refreshed " . Format::timestamp() . "]");
 
-			//Refreshes
 			$this->scripts = Container::get("scripts");
 		}
 
@@ -299,16 +274,15 @@
 		{
 
 			if( Debug::session()  )
-				Debug::echo(" @[Terminating " . Debug::$session . "]--------------------[Terminated: " . Format::timestamp() . "]", 1);
+				Debug::echo(" @[Terminating " . Debug::$session . "]--------------------[Terminated: " . Format::timestamp() . "]");
 			else
-				Debug::echo(" @[End Of Instance]--------------------[Terminated: " . Format::timestamp() . "]", 1);
+				Debug::echo(" @[End Of Instance]--------------------[Terminated: " . Format::timestamp() . "]");
 
 			Debug::message("Ending instance and exiting PHP");
 
 			Debug::stashOutput();
 			Debug::stashMessages();
 			Debug::stashTimers();
-
 
 			if( Debug::session() )
 				if( FileSystem::exists( FileSystem::separate("data","cli","session.json") ) )
@@ -320,7 +294,7 @@
 					FileSystem::writeJson( FileSystem::separate("data","cli","session.json"), $data );
 				}
 
-			exit(0);
+			define("EXIT", true );
 		}
 
 		/**

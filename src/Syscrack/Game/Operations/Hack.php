@@ -26,12 +26,6 @@
 		protected static $addressdatabase;
 
 		/**
-		 * @var Preferences
-		 */
-
-		protected static $preferences;
-
-		/**
 		 * Hack constructor.
 		 */
 
@@ -40,9 +34,6 @@
 
 			if (isset(self::$addressdatabase) == false)
 				self::$addressdatabase = new AddressDatabase();
-
-			if( isset( self::$preferences ) == false )
-				self::$preferences = new Preferences();
 
 			parent::__construct();
 		}
@@ -93,92 +84,31 @@
 			else
 			{
 
-				$target = self::$internet->getComputer( $data["ipaddress"] );
+				$target = self::$internet->computer( $data["ipaddress"] );
 
-				if( self::$computer->hasType( $computerid, 'cracker') == false )
-					$this->formError("You need to install a cracker in order to hack into computers");
+				if( empty( $target ) || $target == null )
+					return false;
+
+				$cracker = $this->software( $computerid, 'cracker');
+
+				if( empty( $cracker ) || $cracker === null )
+					$this->formError('You need a cracker in order to hack into computers');
 				else
 				{
 
-					if( self::$preferences->hasSoftwarePreference( $userid, $computerid,'cracker') == false )
-						$cracker = $this->getHighestLevelSoftware( $computerid, 'cracker');
-					else
-						$cracker = self::$software->getSoftware( self::$preferences->getSoftwarePreference( $userid, $computerid,'cracker') );
+					$hasher = $this->software( $target->computerid, 'hasher');
 
-					if( self::$computer->hasType( $target->computerid, 'hasher') == false )
+					if( empty( $hasher ) || $hasher === null )
+						return true;
+					elseif( $cracker->level > $hasher->level )
 						return true;
 					else
-					{
-
-						$hasher = $this->getHighestLevelSoftware( $target->computerid, 'hasher');
-
-						if( $hasher->level > $cracker->level )
-							return false;
-
-						return true;
-					}
+						return false;
 				}
 			}
 
 			return false;
 		}
-
-		/**
-		 * Called when this process request is created
-		 *
-		 * @param $timecompleted
-		 *
-		 * @param $computerid
-		 *
-		 * @param $userid
-		 *
-		 * @param $process
-		 *
-		 * @param array $data
-		 *
-		 * @return mixed
-		 */
-
-		/**
-		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
-		{
-
-			if ($this->checkData($data, ['ipaddress']) == false)
-				return false;
-
-			if (self::$computer->getComputer($computerid)->ipaddress == $data['ipaddress'])
-				return false;
-
-
-			if (self::$addressdatabase->hasAddress($data['ipaddress'], $userid))
-				return false;
-
-			if (self::$computer->hasType($computerid, Settings::setting('syscrack_software_cracker_type'), true) == false)
-				return false;
-
-			$victimid = $this->getComputerId( $data['ipaddress'] );
-
-			if( self::$computer->hasType( $victimid, Settings::setting('syscrack_software_hasher_type'), true ) )
-			{
-
-				$hasher = $this->getHighestLevelSoftware( $victimid, Settings::setting('syscrack_software_hasher_type') );
-				$cracker = $this->getHighestLevelSoftware( $computerid, Settings::setting('syscrack_software_cracker_type') );
-
-				if( empty( $hasher ) )
-					return true;
-
-				if( empty( $cracker ) )
-					return false;
-
-				if( @$cracker["level"] > $hasher["level"] )
-					return true;
-
-				return false;
-			}
-			else
-				return true;
-		}
-		 **/
 
 		/**
 		 * @param $timecompleted
@@ -204,19 +134,13 @@
 
 				self::$addressdatabase->addAddress($data['ipaddress'], $userid);
 
-				//TODO: Rewrite statistics
-
-				/**
-				if (Settings::setting('syscrack_statistics_enabled') == true)
-					self::$statistics->addStatistic('hacks');
-				**/
-
 				if (isset($data['redirect']) == false)
 					return true;
 				else
 					return ($data['redirect']);
 			}
 
+			return false;
 		}
 
 		/**

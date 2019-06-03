@@ -78,7 +78,7 @@
 			if ($this->checkData($data, ['ipaddress']) == false)
 				return false;
 
-			$computer = self::$internet->getComputer($data['ipaddress']);
+			$computer = self::$internet->computer($data['ipaddress']);
 
 			if (self::$computer->isBank($computer->computerid) == false)
 				return false;
@@ -121,7 +121,7 @@
 		public function onPost($data, $ipaddress, $userid)
 		{
 
-			$computer = self::$internet->getComputer($ipaddress);
+			$computer = self::$internet->computer($ipaddress);
 
 			if ($data['action'] == 'create')
 			{

@@ -15,6 +15,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\ArrayHelper;
 	use Framework\Application\UtilitiesV2\Controller\FormMessage;
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\Computer;
 	use Framework\Syscrack\Game\Finance;
@@ -28,6 +29,7 @@
 	use Framework\Syscrack\User;
 	use Illuminate\Support\Collection;
 	use Framework\Application\FormContainer;
+	use Framework\Syscrack\Game\Preferences;
 
 
 	class BaseOperation implements Operation
@@ -82,6 +84,12 @@
 		protected static $user;
 
 		/**
+		 * @var Preferences
+		 */
+
+		protected static $preferences;
+
+		/**
 		 * Operation constructor.
 		 *
 		 * @param bool $createclasses
@@ -116,6 +124,9 @@
 
 				if (isset(self::$user) == false)
 					self::$user = new User();
+
+				if( isset( self::$preferences ) == false )
+					self::$preferences = new Preferences();
 			}
 		}
 
@@ -296,6 +307,8 @@
 					return true;
 				else
 					return false;
+
+			return false;
 		}
 
 		/**
@@ -310,19 +323,19 @@
 					return true;
 				else
 					return false;
+
+			return false;
 		}
 
 		/**
-		 * Gets the highest level of software on the users computer
-		 *
 		 * @param $computerid
-		 *
 		 * @param null $type
+		 * @param bool $object
 		 *
-		 * @return array|null
+		 * @return array|mixed|null
 		 */
 
-		public function getHighestLevelSoftware($computerid, $type = null)
+		public function getHighestLevelSoftware($computerid, $type = null, $object=false)
 		{
 
 			if ($type == null)
@@ -349,10 +362,54 @@
 				return (array)$results;
 
 			if( isset( $results[0]) == false )
-				return $results;
+				if( $object )
+					return( Format::toObject( $results ) );
+				else
+					return $results;
 
-			return (array)$results[0];
+			if( $object )
+				return( Format::toObject( $results[0] ) );
+			else
+				return $results[0];
 		}
+
+		/**
+		 * Gets a type of software to be used in an operation. Takes the uniquename of a software and will either
+		 * return the highest level software of the users preference if they have one
+		 *
+		 * @param int $computerid
+		 * @param string $type
+		 *
+		 * @return array|mixed|null
+		 */
+
+		public function software( int $computerid, string $type="cracker" )
+		{
+
+			$computer = self::$computer->getComputer( $computerid );
+
+			if( empty( $computer ) )
+				return null;
+
+			if( self::$preferences->has( $computer->userid ) == false )
+				return( $this->getHighestLevelSoftware( $computerid, $type, true) );
+			elseif( self::$preferences->hasSoftwarePreference( $computer->userid, $computerid, $type ) == false )
+				return( $this->getHighestLevelSoftware( $computerid, $type, true) );
+			else
+			{
+
+				$preference = self::$preferences->getSoftwarePreference( $computer->userid, $computerid, $type );
+
+				if( self::$computer->hasSoftware( $computerid, $preference ) == false )
+					return( $this->getHighestLevelSoftware( $computerid, $type, true) );
+				elseif( self::$software->softwareExists( $preference ) == false )
+					return( $this->getHighestLevelSoftware( $computerid, $type, true ) );
+				else
+					return( self::$software->getSoftware( $preference ) );
+			}
+		}
+
+
 
 		/**
 		 * Checks the data given to the operation and returns false is a requirement isn't set
@@ -412,7 +469,7 @@
 			if (self::$computer->computerExists($computerid) == false)
 				throw new SyscrackException();
 
-			$victimid = self::$internet->getComputer($ipaddress);
+			$victimid = self::$internet->computer($ipaddress);
 
 			if (self::$log->hasLog($victimid->computerid) == false || self::$log->hasLog($computerid) == false)
 				throw new SyscrackException();
@@ -652,7 +709,7 @@
 		public function getComputerId($ipaddress)
 		{
 
-			return self::$internet->getComputer($ipaddress)->computerid;
+			return self::$internet->computer($ipaddress)->computerid;
 		}
 
 		/**

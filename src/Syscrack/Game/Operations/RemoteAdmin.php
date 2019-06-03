@@ -95,7 +95,7 @@
 				return false;
 
 
-			$computer = self::$internet->getComputer($data['ipaddress']);
+			$computer = self::$internet->computer($data['ipaddress']);
 
 			if ($computer->type != Settings::setting('syscrack_computers_bank_type'))
 				return false;
@@ -150,7 +150,7 @@
 						'account' => self::$finance->getByAccountNumber(self::$finance->getCurrentActiveAccount()),
 						'accounts' => self::$finance->getUserBankAccounts($userid),
 						'accounts_location' => $this->getAddresses(self::$finance->getUserBankAccounts($userid)),
-						'computer' => self::$internet->getComputer($data['ipaddress'])
+						'computer' => self::$internet->computer($data['ipaddress'])
 					), true);
 
 			return null;

@@ -18,6 +18,9 @@ composer.phar
 /data/accounts/
 /data/logs/
 /data/market/
+/data/preferences/
+/data/search/
+/data/inventory/
 
 # Uncomment to start excluding resources
 # /resources/

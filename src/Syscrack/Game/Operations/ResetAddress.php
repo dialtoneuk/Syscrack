@@ -80,7 +80,7 @@
 				return false;
 			}
 
-			if (self::$internet->getComputer($data['ipaddress'])->type != Settings::setting('syscrack_computers_isp_type'))
+			if (self::$internet->computer($data['ipaddress'])->type != Settings::setting('syscrack_computers_isp_type'))
 			{
 
 				return false;

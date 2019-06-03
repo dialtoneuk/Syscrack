@@ -598,7 +598,7 @@
 				else
 				{
 
-					$target = self::$internet->getComputer($ipaddress);
+					$target = self::$internet->computer($ipaddress);
 					$software = self::$software->getSoftware($softwareid);
 					$class = self::$operations->findProcessClass($process);
 

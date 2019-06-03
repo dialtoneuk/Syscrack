@@ -202,7 +202,7 @@
 		public function getComputerByAddress($ipaddress)
 		{
 
-			return (self::$internet->getComputer($ipaddress));
+			return (self::$internet->computer($ipaddress));
 		}
 
 		/**

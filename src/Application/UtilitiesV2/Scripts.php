@@ -202,7 +202,7 @@
 			$result = $script->execute($arguments);
 
 			if (Debug::isCMD())
-				Debug::echo("Script Concluded", 2);
+				Debug::echo("Script Concluded", 0);
 
 			if ($quiet)
 				Debug::setSupressed(false);
@@ -213,25 +213,25 @@
 				if ($result)
 				{
 					if (Debug::isCMD())
-						Debug::echo("Success", 0);
+						Debug::echo("Execution Successful", 1);
 
-					exit(0);
+					return( true );
 				}
 				else
 				{
 
 					if (Debug::isCMD())
-						Debug::echo("Failed", 0);
+						Debug::echo("Execution Failed", 1);
 
-					exit(1);
+					return( false );
 				}
 
 			}
 			else
 			{
 
-				Debug::echo("Ready...", 0);
-				return ($result);
+				Debug::echo("Execution Ready...", 1);
+				return( $result );
 			}
 		}
 

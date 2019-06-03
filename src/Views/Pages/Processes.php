@@ -150,7 +150,7 @@
 					else
 					{
 
-						$target = self::$internet->getComputer($data["ipaddress"]);
+						$target = self::$internet->computer($data["ipaddress"]);
 
 						if (self::$operations->requireLoggedIn($process->process))
 							if (self::$internet->hasCurrentConnection())

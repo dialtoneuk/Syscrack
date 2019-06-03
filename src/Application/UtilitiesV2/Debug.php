@@ -89,8 +89,6 @@
 
 			self::$session = $session;
 
-			Debug::message("set session to: " . $session );
-
 			return( true );
 		}
 
@@ -112,10 +110,10 @@
 
 			if (Debug::isCMD() )
 				if( self::$verbosity > self::VERBOSITY_ERRORS )
-					Debug::echo("debug message: " . $message, 4);
+					Debug::echo("debug message: " . $message, 2);
 
 			if (isset(self::$objects->messages) == false)
-				self::$objects->messages = [];
+				self::$objects->messages = Debug::getMessages();
 
 			if ($include_time)
 				$time = time();
@@ -216,6 +214,28 @@
 				self::checkDirectory( $path );
 
 			FileSystem::writeJson( $path, self::$objects->messages );
+		}
+
+		/**
+		 * @return mixed
+		 */
+
+		public static function savedMessages()
+		{
+
+			if( self::session() )
+				$path = FileSystem::separate("data","cli", self::$session, "messages.json" );
+			else
+				$path = DEBUG_MESSAGES_FILE;
+
+			if (FileSystem::exists( $path ) == false)
+			{
+
+				self::checkDirectory( $path );
+				return( [] );
+			}
+
+			return( FileSystem::readJson( $path ) );
 		}
 
 		/**
@@ -341,6 +361,9 @@
 		public static function getMessages()
 		{
 
+			if( empty( self::$objects->messages ) )
+				return( self::savedMessages() );
+
 			return (self::$objects->messages);
 		}
 
@@ -379,6 +402,9 @@
 		public static function getLine($prompt = "Enter")
 		{
 
+			if( self::exit() )
+				return false;
+
 			$result = readline( $prompt . "\\\\:$" );
 
 			if( empty( $result ) )
@@ -387,6 +413,19 @@
 			self::$buffer .= $prompt . "\\\\:$" . addslashes( $result ) . "\n";
 
 			return ($result);
+		}
+
+		/**
+		 * @return bool
+		 */
+
+		public static function exit()
+		{
+
+			if( defined("EXIT") )
+				return true;
+
+			return false;
 		}
 
 		/**
@@ -483,20 +522,20 @@
 					if (is_string($message) == false)
 						$message = print_r($message);
 
-					echo($message . "\n");
+					echo( strtolower( $message . "\n" ));
 				}
 				else
 				{
 
-					$prefix = "-";
+					$prefix = "";
 
 					for ($i = 0; $i < $tabs; $i++)
-						$prefix = $prefix . "-";
+						$prefix = $prefix . " ";
 
 					if ($tabs !== 1)
-						$prefix .= ">";
+						$prefix .= " ";
 
-					echo($prefix . " " . $message . "\n");
+					echo( strtolower( $prefix . " " . $message . "\n" ) );
 				}
 			}
 
@@ -504,6 +543,21 @@
 			@ob_end_flush();
 
 			self::$buffer .= $contents;
+		}
+
+		/**
+		 * @param int $beeps
+		 */
+
+		public static function beep( $beeps = 1)
+		{
+
+			if( Debug::isCMD() == false )
+				return;
+
+			$string_beeps = "";
+			for ($i = 0; $i < $beeps; $i++): $string_beeps .= "\x07"; endfor;
+			isset ($_SERVER['SERVER_PROTOCOL']) ? null : Debug::echo( $string_beeps );
 		}
 
 		/**
@@ -550,8 +604,6 @@
 			array_pop($removed_filename);
 
 			$filename = implode(DIRECTORY_SEPARATOR, $removed_filename) . DIRECTORY_SEPARATOR;
-
-			Debug::message("attempting to create: " . $filename . " from " . $path );
 
 			if (is_file(SYSCRACK_ROOT . $filename))
 				throw new \Error('Returned path is not a directory');

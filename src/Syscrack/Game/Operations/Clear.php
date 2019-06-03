@@ -54,7 +54,7 @@
 			if ($this->checkData($data, ['ipaddress']) == false)
 				return false;
 
-			$computer = self::$internet->getComputer($data['ipaddress']);
+			$computer = self::$internet->computer($data['ipaddress']);
 
 			if (self::$log->hasLog($computer->computerid) == false)
 				return false;

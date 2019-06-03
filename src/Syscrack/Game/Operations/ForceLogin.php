@@ -82,7 +82,7 @@
 			if (self::$user->isAdmin($userid) == false)
 				return false;
 
-			$computer = self::$internet->getComputer($data['ipaddress']);
+			$computer = self::$internet->computer($data['ipaddress']);
 
 			if (self::$computer->hasComputerClass($computer->type) == false)
 				return false;

@@ -2,7 +2,7 @@
 namespace Framework\Application\UtilitiesV2\Scripts;
 
 /**
- * Class Reload
+ * Class Reinitialize
  *
  * Automatically created at: 2019-05-15 02:15:24
  */
@@ -11,7 +11,7 @@ use Framework\Application\UtilitiesV2\Container;
 use Framework\Application\Settings;
 use Framework\Application\UtilitiesV2\Debug;
 
-class Reload extends Base
+class Reinitialize extends Base
 {
 
     /**

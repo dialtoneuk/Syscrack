@@ -690,7 +690,7 @@
 						$this->formError('Address is invalid', 'admin/computer');
 					}
 
-					$this->redirect('admin/computer/' . self::$internet->getComputer($query)->computerid);
+					$this->redirect('admin/computer/' . self::$internet->computer($query)->computerid);
 				}
 				else
 				{

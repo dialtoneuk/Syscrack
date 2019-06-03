@@ -13,7 +13,7 @@ if (isset($internet) == false) {
     $internet = new Internet();
 }
 
-$current_computer = $internet->getComputer($ipaddress);
+$current_computer = $internet->computer($ipaddress);
 ?>
 
 <div class="row">

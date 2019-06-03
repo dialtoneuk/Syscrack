@@ -15,6 +15,12 @@
 	class Debug extends Base
 	{
 
+		/**
+		 * @param $arguments
+		 *
+		 * @return bool
+		 */
+
 		public function execute($arguments)
 		{
 
@@ -23,20 +29,20 @@
 			else
 			{
 
-				if (isset($arguments["verbrosity"]) == false)
+				if (isset($arguments["verbosity"]) == false)
 				{
 
 					$keys = array_keys($arguments);
 
 					if (empty($keys) == false)
-						$arguments["verbrosity"] = $keys[0];
+						$arguments["verbosity"] = $keys[0];
 					else
-						$arguments["verbrosity"] = 1;
+						$arguments["verbosity"] = 1;
 				}
 
-				$verbrosity = $arguments["verbrosity"];
+				$verbosity = $arguments["verbosity"];
 
-				if ($verbrosity >= 1)
+				if ($verbosity >= 1)
 				{
 
 					Util::echo("\nPrinting debug messages\n");
@@ -47,7 +53,7 @@
 						Util::echo("[" . $key . "] => " . $item["message"] . " at " . Format::timestamp($item["time"]));
 				}
 
-				if ($verbrosity >= 2)
+				if ($verbosity >= 2)
 				{
 
 					Util::echo("\nPrinting timers\n");

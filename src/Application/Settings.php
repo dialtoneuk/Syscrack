@@ -222,7 +222,7 @@
 		public static function hasParsableData($setting)
 		{
 
-			if (preg_match('/\<(.*?)\>/', $setting) == false)
+			if ( @preg_match('/\<(.*?)\>/', $setting) == false)
 			{
 
 				return false;

@@ -298,6 +298,8 @@
 		public static function getFilesInDirectory($path, $suffix = 'php')
 		{
 
+			Debug::message("Getting all " . $suffix . "in path " . $path );
+
 			if (is_dir(self::getFilePath($path)) == false)
 			{
 
