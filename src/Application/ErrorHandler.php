@@ -69,12 +69,12 @@
 		public function handleFlightError( $error)
 		{
 
-			if( $error instanceof Error || $error instanceof \RuntimeException )
+			if( $error instanceof Error || $error instanceof \RuntimeException || $error instanceof \ErrorException )
 			{
 
 				$array = array(
 					'message' => $error->getMessage(),
-					'type' => 'rendererror',
+					'type' => 'error',
 					'details' => [
 						'url' => $_SERVER['REQUEST_URI'],
 						'line' => $error->getLine(),
