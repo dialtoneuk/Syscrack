@@ -12,7 +12,7 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\UtilitiesV2\Debug;
-	use Framework\Exceptions\ApplicationException;
+
 
 	class FileSystem
 	{
@@ -31,7 +31,7 @@
 			if (is_dir(self::getFilePath($file)))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if (self::hasFileExtension($file) == false)
@@ -43,7 +43,7 @@
 			if (file_exists(self::getFilePath($file)) == false)
 			{
 
-				throw new ApplicationException($file . ' does not exist');
+				throw new \Error($file . ' does not exist');
 			}
 
 			$file = file_get_contents(self::getFilePath($file));
@@ -51,7 +51,7 @@
 			if (empty($file))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			return $file;
@@ -96,7 +96,7 @@
 			if (is_dir($file))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if (self::hasFileExtension($file) == false)
@@ -129,12 +129,12 @@
 		{
 
 			if( is_object( $array ) == false && is_array( $array ) == false )
-				throw new ApplicationException("Invalid type given not an object or an array");
+				throw new \Error("Invalid type given not an object or an array");
 
 			if (is_dir(self::getFilePath($file)))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if (self::hasFileExtension($file) == false)
@@ -162,7 +162,7 @@
 			if (is_dir(self::getFilePath($file)))
 			{
 
-				throw new ApplicationException("file is dir: " . $file);
+				throw new \Error("file is dir: " . $file);
 			}
 
 			if (self::hasFileExtension($file) == false)
@@ -176,7 +176,7 @@
 			if (self::directoryExists($directories) == false)
 			{
 
-				throw new ApplicationException('Directory does not exist: ' . self::getFilePath($directories));
+				throw new \Error('Directory does not exist: ' . self::getFilePath($directories));
 			}
 
 			if (is_string($data) == false)
@@ -202,7 +202,7 @@
 			if (is_dir(self::getFilePath($file)))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if (self::hasFileExtension($file) == false)
@@ -260,7 +260,7 @@
 			if (is_dir(self::getFilePath($file)))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if (self::hasFileExtension($file) == false)
@@ -272,7 +272,7 @@
 			if (file_exists(self::getFilePath($file)) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			$old_file = file_get_contents(self::getFilePath($file));
@@ -305,13 +305,13 @@
 			if (is_dir(self::getFilePath($path)) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if (self::directoryExists($path) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			$files = glob(self::getFilePath($path) . "*.{$suffix}");
@@ -340,7 +340,7 @@
 			if (self::directoryExists($path) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			$files = glob(self::getFilePath($path) . "*", GLOB_ONLYDIR);
@@ -412,7 +412,7 @@
 			if (file_exists(self::getFilePath($file)) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			unlink(self::getFilePath($file));
@@ -448,7 +448,7 @@
 			if (empty($path))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			array_pop($path);
@@ -472,7 +472,7 @@
 			if (empty($file))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			return reset($file);
@@ -500,7 +500,7 @@
 			if (empty($file))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			return end($file);

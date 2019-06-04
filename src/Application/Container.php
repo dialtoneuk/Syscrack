@@ -12,7 +12,7 @@
 
 	use Framework\Application;
 	use Framework\Database\Manager;
-	use Framework\Exceptions\ApplicationException;
+
 	use Framework\Views\Middlewares;
 
 	class Container
@@ -36,7 +36,7 @@
 			if (empty(self::$objects))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			return self::$objects;
@@ -80,7 +80,7 @@
 			if (isset(self::$objects[$index]) == false)
 			{
 
-				throw new ApplicationException('That does not exist');
+				throw new \Error('That does not exist');
 			}
 
 			return self::$objects[$index];
@@ -142,7 +142,7 @@
 			if (@self::getObject($index) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			self::$objects[$index];

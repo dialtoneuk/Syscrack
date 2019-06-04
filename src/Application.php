@@ -17,7 +17,7 @@
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Globals;
 	use Framework\Application\UtilitiesV2\Scripts;
-	use Framework\Exceptions\ApplicationException;
+
 	use Framework\Application\Settings;
 	use Framework\Views\Controller;
 	use Framework\Application\UtilitiesV2\Format;
@@ -172,7 +172,7 @@
 		{
 
 			if (Container::exist('application'))
-				throw new ApplicationException();
+				throw new \Error();
 
 
 			Container::add('application', $this);

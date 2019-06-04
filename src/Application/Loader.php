@@ -11,7 +11,7 @@
 	 */
 
 	use Exception;
-	use Framework\Exceptions\ApplicationException;
+
 	use ReflectionMethod;
 
 	class Loader
@@ -36,7 +36,7 @@
 			if (empty($array))
 			{
 
-				throw new ApplicationException('No payload');
+				throw new \Error('No payload');
 			}
 
 			foreach ($array as $class => $method)

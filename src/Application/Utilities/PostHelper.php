@@ -10,7 +10,7 @@
 	 * @package Framework\Application\Utilities
 	 */
 
-	use Framework\Exceptions\ApplicationException;
+
 
 	class PostHelper
 	{
@@ -36,7 +36,7 @@
 				if (isset($post[$value]) == false)
 				{
 
-					throw new ApplicationException('Post key invalid');
+					throw new \Error('Post key invalid');
 				}
 
 				$return[$value] = $post[$value];

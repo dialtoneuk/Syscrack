@@ -10,7 +10,7 @@
 	 * @package Framework\Application
 	 */
 
-	use Framework\Exceptions\ApplicationException;
+
 	use Memcache as MemcacheServer;
 
 	class Memcache
@@ -40,7 +40,7 @@
 			if (extension_loaded('memcache') == false)
 			{
 
-				throw new ApplicationException('Memcache is not enabled as an extension ( or it isnt installed )');
+				throw new \Error('Memcache is not enabled as an extension ( or it isnt installed )');
 			}
 
 			$this->memcache = new MemcacheServer();

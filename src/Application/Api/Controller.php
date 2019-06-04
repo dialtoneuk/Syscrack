@@ -14,7 +14,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Exceptions\ApplicationException;
+
 	use ReflectionClass;
 
 	class Controller
@@ -87,7 +87,7 @@
 			if ($this->hasEndpoint($endpoint) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			$endpoint = $this->createEndpoint($endpoint);
@@ -95,25 +95,25 @@
 			if ($endpoint instanceof Endpoint == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if ($this->methodExists($endpoint, $method) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if ($this->isMethodSafe($endpoint, $method) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if ($this->isMethodCallable($endpoint, $method) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if ($this->methodHasRequirements($endpoint, $method))
@@ -124,7 +124,7 @@
 				if (PostHelper::checkForRequirements($requirements) == false)
 				{
 
-					throw new ApplicationException();
+					throw new \Error();
 				}
 
 				$requirements = PostHelper::returnRequirements($requirements);
@@ -132,7 +132,7 @@
 				if (empty($requirements))
 				{
 
-					throw new ApplicationException();
+					throw new \Error();
 				}
 
 				return call_user_func_array(array($endpoint, $method), $requirements);
@@ -216,7 +216,7 @@
 			if (isset($requirements[$method]) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			return $requirements[$method];

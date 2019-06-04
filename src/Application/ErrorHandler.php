@@ -15,7 +15,7 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\Utilities\IPAddress;
 	use Framework\Application\UtilitiesV2\Debug;
-	use Framework\Exceptions\ApplicationException;
+
 
 	class ErrorHandler
 	{
@@ -154,7 +154,7 @@
 			if (empty($file))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			return json_decode($file, true);
@@ -276,7 +276,7 @@
 			if (empty($file))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			return json_decode($file, true);

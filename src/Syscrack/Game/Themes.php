@@ -11,7 +11,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\UtilitiesV2\Conventions\ThemeData;
-	use Framework\Exceptions\ApplicationException;
+
 
 	class Themes
 	{
@@ -274,7 +274,7 @@
 		{
 
 			if (FileSystem::directoryExists(Settings::setting("syscrack_view_location")) == false)
-				throw new ApplicationException("Themes folder does not exist");
+				throw new \Error("Themes folder does not exist");
 
 			return (FileSystem::getDirectories(Settings::setting("syscrack_view_location")));
 		}

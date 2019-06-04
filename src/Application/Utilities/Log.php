@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Settings;
-	use Framework\Exceptions\ApplicationException;
+
 
 	class Log
 	{
@@ -44,7 +44,7 @@
 			if (is_string($message) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			self::addToActiveLog(['message' => $message, 'type' => $type]);

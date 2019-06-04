@@ -14,7 +14,7 @@
 
 	use Exception;
 	use Framework\Application\Utilities\FileSystem;
-	use Framework\Exceptions\ApplicationException;
+
 	use PHPMailer;
 
 	class Mailer
@@ -63,7 +63,7 @@
 			if (filter_var($recipient, FILTER_VALIDATE_EMAIL) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			$this->mailer->addAddress($recipient);
@@ -105,7 +105,7 @@
 			if (is_string($body) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			foreach ($variables as $key => $variable)
@@ -134,7 +134,7 @@
 				if (property_exists($this->mailer, $key) == false)
 				{
 
-					throw new ApplicationException($key . ' does not exist in mailer');
+					throw new \Error($key . ' does not exist in mailer');
 				}
 
 				$this->mailer->{$key} = $value;

@@ -2,7 +2,7 @@
 
 	namespace Framework\Application\Utilities;
 
-	use Framework\Exceptions\ApplicationException;
+
 
 	/**
 	 * Class OpenSSL
@@ -24,7 +24,7 @@
 			if (empty($array))
 			{
 
-				throw new ApplicationException('Array must not be empty');
+				throw new \Error('Array must not be empty');
 			}
 
 			$encrypted = [];
@@ -45,7 +45,7 @@
 				else
 				{
 
-					throw new ApplicationException('Unknown type');
+					throw new \Error('Unknown type');
 				}
 			}
 
@@ -76,7 +76,7 @@
 			if (empty($array))
 			{
 
-				throw new ApplicationException('Array must not be empty');
+				throw new \Error('Array must not be empty');
 			}
 
 			$decrypted = [];
@@ -97,7 +97,7 @@
 				else
 				{
 
-					throw new ApplicationException('Unknown type');
+					throw new \Error('Unknown type');
 				}
 			}
 

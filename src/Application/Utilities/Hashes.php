@@ -10,7 +10,7 @@
 	 * @package Framework\Application\Utilities
 	 */
 
-	use Framework\Exceptions\ApplicationException;
+
 
 	class Hashes
 	{
@@ -31,7 +31,7 @@
 			if (empty($bytes))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			return base64_encode($bytes);
@@ -123,7 +123,7 @@
 				if (empty($return))
 				{
 
-					throw new ApplicationException();
+					throw new \Error();
 				}
 
 				return $return;

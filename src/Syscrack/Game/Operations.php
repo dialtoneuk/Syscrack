@@ -374,8 +374,6 @@
 		{
 
 			return $this->factory->findClass($process);
-
-			return null;
 		}
 
 		/**

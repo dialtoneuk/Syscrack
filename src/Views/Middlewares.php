@@ -14,7 +14,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
-	use Framework\Exceptions\ApplicationException;
+
 	use Framework\Views\Structures\Middleware;
 
 	class Middlewares
@@ -104,7 +104,7 @@
 					if ($class instanceof Middleware == false)
 					{
 
-						throw new ApplicationException();
+						throw new \Error();
 					}
 
 					if ($class->onRequest())
@@ -245,7 +245,7 @@
 			if (empty($middlewares))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			$middlewares = $this->format($middlewares);
@@ -253,7 +253,7 @@
 			if (empty($middlewares))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			$this->middlewares = $middlewares;

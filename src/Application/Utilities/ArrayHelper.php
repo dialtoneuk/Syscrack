@@ -10,7 +10,7 @@
 	 * @package Framework\Application\Utilities
 	 */
 
-	use Framework\Exceptions\ApplicationException;
+
 
 	class ArrayHelper
 	{
@@ -126,7 +126,7 @@
 			if ($result == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			if ($toarray)

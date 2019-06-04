@@ -10,7 +10,7 @@
 	 * @package Framework
 	 */
 
-	use Framework\Exceptions\ApplicationException;
+
 
 	class Settings
 	{
@@ -48,7 +48,7 @@
 			if (empty($json))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			file_put_contents(self::fileLocation(), $json);
@@ -151,7 +151,7 @@
 			{
 
 				self::settings();
-			} catch (ApplicationException $error)
+			} catch (\Error $error)
 			{
 
 				return false;
@@ -171,7 +171,7 @@
 			self::loadSettings();
 
 			if (self::$settings == null)
-				throw new ApplicationException();
+				throw new \Error();
 
 			return self::$settings;
 		}
@@ -190,7 +190,7 @@
 			if (isset($settings[$setting]) == false)
 			{
 
-				throw new ApplicationException('Setting does not exist: ' . $setting);
+				throw new \Error('Setting does not exist: ' . $setting);
 			}
 
 			$setting = $settings[$setting];
@@ -244,7 +244,7 @@
 			if (empty($array))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 
@@ -276,7 +276,7 @@
 				} catch (\Error $error)
 				{
 
-					throw new ApplicationException($error->getMessage());
+					throw new \Error($error->getMessage());
 				}
 			}
 			else
@@ -327,7 +327,7 @@
 			if (empty($settings))
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			self::$settings = $settings;
@@ -363,7 +363,7 @@
 			if (file_exists(self::fileLocation()) == false)
 			{
 
-				throw new ApplicationException();
+				throw new \Error();
 			}
 
 			return json_decode(file_get_contents(self::fileLocation()), true);
