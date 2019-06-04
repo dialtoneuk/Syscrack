@@ -172,8 +172,11 @@
 		{
 
 			if (Container::exist('application'))
+			{
+
 				if( Debug::isPHPUnitTest() == false )
 					throw new \Error();
+			}
 			else
 				Container::add('application', $this);
 		}

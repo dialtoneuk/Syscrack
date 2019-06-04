@@ -53,7 +53,7 @@
 		{
 
 			if( Container::exist("application") == false )
-				Debug::echo("Application global not set so not able to display you the error that just occured. It did just happen though, and you should check your logs ( if you are an sysadmin )");
+				die("Application global not set so not able to display you the error that just occured. It did just happen though, and you should check your logs ( if you are an sysadmin )");
 			else
 			{
 

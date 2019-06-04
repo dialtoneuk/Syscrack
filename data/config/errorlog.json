@@ -7235,5 +7235,473 @@
         },
         "timestamp": 1559538284,
         "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\SyscrackException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\SyscrackException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678461,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678461,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678461,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678461,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678462,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678462,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678462,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678462,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678462,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678463,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678463,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678463,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678463,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678463,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678463,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678464,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678464,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678464,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678464,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "Argument 1 passed to Framework\\Application\\ErrorHandler::handleError() must be an instance of Exception, instance of Framework\\Exceptions\\ApplicationException given, called in E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php on line 209",
+        "type": "rendererror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 57,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\ErrorHandler.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(209): Framework\\Application\\ErrorHandler->handleError(Object(Framework\\Exceptions\\ApplicationException))\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#2 {main}"
+        },
+        "timestamp": 1559678464,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678562,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678562,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678562,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678563,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678563,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678563,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678563,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678563,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678563,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678564,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678564,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678564,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678564,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678564,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678565,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678565,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678565,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678565,
+        "ip": "10.3.0.1"
+    },
+    {
+        "message": "That does not exist",
+        "type": "frameworkrerror",
+        "details": {
+            "url": "\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/error?redirect=\/register\/",
+            "line": 83,
+            "file": "E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application\\Container.php",
+            "trace": "#0 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Views\\Pages\\Error.php(57): Framework\\Application\\Container::getObject('application')\n#1 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): Framework\\Views\\Pages\\Error->page()\n#2 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#3 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(340): flight\\core\\Dispatcher::execute(Array, Array)\n#4 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->_start()\n#5 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(144): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#6 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(49): flight\\core\\Dispatcher::execute(Array, Array)\n#7 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Engine.php(92): flight\\core\\Dispatcher->run('start', Array)\n#8 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\core\\Dispatcher.php(198): flight\\Engine->__call('start', Array)\n#9 E:\\Webservers\\XAMPP\\htdocs_git\\vendor\\mikecao\\flight\\flight\\Flight.php(77): flight\\core\\Dispatcher::invokeMethod(Array, Array)\n#10 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(377): Flight::__callStatic('start', Array)\n#11 E:\\Webservers\\XAMPP\\htdocs_git\\src\\Application.php(198): Framework\\Application->runFlight()\n#12 E:\\Webservers\\XAMPP\\htdocs_git\\index.php(90): Framework\\Application->go()\n#13 {main}"
+        },
+        "timestamp": 1559678565,
+        "ip": "10.3.0.1"
     }
 ]

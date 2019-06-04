@@ -57,35 +57,7 @@
 		public function handleError( $error)
 		{
 
-			if( $error instanceof Error || $error instanceof \RuntimeException )
-			{
-
-				$array = array(
-					'message' => $error->getMessage(),
-					'type' => 'frameworkrerror',
-					'details' => [
-						'url' => $_SERVER['REQUEST_URI'],
-						'line' => $error->getLine(),
-						'file' => $error->getFile(),
-						'trace' => $error->getTraceAsString()
-					]
-				);
-			}
-			else
-			{
-
-				Debug::message("Error occured but type thrown wasnt what I expected");
-
-				$array = [
-					'type' => "unknownerror",
-					'array' => @print_r( $error )
-				];
-			}
-
-			$this->addToLog($array);
-
-			if (Settings::setting('error_logging'))
-				$this->saveErrors();
+			$this->handleFlightError( $error );
 		}
 
 		/**
@@ -118,7 +90,11 @@
 
 				$array = [
 					'type' => "unknownerror",
-					'array' => @print_r( $error )
+					'message' => @get_class( $error ),
+					'details' => [
+						'url' => $_SERVER['REQUEST_URI'],
+						'trace' => print_r( $error )
+					]
 				];
 			}
 
