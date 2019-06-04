@@ -13,7 +13,6 @@
 	use Framework\Application\Container;
 	use Framework\Application\Utilities\Hashes;
 	use Framework\Database\Tables\Computer;
-	use Framework\Exceptions\SyscrackException;
 
 	class Internet
 	{
@@ -113,7 +112,7 @@
 			if ($this->ipExists($address))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$array = array(

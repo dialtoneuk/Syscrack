@@ -16,7 +16,7 @@
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Exceptions\ViewException;
+
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
 	class Api extends BaseClass
@@ -163,7 +163,7 @@
 			if (is_array($result) == false)
 			{
 
-				throw new ViewException();
+				throw new \Error();
 			}
 
 			Flight::json($result);

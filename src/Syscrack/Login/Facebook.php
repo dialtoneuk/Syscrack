@@ -13,7 +13,7 @@
 	use Facebook\Exceptions\FacebookSDKException;
 	use Facebook\Facebook as NSA;
 	use Framework\Application\Settings;
-	use Framework\Exceptions\SyscrackException;
+
 
 	class Facebook
 	{
@@ -53,11 +53,15 @@
 			if (empty($helper))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $helper->getLoginUrl(Settings::setting('facebook_redirect_url'), ['email']);
 		}
+
+		/**
+		 * @return \Facebook\Authentication\AccessToken|null
+		 */
 
 		public function getAccessToken()
 		{
@@ -67,7 +71,7 @@
 			if (empty($helper))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			try
@@ -76,5 +80,7 @@
 			} catch (FacebookSDKException $e)
 			{
 			}
+
+			return null;
 		}
 	}

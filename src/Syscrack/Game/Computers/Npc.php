@@ -10,7 +10,7 @@
 	 * @package Framework\Syscrack\Game\Computer
 	 */
 
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseComputer;
 
 	class Npc extends BaseComputer
@@ -80,7 +80,7 @@
 		{
 
 			if (self::$internet->ipExists($ipaddress) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			self::$internet->setCurrentConnectedAddress($ipaddress);
 
@@ -100,7 +100,7 @@
 		{
 
 			if (self::$internet->ipExists($ipaddress) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			self::$internet->setCurrentConnectedAddress(null);
 		}

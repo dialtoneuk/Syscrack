@@ -13,7 +13,7 @@
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Log;
@@ -794,7 +794,7 @@
 			if (is_array($data) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $data;

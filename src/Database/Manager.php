@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Container;
-	use Framework\Exceptions\DatabaseException;
+
 	use Illuminate\Database\Capsule\Manager as Capsule;
 
 	class Manager
@@ -59,7 +59,7 @@
 			if (empty($class))
 			{
 
-				throw new DatabaseException();
+				throw new \Error();
 			}
 
 			self::$connection = $class->readConnectionFile($file);
@@ -67,7 +67,7 @@
 			if (empty(self::$connection))
 			{
 
-				throw new DatabaseException();
+				throw new \Error();
 			}
 
 			self::$capsule = new Capsule();
@@ -75,7 +75,7 @@
 			if (empty(self::$capsule))
 			{
 
-				throw new DatabaseException();
+				throw new \Error();
 			}
 
 			$this->createConnection();

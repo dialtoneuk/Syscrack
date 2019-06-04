@@ -14,7 +14,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\UtilitiesV2\OpenSSL;
-	use Framework\Exceptions\DatabaseException;
+
 
 	class Connection
 	{
@@ -47,7 +47,7 @@
 				$this->connection = @$this->readConnectionFile();
 
 			if (empty($this->connection))
-				throw new DatabaseException();
+				throw new \Error();
 
 		}
 
@@ -66,13 +66,13 @@
 				$file = Settings::setting('database_connection_file');
 
 			if (file_exists(FileSystem::getFilePath($file)) == false)
-				throw new DatabaseException();
+				throw new \Error();
 
 
 			$json = FileSystem::read($file);
 
 			if (empty($json))
-				throw new DatabaseException();
+				throw new \Error();
 
 			if( Application::globals()->DATABASE_ENCRYPTION == true )
 			{
@@ -80,10 +80,10 @@
 				$data = json_decode( $json );
 
 				if( json_last_error() !== JSON_ERROR_NONE )
-					throw new DatabaseException("Json error in connection file");
+					throw new \Error("Json error in connection file");
 
 				if( isset( $data["info"] ) == false )
-					throw new DatabaseException("Invalid connection file");
+					throw new \Error("Invalid connection file");
 
 				return self::$openssl->decrypt( $data, $data["info"]["key"], $data["info"]["iv"] );
 			}

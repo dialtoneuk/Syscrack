@@ -14,7 +14,7 @@
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseComputer;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Log;
@@ -232,7 +232,7 @@
 							$computerid = self::$computer->createComputer(self::$session->userid(), Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP(), [], Settings::setting('syscrack_default_hardware'));
 
 							if (empty($computerid))
-								throw new SyscrackException();
+								throw new \Error();
 
 							/**
 							 * @var $class \Framework\Syscrack\Game\Interfaces\Computer
@@ -733,7 +733,7 @@
 			if (is_array($data) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $data;

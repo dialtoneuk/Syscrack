@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Settings;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\AccountDatabase;
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Bases\BaseComputer;
@@ -131,7 +131,7 @@
 		{
 
 			if (self::$internet->ipExists($ipaddress) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			self::$internet->setCurrentConnectedAddress($ipaddress);
 
@@ -153,7 +153,7 @@
 		{
 
 			if (self::$internet->ipExists($ipaddress) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			self::$internet->setCurrentConnectedAddress(null);
 

@@ -13,7 +13,6 @@
 	use Framework\Application\Settings;
 	use Framework\Database\Tables\Banks;
 	use Framework\Database\Tables\Computer;
-	use Framework\Exceptions\SyscrackException;
 
 	class Finance
 	{
@@ -84,7 +83,7 @@
 			if ($account == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $account->cash;
@@ -183,7 +182,7 @@
 			if (session_status() !== PHP_SESSION_ACTIVE)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$_SESSION['activeaccount'] = $accountnumber;
@@ -309,7 +308,7 @@
 			if ($this->getAccountAtBank($computerid, $userid) !== null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$this->banks->insertAccount(array(

@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Settings;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Viruses;
 
@@ -120,7 +120,7 @@
 			if ($this->checkData($data) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			if (self::$internet->ipExists($data['ipaddress']) == false)

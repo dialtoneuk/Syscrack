@@ -13,7 +13,7 @@
 	use Framework\Application\Container;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\ArrayHelper;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Computer;
 	use Framework\Syscrack\Game\Finance;
@@ -131,7 +131,7 @@
 			if ($computer->userHasComputers($this->session->userid()) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $computer->getComputerSoftware($computer->computerid());
@@ -151,7 +151,7 @@
 			if ($computer->userHasComputers($this->session->userid()) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $computer->getComputerHardware($computer->computerid());
@@ -173,7 +173,7 @@
 			if ($computer->getComputer($computerid) == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $computer->getComputer($computerid)->type;
@@ -197,7 +197,7 @@
 			if ($computer->userHasComputers($this->session->userid()) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$computersoftware = $computer->getComputerSoftware($computer->computerid());
@@ -257,7 +257,7 @@
 			if ($computer->userHasComputers($this->session->userid()) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$computersoftware = $computer->getComputerSoftware($computer->computerid());
@@ -317,7 +317,7 @@
 			if ($computer->userHasComputers($this->session->userid()) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$computersoftware = $computer->getComputerSoftware($computer->computerid());
@@ -377,7 +377,7 @@
 			if ($computer->userHasComputers($this->session->userid()) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$computersoftware = $computer->getComputerSoftware($computer->computerid());
@@ -437,7 +437,7 @@
 			if ($computer->userHasComputers($this->session->userid()) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$computersoftware = $computer->getComputerSoftware($computer->computerid());
@@ -497,7 +497,7 @@
 			if ($software->softwareExists($softwareid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $software->getSoftware($softwareid)->level;
@@ -557,7 +557,7 @@
 			if ($user->userExists($this->session->userid()) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $user->getUsername($this->session->userid());

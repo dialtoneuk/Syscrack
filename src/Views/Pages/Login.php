@@ -13,7 +13,7 @@
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Exceptions\ViewException;
+
 	use Framework\Syscrack\Login\Account;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
@@ -125,7 +125,7 @@
 		{
 
 			if (self::$computer->userHasComputers($userid) == false)
-				throw new ViewException('User has no computers');
+				throw new \Error('User has no computers');
 
 			self::$computer->setCurrentUserComputer(self::$computer->getUserMainComputer($userid)->computerid);
 		}

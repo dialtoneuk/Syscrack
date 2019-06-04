@@ -10,7 +10,7 @@
 	 * @package Framework\Syscrack\Game\Operations
 	 */
 
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Interfaces\Software;
 
@@ -98,15 +98,15 @@
 		{
 
 			if ($softwareid == null)
-				throw new SyscrackException();
+				throw new \Error();
 
 			if (self::$software->softwareExists($softwareid) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			$class = self::$software->getSoftwareClassFromID($softwareid);
 
 			if ($class instanceof Software == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			return $class->getExecuteCompletionTime($softwareid, $computerid);
 		}

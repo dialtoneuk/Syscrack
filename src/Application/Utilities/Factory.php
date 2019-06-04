@@ -11,7 +11,6 @@
 	 */
 
 	use Framework\Application\UtilitiesV2\Container;
-	use Framework\Exceptions\ViewException;
 	use Framework\Syscrack\Game\Interfaces\Computer;
 	use Framework\Syscrack\Game\Interfaces\Software;
 	use ReflectionClass;
@@ -63,7 +62,7 @@
 			if ($classnamespace == $this->namespace)
 			{
 
-				throw new ViewException('No Class Given');
+				throw new \Error('No Class Given');
 			}
 
 			$pageclass = new $classnamespace;
@@ -71,7 +70,7 @@
 			if (empty($pageclass))
 			{
 
-				throw new ViewException('Class is Empty');
+				throw new \Error('Class is Empty');
 			}
 
 			$this->classes[$class] = $pageclass;
@@ -146,7 +145,7 @@
 				if (empty($reflection))
 				{
 
-					throw new ViewException();
+					throw new \Error();
 				}
 
 				if (strtolower($reflection->getShortName()) == strtolower($name))

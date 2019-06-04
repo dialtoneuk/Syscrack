@@ -10,7 +10,7 @@
 	 * @package Framework\Syscrack\Game\Computer
 	 */
 
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseComputer;
 	use Framework\Syscrack\Game\Finance;
 
@@ -64,7 +64,7 @@
 		{
 
 			if (self::$internet->ipExists($ipaddress) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			self::$internet->setCurrentConnectedAddress($ipaddress);
 
@@ -86,7 +86,7 @@
 		{
 
 			if (self::$internet->ipExists($ipaddress) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			if (self::$finance->hasCurrentActiveAccount() == true)
 				self::$finance->setCurrentActiveAccount(null);

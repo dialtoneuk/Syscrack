@@ -12,7 +12,7 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Interfaces\Computer;
 	use Framework\Syscrack\Verification;
 	use Framework\Views\BaseClasses\Page as BaseClass;
@@ -98,12 +98,12 @@
 					$computerid = self::$computer->createComputer($userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP());
 
 					if (empty($computerid))
-						throw new SyscrackException();
+						throw new \Error();
 
 					$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
 
 					if ($class instanceof Computer == false)
-						throw new SyscrackException();
+						throw new \Error();
 
 					$class->onStartup($computerid, $userid, [], Settings::setting('syscrack_default_hardware'));
 				}
@@ -161,7 +161,7 @@
 					if (empty($computerid))
 					{
 
-						throw new SyscrackException();
+						throw new \Error();
 					}
 
 					$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
@@ -169,7 +169,7 @@
 					if ($class instanceof Computer == false)
 					{
 
-						throw new SyscrackException();
+						throw new \Error();
 					}
 
 					$class->onStartup($computerid, $userid, [], Settings::setting('syscrack_default_hardware'));

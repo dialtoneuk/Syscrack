@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Settings;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 
 	class AnonDownload extends BaseOperation
@@ -122,7 +122,7 @@
 		{
 
 			if (self::$software->softwareExists($softwareid) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_download_type'), self::$software->getSoftware($softwareid)->size / 5, $softwareid);
 		}

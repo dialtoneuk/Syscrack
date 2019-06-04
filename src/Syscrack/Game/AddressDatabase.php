@@ -12,7 +12,7 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
-	use Framework\Exceptions\SyscrackException;
+
 
 	class AddressDatabase
 	{
@@ -83,7 +83,7 @@
 			if ($this->hasAddress($ipaddress, $userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			unset($this->database[$this->getKeyOfAddress($ipaddress, $userid)]);

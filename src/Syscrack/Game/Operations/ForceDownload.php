@@ -3,7 +3,7 @@
 	namespace Framework\Syscrack\Game\Operations;
 
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Viruses;
 
@@ -124,7 +124,7 @@
 
 			self::$computer->addSoftware($computerid, $new_softwareid, $software->type);
 			if (self::$computer->hasSoftware($computerid, $new_softwareid) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			if (isset($data['redirect']) == false)
 				return true;

@@ -14,10 +14,8 @@
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Database\Tables\Processes as Database;
-	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Interfaces\Operation;
-	use Framework\Application\Container;
 
 	class Operations
 	{
@@ -200,7 +198,7 @@
 			if ($this->findProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $this->addToDatabase($timecompleted, $computerid, $userid, $process, $data);
@@ -285,7 +283,7 @@
 			if (empty($process))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$this->database->trashProcess($processid);
@@ -407,7 +405,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -441,7 +439,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -475,7 +473,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -509,7 +507,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -543,7 +541,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -579,7 +577,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -587,7 +585,7 @@
 			if (isset($class->configuration()['allowcustomdata']) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $class->getCustomData($ipaddress, $userid);
@@ -607,7 +605,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -641,7 +639,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -649,7 +647,7 @@
 			if (isset($class->configuration()['postrequirements']) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $class->configuration()['postrequirements'];
@@ -670,7 +668,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -704,7 +702,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -738,7 +736,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -764,7 +762,7 @@
 			if ($this->hasProcessClass($process) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->findProcessClass($process);
@@ -798,13 +796,13 @@
 			if ($process instanceof Operation === false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			if ($this->isCallable($process, $method) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return call_user_func_array(array($process, $method), $data);
@@ -856,7 +854,7 @@
 			if (empty($this->factory->getAllClasses()) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$files = FileSystem::getFilesInDirectory(Settings::setting('syscrack_operations_location'));
@@ -864,7 +862,7 @@
 			if (empty($files))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			foreach ($files as $file)

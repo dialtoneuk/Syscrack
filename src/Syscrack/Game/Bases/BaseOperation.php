@@ -16,7 +16,7 @@
 	use Framework\Application\Utilities\ArrayHelper;
 	use Framework\Application\UtilitiesV2\Controller\FormMessage;
 	use Framework\Application\UtilitiesV2\Format;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Computer;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Hardware;
@@ -466,12 +466,12 @@
 		{
 
 			if (self::$computer->computerExists($computerid) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			$victimid = self::$internet->computer($ipaddress);
 
 			if (self::$log->hasLog($victimid->computerid) == false || self::$log->hasLog($computerid) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			$this->logToComputer($message, $victimid->computerid, self::$computer->getComputer($computerid)->ipaddress);
 			$this->logToComputer($message, $computerid, Settings::setting('syscrack_log_localhost_name'));
@@ -560,7 +560,7 @@
 			{
 
 				if (self::$software->softwareExists($softwareid) == false)
-					throw new SyscrackException();
+					throw new \Error();
 
 				$hardware = self::$hardware->getHardwareType($computerid, $hardwaretype);
 				$software = self::$software->getSoftware($softwareid);
@@ -736,7 +736,7 @@
 
 			if (self::$software->softwareExists($softwareid) == false)
 
-				throw new SyscrackException();
+				throw new \Error();
 
 			return self::$software->getSoftware($softwareid)->softwarename;
 		}

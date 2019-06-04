@@ -12,7 +12,7 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
-	use Framework\Exceptions\SyscrackException;
+
 
 	class Riddles
 	{
@@ -38,7 +38,7 @@
 				if ($this->riddleFileExists() == false)
 				{
 
-					throw new SyscrackException('Riddle file does not exist');
+					throw new \Error('Riddle file does not exist');
 				}
 
 				$this->riddles = $this->getRiddles();

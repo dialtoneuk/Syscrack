@@ -12,7 +12,7 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\UtilitiesV2\Conventions\ComputerData;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Computer as ComputerController;
 	use Framework\Syscrack\Game\Internet;
 	use Framework\Syscrack\Game\Log;
@@ -414,7 +414,7 @@
 			$computer = self::$internet->computer($ipaddress);
 
 			if ($computer == null)
-				throw new SyscrackException();
+				throw new \Error();
 
 			$this->log($computer->computerid, $message, Settings::setting('syscrack_log_localhost_address'));
 		}

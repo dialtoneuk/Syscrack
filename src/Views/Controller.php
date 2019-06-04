@@ -14,8 +14,8 @@
 	use Flight;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
-	use Framework\Exceptions\SyscrackException;
-	use Framework\Exceptions\ViewException;
+
+
 	use Framework\Views\Structures\Page;
 
 	class Controller
@@ -145,7 +145,7 @@
 			} catch (Error $error)
 			{
 
-				throw new SyscrackException($page . " =>" . $error->getMessage() . " at line " . $error->getLine());
+				throw new \Error($page . " =>" . $error->getMessage() . " at line " . $error->getLine());
 			}
 
 			if (Settings::setting('middlewares_enabled'))
@@ -259,7 +259,7 @@
 			if ($class instanceof Page == false)
 			{
 
-				throw new ViewException('Class does not have required interface');
+				throw new \Error('Class does not have required interface');
 			}
 
 			$this->processFlightRoutes($class, $class->mapping());
@@ -309,7 +309,7 @@
 				if (method_exists($class, $route[1]) == false)
 				{
 
-					throw new ViewException('Method does not exist in class: ' . $route[0] . " => " . $route[1]);
+					throw new \Error('Method does not exist in class: ' . $route[0] . " => " . $route[1]);
 				}
 
 				Flight::route($route[0], array($class, $route[1]));
@@ -354,7 +354,7 @@
 			if (empty($keys))
 			{
 
-				throw new ViewException();
+				throw new \Error();
 			}
 
 			return reset($keys);

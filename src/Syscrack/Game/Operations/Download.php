@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Settings;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Viruses;
 
@@ -134,7 +134,7 @@
 
 			self::$computer->addSoftware($computerid, $new_softwareid, $software->type);
 			if (self::$computer->hasSoftware($computerid, $new_softwareid) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			$this->logDownload($software->softwarename, $this->getComputerId($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
 			$this->logLocal($software->softwarename, $data['ipaddress']);
@@ -163,7 +163,7 @@
 			if (self::$software->softwareExists($softwareid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_download_type'), self::$software->getSoftware($softwareid)->size / 5, $softwareid);

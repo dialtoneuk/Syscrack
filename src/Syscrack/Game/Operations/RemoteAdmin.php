@@ -12,7 +12,7 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Finance;
 
@@ -138,7 +138,7 @@
 		{
 
 			if ($this->checkData($data, ['ipaddress']) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			if (self::$finance->accountNumberExists(self::$finance->getCurrentActiveAccount()) == false)
 				return false;

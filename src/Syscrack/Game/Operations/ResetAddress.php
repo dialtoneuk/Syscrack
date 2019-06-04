@@ -12,7 +12,7 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Utilities\TimeHelper;
@@ -119,13 +119,13 @@
 			if ($this->checkData($data, ['ipaddress']) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			if ($this->checkCustomData($data, ['accountnumber']) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			if (self::$finance->accountNumberExists($data['custom']['accountnumber']) == false)

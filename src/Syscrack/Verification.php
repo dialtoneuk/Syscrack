@@ -12,7 +12,7 @@
 
 	use Framework\Application\Utilities\Hashes;
 	use Framework\Database\Tables\Verifications as Database;
-	use Framework\Exceptions\SyscrackException;
+
 
 	class Verification
 	{
@@ -49,7 +49,7 @@
 			if ($this->isVerified($userid) == true)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$emails = $this->database->getUserRequests($userid);
@@ -71,7 +71,7 @@
 			if (empty($array))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $array;
@@ -129,13 +129,13 @@
 			if ($this->isVerified($userid) == true)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			if ($this->isEmail($email) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$this->database->deleteUserRequests($userid);
@@ -143,7 +143,7 @@
 			if ($this->isVerified($userid) == true)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$token = $this->addRequest($userid, $email);
@@ -151,7 +151,7 @@
 			if (empty($token))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $token;
@@ -173,7 +173,7 @@
 			if ($this->isVerified($userid) == false)
 			{
 
-				throw new SyscrackException('User is already has verification request');
+				throw new \Error('User is already has verification request');
 			}
 
 			$token = $this->generateToken();
@@ -181,13 +181,13 @@
 			if (empty($token))
 			{
 
-				throw new SyscrackException('Verification token is empty');
+				throw new \Error('Verification token is empty');
 			}
 
 			if ($this->isEmail($email) == false)
 			{
 
-				throw new SyscrackException('Email does not exist');
+				throw new \Error('Email does not exist');
 			}
 
 			$array = array(
@@ -215,7 +215,7 @@
 			if ($this->database->getToken($token) == null)
 			{
 
-				throw new SyscrackException('token is invalid');
+				throw new \Error('token is invalid');
 			}
 
 			$userid = $this->database->getToken($token)->userid;
@@ -223,7 +223,7 @@
 			if ($this->isVerified($userid) == true)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$this->database->deleteUserRequests($userid);
@@ -231,7 +231,7 @@
 			if ($this->hasVerificationRequest($userid) == true)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return true;

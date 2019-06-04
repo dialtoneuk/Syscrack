@@ -12,8 +12,6 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Hashes;
-	use Framework\Exceptions\LoginException;
-	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\User;
 	use Framework\Syscrack\Verification;
 
@@ -69,13 +67,13 @@
 				if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $username))
 				{
 
-					throw new SyscrackException('Username is invalid and must not contain any special characters');
+					throw new \Error('Username is invalid and must not contain any special characters');
 				}
 
 				if ($this->user->usernameExists($username) == false)
 				{
 
-					throw new LoginException('Username does not exist');
+					throw new \Error('Username does not exist');
 				}
 
 				$userid = $this->user->findByUsername($username);
@@ -86,25 +84,25 @@
 					if ($this->user->isAdmin($userid) == false)
 					{
 
-						throw new LoginException('Sorry, the game is currently in admin mode, please try again later');
+						throw new \Error('Sorry, the game is currently in admin mode, please try again later');
 					}
 				}
 
 				if ($this->checkPassword($userid, $password, $this->user->getSalt($userid)) == false)
 				{
 
-					throw new LoginException('Password is invalid');
+					throw new \Error('Password is invalid');
 				}
 
 				if ($this->verification->isVerified($userid) == false)
 				{
 
-					throw new LoginException('Please verify your email');
+					throw new \Error('Please verify your email');
 				}
 
 				return true;
 
-			} catch (LoginException $error)
+			} catch ( \Error $error)
 			{
 
 				self::$error = $error;
@@ -144,7 +142,7 @@
 			if ($this->user->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$accountpassword = $this->user->getPassword($userid);

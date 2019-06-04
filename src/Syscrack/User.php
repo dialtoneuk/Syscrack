@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Database\Tables\Users as Database;
-	use Framework\Exceptions\SyscrackException;
+
 
 	class User
 	{
@@ -100,7 +100,7 @@
 			if ($result == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $result->userid;
@@ -119,7 +119,7 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return self::$database->getUser($userid, $safe );
@@ -139,7 +139,7 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $this->getUser($userid)->username;
@@ -159,7 +159,7 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $this->getUser($userid, false)->password;
@@ -179,7 +179,7 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $this->getUser($userid)->email;
@@ -199,7 +199,7 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $this->getUser($userid, false )->salt;
@@ -219,13 +219,13 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			if ($this->isEmail($email) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$array = array(
@@ -249,7 +249,7 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$array = array(
@@ -273,7 +273,7 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$array = array(
@@ -297,7 +297,7 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$array = array(
@@ -321,7 +321,7 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			if ($this->getUser($userid)->group !== 'admin')

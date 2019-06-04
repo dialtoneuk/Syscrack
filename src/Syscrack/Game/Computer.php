@@ -15,7 +15,6 @@
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Database\Tables\Computer as Database;
-	use Framework\Exceptions\SyscrackException;
 	use Framework\Syscrack\Game\Interfaces\Computer as Structure;
 
 	class Computer
@@ -85,7 +84,7 @@
 			if (self::$factory->hasClass($name) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return self::$factory->findClass($name);
@@ -137,7 +136,7 @@
 			if (empty($configuration))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $configuration;
@@ -159,7 +158,7 @@
 			if (empty($class))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $class->onStartup();
@@ -184,7 +183,7 @@
 				if ($class instanceof Structure == false)
 				{
 
-					throw new SyscrackException();
+					throw new \Error();
 				}
 
 				/**
@@ -479,7 +478,7 @@
 			if (empty($software))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			foreach ($software as $key => $softwares)
@@ -511,7 +510,7 @@
 			if (empty($software))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			foreach ($software as $key => $softwares)
@@ -543,7 +542,7 @@
 			if (empty($software))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			foreach ($software as $key => $softwares)

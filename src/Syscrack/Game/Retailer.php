@@ -12,7 +12,6 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
-	use Framework\Exceptions\SyscrackException;
 
 	class Retailer
 	{
@@ -101,7 +100,7 @@
 			if (isset($stock[$itemid]))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$stock[$itemid] = array_merge($data, [
@@ -127,7 +126,7 @@
 			if (isset($stock[$itemid]) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			unset($stock[$itemid]);

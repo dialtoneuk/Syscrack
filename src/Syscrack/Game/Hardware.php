@@ -12,7 +12,6 @@
 
 	use Framework\Application\Settings;
 	use Framework\Database\Tables\Computer;
-	use Framework\Exceptions\SyscrackException;
 
 	class Hardware
 	{
@@ -57,7 +56,7 @@
 			if (isset($hardware[$type]) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$hardware[$type] = array(
@@ -77,7 +76,7 @@
 			if (isset($hardware[$type]))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$hardware[$type] = array(

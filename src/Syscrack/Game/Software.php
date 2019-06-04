@@ -18,7 +18,7 @@
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Database\Tables\Software as Database;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 	use Framework\Syscrack\Game\Interfaces\Software as Structure;
 
@@ -181,7 +181,7 @@
 				if ($class instanceof Structure == false)
 				{
 
-					throw new SyscrackException();
+					throw new \Error();
 				}
 
 				/** @var Structure $class */
@@ -244,7 +244,7 @@
 				if ($data['license'] == $userid)
 				{
 
-					throw new SyscrackException();
+					throw new \Error();
 				}
 			}
 
@@ -267,7 +267,7 @@
 			if (isset($data['license']) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			unset($data['license']);
@@ -361,7 +361,7 @@
 			if ($this->hasSoftwareClass($software) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$class = $this->getSoftwareClass($software);
@@ -369,7 +369,7 @@
 			if ($class instanceof Structure == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$configuration = $class->configuration();
@@ -619,7 +619,7 @@
 			if ($software == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
@@ -655,7 +655,7 @@
 			if ($software == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
@@ -692,7 +692,7 @@
 			if ($software == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
@@ -728,7 +728,7 @@
 			if ($software == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
@@ -764,7 +764,7 @@
 			if ($software == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
@@ -800,7 +800,7 @@
 			if ($software == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
@@ -836,7 +836,7 @@
 			if ($software == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
@@ -918,7 +918,7 @@
 			if (is_bool($data['allowanondownloads']) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $data['allowanondownloads'];
@@ -940,7 +940,7 @@
 			if ($software == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
@@ -982,7 +982,7 @@
 			if ($software == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$softwareclass = $this->findSoftwareByUniqueName($software->uniquename);
@@ -990,7 +990,7 @@
 			if (empty($softwareclass->configuration()))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			if (isset($softwareclass->configuration()['icon']) == false)
@@ -1172,7 +1172,7 @@
 			if (isset($requirements[$method]))
 			{
 
-				throw new SyscrackException('Method is not in the allowed callable methods');
+				throw new \Error('Method is not in the allowed callable methods');
 			}
 
 			$software = new \ReflectionClass($software);

@@ -11,7 +11,6 @@
 	 */
 
 	use Exception;
-	use Framework\Exceptions\DatabaseException;
 	use Illuminate\Database\Query\Builder;
 	use ReflectionClass;
 
@@ -42,7 +41,7 @@
 					$this->initializeDatabase();
 
 				self::$database = Manager::getCapsule();
-			} catch (DatabaseException $error)
+			} catch (\Error $error)
 			{
 
 
@@ -76,7 +75,7 @@
 						} catch (Exception $error)
 						{
 
-							throw new DatabaseException();
+							throw new \Error();
 						}
 
 						return self::$database->table($table);
@@ -90,7 +89,7 @@
 			} catch (\ReflectionException $exception)
 			{
 
-				throw new DatabaseException();
+				throw new \Error();
 			}
 		}
 
@@ -128,7 +127,7 @@
 			if ($this->hasConnection() == false)
 			{
 
-				throw new DatabaseException();
+				throw new \Error();
 			}
 
 			unset($manager);

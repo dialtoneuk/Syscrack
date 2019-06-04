@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Settings;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 
@@ -124,7 +124,7 @@
 		{
 
 			if ($this->checkData($data, ['ipaddress']) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			if (self::$internet->ipExists($data['ipaddress']) == false )
 				$this->formError("Computer has changed IP Address");

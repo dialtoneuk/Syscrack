@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Market;
@@ -162,7 +162,7 @@
 				return false;
 
 			if (isset($item['hardware']) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			if (self::$hardware->hasHardwareType($computerid, $item['hardware']))
 				self::$hardware->updateHardware($computerid, $item['hardware'], $item['value']);

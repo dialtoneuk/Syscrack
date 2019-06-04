@@ -4,7 +4,6 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
-	use Framework\Exceptions\SyscrackException;
 
 	/**
 	 * Lewis Lancaster 2017
@@ -67,7 +66,7 @@
 			$stock = $this->getStock($computerid);
 
 			if (isset($stock[$itemid]) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 
 			if ($stock[$itemid]['type'] == 'software')
@@ -93,7 +92,7 @@
 			$stock = $this->getStock($computerid);
 
 			if (isset($stock[$itemid]) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 
 			if (isset($stock[$itemid]['softwareid']) == false)
@@ -119,7 +118,7 @@
 			$stock = $this->getStock($computerid);
 
 			if (isset($stock[$itemid]) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 
 			if ($stock[$itemid]['type'] == 'hardware')
@@ -201,7 +200,7 @@
 			$stock = $this->getStock($computerid);
 
 			if (isset($stock[$itemid]) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 			return $stock[$itemid];
 		}
@@ -300,7 +299,7 @@
 			if ($this->hasPurchase($computerid, $targetid, $itemid))
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$purchases[] = array(
@@ -330,7 +329,7 @@
 			if ($this->hasStockItem($computerid, $itemid) == true)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$stock[$itemid] = array_merge($data, [
@@ -356,7 +355,7 @@
 			if (isset($stock[$itemid]) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			unset($stock[$itemid]);
@@ -398,7 +397,7 @@
 			if (isset($stock[$itemid]) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$stock[$itemid] = $item;

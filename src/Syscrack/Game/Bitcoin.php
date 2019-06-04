@@ -14,7 +14,7 @@
 	use Framework\Application\Utilities\Hashes;
 	use Framework\Database\Tables\Bitcoin as Database;
 	use Framework\Database\Tables\Computer;
-	use Framework\Exceptions\SyscrackException;
+
 	use Unirest\Request;
 
 	class Bitcoin
@@ -70,7 +70,7 @@
 			if (session_status() !== PHP_SESSION_ACTIVE)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$_SESSION['activewallet'] = $walletid;
@@ -214,7 +214,7 @@
 			if ($this->canAfford($wallet, $bitcoins) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$this->database->updateWallet($wallet, array('bitcoins' => $this->database->findBitcoinWallet($wallet)->bitcoins - $bitcoins));
@@ -238,7 +238,7 @@
 			if ($this->canAfford($wallet, $bitcoins) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$this->database->updateWallet($wallet, array('bitcoins' => $user->bitcoins - $bitcoins));
@@ -329,7 +329,7 @@
 			if (isset($result[strtoupper(Settings::setting('syscrack_bitcoin_country'))]) == false)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			return $result[strtoupper(Settings::setting('syscrack_bitcoin_country'))]['sell'];

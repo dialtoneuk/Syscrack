@@ -14,7 +14,7 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\Utilities\PostHelper;
 	use Framework\Application\UtilitiesV2\Conventions\CreatorData;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\BrowserPages;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Inventory;
@@ -879,7 +879,7 @@
 				$class = parent::$computer->getComputerClass($computers->type);
 
 				if ($class instanceof Computer == false)
-					throw new SyscrackException();
+					throw new \Error();
 
 
 				$class->onReset($computers->computerid);

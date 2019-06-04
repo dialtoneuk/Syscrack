@@ -11,7 +11,7 @@
 	 */
 
 	use Framework\Application\Utilities\FileSystem;
-	use Framework\Exceptions\SyscrackException;
+
 	use Framework\Syscrack\Game\Bases\BaseComputer;
 	use Framework\Syscrack\Game\Market as MarketController;
 	use Framework\Syscrack\Game\Tab;
@@ -107,7 +107,7 @@
 		{
 
 			if (self::$internet->ipExists($ipaddress) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 
 			self::$internet->setCurrentConnectedAddress($ipaddress);
@@ -128,7 +128,7 @@
 		{
 
 			if (self::$internet->ipExists($ipaddress) == false)
-				throw new SyscrackException();
+				throw new \Error();
 
 
 			self::$internet->setCurrentConnectedAddress(null);

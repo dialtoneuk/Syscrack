@@ -13,7 +13,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Hashes;
 	use Framework\Database\Tables\Users as Database;
-	use Framework\Exceptions\SyscrackException;
+
 
 	class Register
 	{
@@ -52,25 +52,25 @@
 			if (filter_var($email, FILTER_VALIDATE_EMAIL) == false)
 			{
 
-				throw new SyscrackException('Your email is not a valid email');
+				throw new \Error('Your email is not a valid email');
 			}
 
 			if ($this->isUsernameTaken($username))
 			{
 
-				throw new SyscrackException('Username is already taken');
+				throw new \Error('Username is already taken');
 			}
 
 			if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $username))
 			{
 
-				throw new SyscrackException('Username is invalid and must not contain any special characters');
+				throw new \Error('Username is invalid and must not contain any special characters');
 			}
 
 			if ($this->isEmailUnused($email))
 			{
 
-				throw new SyscrackException('Email is already taken');
+				throw new \Error('Email is already taken');
 			}
 
 			$data = $this->prepareArray($username, $password, $email);
@@ -78,7 +78,7 @@
 			if (empty($data))
 			{
 
-				throw new SyscrackException('Failed to prepare array');
+				throw new \Error('Failed to prepare array');
 			}
 
 			$userid = $this->database->insertUser($data);
@@ -86,7 +86,7 @@
 			if (empty($userid))
 			{
 
-				throw new SyscrackException('Internal error');
+				throw new \Error('Internal error');
 			}
 
 			$verification = new Verification();
@@ -160,7 +160,7 @@
 			if ($salt == null)
 			{
 
-				throw new SyscrackException();
+				throw new \Error();
 			}
 
 			$password = $this->saltPassword($password, $salt);
