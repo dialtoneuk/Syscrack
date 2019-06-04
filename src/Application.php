@@ -122,10 +122,15 @@
 			Flight::map('error', function( \Error $error)
 			{
 
+				if( Container::exist("application") == false )
+					die("Unable to disclose error correctly due to lack of application global instance");
+				else
+					$application = Container::get("application");
+
 				if( Settings::setting('error_logging') )
 				{
 
-					$this->getErrorHandler()->handleFlightError( $error );
+					$application->getErrorHandler()->handleFlightError( $error );
 
 					if( Settings::setting('error_display_page') )
 						if( $_SERVER['REQUEST_URI'] == '/' )
@@ -384,6 +389,10 @@
 
 			self::$controller->run();
 		}
+
+		/**
+		 * @param bool $log
+		 */
 
 		public static function block( $log=true )
 		{

@@ -10,6 +10,7 @@
 	 * @package Framework\Views
 	 */
 
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Exceptions\ViewException;
 	use Framework\Syscrack\Game\Interfaces\Computer;
 	use Framework\Syscrack\Game\Interfaces\Software;
@@ -139,6 +140,7 @@
 				catch (\ReflectionException $e)
 				{
 
+					Container::get('application')->getErrorHandler()->handleError( $e );
 				}
 
 				if (empty($reflection))

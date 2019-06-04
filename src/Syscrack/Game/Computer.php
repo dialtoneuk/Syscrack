@@ -89,8 +89,6 @@
 			}
 
 			return self::$factory->findClass($name);
-
-			return null;
 		}
 
 		/**
@@ -151,7 +149,6 @@
 		 * @param $name
 		 *
 		 * @return mixed
-		 * @throws \ReflectionException
 		 */
 
 		public function onComputerStartup($name)

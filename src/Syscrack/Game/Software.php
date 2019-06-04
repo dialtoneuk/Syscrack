@@ -13,6 +13,7 @@
 	 * information
 	 */
 
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
@@ -1139,9 +1140,11 @@
 
 					return null;
 				}
-			} catch (\ReflectionException $exception)
+			}
+			catch (\ReflectionException $exception)
 			{
 
+				Container::get('application')->getErrorHandler()->handleError( $exception );
 			}
 
 			if (empty($parameters) == false)

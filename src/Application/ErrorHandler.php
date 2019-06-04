@@ -14,6 +14,7 @@
 	use Exception;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\Utilities\IPAddress;
+	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Exceptions\ApplicationException;
 
 	class ErrorHandler
@@ -50,22 +51,36 @@
 		/**
 		 * Handles the errors of the application
 		 *
-		 * @param Exception $error
+		 * @param $error
 		 */
 
-		public function handleError(Exception $error)
+		public function handleError( $error)
 		{
 
-			$array = array(
-				'message' => $error->getMessage(),
-				'type' => 'frameworkerror',
-				'details' => [
-					'url' => $_SERVER['REQUEST_URI'],
-					'line' => $error->getLine(),
-					'file' => $error->getFile(),
-					'trace' => $error->getTraceAsString()
-				]
-			);
+			if( $error instanceof Error || $error instanceof \RuntimeException )
+			{
+
+				$array = array(
+					'message' => $error->getMessage(),
+					'type' => 'frameworkrerror',
+					'details' => [
+						'url' => $_SERVER['REQUEST_URI'],
+						'line' => $error->getLine(),
+						'file' => $error->getFile(),
+						'trace' => $error->getTraceAsString()
+					]
+				);
+			}
+			else
+			{
+
+				Debug::message("Error occured but type thrown wasnt what I expected");
+
+				$array = [
+					'type' => "unknownerror",
+					'array' => @print_r( $error )
+				];
+			}
 
 			$this->addToLog($array);
 
@@ -76,22 +91,36 @@
 		/**
 		 * Handles an error with the render engine
 		 *
-		 * @param Error $error
+		 * @param $error
 		 */
 
-		public function handleFlightError(Error $error)
+		public function handleFlightError( $error)
 		{
 
-			$array = array(
-				'message' => $error->getMessage(),
-				'type' => 'rendererror',
-				'details' => [
-					'url' => $_SERVER['REQUEST_URI'],
-					'line' => $error->getLine(),
-					'file' => $error->getFile(),
-					'trace' => $error->getTraceAsString()
-				]
-			);
+			if( $error instanceof Error || $error instanceof \RuntimeException )
+			{
+
+				$array = array(
+					'message' => $error->getMessage(),
+					'type' => 'rendererror',
+					'details' => [
+						'url' => $_SERVER['REQUEST_URI'],
+						'line' => $error->getLine(),
+						'file' => $error->getFile(),
+						'trace' => $error->getTraceAsString()
+					]
+				);
+			}
+			else
+			{
+
+				Debug::message("Error occured but type thrown wasnt what I expected");
+
+				$array = [
+					'type' => "unknownerror",
+					'array' => @print_r( $error )
+				];
+			}
 
 			$this->addToLog($array);
 
