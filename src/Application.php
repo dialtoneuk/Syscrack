@@ -119,31 +119,33 @@
 		{
 
 			Flight::set('flight.views.path', SYSCRACK_ROOT );
-			Flight::map('error', function( \Error $error)
+			Flight::map('error', function( $error )
 			{
 
 				if( Container::exist("application") == false )
-					die("Unable to disclose error correctly due to lack of application global instance");
+					echo("Unable to disclose error correctly due to lack of application global instance" . "<br>" . @print_r( $error ) );
 				else
-					$application = Container::get("application");
-
-				if( Settings::setting('error_logging') )
 				{
 
-					$application->getErrorHandler()->handleFlightError( $error );
+					$application = Container::get("application");
 
-					if( Settings::setting('error_display_page') )
-						if( $_SERVER['REQUEST_URI'] == '/' )
-							Flight::redirect('/error?redirect=/index');
+					if( Settings::setting('error_logging') )
+					{
+
+						$application->getErrorHandler()->handleFlightError( $error );
+
+						if( Settings::setting('error_display_page') )
+							if( $_SERVER['REQUEST_URI'] == '/' )
+								Flight::redirect('/error?redirect=/index');
+							else
+								Flight::redirect('/error?redirect=' . $_SERVER['REQUEST_URI'] );
 						else
-							Flight::redirect('/error?redirect=' . $_SERVER['REQUEST_URI'] );
+							Flight::redirect('/');
+
+					}
 					else
-						Flight::redirect('/');
-
+						Flight::notFound();
 				}
-				else
-					Flight::notFound();
-
 			});
 			Flight::map('notFound', function(){
 

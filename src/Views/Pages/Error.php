@@ -14,6 +14,7 @@
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Application\UtilitiesV2\Debug;
 
 	class Error extends BaseClass
 	{
@@ -52,16 +53,19 @@
 		{
 
 			if( Container::exist("application") == false )
-				die("Application global not set so not able to display you the error that just occured. It did just happen though, and you should check your logs ( if you are an sysadmin )");
+				Debug::echo("Application global not set so not able to display you the error that just occured. It did just happen though, and you should check your logs ( if you are an sysadmin )");
+			else
+			{
 
-			if( Settings::setting('error_logging') == false || Settings::setting('error_display_page') == false )
-				\Flight::notFound();
+				if( Settings::setting('error_logging') == false || Settings::setting('error_display_page') == false )
+					\Flight::notFound();
 
-			if( Container::get('application')->getErrorHandler()->hasErrors() == false )
-				\Flight::notFound();
+				if( Container::get('application')->getErrorHandler()->hasErrors() == false )
+					\Flight::notFound();
 
-			$error = Container::get('application')->getErrorHandler()->getLastError();
+				$error = Container::get('application')->getErrorHandler()->getLastError();
 
-			Render::view('error/page.error', ['error' => $error ], $this->model() );
+				Render::view('error/page.error', ['error' => $error ], $this->model() );
+			}
 		}
 	}
