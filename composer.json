@@ -6,10 +6,7 @@
   "autoload": {
     "psr-4": {
       "Framework\\": "src/"
-    },
-    "files":[
-      "src/Exceptions/Runtime.php"
-    ]
+    }
   },
   "authors": [
     {
