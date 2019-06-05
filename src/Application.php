@@ -135,10 +135,16 @@
 						$application->getErrorHandler()->handleFlightError( $error );
 
 						if( Settings::setting('error_display_page') )
+						{
+
 							if( $_SERVER['REQUEST_URI'] == '/' )
 								Flight::redirect('/error?redirect=/index');
 							else
-								Flight::redirect('/error?redirect=' . $_SERVER['REQUEST_URI'] );
+								if( isset( $_GET["redirect"] ) == false )
+									Flight::redirect('/error?redirect=' . htmlspecialchars( $_SERVER['REQUEST_URI'] ) );
+								else
+									Flight::redirect('/error?redirect=' . htmlspecialchars( $_GET["redirect"] ) );
+						}
 						else
 							Flight::redirect('/');
 

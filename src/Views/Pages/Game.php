@@ -183,7 +183,7 @@
 		public function page()
 		{
 
-			$this->getRender('syscrack/page.game');
+			$this->getRender('syscrack/page.game', [], true, self::$session->userid(), self::$computer->computerid() );
 		}
 
 		/**

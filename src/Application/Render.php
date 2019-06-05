@@ -87,6 +87,9 @@
 					foreach (FormContainer::contents() as $response) /** @var Response $response */
 						$array["form"][] = $response->get();
 
+			if( isset( $array["assets"] ) == false )
+				$array["assets"] = self::processAssets( self::getAssets() );
+
 			if (Settings::setting('render_json_output'))
 				Flight::json( $array );
 			else
@@ -126,16 +129,75 @@
 			}
 		}
 
-		public static function getAssetsLocation()
+		public static function processAssets( $assets )
 		{
 
-			$folder = Settings::setting('render_folder');
+			if( isset( self::$themes ) == false )
+				self::$themes = new Themes();
 
-			return '/'
-				. Settings::setting('syscrack_view_location')
-				. '/'
-				. $folder
-				. '/';
+			$results = [];
+
+			foreach( $assets as $key=>$asset )
+			{
+
+				if ($key == "css")
+					$extension = ".css";
+				else if ($key == "js")
+					$extension = ".js";
+				else if ($key == "js_header")
+					$extension = ".js";
+				else if ($key == "img")
+					$extension = ".png";
+				else
+					$extension = "";
+
+				if( $key == "js_header" )
+					$folder = "js";
+				else
+					$folder = $key;
+
+				if ($extension !== "")
+				{
+
+					foreach ($asset as $file)
+						if (FileSystem::exists(FileSystem::separate(Settings::setting("syscrack_view_location")
+							, Settings::setting("render_folder")
+							, $folder
+							, $file . $extension
+						)))
+							$results[$key][] = "/" .FileSystem::separate(Settings::setting("syscrack_view_location"), Settings::setting("render_folder"), $folder, $file . $extension);
+						else if (self::$themes->hasBase(self::$themes->currentTheme()))
+							$results[$key][] = "/" . FileSystem::separate(Settings::setting("syscrack_view_location"), self::$themes->base(self::$themes->currentTheme()), $folder, $file . $extension);
+				}
+				else
+					foreach ($asset as $file )
+						$results[$key][] = "/" .FileSystem::separate(Settings::setting("syscrack_view_location"), Settings::setting("render_folder"), $folder, $file);
+			}
+
+			return( $results );
+		}
+
+		public static function getAssets()
+		{
+
+			if( isset( self::$themes ) == false )
+				self::$themes = new Themes();
+
+			if( self::$themes->hasAssets( self::$themes->currentTheme() ) == false )
+				if( self::$themes->hasBase( self::$themes->currentTheme() ) )
+				{
+
+					$base = self::$themes->getTheme( self::$themes->base( self::$themes->currentTheme() ) );
+
+					if( isset( $base->data["assets"] ) == false )
+						return [];
+
+					return( $base->data["assets"]  );
+				}
+				else
+					return [];
+			else
+				return( self::$themes->assets( self::$themes->currentTheme() ) );
 		}
 
 		/**

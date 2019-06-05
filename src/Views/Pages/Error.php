@@ -14,7 +14,6 @@
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Views\BaseClasses\Page as BaseClass;
-	use Framework\Application\UtilitiesV2\Debug;
 
 	class Error extends BaseClass
 	{

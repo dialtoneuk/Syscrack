@@ -152,6 +152,31 @@
 			return true;
 		}
 
+		public function hasAssets($theme)
+		{
+
+			$data = $this->getData($theme);
+
+			if (empty($data))
+				return false;
+			else if ( isset( $data["assets"] ) == false )
+				return false;
+
+			return true;
+		}
+
+		/**
+		 * @param $theme
+		 *
+		 * @return mixed
+		 */
+
+		public function assets( $theme )
+		{
+
+			return( $this->getData( $theme )["assets"] );
+		}
+
 		/**
 		 * @param $theme
 		 *
