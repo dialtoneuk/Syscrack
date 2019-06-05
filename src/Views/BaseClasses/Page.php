@@ -9,8 +9,7 @@
 	 *
 	 * @package Framework\Views
 	 */
-
-	use Framework\Application\Container;
+	
 	use Framework\Application\FormContainer;
 	use Framework\Application\Render;
 	use Framework\Application\Session;
@@ -28,6 +27,7 @@
 	use Framework\Views\Structures\Page as Structure;
 	use Framework\Syscrack\User;
 	use Illuminate\Support\Collection;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application;
 
 	class Page implements Structure
@@ -143,7 +143,7 @@
 					session_start();
 
 				self::$session = new Session();
-				Container::setObject('session', self::$session);
+				Container::add('session', self::$session);
 			}
 
 			if ($requirelogin && $session)
@@ -191,7 +191,7 @@
 		public function isLoggedIn()
 		{
 
-			return (Container::getObject('session')->isLoggedIn());
+			return (Container::get('session')->isLoggedIn());
 		}
 
 		/**
@@ -213,8 +213,8 @@
 		public function isAdmin()
 		{
 
-			if (Container::getObject('session')->isLoggedIn())
-				if (self::$user->isAdmin(Container::getObject('session')->userid()))
+			if (Container::get('session')->isLoggedIn())
+				if (self::$user->isAdmin(Container::get('session')->userid()))
 					return true;
 
 			return false;
@@ -269,7 +269,7 @@
 				return null;
 
 
-			if (Container::hasObject('session') == false)
+			if (Container::exist('session') == false)
 			{
 
 				$this->model->session = [
@@ -279,10 +279,10 @@
 
 				$this->model->userid = null;
 			}
-			else if (Container::getObject('session')->isLoggedIn() == false)
+			else if (Container::get('session')->isLoggedIn() == false)
 			{
 				$this->model->session = [
-					'active' => Container::getObject('session')->sessionActive(),
+					'active' => Container::get('session')->sessionActive(),
 					'loggedin' => false,
 				];
 
@@ -293,15 +293,15 @@
 			{
 
 				$this->model->session = [
-					'active' => Container::getObject('session')->sessionActive(),
-					'loggedin' => Container::getObject('session')->isLoggedIn(),
+					'active' => Container::get('session')->sessionActive(),
+					'loggedin' => Container::get('session')->isLoggedIn(),
 					'data' => $_SESSION
 				];
 
 				if( isset( self::$user ) )
 				{
 
-					$this->model->userid = Container::getObject('session')->userid();
+					$this->model->userid = Container::get('session')->userid();
 
 					if ( self::$user->isAdmin($this->model->userid))
 						$this->model->admin = true;

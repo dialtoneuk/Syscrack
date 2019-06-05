@@ -160,7 +160,7 @@
      * @property string DEBUG_WRITE_FILE true
      * @property string DEBUG_MESSAGES_FILE data/cli/messages.json
      * @property string DEBUG_TIMERS_FILE data/cli/timers.json
-     * @property string MAILER_CONFIGURATION_FILE data/config/templates.json
+     * @property string MAILER_CONFIGURATION_FILE data/config/mailer.json
      * @property string MAILER_TEMPLATES_ROOT resources/email/
      * @property string MAILER_IS_HTML true
      * @property string MAILER_IS_SMTP true

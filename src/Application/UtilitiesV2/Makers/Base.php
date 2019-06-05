@@ -9,6 +9,7 @@
 	 * Time: 21:48
 	 */
 
+	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use Framework\Application\UtilitiesV2\Conventions\TokenData;
 	use Framework\Application\UtilitiesV2\Interfaces\Maker;
@@ -85,6 +86,26 @@
 					throw TokenReader::getLastError();
 
 			return ($result);
+		}
+
+		/**
+		 * @return string
+		 */
+
+		public function filepath(): string
+		{
+
+			return("src/");
+		}
+
+		/**
+		 * @return string
+		 */
+
+		public function namespace(): string
+		{
+
+			return( Application::globals()->SYSCRACK_NAMESPACE_ROOT . "Application\\Syscrack\\" );
 		}
 
 		/**

@@ -14,8 +14,6 @@
 	use Flight;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
-
-
 	use Framework\Views\Structures\Page;
 
 	class Controller

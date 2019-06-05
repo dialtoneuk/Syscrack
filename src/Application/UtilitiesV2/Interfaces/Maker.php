@@ -20,4 +20,8 @@
 		public function requiredTokens(): array;
 
 		public function make(TokenData $values, $path): FileData;
+
+		public function namespace(): string;
+
+		public function filepath(): string;
 	}

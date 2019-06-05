@@ -61,7 +61,7 @@
 		/**
 		 * @param $name
 		 *
-		 * @return Application|Instance
+		 * @return Application|Instance|Application\Session
 		 */
 
 		public static function get($name)

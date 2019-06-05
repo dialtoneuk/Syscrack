@@ -17,7 +17,6 @@
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Globals;
 	use Framework\Application\UtilitiesV2\Scripts;
-
 	use Framework\Application\Settings;
 	use Framework\Views\Controller;
 	use Framework\Application\UtilitiesV2\Format;
@@ -646,7 +645,7 @@
 					["DEBUG_MESSAGES_FILE", 'data/cli/messages.json'],
 					["DEBUG_TIMERS_FILE", 'data/cli/timers.json'],
 					//Mailer
-					["MAILER_CONFIGURATION_FILE", "data/config/templates.json"],
+					["MAILER_CONFIGURATION_FILE", "data/config/mailer.json"],
 					["MAILER_TEMPLATES_ROOT", "resources/email/"],
 					["MAILER_IS_HTML", true ],
 					["MAILER_IS_SMTP", true ],

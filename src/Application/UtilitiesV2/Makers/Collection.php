@@ -15,6 +15,10 @@
 	class Collection extends Base
 	{
 
+		/**
+		 * @param FileData|null $template
+		 */
+
 		public function before(FileData $template = null): void
 		{
 

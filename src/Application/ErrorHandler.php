@@ -38,14 +38,10 @@
 		{
 
 			if ($autoload == true)
-			{
-
 				if ($this->hasLogFile())
-				{
+					if( Debug::isCMD() == false )
+						$this->error_log = $this->getLogFile();
 
-					$this->error_log = $this->getLogFile();
-				}
-			}
 		}
 
 		/**
@@ -93,14 +89,13 @@
 					'message' => @get_class( $error ),
 					'details' => [
 						'url' => $_SERVER['REQUEST_URI'],
-						'trace' => print_r( $error )
 					]
 				];
 			}
 
 			$this->addToLog($array);
 
-			if (Settings::setting('error_logging'))
+			if (Settings::setting('error_logging') && Debug::isCMD() == false )
 				$this->saveErrors();
 		}
 
@@ -119,11 +114,17 @@
 		/**
 		 * Reads the error log from file
 		 *
-		 * @return mixed
+		 * @return array
 		 */
 
 		public function readErrorLog()
 		{
+
+			if( Debug::isCMD() )
+				return [];
+
+			if( FileSystem::exists( $this->getFileLocation()) == false )
+				return [];
 
 			$file = FileSystem::read($this->getFileLocation());
 
@@ -169,10 +170,7 @@
 		{
 
 			if (FileSystem::exists($this->getFileLocation()))
-			{
-
 				return true;
-			}
 
 			return false;
 		}

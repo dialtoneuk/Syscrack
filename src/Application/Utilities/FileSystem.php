@@ -429,6 +429,9 @@
 		public static function getFilePath($file)
 		{
 
+			if( is_string( $file ) == false )
+				throw new \Error("Attempted to get file path of array: " . print_r( $file ) );
+
 			return sprintf('%s' . Settings::setting('filesystem_separator') . '%s', self::getRoot(), $file);
 		}
 

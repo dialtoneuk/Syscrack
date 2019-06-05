@@ -8,6 +8,12 @@
 
 	namespace Framework\Application\UtilitiesV2\Setups;
 
+	use Framework\Application;
+
+	/**
+	 * Class Mailer
+	 * @package Framework\Application\UtilitiesV2\Setups
+	 */
 
 	class Mailer extends Base
 	{

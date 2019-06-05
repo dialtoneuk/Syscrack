@@ -99,6 +99,48 @@
 		}
 
 		/**
+		 * @param $class_name
+		 *
+		 * @return string
+		 */
+
+		public function getNamespace($class_name)
+		{
+
+			if ($this->exist($class_name) == false)
+				throw new \Error("class does not exist");
+
+			$instance = $this->constructor->get($class_name);
+
+			/** @var Maker $instance */
+			if ($instance instanceof Maker == false)
+				throw new \Error("invalid instance");
+
+			return ($instance->namespace());
+		}
+
+		/**
+		 * @param $class_name
+		 *
+		 * @return string
+		 */
+
+		public function getFilepath($class_name)
+		{
+
+			if ($this->exist($class_name) == false)
+				throw new \Error("class does not exist");
+
+			$instance = $this->constructor->get($class_name);
+
+			/** @var Maker $instance */
+			if ($instance instanceof Maker == false)
+				throw new \Error("invalid instance");
+
+			return ($instance->filepath());
+		}
+
+		/**
 		 * @param TokenData $values
 		 * @param $requirements
 		 *
