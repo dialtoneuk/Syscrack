@@ -43,6 +43,6 @@
 			"author" => "string",
 			"website" => "string",
 			"version" => "int",
-			"data" => "array"
+			"data" => "dynamic"
 		];
 	}
