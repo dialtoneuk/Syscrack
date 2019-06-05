@@ -12,6 +12,7 @@
 
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Finance;
+	use Framework\Views\BaseClasses\Page;
 
 	class Bank extends BaseOperation
 	{
@@ -106,7 +107,9 @@
 			if (self::$internet->ipExists($data['ipaddress']) == false)
 				return false;
 
-			$this->render('operations/operations.bank', array('ipaddress' => $data['ipaddress'], 'account' => self::$finance->getAccountAtBank($this->getComputerId($data["ipaddress"]), $userid)), true);
+			$this->render('operations/operations.bank',
+				array('ipaddress' => $data['ipaddress'], 'account' => self::$finance->getAccountAtBank($this->getComputerId($data["ipaddress"]), $userid)),
+				true, true );
 			return null;
 		}
 

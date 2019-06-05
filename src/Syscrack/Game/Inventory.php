@@ -218,6 +218,12 @@
 			FileSystem::writeJson( $path, $inventory->contents() );
 		}
 
+		/**
+		 * @param array|null $data
+		 *
+		 * @return InventoryData
+		 */
+
 		public static function dataInstance( array $data=null )
 		{
 

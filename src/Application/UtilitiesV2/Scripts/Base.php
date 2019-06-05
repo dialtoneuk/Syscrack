@@ -28,7 +28,8 @@
 		{
 
 			if( Debug::isCMD() == false )
-				throw new \Error("Attempted to create script class when CMD mode is in inactive");
+				if( Debug::isPHPUnitTest() == false )
+					throw new \Error("Attempted to create script class when CMD mode is in inactive");
 		}
 
 		/**

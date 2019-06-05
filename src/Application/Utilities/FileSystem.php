@@ -300,7 +300,7 @@
 		public static function getFilesInDirectory($path, $suffix = 'php')
 		{
 
-			Debug::message("Getting all " . $suffix . "in path " . $path );
+			Debug::message("Getting all files with ." . $suffix . " in path " . $path );
 
 			if (is_dir(self::getFilePath($path)) == false)
 			{
@@ -313,6 +313,8 @@
 
 				throw new \Error();
 			}
+
+			Debug::message("glob: " . self::getFilePath($path) . "*.{$suffix}" );
 
 			$files = glob(self::getFilePath($path) . "*.{$suffix}");
 
@@ -411,8 +413,8 @@
 
 			if (file_exists(self::getFilePath($file)) == false)
 			{
-
-				throw new \Error();
+				Debug::message("filesystem: attempted to delete invalid file " . self::getFilePath($file) );
+				return;
 			}
 
 			unlink(self::getFilePath($file));
@@ -432,7 +434,10 @@
 			if( is_string( $file ) == false )
 				throw new \Error("Attempted to get file path of array: " . print_r( $file ) );
 
-			return sprintf('%s' . Settings::setting('filesystem_separator') . '%s', self::getRoot(), $file);
+			if( substr( $file, 0, 1 ) == DIRECTORY_SEPARATOR )
+				$file = substr( $file, 1 );
+
+			return sprintf('%s' . DIRECTORY_SEPARATOR . '%s', self::getRoot(), $file);
 		}
 
 		/**

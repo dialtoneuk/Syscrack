@@ -428,7 +428,7 @@
 							$message = "blocked " . addslashes( $uid ) . " at " . Format::timestamp( time(), true  ) . "\n";
 
 
-							if( isset( $_SERVER["REQUEST_URI"] ) && empty( $_SERVER["REQUEST_URI"] && @$_SERVER["REQUEST_URI"] !== "/execute.php") == false )
+							if( isset( $_SERVER["REQUEST_URI"] ) && empty( $_SERVER["REQUEST_URI"] && @$_SERVER["REQUEST_URI"] !== "/execute.php") == false && strlen( @$_SERVER["REQUEST_URI"] ) < 128 )
 								$message .= "user attempted to execute: " . addslashes( @$_SERVER["REQUEST_URI"] ) . "\n";
 
 							//Writes the file but only if there isn't a dupe

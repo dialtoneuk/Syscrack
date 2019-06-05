@@ -11,6 +11,7 @@
 	 */
 
 	use Framework\Application\Settings;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Database\Tables\Banks;
 	use Framework\Database\Tables\Computer;
 
@@ -21,13 +22,13 @@
 		 * @var Computer
 		 */
 
-		protected $computers;
+		protected static $computers;
 
 		/**
 		 * @var Banks
 		 */
 
-		protected $banks;
+		protected static $banks;
 
 		/**
 		 * Finance constructor.
@@ -36,21 +37,21 @@
 		public function __construct()
 		{
 
-			$this->computers = new Computer();
+			if( isset( self::$computers ) == false )
+				self::$computers = new Computer();
 
-			$this->banks = new Banks();
+			if( isset( self::$banks ) == false )
+				self::$banks = new Banks();
 		}
 
 		/**
-		 * @param int $pick
-		 *
 		 * @return \Illuminate\Support\Collection
 		 */
 
-		public function getAllAccounts($pick = 32)
+		public function getAllAccounts()
 		{
 
-			return $this->banks->getAllAccounts($pick = 32);
+			return self::$banks->getAllAccounts();
 		}
 
 		/**
@@ -62,7 +63,7 @@
 		public function getAccountCount()
 		{
 
-			return $this->banks->getAccountCount();
+			return self::$banks->getAccountCount();
 		}
 
 		/**
@@ -81,10 +82,7 @@
 			$account = $this->getAccountAtBank($computerid, $userid);
 
 			if ($account == null)
-			{
-
 				throw new \Error();
-			}
 
 			return $account->cash;
 		}
@@ -108,10 +106,7 @@
 			$sum = 0;
 
 			foreach ($banks as $bank)
-			{
-
 				$sum += $bank->cash;
-			}
 
 			return $sum;
 		}
@@ -125,7 +120,7 @@
 		public function getBanks()
 		{
 
-			return $this->computers->getComputerByType(Settings::setting('syscrack_computers_bank_type'));
+			return self::$computers->getComputerByType(Settings::setting('syscrack_computers_bank_type'));
 		}
 
 		/**
@@ -139,7 +134,7 @@
 		public function removeAccount($computerid, $userid)
 		{
 
-			$this->banks->deleteAccount($computerid, $userid);
+			self::$banks->deleteAccount($computerid, $userid);
 		}
 
 		/**
@@ -155,38 +150,37 @@
 		public function getAccountAtBank($computerid, $userid)
 		{
 
-			$accounts = $this->banks->getAccountsOnComputer($computerid);
+			$accounts = self::$banks->getAccountsOnComputer($computerid);
 
 			if (empty($accounts))
-			{
-
 				return null;
-			}
 
 			foreach ($accounts as $account)
-			{
-
 				if ($account->userid == $userid)
-				{
-
 					return $account;
-				}
-			}
 
 			return null;
 		}
 
+		/**
+		 * @param $accountnumber
+		 */
+
 		public function setCurrentActiveAccount($accountnumber)
 		{
 
-			if (session_status() !== PHP_SESSION_ACTIVE)
-			{
+			if( Container::exist('session') == false )
+				return;
 
-				throw new \Error();
-			}
+			if( Container::get('session')->isLoggedIn() == false )
+				return;
 
 			$_SESSION['activeaccount'] = $accountnumber;
 		}
+
+		/**
+		 * @return mixed
+		 */
 
 		public function getCurrentActiveAccount()
 		{
@@ -194,14 +188,15 @@
 			return $_SESSION['activeaccount'];
 		}
 
+		/**
+		 * @return bool
+		 */
+
 		public function hasCurrentActiveAccount()
 		{
 
 			if (isset($_SESSION['activeaccount']) == false)
-			{
-
 				return false;
-			}
 
 			return true;
 		}
@@ -217,7 +212,7 @@
 		public function getUserBankAccounts($userid)
 		{
 
-			return $this->banks->getUserAccounts($userid);
+			return self::$banks->getUserAccounts($userid);
 		}
 
 		/**
@@ -231,7 +226,7 @@
 		public function getByAccountNumber($accountnumber)
 		{
 
-			return $this->banks->getByAccountNumber($accountnumber);
+			return self::$banks->getByAccountNumber($accountnumber);
 		}
 
 		/**
@@ -245,11 +240,8 @@
 		public function accountNumberExists($accountnumber)
 		{
 
-			if ($this->banks->getByAccountNumber($accountnumber) == null)
-			{
-
+			if (self::$banks->getByAccountNumber($accountnumber) == null)
 				return false;
-			}
 
 			return true;
 		}
@@ -265,11 +257,9 @@
 		public function hasAccount($userid)
 		{
 
-			if ($this->banks->getUserAccounts($userid) == null)
-			{
-
+			if (self::$banks->getUserAccounts($userid) == null)
 				return false;
-			}
+
 
 			return true;
 		}
@@ -306,12 +296,9 @@
 
 
 			if ($this->getAccountAtBank($computerid, $userid) !== null)
-			{
-
 				throw new \Error();
-			}
 
-			$this->banks->insertAccount(array(
+			self::$banks->insertAccount(array(
 				'computerid' => $computerid,
 				'userid' => $userid,
 				'accountnumber' => $this->getAccountNumber(),
@@ -335,7 +322,7 @@
 		public function deposit($computerid, $userid, $amount)
 		{
 
-			$this->banks->updateAccount($computerid, $userid, array(
+			self::$banks->updateAccount($computerid, $userid, array(
 				'cash' => $this->getUserCash($computerid, $userid) + $amount
 			));
 		}
@@ -353,7 +340,7 @@
 		public function withdraw($computerid, $userid, $amount)
 		{
 
-			$this->banks->updateAccount($computerid, $userid, array(
+			self::$banks->updateAccount($computerid, $userid, array(
 				'cash' => $this->getUserCash($computerid, $userid) - $amount
 			));
 		}
@@ -376,10 +363,7 @@
 			$cash = $this->getUserCash($computerid, $userid);
 
 			if ($cash - $amount >= 0)
-			{
-
 				return true;
-			}
 
 			return false;
 		}
@@ -392,16 +376,6 @@
 
 		private function getAccountNumber()
 		{
-
-			$number = 0;
-
-			for ($i = 0; $i < Settings::setting('syscrack_bank_accountnumber_length'); $i++)
-			{
-
-				$number = $number . rand(0, 9);
-			}
-
-			return $number;
+			return mt_rand( Settings::setting('syscrack_bank_minnumber'), Settings::setting('syscrack_bank_maxnumber'));
 		}
-
 	}

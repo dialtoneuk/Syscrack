@@ -78,7 +78,8 @@
     "sycsrack_betakey_steps": 3,
     "syscrack_addresses_location": "data\/addresses\/",
     "syscrack_admin_computer_count": 12,
-    "syscrack_bank_accountnumber_length": 16,
+    "syscrack_bank_minnumber": 100000,
+    "syscrack_bank_maxnumber": 999999,
     "syscrack_bank_default_balance": "30",
     "syscrack_accounts_location": "data\/accounts\/",
     "syscrack_betakey_location": "config\/betakeys.json",
@@ -252,7 +253,9 @@
     "syscrack_vpc_purchase_price": 1000,
     "syscrack_whois_computer": 70,
     "syscrack_whois_default_computers": [
-        71
+        71,
+        155,
+        156
     ],
     "theme_dark": 0,
     "theme_fullscreen": "1",

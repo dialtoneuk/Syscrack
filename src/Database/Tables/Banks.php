@@ -23,10 +23,10 @@
 		 * @return \Illuminate\Support\Collection
 		 */
 
-		public function getAllAccounts($pick = 32)
+		public function getAllAccounts()
 		{
 
-			return $this->getTable()->get()->take($pick);
+			return $this->getTable()->get();
 		}
 
 		/**

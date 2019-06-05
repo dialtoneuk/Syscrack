@@ -260,14 +260,14 @@
 				$result = $this->gather($this->getFolders());
 
 				if (empty($result))
-					throw new \Error("No theme information found please check your theme directories");
+					return [];
 
 				$this->themes = $result;
 
 				return ($result);
 			}
 			else if (empty($this->themes))
-				throw new \Error("No theme information cached");
+				return [];
 			else
 				return ($this->themes);
 		}

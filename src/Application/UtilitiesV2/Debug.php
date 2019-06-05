@@ -117,6 +117,9 @@
 				if( self::$verbosity > self::VERBOSITY_ERRORS )
 					Debug::echo("debug message: " . $message, 2);
 
+			if( Debug::isPHPUnitTest() )
+				Debug::echo("phpunit debug message: " . $message, 2);
+
 			if (isset(self::$objects->messages) == false)
 				self::$objects->messages = Debug::getMessages();
 

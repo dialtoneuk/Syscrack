@@ -30,7 +30,7 @@
 		public function __construct()
 		{
 
-			if (file_exists(SYSCRACK_ROOT . Application::globals()->Application::globals()->AUTOEXEC_LOG_LOCATION) == false)
+			if (file_exists(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION) == false)
 				throw new \Error("Please run auto migrate");
 
 			if (file_exists(SYSCRACK_ROOT . Application::globals()->AUTOEXEC_LOG_LOCATION . "config.json") == false)

@@ -15,7 +15,6 @@
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
-
 	use Framework\Syscrack\BetaKeys;
 	use Framework\Syscrack\Register as Account;
 	use Framework\Views\BaseClasses\Page as BaseClass;
@@ -48,7 +47,7 @@
 			if (Settings::setting('user_require_betakey'))
 				self::$betakeys = new BetaKeys();
 
-			parent::__construct(false, true, false, true);
+			parent::__construct(true, true, false, true);
 		}
 
 		/**
@@ -77,7 +76,7 @@
 		public function page()
 		{
 
-			if (Container::get('session')->isLoggedIn())
+			if ( self::$session->isLoggedIn() )
 				Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
 
 			Render::view('syscrack/page.register');

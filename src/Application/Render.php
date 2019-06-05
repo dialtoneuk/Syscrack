@@ -14,6 +14,7 @@
 	use Framework\Syscrack\Game\Preferences;
 	use Framework\Syscrack\Game\Themes;
 	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Views\BaseClasses\Page;
 
 	/**
 	 * Class Render
@@ -65,6 +66,10 @@
 
 			if( isset( self::$preferences ) == false )
 				self::$preferences  = new Themes();
+
+			if( $model == null )
+				if( isset( $array["model"] ) == false )
+					$array["model"] = Page::$model;
 
 			if (Settings::setting('render_log'))
 				self::$stack[] = [

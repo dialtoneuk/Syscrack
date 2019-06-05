@@ -498,12 +498,13 @@
 
 		/**
 		 * @param $file
-		 * @param array|null $array
+		 * @param array $array
 		 * @param bool $default_sets
 		 * @param bool $cleanob
+		 * @param null $model
 		 */
 
-		public function render($file, array $array = [], $default_sets = false, $cleanob = true)
+		public function render($file, array $array = [], $default_sets = false, $cleanob = true, $model=null )
 		{
 
 
@@ -519,20 +520,26 @@
 				if (isset($array["user"]) == false)
 					$array["user"] = self::$user->getUser($userid);
 
-				if (isset($array["computer"]) == false)
-					$array["computer"] = self::$computer->getComputer($computerid);
+				if (isset($array["currentcomputer"]) == false)
+					$array["currentcomputer"] = self::$computer->getComputer($computerid);
 
 				if (isset($array["accounts"]) == false)
 					$array["accounts"] = self::$finance->getUserBankAccounts($userid);
 
 				if (isset($array["ipaddress"]) == false)
 					$array["ipaddress"] = self::$computer->getComputer($computerid)->ipaddress;
+
+				if( isset( $array["cash"] ) == false )
+					$array["cash"] = self::$finance->getTotalUserCash( $userid );
+
+				if( isset( $array["connection"] ) == false )
+					$array["connection"] = self::$internet->getCurrentConnectedAddress();
 			}
 
 			if ($cleanob)
 				ob_clean();
 
-			Render::view('syscrack/' . $file, $array);
+			Render::view('syscrack/' . $file, $array, $model );
 		}
 
 		/**

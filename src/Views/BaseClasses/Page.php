@@ -34,12 +34,18 @@
 	{
 
 		/**
+		 * @var \stdClass
+		 */
+
+		public static $model;
+
+		/**
 		 * Model
 		 *
 		 * @var \stdClass
 		 */
 
-		public $model;
+		public $_model;
 
 		/**
 		 * @var bool
@@ -103,10 +109,24 @@
 		 * @param bool $requirelogin
 		 * @param bool $clearerrors
 		 * @param bool $admin_only
+		 * @param bool $global_model
 		 */
 
-		public function __construct(bool $autoload = true, bool $session = false, bool $requirelogin = false, bool $clearerrors = true, bool $admin_only = false)
+		public function __construct(bool $autoload = true, bool $session = false, bool $requirelogin = false, bool $clearerrors = true, bool $admin_only = false, $global_model = true )
 		{
+
+			if ($session)
+			{
+
+				if (session_status() !== PHP_SESSION_ACTIVE)
+					session_start();
+
+				if( isset( self::$session ) == false )
+					self::$session = new Session();
+
+				if( Container::exist('session') == false )
+					Container::add('session', self::$session);
+			}
 
 			if ($autoload)
 			{
@@ -134,17 +154,10 @@
 			}
 
 			if (Settings::setting('render_mvc_output'))
-				$this->model = new \stdClass();
+				$this->_model = new \stdClass();
 
-			if ($session)
-			{
-
-				if (session_status() !== PHP_SESSION_ACTIVE)
-					session_start();
-
-				self::$session = new Session();
-				Container::add('session', self::$session);
-			}
+			if( Settings::setting('render_mvc_output') && $global_model )
+				self::$model = $this->model();
 
 			if ($requirelogin && $session)
 				if ($this->isLoggedIn() == false)
@@ -272,27 +285,27 @@
 			if (Container::exist('session') == false)
 			{
 
-				$this->model->session = [
+				$this->_model->session = [
 					'active' => false,
 					'loggedin' => false,
 				];
 
-				$this->model->userid = null;
+				$this->_model->userid = null;
 			}
 			else if (Container::get('session')->isLoggedIn() == false)
 			{
-				$this->model->session = [
+				$this->_model->session = [
 					'active' => Container::get('session')->sessionActive(),
 					'loggedin' => false,
 				];
 
 
-				$this->model->userid = null;
+				$this->_model->userid = null;
 			}
 			else
 			{
 
-				$this->model->session = [
+				$this->_model->session = [
 					'active' => Container::get('session')->sessionActive(),
 					'loggedin' => Container::get('session')->isLoggedIn(),
 					'data' => $_SESSION
@@ -301,23 +314,23 @@
 				if( isset( self::$user ) )
 				{
 
-					$this->model->userid = Container::get('session')->userid();
+					$this->_model->userid = Container::get('session')->userid();
 
-					if ( self::$user->isAdmin($this->model->userid))
-						$this->model->admin = true;
+					if ( self::$user->isAdmin($this->_model->userid))
+						$this->_model->admin = true;
 
-					$this->model->user = [
-						'username'  => htmlspecialchars( self::$user->getUsername( $this->model->userid ) ),
-						'email'     => htmlspecialchars(  self::$user->getEmail( $this->model->userid ) )
+					$this->_model->user = [
+						'username'  => htmlspecialchars( self::$user->getUsername( $this->_model->userid ) ),
+						'email'     => htmlspecialchars(  self::$user->getEmail( $this->_model->userid ) )
 					];
 
 				}
 
 				if( isset( self::$computer ) )
-					@$this->model->computer = @self::$computer->getComputer( @self::$computer->computerid() );
+					@$this->_model->computer = @self::$computer->getComputer( @self::$computer->computerid() );
 			}
 
-			return $this->model;
+			return $this->_model;
 		}
 
 		/**
@@ -422,6 +435,9 @@
 					if( isset( $preferences[ self::$computer->computerid() ] ) )
 						$array["preferences"] = $preferences[ self::$computer->computerid() ];
 				}
+
+			if( isset( $array["connection"] ) == false )
+				$array["connection"] = self::$internet->getCurrentConnectedAddress();
 
 			if( isset( $array["computer"] ) == false && $computerid !== null )
 				$array["computer"] = self::$computer->getComputer( $computerid );
