@@ -229,7 +229,6 @@
 								return false;
 							break;
 						case "bool" || "boolean":
-							continue;
 							break;
 						case "int" || "integer":
 							if (is_int($array[$key]) == false)
@@ -240,7 +239,6 @@
 								return false;
 							break;
 						case "dynamic":
-							continue;
 							break;
 						default:
 							if (is_null($array[$key]) == false)
