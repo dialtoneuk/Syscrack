@@ -10,7 +10,7 @@
 	 * @package Framework\Syscrack\Game
 	 */
 
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
@@ -447,7 +447,7 @@
 		{
 
 			if ($userid == null)
-				$userid = @Container::getObject('session')->userid();
+				$userid = @Container::get('session')->userid();
 
 			$software = $this->getComputerSoftware($computerid);
 

@@ -10,7 +10,7 @@
 	 * @package Framework\Views\Pages
 	 */
 
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Mailer;
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
@@ -77,7 +77,7 @@
 		public function page()
 		{
 
-			if (Container::getObject('session')->isLoggedIn())
+			if (Container::get('session')->isLoggedIn())
 				Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
 
 			Render::view('syscrack/page.register');
@@ -90,7 +90,7 @@
 		public function process()
 		{
 
-			if (Container::getObject('session')->isLoggedIn())
+			if (Container::get('session')->isLoggedIn())
 				Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
 
 			if (PostHelper::hasPostData() == false)

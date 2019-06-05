@@ -10,7 +10,7 @@
 	 * @package Framework\Views\Pages
 	 */
 
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
@@ -162,7 +162,7 @@
 					if ($action == "switch")
 					{
 
-						if (self::$computer->getComputer($computerid)->userid != Container::getObject('session')->userid())
+						if (self::$computer->getComputer($computerid)->userid != Container::get('session')->userid())
 							$this->page();
 						else
 						{
@@ -279,7 +279,7 @@
 			else
 			{
 
-				if (self::$computer->getComputer($computerid)->userid != Container::getObject('session')->userid())
+				if (self::$computer->getComputer($computerid)->userid != Container::get('session')->userid())
 					$this->page();
 				else
 				{

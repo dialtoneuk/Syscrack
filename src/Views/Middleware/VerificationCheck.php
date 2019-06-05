@@ -10,7 +10,7 @@
 	 * @package Framework\Views\Middleware
 	 */
 
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Session;
 	use Framework\Syscrack\Verification;
 	use Framework\Views\BaseClasses\Middleware;
@@ -39,11 +39,11 @@
 		public function __construct()
 		{
 
-			if (Container::hasObject('session') == false)
+			if (Container::exist('session') == false)
 				throw new \Error();
 
 
-			$this->session = Container::getObject('session');
+			$this->session = Container::get('session');
 
 			if (session_status() !== PHP_SESSION_ACTIVE)
 				session_start();

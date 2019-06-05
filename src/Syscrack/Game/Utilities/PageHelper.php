@@ -10,7 +10,7 @@
 	 * @package Framework\Syscrack\Game\Utility
 	 */
 
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\ArrayHelper;
 
@@ -36,13 +36,13 @@
 		public function __construct()
 		{
 
-			if (Container::hasObject('session') == false)
+			if (Container::exist('session') == false)
 			{
 
 				return;
 			}
 
-			$this->session = Container::getObject('session');
+			$this->session = Container::get('session');
 		}
 
 		/**

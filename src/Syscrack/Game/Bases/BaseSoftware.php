@@ -11,7 +11,7 @@
 	 */
 
 	use Flight;
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Syscrack\Game\computer;
@@ -369,7 +369,7 @@
 
 					array_merge($array, [
 						'software' => self::$software->getSoftwareOnComputer(@$array["computer"]->computerid),
-						'user' => self::$user->getUser(Container::getObject('session')->userid()),
+						'user' => self::$user->getUser(Container::get('session')->userid()),
 						'computer' => $this->currentComputer()
 					]);
 				}

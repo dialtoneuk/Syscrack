@@ -10,7 +10,7 @@
 	 * @package Framework\Syscrack\Game
 	 */
 
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Utilities\Hashes;
 	use Framework\Database\Tables\Computer;
 
@@ -157,13 +157,13 @@
 		public function getCurrentConnectedAddress()
 		{
 
-			if (Container::hasObject('session') == false)
+			if (Container::exist('session') == false)
 			{
 
 				return null;
 			}
 
-			$session = Container::getObject('session');
+			$session = Container::get('session');
 
 			if ($session->isLoggedIn() == false)
 			{

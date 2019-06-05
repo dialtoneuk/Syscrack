@@ -143,7 +143,7 @@
 			} catch (Error $error)
 			{
 
-				throw new \Error($page . " =>" . $error->getMessage() . " at line " . $error->getLine());
+				throw new \Error($page .".php" . " =>" . $error->getMessage() . " at line " . $error->getLine());
 			}
 
 			if (Settings::setting('middlewares_enabled'))

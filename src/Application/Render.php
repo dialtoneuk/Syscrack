@@ -13,6 +13,7 @@
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
 	use Framework\Syscrack\Game\Preferences;
 	use Framework\Syscrack\Game\Themes;
+	use Framework\Application\UtilitiesV2\Container;
 
 	/**
 	 * Class Render
@@ -80,7 +81,7 @@
 
 			if( isset( $array["form"] ) == false && FormContainer::empty() == false )
 				if (Settings::setting('error_use_session')
-					&& Container::getObject('session')->isLoggedIn()
+					&& Container::get('session')->isLoggedIn()
 					&& isset($_SESSION["errors"]))
 					$array["form"] = $_SESSION["errors"];
 				else

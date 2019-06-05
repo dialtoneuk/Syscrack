@@ -8,7 +8,7 @@
 
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\UtilitiesV2\Debug;
 
 	class DebugConnection extends Base
@@ -24,13 +24,13 @@
 		public function execute($arguments)
 		{
 
-			if( Container::hasObject('database') == false )
+			if( Container::exist('database') == false )
 				$this->initDatabase();
 
 			/**
 			 * @var $database \Illuminate\Database\Capsule\Manager
 			 */
-			$database = Container::getObject('database');
+			$database = Container::get('database');
 
 			try
 			{

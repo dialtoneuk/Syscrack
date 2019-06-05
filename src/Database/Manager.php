@@ -10,7 +10,7 @@
 	 * @package Framework\Database
 	 */
 
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 
 	use Illuminate\Database\Capsule\Manager as Capsule;
 

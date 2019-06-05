@@ -10,7 +10,7 @@
 
 
 	use Framework\Application\Session;
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\UtilitiesV2\Interfaces\AutoExec;
 	use Framework\Database\Manager;
 
@@ -44,7 +44,7 @@
 				self::$database = new Manager( true );
 
 			if( isset( self::$session ) == false )
-				self::$session  = Container::getObject("session");
+				self::$session  = Container::get("session");
 		}
 
 		/**

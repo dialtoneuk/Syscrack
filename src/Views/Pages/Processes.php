@@ -10,7 +10,7 @@
 	 * @package Framework\Views\Pages
 	 */
 
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Syscrack\Game\Operations;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
@@ -124,7 +124,7 @@
 		public function completeProcess($processid)
 		{
 
-			$userid = Container::getObject('session')->userid();
+			$userid = Container::get('session')->userid();
 
 			if (self::$operations->processExists($processid) == false)
 				$this->formError('Process not found');
@@ -197,7 +197,7 @@
 			{
 				$process = self::$operations->getProcess($processid);
 
-				if ($process->userid !== Container::getObject('session')->userid())
+				if ($process->userid !== Container::get('session')->userid())
 					$this->formError('You do not own this process');
 
 				if ($process->computerid != self::$computer->computerid())

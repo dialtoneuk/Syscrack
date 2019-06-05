@@ -10,7 +10,7 @@
 	 * @package Framework\Syscrack\Game
 	 */
 
-	use Framework\Application\Container;
+	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\ArrayHelper;
@@ -510,7 +510,7 @@
 			if ($default_sets)
 			{
 
-				$userid = Container::getObject('session')->userid();
+				$userid = Container::get('session')->userid();
 				$computerid = self::$computer->computerid();
 
 				if (isset($array["localsoftwares"]) == false)
