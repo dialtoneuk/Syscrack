@@ -143,16 +143,14 @@
 
 			return ([
 				"arguments" => [
-					"[type] Refers to what kind of thing to make. For instance, a controller, model, or view. Not case sensitive.",
+					"[type] Refers to what kind of thing to make. [autoexec:collection:convention:page:script]",
 					"[classname] The name of the class (Case Sensitive).",
 					"[namespace:optional] Specify a custom namespace.",
 					"[path:optional] Specify a custom output path."
 				],
 				"help" => [
 					"Creates class based based off of a template. Useful when developing. Supports a wide range of class types",
-					"such as Computers, Softwares and Scripts. The arguments for this script are worked out implicity by the",
-					"order they are typed so be sure to follow the order of which the arguments appear above or implicitly ",
-					"specifcy the index using normal console syntax."
+					"such as Computers, Softwares and Scripts."
 				]
 			]);
 		}

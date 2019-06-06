@@ -47,7 +47,7 @@
 		/**
 		 * @param array $data
 		 *
-		 * @return mixed|void
+		 * @return bool
 		 * @throws \Error
 		 */
 
@@ -86,6 +86,8 @@
 			Debug::message("Creating a new log message for " . $ipaddress);
 
 			$this->save($values);
+
+			return( true );
 		}
 
 		/**

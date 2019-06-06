@@ -3,17 +3,16 @@
 	namespace Framework\Application\UtilitiesV2\Makers;
 
 	/**
-	 * Created by PhpStorm.
-	 * User: lewis
-	 * Date: 31/08/2018
-	 * Time: 22:11
+	 * Class Item
+	 *
+	 * Automatically created at: 2019-06-06 22:50:28
+	 * @package Framework\Application\UtilitiesV2\Makers
 	 */
 
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use Framework\Application\UtilitiesV2\FileOperator;
-	use Framework\Application;
 
-	class Convention extends Base
+	class Item extends Base
 	{
 
 		/**
@@ -24,7 +23,7 @@
 		{
 
 			if ($template == null)
-				$template = FileOperator::pathDataInstance("resources/templates/template_convention.module");
+				$template = FileOperator::pathDataInstance("resources/templates/template_" . strtolower("Item" ) . ".module");
 
 			parent::before($template);
 		}
@@ -35,7 +34,8 @@
 
 		public function filepath(): string
 		{
-			return("src/Application/UtilitiesV2/Conventions/");
+
+			return( parent::filepath() );
 		}
 
 		/**
@@ -44,6 +44,7 @@
 
 		public function namespace(): string
 		{
-			return( Application::globals()->SYSCRACK_NAMESPACE_ROOT . "Application\\UtilitiesV2\\Conventions" );
+
+			return( parent::namespace() );
 		}
 	}

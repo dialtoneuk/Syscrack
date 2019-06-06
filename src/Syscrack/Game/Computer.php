@@ -201,6 +201,16 @@
 		}
 
 		/**
+		 * @param $computerid
+		 */
+
+		public function delete( $computerid )
+		{
+
+			self::$database->delete( $computerid );
+		}
+
+		/**
 		 * Returns true if we have this computer type
 		 *
 		 * @param $type

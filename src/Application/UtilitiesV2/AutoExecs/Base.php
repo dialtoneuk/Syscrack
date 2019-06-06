@@ -50,12 +50,12 @@
 		/**
 		 * @param array $data
 		 *
-		 * @return mixed|void
+		 * @return bool
 		 */
 
 		public function execute(array $data)
 		{
 
-			return;
+			return( true );
 		}
 	}

@@ -60,6 +60,20 @@
 		}
 
 		/**
+		 * @param $computerid
+		 */
+
+		public function delete( $computerid )
+		{
+
+			$array = array(
+				'computerid' => $computerid
+			);
+
+			$this->getTable()->where($array)->delete();
+		}
+
+		/**
 		 * Gets all the computers by a user
 		 *
 		 * @param $userid

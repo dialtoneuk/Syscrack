@@ -129,6 +129,18 @@
 				    Debug::echo("Cleaning Account Files");
 				        $result = $this->cleanupAccounts( $users );
 				    Debug::echo( "Cleaned up " . $result . " files" );
+
+				    Debug::echo("Cleaning Log Files");
+				    $result = $this->cleanupLogs( $computers );
+				    Debug::echo( "Cleaned up " . $result . " files" );
+
+				    Debug::echo("Cleaning Market Files");
+				    $result = $this->cleanupMarkets( $computers );
+				    Debug::echo( "Cleaned up " . $result . " files" );
+
+				    Debug::echo("Cleaning Metadata Files");
+				    $result = $this->cleanupMetadata( $computers );
+				    Debug::echo( "Cleaned up " . $result . " files" );
 			    }
 		    }
 
@@ -199,6 +211,38 @@
 		 * @return int
 		 */
 
+		public function cleanupMetadata(  \Illuminate\Support\Collection $users )
+		{
+
+			$files = FileSystem::getFilesInDirectory(Settings::setting("metadata_filepath") . "/", "db");
+			$exists = [];
+
+			foreach ($users as $user)
+				if( FileSystem::exists( Settings::setting("metadata_filepath"). "/" . $user->userid . ".db" ) )
+					$exists[ FileSystem::getFilePath( Settings::setting("metadata_filepath") . "/" . $user->userid . ".db" ) ] = $user->userid;
+
+			if( empty( $files ) )
+				return 0;
+
+			$total = 0;
+
+			foreach( $files as $file )
+				if( isset( $exists[ $file ] ) == false )
+				{
+
+					$total += 1;
+					unlink( $file );
+				}
+
+			return( $total );
+		}
+
+		/**
+		 * @param \Illuminate\Support\Collection $users
+		 *
+		 * @return int
+		 */
+
 		public function cleanupAccounts(  \Illuminate\Support\Collection $users )
 		{
 
@@ -217,6 +261,74 @@
 
 					$total += 1;
 					unlink( $file );
+				}
+
+			return( $total );
+		}
+
+		/**
+		 * @param \Illuminate\Support\Collection $computers
+		 *
+		 * @return int
+		 */
+
+		public function cleanupLogs(  \Illuminate\Support\Collection $computers )
+		{
+
+			$files = FileSystem::getDirectories(Settings::setting("syscrack_log_location"));
+			$exists = [];
+
+			foreach ( $computers  as $computer )
+			{
+
+				if( self::$user->userExists( $computer->userid ) == false )
+					continue;
+
+				if( FileSystem::exists( Settings::setting("syscrack_log_location") . $computer->computerid . '/' ) )
+					$exists[ $computer->computerid ] = $computer->computerid;
+			}
+
+			$total = 0;
+
+			foreach( $files as $file )
+				if( isset( $exists[ $file ] ) == false )
+				{
+					$total += 1;
+					FileSystem::nukeDirectory( Settings::setting("syscrack_log_location") . $file );
+				}
+
+			return( $total );
+		}
+
+		/**
+		 * @param \Illuminate\Support\Collection $computers
+		 *
+		 * @return int
+		 */
+
+		public function cleanupMarkets(  \Illuminate\Support\Collection $computers )
+		{
+
+			$files = FileSystem::getDirectories(Settings::setting("syscrack_log_location"));
+			$exists = [];
+
+			foreach ( $computers  as $computer )
+			{
+
+				if( self::$user->userExists( $computer->userid ) == false )
+					continue;
+
+				if( FileSystem::exists( Settings::setting("syscrack_market_location") . $computer->computerid . '/' ) )
+					$exists[ $computer->computerid ] = $computer->computerid;
+			}
+
+			$total = 0;
+
+			foreach( $files as $file )
+				if( isset( $exists[ $file ] ) == false )
+				{
+					$total += 1;
+					FileSystem::nukeDirectory( Settings::setting("syscrack_market_location") . $file );
 				}
 
 			return( $total );

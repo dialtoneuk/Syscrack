@@ -202,7 +202,10 @@
 			if (is_dir(self::getFilePath($file)))
 			{
 
-				throw new \Error();
+				if( file_exists( self::getFilePath( $file ) ) == false )
+					return false;
+
+				return true;
 			}
 
 			if (self::hasFileExtension($file) == false)
@@ -438,6 +441,40 @@
 				$file = substr( $file, 1 );
 
 			return sprintf('%s' . DIRECTORY_SEPARATOR . '%s', self::getRoot(), $file);
+		}
+
+		/**
+		 * @param $dir
+		 */
+
+		static function rrmdir( $dir )
+		{
+
+			if (is_dir($dir)) {
+				$objects = scandir($dir);
+				foreach ($objects as $object) {
+					if ($object != "." && $object != "..") {
+						if (is_dir($dir."/".$object))
+							self::rrmdir($dir."/".$object);
+						else
+							unlink($dir."/".$object);
+					}
+				}
+				rmdir($dir);
+			}
+		}
+
+		/**
+		 * @param $dir
+		 */
+
+		public static function nukeDirectory( $dir )
+		{
+
+			if( substr( $dir, -1 ) !== "/" && substr( $dir, -1 ) !== "\\" )
+				$dir .= DIRECTORY_SEPARATOR;
+
+			self::rrmdir( self::getFilePath( $dir ) . DIRECTORY_SEPARATOR );
 		}
 
 		/**

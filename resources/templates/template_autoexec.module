@@ -1,0 +1,38 @@
+<?php
+	namespace _namespace_;
+
+	/**
+	 * Class _classname_
+	 *
+	 * Automatically created at: _time_
+	 * @package _namespace_
+	 */
+
+	class _classname_ extends Base
+	{
+
+
+		/**
+		 * _classname_ constructor.
+		 * @throws \Error
+		 */
+
+		public function __construct()
+		{
+
+			parent::__construct();
+		}
+
+		/**
+		 * @param array $data
+		 *
+		 * @return bool
+		 * @throws \Error
+		 */
+
+		public function execute(array $data)
+		{
+
+			return( true );
+		}
+	}
