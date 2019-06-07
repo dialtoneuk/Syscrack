@@ -452,7 +452,12 @@
 						foreach( $_SESSION["form"]["drawn"] as $page=>$contents )
 							if( isset( $_SESSION["form"][ $page ][ $contents["key"] ] ) )
 								if( time() - ( 60 * 60 * 2  ) < $contents["modified"] )
+								{
+
+									unset( $_SESSION["form"]["drawn"][ $page ] );
 									unset( $_SESSION["form"][ $page ][ $contents["key"] ] );
+								}
+
 
 			if (isset($array["localsoftwares"]) == false)
 				$array["localsoftwares"] = self::$software->getSoftwareOnComputer(self::$computer->computerid());

@@ -53,6 +53,7 @@
 
 			$this->data = $data;
 			$this->type = $type;
+			$this->time = time();
 		}
 
 		/**
@@ -65,7 +66,8 @@
 			return (array(
 				"success" => $this->success,
 				"data" => $this->data,
-				"type" => $this->type
+				"type" => $this->type,
+				"time" => $this->time,
 			));
 		}
 	}

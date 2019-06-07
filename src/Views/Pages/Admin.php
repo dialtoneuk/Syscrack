@@ -279,7 +279,15 @@
 		public function testProcess()
 		{
 
-			$this->formError("Made error", 'admin/test');
+			if( PostHelper::checkForRequirements(["type"] ) )
+				$type = PostHelper::getPostData('type', true );
+			else
+				$type = "error";
+
+			if( $type == "error" )
+				$this->formError("Made error", 'admin/test');
+			else
+				$this->formSuccess('admin/test' );
 		}
 
 

@@ -101,6 +101,9 @@
 
 				if( substr( $array["page"], 0, 1  ) == "/" )
 					$array["page"] = substr( $_SERVER["REQUEST_URI"], 1, strlen( $_SERVER["REQUEST_URI"] ) - 1 );
+
+				if( substr( $array["page"], -1  ) == "/" )
+					$array["page"] = substr(  $array["page"], 0, strlen( $array["page"] ) - 1 );
 			}
 
 			if( isset( $array["form"] ) == false && FormContainer::empty() == false )
@@ -133,6 +136,10 @@
 
 		public static function redirect($url, $code = 303)
 		{
+
+
+			if( $url !== "/" && substr( $url, -1  ) == "/" )
+				$url = substr(   $url, 0, strlen( $url ) - 1 );
 
 			self::$last_redirect = $url;
 

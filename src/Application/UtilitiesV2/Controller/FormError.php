@@ -58,6 +58,7 @@
 
 			$this->message = $message;
 			$this->type = $type;
+			$this->time = time();
 		}
 
 		/**
@@ -70,7 +71,8 @@
 			return (array(
 				"success" => $this->success,
 				"message" => $this->message,
-				"type" => $this->type
+				"type" => $this->type,
+				"time" => Application\UtilitiesV2\Format::timestamp( $this->time ),
 			));
 		}
 	}

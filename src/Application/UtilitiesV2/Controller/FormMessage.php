@@ -28,6 +28,12 @@
 		protected $type;
 
 		/**
+		 * @var int
+		 */
+
+		protected $time;
+
+		/**
 		 * @var bool
 		 */
 
@@ -58,6 +64,7 @@
 
 			$this->message = $message;
 			$this->type = $type;
+			$this->time = time();
 		}
 
 		/**
@@ -68,9 +75,10 @@
 		{
 
 			return (array(
-				"success" => $this->success,
-				"message" => $this->message,
-				"type" => $this->type
+				"success"   => $this->success,
+				"message"   => $this->message,
+				"type"      => $this->type,
+				"time"      => Application\UtilitiesV2\Format::timestamp( $this->time )
 			));
 		}
 	}
