@@ -318,16 +318,22 @@
 		public function internetBrowser()
 		{
 
-			if (PostHelper::hasPostData())
+			if( self::$computer->computerExists( Settings::setting( 'syscrack_whois_computer' )) == false )
+				$this->formError("Whois computer is invalid. Please contact an admin.", 'index');
+			else
 			{
 
-				if ($this->validAddress() == false)
-					$this->formError('404 Not Found', $this->getRedirect() . '/internet');
+				if (PostHelper::hasPostData())
+				{
+
+					if ($this->validAddress() == false)
+						$this->formError('404 Not Found', $this->getRedirect() . '/internet');
+					else
+						$this->redirect($this->getRedirect(PostHelper::getPostData('ipaddress')));
+				}
 				else
-					$this->redirect($this->getRedirect(PostHelper::getPostData('ipaddress')));
+					$this->redirect($this->getRedirect(self::$internet->getComputerAddress(Settings::setting('syscrack_whois_computer'))));
 			}
-			else
-				$this->redirect($this->getRedirect(self::$internet->getComputerAddress(Settings::setting('syscrack_whois_computer'))));
 		}
 
 		/**

@@ -183,16 +183,16 @@
 		 *
 		 * @param int $userid
 		 *
-		 * @param array $software
+		 * @param array $softwares
 		 */
 
-		public function addSoftware($computerid, $userid = null, array $software = [])
+		public function addSoftware($computerid, $userid = null, array $softwares = [])
 		{
 
 			if ($userid == null)
 				$userid = Settings::setting("syscrack_master_user");
 
-			foreach ($software as $softwares)
+			foreach ($softwares as $software)
 			{
 
 				if (isset($software['uniquename']) == false)
@@ -371,15 +371,15 @@
 		 *
 		 * @param $computerid
 		 *
-		 * @param array $hardware
+		 * @param array $hardwares
 		 */
 
-		public function addHardwares($computerid, array $hardware)
+		public function addHardwares($computerid, array $hardwares)
 		{
 
 			$hardware = self::$computer->getComputerHardware($computerid);
 
-			foreach ($hardware as $item => $value)
+			foreach ($hardwares as $item => $value)
 			{
 
 				if (isset($hardware[$item]))

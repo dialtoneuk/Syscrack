@@ -24,6 +24,13 @@
 	class Render
 	{
 
+
+		/**
+		 * @var array
+		 */
+
+		public static $raw;
+
 		/**
 		 * @var array
 		 */
@@ -84,6 +91,18 @@
 			if( isset( $array["settings"] ) == false )
 				$array["settings"] = Settings::settings();
 
+			if( isset( $array["page"] ) == false )
+			{
+
+				if( substr(  $_SERVER["REQUEST_URI"], -1  ) == "/" )
+					$array["page"] = substr( $_SERVER["REQUEST_URI"], 0, strlen( $_SERVER["REQUEST_URI"] ) - 1 );
+				else
+					$array["page"] = $_SERVER["REQUEST_URI"];
+
+				if( substr( $array["page"], 0, 1  ) == "/" )
+					$array["page"] = substr( $_SERVER["REQUEST_URI"], 1, strlen( $_SERVER["REQUEST_URI"] ) - 1 );
+			}
+
 			if( isset( $array["form"] ) == false && FormContainer::empty() == false )
 				if (Settings::setting('error_use_session')
 					&& Container::get('session')->isLoggedIn()
@@ -95,6 +114,8 @@
 
 			if( isset( $array["assets"] ) == false )
 				$array["assets"] = self::processAssets( self::getAssets() );
+
+			self::$raw = $array;
 
 			if (Settings::setting('render_json_output'))
 				Flight::json( $array );

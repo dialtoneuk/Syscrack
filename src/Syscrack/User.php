@@ -321,7 +321,7 @@
 			if ($this->userExists($userid) == false)
 			{
 
-				throw new \Error();
+				throw new \Error('User ' . $userid . ' does not exist');
 			}
 
 			if ($this->getUser($userid)->group !== 'admin')

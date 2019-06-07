@@ -211,15 +211,15 @@
 		 * @return int
 		 */
 
-		public function cleanupMetadata(  \Illuminate\Support\Collection $users )
+		public function cleanupMetadata(  \Illuminate\Support\Collection $computers  )
 		{
 
 			$files = FileSystem::getFilesInDirectory(Settings::setting("metadata_filepath") . "/", "db");
 			$exists = [];
 
-			foreach ($users as $user)
-				if( FileSystem::exists( Settings::setting("metadata_filepath"). "/" . $user->userid . ".db" ) )
-					$exists[ FileSystem::getFilePath( Settings::setting("metadata_filepath") . "/" . $user->userid . ".db" ) ] = $user->userid;
+			foreach ($computers as $computer)
+				if( FileSystem::exists( Settings::setting("metadata_filepath"). "/" . $computer->computerid . ".db" ) )
+					$exists[ FileSystem::getFilePath( Settings::setting("metadata_filepath") . "/" . $computer->computerid . ".db" ) ] = $computer->computerid;
 
 			if( empty( $files ) )
 				return 0;
@@ -309,7 +309,7 @@
 		public function cleanupMarkets(  \Illuminate\Support\Collection $computers )
 		{
 
-			$files = FileSystem::getDirectories(Settings::setting("syscrack_log_location"));
+			$files = FileSystem::getDirectories(Settings::setting("syscrack_market_location"));
 			$exists = [];
 
 			foreach ( $computers  as $computer )
