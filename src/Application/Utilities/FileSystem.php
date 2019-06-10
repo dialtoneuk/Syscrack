@@ -79,7 +79,7 @@
 				else
 					$result = $result . $value;
 
-			return ($result);
+			return ((string)$result);
 		}
 
 		/**
@@ -435,7 +435,7 @@
 		{
 
 			if( is_string( $file ) == false )
-				throw new \Error("Attempted to get file path of array: " . print_r( $file ) );
+				$file = array_pop( $file );
 
 			if( substr( $file, 0, 1 ) == DIRECTORY_SEPARATOR )
 				$file = substr( $file, 1 );

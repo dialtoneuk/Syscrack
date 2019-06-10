@@ -40,6 +40,9 @@
 			if (isset($array["values"]["time"]) == false)
 				$array["values"]["time"] = Format::timestamp(time());
 
+			if( isset( $array["values"]["pid"] ) == false )
+				$array["values"]["pid"] = getmypid();
+
 			parent::__construct($array);
 		}
 	}

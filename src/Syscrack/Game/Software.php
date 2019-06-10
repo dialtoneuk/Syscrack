@@ -13,12 +13,12 @@
 	 * information
 	 */
 
+	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Database\Tables\Software as Database;
-
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 	use Framework\Syscrack\Game\Interfaces\Software as Structure;
 
@@ -58,7 +58,7 @@
 				if (empty(self::$factory))
 				{
 
-					self::$factory = new Factory(Settings::setting('syscrack_software_namespace'));
+					self::$factory = new Factory( Application::globals()->SOFTWARE_NAMESPACE );
 					$this->loadSoftware();
 				}
 		}
@@ -70,7 +70,7 @@
 		private function loadSoftware()
 		{
 
-			$software = FileSystem::getFilesInDirectory(Settings::setting('syscrack_software_location'));
+			$software = FileSystem::getFilesInDirectory( Application::globals()->SOFTWARE_FILEPATH );
 
 			foreach ($software as $softwares)
 			{

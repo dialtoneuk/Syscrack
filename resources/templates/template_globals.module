@@ -1,0 +1,54 @@
+<?php
+	namespace _namespace_;
+
+	/**
+	 * Class _class_
+	 * Created on _time_ by _pid_
+	 * @package _namespace_
+	 *
+_globals_
+	 *
+	 */
+
+	class _class_
+	{
+
+		protected $array = [];
+
+		/**
+		 * _class_ constructor.
+		 *
+		 * @param $globals
+		 */
+
+		public function __construct( $globals ) {
+
+			foreach( $globals as $global)
+				$this->array[ $global[0] ] = $global[1];
+		}
+
+		/**
+		 * @return array
+		 */
+
+		public function all()
+		{
+
+			return( $this->array );
+		}
+
+		/**
+		 * @param $name
+		 *
+		 * @return mixed
+		 */
+
+		public function __get($name)
+		{
+
+			if( isset( $this->array[ $name ] ) == false )
+				throw new \Error("Global " . $name . " does not exist");
+
+			return($this->array[ $name ] );
+		}
+	}

@@ -12,6 +12,7 @@
 
 	use Error;
 	use Flight;
+	use Framework\Application;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
 	use Framework\Views\Structures\Page;
@@ -46,7 +47,7 @@
 		public function __construct()
 		{
 
-			$this->factory = new Factory(Settings::setting('controller_namespace'));
+			$this->factory = new Factory( Application::globals()->CONTROLLER_NAMESPACE );
 		}
 
 		/**
@@ -62,99 +63,45 @@
 			{
 
 				Flight::notFound();
-
 				exit;
 			}
 
 			$page = $this->getPage($url);
 
 			if (empty($page))
-			{
-
 				$page = Settings::setting('controller_index_page');
-			}
 			else
-			{
-
-				//TODO: Make the index root work.. kinda works now but...
-
 				if (Settings::setting('controller_index_root') !== '/')
-				{
-
 					if ('/' . $page[0] == Settings::setting('controller_index_root'))
-					{
-
 						if (isset($page[1]) == false)
-						{
-
 							$page = $page[0];
-						}
 						else
-						{
-
 							$page = $page[1];
-						}
-					}
 					else
-					{
-
 						$page = $page[0];
-					}
-				}
 				else
-				{
-
 					$page = $page[0];
-				}
-			}
 
 			if ($this->isIndex($page))
-			{
-
 				$page = Settings::setting('controller_index_page');
-			}
 
 			$this->page = $page;
 
-			//Disables the developer page from the root
-
-			if (Settings::setting('developer_disabled') == true)
-			{
-
-				if ($page == Settings::setting('developer_page'))
-				{
-
-					Flight::notFound();
-
-					exit;
-				}
-			}
-
 			if ($this->hasURLKey($page))
-			{
-
 				$page = $this->removeURLKey($page);
-			}
 
 			try
 			{
-
 				$this->createPage($page);
-			} catch (Error $error)
+			}
+				catch (Error $error)
 			{
-
 				throw new \Error($error->getFile() . " => " . $page .".php" . " =>" . $error->getMessage() . " at line " . $error->getLine());
 			}
 
 			if (Settings::setting('middlewares_enabled'))
-			{
-
 				if ($this->canExecuteMiddlewaresOnPage($page) == true)
-				{
-
 					$this->processMiddlewares();
-				}
-			}
 		}
 
 		/**

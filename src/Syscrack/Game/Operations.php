@@ -10,6 +10,7 @@
 	 * @package Framework\Syscrack\Game
 	 */
 
+	use Framework\Application;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
@@ -47,7 +48,7 @@
 		public function __construct($autoload = true)
 		{
 
-			$this->factory = new Factory("Framework\\Syscrack\\Game\\Operations\\");
+			$this->factory = new Factory(Application::globals()->OPERATIONS_NAMESPACE );
 			$this->database = new Database();
 
 			if ($autoload)
@@ -857,7 +858,7 @@
 				throw new \Error();
 			}
 
-			$files = FileSystem::getFilesInDirectory(Settings::setting('syscrack_operations_location'));
+			$files = FileSystem::getFilesInDirectory( Application::globals()->OPERATIONS_FILEPATH );
 
 			if (empty($files))
 			{

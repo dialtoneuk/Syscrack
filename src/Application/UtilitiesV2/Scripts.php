@@ -46,7 +46,7 @@
 		{
 
 			if (count($arguments) < 2)
-				throw new \Error("Invalid argument count: " . print_r( $arguments ));
+				$arguments[0] = Application::globals()->CLI_DEFAULT_COMMAND;
 
 			//Unsets the file, leaving the first element the script
 			array_shift($arguments);

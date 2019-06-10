@@ -53,16 +53,15 @@
 		public function handleError( $error)
 		{
 
-			$this->handleFlightError( $error );
+			$this->handleFlightError( $error, 'critical error');
 		}
 
 		/**
-		 * Handles an error with the render engine
-		 *
 		 * @param $error
+		 * @param string $type
 		 */
 
-		public function handleFlightError( $error)
+		public function handleFlightError( $error, string $type="error")
 		{
 
 			if( $error instanceof Error || $error instanceof \RuntimeException || $error instanceof \ErrorException )
@@ -70,7 +69,7 @@
 
 				$array = array(
 					'message' => $error->getMessage(),
-					'type' => 'error',
+					'type' => $type,
 					'details' => [
 						'url' => $_SERVER['REQUEST_URI'],
 						'line' => $error->getLine(),
@@ -78,11 +77,15 @@
 						'trace' => $error->getTraceAsString()
 					]
 				);
+
+				Debug::message("Caught error: " . $array["message"] );
+				Debug::message( $array["type"]  );
+				Debug::message( print_r( $array["details"] )  );
 			}
 			else
 			{
 
-				Debug::message("Error occured but type thrown wasnt what I expected");
+				Debug::message("Error occured but type thrown wasn't what I expected");
 
 				$array = [
 					'type' => "unknownerror",

@@ -11,6 +11,7 @@
 	 */
 
 	use Error;
+	use Framework\Application;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
@@ -52,7 +53,7 @@
 			if ($namespace == null)
 			{
 
-				$namespace = Settings::setting('middlewares_namespace');
+				$namespace = Application::globals()->MIDDLEWARE_NAMESPACE;
 			}
 
 			$this->factory = new Factory($namespace);
@@ -158,7 +159,7 @@
 		public function hasMiddlewares()
 		{
 
-			if (FileSystem::getFilesInDirectory(Settings::setting('middlewares_location')) == null)
+			if (FileSystem::getFilesInDirectory( Application::globals()->MIDDLEWARE_FILEPATH ) == null)
 			{
 
 				return false;
@@ -240,7 +241,7 @@
 		private function getMiddlewares()
 		{
 
-			$middlewares = FileSystem::getFilesInDirectory(Settings::setting('middlewares_location'));
+			$middlewares = FileSystem::getFilesInDirectory( Application::globals()->MIDDLEWARE_FILEPATH );
 
 			if (empty($middlewares))
 			{

@@ -8,6 +8,7 @@
 
 	namespace Framework\Syscrack\Game;
 
+	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Constructor;
 	use Framework\Application\Settings;
 	use Framework\Syscrack\Game\Bases\BaseItem;
@@ -46,7 +47,7 @@
 			else
 				return null;
 
-			$constructor = new Constructor( Settings::setting('items_location') , Settings::setting('items_namespace') );
+			$constructor = new Constructor(  Application::globals()->ITEMS_FILEPATH , Application::globals()->ITEMS_NAMESPACE );
 			$result = @$constructor->createAll( true );
 
 			if( $result === false )

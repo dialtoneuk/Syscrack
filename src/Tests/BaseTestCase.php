@@ -36,6 +36,7 @@
 				include_once "../index.php";
 				self::$application = new Application(false);
 				self::$application->addToGlobalContainer();
+				define("PHPUNIT_FINISHED", true );
 			}
 
 			parent::setUpBeforeClass();

@@ -10,6 +10,7 @@
 	 * @package Framework\Syscrack\Game
 	 */
 
+	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
@@ -53,9 +54,9 @@
 		public function loadComputers()
 		{
 
-			self::$factory = new Factory(Settings::setting('syscrack_computers_namespace'));
+			self::$factory = new Factory( Application::globals()->COMPUTER_NAMESPACE );
 
-			foreach (FileSystem::getFilesInDirectory(Settings::setting('syscrack_computers_location')) as $file)
+			foreach (FileSystem::getFilesInDirectory( Application::globals()->COMPUTER_FILEPATH ) as $file)
 			{
 
 				$name = FileSystem::getFileName($file);

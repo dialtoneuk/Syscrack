@@ -36,7 +36,7 @@
 
 		public function filepath(): string
 		{
-			return( Settings::setting('controller_page_folder') );
+			return( Application::globals()->CONTROLLER_FILEPATH );
 		}
 
 		/**
@@ -45,6 +45,6 @@
 
 		public function namespace(): string
 		{
-			return( Application::globals()->SYSCRACK_NAMESPACE_ROOT . "Views\\Pages" );
+			return( Application::globals()->CONTROLLER_NAMESPACE );
 		}
 	}

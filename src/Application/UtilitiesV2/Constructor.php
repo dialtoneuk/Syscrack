@@ -43,6 +43,9 @@
 		public function __construct($filepath, $namespace)
 		{
 
+			if( substr( $filepath, 0, 1 ) !== "/" && substr( $filepath, 0, 1 ) !== "\\" )
+				$filepath = DIRECTORY_SEPARATOR . $filepath;
+
 			Debug::message('Constructor created with file_path ' . $filepath . ' and namespace of ' . $namespace);
 
 			$this->objects = new \stdClass();

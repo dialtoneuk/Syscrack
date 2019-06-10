@@ -4,6 +4,7 @@
 
 	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\UtilitiesV2\Debug;
 
 	/**
 	 * Created by PhpStorm.
@@ -25,6 +26,8 @@
 
 			if (Instance::$active_instance == false)
 				throw new \Error("Needs an active instance");
+
+			Debug::echo("Reinitializing application");
 
 			//Remove the application
 			Container::remove('application');
