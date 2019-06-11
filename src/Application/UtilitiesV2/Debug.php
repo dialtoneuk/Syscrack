@@ -86,7 +86,7 @@
 		}
 
 		/**
-		 * @param string|null $session
+		 * @param int|null $session
 		 *
 		 * @return bool
 		 */
@@ -224,7 +224,7 @@
 				return;
 
 			if( self::session() )
-				$path = FileSystem::separate("data","cli", self::$session, "messages.json" );
+				$path = FileSystem::separate("data","cli", "debug", self::$session, "messages.json" );
 			else
 				$path = Application::globals()->DEBUG_MESSAGES_FILE;
 
@@ -242,7 +242,7 @@
 		{
 
 			if( self::session() )
-				$path = FileSystem::separate("data","cli", self::$session, "messages.json" );
+				$path = FileSystem::separate("data","cli", "debug", self::$session, "messages.json" );
 			else
 				$path = Application::globals()->DEBUG_MESSAGES_FILE;
 
@@ -273,7 +273,7 @@
 				return;
 
 			if( self::session() )
-				$path = FileSystem::separate("data","cli", self::$session, "output.txt" );
+				$path = FileSystem::separate("data","cli", "debug", self::$session, "output.txt" );
 			else
 				$path = "data/cli/output.txt";
 
@@ -300,7 +300,7 @@
 				return;
 
 			if( self::session() )
-				$path = FileSystem::separate("data","cli", self::$session, "timers.json" );
+				$path = FileSystem::separate("data","cli", "debug", self::$session, "timers.json" );
 			else
 				$path = Application::globals()->DEBUG_TIMERS_FILE;
 
@@ -426,7 +426,7 @@
 			$result = readline( $prompt . "\\\\:$" );
 
 			if( empty( $result ) )
-				sleep( 1 );
+				return null;
 
 			self::$buffer .= $prompt . "\\\\:$" . addslashes( $result ) . "\n";
 

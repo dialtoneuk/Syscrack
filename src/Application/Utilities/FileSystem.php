@@ -69,14 +69,14 @@
 		 * @return string
 		 */
 
-		public static function separate(...$paths)
+		public static function separate(...$paths): string
 		{
 
 			$result = "";
 
 			foreach ($paths as $value)
-				if ($value !== null && is_string( $value ))
-					if (substr($value, -1) !== "\/" && self::hasFileExtension($value) == false)
+				if ($value !== null && ( is_string( $value ) || is_int( $value ) ) )
+					if (substr((string)$value, -1) !== "\/" && self::hasFileExtension((string)$value) == false)
 						$result = $result . $value . DIRECTORY_SEPARATOR;
 					else
 						$result = $result . $value;
@@ -85,7 +85,7 @@
 				else
 					$result = $result . $value;
 
-			return ((string)$result);
+			return ($result);
 		}
 
 		/**
