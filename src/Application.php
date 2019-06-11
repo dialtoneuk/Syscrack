@@ -438,6 +438,7 @@
 
 							//Writes the file but only if there isn't a dupe
 							if( strpos( $contents, $message ) === false )
+								/** @noinspection PhpUnusedLocalVariableInspection */
 								@file_put_contents( $path, ( $contents .= $message ) );
 						}
 					}

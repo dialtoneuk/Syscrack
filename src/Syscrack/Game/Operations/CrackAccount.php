@@ -105,7 +105,7 @@
 				if (self::$finance->getCurrentActiveAccount() == $data['custom']['accountnumber'])
 					return false;
 
-			if (self::$finance->getByAccountNumber($data['custom']['accountnumber'])->computerid !== $this->getComputerId($data['ipaddress']))
+			if (self::$finance->getByAccountNumber($data['custom']['accountnumber'])->computerid !== $this->computerAtAddress($data['ipaddress']))
 				return false;
 
 			if (self::$finance->getByAccountNumber($data['custom']['accountnumber'])->userid == $userid)
@@ -140,7 +140,7 @@
 			self::$finance->setCurrentActiveAccount($data['custom']['accountnumber']);
 			self::$bankdatabase->addAccountNumber($data['custom']['accountnumber'], $data['ipaddress']);
 
-			$this->logCrack($data['custom']['accountnumber'], $this->getComputerId($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
+			$this->logCrack($data['custom']['accountnumber'], $this->computerAtAddress($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
 			$this->logLocal($computerid, $data['custom']['accountnumber'], $data['ipaddress']);
 			$this->redirect( $this->getRedirect($data['ipaddress']) );
 

@@ -80,7 +80,7 @@
 		public function url($ipaddress = null)
 		{
 
-			return ("admin/computer/edit/" . @$this->getComputerId($ipaddress));
+			return ("admin/computer/edit/" . @$this->computerAtAddress($ipaddress));
 		}
 
 		/**
@@ -145,11 +145,11 @@
 				return false;
 
 			self::$software->installSoftware($data['custom']['softwareid'], $userid);
-			self::$computer->installSoftware($this->getComputerId($data['ipaddress']), $data['custom']['softwareid']);
+			self::$computer->installSoftware($this->computerAtAddress($data['ipaddress']), $data['custom']['softwareid']);
 			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['custom']['softwareid']), 'onInstalled', [
 				'softwareid' => $data['custom']['softwareid'],
 				'userid' => $userid,
-				'computerid' => $this->getComputerId($data['ipaddress'])
+				'computerid' => $this->computerAtAddress($data['ipaddress'])
 			]);
 
 			if (self::$viruses->isVirus($data['custom']['softwareid']) == true)

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	//declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
@@ -351,16 +352,16 @@
 		 *
 		 * @param string $softwarename
 		 *
-		 * @param float $softwarelevel
+		 * @param float|int $softwarelevel
 		 *
-		 * @param float $softwareize
+		 * @param float|int $softwareize
 		 *
 		 * @param array $data
 		 *
 		 * @return int
 		 */
 
-		public function createSoftware($software, int $userid, int $computerid, string $softwarename = 'My Software', float $softwarelevel = 1.0, float $softwareize = 10.0, $data = [])
+		public function createSoftware($software, int $userid, int $computerid, string $softwarename = 'My Software', $softwarelevel = 1.0, $softwareize = 10.0, $data = [])
 		{
 
 			if ($this->hasSoftwareClass($software) == false)

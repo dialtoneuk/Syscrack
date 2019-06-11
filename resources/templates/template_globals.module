@@ -8,7 +8,7 @@
 	 * @package %namespace%
 %globals%
 	 */
-	Class %classname%
+	class %classname%
 	{
 
 		protected $array = [];

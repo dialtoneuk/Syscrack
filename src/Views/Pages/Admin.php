@@ -1,4 +1,6 @@
 <?php
+	declare(strict_types=1);
+
 	namespace Framework\Views\Pages;
 
 	/**
@@ -9,13 +11,10 @@
 	 * @package Framework\Views\Pages
 	 */
 
-	use Framework\Application\FormContainer;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\Utilities\PostHelper;
-	use Framework\Application\UtilitiesV2\Controller\FormMessage;
 	use Framework\Application\UtilitiesV2\Conventions\CreatorData;
-
 	use Framework\Syscrack\Game\BrowserPages;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Inventory;

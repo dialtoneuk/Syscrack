@@ -48,7 +48,7 @@
 		public function url($ipaddress = null)
 		{
 
-			return ("admin/computer/edit/" . @$this->getComputerId($ipaddress));
+			return ("admin/computer/edit/" . @$this->computerAtAddress($ipaddress));
 		}
 
 		/**
@@ -121,15 +121,15 @@
 				if (self::$software->checkSoftwareData($software->softwareid, ['editable']) == true)
 					return false;
 
-				$new_softwareid = self::$software->copySoftware($software->softwareid, $this->getComputerId($data['ipaddress']), $userid, false, $softwaredata);
+				$new_softwareid = self::$software->copySoftware($software->softwareid, $this->computerAtAddress($data['ipaddress']), $userid, false, $softwaredata);
 			}
 			else
-				$new_softwareid = self::$software->copySoftware($software->softwareid, $this->getComputerId($data['ipaddress']), $userid);
+				$new_softwareid = self::$software->copySoftware($software->softwareid, $this->computerAtAddress($data['ipaddress']), $userid);
 
 
-			self::$computer->addSoftware($this->getComputerId($data['ipaddress']), $new_softwareid, $software->type);
+			self::$computer->addSoftware($this->computerAtAddress($data['ipaddress']), $new_softwareid, $software->type);
 
-			if (self::$computer->hasSoftware($this->getComputerId($data['ipaddress']), $new_softwareid) == false)
+			if (self::$computer->hasSoftware($this->computerAtAddress($data['ipaddress']), $new_softwareid) == false)
 				return false;
 
 			if( parent::onCompletion(

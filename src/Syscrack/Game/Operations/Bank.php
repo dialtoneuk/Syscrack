@@ -123,7 +123,7 @@
 				return true;
 			else
 				$this->render('operations/operations.bank',
-					['ipaddress' => $data['ipaddress'], 'account' => self::$finance->getAccountAtBank($this->getComputerId($data["ipaddress"]), $userid)],
+					['ipaddress' => $data['ipaddress'], 'account' => self::$finance->getAccountAtBank($this->computerAtAddress($data["ipaddress"]), $userid)],
 					true, true );
 
 			return null;

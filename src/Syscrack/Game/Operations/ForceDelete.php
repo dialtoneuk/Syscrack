@@ -69,7 +69,7 @@
 		public function url($ipaddress = null)
 		{
 
-			return ("admin/computer/edit/" . @$this->getComputerId($ipaddress));
+			return ("admin/computer/edit/" . @$this->computerAtAddress($ipaddress));
 		}
 
 
@@ -129,7 +129,7 @@
 
 			$software = self::$software->getSoftware($data['custom']['softwareid']);
 			self::$software->deleteSoftware($software->softwareid);
-			self::$computer->removeSoftware($this->getComputerId($data['ipaddress']), $software->softwareid);
+			self::$computer->removeSoftware($this->computerAtAddress($data['ipaddress']), $software->softwareid);
 
 			if( parent::onCompletion(
 					$timecompleted,

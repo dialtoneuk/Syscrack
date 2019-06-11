@@ -71,10 +71,10 @@
 				if (self::$internet->getCurrentConnectedAddress() == $data['ipaddress'])
 					return false;
 
-			$victimid = $this->getComputerId($data['ipaddress']);
+			$victimid = $this->computerAtAddress($data['ipaddress']);
 
 			if (self::$computer->hasType($victimid, Settings::setting('syscrack_software_hasher_type'), true) == true)
-				if ($this->getHighestLevelSoftware($victimid, Settings::setting('syscrack_software_hasher_type'))['level'] > $this->getHighestLevelSoftware($computerid, Settings::setting('syscrack_software_cracker_type'))['level'])
+				if ($this->software($victimid, Settings::setting('syscrack_software_hasher_type'))['level'] > $this->software($computerid, Settings::setting('syscrack_software_cracker_type'))['level'])
 					return false;
 
 			return true;

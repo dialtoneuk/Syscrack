@@ -73,34 +73,35 @@
 			$viruses = self::$viruses->getVirusesOnComputer($computerid);
 
 			if (empty($viruses))
-				$this->redirectError('No viruses were found', $this->getRedirect(self::$internet->getComputerAddress($computerid)));
-
-			$software = parent::$software->getSoftware($softwareid);
-			$results = [];
-
-			foreach ($viruses as $virus)
+				$this->formError('No viruses were found', $this->getRedirect(self::$internet->getComputerAddress($computerid)), false );
+			else
 			{
 
-				if ($virus->level > $software->level)
-					continue;
+				$software = parent::$software->getSoftware($softwareid);
+				$results = [];
 
+				foreach ($viruses as $virus)
+				{
 
-				if ($virus->installed == false)
-					continue;
+					if ($virus->level > $software->level)
+						continue;
 
+					if ($virus->installed == false)
+						continue;
 
-				$results[] = [
-					'softwareid' => $virus->softwareid
-				];
+					$results[] = [
+						'softwareid' => $virus->softwareid
+					];
 
-				parent::$software->deleteSoftware($virus->softwareid);
-				self::$computer->removeSoftware($computerid, $virus->softwareid);
+					parent::$software->deleteSoftware($virus->softwareid);
+					self::$computer->removeSoftware($computerid, $virus->softwareid);
+				}
 			}
 
 			if (empty($results))
-				$this->redirectError('No errors were deleted, this could be due to your anti-virus being too weak', $this->getRedirect(self::$internet->getComputerAddress($computerid)));
+				$this->formError('No errors were deleted, this could be due to your anti-virus being too weak', $this->getRedirect(self::$internet->getComputerAddress($computerid)));
 
-			$this->redirectSuccess($this->getRedirect(self::$internet->getComputerAddress($computerid)));
+			$this->formSuccess($this->getRedirect(self::$internet->getComputerAddress($computerid)));
 		}
 
 		/**

@@ -90,7 +90,7 @@
 			if (self::$internet->ipExists($data['ipaddress']) == false)
 				return false;
 
-			self::$log->saveLog($this->getComputerId($data['ipaddress']), []);
+			self::$log->saveLog($this->computerAtAddress($data['ipaddress']), []);
 
 			if( parent::onCompletion(
 					$timecompleted,

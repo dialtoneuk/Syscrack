@@ -1,11 +1,11 @@
 <?php
+	declare(strict_types=1); //Created at 2019-06-11 05:07:39 by 14624
+
 	namespace Framework\Application\UtilitiesV2;
 
 	/**
 	 * Class Globals
-	 * Created on 2019-06-11 02:47:47 by 29080
 	 * @package Framework\Application\UtilitiesV2
-	 *
 	 * @property string SYSCRACK_URL_ROOT /
 	 * @property string SYSCRACK_NAMESPACE_ROOT Framework\
 	 * @property string SYSCRACK_URL_ADDRESS http://localhost
@@ -65,7 +65,7 @@
 	 * @property string GOOGLE_CLOUD_CREDENTIALS data/config/storage/google.json
 	 * @property string STORAGE_CONFIG_ROOT cdata/config/storage/
 	 * @property string STORAGE_SETTINGS_FILE settings.json
-	 * @property double SYSCRACK_TIME_START 1560214060.1672
+	 * @property double SYSCRACK_TIME_START 1560222456.4906
 	 * @property string FLIGHT_JQUERY_FILE jquery-3.3.1.min.js
 	 * @property boolean FLIGHT_CONTENT_OBJECT 1
 	 * @property string FLIGHT_MODEL_DEFINITION model
@@ -196,18 +196,17 @@
 	 * @property string OPERATIONS_FILEPATH src\/Syscrack\/Game\/Operations\/
 	 * @property string CONTROLLER_NAMESPACE Framework\Views\Pages\
 	 * @property string CONTROLLER_FILEPATH src\/Views\/Pages\/
-	 * @property string FILESYSTEM_DEFAULT_PERM 0777
+	 * @property integer FILESYSTEM_DEFAULT_PERM 511
+	 * @property string CONTROLLER_INDEX_ROOT /
 
-	 *
 	 */
-
 	class Globals
 	{
 
 		protected $array = [];
 
 		/**
-		 * Globals constructor.
+		 * %class% constructor.
 		 *
 		 * @param $globals
 		 */

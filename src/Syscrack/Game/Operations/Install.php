@@ -94,7 +94,7 @@
 			if (self::$software->canInstall($data['softwareid']) == false)
 				return false;
 
-			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])))
+			if (self::$software->isInstalled($data['softwareid'], $this->computerAtAddress($data['ipaddress'])))
 				return false;
 
 			if (self::$viruses->isVirus($data['softwareid']))
@@ -102,10 +102,10 @@
 
 				$software = self::$software->getSoftware($data['softwareid']);
 
-				if ($this->getComputerId($data['ipaddress']) == $computerid)
+				if ($this->computerAtAddress($data['ipaddress']) == $computerid)
 					return false;
 
-				if (self::$viruses->virusAlreadyInstalled($software->uniquename, $this->getComputerId($data['ipaddress']), $userid))
+				if (self::$viruses->virusAlreadyInstalled($software->uniquename, $this->computerAtAddress($data['ipaddress']), $userid))
 					return false;
 			}
 
@@ -135,21 +135,21 @@
 			if (self::$software->softwareExists($data['softwareid']) == false)
 				return false;
 
-			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])))
+			if (self::$software->isInstalled($data['softwareid'], $this->computerAtAddress($data['ipaddress'])))
 				return false;
 
 			self::$software->installSoftware($data['softwareid'], $userid);
-			self::$computer->installSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']);
+			self::$computer->installSoftware($this->computerAtAddress($data['ipaddress']), $data['softwareid']);
 
 			$this->logInstall($this->getSoftwareName($data['softwareid']),
-				$this->getComputerId($data['ipaddress']), $this->getCurrentComputerAddress());
+				$this->computerAtAddress($data['ipaddress']), $this->getCurrentComputerAddress());
 			$this->logLocal($this->getSoftwareName($data['softwareid']),
 				self::$computer->computerid(), $data['ipaddress']);
 
 			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['softwareid']), 'onInstalled', [
 				'softwareid' => $data['softwareid'],
 				'userid' => $userid,
-				'computerid' => $this->getComputerId($data['ipaddress'])
+				'computerid' => $this->computerAtAddress($data['ipaddress'])
 			]);
 
 			if (self::$viruses->isVirus($data['softwareid']) == true)

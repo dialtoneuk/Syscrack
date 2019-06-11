@@ -100,7 +100,7 @@
 			else if (isset($data['redirect']) == false)
 				return true;
 			else
-				return 'admin/computer/edit/' . $this->getComputerId($data["ipaddress"]);
+				return 'admin/computer/edit/' . $this->computerAtAddress($data["ipaddress"]);
 		}
 
 		/**

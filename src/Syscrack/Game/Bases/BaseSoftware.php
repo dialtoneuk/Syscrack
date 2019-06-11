@@ -12,6 +12,9 @@
 	 */
 
 	use Flight;
+	use Framework\Application;
+	use Framework\Application\UtilitiesV2\Controller\FormMessage;
+	use Framework\Application\FormContainer;
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
@@ -251,6 +254,42 @@
 		}
 
 		/**
+		 * @param $computerid
+		 * @param null $userid
+		 * @param array $data
+		 *
+		 * @return int
+		 */
+
+		public function addSoftware( $computerid, $userid, array $data )
+		{
+
+			if( $userid === null )
+				if( Container::exist('session') )
+					$userid = Container::get('session')->userid();
+				else
+					throw new \Error("Session does not exist in container when trying to add software");
+
+			if( is_numeric( $userid ) == false )
+				throw new \Error("Userid must be numeric");
+
+			$userid = (int)$userid;
+
+			if( isset( $data["uniquename"] ) == false )
+				throw new \Error("Cannot add software with out unique name");
+
+			$class = self::$software->findSoftwareByUniqueName( $data["uniquename"] );
+			$softwareid = self::$software->createSoftware( $class,
+				$userid, $computerid, @$data["name"],@$data["level"],
+				@$data["size"], @$data["data"] );
+
+			$software = self::$software->getSoftware( $softwareid );
+			self::$computer->addSoftware( $software->computerid, $software->softwareid, $software->type );
+
+			return( $softwareid );
+		}
+
+		/**
 		 * Redirects the user to a page
 		 *
 		 * @param $path
@@ -261,70 +300,46 @@
 		public function redirect($path, $exit = true)
 		{
 
-			Flight::redirect(Settings::setting('controller_index_root') . $path);
+			Flight::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . $path);
 
 			if ($exit)
 				exit;
 		}
 
 		/**
-		 * Redirects the user to an error
-		 *
-		 * @param string $message
-		 *
 		 * @param string $path
+		 * @param string $message
+		 * @param bool $redirect
 		 */
 
-		public function redirectError($message = '', $path = '')
+		public function formError($message = '', $path='', bool $redirect=true )
 		{
 
-			if (Settings::setting('error_use_session'))
-			{
+			if( $path == "" )
+				$path = $this->path();
 
-				$_SESSION['error'] = $message;
+			FormContainer::add( new FormMessage( Application::globals()->FORM_ERROR_GENERAL, $message, false ) );
 
-				if ($path !== '')
-				{
-					if (empty(explode('/', $path)))
-						$_SESSION['error_page'] = explode('/', $path)[0];
-					else
-						if (substr($path, 0, 1) == '/')
-							$_SESSION['error_page'] = substr($path, 1);
-						else
-							$_SESSION['error_page'] = $path;
-				}
-				else
-					$_SESSION['error_page'] = $this->page();
-
-				if ($path !== '')
-					$this->redirect($path . '?error');
-				else
-					$this->redirect($this->page() . '?error');
-			}
-			else
-			{
-
-				if ($path !== '')
-					$this->redirect($path . '?error=' . $message);
-
-				else
-					$this->redirect($this->page() . '?error=' . $message);
-			}
+			if( $redirect )
+				$this->redirect( $path );
 		}
 
 		/**
-		 * Redirects the user to a success
-		 *
 		 * @param string $path
+		 * @param string $optional_message
+		 * @param bool $redirect
 		 */
 
-		public function redirectSuccess($path = '')
+		public function formSuccess( string $path = '', string $optional_message = '', bool $redirect=true )
 		{
 
-			if ($path !== '')
-				$this->redirect($path . '?success');
+			if( $path == "" )
+				$path = $this->path();
 
-			$this->redirect($this->page() . '?success', true);
+			FormContainer::add( new FormMessage( Application::globals()->FORM_MESSAGE_SUCCESS, $optional_message, true ) );
+
+			if( $redirect )
+				$this->redirect($path, true);
 		}
 
 		/**
@@ -418,20 +433,33 @@
 		}
 
 		/**
-		 * Gets the current page
+		 * @param null $computerid
 		 *
 		 * @return string
 		 */
 
-		private function page()
+		public function path( $computerid=null )
 		{
 
-			$page = array_values(array_filter(explode('/', strip_tags($_SERVER['REQUEST_URI']))));
+			if( $computerid !== null )
+				if( self::$computer->computerExists( $computerid ) )
+				{
 
-			if (empty($page))
-				return Settings::setting('controller_index_page');
+					$computer = self::$computer->getComputer( $computerid );
 
+					if( self::$computer->hasCurrentComputer() )
+						if( $computer->computerid == self::$computer->computerid() )
+							$path = "computer/";
+						else
+							$path = "game/" . $computer->ipaddress . "/";
+					else
+						$path = "game/" . $computer->ipaddress . "/";
+				}
+				else
+					$path = $_SERVER["REQUEST_URI"];
+			else
+				$path = $_SERVER["REQUEST_URI"];
 
-			return $page[0];
+			return $path;
 		}
 	}

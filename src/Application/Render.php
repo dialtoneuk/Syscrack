@@ -142,6 +142,19 @@
 			if( $url !== "/" && substr( $url, -1  ) == "/" )
 				$url = substr(   $url, 0, strlen( $url ) - 1 );
 
+			if( Settings::setting('error_use_session') )
+			{
+
+				$path = $url;
+				if( $path !== "/" && substr( $path, 0, 1 ) == "/" )
+					$path = substr(   $path, 1, strlen( $path ) );
+				$contents = FormContainer::contents();
+
+				if( isset( $_SESSION["form"][ $path ] ) == false )
+					$_SESSION["form"][ $path ] = [];
+				$_SESSION["form"][ $path ] = $contents;
+			}
+
 			self::$last_redirect = $url;
 
 			if (Settings::setting('render_mvc_output') == true)

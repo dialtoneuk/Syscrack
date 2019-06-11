@@ -159,42 +159,33 @@
 		 *
 		 * @param $data
 		 * @param bool $permission
-		 * @param null $access
+		 * @param int $access
 		 */
 
-		public static function write($file, $data, $permission = true, $access = null)
+		public static function write($file, $data, $permission = true, int $access = null)
 		{
 
 			if (is_dir(self::getFilePath($file)))
-			{
-
 				throw new \Error("file is dir: " . $file);
-			}
 
 			if (self::hasFileExtension($file) == false)
-			{
-
 				$file = $file . Settings::setting('filesystem_default_extension');
-			}
 
 			$directories = self::getDirectoriesFromPath($file);
 
 			if (self::directoryExists($directories) == false)
-			{
-
 				throw new \Error('Directory does not exist: ' . self::getFilePath($directories));
-			}
 
 			if (is_string($data) == false)
-			{
-
 				$data = (string)$data;
-			}
 
 			file_put_contents(self::getFilePath($file), $data);
 
 			if( $permission )
-				@chown( self::getFilePath( $file ), Application::globals()->FILESYSTEM_DEFAULT_PERM );
+				if( $access )
+					@chown( self::getFilePath( $file ), $access);
+				else
+					@chown( self::getFilePath( $file ), Application::globals()->FILESYSTEM_DEFAULT_PERM );
 		}
 
 		/**

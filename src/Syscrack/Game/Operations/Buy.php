@@ -161,7 +161,7 @@
 				return false;
 
 			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
-			$item = self::$market->getStockItem($this->getComputerId($data['ipaddress']), $data['custom']['itemid']);
+			$item = self::$market->getStockItem($this->computerAtAddress($data['ipaddress']), $data['custom']['itemid']);
 
 			if (self::$finance->canAfford($account->computerid, $account->userid, $item['price']) == false)
 				return false;
@@ -175,7 +175,7 @@
 				self::$hardware->addHardware($computerid, $item['hardware'], $item['value']);
 
 			self::$finance->withdraw($account->computerid, $userid, $item['price']);
-			self::$market->addPurchase($this->getComputerId($data['ipaddress']), $computerid, $data['custom']['itemid']);
+			self::$market->addPurchase($this->computerAtAddress($data['ipaddress']), $computerid, $data['custom']['itemid']);
 			$this->logPayment($computerid, $data['custom']['accountnumber'], $data['ipaddress']);
 
 			if( parent::onCompletion(

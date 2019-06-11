@@ -11,6 +11,7 @@
 	 * @package Framework\Views\Pages
 	 */
 
+	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Mailer;
 	use Framework\Application\Render;
@@ -82,7 +83,7 @@
 		{
 
 			if ( self::$session->isLoggedIn() )
-				Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
+				Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . Settings::setting('controller_index_page'));
 
 			Render::view('syscrack/page.register');
 		}
@@ -95,7 +96,7 @@
 		{
 
 			if (Container::get('session')->isLoggedIn())
-				Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
+				Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . Settings::setting('controller_index_page'));
 
 			if (PostHelper::hasPostData() == false)
 				$this->formError('Missing Information');

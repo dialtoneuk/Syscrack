@@ -12,7 +12,6 @@
 
 	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Scripts\Instance;
-	use Framework\Database\Manager;
 
 	/**
 	 * Class Container

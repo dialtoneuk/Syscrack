@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnusedLocalVariableInspection */
 	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Bases;
@@ -313,19 +313,19 @@
 				return( ['icons' => $icons, 'hardware' => $hardware]);
 			});
 			$tabhardware->bypass();
-			$tabhardware->render("syscrack/templates/template.hardware");
+			$tabhardware->render("syscrack/tabs/tab.hardware");
 
 			$tabsoftware = new Tab('software', false );
 			$tabsoftware->bypass();
-			$tabsoftware->render("syscrack/templates/template.softwares");
+			$tabsoftware->render("syscrack/tabs/tab.softwares");
 
 			$tabstorage = new Tab('storage', false );
 			$tabstorage->bypass();
-			$tabstorage->render("syscrack/templates/template.storage");
+			$tabstorage->render("syscrack/tabs/tab.storage");
 
 			$tablog = new Tab('log', false );
 			$tablog->bypass();
-			$tablog->render("syscrack/templates/template.log");
+			$tablog->render("syscrack/tabs/tab.log");
 
 			$tabhistory = new Tab('history', true );
 			$tabhistory->postMethod(function( $computerid, $userid ){

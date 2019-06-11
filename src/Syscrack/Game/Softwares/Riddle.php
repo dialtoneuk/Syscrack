@@ -64,7 +64,7 @@
 				if (empty($software->data))
 				{
 
-					$this->redirectError('Sorry, this riddle is invalid and corrupted.');
+					$this->formError('Sorry, this riddle is invalid and corrupted.');
 				}
 
 				$data = json_decode($software->data, true);
@@ -72,13 +72,13 @@
 				if (isset($data['riddleid']) == false || isset($data['computerid']) == false)
 				{
 
-					$this->redirectError('Sorry, this riddle is invalid and corrupted.');
+					$this->formError('Sorry, this riddle is invalid and corrupted.');
 				}
 
 				if (self::$computer->computerExists($data['computerid']) == false)
 				{
 
-					$this->redirectError('Sorry, this riddle is invalid and corrupted.');
+					$this->formError('Sorry, this riddle is invalid and corrupted.');
 				}
 
 				Render::view('syscrack/operations/operations.riddle', ['riddleid' => $data['riddleid']]);
@@ -93,7 +93,7 @@
 				if (PostHelper::checkForRequirements(['answer', 'riddleid']) == false)
 				{
 
-					$this->redirectError('Missing information');
+					$this->formError('Missing information');
 				}
 				else
 				{
@@ -101,7 +101,7 @@
 					if ($riddles->hasRiddle(PostHelper::getPostData('riddleid', true)) == false)
 					{
 
-						$this->redirectError('Incorrect information');
+						$this->formError('Incorrect information');
 					}
 					else
 					{
@@ -114,12 +114,12 @@
 							$data = json_decode($software->data, true);
 							$computer = self::$computer->getComputer($data['computerid']);
 
-							$this->redirectSuccess('game/internet/' . $computer->ipaddress);
+							$this->formSuccess('game/internet/' . $computer->ipaddress);
 						}
 						else
 						{
 
-							$this->redirectError('Sorry, that was the incorrect answer!');
+							$this->formError('Sorry, that was the incorrect answer!');
 						}
 					}
 				}

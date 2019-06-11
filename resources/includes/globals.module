@@ -191,4 +191,5 @@ return( $globals = [
 	["CONTROLLER_NAMESPACE","Framework\\Views\\Pages\\"],
 	["CONTROLLER_FILEPATH","src\/Views\/Pages\/"],
     ["FILESYSTEM_DEFAULT_PERM", 0777],
+	["CONTROLLER_INDEX_ROOT", "/"],
 ] );

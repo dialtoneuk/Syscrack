@@ -83,7 +83,7 @@
 			elseif (self::$software->softwareExists($data['softwareid']) == false)
 				return false;
 			else
-				if (self::$computer->hasSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']) == false)
+				if (self::$computer->hasSoftware($this->computerAtAddress($data['ipaddress']), $data['softwareid']) == false)
 					return false;
 
 			if (self::$software->canUninstall($data['softwareid']) == false)
@@ -117,14 +117,14 @@
 			if (self::$software->softwareExists($data['softwareid']) == false)
 				return false;
 
-			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])) == false)
+			if (self::$software->isInstalled($data['softwareid'], $this->computerAtAddress($data['ipaddress'])) == false)
 				return false;
 
 			self::$software->uninstallSoftware($data['softwareid']);
-			self::$computer->uninstallSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']);
+			self::$computer->uninstallSoftware($this->computerAtAddress($data['ipaddress']), $data['softwareid']);
 
 			$this->logUninstall($this->getSoftwareName($data['softwareid']),
-				$this->getComputerId($data['ipaddress']), $this->getCurrentComputerAddress());
+				$this->computerAtAddress($data['ipaddress']), $this->getCurrentComputerAddress());
 
 			$this->logLocal($this->getSoftwareName($data['softwareid']),
 				self::$computer->computerid(), $data['ipaddress']);
@@ -132,7 +132,7 @@
 			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['softwareid']), 'onUninstalled', [
 				'softwareid' => $data['softwareid'],
 				'userid' => $userid,
-				'computerid' => $this->getComputerId($data['ipaddress'])
+				'computerid' => $this->computerAtAddress($data['ipaddress'])
 			]);
 
 

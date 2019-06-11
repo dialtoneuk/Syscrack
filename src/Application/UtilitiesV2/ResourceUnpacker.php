@@ -201,7 +201,10 @@
 		private function read($decode = true, $array = true)
 		{
 
-			$contents = Format::decodeLargeText(file_get_contents(SYSCRACK_ROOT . $this->filepath));
+			if( $decode )
+				$contents = Format::decodeLargeText(file_get_contents(SYSCRACK_ROOT . $this->filepath));
+			else
+				file_get_contents(SYSCRACK_ROOT . $this->filepath);
 
 			if (empty($contents))
 				throw new \Error("Empty contents");

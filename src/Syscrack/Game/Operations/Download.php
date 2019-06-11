@@ -89,7 +89,7 @@
 			if ($this->hasSpace(self::$computer->computerid(), $software->size) == false)
 				return false;
 
-			if (self::$viruses->isVirus($software->softwareid) && self::$software->isInstalled($software->softwareid, $this->getComputerId($data['ipaddress'])))
+			if (self::$viruses->isVirus($software->softwareid) && self::$software->isInstalled($software->softwareid, $this->computerAtAddress($data['ipaddress'])))
 				return false;
 
 			return true;
@@ -141,7 +141,7 @@
 			if (self::$computer->hasSoftware($computerid, $new_softwareid) == false)
 				throw new \Error();
 
-			$this->logDownload($software->softwarename, $this->getComputerId($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
+			$this->logDownload($software->softwarename, $this->computerAtAddress($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
 			$this->logLocal($software->softwarename, $data['ipaddress']);
 
 			if( parent::onCompletion(

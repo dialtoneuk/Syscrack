@@ -76,8 +76,8 @@
 			if (empty($page))
 				$page = Settings::setting('controller_index_page');
 			else
-				if (Settings::setting('controller_index_root') !== '/')
-					if ('/' . $page[0] == Settings::setting('controller_index_root'))
+				if (Application::globals()->CONTROLLER_INDEX_ROOT !== '/')
+					if ('/' . $page[0] == Application::globals()->CONTROLLER_INDEX_ROOT)
 						if (isset($page[1]) == false)
 							$page = $page[0];
 						else
@@ -156,10 +156,10 @@
 		private function isIndex($page)
 		{
 
-			if (Settings::setting('controller_index_root') !== '/')
+			if (Application::globals()->CONTROLLER_INDEX_ROOT !== '/')
 			{
 
-				if ('/' . $page == Settings::setting('controller_index_root'))
+				if ('/' . $page == Application::globals()->CONTROLLER_INDEX_ROOT)
 				{
 
 					return true;
@@ -168,7 +168,7 @@
 			else
 			{
 
-				if ($page == Settings::setting('controller_index_root'))
+				if ($page == Application::globals()->CONTROLLER_INDEX_ROOT)
 				{
 
 					return true;

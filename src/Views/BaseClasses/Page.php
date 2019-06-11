@@ -168,7 +168,7 @@
 				if ($this->isLoggedIn() == false)
 				{
 
-					Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
+					Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . Settings::setting('controller_index_page'));
 					exit;
 				}
 				else
@@ -179,7 +179,7 @@
 
 			if ($admin_only && $session)
 				if ($this->isAdmin() == false)
-					Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
+					Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . Settings::setting('controller_index_page'));
 		}
 
 		/**
@@ -261,15 +261,18 @@
 		 * @param bool $exit
 		 */
 
-		public function redirect($path, $exit = true)
+		public function redirect($path='', $exit = true)
 		{
+
+			if( $path == '' )
+				$path = $this->getCurrentPage();
 
 			if (Debug::isPHPUnitTest())
 				Debug::echo("Redirecting to: " . $path);
 			else
 			{
 
-				Render::redirect(Settings::setting('controller_index_root') . $path);
+				Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . $path);
 				if( $exit ) exit;
 			}
 		}
@@ -350,21 +353,7 @@
 		{
 
 
-			if( $path == '' )
-				$path = $this->getCurrentPage();
-
 			FormContainer::add( new FormMessage( Application::globals()->FORM_ERROR_GENERAL, $message, false ) );
-			$contents = FormContainer::contents();
-
-			if( Settings::setting('error_use_session') && empty( $contents ) == false  )
-			{
-
-				if( isset( $_SESSION["form"][ $path ] ) == false )
-					$_SESSION["form"][ $path ] = [];
-
-				$_SESSION["form"][ $path ] = $contents;
-			}
-
 			$this->redirect( $path );
 		}
 
@@ -376,21 +365,7 @@
 		public function formSuccess($path = '', $optional_message = '')
 		{
 
-			if( $path == '' )
-				$path = $this->getCurrentPage();
-
 			FormContainer::add( new FormMessage( Application::globals()->FORM_MESSAGE_SUCCESS, $optional_message, true ) );
-			$contents = FormContainer::contents();
-
-			if( Settings::setting('error_use_session') && empty( $contents ) == false  )
-			{
-
-				if( isset( $_SESSION["form"][ $path ] ) == false )
-					$_SESSION["form"][ $path ] = [];
-
-				$_SESSION["form"][ $path ] = $contents;
-			}
-
 			$this->redirect( $path );
 		}
 
@@ -489,8 +464,7 @@
 			if ($userid == null && $computerid == null)
 			{
 
-				/** @var Tool $tool */
-				$results = array_map(function ($tool)
+				$results = array_map(function (Tool $tool)
 				{
 					return [
 						'inputs' => $tool->getInputs(),

@@ -12,6 +12,7 @@
 	 */
 
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
+	use Framework\Syscrack\Game\Tab;
 
 
 	/**
@@ -40,5 +41,23 @@
 				'executable' => true,
 				'keepdata' => true
 			];
+		}
+
+		/**
+		 * @param null $userid
+		 * @param null $sofwareid
+		 * @param null $computerid
+		 *
+		 * @return Tab
+		 */
+
+		public function tab($userid = null, $sofwareid = null, $computerid = null): Tab
+		{
+
+			$tab = new Tab("Text Editor");
+			$tab->bypass();
+			$tab->render("syscrack/tabs/tab.texteditor");
+
+			return( $tab );
 		}
 	}

@@ -144,7 +144,7 @@
 
 			$result = self::$tokenreader->parse( self::getFileDataInstance(), TokenReader::dataInstance(["values" => [
 				'globals' => $string,
-				'class'   => 'Globals',
+				'classname'   => 'Globals',
 				'namespace' => 'Framework\\Application\\UtilitiesV2'
 			]]), FileSystem::separate("src","Application","UtilitiesV2","Globals.php"));
 

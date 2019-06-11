@@ -43,7 +43,7 @@
 			if (self::$software->canExecute($data['softwareid']) == false)
 				return false;
 
-			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])) == false)
+			if (self::$software->isInstalled($data['softwareid'], $this->computerAtAddress($data['ipaddress'])) == false)
 				return false;
 
 			if (self::$software->localExecuteOnly($data['softwareid']) && self::$computer->getComputer($computerid)->ipaddress !== $data['ipaddress'])
@@ -89,7 +89,7 @@
 					$data) == false )
 				return false;
 			else
-				return @$class->onExecuted($data['softwareid'], $userid, $this->getComputerId($data['ipaddress']));
+				return @$class->onExecuted($data['softwareid'], $userid, $this->computerAtAddress($data['ipaddress']));
 		}
 
 		/**

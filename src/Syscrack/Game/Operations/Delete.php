@@ -81,7 +81,7 @@
 			if ($this->checkData($data) == false)
 				return false;
 
-			if (self::$computer->hasSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']) == false)
+			if (self::$computer->hasSoftware($this->computerAtAddress($data['ipaddress']), $data['softwareid']) == false)
 				return false;
 
 			$software = self::$software->getSoftware($data['softwareid']);
@@ -124,8 +124,8 @@
 				return false;
 
 			self::$software->deleteSoftware($software->softwareid);
-			self::$computer->removeSoftware($this->getComputerId($data['ipaddress']), $software->softwareid);
-			$this->logDelete($software->softwarename, $this->getComputerId($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
+			self::$computer->removeSoftware($this->computerAtAddress($data['ipaddress']), $software->softwareid);
+			$this->logDelete($software->softwarename, $this->computerAtAddress($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
 			$this->logLocal($software->softwarename, $data['ipaddress']);
 
 			if( parent::onCompletion(

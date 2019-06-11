@@ -332,52 +332,6 @@
 		}
 
 		/**
-		 * @param $computerid
-		 * @param null $type
-		 * @param bool $object
-		 *
-		 * @return array|mixed|null
-		 */
-
-		public function getHighestLevelSoftware($computerid, $type = null, $object=false)
-		{
-
-			if ($type == null)
-				$type = Settings::setting('syscrack_software_cracker_type');
-
-			$software = self::$computer->getComputerSoftware($computerid);
-
-			if (empty($software))
-				return null;
-
-
-			$results = [];
-
-			foreach ($software as $key => $value)
-				if ($value['type'] == $type)
-					if ($value['installed'] == true)
-						$results[] = array_merge( $value, [
-							'level' => @self::$software->getSoftware( $value["softwareid"] )->level
-						]);
-
-			$results = ArrayHelper::sortArray($results, 'level');
-
-			if (is_array($results) == false)
-				return (array)$results;
-
-			if( isset( $results[0]) == false )
-				if( $object )
-					return( Format::toObject( $results ) );
-				else
-					return $results;
-
-			if( $object )
-				return( Format::toObject( $results[0] ) );
-			else
-				return $results[0];
-		}
-
-		/**
 		 * Gets a type of software to be used in an operation. Takes the uniquename of a software and will either
 		 * return the highest level software of the users preference if they have one
 		 *
@@ -548,6 +502,42 @@
 		}
 
 		/**
+		 * @param $computerid
+		 * @param null $userid
+		 * @param array $data
+		 *
+		 * @return int
+		 */
+
+		public function addSoftware( $computerid, $userid, array $data )
+		{
+
+			if( $userid === null )
+				if( Container::exist('session') )
+					$userid = Container::get('session')->userid();
+				else
+					throw new \Error("Session does not exist in container when trying to add software");
+
+			if( is_numeric( $userid ) == false )
+				throw new \Error("Userid must be numeric");
+
+			$userid = (int)$userid;
+
+			if( isset( $data["uniquename"] ) == false )
+				throw new \Error("Cannot add software with out unique name");
+
+			$class = self::$software->findSoftwareByUniqueName( $data["uniquename"] );
+			$softwareid = self::$software->createSoftware( $class,
+				$userid, $computerid, @$data["name"],@$data["level"],
+				@$data["size"], @$data["data"] );
+
+			$software = self::$software->getSoftware( $softwareid );
+			self::$computer->addSoftware( $software->computerid, $software->softwareid, $software->type );
+
+			return( $softwareid );
+		}
+
+		/**
 		 * Calculates the processing time for an action using the algorithm
 		 *
 		 * @param $computerid
@@ -612,7 +602,7 @@
 			if( $exit )
 				Application\UtilitiesV2\Debug::message("attempted exit to: " . $path );
 
-			Render::redirect(Settings::setting('controller_index_root') . $path);
+			Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . $path);
 		}
 
 		/**
@@ -708,8 +698,6 @@
 			foreach ($unset as $value)
 				if (isset($_SESSION[$value]))
 					unset($_SESSION[$value]);
-
-
 		}
 
 		/**
@@ -720,7 +708,7 @@
 		 * @return mixed
 		 */
 
-		public function getComputerId($ipaddress)
+		public function computerAtAddress($ipaddress)
 		{
 
 			return self::$internet->computer($ipaddress)->computerid;
@@ -756,4 +744,49 @@
 			return self::$software->getSoftware($softwareid)->softwarename;
 		}
 
+		/**
+		 * @param $computerid
+		 * @param null $type
+		 * @param bool $object
+		 *
+		 * @return array|mixed|null
+		 */
+
+		private function getHighestLevelSoftware($computerid, $type = null, $object=false)
+		{
+
+			if ($type == null)
+				$type = Settings::setting('syscrack_software_cracker_type');
+
+			$software = self::$computer->getComputerSoftware($computerid);
+
+			if (empty($software))
+				return null;
+
+
+			$results = [];
+
+			foreach ($software as $key => $value)
+				if ($value['type'] == $type)
+					if ($value['installed'] == true)
+						$results[] = array_merge( $value, [
+							'level' => @self::$software->getSoftware( $value["softwareid"] )->level
+						]);
+
+			$results = ArrayHelper::sortArray($results, 'level');
+
+			if (is_array($results) == false)
+				return (array)$results;
+
+			if( isset( $results[0]) == false )
+				if( $object )
+					return( Format::toObject( $results ) );
+				else
+					return $results;
+
+			if( $object )
+				return( Format::toObject( $results[0] ) );
+			else
+				return $results[0];
+		}
 	}

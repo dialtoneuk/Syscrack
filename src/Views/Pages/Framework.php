@@ -14,6 +14,7 @@
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
 	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Application;
 
 	/**
 	 * Class Framework
@@ -67,7 +68,7 @@
 		public function redirectIndex()
 		{
 
-			Render::redirect(Settings::setting('controller_index_root') . Settings::setting('controller_index_page'));
+			Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . Settings::setting('controller_index_page'));
 		}
 
 		/**

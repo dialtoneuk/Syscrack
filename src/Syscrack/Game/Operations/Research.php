@@ -161,7 +161,7 @@
 				$computerid,
 				$data['custom']['name'],
 				$software->level + Settings::setting('syscrack_research_increase'),
-				$software->size * Settings::setting('syscrack_research_size_multiplyer'),
+				$software->size * (int)Settings::setting('syscrack_research_size_multiplyer'),
 				json_decode($software->data, true)
 			);
 

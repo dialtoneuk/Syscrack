@@ -62,7 +62,7 @@
 		public function url($ipaddress = null)
 		{
 
-			return ("admin/computer/edit/" . @$this->getComputerId($ipaddress));
+			return ("admin/computer/edit/" . @$this->computerAtAddress($ipaddress));
 		}
 
 		/**

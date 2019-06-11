@@ -60,7 +60,6 @@
 				Debug::echo("Packing directory: " . $this->directory->path(), 4);
 
 			$finished = false;
-			$last = false;
 			$result = [];
 			$dirs = [];
 
@@ -130,13 +129,8 @@
 
 						if (empty($dirs) == false)
 							break;
-						else
-							$last = true;
 					}
 				}
-				else
-					$last = true;
-
 			}
 
 			if (Debug::isCMD())
