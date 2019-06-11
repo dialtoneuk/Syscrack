@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application;
 
@@ -21,7 +22,7 @@
 		 * @var array
 		 */
 
-		private static $settings = array();
+		private static $settings = [];
 
 		/**
 		 * Gets the settings for this application
@@ -219,6 +220,9 @@
 		public static function hasParsableData($setting)
 		{
 
+			if( is_string( $setting ) == false )
+				$setting = (string)$setting;
+
 			if ( @preg_match('/\<(.*?)\>/', $setting) == false)
 			{
 
@@ -285,12 +289,12 @@
 				$parsed = $match;
 			}
 
-			return self::replaceMatches($setting, array(
+			return self::replaceMatches($setting, [
 				[
 					$match,
 					$parsed
 				]
-			));
+			]);
 		}
 
 		/**

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Computers;
 
@@ -13,6 +14,10 @@
 
 	use Framework\Syscrack\Game\Bases\BaseComputer;
 
+	/**
+	 * Class Npc
+	 * @package Framework\Syscrack\Game\Computers
+	 */
 	class Npc extends BaseComputer
 	{
 
@@ -35,11 +40,11 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'installable' => false,
 				'type' => 'npc',
 				'reloadable' => true
-			);
+			];
 		}
 
 		/**

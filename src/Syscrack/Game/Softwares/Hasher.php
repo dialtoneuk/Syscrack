@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 
 
+	/**
+	 * Class Hasher
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class Hasher extends BaseSoftware
 	{
 
@@ -25,13 +30,13 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'hasher',
 				'extension' => '.hash',
 				'type' => 'hasher',
 				'icon' => 'glyphicon-lock',
 				'installable' => true,
 				'executable' => false,
-			);
+			];
 		}
 	}

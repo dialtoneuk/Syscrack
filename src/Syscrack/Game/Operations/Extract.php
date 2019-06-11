@@ -1,15 +1,15 @@
 <?php
-	declare(strict_types=1); //Created at %time% by %pid%
+	declare(strict_types=1); //Created at 2019-06-11 03:15:41 by 19416
 
-	namespace %namespace%;
+	namespace Framework\Syscrack\Game\Operations;
 
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 
 	/**
-	 * Class %classname%
-	 * @package %namespace%
+	 * Class Extract
+	 * @package Framework\Syscrack\Game\Operations
 	 */
-	class %classname% extends BaseOperation
+	class Extract extends BaseOperation
 	{
 
 		/**

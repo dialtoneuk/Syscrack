@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -15,6 +16,10 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Database\Tables\Computer;
 
+	/**
+	 * Class Schema
+	 * @package Framework\Syscrack\Game
+	 */
 	class Schema
 	{
 
@@ -53,17 +58,21 @@
 		public function createSchema($computerid, $name = 'Default', $page = 'schema.default', array $riddles=[], array $software=[], array $hardware=[])
 		{
 
-			$schema = array(
+			$schema = [
 				'name' => $name,
 				'page' => $page,
 				'riddles' => $riddles,
 				'software' => $software,
 				'hardware' => $hardware
-			);
+			];
 
 			FileSystem::writeJson($this->getSchemaPath($computerid), $schema);
 		}
 
+		/**
+		 * @param $computerid
+		 * @param array $schema
+		 */
 		public function setSchema($computerid, $schema = [])
 		{
 

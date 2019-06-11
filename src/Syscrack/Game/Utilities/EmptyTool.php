@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -11,9 +12,16 @@
 
 	use Framework\Syscrack\Game\Tool;
 
+	/**
+	 * Class EmptyTool
+	 * @package Framework\Syscrack\Game\Utilities
+	 */
 	class EmptyTool extends Tool
 	{
 
+		/**
+		 * @return array
+		 */
 		public function getRequirements()
 		{
 

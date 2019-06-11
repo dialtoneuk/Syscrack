@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\Tab;
 
+	/**
+	 * Class TabTest
+	 * @package Framework\Tests
+	 */
 	class TabTest extends BaseTestCase
 	{
 
@@ -32,7 +37,7 @@
 		{
 
 			self::$tab->render('test', []);
-			$this->assertTrue( self::$tab->hasRender() );
+			static::assertTrue( self::$tab->hasRender() );
 		}
 
 
@@ -40,14 +45,14 @@
 		{
 
 			self::$tab->postMethod( function(){} );
-			$this->assertTrue( self::$tab->canPost() );
+			static::assertTrue( self::$tab->canPost() );
 		}
 
 		public function testHasDataMethod()
 		{
 
 			self::$tab->dataMethod( function(){} );
-			$this->assertTrue( self::$tab->hasDataMethod() );
+			static::assertTrue( self::$tab->hasDataMethod() );
 		}
 
 		public function testInputData()
@@ -59,19 +64,19 @@
 				'value' => 'test',
 				'placeholder' => 'test'
 			]));
-			$this->assertTrue( self::$tab->hasInputs() );
+			static::assertTrue( self::$tab->hasInputs() );
 		}
 
 
 		public function testName()
 		{
 
-			$this->assertNotEmpty( self::$tab->name() );
+			static::assertNotEmpty( self::$tab->name() );
 		}
 
 		public function testHasRender()
 		{
 
-			$this->assertTrue( self::$tab->hasRender() );
+			static::assertTrue( self::$tab->hasRender() );
 		}
 	}

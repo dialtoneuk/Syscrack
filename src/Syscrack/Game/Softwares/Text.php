@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 
 
+	/**
+	 * Class Text
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class Text extends BaseSoftware
 	{
 
@@ -25,7 +30,7 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'text',
 				'extension' => '.txt',
 				'type' => 'text',
@@ -34,6 +39,6 @@
 				'installable' => false,
 				'executable' => true,
 				'keepdata' => true
-			);
+			];
 		}
 	}

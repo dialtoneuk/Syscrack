@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application;
 
@@ -11,12 +12,15 @@
 	 */
 
 	use Error;
-	use Exception;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\Utilities\IPAddress;
 	use Framework\Application\UtilitiesV2\Debug;
 
 
+	/**
+	 * Class ErrorHandler
+	 * @package Framework\Application
+	 */
 	class ErrorHandler
 	{
 
@@ -67,7 +71,7 @@
 			if( $error instanceof Error || $error instanceof \RuntimeException || $error instanceof \ErrorException )
 			{
 
-				$array = array(
+				$array = [
 					'message' => $error->getMessage(),
 					'type' => $type,
 					'details' => [
@@ -76,7 +80,7 @@
 						'file' => $error->getFile(),
 						'trace' => $error->getTraceAsString()
 					]
-				);
+				];
 
 				Debug::message("Caught error: " . $array["message"] );
 				Debug::message( $array["type"]  );
@@ -231,10 +235,10 @@
 		private function addToLog(array $array)
 		{
 
-			$data = array(
+			$data = [
 				'timestamp' => time(),
 				'ip' => $this->getIP()
-			);
+			];
 
 			$this->error_log[] = array_merge($array, $data);
 		}

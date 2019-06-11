@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
@@ -15,6 +16,10 @@
 	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\UtilitiesV2\Scripts;
 
+	/**
+	 * Class Instance
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class Instance extends Base
 	{
 
@@ -72,6 +77,7 @@
 
 				Debug::echo("type help for help. type commands for a list of commands. terminate, end or 'e' to exit.");
 
+				/** @noinspection PhpAssignmentInConditionInspection */
 				while ( $input = Debug::getLine("execute") )
 				{
 

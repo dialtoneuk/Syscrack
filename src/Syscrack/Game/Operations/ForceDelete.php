@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -14,6 +15,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Viruses;
 
+	/**
+	 * Class ForceDelete
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class ForceDelete extends BaseOperation
 	{
 
@@ -45,14 +50,14 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => true,
 				'allowlocal' => true,
 				'requiresoftware' => false,
 				'requireloggedin' => true,
 				'allowpost' => false,
 				'allowcustomdata' => true
-			);
+			];
 		}
 
 		/**
@@ -107,7 +112,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|string
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -126,7 +131,15 @@
 			self::$software->deleteSoftware($software->softwareid);
 			self::$computer->removeSoftware($this->getComputerId($data['ipaddress']), $software->softwareid);
 
-			if (isset($data['redirect']) == false)
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
 				return true;
 			else
 				return ($data['redirect']);
@@ -149,7 +162,7 @@
 			if (PostHelper::checkForRequirements(['softwareid']) == false)
 				return null;
 
-			return array('softwareid' => PostHelper::getPostData('softwareid'));
+			return ['softwareid' => PostHelper::getPostData('softwareid')];
 		}
 
 		/**

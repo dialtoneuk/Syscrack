@@ -1,16 +1,15 @@
 <?php
-	namespace _namespace_;
+	declare(strict_types=1); //Created at %time% by %pid%
 
-	/**
-	 * Class _classname_
-	 *
-	 * Automatically created at: _time_
-	 * @package _namespace_
-	 */
+	namespace %namespace%;
 
 	use Framework\Syscrack\Game\Bases\BaseComputer;
 
-	class _classname_ extends BaseComputer
+	/**
+	 * Class %classname%
+	 * @package %namespace%
+	 */
+	class %classname% extends BaseComputer
 	{
 
 		/**

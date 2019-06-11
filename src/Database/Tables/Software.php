@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database\Tables;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Database\Table;
 
+	/**
+	 * Class Software
+	 * @package Framework\Database\Tables
+	 */
 	class Software extends Table
 	{
 
@@ -27,9 +32,9 @@
 		public function getSoftware($softwareid)
 		{
 
-			$array = array(
+			$array = [
 				'softwareid' => $softwareid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -48,9 +53,9 @@
 		public function getUserSoftware($userid)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -71,10 +76,10 @@
 		public function getTypeOnComputer($type, $computerid)
 		{
 
-			$array = array(
+			$array = [
 				'type' => $type,
 				'computerid' => $computerid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -93,9 +98,9 @@
 		public function getByComputer($computerid)
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -114,10 +119,10 @@
 		public function getInstalledSoftware($computerid)
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid,
 				'installed' => true
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -136,9 +141,9 @@
 		public function getSoftwareByType($type)
 		{
 
-			$array = array(
+			$array = [
 				'type' => $type
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -160,11 +165,11 @@
 		public function getLastModified($computerid, $time, $type)
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid,
 				'lastmodified', '>', $time,
 				'type' => $type
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -183,9 +188,9 @@
 		public function updateSoftware($softwareid, $values)
 		{
 
-			$array = array(
+			$array = [
 				'softwareid' => $softwareid
-			);
+			];
 
 			$this->getTable()->where($array)->update($values);
 		}
@@ -200,9 +205,9 @@
 		public function deleteSoftwareByComputer($computerid)
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid
-			);
+			];
 
 			$this->getTable()->where($array)->delete();
 		}
@@ -217,9 +222,9 @@
 		public function deleteSoftware($softwareid)
 		{
 
-			$array = array(
+			$array = [
 				'softwareid' => $softwareid
-			);
+			];
 
 			$this->getTable()->where($array)->delete();
 		}

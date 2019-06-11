@@ -1,39 +1,37 @@
 <?php
+	declare(strict_types=1); //Created at %time% by %pid%
 
-	namespace _namespace_;
-
-	/**
-	 * Class _classname_
-	 *
-	 * Automatically created at: _time_
-	 * @package _namespace_
-	 */
+	namespace %namespace%;
 
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use Framework\Application\UtilitiesV2\FileOperator;
 	use Framework\Application\UtilitiesV2\Conventions\TokenData;
 
-	class _classname_ extends Base
+	/**
+	 * Class %classname%
+	 * @package %namespace%
+	 */
+	class %classname% extends Base
 	{
 
 		/**
-		 * @param FileData|null $template
+		 * @package FileData|null $template
 		 */
 
 		public function before(FileData $template = null): void
 		{
 
 			if ($template == null)
-				$template = FileOperator::pathDataInstance("resources/templates/template_" . strtolower("_classname_" ) . ".module");
+				$template = FileOperator::pathDataInstance("resources/templates/template%" . strtolower("%classname%" ) . ".module");
 
 			parent::before($template);
 		}
 
 		/**
-		 * @param TokenData $values
+		 * @package TokenData $values
 		 * @param $path
 		 *
-		 * @return FileData
+		 * @package FileData
 		 */
 
 		public function make(TokenData $values, $path): FileData
@@ -52,7 +50,7 @@
 		}
 
 		/**
-		 * @return string
+		 * @package string
 		 */
 
 		public function filepath(): string
@@ -62,7 +60,7 @@
 		}
 
 		/**
-		 * @return string
+		 * @package string
 		 */
 
 		public function namespace(): string

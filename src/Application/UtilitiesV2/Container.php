@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -11,6 +12,7 @@
 
 	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Scripts\Instance;
+	use Framework\Database\Manager;
 
 	/**
 	 * Class Container
@@ -61,7 +63,7 @@
 		/**
 		 * @param $name
 		 *
-		 * @return Application|Instance|Application\Session
+		 * @return Application|Instance|Application\Session|\Illuminate\Database\Capsule\Manager
 		 */
 
 		public static function get($name)

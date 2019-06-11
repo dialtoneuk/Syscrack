@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 
 
+	/**
+	 * Class Nmap
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class Nmap extends BaseSoftware
 	{
 
@@ -25,11 +30,11 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'nmap',
 				'extension' => '.nmap',
 				'type' => 'tool',
 				'installable' => true
-			);
+			];
 		}
 	}

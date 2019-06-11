@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Pages;
 
@@ -24,6 +25,10 @@
 	use Framework\Syscrack\Game\Viruses;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Computer
+	 * @package Framework\Views\Pages
+	 */
 	class Computer extends BaseClass
 	{
 
@@ -110,7 +115,7 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'/computer/', 'page'
 				],
@@ -141,7 +146,7 @@
 				[
 					'/computer/actions/@process/@softwareid', 'computerSoftwareAction'
 				]
-			);
+			];
 		}
 
 		/**
@@ -269,7 +274,7 @@
 						{
 
 							$addresses = $this->getAddresses(parent::$session->userid());
-							$information = array();
+							$information = [];
 							$collection = 0;
 
 							foreach ($addresses as $address)
@@ -289,7 +294,7 @@
 								$collection = $collection * $collector->level;
 								$this->payout($collection, $accountnumber);
 								self::$statistics->addStatistic("collected", $collection);
-								Render::view('syscrack/page.computer.collect', array('results' => $information, 'total' => $collection), $this->model());
+								Render::view('syscrack/page.computer.collect', ['results' => $information, 'total' => $collection], $this->model());
 							}
 						}
 						else
@@ -326,7 +331,7 @@
 		{
 
 			/**
-			 * @var $class Software;
+			 * @var Software $class ;
 			 */
 
 			$class = parent::$software->getSoftwareClassFromID($software->softwareid);
@@ -579,10 +584,10 @@
 
 			$class = self::$operations->findProcessClass($process);
 
-			$result = $class->onCreation(time(), parent::$computer->computerid(), parent::$session->userid(), $process, array(
+			$result = $class->onCreation(time(), parent::$computer->computerid(), parent::$session->userid(), $process, [
 				'ipaddress' => $ipaddress,
 				'custom' => $data
-			));
+			]);
 
 			if ($result == false)
 			{
@@ -595,20 +600,20 @@
 			if ($completiontime !== null)
 			{
 
-				$processid = self::$operations->createProcess($completiontime, parent::$computer->computerid(), parent::$session->userid(), $process, array(
+				$processid = self::$operations->createProcess($completiontime, parent::$computer->computerid(), parent::$session->userid(), $process, [
 					'ipaddress' => $ipaddress,
 					'custom' => $data,
 					'redirect' => 'computer'
-				));
+				]);
 
 				$this->redirect('processes/' . $processid, true);
 			}
 
-			$class->onCompletion(time(), time(), parent::$computer->computerid(), parent::$session->userid(), $process, array(
+			$class->onCompletion(time(), time(), parent::$computer->computerid(), parent::$session->userid(), $process, [
 				'ipaddress' => $ipaddress,
 				'custom' => $data,
 				'redirect' => 'computer'
-			));
+			]);
 		}
 
 		/**
@@ -727,11 +732,11 @@
 				$data = [];
 			}
 
-			$result = $class->onCreation(time(), parent::$computer->computerid(), parent::$session->userid(), $process, array(
+			$result = $class->onCreation(time(), parent::$computer->computerid(), parent::$session->userid(), $process, [
 				'ipaddress' => $ipaddress,
 				'softwareid' => $software->softwareid,
 				'custom' => $data
-			));
+			]);
 
 			if ($result == false)
 			{
@@ -744,22 +749,22 @@
 			if ($completiontime !== null)
 			{
 
-				$processid = self::$operations->createProcess($completiontime, parent::$computer->computerid(), parent::$session->userid(), $process, array(
+				$processid = self::$operations->createProcess($completiontime, parent::$computer->computerid(), parent::$session->userid(), $process, [
 					'ipaddress' => $ipaddress,
 					'softwareid' => $software->softwareid,
 					'custom' => $data,
 					'redirect' => 'computer'
-				));
+				]);
 
 				$this->redirect('processes/' . $processid, true);
 			}
 
-			$class->onCompletion(time(), time(), parent::$computer->computerid(), parent::$session->userid(), $process, array(
+			$class->onCompletion(time(), time(), parent::$computer->computerid(), parent::$session->userid(), $process, [
 				'ipaddress' => $ipaddress,
 				'softwareid' => $software->softwareid,
 				'custom' => $data,
 				'redirect' => 'computer'
-			));
+			]);
 		}
 
 		/**

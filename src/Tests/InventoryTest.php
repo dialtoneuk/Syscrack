@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\Inventory;
 
+	/**
+	 * Class InventoryTest
+	 * @package Framework\Tests
+	 */
 	class InventoryTest extends BaseTestCase
 	{
 
@@ -45,15 +50,15 @@
 
 			$itemid = self::$inventory->add('colours', self::$userid );
 
-			$this->assertNotEmpty( $itemid );
-			$this->assertIsInt( $itemid );
+			static::assertNotEmpty( $itemid );
+			static::assertIsInt( $itemid );
 			self::$itemid = $itemid;
 		}
 
 		public function testLast()
 		{
 
-			$this->assertNotEmpty( self::$inventory->last() );
+			static::assertNotEmpty( self::$inventory->last() );
 		}
 
 		public function testFind()
@@ -61,8 +66,8 @@
 
 			$result = self::$inventory->find( self::$itemid, self::$userid );
 
-			$this->assertNotEmpty( $result );
-			$this->assertIsObject( $result );
+			static::assertNotEmpty( $result );
+			static::assertIsObject( $result );
 		}
 
 		public function testGet()
@@ -70,14 +75,14 @@
 
 			$result = self::$inventory->get( self::$userid );
 
-			$this->assertNotEmpty( $result );
-			$this->assertIsObject( $result );
+			static::assertNotEmpty( $result );
+			static::assertIsObject( $result );
 		}
 
 		public function testHas()
 		{
 
-			$this->assertTrue( self::$inventory->exists( self::$itemid, self::$userid ) );
+			static::assertTrue( self::$inventory->exists( self::$itemid, self::$userid ) );
 		}
 
 
@@ -85,8 +90,8 @@
 		{
 
 			$result = self::$inventory->delete( self::$itemid, self::$userid );
-			$this->assertNotEmpty( $result );
+			static::assertNotEmpty( $result );
 			self::$inventory->save( self::$userid, $result );
-			$this->assertFalse( self::$inventory->exists( self::$itemid, self::$userid ) );
+			static::assertFalse( self::$inventory->exists( self::$itemid, self::$userid ) );
 		}
 	}

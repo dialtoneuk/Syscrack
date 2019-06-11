@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -11,6 +12,10 @@
 
 	use Framework\Syscrack\Game\Bases\BaseItem;
 
+	/**
+	 * Class Colours
+	 * @package Framework\Syscrack\Game\Items
+	 */
 	class Colours extends BaseItem
 	{
 

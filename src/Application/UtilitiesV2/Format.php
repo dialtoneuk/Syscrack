@@ -1,15 +1,14 @@
 <?php
-	/**
-	 * Created by PhpStorm.
-	 * User: lewis
-	 * Date: 03/07/2018
-	 * Time: 16:35
-	 */
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2;
 
 	use Framework\Application;
 
+	/**
+	 * Class Format
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class Format
 	{
 
@@ -30,6 +29,18 @@
 				return (date('m-d H:i', $time));
 
 			return (date('Y-m-d H:i:s', $time));
+		}
+
+		/**
+		 * @param string $string
+		 *
+		 * @return string
+		 */
+
+		public static function rc( string $string ): string
+		{
+
+			return( substr( $string, 0, strlen( $string ) - 1 ) );
 		}
 
 		/**

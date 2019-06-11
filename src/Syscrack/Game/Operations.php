@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -11,13 +12,16 @@
 	 */
 
 	use Framework\Application;
-	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Database\Tables\Processes as Database;
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Interfaces\Operation;
 
+	/**
+	 * Class Operations
+	 * @package Framework\Syscrack\Game
+	 */
 	class Operations
 	{
 
@@ -81,7 +85,7 @@
 		 *
 		 * @param $processid
 		 *
-		 * @return \Illuminate\Support\Collection|null
+		 * @return \Illuminate\Support\Collection|null|\stdClass
 		 */
 
 		public function getProcess($processid)
@@ -246,14 +250,14 @@
 		public function addToDatabase($timecompleted, $computerid, $userid, $process, array $data)
 		{
 
-			$array = array(
+			$array = [
 				'timecompleted' => $timecompleted,
 				'timestarted' => time(),
 				'computerid' => $computerid,
 				'userid' => $userid,
 				'process' => $process,
 				'data' => json_encode($data)
-			);
+			];
 
 			return $this->database->insertProcess($array);
 		}
@@ -282,21 +286,18 @@
 			$process = $this->getProcess($processid);
 
 			if (empty($process))
-			{
-
 				throw new \Error();
-			}
 
 			$this->database->trashProcess($processid);
 
-			$result = $this->callProcessMethod($this->findProcessClass($process->process), 'onCompletion', array(
+			$result = $this->callProcessMethod($this->findProcessClass($process->process), 'onCompletion', [
 				'timecompleted' => $process->timecompleted,
 				'timestarted' => $process->timestarted,
 				'computerid' => $process->computerid,
 				'userid' => $process->userid,
 				'process' => $process->process,
 				'data' => json_decode($process->data, true)
-			));
+			]);
 
 			return ($result);
 		}
@@ -385,7 +386,7 @@
 		{
 
 			/**
-			 * @var $class BaseOperation
+			 * @var BaseOperation $class
 			 */
 			$class = $this->findProcessClass($process);
 
@@ -757,6 +758,11 @@
 			return true;
 		}
 
+		/**
+		 * @param $process
+		 *
+		 * @return bool
+		 */
 		public function localOnly($process)
 		{
 
@@ -806,7 +812,7 @@
 				throw new \Error();
 			}
 
-			return call_user_func_array(array($process, $method), $data);
+			return call_user_func_array([$process, $method], $data);
 		}
 
 		/**

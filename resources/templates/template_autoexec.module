@@ -1,19 +1,18 @@
 <?php
-	namespace _namespace_;
+	declare(strict_types=1); //Created at %time% by %pid%
+
+	namespace %namespace%;
 
 	/**
-	 * Class _classname_
-	 *
-	 * Automatically created at: _time_
-	 * @package _namespace_
+	 * Class %classname%
+	 * @package %namespace%
 	 */
-
-	class _classname_ extends Base
+	class %classname% extends Base
 	{
 
 
 		/**
-		 * _classname_ constructor.
+		 * %classname% constructor.
 		 * @throws \Error
 		 */
 
@@ -24,7 +23,7 @@
 		}
 
 		/**
-		 * @param array $data
+		 * @return array $data
 		 *
 		 * @return bool
 		 * @throws \Error

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack;
 
@@ -14,6 +15,10 @@
 	use Framework\Database\Tables\Verifications as Database;
 
 
+	/**
+	 * Class Verification
+	 * @package Framework\Syscrack
+	 */
 	class Verification
 	{
 
@@ -60,7 +65,7 @@
 				return $emails[0]->email;
 			}
 
-			$array = array();
+			$array = [];
 
 			foreach ($emails as $email)
 			{
@@ -190,11 +195,11 @@
 				throw new \Error('Email does not exist');
 			}
 
-			$array = array(
+			$array = [
 				'userid' => $userid,
 				'token' => $token,
 				'email' => $email
-			);
+			];
 
 			$this->database->insertRequest($array);
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database\Tables;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Database\Table;
 
+	/**
+	 * Class Users
+	 * @package Framework\Database\Tables
+	 */
 	class Users extends Table
 	{
 
@@ -42,9 +47,9 @@
 		public function getUser($userid, $safe=true )
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			if( $safe )
 				$result = $this->getTable()->where($array)->get(["username","userid","email","group"]);
@@ -64,9 +69,9 @@
 		public function deleteUser($userid)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			$this->getTable()->where($array)->delete();
 		}
@@ -82,9 +87,9 @@
 		public function getByUsername($username)
 		{
 
-			$array = array(
+			$array = [
 				'username' => $username
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -102,9 +107,9 @@
 		public function getByEmail($email)
 		{
 
-			$array = array(
+			$array = [
 				'email' => $email
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -122,9 +127,9 @@
 		public function updateUser($userid, $values)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			$this->getTable()->where($array)->update($values);
 		}

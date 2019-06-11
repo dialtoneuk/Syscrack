@@ -1,4 +1,6 @@
 <?php
+	declare(strict_types=1);
+
 	namespace Framework\Views\Pages;
 
 	/**
@@ -10,6 +12,10 @@
 
 	use Framework\Views\BaseClasses\Page;
 
+	/**
+	 * Class Ajax
+	 * @package Framework\Views\Pages
+	 */
 	class Ajax extends Page
 	{
 

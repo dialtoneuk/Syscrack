@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\Tool;
 
+	/**
+	 * Class ToolTest
+	 * @package Framework\Tests
+	 */
 	class ToolTest extends BaseTestCase
 	{
 
@@ -33,7 +38,7 @@
 		{
 
 			self::$tool->isConnected();
-			$this->assertTrue(self::$tool->hasRequirements());
+			static::assertTrue(self::$tool->hasRequirements());
 
 		}
 
@@ -41,35 +46,35 @@
 		{
 
 			self::$tool->isComputerType('market');
-			$this->assertEquals('market', self::$tool->getRequirements()['type']);
+			static::assertEquals('market', self::$tool->getRequirements()['type']);
 		}
 
 		public function testGetInputs()
 		{
 
 			self::$tool->addInput('accountnumber', 'text');
-			$this->assertNotEmpty(self::$tool->getInputs());
+			static::assertNotEmpty(self::$tool->getInputs());
 		}
 
 		public function testIsConnected()
 		{
 
 			self::$tool->isConnected();
-			$this->assertEquals(true, self::$tool->getRequirements()['connected']);
+			static::assertEquals(true, self::$tool->getRequirements()['connected']);
 		}
 
 		public function testHasSoftwareInstalled()
 		{
 
 			self::$tool->hasSoftwareInstalled('cracker');
-			$this->assertEquals('cracker', self::$tool->getRequirements()['software']);
+			static::assertEquals('cracker', self::$tool->getRequirements()['software']);
 		}
 
 		public function testHasInputs()
 		{
 
 			self::$tool->addInput('test', 'text');
-			$this->assertTrue(self::$tool->hasInputs());
+			static::assertTrue(self::$tool->hasInputs());
 		}
 
 		public function testAddInput()
@@ -77,12 +82,12 @@
 
 
 			self::$tool->addInput('test', 'text');
-			$this->assertArrayHasKey('test', self::$tool->getInputs());
+			static::assertArrayHasKey('test', self::$tool->getInputs());
 		}
 
 		public function testGetRequirements()
 		{
 
-			$this->assertNotEmpty(self::$tool->getRequirements());
+			static::assertNotEmpty(self::$tool->getRequirements());
 		}
 	}

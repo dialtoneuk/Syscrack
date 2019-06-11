@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,10 +11,13 @@
 
 	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Constructor;
-	use Framework\Application\Settings;
 	use Framework\Syscrack\Game\Bases\BaseItem;
 	use Framework\Application\UtilitiesV2\Conventions\ItemSettingData;
 
+	/**
+	 * Class Items
+	 * @package Framework\Syscrack\Game
+	 */
 	class Items
 	{
 
@@ -59,7 +63,7 @@
 		/**
 		 * @param $item
 		 *
-		 * @return ItemSettingData
+		 * @return ItemSettingData|\stdClass
 		 */
 
 		public function settings( $item ): ItemSettingData

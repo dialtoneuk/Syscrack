@@ -1,17 +1,17 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Makers;
 
-	/**
-	 * Class Software
-	 *
-	 * Automatically created at: 2019-06-06 22:50:23
-	 * @package Framework\Application\UtilitiesV2\Makers
-	 */
-
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use Framework\Application\UtilitiesV2\FileOperator;
+	use Framework\Application\UtilitiesV2\Format;
+	use Framework\Application;
 
+	/**
+	 * Class Software
+	 * @package Framework\Application\UtilitiesV2\Makers
+	 */
 	class Software extends Base
 	{
 
@@ -35,7 +35,7 @@
 		public function filepath(): string
 		{
 
-			return( parent::filepath() );
+			return( Application::globals()->SOFTWARE_FILEPATH );
 		}
 
 		/**
@@ -45,6 +45,6 @@
 		public function namespace(): string
 		{
 
-			return( parent::namespace() );
+			return( Format::rc( Application::globals()->SOFTWARE_NAMESPACE ) );
 		}
 	}

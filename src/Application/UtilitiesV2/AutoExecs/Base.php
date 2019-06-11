@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -14,6 +15,10 @@
 	use Framework\Application\UtilitiesV2\Interfaces\AutoExec;
 	use Framework\Database\Manager;
 
+	/**
+	 * Class Base
+	 * @package Framework\Application\UtilitiesV2\AutoExecs
+	 */
 	abstract class Base implements AutoExec
 	{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\Settings;
 	use Framework\Database\Tables\Computer;
 
+	/**
+	 * Class Hardware
+	 * @package Framework\Syscrack\Game
+	 */
 	class Hardware
 	{
 
@@ -24,30 +29,55 @@
 			$this->computers = new Computer();
 		}
 
+		/**
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 		public function getDownloadSpeed($computerid)
 		{
 
 			return $this->getHardware($computerid)[Settings::setting('syscrack_internet_download_type')]['value'];
 		}
 
+		/**
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 		public function getUploadSpeed($computerid)
 		{
 
 			return $this->getHardware($computerid)[Settings::setting('syscrack_internet_upload_type')]['value'];
 		}
 
+		/**
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 		public function getCPUSpeed($computerid)
 		{
 
 			return $this->getHardware($computerid)[Settings::setting('syscrack_hardware_cpu_type')]['value'];
 		}
 
+		/**
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 		public function getGPUSpeed($computerid)
 		{
 
 			return $this->getHardware($computerid)[Settings::setting('syscrack_gpu_type')]['value'];
 		}
 
+		/**
+		 * @param $computerid
+		 * @param $type
+		 * @param $value
+		 */
 		public function updateHardware($computerid, $type, $value)
 		{
 
@@ -59,15 +89,20 @@
 				throw new \Error();
 			}
 
-			$hardware[$type] = array(
+			$hardware[$type] = [
 				'value' => $value
-			);
+			];
 
-			$this->computers->updateComputer($computerid, array(
+			$this->computers->updateComputer($computerid, [
 				'hardware' => json_encode($hardware, JSON_PRETTY_PRINT)
-			));
+			]);
 		}
 
+		/**
+		 * @param $computerid
+		 * @param $type
+		 * @param $value
+		 */
 		public function addHardware($computerid, $type, $value)
 		{
 
@@ -79,15 +114,21 @@
 				throw new \Error();
 			}
 
-			$hardware[$type] = array(
+			$hardware[$type] = [
 				'value' => $value
-			);
+			];
 
-			$this->computers->updateComputer($computerid, array(
+			$this->computers->updateComputer($computerid, [
 				'hardware' => json_encode($hardware, JSON_PRETTY_PRINT)
-			));
+			]);
 		}
 
+		/**
+		 * @param $computerid
+		 * @param $type
+		 *
+		 * @return null
+		 */
 		public function getHardwareType($computerid, $type)
 		{
 
@@ -100,6 +141,12 @@
 			return $this->getHardware($computerid)[$type];
 		}
 
+		/**
+		 * @param $computerid
+		 * @param $type
+		 *
+		 * @return bool
+		 */
 		public function hasHardwareType($computerid, $type)
 		{
 
@@ -120,6 +167,11 @@
 			return true;
 		}
 
+		/**
+		 * @param $computerid
+		 *
+		 * @return mixed
+		 */
 		public function getHardware($computerid)
 		{
 

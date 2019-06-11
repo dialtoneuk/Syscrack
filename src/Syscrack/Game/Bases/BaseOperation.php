@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Bases;
 
@@ -32,6 +33,10 @@
 	use Framework\Syscrack\Game\Preferences;
 	use Framework\Application;
 
+	/**
+	 * Class BaseOperation
+	 * @package Framework\Syscrack\Game\Bases
+	 */
 	class BaseOperation implements Operation
 	{
 
@@ -154,7 +159,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool
+		 * @return bool|null
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -223,7 +228,7 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => true,
 				'allowlocal' => true,
 				'allowanonymous' => false,
@@ -234,7 +239,7 @@
 				'jsonoutput' => false,
 				'elevated' => false,
 				'postrequirements' => []
-			);
+			];
 		}
 
 		/**
@@ -603,6 +608,9 @@
 
 		public function redirect($path, $exit = true)
 		{
+
+			if( $exit )
+				Application\UtilitiesV2\Debug::message("attempted exit to: " . $path );
 
 			Render::redirect(Settings::setting('controller_index_root') . $path);
 		}

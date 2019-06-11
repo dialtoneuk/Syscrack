@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -14,6 +15,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Interfaces\Software;
 
+	/**
+	 * Class Execute
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class Execute extends BaseOperation
 	{
 
@@ -21,13 +26,9 @@
 		 * Called when the software is executed
 		 *
 		 * @param $timecompleted
-		 *
 		 * @param $computerid
-		 *
 		 * @param $userid
-		 *
 		 * @param $process
-		 *
 		 * @param array $data
 		 *
 		 * @return bool
@@ -59,7 +60,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|mixed
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -79,7 +80,16 @@
 			if ($class instanceof Software == false)
 				return false;
 
-			return @$class->onExecuted($data['softwareid'], $userid, $this->getComputerId($data['ipaddress']));
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else
+				return @$class->onExecuted($data['softwareid'], $userid, $this->getComputerId($data['ipaddress']));
 		}
 
 		/**

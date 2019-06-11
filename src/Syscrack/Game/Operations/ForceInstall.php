@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -16,6 +17,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Viruses;
 
+	/**
+	 * Class ForceInstall
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class ForceInstall extends BaseOperation
 	{
 
@@ -56,14 +61,14 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => true,
 				'allowlocal' => true,
 				'requiresoftware' => false,
 				'requireloggedin' => true,
 				'allowpost' => false,
 				'allowcustomdata' => true,
-			);
+			];
 		}
 
 		/**
@@ -121,7 +126,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|mixed
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -141,11 +146,11 @@
 
 			self::$software->installSoftware($data['custom']['softwareid'], $userid);
 			self::$computer->installSoftware($this->getComputerId($data['ipaddress']), $data['custom']['softwareid']);
-			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['custom']['softwareid']), 'onInstalled', array(
+			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['custom']['softwareid']), 'onInstalled', [
 				'softwareid' => $data['custom']['softwareid'],
 				'userid' => $userid,
 				'computerid' => $this->getComputerId($data['ipaddress'])
-			));
+			]);
 
 			if (self::$viruses->isVirus($data['custom']['softwareid']) == true)
 			{
@@ -156,7 +161,15 @@
 				self::$addressdatabase->addVirus($data['ipaddress'], $data['custom']['softwareid'], $userid);
 			}
 
-			if (isset($data['redirect']) == false)
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
 				return true;
 			else
 				return ($data['redirect']);
@@ -180,7 +193,7 @@
 				return null;
 
 
-			return array('softwareid' => PostHelper::getPostData('softwareid'));
+			return ['softwareid' => PostHelper::getPostData('softwareid')];
 		}
 
 		/**

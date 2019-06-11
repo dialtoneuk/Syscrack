@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -14,6 +15,10 @@
 	use Framework\Application\Utilities\Hashes;
 	use Framework\Database\Tables\Computer;
 
+	/**
+	 * Class Internet
+	 * @package Framework\Syscrack\Game
+	 */
 	class Internet
 	{
 
@@ -115,9 +120,9 @@
 				throw new \Error();
 			}
 
-			$array = array(
+			$array = [
 				'ipaddress' => $address
-			);
+			];
 
 			self::$computer->updateComputer($computerid, $array);
 
@@ -205,9 +210,9 @@
 
 			$password = $this->getPassword();
 
-			$array = array(
+			$array = [
 				'password' => $password
-			);
+			];
 
 			self::$computer->updateComputer($computerid, $array);
 

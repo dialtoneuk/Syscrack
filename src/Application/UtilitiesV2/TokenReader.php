@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2;
 
@@ -32,7 +33,7 @@
 		 * @param string $token
 		 */
 
-		public function __construct($token = "_")
+		public function __construct($token = "%")
 		{
 
 			if (self::hasLastError())

@@ -189,5 +189,6 @@ return( $globals = [
 	["OPERATIONS_NAMESPACE","Framework\\Syscrack\\Game\\Operations\\"],
 	["OPERATIONS_FILEPATH","src\/Syscrack\/Game\/Operations\/"],
 	["CONTROLLER_NAMESPACE","Framework\\Views\\Pages\\"],
-	["CONTROLLER_FILEPATH","src\/Views\/Pages\/"]
+	["CONTROLLER_FILEPATH","src\/Views\/Pages\/"],
+    ["FILESYSTEM_DEFAULT_PERM", 0777],
 ] );

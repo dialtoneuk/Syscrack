@@ -1,5 +1,7 @@
 <?php
-namespace Framework\Application\UtilitiesV2\Conventions;
+	declare(strict_types=1);
+
+	namespace Framework\Application\UtilitiesV2\Conventions;
 
 /**
  * Class InventoryData

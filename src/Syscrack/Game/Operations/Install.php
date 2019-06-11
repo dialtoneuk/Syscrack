@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -15,6 +16,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Viruses;
 
+	/**
+	 * Class Install
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class Install extends BaseOperation
 	{
 
@@ -55,12 +60,12 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => true,
 				'allowlocal' => true,
 				'requiresoftware' => true,
 				'requireloggedin' => true
-			);
+			];
 		}
 
 		/**
@@ -115,7 +120,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|mixed
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -124,14 +129,11 @@
 			if ($this->checkData($data) == false)
 				return false;
 
-
 			if (self::$internet->ipExists($data['ipaddress']) == false)
 				return false;
 
-
 			if (self::$software->softwareExists($data['softwareid']) == false)
 				return false;
-
 
 			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])))
 				return false;
@@ -144,11 +146,11 @@
 			$this->logLocal($this->getSoftwareName($data['softwareid']),
 				self::$computer->computerid(), $data['ipaddress']);
 
-			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['softwareid']), 'onInstalled', array(
+			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['softwareid']), 'onInstalled', [
 				'softwareid' => $data['softwareid'],
 				'userid' => $userid,
 				'computerid' => $this->getComputerId($data['ipaddress'])
-			));
+			]);
 
 			if (self::$viruses->isVirus($data['softwareid']) == true)
 			{
@@ -159,7 +161,15 @@
 				self::$addressdatabase->addVirus($data['ipaddress'], $data['softwareid'], $userid);
 			}
 
-			if (isset($data['redirect']) == false)
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
 				return true;
 			else
 				return ($data['redirect']);

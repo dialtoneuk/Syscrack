@@ -1,4 +1,6 @@
 <?php
+	declare(strict_types=1);
+
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
 	/**
@@ -14,6 +16,10 @@
 	use Framework\Application\UtilitiesV2\FileOperator;
 	use Framework\Application\UtilitiesV2\TokenReader;
 
+	/**
+	 * Class Application
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class Application extends Base
 	{
 
@@ -172,6 +178,12 @@
 			    throw new \Error("Unable to read global file in resources");
 		    else
 		    {
+
+		    	if( strpos( $value, ".") !== false )
+		    		throw new \Error("You cannot have dots (.) in your global, sorry.");
+
+		    	if( is_numeric( $value ) && is_string( $value ) )
+				    $value = (int)$value;
 
 			    array_pop( $globals );
 			    array_push( $globals, '    ["' . addslashes( strtoupper( $global ) ) . '","' . addslashes( $value ) . '"],'  );

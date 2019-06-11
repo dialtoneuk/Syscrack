@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -148,7 +149,7 @@
 				if (Settings::setting('render_json_output') == true)
 				{
 
-					Flight::json(array('redirect' => $url, 'session' => $_SESSION));
+					Flight::json(['redirect' => $url, 'session' => $_SESSION]);
 				}
 				else
 				{
@@ -163,6 +164,11 @@
 			}
 		}
 
+		/**
+		 * @param $assets
+		 *
+		 * @return array
+		 */
 		public static function processAssets( $assets )
 		{
 
@@ -211,6 +217,9 @@
 			return( $results );
 		}
 
+		/**
+		 * @return array|mixed
+		 */
 		public static function getAssets()
 		{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -17,6 +18,10 @@
 	use Framework\Syscrack\Game\Utilities\PageHelper;
 	use Framework\Syscrack\Game\Utilities\TimeHelper;
 
+	/**
+	 * Class Research
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class Research extends BaseOperation
 	{
 
@@ -57,14 +62,14 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => true,
 				'allowlocal' => true,
 				'allowcustomdata' => true,
 				'localonly' => true,
 				'requiresoftware' => false,
 				'elevated' => true
-			);
+			];
 		}
 
 		/**
@@ -138,7 +143,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|mixed
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -162,7 +167,15 @@
 
 			self::$computer->addSoftware($computerid, $newsoftware, $software->type);
 
-			if (isset($data['redirect']) == false)
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
 				return true;
 			else
 				return ($data['redirect']);
@@ -181,11 +194,11 @@
 		public function getCustomData($ipaddress, $userid)
 		{
 
-			return array(
+			return [
 				'accountnumber' => PostHelper::getPostData('accountnumber', true),
 				'name' => PostHelper::getPostData('name', true),
 				'softwareid' => @PostHelper::getPostData('softwareid', true)
-			);
+			];
 		}
 
 		/**

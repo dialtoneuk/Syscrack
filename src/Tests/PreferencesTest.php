@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\Preferences;
 
+	/**
+	 * Class PreferencesTest
+	 * @package Framework\Tests
+	 */
 	class PreferencesTest extends BaseTestCase
 	{
 
@@ -56,14 +61,14 @@
 
 			$result = self::$preferences->getSoftwarePreference( self::$userid, self::$computerid, "cracker");
 
-			$this->assertNotEmpty( $result );
-			$this->assertIsInt( $result );
+			static::assertNotEmpty( $result );
+			static::assertIsInt( $result );
 		}
 
 		public function testHas()
 		{
 
-			$this->assertTrue( self::$preferences->has( self::$userid ) );
+			static::assertTrue( self::$preferences->has( self::$userid ) );
 		}
 
 		public function testGet()
@@ -71,25 +76,25 @@
 
 			$result = self::$preferences->get( self::$userid );
 
-			$this->assertNotEmpty( $result );
-			$this->assertArrayHasKey(self::$computerid, $result );
+			static::assertNotEmpty( $result );
+			static::assertArrayHasKey(self::$computerid, $result );
 		}
 
 		public function testHasSoftwarePreference()
 		{
 
-			$this->assertTrue( self::$preferences->hasSoftwarePreference( self::$userid,  self::$computerid,"cracker") );
+			static::assertTrue( self::$preferences->hasSoftwarePreference( self::$userid,  self::$computerid,"cracker") );
 		}
 
 		public function testAdd()
 		{
 
-			self::$preferences->add( self::$userid,  self::$computerid, array('hasher' => 24) );
+			self::$preferences->add( self::$userid,  self::$computerid, ['hasher' => 24]);
 
 			$result = self::$preferences->get( self::$userid );
 
-			$this->assertNotEmpty( $result );
-			$this->assertArrayHasKey(self::$computerid, $result );
+			static::assertNotEmpty( $result );
+			static::assertArrayHasKey(self::$computerid, $result );
 		}
 
 		public function testSet()
@@ -98,7 +103,7 @@
 			self::$preferences->set( self::$userid, [ self::$computerid => [ "cracker" => 11] ] );
 			$result = self::$preferences->get( self::$userid );
 
-			$this->assertNotEmpty( $result );
-			$this->assertArrayHasKey(self::$computerid, $result );
+			static::assertNotEmpty( $result );
+			static::assertArrayHasKey(self::$computerid, $result );
 		}
 	}

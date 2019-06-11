@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\SoftwareTypes;
 
+	/**
+	 * Class SoftwareTypesTest
+	 * @package Framework\Tests
+	 */
 	class SoftwareTypesTest extends BaseTestCase
 	{
 
@@ -39,6 +44,6 @@
 		public function testGet()
 		{
 
-			$this->assertNotEmpty( self::$softwaretypes->get() );
+			static::assertNotEmpty( self::$softwaretypes->get() );
 		}
 	}

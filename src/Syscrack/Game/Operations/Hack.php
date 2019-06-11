@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -15,6 +16,10 @@
 	use Framework\Syscrack\Game\AddressDatabase;
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 
+	/**
+	 * Class Hack
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class Hack extends BaseOperation
 	{
 
@@ -44,13 +49,13 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => false,
 				'allowlocal' => false,
 				'requiresoftware' => false,
 				'requireloggedin' => false,
 				'elevated' => true,
-			);
+			];
 		}
 
 		/**
@@ -117,7 +122,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|mixed
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -129,17 +134,20 @@
 			if (self::$internet->ipExists($data['ipaddress']) == false )
 				$this->formError("Computer has changed IP Address");
 			else
-			{
-
 				self::$addressdatabase->addAddress($data['ipaddress'], $userid);
 
-				if (isset($data['redirect']) == false)
-					return true;
-				else
-					return ($data['redirect']);
-			}
-
-			return false;
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
 		}
 
 		/**

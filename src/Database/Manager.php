@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database;
 
@@ -14,6 +15,10 @@
 
 	use Illuminate\Database\Capsule\Manager as Capsule;
 
+	/**
+	 * Class Manager
+	 * @package Framework\Database
+	 */
 	class Manager
 	{
 
@@ -110,14 +115,10 @@
 		{
 
 			self::$capsule->addConnection(self::$connection);
-
 			self::$capsule->setAsGlobal();
 
 			if ($addtocontainer == true)
-			{
-
-				Container::setObject('database', self::$capsule);
-			}
+				Container::add('database', self::$capsule);
 		}
 
 		/**

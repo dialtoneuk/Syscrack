@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Bases;
 
@@ -22,8 +23,18 @@
 	use Framework\Syscrack\Game\Tab;
 	use Framework\Syscrack\Game\Tabs;
 
+	/**
+	 * Class BaseComputer
+	 * @package Framework\Syscrack\Game\Bases
+	 */
 	class BaseComputer implements Structure
 	{
+
+		/**
+		 * @var string
+		 */
+
+		protected $self;
 
 		/**
 		 * @var ComputerController
@@ -162,7 +173,7 @@
 
 			$array = $metadata->info;
 			$array["reset"] = microtime(true);
-			$this->metadata()->update($computerid, array("info" => $array));
+			$this->metadata()->update($computerid, ["info" => $array]);
 		}
 
 		/**
@@ -299,7 +310,7 @@
 				$icons      = Settings::setting("syscrack_hardware_icons");
 				$hardware   = $computer->getComputerHardware( $computerid );
 
-				return( array('icons' => $icons, 'hardware' => $hardware ) );
+				return( ['icons' => $icons, 'hardware' => $hardware]);
 			});
 			$tabhardware->bypass();
 			$tabhardware->render("syscrack/templates/template.hardware");
@@ -341,9 +352,9 @@
 		public function clearSoftware($computerid)
 		{
 
-			$software = self::$computer->getComputerSoftware($computerid);
+			$softwares = self::$computer->getComputerSoftware($computerid);
 
-			foreach ($software as $softwares)
+			foreach ($softwares as $software)
 			{
 				if (self::$software->softwareExists($software['softwareid']))
 					self::$software->deleteSoftware($software['softwareid']);

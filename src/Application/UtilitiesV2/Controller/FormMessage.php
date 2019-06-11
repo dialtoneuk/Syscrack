@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -12,6 +13,10 @@
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
 	use Framework\Application;
 
+	/**
+	 * Class FormMessage
+	 * @package Framework\Application\UtilitiesV2\Controller
+	 */
 	class FormMessage implements Response
 	{
 
@@ -74,11 +79,11 @@
 		public function get()
 		{
 
-			return (array(
+			return ([
 				"success"   => $this->success,
 				"message"   => $this->message,
 				"type"      => $this->type,
 				"time"      => Application\UtilitiesV2\Format::timestamp( $this->time )
-			));
+			]);
 		}
 	}

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\Types;
 
+	/**
+	 * Class TypesTest
+	 * @package Framework\Tests
+	 */
 	class TypesTest extends BaseTestCase
 	{
 
@@ -29,6 +34,6 @@
 		public function testGet()
 		{
 
-			$this->assertNotEmpty(self::$types->get());
+			static::assertNotEmpty(self::$types->get());
 		}
 	}

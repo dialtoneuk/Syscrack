@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -14,6 +15,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Viruses;
 
+	/**
+	 * Class Delete
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class Delete extends BaseOperation
 	{
 
@@ -46,12 +51,12 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => true,
 				'allowlocal' => true,
 				'requiresoftware' => true,
 				'requireloggedin' => true
-			);
+			];
 		}
 
 		/**
@@ -101,7 +106,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|string
+		 * @return bool|string|null
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -123,7 +128,15 @@
 			$this->logDelete($software->softwarename, $this->getComputerId($data['ipaddress']), self::$computer->getComputer($computerid)->ipaddress);
 			$this->logLocal($software->softwarename, $data['ipaddress']);
 
-			if (isset($data['redirect']) == false)
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
 				return true;
 			else
 				return ($data['redirect']);

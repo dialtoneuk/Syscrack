@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Application\Utilities\FileSystem;
 
+	/**
+	 * Class Search
+	 * @package Framework\Application
+	 */
 	class Search
 	{
 
@@ -17,7 +22,7 @@
 		 * @var array
 		 */
 
-		protected $cache = array();
+		protected $cache = [];
 
 		/**
 		 * @param $database

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -15,6 +16,10 @@
 	use Framework\Syscrack\User;
 	use Framework\Syscrack\Verification;
 
+	/**
+	 * Class RegisterTest
+	 * @package Framework\Tests
+	 */
 	class RegisterTest extends BaseTestCase
 	{
 
@@ -114,8 +119,8 @@
 
 			$result = self::$register->register(self::$username, self::$password, self::$email);
 
-			$this->assertNotEmpty($result);
-			$this->assertIsString($result);
+			static::assertNotEmpty($result);
+			static::assertIsString($result);
 
 			self::$token = $result;
 		}
@@ -123,18 +128,18 @@
 		public function testVerification()
 		{
 
-			$this->assertNotEmpty(self::$verification);
+			static::assertNotEmpty(self::$verification);
 
 			if (empty(self::$verification))
 				return;
 
 			$userid = self::$verification->getTokenUser(self::$token);
-			$this->assertTrue(self::$verification->verifyUser(self::$token));
+			static::assertTrue(self::$verification->verifyUser(self::$token));
 			$computerid = self::$computer->createComputer($userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP());
 			self::$computerid = $computerid;
-			$this->assertNotEmpty( $computerid );
+			static::assertNotEmpty( $computerid );
 			$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
-			$this->assertInstanceOf("\Framework\Syscrack\Game\Interfaces\Computer", $class );
+			static::assertInstanceOf("\Framework\Syscrack\Game\Interfaces\Computer", $class );
 			$class->onStartup($computerid, $userid, [], Settings::setting('syscrack_default_hardware'));
 		}
 	}

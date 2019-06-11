@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -14,6 +15,10 @@
 	use Framework\Syscrack\User;
 	use Framework\Application\UtilitiesV2\Conventions\ItemSettingData;
 
+	/**
+	 * Class BaseItem
+	 * @package Framework\Syscrack\Game\Bases
+	 */
 	class BaseItem implements Item
 	{
 

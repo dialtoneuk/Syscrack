@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2;
 
@@ -10,6 +11,10 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application;
 
+	/**
+	 * Class Debug
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class Debug
 	{
 
@@ -86,7 +91,7 @@
 		 * @return bool
 		 */
 
-		public static function session( string $session = null )
+		public static function session( int $session = null )
 		{
 
 			if( empty( $session ) || $session === null )
@@ -104,8 +109,13 @@
 		 * @throws \Error
 		 */
 
-		public static function message(string $message, bool $include_time = true)
+		public static function message($message, bool $include_time = true)
 		{
+
+			if( is_null( $message ) )
+				throw new \Error("Message must be not null");
+
+			$message = (string)$message;
 
 			if (Application::globals()->DEBUG_ENABLED == false)
 				return;
@@ -416,7 +426,7 @@
 			$result = readline( $prompt . "\\\\:$" );
 
 			if( empty( $result ) )
-				throw new \RuntimeException("Your terminal does not allow for nested read line inputs. Please launch me again the slow way.");
+				sleep( 1 );
 
 			self::$buffer .= $prompt . "\\\\:$" . addslashes( $result ) . "\n";
 

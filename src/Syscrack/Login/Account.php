@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Login;
 
@@ -15,6 +16,10 @@
 	use Framework\Syscrack\User;
 	use Framework\Syscrack\Verification;
 
+	/**
+	 * Class Account
+	 * @package Framework\Syscrack\Login
+	 */
 	class Account
 	{
 
@@ -31,7 +36,7 @@
 		protected $verification;
 
 		/**
-		 * @var LoginException
+		 * @var \Error
 		 */
 
 		public static $error;

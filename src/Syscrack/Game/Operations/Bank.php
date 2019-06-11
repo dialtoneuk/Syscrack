@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -12,8 +13,11 @@
 
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Finance;
-	use Framework\Views\BaseClasses\Page;
 
+	/**
+	 * Class Bank
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class Bank extends BaseOperation
 	{
 
@@ -45,7 +49,7 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => false,
 				'allowlocal' => false,
 				'requiresoftware' => false,
@@ -54,7 +58,7 @@
 				'postrequirements' => [
 					'action'
 				]
-			);
+			];
 		}
 
 		/**
@@ -95,7 +99,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool
+		 * @return bool|string|null
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -107,9 +111,21 @@
 			if (self::$internet->ipExists($data['ipaddress']) == false)
 				return false;
 
-			$this->render('operations/operations.bank',
-				array('ipaddress' => $data['ipaddress'], 'account' => self::$finance->getAccountAtBank($this->getComputerId($data["ipaddress"]), $userid)),
-				true, true );
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
+				return true;
+			else
+				$this->render('operations/operations.bank',
+					['ipaddress' => $data['ipaddress'], 'account' => self::$finance->getAccountAtBank($this->getComputerId($data["ipaddress"]), $userid)],
+					true, true );
+
 			return null;
 		}
 

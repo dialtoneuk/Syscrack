@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 	use Framework\Syscrack\Game\Tool;
 
+	/**
+	 * Class Installer
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class Installer extends BaseSoftware
 	{
 
@@ -25,14 +30,14 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'installer',
 				'extension' => '.msi',
 				'type' => 'installer',
 				'installable' => true,
 				'executable' => true,
 				'localexecuteonly' => true,
-			);
+			];
 		}
 
 		/**

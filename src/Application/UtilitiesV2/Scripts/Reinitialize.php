@@ -1,5 +1,7 @@
 <?php
-namespace Framework\Application\UtilitiesV2\Scripts;
+	declare(strict_types=1);
+
+	namespace Framework\Application\UtilitiesV2\Scripts;
 
 /**
  * Class Reinitialize
@@ -10,6 +12,10 @@ namespace Framework\Application\UtilitiesV2\Scripts;
 use Framework\Application\UtilitiesV2\Container;
 use Framework\Application\UtilitiesV2\Debug;
 
+/**
+ * Class Reinitialize
+ * @package Framework\Application\UtilitiesV2\Scripts
+ */
 class Reinitialize extends Base
 {
 

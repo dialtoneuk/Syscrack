@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -14,6 +15,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 
 
+	/**
+	 * Class Logout
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class Logout extends BaseOperation
 	{
 
@@ -24,11 +29,11 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => false,
 				'allowlocal' => false,
 				'requireloggedin' => true
-			);
+			];
 		}
 
 		/**
@@ -60,10 +65,7 @@
 			if (self::$internet->getCurrentConnectedAddress() !== $data['ipaddress'])
 				return false;
 
-			if (isset($data['redirect']) == false)
-				return true;
-			else
-				return ($data['redirect']);
+			return true;
 		}
 
 		/**
@@ -74,7 +76,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -92,6 +94,18 @@
 				return false;
 
 			self::$computer->getComputerClass($computer->type)->onLogout($computer->computerid, $data['ipaddress']);
-			return true;
+
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
 		}
 	}

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Pages;
 
@@ -19,6 +20,10 @@
 
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Api
+	 * @package Framework\Views\Pages
+	 */
 	class Api extends BaseClass
 	{
 
@@ -67,13 +72,13 @@
 				if (PostHelper::checkForRequirements(['apikey']) == false)
 				{
 
-					Flight::json(array(
+					Flight::json([
 						'error' => true,
 						'code' => 401,
 						'info' => [
 							'message' => 'Apikey required as post key'
 						]
-					));
+					]);
 
 					exit;
 				}
@@ -92,13 +97,13 @@
 			else
 			{
 
-				Flight::json(array(
+				Flight::json([
 					'error' => true,
 					'code' => 401,
 					'info' => [
 						'message' => 'Apikey required as post key'
 					]
-				));
+				]);
 
 				exit;
 			}
@@ -113,11 +118,11 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'/api/@endpoint/(@method)/', 'process'
 				]
-			);
+			];
 		}
 
 		/**
@@ -149,7 +154,7 @@
 			} catch (\Exception $error)
 			{
 
-				Flight::json(array(
+				Flight::json([
 					'error' => true,
 					'code' => 502,
 					'info' => [
@@ -157,7 +162,7 @@
 						'line' => $error->getLine(),
 						'file' => $error->getFile()
 					]
-				));
+				]);
 			}
 
 			if (is_array($result) == false)

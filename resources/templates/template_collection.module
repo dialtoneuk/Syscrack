@@ -1,44 +1,50 @@
 <?php
-namespace _namespace_;
+	declare(strict_types=1); //Created at %time% by %pid%
 
-/**
- * Class _classname_
- *
- * Automatically created at: _time_
- * @package _namespace_
- */
+	namespace %namespace%;
 
-use Framework\Application\UtilitiesV2\Collection;
-use Framework\Application\UtilitiesV2\Convention;
-use Framework\Application\UtilitiesV2\Conventions\EditableData;
+	use Framework\Application\UtilitiesV2\Collection;
+	use Framework\Application\UtilitiesV2\Convention;
+	use Framework\Application\UtilitiesV2\Conventions\EditableData;
 
-class _classname_ extends Collection
-{
+	/**
+	 * Class %classname%
+	 * @package %namespace%
+	 */
+	class %classname% extends Collection
+	{
 
-    /**
-     * _classname_ constructor.
-     * @param $filepath
-     * @param $namespace
-     * @param bool $auto_create
-     */
+	    /**
+	     * %classname% constructor.
+	     * @param $filepath
+	     * @param $namespace
+	     *
+	     * @return bool
+	     */
 
-    public function __construct( $filepath , $namespace, bool $auto_create = true)
-    {
+	    public function __construct( $filepath=null , $namespace=null, bool $auto_create = true)
+	    {
 
-        parent::__construct( $filepath , $namespace, $auto_create);
-    }
+	        if( $filepath == null )
+	            $filepath = ""; //Enter Filepath
 
-    /**
-     * Returns a new convention class.
-     * Remember to change the return type to the correct convention.
-     *
-     * @param array $values
-     * @return Convention
-     */
+		    if( $namespace == null )
+			    $filepath = ""; //Enter Filepath
 
-    public static function dataInstance( $values )
-    {
+	        parent::__construct( $filepath , $namespace, $auto_create);
+	    }
 
-        return( new EditableData( $values ) );
-    }
-}
+	    /**
+	     * Returns a new convention class.
+	     * Remember to change the return type to the correct convention.
+	     *
+	     * @return array $values
+	     * @return Convention
+	     */
+
+	    public static function dataInstance( $values )
+	    {
+
+	        return( new EditableData( $values ) );
+	    }
+	}

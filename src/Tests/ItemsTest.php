@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\Items;
 
+	/**
+	 * Class ItemsTest
+	 * @package Framework\Tests
+	 */
 	class ItemsTest extends BaseTestCase
 	{
 
@@ -32,37 +37,37 @@
 		public function testItem()
 		{
 
-			$this->assertNotEmpty( self::$items->item(self::$item) );
+			static::assertNotEmpty( self::$items->item(self::$item) );
 
 		}
 
 		public function testHas()
 		{
 
-			$this->assertTrue( self::$items->has(self::$item) );
+			static::assertTrue( self::$items->has(self::$item) );
 		}
 
 		public function testTraded()
 		{
 
-			$this->assertTrue( self::$items->traded(self::$item,0,0,0) );
+			static::assertTrue( self::$items->traded(self::$item,0,0,0) );
 		}
 
 		public function testUsed()
 		{
 
-			$this->assertTrue( self::$items->used(self::$item,0,0,0) );
+			static::assertTrue( self::$items->used(self::$item,0,0,0) );
 		}
 
 		public function testEquipped()
 		{
 
-			$this->assertTrue( self::$items->equipped(self::$item,0,0,0) );
+			static::assertTrue( self::$items->equipped(self::$item,0,0,0) );
 		}
 
 		public function testSettings()
 		{
 
-			$this->assertNotEmpty( self::$items->settings(self::$item) );
+			static::assertNotEmpty( self::$items->settings(self::$item) );
 		}
 	}

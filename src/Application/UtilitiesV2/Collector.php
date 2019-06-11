@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2;
 
@@ -58,7 +59,6 @@
 
 				return (self::$classes[$namespace . $class]);
 			}
-
 
 			$full_namespace = $namespace . $class;
 			self::$classes[$full_namespace] = new $full_namespace;
@@ -130,7 +130,7 @@
 		public static function exist($class, $namespace = null)
 		{
 
-			return (isset(self::$classes[$namespace]));
+			return (isset(self::$classes[ $namespace . $class ]));
 		}
 
 

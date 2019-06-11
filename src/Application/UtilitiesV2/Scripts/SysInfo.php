@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Format;
 
+	/**
+	 * Class SysInfo
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class SysInfo extends Base
 	{
 

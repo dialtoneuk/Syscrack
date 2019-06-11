@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 
+	/**
+	 * Class Firewall
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class Firewall extends BaseSoftware
 	{
 
@@ -24,12 +29,12 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'firewall',
 				'extension' => '.fwall',
 				'type' => 'firewall',
 				'installable' => true,
 				'executable' => false
-			);
+			];
 		}
 	}

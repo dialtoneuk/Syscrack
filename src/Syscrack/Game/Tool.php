@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -9,6 +10,10 @@
 	namespace Framework\Syscrack\Game;
 
 
+	/**
+	 * Class Tool
+	 * @package Framework\Syscrack\Game
+	 */
 	class Tool
 	{
 
@@ -19,6 +24,12 @@
 		public $description = "";
 		public $icon = "flash";
 
+		/**
+		 * Tool constructor.
+		 *
+		 * @param string $description
+		 * @param string $class
+		 */
 		public function __construct($description = "", $class = "default")
 		{
 
@@ -26,36 +37,54 @@
 			$this->class = $class;
 		}
 
+		/**
+		 * @return bool
+		 */
 		public function hasInputs()
 		{
 
 			return (empty($this->inputs) == false);
 		}
 
+		/**
+		 * @return bool
+		 */
 		public function hasRequirements()
 		{
 
 			return (empty($this->requirements) == false);
 		}
 
+		/**
+		 * @param string $action
+		 */
 		public function setAction(string $action)
 		{
 
 			$this->action = $action;
 		}
 
+		/**
+		 * @return string
+		 */
 		public function getAction()
 		{
 
 			return ($this->action);
 		}
 
+		/**
+		 * @return array
+		 */
 		public function getInputs()
 		{
 
 			return ($this->inputs);
 		}
 
+		/**
+		 * @return array
+		 */
 		public function getRequirements()
 		{
 
@@ -111,18 +140,27 @@
 			$this->requirements['hacked'] = false;
 		}
 
+		/**
+		 * @param $panel
+		 */
 		public function panel( $panel )
 		{
 
 			$this->requirements['panel'] = $panel;
 		}
 
+		/**
+		 * @param string $type
+		 */
 		public function isComputerType(string $type)
 		{
 
 			$this->requirements['type'] = $type;
 		}
 
+		/**
+		 * @param string $type
+		 */
 		public function preferenceType(string $type)
 		{
 
@@ -130,18 +168,33 @@
 		}
 
 
+		/**
+		 * @param string $type
+		 */
 		public function hasSoftwareInstalled(string $type)
 		{
 
 			$this->requirements['software'] = $type;
 		}
 
+		/**
+		 * @param string $type
+		 * @param $value
+		 */
 		public function setRequirement(string $type, $value)
 		{
 
 			$this->requirements[$type] = $value;
 		}
 
+		/**
+		 * @param $name
+		 * @param $type
+		 * @param string $value
+		 * @param string $placeholder
+		 * @param string $class
+		 * @param bool $html
+		 */
 		public function addInput($name, $type, $value = "", $placeholder = "", $class = "form-control", $html = true): void
 		{
 
@@ -164,6 +217,11 @@
 			];
 		}
 
+		/**
+		 * @param array $values
+		 *
+		 * @return string
+		 */
 		private function html(array $values): string
 		{
 

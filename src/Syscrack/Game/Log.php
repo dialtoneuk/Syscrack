@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
 
+	/**
+	 * Class Log
+	 * @package Framework\Syscrack\Game
+	 */
 	class Log
 	{
 
@@ -39,11 +44,11 @@
 
 			$computerlog = $this->getCustomLog($computerid, $log);
 
-			$computerlog[] = array(
+			$computerlog[] = [
 				'ipaddress' => $ipaddress,
 				'message' => $message,
 				'time' => time()
-			);
+			];
 
 			$this->saveLog($computerid, $computerlog, $log);
 		}

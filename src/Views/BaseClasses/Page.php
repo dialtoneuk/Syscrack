@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\BaseClasses;
 
@@ -30,6 +31,10 @@
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application;
 
+	/**
+	 * Class Page
+	 * @package Framework\Views\BaseClasses
+	 */
 	class Page implements Structure
 	{
 
@@ -210,7 +215,7 @@
 		/**
 		 * @param $ipaddress
 		 *
-		 * @return Collection
+		 * @return Collection|\stdClass
 		 */
 
 		public function getComputerByAddress($ipaddress)
@@ -484,10 +489,10 @@
 			if ($userid == null && $computerid == null)
 			{
 
-				$results = [];
-
-				foreach ($tools as $key => $tool) /** @var Tool $tool */
-					$results[$key] = [
+				/** @var Tool $tool */
+				$results = array_map(function ($tool)
+				{
+					return [
 						'inputs' => $tool->getInputs(),
 						'requirements' => $tool->getRequirements(),
 						'action' => $tool->getAction(),
@@ -495,6 +500,7 @@
 						'class' => @$tool->class,
 						'icon' => @$tool->icon
 					];
+				}, $tools);
 
 				return ($results);
 			}
@@ -504,7 +510,7 @@
 			$results = [];
 
 			/**
-			 * @var $tool Tool
+			 * @var Tool $tool
 			 */
 
 			foreach ($tools as $key => $tool)

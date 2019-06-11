@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -12,6 +13,10 @@
 	use Framework\Application\UtilitiesV2\Debug;
 	use PHPUnit\Framework\TestCase;
 
+	/**
+	 * Class BaseTestCase
+	 * @package Framework\Tests
+	 */
 	class BaseTestCase extends TestCase
 	{
 

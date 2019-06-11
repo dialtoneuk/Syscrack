@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views;
 
@@ -17,6 +18,10 @@
 	use Framework\Application\Utilities\Factory;
 	use Framework\Views\Structures\Page;
 
+	/**
+	 * Class Controller
+	 * @package Framework\Views
+	 */
 	class Controller
 	{
 
@@ -257,7 +262,7 @@
 					throw new \Error('Method does not exist in class: ' . $route[0] . " => " . $route[1]);
 				}
 
-				Flight::route($route[0], array($class, $route[1]));
+				Flight::route($route[0], [$class, $route[1]]);
 			}
 
 			return true;

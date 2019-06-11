@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\Utilities;
 
@@ -15,6 +16,10 @@
 	use Framework\Syscrack\Game\Interfaces\Software;
 	use ReflectionClass;
 
+	/**
+	 * Class Factory
+	 * @package Framework\Application\Utilities
+	 */
 	class Factory
 	{
 
@@ -32,7 +37,7 @@
 		 * @var array
 		 */
 
-		protected $classes = array();
+		protected $classes = [];
 
 		/**
 		 * Factory constructor.

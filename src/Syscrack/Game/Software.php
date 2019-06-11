@@ -1,5 +1,4 @@
 <?php
-
 	namespace Framework\Syscrack\Game;
 
 	/**
@@ -22,6 +21,10 @@
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 	use Framework\Syscrack\Game\Interfaces\Software as Structure;
 
+	/**
+	 * Class Software
+	 * @package Framework\Syscrack\Game
+	 */
 	class Software
 	{
 
@@ -94,7 +97,7 @@
 			$classes = self::$factory->getAllClasses();
 
 			/**
-			 * @var $class BaseSoftware
+			 * @var BaseSoftware $class
 			 */
 
 			foreach ($classes as $key => $class)
@@ -332,7 +335,7 @@
 			if ($time === null)
 				$time = microtime(true);
 
-			self::$database->updateSoftware($softwareid, array("lastmodified" => $time));
+			self::$database->updateSoftware($softwareid, ["lastmodified" => $time]);
 		}
 
 		/**
@@ -374,7 +377,7 @@
 
 			$configuration = $class->configuration();
 
-			$array = array(
+			$array = [
 				'userid' => $userid,
 				'computerid' => $computerid,
 				'level' => $softwarelevel,
@@ -385,7 +388,7 @@
 				'lastmodified' => time(),
 				'installed' => false,
 				'data' => json_encode($data)
-			);
+			];
 
 			return self::$database->insertSoftware($array);
 		}
@@ -411,7 +414,7 @@
 
 			$software = self::$database->getSoftware($targetid);
 
-			$array = array(
+			$array = [
 				'userid' => $userid,
 				'computerid' => $computerid,
 				'level' => $software->level,
@@ -422,7 +425,7 @@
 				'lastmodified' => time(),
 				'installed' => $installed,
 				'data' => json_encode($data)
-			);
+			];
 
 			return self::$database->insertSoftware($array);
 		}
@@ -561,10 +564,10 @@
 		public function installSoftware($softwareid, $userid)
 		{
 
-			$array = array(
+			$array = [
 				'installed' => true,
 				'userid' => $userid
-			);
+			];
 
 			self::$database->updateSoftware($softwareid, $array);
 		}
@@ -578,9 +581,9 @@
 		public function uninstallSoftware($softwareid)
 		{
 
-			$array = array(
+			$array = [
 				'installed' => false
-			);
+			];
 
 			self::$database->updateSoftware($softwareid, $array);
 		}
@@ -596,9 +599,9 @@
 		public function updateData($softwareid, array $data)
 		{
 
-			$array = array(
+			$array = [
 				'data' => json_encode($data)
-			);
+			];
 
 			self::$database->updateSoftware($softwareid, $array);
 		}
@@ -1150,7 +1153,7 @@
 			if (empty($parameters) == false)
 			{
 
-				return call_user_func_array(array($software, $method), $parameters);
+				return call_user_func_array([$software, $method], $parameters);
 			}
 
 			return $software->{$method}();

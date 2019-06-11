@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -16,6 +17,10 @@
 	use Framework\Syscrack\Game\Market as Database;
 	use Framework\Syscrack\Game\Metadata;
 
+	/**
+	 * Class Market
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class Market extends BaseOperation
 	{
 
@@ -58,13 +63,13 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => false,
 				'allowlocal' => false,
 				'requiresoftware' => false,
 				'requireloggedin' => false,
 				'allowpost' => false
-			);
+			];
 		}
 
 		/**
@@ -117,7 +122,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|null
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -131,10 +136,19 @@
 
 			$computer = self::$internet->computer($data["ipaddress"]);
 
-			$this->render('operations/operations.market', array('ipaddress' => $data['ipaddress'],
-				'metadata' => self::$metadata->get($computer->computerid),
-				'items' => self::$market->getStock($computer->computerid),
-				'purchases' => self::$market->getPurchases($computer->computerid)), true);
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else
+				$this->render('operations/operations.market', ['ipaddress' => $data['ipaddress'],
+					'metadata' => self::$metadata->get($computer->computerid),
+					'items' => self::$market->getStock($computer->computerid),
+					'purchases' => self::$market->getPurchases($computer->computerid)], true);
 
 			return null;
 		}
@@ -170,7 +184,7 @@
 		public function getCustomData($ipaddress, $userid)
 		{
 
-			return array();
+			return [];
 		}
 
 		/**

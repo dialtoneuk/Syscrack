@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Interfaces;
 
@@ -52,6 +53,8 @@
 		 * @param $process
 		 *
 		 * @param array $data
+		 *
+		 * @return bool|string|null
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data);

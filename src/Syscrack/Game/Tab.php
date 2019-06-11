@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -11,6 +12,10 @@
 
 	use Framework\Application\UtilitiesV2\Conventions\InputData;
 
+	/**
+	 * Class Tab
+	 * @package Framework\Syscrack\Game
+	 */
 	class Tab
 	{
 

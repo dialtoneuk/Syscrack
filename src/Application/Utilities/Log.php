@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\Utilities;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\Settings;
 
 
+	/**
+	 * Class Log
+	 * @package Framework\Application\Utilities
+	 */
 	class Log
 	{
 
@@ -123,11 +128,11 @@
 		private static function addToActiveLog(array $array)
 		{
 
-			$data = array(
+			$data = [
 				'time' => time(),
 				'date' => date('d-m-y'),
 				'microtime' => microtime(true)
-			);
+			];
 
 			self::$active_log[] = array_merge($array, $data);
 		}

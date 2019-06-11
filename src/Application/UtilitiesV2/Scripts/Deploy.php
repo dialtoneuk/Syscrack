@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -13,6 +14,10 @@
 	use Framework\Application\UtilitiesV2\OpenSSL;
 	use Framework\Application;
 
+	/**
+	 * Class Deploy
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class Deploy extends Base
 	{
 

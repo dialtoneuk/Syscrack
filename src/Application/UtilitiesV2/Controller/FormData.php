@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -12,6 +13,10 @@
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
 	use Framework\Application;
 
+	/**
+	 * Class FormData
+	 * @package Framework\Application\UtilitiesV2\Controller
+	 */
 	class FormData implements Response
 	{
 
@@ -28,10 +33,17 @@
 		protected $type;
 
 		/**
+		 * @var int
+		 */
+
+		private $time;
+
+		/**
 		 * @var bool
 		 */
 
 		protected $success = true;
+
 
 		/**
 		 * FormData constructor.
@@ -63,11 +75,11 @@
 		public function get()
 		{
 
-			return (array(
+			return ([
 				"success" => $this->success,
 				"data" => $this->data,
 				"type" => $this->type,
 				"time" => $this->time,
-			));
+			]);
 		}
 	}

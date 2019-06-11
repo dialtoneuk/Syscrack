@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Computers;
 
@@ -21,9 +22,9 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'installable' => true,
 				'type' => 'isp'
-			);
+			];
 		}
 	}

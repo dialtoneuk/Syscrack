@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Pages;
 
@@ -15,6 +16,10 @@
 	use Framework\Application\Settings;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Error
+	 * @package Framework\Views\Pages
+	 */
 	class Error extends BaseClass
 	{
 
@@ -37,11 +42,11 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'/error/', 'page'
 				]
-			);
+			];
 		}
 
 		/**

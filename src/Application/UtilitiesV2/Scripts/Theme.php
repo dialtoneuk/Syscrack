@@ -1,4 +1,6 @@
 <?php
+	declare(strict_types=1);
+
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
 	use Framework\Syscrack\Game\Themes;

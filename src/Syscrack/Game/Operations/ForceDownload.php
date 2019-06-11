@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -7,6 +8,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Viruses;
 
+	/**
+	 * Class ForceDownload
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class ForceDownload extends BaseOperation
 	{
 
@@ -38,14 +43,14 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => true,
 				'allowlocal' => true,
 				'requiresoftware' => false,
 				'requireloggedin' => true,
 				'allowpost' => false,
 				'allowcustomdata' => true
-			);
+			];
 		}
 
 		/**
@@ -88,8 +93,6 @@
 			if (self::$computer->hasSoftware(self::$internet->computer($data['ipaddress'])->computerid, $data['custom']['softwareid']) == false)
 				return false;
 
-			$software = self::$software->getSoftware($data['custom']['softwareid']);
-
 			return true;
 		}
 
@@ -101,7 +104,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|mixed
+		 * @return bool|null|mixed
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -126,7 +129,15 @@
 			if (self::$computer->hasSoftware($computerid, $new_softwareid) == false)
 				throw new \Error();
 
-			if (isset($data['redirect']) == false)
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
 				return true;
 			else
 				return ($data['redirect']);
@@ -149,7 +160,7 @@
 			if (PostHelper::checkForRequirements(['softwareid']) == false)
 				return null;
 
-			return array('softwareid' => PostHelper::getPostData('softwareid'));
+			return ['softwareid' => PostHelper::getPostData('softwareid')];
 		}
 
 		/**

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -15,6 +16,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 
 
+	/**
+	 * Class Clear
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class Clear extends BaseOperation
 	{
 
@@ -25,11 +30,11 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => false,
 				'allowlocal' => true,
 				'requireloggedin' => true
-			);
+			];
 		}
 
 		/**
@@ -73,7 +78,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool
+		 * @return bool|string|null
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -87,7 +92,15 @@
 
 			self::$log->saveLog($this->getComputerId($data['ipaddress']), []);
 
-			if (isset($data['redirect']) == false)
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
 				return true;
 			else
 				return ($data['redirect']);

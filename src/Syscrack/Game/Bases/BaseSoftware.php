@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Bases;
 
@@ -14,7 +15,7 @@
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
-	use Framework\Syscrack\Game\computer;
+	use Framework\Syscrack\Game\Computer;
 	use Framework\Syscrack\Game\Hardware;
 	use Framework\Syscrack\Game\Internet;
 	use Framework\Syscrack\Game\Log;
@@ -26,6 +27,10 @@
 	use Framework\Syscrack\User;
 	use Illuminate\Support\Collection;
 
+	/**
+	 * Class BaseSoftware
+	 * @package Framework\Syscrack\Game\Bases
+	 */
 	class BaseSoftware implements Software
 	{
 
@@ -100,7 +105,7 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'vspam',
 				'extension' => '.vspam',
 				'type' => 'virus',
@@ -109,7 +114,7 @@
 				'executable' => false,
 				'removable' => false,
 				'logins' => false,
-			);
+			];
 		}
 
 		/**
@@ -400,7 +405,7 @@
 		protected static $cache;
 
 		/**
-		 * @return Collection
+		 * @return Collection|\stdClass
 		 */
 
 		public function currentComputer()

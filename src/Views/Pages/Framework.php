@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Pages;
 
@@ -14,6 +15,10 @@
 	use Framework\Application\Settings;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Framework
+	 * @package Framework\Views\Pages
+	 */
 	class Framework extends BaseClass
 	{
 
@@ -36,7 +41,7 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'/framework/', 'redirectIndex'
 				],
@@ -52,7 +57,7 @@
 				[
 					'/framework/error/notfound/', 'notFound'
 				]
-			);
+			];
 		}
 
 		/**
@@ -72,7 +77,7 @@
 		public function notFound()
 		{
 
-			Render::view('error/page.404', array('page' => $this->getCurrentPage()), $this->model());
+			Render::view('error/page.404', ['page' => $this->getCurrentPage()], $this->model());
 		}
 
 		/**

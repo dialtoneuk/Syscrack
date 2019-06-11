@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database\Tables;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Database\Table;
 
+	/**
+	 * Class Verifications
+	 * @package Framework\Database\Tables
+	 */
 	class Verifications extends Table
 	{
 
@@ -26,9 +31,9 @@
 		public function getRequest($verifyid)
 		{
 
-			$array = array(
+			$array = [
 				'verifyid' => $verifyid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -46,9 +51,9 @@
 		public function getToken($token)
 		{
 
-			$array = array(
+			$array = [
 				'token' => $token
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -66,9 +71,9 @@
 		public function getUserRequests($userid)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -84,9 +89,9 @@
 		public function deleteUserRequests($userid)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			$this->getTable()->where($array)->delete();
 		}
@@ -100,9 +105,9 @@
 		public function deleteRequest($verifyid)
 		{
 
-			$array = array(
+			$array = [
 				'verifyid' => $verifyid
-			);
+			];
 
 			$this->getTable()->where($array)->delete();
 		}

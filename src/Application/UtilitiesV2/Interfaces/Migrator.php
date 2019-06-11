@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -9,6 +10,10 @@
 	namespace Framework\Application\UtilitiesV2\Interfaces;
 
 
+	/**
+	 * Interface Migrator
+	 * @package Framework\Application\UtilitiesV2\Interfaces
+	 */
 	interface Migrator
 	{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -14,6 +15,10 @@
 	use Framework\Application\Utilities\FileSystem;
 
 
+	/**
+	 * Class AddressDatabase
+	 * @package Framework\Syscrack\Game
+	 */
 	class AddressDatabase
 	{
 
@@ -140,10 +145,10 @@
 				$this->database = $this->getUserDatabase($userid);
 			}
 
-			$this->database[] = array(
+			$this->database[] = [
 				'ipaddress' => $ipaddress,
 				'timehacked' => time()
-			);
+			];
 
 			$this->saveDatabase($userid);
 		}
@@ -170,9 +175,9 @@
 			if ($this->hasAddress($ipaddress, $userid) == false)
 				return;
 
-			array_merge($this->database[$this->getKeyOfAddress($ipaddress, $userid)], array(
+			array_merge($this->database[$this->getKeyOfAddress($ipaddress, $userid)], [
 				'virus' => $softwareid
-			));
+			]);
 
 			$this->saveDatabase($userid);
 		}

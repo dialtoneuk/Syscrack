@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 	use Framework\Syscrack\Game\Tool;
 
+	/**
+	 * Class Research
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class Research extends BaseSoftware
 	{
 
@@ -25,7 +30,7 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'research',
 				'extension' => '.rsch',
 				'type' => 'research',
@@ -36,7 +41,7 @@
 				'localexecuteonly' => true,
 				'keepdata' => false,
 				'icon' => 'glyphicon-apple'
-			);
+			];
 		}
 
 		/**

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 
+	/**
+	 * Class Watchdog
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class Watchdog extends BaseSoftware
 	{
 
@@ -24,13 +29,13 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'watchdog',
 				'extension' => '.wch',
 				'type' => 'watchdog',
 				'installable' => true,
 				'executable' => true,
 				'logins' => true
-			);
+			];
 		}
 	}

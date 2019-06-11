@@ -1,16 +1,15 @@
 <?php
-	namespace _namespace_;
+	declare(strict_types=1); //Created at %time% by %pid%
 
-	/**
-	 * Class _classname_
-	 *
-	 * Automatically created at: _time_
-	 * @package _namespace_
-	 */
+	namespace %namespace%;
 
 	use Framework\Application\UtilitiesV2\Convention;
 
-	class _classname_ extends Convention
+	/**
+	 * Class %classname%
+	 * @package %namespace%
+	 */
+	class %classname% extends Convention
 	{
 
 	    /**
@@ -25,7 +24,7 @@
 	     *  "admin"     => "bool"   : Specifies that this should be a bool
 	     *  "admin"     => "int"    : Specifies that this should be a number
 	     *  "dynamic"   => null     : Specifies that it is a "dynamic" field, thus may or may not have a value
-	     * @var array
+	     * %var array
 	     */
 
 	    protected $requirements = [];

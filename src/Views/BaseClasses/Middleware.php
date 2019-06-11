@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\BaseClasses;
 
@@ -14,22 +15,35 @@
 	use Framework\Application\Settings;
 	use Framework\Views\Structures\Middleware as Structure;
 
+	/**
+	 * Class Middleware
+	 * @package Framework\Views\BaseClasses
+	 */
 	class Middleware implements Structure
 	{
 
 
+		/**
+		 * @return bool|mixed
+		 */
 		public function onRequest()
 		{
 
 			return( true );
 		}
 
+		/**
+		 * @return bool|mixed
+		 */
 		public function onSuccess()
 		{
 
 			return( true );
 		}
 
+		/**
+		 * @return bool|mixed
+		 */
 		public function onFailure()
 		{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -12,6 +13,10 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\UtilitiesV2\Interfaces\Script;
 
+	/**
+	 * Class Scripts
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class Scripts
 	{
 
@@ -167,7 +172,7 @@
 				Debug::echo("Getting instance of " . $name, 1);
 
 			/**
-			 * @var $script Script
+			 * @var Script $script
 			 */
 
 			$script = $this->constructor->get($script);
@@ -267,7 +272,7 @@
 				Debug::echo("Getting instance of " . $name, 1);
 
 			/**
-			 * @var $script Script
+			 * @var Script $script
 			 */
 
 			$script = $this->constructor->get($script);
@@ -333,7 +338,7 @@
 			return( shell_exec( $command ) );
 		}
 		/**
-		 * @param $script Script
+		 * @param Script $script
 		 *
 		 * @return bool
 		 */

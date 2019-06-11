@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\UtilitiesV2\Makers;
 	use Framework\Application\UtilitiesV2\TokenReader;
 
+	/**
+	 * Class Make
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class Make extends Base
 	{
 

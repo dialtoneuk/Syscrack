@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Computers;
 
@@ -31,12 +32,12 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'installable'   => false,
 				'type'          => 'download',
 				'data'          => true,
 				'reloadable'    => true
-			);
+			];
 		}
 
 		/**

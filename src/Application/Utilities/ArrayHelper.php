@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\Utilities;
 
@@ -92,7 +93,7 @@
 				return $array[0];
 			}
 
-			$sort = array();
+			$sort = [];
 
 			foreach ($array as $key => $value)
 			{

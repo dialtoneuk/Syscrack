@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -11,6 +12,10 @@
 	use Framework\Syscrack\Game\Tab;
 	use Framework\Syscrack\Game\Tabs;
 
+	/**
+	 * Class TabsTest
+	 * @package Framework\Tests
+	 */
 	class TabsTest extends BaseTestCase
 	{
 
@@ -42,18 +47,18 @@
 			});
 
 			self::$tabs->add( $tab );
-			$this->assertNotEmpty( self::$tabs->get() );
+			static::assertNotEmpty( self::$tabs->get() );
 		}
 
 		public function testPost()
 		{
 
-			$this->assertTrue( self::$tabs->post('default',0,0,0) );
+			static::assertTrue( self::$tabs->post('default',0,0,0) );
 		}
 
 		public function testData()
 		{
 
-			$this->assertTrue( self::$tabs->data('default',0,0,0) );
+			static::assertTrue( self::$tabs->data('default',0,0,0) );
 		}
 	}

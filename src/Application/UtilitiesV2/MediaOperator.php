@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -13,6 +14,10 @@
 	use FFMpeg\Format\Audio\Wav;
 	use Framework\Application;
 
+	/**
+	 * Class MediaOperator
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class MediaOperator
 	{
 
@@ -58,12 +63,12 @@
 			else
 				$path = SYSCRACK_ROOT . $this->config->root;
 
-			$this->ffmpeg = FFMpeg::create(array(
+			$this->ffmpeg = FFMpeg::create([
 				'ffmpeg.binaries' => $path . $this->config->files->ffmpeg,
 				'ffprobe.binaries' => $path . $this->config->files->ffprobe,
 				'timeout' => $this->config->timeout,
 				'ffmpeg.threads' => $this->config->threads
-			));
+			]);
 
 			$this->filepath = $filepath;
 		}

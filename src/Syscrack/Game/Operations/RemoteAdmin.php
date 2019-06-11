@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -17,6 +18,10 @@
 	use Framework\Syscrack\Game\Finance;
 
 
+	/**
+	 * Class RemoteAdmin
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class RemoteAdmin extends BaseOperation
 	{
 
@@ -48,13 +53,13 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => false,
 				'allowlocal' => false,
 				'requiresoftware' => false,
 				'requireloggedin' => false,
 				'allowpost' => true
-			);
+			];
 		}
 
 		/**
@@ -94,7 +99,6 @@
 			if ($this->checkData($data, ['ipaddress']) == false)
 				return false;
 
-
 			$computer = self::$internet->computer($data['ipaddress']);
 
 			if ($computer->type != Settings::setting('syscrack_computers_bank_type'))
@@ -131,7 +135,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -142,16 +146,25 @@
 
 			if (self::$finance->accountNumberExists(self::$finance->getCurrentActiveAccount()) == false)
 				return false;
+
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
 			else
 				$this->render('operations/operations.bank.adminaccount',
-					array(
+					[
 						'ipaddress' => $data['ipaddress'],
 						'userid' => $userid,
 						'account' => self::$finance->getByAccountNumber(self::$finance->getCurrentActiveAccount()),
 						'accounts' => self::$finance->getUserBankAccounts($userid),
 						'accounts_location' => $this->getAddresses(self::$finance->getUserBankAccounts($userid)),
 						'computer' => self::$internet->computer($data['ipaddress'])
-					), true);
+					], true);
 
 			return null;
 		}

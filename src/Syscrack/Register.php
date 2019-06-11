@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack;
 
@@ -15,6 +16,10 @@
 	use Framework\Database\Tables\Users as Database;
 
 
+	/**
+	 * Class Register
+	 * @package Framework\Syscrack
+	 */
 	class Register
 	{
 
@@ -176,13 +181,13 @@
 				$group = Settings::setting('user_default_group');
 			}
 
-			$array = array(
+			$array = [
 				'username' => $username,
 				'email' => $email,
 				'password' => $password,
 				'salt' => $salt,
 				'group' => $group
-			);
+			];
 
 			return $array;
 		}

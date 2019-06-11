@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -16,6 +17,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Finance;
 
+	/**
+	 * Class CrackAccount
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class CrackAccount extends BaseOperation
 	{
 
@@ -56,14 +61,14 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => false,
 				'allowlocal' => false,
 				'requiresoftware' => false,
 				'requireloggedin' => true,
 				'allowpost' => false,
 				'allowcustomdata' => true,
-			);
+			];
 		}
 
 		/**
@@ -117,7 +122,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool
+		 * @return bool|string|null
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -139,7 +144,18 @@
 			$this->logLocal($computerid, $data['custom']['accountnumber'], $data['ipaddress']);
 			$this->redirect( $this->getRedirect($data['ipaddress']) );
 
-			return true;
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
+				return true;
+			else
+				return ($data['redirect']);
 		}
 
 		/**
@@ -185,9 +201,9 @@
 				return null;
 			}
 
-			return array(
+			return [
 				'accountnumber' => PostHelper::getPostData('accountnumber')
-			);
+			];
 		}
 
 		/**

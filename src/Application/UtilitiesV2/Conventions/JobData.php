@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Conventions;
 
@@ -10,6 +11,10 @@
 
 	use Framework\Application\UtilitiesV2\Convention;
 
+	/**
+	 * Class JobData
+	 * @package Framework\Application\UtilitiesV2\Conventions
+	 */
 	class JobData extends Convention
 	{
 

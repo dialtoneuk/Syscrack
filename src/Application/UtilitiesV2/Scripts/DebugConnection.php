@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -11,6 +12,10 @@
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\UtilitiesV2\Debug;
 
+	/**
+	 * Class DebugConnection
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class DebugConnection extends Base
 	{
 
@@ -28,7 +33,7 @@
 				$this->initDatabase();
 
 			/**
-			 * @var $database \Illuminate\Database\Capsule\Manager
+			 * @var \Illuminate\Database\Capsule\Manager $database
 			 */
 			$database = Container::get('database');
 
@@ -54,6 +59,9 @@
 			return (true);
 		}
 
+		/**
+		 * @return array|null
+		 */
 		public function requiredArguments()
 		{
 

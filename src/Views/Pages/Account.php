@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Pages;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Account
+	 * @package Framework\Views\Pages
+	 */
 	class Account extends BaseClass
 	{
 
@@ -34,7 +39,7 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'/account/logout/', 'logout'
 				],
@@ -44,7 +49,7 @@
 				[
 					'POST /account/settings/', "settingsProcess"
 				],
-			);
+			];
 		}
 
 		public function settings()

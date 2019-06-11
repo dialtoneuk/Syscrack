@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -14,6 +15,10 @@
 
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 
+	/**
+	 * Class AnonDownload
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class AnonDownload extends BaseOperation
 	{
 
@@ -26,14 +31,14 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowlocal' => false,
 				'allowsoftware' => true,
 				'allowanonymous' => true,
 				'requiresoftware' => true,
 				'requireloggedin' => false,
 				'elevated' => true,
-			);
+			];
 		}
 
 		/**
@@ -79,18 +84,14 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|string
+		 * @return bool|string|null
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
 		{
 
-
 			if ($this->checkData($data) == false)
 				return false;
-
-			$computer = self::$internet->computer($data['ipaddress']);
-			$software = self::$software->getSoftware($data['softwareid']);
 
 			if (self::$internet->ipExists($data['ipaddress']) == false)
 				return false;
@@ -100,7 +101,15 @@
 			$new_software = self::$software->getSoftware(self::$software->copySoftware($data['softwareid'], self::$computer->computerid(), $userid));
 			self::$computer->addSoftware(self::$computer->computerid(), $new_software->softwareid, $new_software->type);
 
-			if (isset($data['redirect']) == false)
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
 				return true;
 			else
 				return ($data['redirect']);

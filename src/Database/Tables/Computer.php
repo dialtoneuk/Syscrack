@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database\Tables;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Database\Table;
 
+	/**
+	 * Class Computer
+	 * @package Framework\Database\Tables
+	 */
 	class Computer extends Table
 	{
 
@@ -50,9 +55,9 @@
 		public function getComputer($computerid)
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -66,9 +71,9 @@
 		public function delete( $computerid )
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid
-			);
+			];
 
 			$this->getTable()->where($array)->delete();
 		}
@@ -84,9 +89,9 @@
 		public function getComputersByUser($userid)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -104,9 +109,9 @@
 		public function getComputerByIPAddress($ipaddress)
 		{
 
-			$array = array(
+			$array = [
 				'ipaddress' => $ipaddress
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -124,9 +129,9 @@
 		public function getComputerByType($computertype)
 		{
 
-			$array = array(
+			$array = [
 				'computertype' => $computertype
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -158,9 +163,9 @@
 		public function updateComputer($computerid, $values)
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid
-			);
+			];
 
 			$this->getTable()->where($array)->update($values);
 		}

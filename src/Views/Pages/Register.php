@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Pages;
 
@@ -19,6 +20,10 @@
 	use Framework\Syscrack\Register as Account;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Register
+	 * @package Framework\Views\Pages
+	 */
 	class Register extends BaseClass
 	{
 
@@ -59,14 +64,14 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'GET /register/', 'page'
 				],
 				[
 					'POST /register/', 'process'
 				]
-			);
+			];
 		}
 
 		/**
@@ -130,7 +135,7 @@
 
 						if (Settings::setting('registration_verification'))
 						{
-							$this->sendEmail($email, array('token' => $result));
+							$this->sendEmail($email, ['token' => $result]);
 							$this->redirect('verify');
 						}
 						else
@@ -174,4 +179,6 @@
 
 			return true;
 		}
+
+		public function verification() { }
 	}

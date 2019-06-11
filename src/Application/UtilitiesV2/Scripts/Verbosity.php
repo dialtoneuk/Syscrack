@@ -1,4 +1,6 @@
 <?php
+	declare(strict_types=1);
+
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
 	use Framework\Application\UtilitiesV2\Container;
@@ -29,7 +31,7 @@
 	    		throw new \Error("Scripts global class does not exist");
 
 		    /**
-		     * @var $scripts Scripts
+		     * @var Scripts $scripts
 		     */
 	    	$scripts = Container::get('scripts');
 	    	$arguments = array_keys( $arguments );

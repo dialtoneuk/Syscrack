@@ -1,9 +1,14 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Pages;
 
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Index
+	 * @package Framework\Views\Pages
+	 */
 	class Index extends BaseClass
 	{
 		
@@ -28,14 +33,14 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'/', 'page'
 				],
 				[
 					'/index/', 'page'
 				]
-			);
+			];
 		}
 
 		/**

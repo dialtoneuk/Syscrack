@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -12,6 +13,10 @@
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Interfaces\Setup;
 
+	/**
+	 * Class Base
+	 * @package Framework\Application\UtilitiesV2\Setups
+	 */
 	abstract class Base implements Setup
 	{
 

@@ -1,20 +1,19 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Makers;
-
-	/**
-	 * Created by PhpStorm.
-	 * User: lewis
-	 * Date: 31/08/2018
-	 * Time: 22:11
-	 */
 
 	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use Framework\Application\UtilitiesV2\Conventions\TokenData;
 	use Framework\Application\UtilitiesV2\FileOperator;
 	use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\UtilitiesV2\Format;
 
+	/**
+	 * Class Maker
+	 * @package Framework\Application\UtilitiesV2\Makers
+	 */
 	class Maker extends Base
 	{
 
@@ -75,6 +74,6 @@
 		public function namespace(): string
 		{
 
-			return( substr( Application::globals()->MAKER_NAMESPACE,0, strlen( Application::globals()->MAKER_NAMESPACE ) - 1 ) );
+			return( Format::rc( Application::globals()->MAKER_NAMESPACE ) );
 		}
 	}

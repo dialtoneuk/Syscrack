@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -15,6 +16,10 @@
 	use Framework\Database\Tables\Banks;
 	use Framework\Database\Tables\Computer;
 
+	/**
+	 * Class Finance
+	 * @package Framework\Syscrack\Game
+	 */
 	class Finance
 	{
 
@@ -220,7 +225,7 @@
 		 *
 		 * @param $accountnumber
 		 *
-		 * @return \Illuminate\Support\Collection|null
+		 * @return \Illuminate\Support\Collection|null|\stdClass
 		 */
 
 		public function getByAccountNumber($accountnumber)
@@ -298,13 +303,13 @@
 			if ($this->getAccountAtBank($computerid, $userid) !== null)
 				throw new \Error();
 
-			self::$banks->insertAccount(array(
+			self::$banks->insertAccount([
 				'computerid' => $computerid,
 				'userid' => $userid,
 				'accountnumber' => $this->getAccountNumber(),
 				'cash' => Settings::setting('syscrack_bank_default_balance'),
 				'timecreated' => time()
-			));
+			]);
 
 			return $this->getAccountNumber();
 		}
@@ -322,9 +327,9 @@
 		public function deposit($computerid, $userid, $amount)
 		{
 
-			self::$banks->updateAccount($computerid, $userid, array(
+			self::$banks->updateAccount($computerid, $userid, [
 				'cash' => $this->getUserCash($computerid, $userid) + $amount
-			));
+			]);
 		}
 
 		/**
@@ -340,9 +345,9 @@
 		public function withdraw($computerid, $userid, $amount)
 		{
 
-			self::$banks->updateAccount($computerid, $userid, array(
+			self::$banks->updateAccount($computerid, $userid, [
 				'cash' => $this->getUserCash($computerid, $userid) - $amount
-			));
+			]);
 		}
 
 		/**

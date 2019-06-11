@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Makers;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\UtilitiesV2\FileOperator;
 	use Framework\Application;
 
+	/**
+	 * Class Convention
+	 * @package Framework\Application\UtilitiesV2\Makers
+	 */
 	class Convention extends Base
 	{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Computers;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Application\Settings;
 
+	/**
+	 * Class Whois
+	 * @package Framework\Syscrack\Game\Computers
+	 */
 	class Whois extends Npc
 	{
 
@@ -24,12 +29,12 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'installable' => false,
 				'type' => 'whois',
 				'data' => true,
 				'reloadable' => true,
-			);
+			];
 		}
 
 		/**

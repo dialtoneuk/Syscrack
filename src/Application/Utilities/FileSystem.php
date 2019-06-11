@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\Utilities;
 
@@ -10,10 +11,15 @@
 	 * @package Framework\Application\Utilities
 	 */
 
+	use Framework\Application;
 	use Framework\Application\Settings;
 	use Framework\Application\UtilitiesV2\Debug;
 
 
+	/**
+	 * Class FileSystem
+	 * @package Framework\Application\Utilities
+	 */
 	class FileSystem
 	{
 
@@ -186,6 +192,9 @@
 			}
 
 			file_put_contents(self::getFilePath($file), $data);
+
+			if( $permission )
+				@chown( self::getFilePath( $file ), Application::globals()->FILESYSTEM_DEFAULT_PERM );
 		}
 
 		/**

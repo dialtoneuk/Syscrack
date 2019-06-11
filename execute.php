@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	/**
 	 * Check if composer has been installed

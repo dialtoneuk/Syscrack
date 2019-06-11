@@ -3,7 +3,7 @@
 
 	/**
 	 * Class Globals
-	 * Created on 2019-06-11 00:55:32 by 26644
+	 * Created on 2019-06-11 02:47:47 by 29080
 	 * @package Framework\Application\UtilitiesV2
 	 *
 	 * @property string SYSCRACK_URL_ROOT /
@@ -65,7 +65,7 @@
 	 * @property string GOOGLE_CLOUD_CREDENTIALS data/config/storage/google.json
 	 * @property string STORAGE_CONFIG_ROOT cdata/config/storage/
 	 * @property string STORAGE_SETTINGS_FILE settings.json
-	 * @property double SYSCRACK_TIME_START 1560207325.4863
+	 * @property double SYSCRACK_TIME_START 1560214060.1672
 	 * @property string FLIGHT_JQUERY_FILE jquery-3.3.1.min.js
 	 * @property boolean FLIGHT_CONTENT_OBJECT 1
 	 * @property string FLIGHT_MODEL_DEFINITION model
@@ -196,6 +196,7 @@
 	 * @property string OPERATIONS_FILEPATH src\/Syscrack\/Game\/Operations\/
 	 * @property string CONTROLLER_NAMESPACE Framework\Views\Pages\
 	 * @property string CONTROLLER_FILEPATH src\/Views\/Pages\/
+	 * @property string FILESYSTEM_DEFAULT_PERM 0777
 
 	 *
 	 */

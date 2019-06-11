@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views;
 
@@ -12,12 +13,15 @@
 
 	use Error;
 	use Framework\Application;
-	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
 
 	use Framework\Views\Structures\Middleware;
 
+	/**
+	 * Class Middlewares
+	 * @package Framework\Views
+	 */
 	class Middlewares
 	{
 
@@ -271,7 +275,7 @@
 		private function format($files)
 		{
 
-			$array = array();
+			$array = [];
 
 			foreach ($files as $file)
 			{

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database\Tables;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Database\Table;
 
+	/**
+	 * Class Sessions
+	 * @package Framework\Database\Tables
+	 */
 	class Sessions extends Table
 	{
 
@@ -26,9 +31,9 @@
 		public function getSession($sessionid)
 		{
 
-			$array = array(
+			$array = [
 				'sessionid' => $sessionid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -44,9 +49,9 @@
 		public function trashUserSessions($userid)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			$this->getTable()->where($array)->delete();
 		}
@@ -62,9 +67,9 @@
 		public function getByUserAgent($useragent)
 		{
 
-			$array = array(
+			$array = [
 				'useragent' => $useragent
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -108,9 +113,9 @@
 		public function trashSession($sessionid)
 		{
 
-			$array = array(
+			$array = [
 				'sessionid' => $sessionid
-			);
+			];
 
 			$this->getTable()->where($array)->delete();
 		}
@@ -126,9 +131,9 @@
 		public function updateSession($sessionid, $values)
 		{
 
-			$array = array(
+			$array = [
 				'sessionid' => $sessionid
-			);
+			];
 
 			$this->getTable()->where($array)->update($values);
 		}

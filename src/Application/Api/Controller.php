@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\Api;
 
@@ -17,6 +18,10 @@
 
 	use ReflectionClass;
 
+	/**
+	 * Class Controller
+	 * @package Framework\Application\Api
+	 */
 	class Controller
 	{
 
@@ -135,7 +140,7 @@
 					throw new \Error();
 				}
 
-				return call_user_func_array(array($endpoint, $method), $requirements);
+				return call_user_func_array([$endpoint, $method], $requirements);
 			}
 
 			return $endpoint->{$method};
@@ -252,6 +257,12 @@
 			return false;
 		}
 
+		/**
+		 * @param $class
+		 * @param $method
+		 *
+		 * @return bool
+		 */
 		private function methodExists($class, $method)
 		{
 

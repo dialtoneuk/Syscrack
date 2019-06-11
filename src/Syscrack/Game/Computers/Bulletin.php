@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -11,6 +12,10 @@
 
 	use Framework\Syscrack\Game\Interfaces\Computer;
 
+	/**
+	 * Class Bulletin
+	 * @package Framework\Syscrack\Game\Computers
+	 */
 	class Bulletin extends Npc implements Computer
 	{
 
@@ -23,10 +28,10 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'installable'   => false,
 				'type'          => 'bulletin',
 				'reloadable'    => true
-			);
+			];
 		}
 	}

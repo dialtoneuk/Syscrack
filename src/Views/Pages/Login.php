@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Pages;
 
@@ -17,6 +18,10 @@
 	use Framework\Syscrack\Login\Account;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Login
+	 * @package Framework\Views\Pages
+	 */
 	class Login extends BaseClass
 	{
 
@@ -49,14 +54,14 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'GET /login/', 'page'
 				],
 				[
 					'POST /login/', 'process'
 				]
-			);
+			];
 		}
 
 		/**

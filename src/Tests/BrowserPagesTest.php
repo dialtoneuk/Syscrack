@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\BrowserPages;
 
+	/**
+	 * Class BrowserPagesTest
+	 * @package Framework\Tests
+	 */
 	class BrowserPagesTest extends BaseTestCase
 	{
 
@@ -31,6 +36,6 @@
 		public function testGenerate()
 		{
 
-			$this->assertNotEmpty(self::$browserpages->get());
+			static::assertNotEmpty(self::$browserpages->get());
 		}
 	}

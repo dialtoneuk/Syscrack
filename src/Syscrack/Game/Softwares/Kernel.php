@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 	use Framework\Syscrack\Game\Tool;
 
+	/**
+	 * Class Kernel
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class Kernel extends BaseSoftware
 	{
 
@@ -25,14 +30,14 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'kernel',
 				'extension' => '.exe',
 				'type' => 'kernel',
 				'installable' => true,
 				'executable' => true,
 				'localexecuteonly' => true,
-			);
+			];
 		}
 
 		/**

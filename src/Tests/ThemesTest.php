@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\Themes;
 
+	/**
+	 * Class ThemesTest
+	 * @package Framework\Tests
+	 */
 	class ThemesTest extends BaseTestCase
 	{
 
@@ -30,14 +35,14 @@
 		public function testCurrentTheme()
 		{
 
-			$this->assertNotEmpty(self::$themes->currentTheme());
+			static::assertNotEmpty(self::$themes->currentTheme());
 		}
 
 		public function testRequiresMVC()
 		{
 
 			self::$themes->getThemes();
-			$this->assertTrue(self::$themes->requiresMVC(self::$theme));
+			static::assertTrue(self::$themes->requiresMVC(self::$theme));
 		}
 
 		public function testGather()
@@ -45,47 +50,47 @@
 
 			$folders = self::$themes->getFolders();
 
-			$this->assertNotEmpty($folders);
-			$this->assertNotEmpty(self::$themes->gather($folders));
+			static::assertNotEmpty($folders);
+			static::assertNotEmpty(self::$themes->gather($folders));
 		}
 
 		public function testGetTheme()
 		{
 
-			$themes = self::$themes->getThemes();
-			$this->assertNotEmpty(self::$themes->getTheme(self::$theme));
+			self::$themes->getThemes();
+			static::assertNotEmpty(self::$themes->getTheme(self::$theme));
 		}
 
 		public function testMvcOutput()
 		{
 
-			$this->assertIsBool(self::$themes->mvcOutput());
+			static::assertIsBool(self::$themes->mvcOutput());
 		}
 
 		public function testGetData()
 		{
 
 			self::$themes->getThemes();
-			$this->assertNotEmpty(self::$themes->getData(self::$theme));
+			static::assertNotEmpty(self::$themes->getData(self::$theme));
 		}
 
 		public function testGetThemes()
 		{
 
 			$result = self::$themes->getThemes();
-			$this->assertNotEmpty($result);
+			static::assertNotEmpty($result);
 		}
 
 		public function testThemeExists()
 		{
 
 			self::$themes->getThemes();
-			$this->assertTrue(self::$themes->themeExists(self::$theme));
+			static::assertTrue(self::$themes->themeExists(self::$theme));
 		}
 
 		public function testGetFolders()
 		{
 
-			$this->assertNotEmpty(self::$themes->getFolders());
+			static::assertNotEmpty(self::$themes->getFolders());
 		}
 	}

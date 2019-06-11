@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
 
+	/**
+	 * Class Statistics
+	 * @package Framework\Syscrack\Game
+	 */
 	class Statistics
 	{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2;
 
@@ -17,6 +18,10 @@
 	use Delight\FileUpload\Throwable\InvalidFilenameException;
 	use Delight\FileUpload\Throwable\UploadCancelledException;
 
+	/**
+	 * Class FileUpload
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class FileUpload
 	{
 
@@ -115,6 +120,9 @@
 			$this->delight->withMaximumSizeInMegabytes($file_size);
 		}
 
+		/**
+		 * @param \Exception|null $error
+		 */
 		private static function setLastError(\Exception $error = null)
 		{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\Metadata;
 
+	/**
+	 * Class MetadataTest
+	 * @package Framework\Tests
+	 */
 	class MetadataTest extends BaseTestCase
 	{
 
@@ -51,19 +56,19 @@
 			self::$metadata->create(self::$computerid, Metadata::generateData("Test",
 				"npc", [], [], []));
 
-			$this->assertTrue(self::$metadata->exists(self::$computerid));
+			static::assertTrue(self::$metadata->exists(self::$computerid));
 		}
 
 
 		public function testExists()
 		{
 
-			$this->assertTrue(self::$metadata->exists(self::$computerid));
+			static::assertTrue(self::$metadata->exists(self::$computerid));
 		}
 
 		public function testGet()
 		{
 
-			$this->assertNotEmpty(self::$metadata->get(self::$computerid));
+			static::assertNotEmpty(self::$metadata->get(self::$computerid));
 		}
 	}

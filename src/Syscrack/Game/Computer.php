@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -18,6 +19,10 @@
 	use Framework\Database\Tables\Computer as Database;
 	use Framework\Syscrack\Game\Interfaces\Computer as Structure;
 
+	/**
+	 * Class Computer
+	 * @package Framework\Syscrack\Game
+	 */
 	class Computer
 	{
 
@@ -188,7 +193,7 @@
 				}
 
 				/**
-				 * @var $class Structure
+				 * @var Structure $class
 				 */
 
 				if ($class->configuration()['type'] == $type)
@@ -284,9 +289,9 @@
 		public function changeIPAddress($computerid, $address)
 		{
 
-			$array = array(
+			$array = [
 				'ipaddress' => $address
-			);
+			];
 
 			self::$database->updateComputer($computerid, $array);
 		}
@@ -300,9 +305,9 @@
 		public function format($computerid)
 		{
 
-			$array = array(
+			$array = [
 				'software' => json_encode([])
-			);
+			];
 
 			self::$database->updateComputer($computerid, $array);
 		}
@@ -316,9 +321,9 @@
 		public function resetHardware($computerid)
 		{
 
-			$array = array(
+			$array = [
 				'hardware' => json_encode([])
-			);
+			];
 
 			self::$database->updateComputer($computerid, $array);
 		}
@@ -334,9 +339,9 @@
 		public function setHardware($computerid, array $hardware)
 		{
 
-			$array = array(
+			$array = [
 				'hardware' => json_encode($hardware)
-			);
+			];
 
 			self::$database->updateComputer($computerid, $array);
 		}
@@ -436,13 +441,13 @@
 		public function createComputer($userid, $type, $ipaddress, $software = [], $hardware = [])
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid,
 				'type' => $type,
 				'ipaddress' => $ipaddress,
 				'software' => json_encode($software),
 				'hardware' => json_encode($hardware)
-			);
+			];
 
 			return self::$database->insertComputer($array);
 		}
@@ -462,15 +467,15 @@
 
 			$software = $this->getComputerSoftware($computerid);
 
-			$software[] = array(
+			$software[] = [
 				'softwareid' => $softwareid,
 				'type' => $type,
 				'installed' => false,
 				'timeinstalled' => time(),
 				'userid' => $userid
-			);
+			];
 
-			self::$database->updateComputer($computerid, array('software' => json_encode($software)));
+			self::$database->updateComputer($computerid, ['software' => json_encode($software)]);
 		}
 
 		/**
@@ -502,7 +507,7 @@
 				}
 			}
 
-			self::$database->updateComputer($computerid, array('software' => json_encode($software)));
+			self::$database->updateComputer($computerid, ['software' => json_encode($software)]);
 		}
 
 		/**
@@ -534,7 +539,7 @@
 				}
 			}
 
-			self::$database->updateComputer($computerid, array('software' => json_encode($software)));
+			self::$database->updateComputer($computerid, ['software' => json_encode($software)]);
 		}
 
 		/**
@@ -566,7 +571,7 @@
 				}
 			}
 
-			self::$database->updateComputer($computerid, array('software' => json_encode($software)));
+			self::$database->updateComputer($computerid, ['software' => json_encode($software)]);
 		}
 
 
@@ -639,7 +644,7 @@
 
 			$software = $this->getComputerSoftware($computerid);
 
-			$result = array();
+			$result = [];
 
 			foreach ($software as $key => $value)
 			{

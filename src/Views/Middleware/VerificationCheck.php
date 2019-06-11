@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Middleware;
 
@@ -15,6 +16,10 @@
 	use Framework\Syscrack\Verification;
 	use Framework\Views\BaseClasses\Middleware;
 
+	/**
+	 * Class VerificationCheck
+	 * @package Framework\Views\Middleware
+	 */
 	class VerificationCheck extends Middleware
 	{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Computers;
 
@@ -14,6 +15,10 @@
 	use Framework\Syscrack\Game\Bases\BaseComputer;
 	use Framework\Syscrack\Game\Finance;
 
+	/**
+	 * Class Bank
+	 * @package Framework\Syscrack\Game\Computers
+	 */
 	class Bank extends BaseComputer
 	{
 
@@ -45,11 +50,11 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'installable' => false,
 				'type' => 'bank',
 				'reloadable' => true,
-			);
+			];
 		}
 
 		/**

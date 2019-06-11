@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -13,6 +14,10 @@
 	use Framework\Application\UtilitiesV2\Convention;
 	use Framework\Application\UtilitiesV2\Conventions\ComputerData;
 
+	/**
+	 * Class Metadata
+	 * @package Framework\Syscrack\Game
+	 */
 	class Metadata
 	{
 
@@ -50,7 +55,7 @@
 		{
 
 			/**
-			 * @var $object Convention
+			 * @var Convention $object
 			 */
 			$object = self::dataInstance($values, true);
 

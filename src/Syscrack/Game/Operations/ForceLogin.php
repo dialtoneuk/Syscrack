@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 
 
+	/**
+	 * Class ForceLogin
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class ForceLogin extends BaseOperation
 	{
 
@@ -23,12 +28,17 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => false,
 				'allowlocal' => false
-			);
+			];
 		}
 
+		/**
+		 * @param null $ipaddress
+		 *
+		 * @return string
+		 */
 		public function url($ipaddress = null)
 		{
 
@@ -73,7 +83,7 @@
 		 *
 		 * @param array $data
 		 *
-		 * @return mixed
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -89,7 +99,15 @@
 
 			self::$computer->getComputerClass($computer->type)->onLogin($computer->computerid, $data['ipaddress']);
 
-			if (isset($data['redirect']) == false)
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
 				return true;
 			else
 				return ($data['redirect']);
@@ -126,7 +144,7 @@
 		public function getCustomData($ipaddress, $userid)
 		{
 
-			return array();
+			return [];
 		}
 
 		/**

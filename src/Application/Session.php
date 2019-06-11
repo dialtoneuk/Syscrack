@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\Utilities\IPAddress;
 	use Framework\Database\Tables\Sessions as Database;
 
+	/**
+	 * Class Session
+	 * @package Framework\Application
+	 */
 	class Session
 	{
 
@@ -40,7 +45,7 @@
 		public function updateLastAction()
 		{
 
-			self::$database->updateSession(session_id(), array('lastaction' => microtime(true)));
+			self::$database->updateSession(session_id(), ['lastaction' => microtime(true)]);
 		}
 
 		/**
@@ -194,13 +199,13 @@
 				session_regenerate_id(true);
 			}
 
-			$array = array(
+			$array = [
 				'sessionid' => session_id(),
 				'userid' => $userid,
 				'useragent' => $_SERVER['HTTP_USER_AGENT'],
 				'ipaddress' => IPAddress::getAddress(),
 				'lastaction' => microtime(true)
-			);
+			];
 
 			self::$database->insertSession($array);
 		}

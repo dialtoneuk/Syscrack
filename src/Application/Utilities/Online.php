@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\Utilities;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Database\Tables\Sessions;
 
+	/**
+	 * Class Online
+	 * @package Framework\Application\Utilities
+	 */
 	class Online
 	{
 

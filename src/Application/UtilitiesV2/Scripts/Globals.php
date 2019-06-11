@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
@@ -11,9 +12,18 @@
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Format;
 
+	/**
+	 * Class Globals
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class Globals extends Base
 	{
 
+		/**
+		 * @param $arguments
+		 *
+		 * @return bool
+		 */
 		public function execute($arguments)
 		{
 

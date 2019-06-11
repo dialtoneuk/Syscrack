@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -11,6 +12,10 @@
 
 	use Framework\Application\UtilitiesV2\Interfaces\Setup as SetupInterface;
 
+	/**
+	 * Class Setup
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class Setup extends Collection
 	{
 
@@ -48,7 +53,7 @@
 					throw new \Error("Incorrect class type: " . $class);
 
 				/**
-				 * @var $instance Setup
+				 * @var Setup $instance
 				 */
 
 				if ($instance->process() == false)

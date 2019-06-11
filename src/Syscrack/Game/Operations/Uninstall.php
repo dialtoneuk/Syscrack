@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -15,6 +16,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\Game\Viruses;
 
+	/**
+	 * Class Uninstall
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class Uninstall extends BaseOperation
 	{
 
@@ -46,12 +51,12 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => true,
 				'allowlocal' => true,
 				'requiresoftware' => true,
 				'requireloggedin' => true
-			);
+			];
 		}
 
 		/**
@@ -74,33 +79,19 @@
 		{
 
 			if ($this->checkData($data) == false)
-			{
-
 				return false;
-			}
-
-			if (self::$software->softwareExists($data['softwareid']) == false)
-			{
-
+			elseif (self::$software->softwareExists($data['softwareid']) == false)
 				return false;
-			}
 			else
-			{
-
 				if (self::$computer->hasSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']) == false)
-				{
-
 					return false;
-				}
-			}
 
 			if (self::$software->canUninstall($data['softwareid']) == false)
-			{
+				$this->formError('Software cannot be uninstalled');
+			else
+				return true;
 
-				$this->redirectError('You cannot uninstall this software', $this->getRedirect($data['ipaddress']));
-			}
-
-			return true;
+			return false;
 		}
 
 		/**
@@ -111,38 +102,23 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool|mixed
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
 		{
 
 			if ($this->checkData($data) == false)
-			{
-
 				throw new \Error();
-			}
 
 			if (self::$internet->ipExists($data['ipaddress']) == false)
-			{
-
-				$this->redirect($this->getRedirect());
 				return false;
-			}
 
 			if (self::$software->softwareExists($data['softwareid']) == false)
-			{
-
-				$this->redirect($this->getRedirect());
 				return false;
-			}
 
 			if (self::$software->isInstalled($data['softwareid'], $this->getComputerId($data['ipaddress'])) == false)
-			{
-
-				$this->redirect($this->getRedirect());
 				return false;
-			}
 
 			self::$software->uninstallSoftware($data['softwareid']);
 			self::$computer->uninstallSoftware($this->getComputerId($data['ipaddress']), $data['softwareid']);
@@ -153,13 +129,22 @@
 			$this->logLocal($this->getSoftwareName($data['softwareid']),
 				self::$computer->computerid(), $data['ipaddress']);
 
-			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['softwareid']), 'onUninstalled', array(
+			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['softwareid']), 'onUninstalled', [
 				'softwareid' => $data['softwareid'],
 				'userid' => $userid,
 				'computerid' => $this->getComputerId($data['ipaddress'])
-			));
+			]);
 
-			if (isset($data['redirect']) == false)
+
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else if (isset($data['redirect']) == false)
 				return true;
 			else
 				return ($data['redirect']);
@@ -196,7 +181,7 @@
 		public function getCustomData($ipaddress, $userid)
 		{
 
-			return array();
+			return [];
 		}
 
 		/**
@@ -227,10 +212,7 @@
 		{
 
 			if (self::$computer->computerid() == $computerid)
-			{
-
 				return;
-			}
 
 			$this->logToComputer('Uninstalled file (' . $softwarename . ') on root', $computerid, $ipaddress);
 		}

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Application\Render;
 
+	/**
+	 * Class RenderTest
+	 * @package Framework\Tests
+	 */
 	class RenderTest extends BaseTestCase
 	{
 
@@ -19,17 +24,17 @@
 			$assets = Render::getAssets();
 			$result = Render::processAssets( $assets );
 
-			$this->assertNotEmpty( $assets );
-			$this->assertNotEmpty( $result );
-			$this->assertArrayHasKey( "css", $assets );
-			$this->assertArrayHasKey( "css", $result );;
+			static::assertNotEmpty( $assets );
+			static::assertNotEmpty( $result );
+			static::assertArrayHasKey( "css", $assets );
+			static::assertArrayHasKey( "css", $result );;
 		}
 
 		public function testGetAssets()
 		{
 
 			$assets = Render::getAssets();
-			$this->assertNotEmpty( $assets );
-			$this->assertArrayHasKey( "css", $assets );
+			static::assertNotEmpty( $assets );
+			static::assertArrayHasKey( "css", $assets );
 		}
 	}

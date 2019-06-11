@@ -1,16 +1,15 @@
 <?php
-	namespace Framework\Views\Pages;
+	declare(strict_types=1); //Created at %time% by %pid% by %pid%
 
-	/**
-	 * Class _classname_
-	 *
-	 * Automatically created at: _time_
-	 * @package _namespace_
-	 */
+	namespace Framework\Views\Pages;
 
 	use Framework\Views\BaseClasses\Page;
 
-	class _classname_ extends Page
+	/**
+	 * Class %classname%
+	 * @package %namespace%
+	 */
+	class %classname% extends Page
 	{
 
 		/**

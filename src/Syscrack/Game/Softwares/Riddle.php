@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -16,6 +17,10 @@
 	use Framework\Syscrack\Game\Riddles;
 
 
+	/**
+	 * Class Riddle
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class Riddle extends BaseSoftware
 	{
 
@@ -28,7 +33,7 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'riddle',
 				'extension' => '.exe',
 				'type' => 'riddle',
@@ -37,7 +42,7 @@
 				'installable' => true,
 				'executable' => true,
 				'keepdata' => true
-			);
+			];
 		}
 
 		/**
@@ -70,13 +75,13 @@
 					$this->redirectError('Sorry, this riddle is invalid and corrupted.');
 				}
 
-				if (self::$computers->computerExists($data['computerid']) == false)
+				if (self::$computer->computerExists($data['computerid']) == false)
 				{
 
 					$this->redirectError('Sorry, this riddle is invalid and corrupted.');
 				}
 
-				Render::view('syscrack/operations/operations.riddle', array('riddleid' => $data['riddleid']));
+				Render::view('syscrack/operations/operations.riddle', ['riddleid' => $data['riddleid']]);
 
 				exit;
 			}
@@ -107,7 +112,7 @@
 
 							$software = parent::$software->getSoftware($softwareid);
 							$data = json_decode($software->data, true);
-							$computer = self::$computers->getComputer($data['computerid']);
+							$computer = self::$computer->getComputer($data['computerid']);
 
 							$this->redirectSuccess('game/internet/' . $computer->ipaddress);
 						}

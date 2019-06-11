@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -12,6 +13,10 @@
 	use Framework\Application\UtilitiesV2\Interfaces\Migrator as MigratorInterface;
 	use Framework\Application;
 
+	/**
+	 * Class Migrator
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class Migrator
 	{
 
@@ -72,7 +77,7 @@
 					Debug::echo("Starting: " . Application::globals()->MIGRATOR_NAMESPACE . $class, 5);
 
 				/**
-				 * @var $instance MigratorInterface
+				 * @var MigratorInterface $instance
 				 */
 
 				$instance->migrate();

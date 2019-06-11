@@ -1,4 +1,6 @@
 <?php
+	declare(strict_types=1);
+
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
 	use Framework\Application\Utilities\FileSystem;
@@ -206,7 +208,7 @@
 		}
 
 		/**
-		 * @param \Illuminate\Support\Collection $users
+		 * @param \Illuminate\Support\Collection $computers
 		 *
 		 * @return int
 		 */

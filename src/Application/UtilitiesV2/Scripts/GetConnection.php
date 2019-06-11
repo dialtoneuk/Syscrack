@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -11,6 +12,10 @@
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\UtilitiesV2\Debug;
 
+	/**
+	 * Class GetConnection
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class GetConnection extends Base
 	{
 
@@ -27,7 +32,8 @@
 			if (Container::exist("application") == false)
 				$this->initDatabase();
 
-			Debug::echo(print_r(Container::get("application")->connection->connection));
+			Debug::echo(print_r(Container::get('database')->getConnection()->getQueryLog() ) );
+
 			return (true);
 		}
 

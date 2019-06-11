@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
@@ -12,6 +13,10 @@
 	use Framework\Application\UtilitiesV2\Debug as Util;
 	use Framework\Application\UtilitiesV2\Format;
 
+	/**
+	 * Class Debug
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class Debug extends Base
 	{
 

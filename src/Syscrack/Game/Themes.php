@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -13,6 +14,10 @@
 	use Framework\Application\UtilitiesV2\Conventions\ThemeData;
 
 
+	/**
+	 * Class Themes
+	 * @package Framework\Syscrack\Game
+	 */
 	class Themes
 	{
 
@@ -152,6 +157,11 @@
 			return true;
 		}
 
+		/**
+		 * @param $theme
+		 *
+		 * @return bool
+		 */
 		public function hasAssets($theme)
 		{
 
@@ -281,7 +291,7 @@
 		public function gather($folders)
 		{
 
-			$info = array();
+			$info = [];
 
 			foreach ($folders as $folder)
 				$info[$folder] = FileSystem::readJson(

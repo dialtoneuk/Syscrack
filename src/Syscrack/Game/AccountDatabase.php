@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
 
+	/**
+	 * Class AccountDatabase
+	 * @package Framework\Syscrack\Game
+	 */
 	class AccountDatabase
 	{
 
@@ -89,10 +94,10 @@
 		public function addAccountNumber($accountnumber, $ipaddress, $save = true)
 		{
 
-			$this->database[] = array(
+			$this->database[] = [
 				'accountnumber' => $accountnumber,
 				'ipaddress' => $ipaddress
-			);
+			];
 
 			if ($save == true)
 			{

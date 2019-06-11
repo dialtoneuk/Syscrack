@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -11,6 +12,10 @@
 
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
 
+	/**
+	 * Class FormRedirect
+	 * @package Framework\Application\UtilitiesV2\Controller
+	 */
 	class FormRedirect implements Response
 	{
 
@@ -63,10 +68,10 @@
 		public function get()
 		{
 
-			return (array(
+			return ([
 				"success" => $this->success,
 				"url" => $this->url,
 				"delay" => $this->delay
-			));
+			]);
 		}
 	}

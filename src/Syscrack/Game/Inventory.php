@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -14,6 +15,10 @@
 	use Framework\Application\UtilitiesV2\Conventions\ItemData;
 	use Framework\Application\UtilitiesV2\Conventions\InventoryData;
 
+	/**
+	 * Class Inventory
+	 * @package Framework\Syscrack\Game
+	 */
 	class Inventory
 	{
 
@@ -229,4 +234,6 @@
 
 			return new InventoryData( $data );
 		}
+
+		public function has() { }
 	}

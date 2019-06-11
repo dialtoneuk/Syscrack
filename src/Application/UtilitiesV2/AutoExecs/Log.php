@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -14,6 +15,10 @@
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Format;
 
+	/**
+	 * Class Log
+	 * @package Framework\Application\UtilitiesV2\AutoExecs
+	 */
 	class Log extends Base
 	{
 

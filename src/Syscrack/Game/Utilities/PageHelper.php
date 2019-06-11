@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Utilities;
 
@@ -20,6 +21,10 @@
 	use Framework\Syscrack\Game\Software;
 	use Framework\Syscrack\User;
 
+	/**
+	 * Class PageHelper
+	 * @package Framework\Syscrack\Game\Utilities
+	 */
 	class PageHelper
 	{
 

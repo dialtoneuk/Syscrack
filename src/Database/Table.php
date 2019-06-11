@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database;
 
@@ -14,6 +15,10 @@
 	use Illuminate\Database\Query\Builder;
 	use ReflectionClass;
 
+	/**
+	 * Class Table
+	 * @package Framework\Database
+	 */
 	class Table
 	{
 
@@ -64,27 +69,27 @@
 				if ($table === null)
 					$table = strtolower(self::getShortName(new ReflectionClass($this)));
 
-				if (self::$database->table($table)->exists() == false)
+				if (self::$database::table($table)->exists() == false)
 				{
-					if (self::$database->table($table)->exists() == false)
+					if (self::$database::table($table)->exists() == false)
 					{
 						try
 						{
 
-							self::$database->table($table)->get();
+							self::$database::table($table)->get();
 						} catch (Exception $error)
 						{
 
 							throw new \Error();
 						}
 
-						return self::$database->table($table);
+						return self::$database::table($table);
 					}
 					else
-						return self::$database->table($table);
+						return self::$database::table($table);
 				}
 				else
-					return self::$database->table($table);
+					return self::$database::table($table);
 
 			} catch (\ReflectionException $exception)
 			{
@@ -105,7 +110,7 @@
 			try
 			{
 
-				Manager::getCapsule()->connection();
+				Manager::getCapsule()::connection();
 			} catch (Exception $error)
 			{
 

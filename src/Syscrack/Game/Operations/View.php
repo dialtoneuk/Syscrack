@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Operations;
 
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Bases\BaseOperation;
 	use Framework\Syscrack\User;
 
+	/**
+	 * Class View
+	 * @package Framework\Syscrack\Game\Operations
+	 */
 	class View extends BaseOperation
 	{
 
@@ -40,12 +45,12 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'allowsoftware' => true,
 				'allowlocal' => true,
 				'requiresoftware' => true,
 				'elevated' => true
-			);
+			];
 		}
 
 		/**
@@ -85,7 +90,7 @@
 		 * @param $process
 		 * @param array $data
 		 *
-		 * @return bool
+		 * @return bool|null|string
 		 */
 
 		public function onCompletion($timecompleted, $timestarted, $computerid, $userid, $process, array $data)
@@ -104,14 +109,23 @@
 
 			$software = self::$software->getSoftware($data['softwareid']);
 
-			$this->render('operations/operations.view', array(
-				'software' => $software,
-				'ipaddress' => self::$internet->getCurrentConnectedAddress(),
-				'data' => json_decode($software->data),
-				'softwaredata' => self::$software->getSoftwareData($data['softwareid'])
-			), true);
+			if( parent::onCompletion(
+					$timecompleted,
+					$timestarted,
+					$computerid,
+					$userid,
+					$process,
+					$data) == false )
+				return false;
+			else
+				$this->render('operations/operations.view', [
+					'software' => $software,
+					'ipaddress' => self::$internet->getCurrentConnectedAddress(),
+					'data' => json_decode($software->data),
+					'softwaredata' => self::$software->getSoftwareData($data['softwareid'])
+				], true);
 
-			return( true );
+			return null;
 		}
 
 		/**
@@ -127,7 +141,7 @@
 		public function getCustomData($ipaddress, $userid)
 		{
 
-			return array();
+			return [];
 		}
 
 		/**

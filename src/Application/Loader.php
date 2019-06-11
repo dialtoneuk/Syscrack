@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application;
 
@@ -14,6 +15,10 @@
 
 	use ReflectionMethod;
 
+	/**
+	 * Class Loader
+	 * @package Framework\Application
+	 */
 	class Loader
 	{
 
@@ -46,10 +51,10 @@
 				{
 
 					if ($this->isMethodStatic($class, $method))
-						forward_static_call(array($this->classes[$class], $method));
+						forward_static_call([$this->classes[$class], $method]);
 
 					else
-						call_user_func(array($this->classes[$class], $method));
+						call_user_func([$this->classes[$class], $method]);
 
 				}
 				else
@@ -60,14 +65,14 @@
 
 						$this->classes[$class] = $method;
 
-						forward_static_call(array($class, $method));
+						forward_static_call([$class, $method]);
 					}
 					else
 					{
 
 						$this->createClass($class);
 
-						call_user_func(array($this->classes[$class], $method));
+						call_user_func([$this->classes[$class], $method]);
 					}
 				}
 

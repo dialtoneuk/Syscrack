@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -9,6 +10,10 @@
 	namespace Framework\Application\UtilitiesV2;
 
 
+	/**
+	 * Class DirectoryOperator
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class DirectoryOperator
 	{
 
@@ -109,7 +114,7 @@
 			$array = json_decode(json_encode($this->contents), true);
 
 			foreach ($array as $key => $value)
-				if ($value = SYSCRACK_ROOT . $this->path . $file)
+				if ($value == SYSCRACK_ROOT . $this->path . $file)
 					return true;
 
 			return false;
@@ -265,7 +270,7 @@
 			if ($dir_only)
 				$options = GLOB_ONLYDIR;
 			else
-				$options = null;
+				$options = 0;
 
 			$contents = glob(SYSCRACK_ROOT . $this->path . "*", $options);
 

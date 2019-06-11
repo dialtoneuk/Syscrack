@@ -1,17 +1,17 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Makers;
 
-	/**
-	 * Class Computer
-	 *
-	 * Automatically created at: 2019-06-06 22:50:15
-	 * @package Framework\Application\UtilitiesV2\Makers
-	 */
-
+	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use Framework\Application\UtilitiesV2\FileOperator;
+	use Framework\Application\UtilitiesV2\Format;
 
+	/**
+	 * Class Computer
+	 * @package Framework\Application\UtilitiesV2\Makers
+	 */
 	class Computer extends Base
 	{
 
@@ -35,7 +35,7 @@
 		public function filepath(): string
 		{
 
-			return( parent::filepath() );
+			return( Application::globals()->COMPUTER_FILEPATH );
 		}
 
 		/**
@@ -45,6 +45,6 @@
 		public function namespace(): string
 		{
 
-			return( parent::namespace() );
+			return( Format::rc( Application::globals()->COMPUTER_NAMESPACE ) );
 		}
 	}

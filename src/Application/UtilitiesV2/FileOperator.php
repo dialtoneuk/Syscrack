@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -12,6 +13,10 @@
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use function GuzzleHttp\Psr7\mimetype_from_filename;
 
+	/**
+	 * Class FileOperator
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class FileOperator
 	{
 

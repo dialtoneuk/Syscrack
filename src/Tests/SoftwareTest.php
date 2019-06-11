@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -10,6 +11,10 @@
 
 	use Framework\Syscrack\Game\Software;
 
+	/**
+	 * Class SoftwareTest
+	 * @package Framework\Tests
+	 */
 	class SoftwareTest extends BaseTestCase
 	{
 
@@ -58,7 +63,7 @@
 		{
 
 			$softwareid = self::$software->createSoftware("Text", self::$userid, self::$computerid);
-			$this->assertIsNumeric($softwareid);
+			static::assertIsNumeric($softwareid);
 
 			self::$softwareid = $softwareid;
 		}
@@ -66,6 +71,6 @@
 		public function testGetSoftware()
 		{
 
-			$this->assertNotEmpty(self::$software->getSoftware(self::$softwareid));
+			static::assertNotEmpty(self::$software->getSoftware(self::$softwareid));
 		}
 	}

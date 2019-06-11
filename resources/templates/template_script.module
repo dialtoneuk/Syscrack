@@ -1,14 +1,13 @@
 <?php
-	namespace _namespace_;
+	declare(strict_types=1); //Created at %time% by %pid%
+
+	namespace %namespace%;
 
 	/**
-	 * Class _classname_
-	 *
-	 * Automatically created at: _time_
-	 * @package _namespace_
+	 * Class %classname%
+	 * @package %namespace%
 	 */
-
-	class _classname_ extends Base
+	class %classname% extends Base
 	{
 
 	    /**
@@ -46,7 +45,7 @@
 	     *  ]
 	     *
 	     *  View from the console:
-	     *      _classname_ file=myfile.php name=no_space
+	     *      %classname% file=myfile.php name=no%space
 	     *
 	     * @return array|null
 	     */

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Computers;
 
@@ -17,6 +18,10 @@
 	use Framework\Syscrack\Game\Bases\BaseComputer;
 	use Framework\Syscrack\Game\Inventory;
 
+	/**
+	 * Class Vpc
+	 * @package Framework\Syscrack\Game\Computers
+	 */
 	class Vpc extends BaseComputer
 	{
 
@@ -47,7 +52,6 @@
 			if (isset(self::$addressdatabase) == false)
 				self::$addressdatabase = new AddressDatabase();
 
-
 			if (isset(self::$accountdatabase) == false)
 				self::$accountdatabase = new AccountDatabase();
 
@@ -66,11 +70,11 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'installable' => true,
 				'type' => 'vpc',
 				'reloadable' => false,
-			);
+			];
 		}
 
 		/**
@@ -105,7 +109,7 @@
 		public function onReset($computerid)
 		{
 
-			$userid = $this->computer->getComputer($computerid)->userid;
+			$userid = self::$computer->getComputer($computerid)->userid;
 
 			if (self::$addressdatabase->hasDatabase($userid) == false)
 				self::$addressdatabase->saveDatabase($userid, []);

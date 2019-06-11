@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Interfaces\Software;
 	use Framework\Syscrack\Game\Software as SoftwareManager;
 
+	/**
+	 * Class SoftwareTypes
+	 * @package Framework\Syscrack\Game
+	 */
 	class SoftwareTypes
 	{
 
@@ -59,7 +64,7 @@
 			{
 
 				/**
-				 * @var $class Software
+				 * @var Software $class
 				 */
 				if ($class instanceof Software == false)
 					continue;

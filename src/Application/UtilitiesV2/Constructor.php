@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -10,6 +11,10 @@
 
 	use Framework\Application;
 
+	/**
+	 * Class Constructor
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class Constructor
 	{
 
@@ -23,7 +28,7 @@
 		 * @var string
 		 */
 
-		private $filepath;
+		private $file_path;
 
 		/**
 		 * @var string

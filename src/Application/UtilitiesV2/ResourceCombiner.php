@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -11,6 +12,10 @@
 
 	use Framework\Application;
 
+	/**
+	 * Class ResourceCombiner
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class ResourceCombiner
 	{
 
@@ -75,7 +80,7 @@
 						if (isset($result[$this->directory->path() . $file]))
 							continue;
 
-						if ($operator->isJson() == false)
+						if ($operator->isJSON() == false)
 						{
 
 							if (defined("CMD"))

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -14,6 +15,10 @@
 	use Framework\Syscrack\Game\Utilities\TimeHelper;
 	use Framework\Syscrack\Game\Viruses;
 
+	/**
+	 * Class AntiVirus
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class AntiVirus extends BaseSoftware
 	{
 
@@ -45,13 +50,13 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'antivirus',
 				'extension' => '.av',
 				'type' => 'antivirus',
 				'installable' => true,
 				'executable' => true
-			);
+			];
 		}
 
 		/**
@@ -84,9 +89,9 @@
 					continue;
 
 
-				$results[] = array(
+				$results[] = [
 					'softwareid' => $virus->softwareid
-				);
+				];
 
 				parent::$software->deleteSoftware($virus->softwareid);
 				self::$computer->removeSoftware($computerid, $virus->softwareid);

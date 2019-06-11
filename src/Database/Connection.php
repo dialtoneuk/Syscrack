@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database;
 
@@ -16,6 +17,10 @@
 	use Framework\Application\UtilitiesV2\OpenSSL;
 
 
+	/**
+	 * Class Connection
+	 * @package Framework\Database
+	 */
 	class Connection
 	{
 

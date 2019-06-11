@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Pages;
 
@@ -24,6 +25,10 @@
 	use Framework\Syscrack\Game\Types;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Game
+	 * @package Framework\Views\Pages
+	 */
 	class Game extends BaseClass
 	{
 
@@ -102,7 +107,7 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'GET /game/', 'page'
 				],
@@ -136,7 +141,7 @@
 				[
 					'/game/internet/@ipaddress/@process/@softwareid', 'processSoftware'
 				]
-			);
+			];
 		}
 
 		/**
@@ -235,7 +240,7 @@
 								throw new \Error();
 
 							/**
-							 * @var $class \Framework\Syscrack\Game\Interfaces\Computer
+							 * @var \Framework\Syscrack\Game\Interfaces\Computer $class
 							 */
 
 							$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
@@ -367,7 +372,7 @@
 					$downloads = [];
 
 				/**
-				 * @var $class BaseComputer
+				 * @var BaseComputer $class
 				 */
 
 				$class = self::$computer->getComputerClass($computer->type);
@@ -404,7 +409,7 @@
 				else
 					$types = [];
 
-				$data = array_merge($data, array('ipaddress' => $ipaddress,
+				$data = array_merge($data, ['ipaddress' => $ipaddress,
 					'connection'        => $connection,
 					'computer'          => $computer,
 					'metadata'          => $metadata,
@@ -414,7 +419,7 @@
 					'types'             => $types,
 					'softwaretypes'     => $softwaretypes,
 					'localsoftwares'    => self::$software->getSoftwareOnComputer(self::$computer->computerid())
-				));
+				]);
 
 				if( empty( $metadata ) == false )
 					if( isset( $metadata->custom["browserpage"] ) )
@@ -522,10 +527,10 @@
 						else
 							$data = [];
 
-						if ($class->onCreation(time(), $computer->computerid, self::$session->userid(), $process, array(
+						if ($class->onCreation(time(), $computer->computerid, self::$session->userid(), $process, [
 								'ipaddress' => $ipaddress,
 								'custom' => $data
-							)) == false)
+							]) == false)
 							$this->formError("Error creating process", $class->url($ipaddress));
 						else
 						{
@@ -535,10 +540,10 @@
 							if ($time === null)
 							{
 
-								$result = $class->onCompletion(time(), time(), $computer->computerid, self::$session->userid(), $process, array(
+								$result = $class->onCompletion(time(), time(), $computer->computerid, self::$session->userid(), $process, [
 									'ipaddress' => $ipaddress,
 									'custom' => $data
-								));
+								]);
 
 								if (is_string($result))
 									$this->formSuccess($result);
@@ -552,10 +557,10 @@
 									throw new \Error("Unknown result from process: " . $process . " => " . print_r($result));
 							}
 							else
-								$this->redirect('processes/' . self::$operations->createProcess($time, $computer->computerid, self::$session->userid(), $process, array(
+								$this->redirect('processes/' . self::$operations->createProcess($time, $computer->computerid, self::$session->userid(), $process, [
 										'ipaddress' => $ipaddress,
 										'custom' => $data
-									)));
+									]));
 						}
 					}
 				}
@@ -634,11 +639,11 @@
 					if (self::$operations->allowCustomData($process))
 						$data = $this->getCustomData($process, $ipaddress, self::$session->userid());
 
-					$result = $class->onCreation(time(), self::$computer->computerid(), self::$session->userid(), $process, array(
+					$result = $class->onCreation(time(), self::$computer->computerid(), self::$session->userid(), $process, [
 						'ipaddress' => $ipaddress,
 						'softwareid' => $softwareid,
 						'custom' => $data
-					));
+					]);
 
 
 					if ($result == false)
@@ -651,11 +656,11 @@
 						if ($time === null || $time == false)
 						{
 
-							$result = $class->onCompletion(time(), time(), $computer->computerid, self::$session->userid(), $process, array(
+							$result = $class->onCompletion(time(), time(), $computer->computerid, self::$session->userid(), $process, [
 								'ipaddress' => $ipaddress,
 								'softwareid' => $softwareid,
 								'custom' => $data
-							));
+							]);
 
 							if (is_string($result))
 								$this->formSuccess($result);
@@ -669,11 +674,11 @@
 								throw new \Error("Unknown result from process: " . $process . " => " . print_r($result));
 						}
 						else
-							$this->redirect('processes/' . self::$operations->createProcess($time, $computer->computerid, self::$session->userid(), $process, array(
+							$this->redirect('processes/' . self::$operations->createProcess($time, $computer->computerid, self::$session->userid(), $process, [
 									'ipaddress' => $ipaddress,
 									'softwareid' => $softwareid,
 									'custom' => $data
-								)));
+								]));
 					}
 				}
 			}

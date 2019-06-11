@@ -1,4 +1,6 @@
 <?php
+	declare(strict_types=1);
+
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
 	/**
@@ -11,6 +13,10 @@
 	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Application\UtilitiesV2\Container;
 
+	/**
+	 * Class Shell
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class Shell extends Base
 	{
 

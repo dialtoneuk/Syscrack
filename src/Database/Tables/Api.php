@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database\Tables;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Database\Table;
 
+	/**
+	 * Class Api
+	 * @package Framework\Database\Tables
+	 */
 	class Api extends Table
 	{
 
@@ -26,9 +31,9 @@
 		public function getApiByKey($apikey)
 		{
 
-			$array = array(
+			$array = [
 				'apikey' => $apikey
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -46,9 +51,9 @@
 		public function getApiByUser($userid)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -66,9 +71,9 @@
 		public function getApi($accessid)
 		{
 
-			$array = array(
+			$array = [
 				'accessid' => $accessid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 

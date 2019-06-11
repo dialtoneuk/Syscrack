@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 
 
+	/**
+	 * Class VDDoS
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class VDDoS extends BaseSoftware
 	{
 
@@ -25,7 +30,7 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'vddos',
 				'extension' => '.vddos',
 				'type' => 'ddos',
@@ -33,6 +38,6 @@
 				'uninstallable' => true,
 				'executable' => false,
 				'removable' => false
-			);
+			];
 		}
 	}

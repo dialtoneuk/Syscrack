@@ -1,18 +1,17 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Makers;
 
-	/**
-	 * Created by PhpStorm.
-	 * User: lewis
-	 * Date: 31/08/2018
-	 * Time: 22:11
-	 */
-
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use Framework\Application\UtilitiesV2\FileOperator;
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application;
 
+	/**
+	 * Class AutoExec
+	 * @package Framework\Application\UtilitiesV2\Makers
+	 */
 	class AutoExec extends Base
 	{
 
@@ -44,6 +43,6 @@
 
 		public function filepath(): string
 		{
-			return("src/Application/UtilitiesV2/AutoExecs/");
+			return( Format::rc( Application::globals()->AUTOEXEC_NAMESPACE ) );
 		}
 	}

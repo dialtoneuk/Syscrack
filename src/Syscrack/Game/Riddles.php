@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -14,6 +15,10 @@
 	use Framework\Application\Utilities\FileSystem;
 
 
+	/**
+	 * Class Riddles
+	 * @package Framework\Syscrack\Game
+	 */
 	class Riddles
 	{
 
@@ -21,7 +26,7 @@
 		 * @var array|mixed
 		 */
 
-		protected $riddles = array();
+		protected $riddles = [];
 
 		/**
 		 * Riddles constructor.
@@ -187,10 +192,10 @@
 
 			$riddles = $this->getRiddles();
 
-			$riddles[] = array(
+			$riddles[] = [
 				'question' => $question,
 				'answer' => $answer
-			);
+			];
 
 			$this->saveRiddles($riddles);
 		}

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
@@ -11,6 +12,10 @@
 	use Framework\Application\Settings as ApplicationSettings;
 	use Framework\Application\UtilitiesV2\Debug;
 
+	/**
+	 * Class Settings
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class Settings extends Base
 	{
 
@@ -72,6 +77,11 @@
 			Debug::echo($settings);
 		}
 
+		/**
+		 * @param $arguments
+		 *
+		 * @return bool
+		 */
 		public function rename( $arguments )
 		{
 

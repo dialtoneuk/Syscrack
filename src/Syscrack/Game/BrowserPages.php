@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -11,6 +12,10 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
 
+	/**
+	 * Class BrowserPages
+	 * @package Framework\Syscrack\Game
+	 */
 	class BrowserPages
 	{
 

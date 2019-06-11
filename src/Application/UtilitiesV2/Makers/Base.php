@@ -1,13 +1,7 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Makers;
-
-	/**
-	 * Created by PhpStorm.
-	 * User: lewis
-	 * Date: 31/08/2018
-	 * Time: 21:48
-	 */
 
 	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
@@ -15,6 +9,10 @@
 	use Framework\Application\UtilitiesV2\Interfaces\Maker;
 	use Framework\Application\UtilitiesV2\TokenReader;
 
+	/**
+	 * Class Base
+	 * @package Framework\Application\UtilitiesV2\Makers
+	 */
 	abstract class Base implements Maker
 	{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application;
 
@@ -17,6 +18,10 @@
 
 	use PHPMailer;
 
+	/**
+	 * Class Mailer
+	 * @package Framework\Application
+	 */
 	class Mailer
 	{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack;
 
@@ -13,6 +14,10 @@
 	use Framework\Database\Tables\Users as Database;
 
 
+	/**
+	 * Class User
+	 * @package Framework\Syscrack
+	 */
 	class User
 	{
 
@@ -228,9 +233,9 @@
 				throw new \Error();
 			}
 
-			$array = array(
+			$array = [
 				'email' => $email
-			);
+			];
 
 			self::$database->updateUser($userid, $array);
 		}
@@ -252,9 +257,9 @@
 				throw new \Error();
 			}
 
-			$array = array(
+			$array = [
 				'password' => $password
-			);
+			];
 
 			self::$database->updateUser($userid, $array);
 		}
@@ -276,9 +281,9 @@
 				throw new \Error();
 			}
 
-			$array = array(
+			$array = [
 				'group' => $group
-			);
+			];
 
 			self::$database->updateUser($userid, $array);
 		}
@@ -300,9 +305,9 @@
 				throw new \Error();
 			}
 
-			$array = array(
+			$array = [
 				'salt' => $salt
-			);
+			];
 
 			self::$database->updateUser($userid, $array);
 		}

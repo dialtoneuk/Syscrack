@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
 
+	/**
+	 * Class Retailer
+	 * @package Framework\Syscrack\Game
+	 */
 	class Retailer
 	{
 
@@ -20,7 +25,7 @@
 		 * @var Computer
 		 */
 
-		protected $computer;
+		protected static $computer;
 
 		/**
 		 * Retailer constructor.
@@ -29,11 +34,9 @@
 		public function __construct()
 		{
 
-			if (isset($this->computers) == false)
-			{
-
-				$this->computers = new Computer();
-			}
+			if (isset(self::$computer) == false)
+				self::$computer = new Computer();
+			
 		}
 
 		/**
@@ -47,11 +50,8 @@
 		public function isRetailer($computerid)
 		{
 
-			if ($this->computers->getComputerType($computerid) !== Settings::setting('syscrack_computers_retailer_type'))
-			{
-
+			if (self::$computer->getComputerType($computerid) !== Settings::setting('syscrack_computers_retailer_type'))
 				return false;
-			}
 
 			return true;
 		}
@@ -68,16 +68,12 @@
 		{
 
 			if (FileSystem::exists($this->getFilePath($computerid) . 'stock.json') == false)
-			{
-
 				return false;
-			}
+
 
 			if (empty($this->getFilePath($computerid)))
-			{
-
 				return false;
-			}
+
 
 			return true;
 		}

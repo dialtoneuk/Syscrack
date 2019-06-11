@@ -1,5 +1,4 @@
 <?php
-
 	namespace Framework\Views\Pages;
 
 	/**
@@ -28,6 +27,10 @@
 	use Framework\Syscrack\Game\Types;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Admin
+	 * @package Framework\Views\Pages
+	 */
 	class Admin extends BaseClass
 	{
 
@@ -104,7 +107,7 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'/admin/', 'page'
 				],
@@ -174,7 +177,7 @@
 				[
 					'POST /admin/test/', 'testProcess'
 				]
-			);
+			];
 		}
 
 		/**
@@ -184,7 +187,7 @@
 		public function page()
 		{
 
-			$this->getRender('syscrack/page.admin', array('userscount' => count( self::$user->getAllUsers() ), 'activesessions' => count( self::$session->getActiveSessions() ) ) );
+			$this->getRender('syscrack/page.admin', ['userscount' => count( self::$user->getAllUsers() ), 'activesessions' => count( self::$session->getActiveSessions() )]);
 		}
 
 		/**
@@ -194,7 +197,7 @@
 		public function usersViewer()
 		{
 
-			$this->getRender('syscrack/page.admin.users', array('users' => self::$user->getAllUsers()));
+			$this->getRender('syscrack/page.admin.users', ['users' => self::$user->getAllUsers()]);
 		}
 
 		/**
@@ -267,13 +270,13 @@
 		public function themes()
 		{
 
-			$this->getRender('syscrack/page.admin.themes', array("themes" => self::$themes->getThemes(false)), $this->model());
+			$this->getRender('syscrack/page.admin.themes', ["themes" => self::$themes->getThemes(false)], $this->model());
 		}
 
 		public function test()
 		{
 
-			$this->getRender('syscrack/page.admin.test', array("themes" => self::$themes->getThemes(false)), $this->model());
+			$this->getRender('syscrack/page.admin.test', ["themes" => self::$themes->getThemes(false)], $this->model());
 		}
 
 		public function testProcess()
@@ -332,13 +335,13 @@
 				if (empty($softwares))
 					$softwares = [];
 
-				$this->getRender('syscrack/page.admin.computer.edit', array(
+				$this->getRender('syscrack/page.admin.computer.edit', [
 					'computer' => $computer,
 					'softwares' => $softwares,
 					'localsoftwares' => parent::$software->getSoftwareOnComputer(self::$computer->computerid()),
 					'ipaddress' => $computer->ipaddress,
 					'tools_admin' => $this->tools()
-				), true, self::$session->userid(), self::$computer->computerid());
+				], true, self::$session->userid(), self::$computer->computerid());
 			}
 		}
 
@@ -401,7 +404,7 @@
 									self::$software->findSoftwareByUniqueName(PostHelper::getPostData('uniquename', true))),
 								parent::$computer->getComputer($computerid)->userid,
 								$computerid,
-								PostHelper::getPostData('name', true),
+								(string)PostHelper::getPostData('name', true),
 								PostHelper::getPostData('level', true),
 								PostHelper::getPostData('size', true),
 								$customdata
@@ -808,7 +811,7 @@
 						$computerid = parent::$computer->createComputer($object->userid, $object->type, $object->ipaddress, $object->software, $object->hardware);
 
 						/**
-						 * @var $class Computer
+						 * @var Computer $class
 						 */
 						$class = parent::$computer->getComputerClass($object->type);
 
@@ -825,7 +828,7 @@
 		public function settings()
 		{
 
-			$this->getRender("syscrack/page.admin.settings", array("admin_settings" => $this->getSettings()), $this->model());
+			$this->getRender("syscrack/page.admin.settings", ["admin_settings" => $this->getSettings()], $this->model());
 		}
 
 		public function settingsProcess()
@@ -883,7 +886,7 @@
 					continue;
 
 				/**
-				 * @var $class Computer
+				 * @var Computer $class
 				 */
 
 				$class = parent::$computer->getComputerClass($computers->type);
@@ -903,7 +906,7 @@
 		private function cleanAccounts()
 		{
 
-			$accounts = self::$finance->getAllAccounts(self::$finance->getAccountCount());
+			$accounts = self::$finance->getAllAccounts();
 
 			foreach ($accounts as $account)
 				self::$finance->removeAccount($account->computerid, $account->userid);
@@ -928,7 +931,7 @@
 			];
 
 
-			self::$metadata->update($computerid, array("software" => $object["software"]));
+			self::$metadata->update($computerid, ["software" => $object["software"]]);
 		}
 
 		/**

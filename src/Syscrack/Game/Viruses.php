@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -14,6 +15,10 @@
 	use Framework\Database\Tables\Computer;
 	use Framework\Database\Tables\Software;
 
+	/**
+	 * Class Viruses
+	 * @package Framework\Syscrack\Game
+	 */
 	class Viruses
 	{
 
@@ -50,9 +55,9 @@
 		public function updateVirusModified($softwareid)
 		{
 
-			$this->software->updateSoftware($softwareid, array(
+			$this->software->updateSoftware($softwareid, [
 				'lastmodified' => time()
-			));
+			]);
 		}
 
 		/**

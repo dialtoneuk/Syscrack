@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -17,6 +18,10 @@
 
 	use Unirest\Request;
 
+	/**
+	 * Class Bitcoin
+	 * @package Framework\Syscrack\Game
+	 */
 	class Bitcoin
 	{
 
@@ -197,7 +202,7 @@
 		public function deposit($wallet, float $bitcoins)
 		{
 
-			$this->database->updateWallet($wallet, array('bitcoins' => $this->database->findBitcoinWallet($wallet)->bitcoins + $bitcoins));
+			$this->database->updateWallet($wallet, ['bitcoins' => $this->database->findBitcoinWallet($wallet)->bitcoins + $bitcoins]);
 		}
 
 		/**
@@ -217,7 +222,7 @@
 				throw new \Error();
 			}
 
-			$this->database->updateWallet($wallet, array('bitcoins' => $this->database->findBitcoinWallet($wallet)->bitcoins - $bitcoins));
+			$this->database->updateWallet($wallet, ['bitcoins' => $this->database->findBitcoinWallet($wallet)->bitcoins - $bitcoins]);
 		}
 
 		/**
@@ -241,10 +246,10 @@
 				throw new \Error();
 			}
 
-			$this->database->updateWallet($wallet, array('bitcoins' => $user->bitcoins - $bitcoins));
+			$this->database->updateWallet($wallet, ['bitcoins' => $user->bitcoins - $bitcoins]);
 
-			$this->database->updateWallet($wallet, array('bitcoins' =>
-				$this->database->findBitcoinWallet($receiver)->bitcoins + $bitcoins));
+			$this->database->updateWallet($wallet, ['bitcoins' =>
+				$this->database->findBitcoinWallet($receiver)->bitcoins + $bitcoins]);
 		}
 
 		/**
@@ -346,12 +351,12 @@
 		public function createWallet($userid, $computerid)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid,
 				'wallet' => $this->randomBytes(),
 				'key' => $this->randomBytes(),
 				'computerid' => $computerid
-			);
+			];
 
 			$this->database->insertWallet($array);
 		}

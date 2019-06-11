@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Login;
 
@@ -15,6 +16,10 @@
 	use Framework\Application\Settings;
 
 
+	/**
+	 * Class Facebook
+	 * @package Framework\Syscrack\Login
+	 */
 	class Facebook
 	{
 

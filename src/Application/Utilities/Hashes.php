@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\Utilities;
 
@@ -71,7 +72,7 @@
 					if (is_array($argument))
 					{
 
-						$array = array();
+						$array = [];
 
 						foreach ($argument as $key => $value)
 						{
@@ -94,7 +95,7 @@
 					return md5($argument);
 				};
 
-				$return = array();
+				$return = [];
 
 				foreach ($data as $key => $value)
 				{

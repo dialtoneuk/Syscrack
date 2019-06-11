@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -13,6 +14,10 @@
 	use Framework\Syscrack\Game\Interfaces\Computer;
 	use Framework\Syscrack\Game\Computer as Controller;
 
+	/**
+	 * Class Types
+	 * @package Framework\Syscrack\Game
+	 */
 	class Types
 	{
 
@@ -62,7 +67,7 @@
 					continue;
 
 				/**
-				 * @var $class Computer
+				 * @var Computer $class
 				 */
 				$types[] = $class->configuration()["type"];
 			}

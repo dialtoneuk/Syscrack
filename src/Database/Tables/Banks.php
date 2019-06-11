@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database\Tables;
 
@@ -12,13 +13,15 @@
 
 	use Framework\Database\Table;
 
+	/**
+	 * Class Banks
+	 * @package Framework\Database\Tables
+	 */
 	class Banks extends Table
 	{
 
 		/**
 		 * Gets all the accounts
-		 *
-		 * @param int $pick
 		 *
 		 * @return \Illuminate\Support\Collection
 		 */
@@ -52,9 +55,9 @@
 		public function getUserAccounts($userid)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -72,9 +75,9 @@
 		public function getByAccountNumber($accountnumber)
 		{
 
-			$array = array(
+			$array = [
 				'accountnumber' => $accountnumber
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -92,9 +95,9 @@
 		public function getAccountsOnComputer($computerid)
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -115,13 +118,17 @@
 			return $this->getTable()->insertGetId($array);
 		}
 
+		/**
+		 * @param $computerid
+		 * @param $userid
+		 */
 		public function deleteAccount($computerid, $userid)
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid,
 				'userid' => $userid
-			);
+			];
 
 			$this->getTable()->where($array)->delete();
 		}
@@ -139,10 +146,10 @@
 		public function updateAccount($computerid, $userid, array $values)
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid,
 				'userid' => $userid
-			);
+			];
 
 			$this->getTable()->where($array)->update($values);
 		}

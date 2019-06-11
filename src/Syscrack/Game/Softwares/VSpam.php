@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Softwares;
 
@@ -14,6 +15,10 @@
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 
 
+	/**
+	 * Class VSpam
+	 * @package Framework\Syscrack\Game\Softwares
+	 */
 	class VSpam extends BaseSoftware
 	{
 
@@ -26,7 +31,7 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'uniquename' => 'vspam',
 				'extension' => '.vspam',
 				'type' => 'virus',
@@ -34,7 +39,7 @@
 				'uninstallable' => true,
 				'executable' => false,
 				'removable' => false,
-			);
+			];
 		}
 
 		/**

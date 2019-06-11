@@ -1,8 +1,13 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2;
 
 
+	/**
+	 * Class OpenSSL
+	 * @package Framework\Application\UtilitiesV2
+	 */
 	class OpenSSL
 	{
 

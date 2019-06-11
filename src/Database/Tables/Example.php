@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database\Tables;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Database\Table;
 
+	/**
+	 * Class Example
+	 * @package Framework\Database\Tables
+	 */
 	class Example extends Table
 	{
 
@@ -26,9 +31,9 @@
 		public function getExampleID($exampleid)
 		{
 
-			$array = array(
+			$array = [
 				'exampleid' => $exampleid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 

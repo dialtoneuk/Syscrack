@@ -1,4 +1,6 @@
 <?php
+	declare(strict_types=1);
+
 	namespace Framework\Application\UtilitiesV2\Scripts;
 
 	/**
@@ -10,6 +12,10 @@
 
 	use Framework\Application\UtilitiesV2\Debug;
 
+	/**
+	 * Class Phpinfo
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class Phpinfo extends Base
 	{
 

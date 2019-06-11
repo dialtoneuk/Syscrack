@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -11,6 +12,10 @@
 
 	use Framework\Application;
 
+	/**
+	 * Class Google
+	 * @package Framework\Application\UtilitiesV2\Setups
+	 */
 	class Google extends Base
 	{
 

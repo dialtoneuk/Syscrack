@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2;
 
@@ -10,7 +11,7 @@
 	 * Date: 31/08/2018
 	 * Time: 01:11
 	 */
-	abstract class Convention
+	abstract class Convention extends \stdClass
 	{
 
 		/**
@@ -161,6 +162,9 @@
 			return false;
 		}
 
+		/**
+		 * @return array|mixed
+		 */
 		public function contents()
 		{
 

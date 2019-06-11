@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack;
 
@@ -13,6 +14,10 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
 
+	/**
+	 * Class BetaKeys
+	 * @package Framework\Syscrack
+	 */
 	class BetaKeys
 	{
 

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: newsy
@@ -9,6 +10,10 @@
 	namespace Framework\Syscrack\Game;
 
 
+	/**
+	 * Class Tabs
+	 * @package Framework\Syscrack\Game
+	 */
 	class Tabs
 	{
 

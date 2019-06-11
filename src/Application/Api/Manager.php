@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\Api;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Database\Tables\Api;
 
+	/**
+	 * Class Manager
+	 * @package Framework\Application\Api
+	 */
 	class Manager
 	{
 

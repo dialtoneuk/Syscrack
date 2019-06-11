@@ -1,17 +1,17 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\UtilitiesV2\Makers;
 
-	/**
-	 * Class Operation
-	 *
-	 * Automatically created at: 2019-06-06 22:50:32
-	 * @package Framework\Application\UtilitiesV2\Makers
-	 */
-
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use Framework\Application\UtilitiesV2\FileOperator;
+	use Framework\Application\UtilitiesV2\Format;
+	use Framework\Application;
 
+	/**
+	 * Class Operation
+	 * @package Framework\Application\UtilitiesV2\Makers
+	 */
 	class Operation extends Base
 	{
 
@@ -35,7 +35,7 @@
 		public function filepath(): string
 		{
 
-			return( parent::filepath() );
+			return( Application::globals()->OPERATIONS_FILEPATH );
 		}
 
 		/**
@@ -45,6 +45,6 @@
 		public function namespace(): string
 		{
 
-			return( parent::namespace() );
+			return( Format::rc( Application::globals()->OPERATIONS_NAMESPACE ) );
 		}
 	}

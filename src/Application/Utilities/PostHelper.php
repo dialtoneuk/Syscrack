@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application\Utilities;
 
@@ -28,7 +29,7 @@
 
 			$post = self::getPost();
 
-			$return = array();
+			$return = [];
 
 			foreach ($requirements as $key => $value)
 			{
@@ -55,13 +56,13 @@
 		 * @return string
 		 */
 
-		public static function getPostData($index, $escape = false)
+		public static function getPostData($index, $escape = false): string
 		{
 
 			if (isset($_POST[$index]) == false)
 			{
 
-				return null;
+				return "";
 			}
 
 			if ($escape == true)

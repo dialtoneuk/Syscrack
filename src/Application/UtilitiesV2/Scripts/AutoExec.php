@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 	/**
 	 * Created by PhpStorm.
 	 * User: lewis
@@ -12,6 +13,10 @@
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\UtilitiesV2\Debug;
 
+	/**
+	 * Class AutoExec
+	 * @package Framework\Application\UtilitiesV2\Scripts
+	 */
 	class AutoExec extends Base
 	{
 

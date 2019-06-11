@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game\Computers;
 
@@ -17,6 +18,10 @@
 	use Framework\Syscrack\Game\Tab;
 	use Framework\Syscrack\Game\Tabs;
 
+	/**
+	 * Class Market
+	 * @package Framework\Syscrack\Game\Computers
+	 */
 	class Market extends BaseComputer
 	{
 
@@ -49,11 +54,11 @@
 		public function configuration()
 		{
 
-			return array(
+			return [
 				'installable' => false,
 				'type' => 'market',
 				'reloadable' => true,
-			);
+			];
 		}
 
 		/**
@@ -134,6 +139,14 @@
 			self::$internet->setCurrentConnectedAddress(null);
 		}
 
+		/**
+		 * @param null $userid
+		 * @param null $sofwareid
+		 * @param null $computerid
+		 * @param array $tabs
+		 *
+		 * @return Tabs
+		 */
 		public function tab($userid = null, $sofwareid = null, $computerid = null, $tabs = []): Tabs
 		{
 

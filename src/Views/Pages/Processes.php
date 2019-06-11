@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Views\Pages;
 
@@ -14,6 +15,10 @@
 	use Framework\Syscrack\Game\Operations;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
+	/**
+	 * Class Processes
+	 * @package Framework\Views\Pages
+	 */
 	class Processes extends BaseClass
 	{
 
@@ -45,7 +50,7 @@
 		public function mapping()
 		{
 
-			return array(
+			return [
 				[
 					'/processes/', 'page'
 				],
@@ -58,7 +63,7 @@
 				[
 					'/processes/@processid/delete', 'deleteProcess'
 				]
-			);
+			];
 		}
 
 		/**
@@ -88,7 +93,7 @@
 					$computers[ $value->computerid ] = self::$computer->getComputer( $value->computerid );
 				}
 
-			$this->getRender('syscrack/page.process', array('processes' => $array, 'localprocesses' => $localprocesses, 'computers' => $computers ), true, self::$session->userid(), self::$computer->computerid() );
+			$this->getRender('syscrack/page.process', ['processes' => $array, 'localprocesses' => $localprocesses, 'computers' => $computers], true, self::$session->userid(), self::$computer->computerid() );
 		}
 
 		/**
@@ -113,7 +118,7 @@
 					$this->formError('Process not found');
 
 				else
-					$this->getRender('syscrack/page.process.view', array('process' => $process, 'auto' => true) );
+					$this->getRender('syscrack/page.process.view', ['process' => $process, 'auto' => true]);
 			}
 		}
 

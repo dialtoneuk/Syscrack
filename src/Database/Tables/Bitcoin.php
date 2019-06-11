@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Database\Tables;
 
@@ -12,6 +13,10 @@
 
 	use Framework\Database\Table;
 
+	/**
+	 * Class Bitcoin
+	 * @package Framework\Database\Tables
+	 */
 	class Bitcoin extends Table
 	{
 
@@ -26,9 +31,9 @@
 		public function getBitcoinWallet($bitcoinid)
 		{
 
-			$array = array(
+			$array = [
 				'bitcoinid' => $bitcoinid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -46,9 +51,9 @@
 		public function getUserBitcoinWallets($userid)
 		{
 
-			$array = array(
+			$array = [
 				'userid' => $userid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -66,9 +71,9 @@
 		public function findBitcoinWallet($wallet)
 		{
 
-			$array = array(
+			$array = [
 				'wallet' => $wallet
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -87,10 +92,10 @@
 		public function findByServer($wallet, $computerid)
 		{
 
-			$array = array(
+			$array = [
 				'wallet' => $wallet,
 				'computerid' => $computerid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
@@ -108,27 +113,36 @@
 		public function getByServer($computerid)
 		{
 
-			$array = array(
+			$array = [
 				'computerid' => $computerid
-			);
+			];
 
 			$result = $this->getTable()->where($array)->get();
 
 			return ($result->isEmpty()) ? null : $result;
 		}
 
+		/**
+		 * @param $array
+		 *
+		 * @return int
+		 */
 		public function insertWallet($array)
 		{
 
 			return $this->getTable()->insertGetId($array);
 		}
 
+		/**
+		 * @param $wallet
+		 * @param $values
+		 */
 		public function updateWallet($wallet, $values)
 		{
 
-			$array = array(
+			$array = [
 				'wallet' => $wallet
-			);
+			];
 
 			$this->getTable()->where($array)->update($values);
 		}

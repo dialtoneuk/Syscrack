@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework;
 
@@ -21,8 +22,11 @@
 	use Framework\Views\Controller;
 	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\Utilities\FileSystem;
-	use PHPUnit\Framework\Constraint\FileExists;
 
+	/**
+	 * Class Application
+	 * @package Framework
+	 */
 	class Application
 	{
 

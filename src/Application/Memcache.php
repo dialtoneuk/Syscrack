@@ -1,18 +1,15 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Application;
-
-	/**
-	 * Lewis Lancaster 2018
-	 *
-	 * Class Memcache
-	 *
-	 * @package Framework\Application
-	 */
 
 
 	use Memcache as MemcacheServer;
 
+	/**
+	 * Class Memcache
+	 * @package Framework\Application
+	 */
 	class Memcache
 	{
 
@@ -69,13 +66,10 @@
 		public function add($variable, $value, $lifespan = null)
 		{
 
-			if ($lifespan = null)
-			{
-
+			if ($lifespan == null)
 				$lifespan = Settings::setting('memcache_default_lifespan');
-			}
 
-			$this->memcache->set($variable, $value, MEMCACHE_COMPRESSED, $lifespan);
+			$this->memcache->set($variable, $value, true, $lifespan);
 		}
 
 		/**

@@ -1,4 +1,5 @@
 <?php
+	declare(strict_types=1);
 
 	namespace Framework\Syscrack\Game;
 
@@ -302,11 +303,11 @@
 				throw new \Error();
 			}
 
-			$purchases[] = array(
+			$purchases[] = [
 				'computerid' => $targetid,
 				'itemid' => $itemid,
 				'timepurchased' => time()
-			);
+			];
 
 			$this->save($computerid, $purchases);
 		}
