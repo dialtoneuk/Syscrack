@@ -1,11 +1,11 @@
 [
+    "npc",
     "bank",
     "bulletin",
     "download",
     "fbi",
     "isp",
     "market",
-    "npc",
     "vpc",
     "whois"
 ]

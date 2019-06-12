@@ -45,6 +45,12 @@
 		public function compare( ...$values )
 		{
 
+			if( $this->empty() )
+				return false;
+
+			if( isset( $values[0] ) && is_array( $values[0] ) )
+				$values = $values[0];
+
 			foreach( $values as $value )
 				if( isset( $this->data[ $value ] ) == false )
 					return false;
@@ -70,6 +76,9 @@
 
 		public function __isset($name)
 		{
+
+			if( $this->empty() )
+				return false;
 
 			return( isset( $this->data[ $name ] ) );
 		}
