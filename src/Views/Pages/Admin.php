@@ -186,7 +186,8 @@
 		public function page()
 		{
 
-			$this->getRender('syscrack/page.admin', ['userscount' => count( self::$user->getAllUsers() ), 'activesessions' => count( self::$session->getActiveSessions() )]);
+			$this->getRender('syscrack/page.admin', ['userscount' => count( self::$user->getAllUsers() ),
+				'activesessions' => count( self::$session->getActiveSessions() )]);
 		}
 
 		/**
@@ -217,7 +218,8 @@
 		{
 
 			if ($this->isUser($userid))
-				$this->getRender('syscrack/page.admin.users.edit', ['inventory' => self::$inventory->get( $userid ), 'computers' => self::$computer->getUserComputers( $userid  )], true, $userid );
+				$this->getRender('syscrack/page.admin.users.edit', ['inventory' => self::$inventory->get( $userid ),
+					'computers' => self::$computer->getUserComputers( $userid  )], true, $userid );
 			else
 				$this->formError('This user does not exist, please try another', 'admin/users/');
 		}
@@ -234,29 +236,27 @@
 			else
 			{
 
-				if (PostHelper::hasPostData() == false)
+				if ( self::$request->empty()  == false)
 					$this->formError('Post data is false', "admin/users/edit/" . $userid);
 				else
 				{
 
-					if (PostHelper::checkForRequirements(['action']) == false)
+					if (self::$request->compare(['action']) == false)
 						$this->formError('Post data is false', "admin/users/edit/" . $userid);
 					else
 					{
 
-						$action = PostHelper::getPostData('action', true);
-						if ($action == "group")
-						{
+						$action = self::$request->action;
 
-							if (PostHelper::checkForRequirements(['group']) == false)
+						if ($action == "group")
+							if (self::$request->compare(['group']) == false)
 								$this->formError('Post data is false', "admin/users/edit/" . $userid);
 							else
 							{
 
-								self::$user->updateGroup($userid, PostHelper::getPostData('group', true));
+								self::$user->updateGroup($userid, self::$request->group);
 								$this->formSuccess('admin/users/edit/' . $userid);
 							}
-						}
 					}
 				}
 			}
@@ -272,40 +272,52 @@
 			$this->getRender('syscrack/page.admin.themes', ["themes" => self::$themes->getThemes(false)], $this->model());
 		}
 
+		/**
+		 * Test view
+		 */
+
 		public function test()
 		{
 
-			$this->getRender('syscrack/page.admin.test', ["themes" => self::$themes->getThemes(false)], $this->model());
+			$this->getRender('syscrack/page.admin.test', ["themes" => self::$themes->getThemes(false), "request" => self::$request->debug()], $this->model());
 		}
+
+		/**
+		 * Processes test
+		 */
 
 		public function testProcess()
 		{
 
-			if( PostHelper::checkForRequirements(["type"] ) )
-				$type = PostHelper::getPostData('type', true );
+			if( self::$request->compare("form") )
+				$this->test();
 			else
-				$type = "error";
+			{
+				if( self::$request->compare( "type" ) )
+					$type = self::$request->theme;
+				else
+					$type = "error";
 
-			if( $type == "error" )
-				$this->formError("Made error", 'admin/test');
-			else
-				$this->formSuccess('admin/test' );
+				if( $type == "error" )
+					$this->formError("Made error", 'admin/test');
+				else
+					$this->formSuccess('admin/test' );
+			}
 		}
 
-
 		/**
-		 *
+		 * Processes themes
 		 */
 
 		public function themesProcess()
 		{
 
-			if (PostHelper::checkForRequirements(['theme']) == false)
+			if (self::$request->compare(['theme']) == false)
 				$this->formError("This theme does not exist");
 			else
 			{
 
-				$theme = PostHelper::getPostData('theme', true);
+				$theme = self::$request->theme;
 
 				if (self::$themes->themeExists($theme) == false)
 					$this->formError("This theme does not exist");
@@ -335,11 +347,11 @@
 					$softwares = [];
 
 				$this->getRender('syscrack/page.admin.computer.edit', [
-					'computer' => $computer,
-					'softwares' => $softwares,
-					'localsoftwares' => parent::$software->getSoftwareOnComputer(self::$computer->computerid()),
-					'ipaddress' => $computer->ipaddress,
-					'tools_admin' => $this->tools()
+					'computer'          => $computer,
+					'softwares'         => $softwares,
+					'localsoftwares'    => parent::$software->getSoftwareOnComputer(self::$computer->computerid()),
+					'ipaddress'         => $computer->ipaddress,
+					'tools_admin'       => $this->tools()
 				], true, self::$session->userid(), self::$computer->computerid());
 			}
 		}
@@ -354,17 +366,17 @@
 			if (parent::$computer->computerExists($computerid) == false)
 				$this->formError('This computer does not exist, please try another', "admin/computer/edit/" . $computerid);
 
-			if (PostHelper::hasPostData() == false)
+			if (self::$request->empty() == false)
 				$this->redirect('admin/computer');
 			else
 			{
 
-				if (isset($_POST["action"]) == false)
+				if (isset( self::$request->action ) == false)
 					$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
 				else
 				{
 
-					$action = PostHelper::getPostData('action', true);
+					$action = self::$request->action;
 
 					if ($action == "add")
 					{
@@ -376,16 +388,16 @@
 							'size'
 						];
 
-						if (PostHelper::checkForRequirements($requirements) == false)
+						if (self::$request->compare($requirements) == false)
 							$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
 						else
 						{
 
-							if (isset($_POST['text']) && empty($_POST['text']) == false)
+							if (isset( self::$request->text ) && empty( self::$request->text ) == false)
 							{
 
 								$customdata = [];
-								$customdata["text"] = PostHelper::getPostData('text', true);
+								$customdata["text"] = self::$request->text;
 							}
 							else
 								$customdata = [];
@@ -400,12 +412,13 @@
 
 							$softwareid = self::$software->createSoftware(
 								self::$software->getNameFromClass(
-									self::$software->findSoftwareByUniqueName(PostHelper::getPostData('uniquename', true))),
+									self::$software->findSoftwareByUniqueName( self::$request->uniquename )
+								),
 								parent::$computer->getComputer($computerid)->userid,
 								$computerid,
-								(string)PostHelper::getPostData('name', true),
-								PostHelper::getPostData('level', true),
-								PostHelper::getPostData('size', true),
+								self::$request->name,
+								self::$request->level,
+								self::$request->size,
 								$customdata
 							);
 
@@ -413,7 +426,7 @@
 
 							parent::$computer->addSoftware($computerid, $software->softwareid, $software->type);
 
-							if (isset($_POST['schema']))
+							if (isset( self::$request->schema ) )
 								$this->addToSchema($computerid, $software);
 
 							$this->formSuccess('admin/computer/edit/' . $computerid);
@@ -427,7 +440,7 @@
 							'task'
 						];
 
-						if (PostHelper::checkForRequirements($requirements) == false)
+						if (self::$request->compare($requirements) == false)
 						{
 
 							$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
@@ -435,26 +448,26 @@
 						else
 						{
 
-							if (self::$software->softwareExists(PostHelper::getPostData('softwareid', true)) == false)
+							if (self::$software->softwareExists(self::$request->softwareid) == false)
 							{
 
 								$this->formError('Invalid Software', "admin/computer/edit/" . $computerid);
 							}
 
-							if (PostHelper::getPostData('task', true) == 'install')
+							if (self::$request->task == 'install')
 							{
 
-								self::$software->installSoftware(PostHelper::getPostData('softwareid', true),
+								self::$software->installSoftware(self::$request->softwareid,
 									parent::$computer->getComputer($computerid)->userid);
 
-								parent::$computer->installSoftware($computerid, PostHelper::getPostData('softwareid', true));
+								parent::$computer->installSoftware($computerid, self::$request->softwareid);
 							}
 							else
 							{
 
-								self::$software->uninstallSoftware(PostHelper::getPostData('softwareid', true));
+								self::$software->uninstallSoftware(self::$request->softwareid);
 
-								parent::$computer->uninstallSoftware($computerid, PostHelper::getPostData('softwareid', true));
+								parent::$computer->uninstallSoftware($computerid, self::$request->softwareid);
 							}
 
 							$this->formSuccess('admin/computer/edit/' . $computerid);
@@ -467,7 +480,7 @@
 							'softwareid',
 						];
 
-						if (PostHelper::checkForRequirements($requirements) == false)
+						if (self::$request->compare($requirements) == false)
 						{
 
 							$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
@@ -475,15 +488,15 @@
 						else
 						{
 
-							if (self::$software->softwareExists(PostHelper::getPostData('softwareid', true)) == false)
+							if (self::$software->softwareExists(self::$request->softwareid) == false)
 							{
 
 								$this->formError('Invalid Software', "admin/computer/edit/" . $computerid);
 							}
 
-							self::$software->deleteSoftware(PostHelper::getPostData('softwareid', true));
+							self::$software->deleteSoftware(self::$request->softwareid);
 
-							parent::$computer->removeSoftware($computerid, PostHelper::getPostData('softwareid', true));
+							parent::$computer->removeSoftware($computerid, self::$request->softwareid);
 
 							$this->formSuccess('admin/computer/edit/' . $computerid);
 						}
@@ -498,7 +511,7 @@
 							'quantity'
 						];
 
-						if (PostHelper::checkForRequirements($requirements) == false)
+						if (self::$request->compare($requirements) == false)
 						{
 
 							$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
@@ -516,7 +529,7 @@
 							else
 							{
 
-								if (PostHelper::getPostData('type', true) == 'hardware')
+								if (self::$request->type == 'hardware')
 								{
 
 									if (empty($_POST['value']) || empty($_POST['hardware']))
@@ -528,12 +541,12 @@
 									{
 
 										$stock = [
-											'name' => PostHelper::getPostData('name', true),
-											'type' => PostHelper::getPostData('type', true),
-											'price' => PostHelper::getPostData('cost', true),
-											'quantity' => PostHelper::getPostData('quantity', true),
-											'hardware' => PostHelper::getPostData('hardware', true),
-											'value' => PostHelper::getPostData('value', true)
+											'name'      => self::$request->name,
+											'type'      => self::$request->type,
+											'price'     => self::$request->price,
+											'quantity'  => self::$request->quantity,
+											'hardware'  => self::$request->hardware,
+											'value'     => self::$request->value
 										];
 
 										$market->addStockItem($computerid, base64_encode(openssl_random_pseudo_bytes(16)), $stock);
@@ -585,7 +598,7 @@
 		public function riddlesCreatorProcess()
 		{
 
-			if (PostHelper::hasPostData() == false)
+			if (self::$request->empty() == false)
 			{
 
 				$this->formError();
@@ -593,7 +606,7 @@
 			else
 			{
 
-				if (PostHelper::checkForRequirements(['question', 'answer']) == false)
+				if (self::$request->compare(['question', 'answer']) == false)
 				{
 
 					$this->formError();
@@ -627,7 +640,7 @@
 		public function resetProcess()
 		{
 
-			if (PostHelper::hasPostData() == false)
+			if (self::$request->empty() == false)
 			{
 
 				$this->reset();
@@ -635,7 +648,7 @@
 			else
 			{
 
-				if (PostHelper::checkForRequirements(['resetip']) == true)
+				if (self::$request->compare(['resetip']) == true)
 				{
 
 					$computer = parent::$computer->getAllComputers();
@@ -649,7 +662,7 @@
 
 				$this->resetComputer();
 
-				if (PostHelper::checkForRequirements(['clearfinance']) == true)
+				if (self::$request->compare(['clearfinance']) == true)
 				{
 
 					$this->cleanAccounts();
@@ -676,7 +689,7 @@
 		public function computerViewerProcess()
 		{
 
-			if (PostHelper::hasPostData() == false)
+			if (self::$request->empty() == false)
 			{
 
 				$this->computerViewer();
@@ -684,7 +697,7 @@
 			else
 			{
 
-				if (PostHelper::checkForRequirements(['query']) == false)
+				if (self::$request->compare(['query']) == false)
 				{
 
 					$this->formError('Please enter a search query', 'admin/computer');
@@ -738,10 +751,10 @@
 
 			$array = [];
 
-			if (PostHelper::checkForRequirements(["name"]))
+			if (self::$request->compare(["name"]))
 				$array["name"] = PostHelper::getPostData("name");
 
-			if (PostHelper::checkForRequirements(["browserpages"]))
+			if (self::$request->compare(["browserpages"]))
 				$array["browserpage"] = PostHelper::getPostData("browserpages");
 
 			return ($array);
@@ -769,19 +782,19 @@
 		public function computerCreatorProcess()
 		{
 
-			if (PostHelper::hasPostData() == false)
+			if ( self::$request->empty() )
 				$this->formError('Missing information', $this->path);
-			else if (PostHelper::checkForRequirements(['userid', 'ipaddress', 'type', 'hardware', 'software']) == false)
+			else if (self::$request->compare(['userid', 'ipaddress', 'type', 'hardware', 'software']) == false)
 				$this->formError('Missing information', $this->path);
 			else
 			{
 
 				$values = [
-					'userid' => PostHelper::getPostData('userid'),
-					'ipaddress' => PostHelper::getPostData('ipaddress'),
-					'type' => PostHelper::getPostData('type'),
-					'hardware' => PostHelper::getPostData('hardware'),
-					'software' => PostHelper::getPostData('software')
+					'userid'    => self::$request->userid,
+					'ipaddress' => self::$request->ipaddress,
+					'type'      => self::$request->type,
+					'hardware'  => self::$request->hardware,
+					'software'  => self::$request->software
 				];
 
 				if ($this->isValidJson($values["hardware"]) == false || $this->isValidJson($values["software"]) == false)
@@ -824,26 +837,34 @@
 			}
 		}
 
+		/**
+		 * Settings
+		 */
+
 		public function settings()
 		{
 
 			$this->getRender("syscrack/page.admin.settings", ["admin_settings" => $this->getSettings()], $this->model());
 		}
 
+		/**
+		 * Settings process
+		 */
+
 		public function settingsProcess()
 		{
 
-			if (PostHelper::checkForRequirements(["setting"]) == false)
+			if (self::$request->compare(["setting"]) == false)
 				$this->formError("Missing information", 'admin/settings/');
 			else
 			{
 
-				$value = @PostHelper::getPostData('value', true);
+				$value = @self::$request->value;
 
 				if ($this->isValidJson($value))
 					$value = json_decode($value, true);
 
-				Settings::updateSetting(PostHelper::getPostData('setting', true), $value);
+				Settings::updateSetting( self::$request->setting, $value);
 			}
 
 			$this->formSuccess('admin/settings/');

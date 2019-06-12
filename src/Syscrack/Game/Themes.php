@@ -252,6 +252,9 @@
 		public function themeExists($theme)
 		{
 
+			if( empty( $this->themes ) )
+				$this->getThemes( true );
+
 			return (isset($this->themes[$theme]));
 		}
 

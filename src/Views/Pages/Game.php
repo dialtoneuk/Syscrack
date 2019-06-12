@@ -334,7 +334,7 @@
 					if ($this->validAddress() == false)
 						$this->formError('404 Not Found', $this->getRedirect() . '/internet');
 					else
-						$this->redirect($this->getRedirect(PostHelper::getPostData('ipaddress')));
+						$this->redirect($this->getRedirect(self::$request->ipaddress));
 				}
 				else
 					$this->redirect($this->getRedirect(self::$internet->getComputerAddress(Settings::setting('syscrack_whois_computer'))));
@@ -450,7 +450,7 @@
 				if (PostHelper::checkForRequirements(['ipaddress']) == false)
 					return false;
 
-				$ipaddress = PostHelper::getPostData('ipaddress');
+				$ipaddress = self::$request->ipaddress;
 			}
 
 			if (filter_var($ipaddress, FILTER_VALIDATE_IP) == false)

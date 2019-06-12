@@ -29,6 +29,7 @@
 	use Framework\Syscrack\User;
 	use Illuminate\Support\Collection;
 	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\UtilitiesV2\Request;
 	use Framework\Application;
 
 	/**
@@ -57,6 +58,12 @@
 		 */
 
 		private $cleanerrors;
+
+		/**
+		 * @var Request
+		 */
+
+		protected static $request;
 
 		/**
 		 * @var Software
@@ -132,6 +139,9 @@
 				if( Container::exist('session') == false )
 					Container::add('session', self::$session);
 			}
+
+			if( isset( self::$request ) == false )
+				self::$request = new Request();
 
 			if ($autoload)
 			{

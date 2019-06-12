@@ -160,7 +160,7 @@
 
 				$accountnumber = PostHelper::getPostData('accountnumber');
 				$targetaccount = PostHelper::getPostData('targetaccount');
-				$ipaddress = PostHelper::getPostData('ipaddress');
+				$ipaddress = self::$request->ipaddress;
 				$amount = PostHelper::getPostData('amount');
 
 				if (is_numeric($amount) == false)
