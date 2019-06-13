@@ -234,7 +234,7 @@
 						else
 						{
 
-							$computerid = self::$computer->createComputer(self::$session->userid(), Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP(), [], Settings::setting('syscrack_default_hardware'));
+							$computerid = self::$computer->createComputer(self::$session->userid(), Settings::setting('startup_computer'), self::$internet->getIP(), [], Settings::setting('default_hardware'));
 
 							if (empty($computerid))
 								throw new \Error();
@@ -243,8 +243,8 @@
 							 * @var \Framework\Syscrack\Game\Interfaces\Computer $class
 							 */
 
-							$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
-							$class->onStartup($computerid, self::$session->userid(), [], Settings::setting('syscrack_default_hardware'));
+							$class = self::$computer->getComputerClass(Settings::setting('startup_computer'));
+							$class->onStartup($computerid, self::$session->userid(), [], Settings::setting('default_hardware'));
 							self::$finance->withdraw($account->computerid, $account->userid, $this->getVPCPrice(self::$session->userid()));
 							$this->formSuccess('game/computer/');
 						}
@@ -267,7 +267,7 @@
 			if (empty($computer))
 				return 0;
 
-			return (count($computer) * (Settings::setting('syscrack_vpc_purchase_price') * Settings::setting('syscrack_vpc_purchase_increase')));
+			return (count($computer) * (Settings::setting('vpc_purchase_price') * Settings::setting('vpc_purchase_increase')));
 		}
 
 		/**
@@ -323,7 +323,7 @@
 		public function internetBrowser()
 		{
 
-			if( self::$computer->computerExists( Settings::setting( 'syscrack_whois_computer' )) == false )
+			if( self::$computer->computerExists( Settings::setting('whois_computer')) == false )
 				$this->formError("Whois computer is invalid. Please contact an admin.", 'index');
 			else
 			{
@@ -337,7 +337,7 @@
 						$this->redirect($this->getRedirect(self::$request->ipaddress));
 				}
 				else
-					$this->redirect($this->getRedirect(self::$internet->getComputerAddress(Settings::setting('syscrack_whois_computer'))));
+					$this->redirect($this->getRedirect(self::$internet->getComputerAddress(Settings::setting('whois_computer'))));
 			}
 		}
 
@@ -366,7 +366,7 @@
 				else
 					$connection = null;
 
-				if ($computer->type == Settings::setting("syscrack_computers_download_type"))
+				if ($computer->type == Settings::setting("computers_type_download"))
 					$downloads = self::$software->getAnonDownloads($computer->computerid);
 				else
 					$downloads = [];
@@ -422,7 +422,7 @@
 				]);
 
 				if( empty( $metadata ) == false )
-					if( isset( $metadata->custom["browserpage"] ) )
+					if( isset( $metadata->custom["browserpage"] ) && empty( $metadata->custom["browserpage"] ) == false )
 						@\Flight::render("resources/browser/" .  $metadata->custom["browserpage"], $data, 'browser_page');
 
 				$this->getRender('syscrack/page.game.internet',
@@ -728,24 +728,15 @@
 		{
 
 			if (self::$operations->allowCustomData($process) == false)
-			{
-
 				return null;
-			}
 
 			$data = self::$operations->getCustomData($process, $ipaddress, $userid);
 
 			if (empty($data) || $data == null)
-			{
-
 				return null;
-			}
 
 			if (is_array($data) == false)
-			{
-
 				throw new \Error();
-			}
 
 			return $data;
 		}
@@ -762,11 +753,8 @@
 		{
 
 			if ($ipaddress)
-			{
+				return Settings::setting('game_page') . '/' . Settings::setting('internet_page') . '/' . $ipaddress;
 
-				return Settings::setting('syscrack_game_page') . '/' . Settings::setting('syscrack_internet_page') . '/' . $ipaddress;
-			}
-
-			return Settings::setting('syscrack_game_page');
+			return Settings::setting('game_page');
 		}
 	}

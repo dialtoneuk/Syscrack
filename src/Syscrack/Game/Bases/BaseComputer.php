@@ -201,7 +201,7 @@
 		{
 
 			if ($userid == null)
-				$userid = Settings::setting("syscrack_master_user");
+				$userid = Settings::setting("user");
 
 			foreach ($softwares as $software)
 			{
@@ -260,7 +260,7 @@
 			if ($this->metadata()->exists($computerid))
 				$this->reload($computerid, $this->metadata()->get($computerid));
 			else
-				$this->addHardwares($computerid, Settings::setting('syscrack_default_hardware'));
+				$this->addHardwares($computerid, Settings::setting('default_hardware'));
 		}
 
 		/**
@@ -307,7 +307,7 @@
 			});
 			$tabhardware->dataMethod(function( $computerid, $userid ) use( $computer ){
 
-				$icons      = Settings::setting("syscrack_hardware_icons");
+				$icons      = Settings::setting("hardware_icons");
 				$hardware   = $computer->getComputerHardware( $computerid );
 
 				return( ['icons' => $icons, 'hardware' => $hardware]);
@@ -427,7 +427,7 @@
 			if ($computer == null)
 				throw new \Error();
 
-			$this->log($computer->computerid, $message, Settings::setting('syscrack_log_localhost_address'));
+			$this->log($computer->computerid, $message, Settings::setting('log_localhost_address'));
 		}
 
 		/**

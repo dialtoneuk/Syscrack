@@ -126,7 +126,7 @@
 		public function getBitcoinServers()
 		{
 
-			return $this->computers->getComputerByType(Settings::setting('syscrack_computers_bitcoin_type'));
+			return $this->computers->getComputerByType(Settings::setting('computers_type_bitcoin'));
 		}
 
 		/**
@@ -182,7 +182,7 @@
 		public function isBitcoinServer($computerid)
 		{
 
-			if ($this->computers->getComputer($computerid)->type != Settings::setting('syscrack_computers_bitcoin_type'))
+			if ($this->computers->getComputer($computerid)->type != Settings::setting('computers_type_bitcoin'))
 			{
 
 				return false;
@@ -323,21 +323,21 @@
 		public function getBitcoinSellPrice()
 		{
 
-			if (Settings::setting('syscrack_bitcoin_live') == false)
+			if (Settings::setting('bitcoin_live') == false)
 			{
 
-				return Settings::setting('syscrack_bitcoin_sellprice');
+				return Settings::setting('bitcoin_sellprice');
 			}
 
-			$result = json_decode(Request::post(Settings::setting('syscrack_bitcoin_url'))->body, true);
+			$result = json_decode(Request::post(Settings::setting('bitcoin_url'))->body, true);
 
-			if (isset($result[strtoupper(Settings::setting('syscrack_bitcoin_country'))]) == false)
+			if (isset($result[strtoupper(Settings::setting('bitcoin_country'))]) == false)
 			{
 
 				throw new \Error();
 			}
 
-			return $result[strtoupper(Settings::setting('syscrack_bitcoin_country'))]['sell'];
+			return $result[strtoupper(Settings::setting('bitcoin_country'))]['sell'];
 		}
 
 		/**
@@ -370,13 +370,13 @@
 		public function getBitcoinBuyPrice()
 		{
 
-			if (Settings::setting('syscrack_bitcoin_live') == false)
+			if (Settings::setting('bitcoin_live') == false)
 			{
 
-				return Settings::setting('syscrack_bitcoin_buyprice');
+				return Settings::setting('bitcoin_buyprice');
 			}
 
-			$result = json_decode(Request::post(Settings::setting('syscrack_bitcoin_url'))->body, true);
+			$result = json_decode(Request::post(Settings::setting('bitcoin_url'))->body, true);
 
 			if (empty($result))
 			{
@@ -384,7 +384,7 @@
 				return null;
 			}
 
-			return $result[strtoupper(Settings::setting('syscrack_bitcoin_country'))]['buy'];
+			return $result[strtoupper(Settings::setting('bitcoin_country'))]['buy'];
 		}
 
 		/**

@@ -66,7 +66,7 @@
 			$computer = self::$internet->computer($data['ipaddress']);
 			$software = self::$software->getSoftware($data['softwareid']);
 
-			if ($computer->type !== Settings::setting('syscrack_computers_download_type'))
+			if ($computer->type !== Settings::setting('computers_type_download'))
 				return false;
 			else if ($this->hasSpace(self::$computer->computerid(), $software->size) == false)
 				return false;
@@ -133,6 +133,6 @@
 			if (self::$software->softwareExists($softwareid) == false)
 				throw new \Error();
 
-			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_download_type'), self::$software->getSoftware($softwareid)->size / 5, $softwareid);
+			return $this->calculateProcessingTime($computerid, Settings::setting('hardware_type_download'), self::$software->getSoftware($softwareid)->size / 5, $softwareid);
 		}
 	}

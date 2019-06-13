@@ -123,7 +123,7 @@
 			    }
 		    }
 
-		    if( strtolower( Debug::getLine("Would you like to update your IDE stems? Y/N") == "y" ) )
+		    if( Debug::getLine("Would you like to update your IDE stems? Y/N") == strtolower( "y" ) )
 		    	return( $this->updateStems() );
 
 		    return true;
@@ -186,7 +186,7 @@
 				    $value = (int)$value;
 
 			    array_pop( $globals );
-			    array_push( $globals, '    ["' . addslashes( strtoupper( $global ) ) . '","' . addslashes( $value ) . '"],'  );
+			    array_push( $globals, '    ["' . addslashes( strtoupper( $global ) ) . '","' . addslashes( (string)$value ) . '"],'  );
 			    array_push( $globals, PHP_EOL . '] );'  );
 			    Debug::echo("Wrote '" . $global. '" with value ' . $value );
 			    $this->write( $globals );

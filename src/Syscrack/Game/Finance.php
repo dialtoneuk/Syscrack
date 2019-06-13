@@ -125,7 +125,7 @@
 		public function getBanks()
 		{
 
-			return self::$computers->getComputerByType(Settings::setting('syscrack_computers_bank_type'));
+			return self::$computers->getComputerByType(Settings::setting('computers_type_bank'));
 		}
 
 		/**
@@ -307,7 +307,7 @@
 				'computerid' => $computerid,
 				'userid' => $userid,
 				'accountnumber' => $this->getAccountNumber(),
-				'cash' => Settings::setting('syscrack_bank_default_balance'),
+				'cash' => Settings::setting('bank_default_balance'),
 				'timecreated' => time()
 			]);
 
@@ -381,6 +381,6 @@
 
 		private function getAccountNumber()
 		{
-			return mt_rand( Settings::setting('syscrack_bank_minnumber'), Settings::setting('syscrack_bank_maxnumber'));
+			return mt_rand( Settings::setting('bank_minnumber'), Settings::setting('bank_maxnumber'));
 		}
 	}

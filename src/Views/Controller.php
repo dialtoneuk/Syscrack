@@ -280,10 +280,8 @@
 		{
 
 			if (explode('?', $page))
-			{
-
 				return true;
-			}
+
 
 			return false;
 		}
@@ -302,10 +300,8 @@
 			$keys = explode('?', $page);
 
 			if (empty($keys))
-			{
-
 				throw new \Error();
-			}
+
 
 			return reset($keys);
 		}
@@ -335,11 +331,8 @@
 		private function checkURL($url)
 		{
 
-			if (strlen($url) > Settings::setting('controller_url_length'))
-			{
-
+			if (strlen($url) > Application::globals()->MAX_URL_LENGTH )
 				return false;
-			}
 
 			return true;
 		}

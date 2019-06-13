@@ -135,11 +135,11 @@
 
 			$userid = self::$verification->getTokenUser(self::$token);
 			static::assertTrue(self::$verification->verifyUser(self::$token));
-			$computerid = self::$computer->createComputer($userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP());
+			$computerid = self::$computer->createComputer($userid, Settings::setting('startup_computer'), self::$internet->getIP());
 			self::$computerid = $computerid;
 			static::assertNotEmpty( $computerid );
-			$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
+			$class = self::$computer->getComputerClass(Settings::setting('startup_computer'));
 			static::assertInstanceOf("\Framework\Syscrack\Game\Interfaces\Computer", $class );
-			$class->onStartup($computerid, $userid, [], Settings::setting('syscrack_default_hardware'));
+			$class->onStartup($computerid, $userid, [], Settings::setting('default_hardware'));
 		}
 	}

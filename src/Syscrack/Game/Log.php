@@ -39,7 +39,7 @@
 			if ($log == null)
 			{
 
-				$log = Settings::setting('syscrack_log_current');
+				$log = Settings::setting('log_current');
 			}
 
 			$computerlog = $this->getCustomLog($computerid, $log);
@@ -69,7 +69,7 @@
 			if ($log == null)
 			{
 
-				$log = Settings::setting('syscrack_log_current');
+				$log = Settings::setting('log_current');
 			}
 
 			if ($this->hasCurrentLog($computerid))
@@ -94,7 +94,7 @@
 		public function getCurrentLog($computerid)
 		{
 
-			return FileSystem::readJson($this->getFilepath($computerid) . Settings::setting('syscrack_log_current') . '.json');
+			return FileSystem::readJson($this->getFilepath($computerid) . Settings::setting('log_current') . '.json');
 		}
 
 		/**
@@ -146,7 +146,7 @@
 		public function hasCurrentLog($computerid)
 		{
 
-			if (empty(FileSystem::readJson($this->getFilepath($computerid) . Settings::setting('syscrack_log_current'))))
+			if (empty(FileSystem::readJson($this->getFilepath($computerid) . Settings::setting('log_current'))))
 			{
 
 				return false;
@@ -172,7 +172,7 @@
 				return false;
 			}
 
-			if (FileSystem::exists($this->getFilepath($computerid) . Settings::setting('syscrack_log_current') . '.json') == false)
+			if (FileSystem::exists($this->getFilepath($computerid) . Settings::setting('log_current') . '.json') == false)
 			{
 
 				return false;
@@ -197,7 +197,7 @@
 			if ($log == null)
 			{
 
-				$log = Settings::setting('syscrack_log_current');
+				$log = Settings::setting('log_current');
 			}
 
 			FileSystem::writeJson($this->getFilepath($computerid) . $log . '.json', $data);
@@ -232,6 +232,6 @@
 		private function getFilepath($computerid)
 		{
 
-			return Settings::setting('syscrack_log_location') . $computerid . '/';
+			return Settings::setting('log_location') . $computerid . '/';
 		}
 	}

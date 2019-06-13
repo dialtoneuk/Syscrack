@@ -47,7 +47,7 @@
 		public function currentTheme()
 		{
 
-			return (Settings::setting("render_folder"));
+			return (Settings::setting("theme_folder"));
 		}
 
 		/**
@@ -64,16 +64,16 @@
 				throw new \Error("Theme already set to: " . $theme);
 
 			if ($this->requiresMVC($theme) && $this->mvcOutput() == false)
-				Settings::updateSetting("render_mvc_output", true);
+				Settings::updateSetting("theme_mvc_output", true);
 			else if ($this->requiresMVC($theme) == false && $this->mvcOutput())
-				Settings::updateSetting("render_mvc_output", false);
+				Settings::updateSetting("theme_mvc_output", false);
 
 			if ($this->requiresJson($theme) && $this->jsonOutput() == false)
-				Settings::updateSetting("render_json_output", true);
+				Settings::updateSetting("theme_json_output", true);
 			else if ($this->requiresJson($theme) == false && $this->jsonOutput())
-				Settings::updateSetting("render_json_output", false);
+				Settings::updateSetting("theme_json_output", false);
 
-			Settings::updateSetting("render_folder", $theme);
+			Settings::updateSetting("theme_folder", $theme);
 		}
 
 		/**
@@ -83,7 +83,7 @@
 		public function mvcOutput(): bool
 		{
 
-			return ((bool)Settings::setting("render_mvc_output"));
+			return ((bool)Settings::setting("theme_mvc_output"));
 		}
 
 		/**
@@ -93,7 +93,7 @@
 		public function jsonOutput(): bool
 		{
 
-			return ((bool)Settings::setting("render_json_output"));
+			return ((bool)Settings::setting("theme_json_output"));
 		}
 
 		/**
@@ -311,10 +311,10 @@
 		public function getFolders()
 		{
 
-			if (FileSystem::directoryExists(Settings::setting("syscrack_view_location")) == false)
+			if (FileSystem::directoryExists(Settings::setting("theme_location")) == false)
 				throw new \Error("Themes folder does not exist");
 
-			return (FileSystem::getDirectories(Settings::setting("syscrack_view_location")));
+			return (FileSystem::getDirectories(Settings::setting("theme_location")));
 		}
 
 		/**
@@ -327,7 +327,7 @@
 		{
 
 			return (FileSystem::separate(
-				Settings::setting("syscrack_view_location"),
+				Settings::setting("theme_location"),
 				$folder,
 				Settings::setting("theme_info_file")
 			));

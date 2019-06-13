@@ -79,7 +79,7 @@
 				if( isset( $array["model"] ) == false )
 					$array["model"] = Page::$model;
 
-			if (Settings::setting('render_log'))
+			if (Settings::setting('theme_log'))
 				self::$stack[] = [
 					'template' => $template,
 					'array' => $array
@@ -108,7 +108,7 @@
 			}
 
 			if( isset( $array["form"] ) == false && FormContainer::empty() == false )
-				if (Settings::setting('error_use_session')
+				if (Settings::setting('error_session')
 					&& Container::get('session')->isLoggedIn()
 					&& isset($_SESSION["errors"]))
 					$array["form"] = $_SESSION["errors"];
@@ -121,10 +121,10 @@
 
 			self::$raw = $array;
 
-			if (Settings::setting('render_json_output'))
+			if (Settings::setting('theme_json_output'))
 				Flight::json( $array );
 			else
-				Flight::render(Settings::setting("syscrack_view_location") . DIRECTORY_SEPARATOR . self::getViewFolder( $template ), $array );
+				Flight::render(Settings::setting("theme_location") . DIRECTORY_SEPARATOR . self::getViewFolder( $template ), $array );
 		}
 
 		/**
@@ -142,7 +142,7 @@
 			if( $url !== "/" && substr( $url, -1  ) == "/" )
 				$url = substr(   $url, 0, strlen( $url ) - 1 );
 
-			if( Settings::setting('error_use_session') )
+			if( Settings::setting('error_session') )
 			{
 
 				$path = $url;
@@ -157,9 +157,9 @@
 
 			self::$last_redirect = $url;
 
-			if (Settings::setting('render_mvc_output') == true)
+			if (Settings::setting('theme_mvc_output') == true)
 			{
-				if (Settings::setting('render_json_output') == true)
+				if (Settings::setting('theme_json_output') == true)
 				{
 
 					Flight::json(['redirect' => $url, 'session' => $_SESSION]);
@@ -213,18 +213,18 @@
 				{
 
 					foreach ($asset as $file)
-						if (FileSystem::exists(FileSystem::separate(Settings::setting("syscrack_view_location")
-							, Settings::setting("render_folder")
+						if (FileSystem::exists(FileSystem::separate(Settings::setting("theme_location")
+							, Settings::setting("theme_folder")
 							, $folder
 							, $file . $extension
 						)))
-							$results[$key][] = "/" .FileSystem::separate(Settings::setting("syscrack_view_location"), Settings::setting("render_folder"), $folder, $file . $extension);
+							$results[$key][] = "/" .FileSystem::separate(Settings::setting("theme_location"), Settings::setting("theme_folder"), $folder, $file . $extension);
 						else if (self::$themes->hasBase(self::$themes->currentTheme()))
-							$results[$key][] = "/" . FileSystem::separate(Settings::setting("syscrack_view_location"), self::$themes->base(self::$themes->currentTheme()), $folder, $file . $extension);
+							$results[$key][] = "/" . FileSystem::separate(Settings::setting("theme_location"), self::$themes->base(self::$themes->currentTheme()), $folder, $file . $extension);
 				}
 				else
 					foreach ($asset as $file )
-						$results[$key][] = "/" .FileSystem::separate(Settings::setting("syscrack_view_location"), Settings::setting("render_folder"), $folder, $file);
+						$results[$key][] = "/" .FileSystem::separate(Settings::setting("theme_location"), Settings::setting("theme_folder"), $folder, $file);
 			}
 
 			return( $results );
@@ -272,23 +272,23 @@
 
 			if( FileSystem::exists(
 				FileSystem::separate(
-					Settings::setting("syscrack_view_location"), Settings::setting("render_folder"), $template
+					Settings::setting("theme_location"), Settings::setting("theme_folder"), $template
 					) . ".php"
 				) == false)
 			{
 
 				if( $base === null )
 					throw new \Error("Unable to find template at: " . FileSystem::separate(
-							Settings::setting("syscrack_view_location"), Settings::setting("render_folder"), $template
+							Settings::setting("theme_location"), Settings::setting("theme_folder"), $template
 						));
-				elseif( FileSystem::exists( FileSystem::separate( Settings::setting("syscrack_view_location"), $base, $template) . ".php" ) )
+				elseif( FileSystem::exists( FileSystem::separate( Settings::setting("theme_location"), $base, $template) . ".php" ) )
 					return( FileSystem::separate( $base, $template ) );
 				else
 					throw new \Error("Unable to find template at: " . FileSystem::separate(
-							Settings::setting("syscrack_view_location"), $base, $template
+							Settings::setting("theme_location"), $base, $template
 						));
 			}
 			else
-				return( FileSystem::separate( Settings::setting("render_folder"), $template ) );
+				return( FileSystem::separate( Settings::setting("theme_folder"), $template ) );
 		}
 	}

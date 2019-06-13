@@ -192,4 +192,7 @@ return( $globals = [
 	["CONTROLLER_FILEPATH","src\/Views\/Pages\/"],
     ["FILESYSTEM_DEFAULT_PERM", 0777],
 	["CONTROLLER_INDEX_ROOT", "/"],
+    ["GLOB_EXTENSION","php"],
+    ["CHMOD_PERM","777"],
+    ["MAX_URL_LENGTH","4048"],
 ] );

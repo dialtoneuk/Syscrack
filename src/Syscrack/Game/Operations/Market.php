@@ -108,7 +108,7 @@
 
 			$computer = self::$internet->computer($data['ipaddress']);
 
-			if ($computer->type != Settings::setting('syscrack_computers_market_type'))
+			if ($computer->type != Settings::setting('computers_type_market'))
 				return false;
 
 			return true;

@@ -101,7 +101,7 @@
 
 			$computer = self::$internet->computer($data['ipaddress']);
 
-			if ($computer->type != Settings::setting('syscrack_computers_bank_type'))
+			if ($computer->type != Settings::setting('computers_type_bank'))
 				return false;
 
 			if (self::$finance->hasCurrentActiveAccount() == false)
@@ -113,7 +113,7 @@
 				if (self::$finance->accountNumberExists(self::$finance->getCurrentActiveAccount()) == false)
 				{
 
-					if (Settings::setting('syscrack_operations_bank_clearonfail'))
+					if (Settings::setting('operations_bank_clearonfail'))
 						self::$finance->setCurrentActiveAccount(null);
 
 					return false;
@@ -198,7 +198,7 @@
 				if (self::$finance->accountNumberExists(self::$finance->getCurrentActiveAccount()) == false)
 				{
 
-					if (Settings::setting('syscrack_operations_bank_clearonfail'))
+					if (Settings::setting('operations_bank_clearonfail'))
 					{
 
 						self::$finance->setCurrentActiveAccount(null);
@@ -265,7 +265,7 @@
 
 						self::$finance->withdraw($activeaccount->computerid, $activeaccount->userid, $amount);
 
-						$this->logActions('Transfered ' . Settings::setting('syscrack_currency') . number_format($amount) . ' from (' . self::$finance->getCurrentActiveAccount() . ') to (' . $account->accountnumber . ') to bank <' . $targetipaddress . '>',
+						$this->logActions('Transfered ' . Settings::setting('bank_currency') . number_format($amount) . ' from (' . self::$finance->getCurrentActiveAccount() . ') to (' . $account->accountnumber . ') to bank <' . $targetipaddress . '>',
 							self::$computer->computerid(),
 							$ipaddress);
 

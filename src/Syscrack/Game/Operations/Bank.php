@@ -119,8 +119,6 @@
 					$process,
 					$data) == false )
 				return false;
-			else if (isset($data['redirect']) == false)
-				return true;
 			else
 				$this->render('operations/operations.bank',
 					['ipaddress' => $data['ipaddress'], 'account' => self::$finance->getAccountAtBank($this->computerAtAddress($data["ipaddress"]), $userid)],

@@ -118,7 +118,7 @@
 		public function SchemaPageExists($computerid)
 		{
 
-			if (FileSystem::exists('/themes/' . Settings::setting('render_folder') . DIRECTORY_SEPARATOR . $this->getSchemaPageLocation($computerid)) == false)
+			if (FileSystem::exists('/themes/' . Settings::setting('theme_folder') . DIRECTORY_SEPARATOR . $this->getSchemaPageLocation($computerid)) == false)
 			{
 
 				return false;
@@ -138,7 +138,7 @@
 		public function getSchemaPageLocation($computerid)
 		{
 
-			return Settings::setting('syscrack_schema_page_location') . $this->getSchema($computerid)['page'] . '.php';
+			return Settings::setting('schema_pages') . $this->getSchema($computerid)['page'] . '.php';
 		}
 
 		/**
@@ -152,7 +152,7 @@
 		public function getSchema($computerid)
 		{
 
-			return FileSystem::readJson(Settings::setting('syscrack_schema_filepath') . $computerid . '.json');
+			return FileSystem::readJson(Settings::setting('schema_filepath') . $computerid . '.json');
 		}
 
 		/**
@@ -166,7 +166,7 @@
 		public function getSchemaPath($computerid)
 		{
 
-			return Settings::setting('syscrack_schema_filepath') . $computerid . '.json';
+			return Settings::setting('schema_filepath') . $computerid . '.json';
 		}
 
 		/**

@@ -40,7 +40,7 @@
 				throw new \Error();
 
 			if (self::hasFileExtension($filepath) == false)
-				$filepath = $filepath . Settings::setting('filesystem_default_extension');
+				$filepath = $filepath . Application::globals()->GLOB_EXTENSION;
 
 			if (file_exists(self::getFilePath($filepath)) == false)
 				throw new \Error($filepath . ' does not exist');
@@ -153,7 +153,7 @@
 				throw new \Error("file is dir: " . $filepath);
 
 			if (self::hasFileExtension($filepath) == false)
-				$filepath = $filepath . Settings::setting('filesystem_default_extension');
+				$filepath = $filepath . "." . Application::globals()->GLOB_EXTENSION;
 
 			$directories = self::getDirectoriesFromPath($filepath);
 
@@ -195,7 +195,7 @@
 			}
 
 			if (self::hasFileExtension($filepath) == false)
-				$filepath = $filepath . Settings::setting('filesystem_default_extension');
+				$filepath = $filepath . "." . Application::globals()->GLOB_EXTENSION;
 
 			if (file_exists(self::getFilePath($filepath)) == false)
 				return false;
@@ -242,7 +242,7 @@
 				throw new \Error();
 
 			if (self::hasFileExtension($filepath) == false)
-				$filepath = $filepath . Settings::setting('filesystem_default_extension');
+				$filepath = $filepath . Application::globals()->GLOB_EXTENSION;
 
 			if (file_exists(self::getFilePath($filepath)) == false)
 				throw new \Error();
@@ -346,7 +346,7 @@
 			self::convertSeparators( $filepath );
 
 			if ($access == null)
-				$access = Settings::setting('filesystem_default_access');
+				$access = Application::globals()->CHMOD_PERM;
 
 			chmod(self::getFilePath($filepath), $access);
 		}
@@ -363,7 +363,7 @@
 			self::convertSeparators( $filepath );
 
 			if (self::hasFileExtension($filepath) == false)
-				$filepath = $filepath . Settings::setting('filesystem_default_extension');
+				$filepath = $filepath . Application::globals()->GLOB_EXTENSION;
 
 			if (file_exists( self::getFilePath($filepath) ) == false)
 				return;

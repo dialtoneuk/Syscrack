@@ -37,7 +37,7 @@
 		public function getDownloadSpeed($computerid)
 		{
 
-			return $this->getHardware($computerid)[Settings::setting('syscrack_internet_download_type')]['value'];
+			return $this->getHardware($computerid)[Settings::setting('internet_download_type')]['value'];
 		}
 
 		/**
@@ -48,7 +48,7 @@
 		public function getUploadSpeed($computerid)
 		{
 
-			return $this->getHardware($computerid)[Settings::setting('syscrack_internet_upload_type')]['value'];
+			return $this->getHardware($computerid)[Settings::setting('internet_upload_type')]['value'];
 		}
 
 		/**
@@ -59,7 +59,7 @@
 		public function getCPUSpeed($computerid)
 		{
 
-			return $this->getHardware($computerid)[Settings::setting('syscrack_hardware_cpu_type')]['value'];
+			return $this->getHardware($computerid)[Settings::setting('hardware_type_cpu')]['value'];
 		}
 
 		/**
@@ -70,7 +70,7 @@
 		public function getGPUSpeed($computerid)
 		{
 
-			return $this->getHardware($computerid)[Settings::setting('syscrack_gpu_type')]['value'];
+			return $this->getHardware($computerid)[Settings::setting('gpu_type')]['value'];
 		}
 
 		/**

@@ -54,12 +54,12 @@
 		public function onCollect($softwareid, $userid, $computerid, $timeran)
 		{
 
-			if (parent::$hardware->hasHardwareType($computerid, Settings::setting('syscrack_hardware_cpu_type')) == false)
+			if (parent::$hardware->hasHardwareType($computerid, Settings::setting('hardware_type_cpu')) == false)
 			{
 
-				return Settings::setting('syscrack_collector_vspam_yield') * $timeran;
+				return Settings::setting('collector_vspam_yield') * $timeran;
 			}
 
-			return (Settings::setting('syscrack_collector_vspam_yield') * (parent::$hardware->getCPUSpeed($computerid) * $timeran)) / Settings::setting('syscrack_collector_global_yield');
+			return (Settings::setting('collector_vspam_yield') * (parent::$hardware->getCPUSpeed($computerid) * $timeran)) / Settings::setting('collector_global_yield');
 		}
 	}

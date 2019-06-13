@@ -68,12 +68,12 @@
 		public function handleFlightError( $error, string $type="error")
 		{
 
-			if( $error instanceof Error || $error instanceof \RuntimeException || $error instanceof \ErrorException )
+			if( $error instanceof Error || $error instanceof \RuntimeException || $error instanceof \ErrorException || $error instanceof \Exception )
 			{
 
 				$array = [
 					'message' => $error->getMessage(),
-					'type' => $type,
+					'type' => @get_class( $error ),
 					'details' => [
 						'url' => $_SERVER['REQUEST_URI'],
 						'line' => $error->getLine(),
@@ -92,7 +92,7 @@
 				Debug::message("Error occured but type thrown wasn't what I expected");
 
 				$array = [
-					'type' => "unknownerror",
+					'type' => $type,
 					'message' => @get_class( $error ),
 					'details' => [
 						'url' => $_SERVER['REQUEST_URI'],

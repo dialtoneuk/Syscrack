@@ -168,10 +168,10 @@
 					self::$preferences = new Preferences();
 			}
 
-			if (Settings::setting('render_mvc_output'))
+			if (Settings::setting('theme_mvc_output'))
 				$this->_model = new \stdClass();
 
-			if( Settings::setting('render_mvc_output') && $global_model )
+			if( Settings::setting('theme_mvc_output') && $global_model )
 				self::$model = $this->model();
 
 			if ($requirelogin && $session)
@@ -296,7 +296,7 @@
 		public function model()
 		{
 
-			if (Settings::setting('render_mvc_output') == false)
+			if (Settings::setting('theme_mvc_output') == false)
 				return null;
 
 
@@ -437,7 +437,7 @@
 					$array["currentcomputer"] = self::$computer->getComputer( self::$computer->computerid() );
 
 			if( $this->cleanerrors )
-				if( Settings::setting("error_use_session") )
+				if( Settings::setting("error_session") )
 					if( isset( $_SESSION["form"]["drawn"] ) )
 						foreach( $_SESSION["form"]["drawn"] as $page=>$contents )
 							if( isset( $_SESSION["form"][ $page ][ $contents["key"] ] ) )

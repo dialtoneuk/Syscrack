@@ -80,7 +80,7 @@
 			if ($this->checkCustomData($data, ['accountnumber']) == false)
 				return false;
 
-			if (self::$internet->computer($data['ipaddress'])->type != Settings::setting('syscrack_computers_isp_type'))
+			if (self::$internet->computer($data['ipaddress'])->type != Settings::setting('computers_type_isp'))
 				return false;
 
 
@@ -91,7 +91,7 @@
 
 				$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
 
-				if (self::$finance->canAfford($account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price')) == false)
+				if (self::$finance->canAfford($account->computerid, $account->userid, Settings::setting('operations_resetaddress_price')) == false)
 					$this->redirect( $this->getRedirect($data['ipaddress'] ) );;
 			}
 
@@ -123,13 +123,13 @@
 
 			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
 
-			if (self::$finance->canAfford($account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price')) == false)
+			if (self::$finance->canAfford($account->computerid, $account->userid, Settings::setting('operations_resetaddress_price')) == false)
 				return false;
 
-			self::$finance->withdraw($account->computerid, $account->userid, Settings::setting('syscrack_operations_resetaddress_price'));
+			self::$finance->withdraw($account->computerid, $account->userid, Settings::setting('operations_resetaddress_price'));
 			self::$internet->changeAddress($computerid);
 
-			self::$log->updateLog('Changed ip address for ' . Settings::setting('syscrack_currency') . number_format(Settings::setting('syscrack_operations_resetaddress_price')) . ' using account ' . $account->accountnumber,
+			self::$log->updateLog('Changed ip address for ' . Settings::setting('bank_currency') . number_format(Settings::setting('operations_resetaddress_price')) . ' using account ' . $account->accountnumber,
 				self::$computer->computerid(),
 				'localhost');
 
@@ -158,7 +158,7 @@
 		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
 		{
 
-			return TimeHelper::getSecondsInFuture(Settings::setting('syscrack_operations_resetaddress_time'));
+			return TimeHelper::getSecondsInFuture(Settings::setting('operations_resetaddress_time'));
 		}
 
 		/**

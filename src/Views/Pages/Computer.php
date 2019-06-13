@@ -239,7 +239,7 @@
 		public function computerCollect()
 		{
 
-			if (parent::$computer->hasType(parent::$computer->computerid(), Settings::setting('syscrack_software_collector_type'), true) == false)
+			if (parent::$computer->hasType(parent::$computer->computerid(), Settings::setting('software_collector_type'), true) == false)
 				$this->redirect('computer');
 
 			$collector = parent::$software->getSoftware(parent::$computer->getCollector(parent::$computer->computerid()));
@@ -255,7 +255,7 @@
 		public function computerCollectProcess()
 		{
 
-			if (parent::$computer->hasType(parent::$computer->computerid(), Settings::setting('syscrack_software_collector_type'), true) == false)
+			if (parent::$computer->hasType(parent::$computer->computerid(), Settings::setting('software_collector_type'), true) == false)
 				$this->redirect('computer');
 			else
 				if (PostHelper::hasPostData() == false)
@@ -314,7 +314,7 @@
 			$account = self::$finance->getByAccountNumber($accountnumber);
 			self::$finance->deposit($account->computerid, $account->userid, $collection);
 			self::$log->updateLog('Deposited '
-				. Settings::setting('syscrack_currency')
+				. Settings::setting('bank_currency')
 				. number_format($collection) .
 				' into account (' . $accountnumber . ') at bank <' . parent::$internet->getComputerAddress($account->computerid)
 				. '>', parent::$computer->computerid(), 'localhost');
@@ -339,7 +339,7 @@
 
 			$information[$ipaddress] = [
 				'ipaddress' => $ipaddress,
-				'message' => $software->softwarename . ' ran for ' . gmdate("H:i:s", (time() - $software->lastmodified)) . ' and generated ' . Settings::setting('syscrack_currency') . number_format(($collection)),
+				'message' => $software->softwarename . ' ran for ' . gmdate("H:i:s", (time() - $software->lastmodified)) . ' and generated ' . Settings::setting('bank_currency') . number_format(($collection)),
 				'profits' => ($software)
 			];
 		}
@@ -375,7 +375,7 @@
 						$viruses = self::$viruses->getVirusesOnComputer($computerid, $userid);
 
 						foreach ($viruses as $virus)
-							if ($virus->installed && (time() - $virus->lastmodified) >= Settings::setting('syscrack_collector_cooldown'))
+							if ($virus->installed && (time() - $virus->lastmodified) >= Settings::setting('collector_cooldown'))
 								$results[] = array_merge($address, ["status" => 3, "virus" => $virus]);
 							else
 								$results[] = array_merge($address, ["status" => 2, "virus" => $virus]);
@@ -389,7 +389,7 @@
 		public function computerResearch()
 		{
 
-			if (parent::$computer->hasType(parent::$computer->computerid(), Settings::setting('syscrack_software_research_type'), true) == false)
+			if (parent::$computer->hasType(parent::$computer->computerid(), Settings::setting('software_research_type'), true) == false)
 			{
 
 				$this->redirect('computer');
@@ -474,7 +474,7 @@
 
 					parent::$software->licenseSoftware($softwareid, parent::$session->userid());
 
-					self::$log->updateLog('Purchased license for ' . Settings::setting('syscrack_currency') . number_format($this->getLicensePrice($softwareid)) . ' payed with account (' . $accountnumber . ') at bank <' . parent::$internet->getComputerAddress($account->computerid) . '>', parent::$computer->computerid(), 'localhost');
+					self::$log->updateLog('Purchased license for ' . Settings::setting('bank_currency') . number_format($this->getLicensePrice($softwareid)) . ' payed with account (' . $accountnumber . ') at bank <' . parent::$internet->getComputerAddress($account->computerid) . '>', parent::$computer->computerid(), 'localhost');
 
 					$this->formSuccess('computer/research');
 				}
@@ -701,7 +701,7 @@
 			if (parent::$software->isEditable($software->softwareid) == false)
 			{
 
-				if ($process == Settings::setting('syscrack_operations_view_process'))
+				if ($process == Settings::setting('operations_view_process'))
 				{
 
 					if (parent::$software->canView($software->softwareid) == false)
@@ -818,13 +818,13 @@
 
 			$software = parent::$software->getSoftware($softwareid);
 
-			if ($software->level * Settings::setting('syscrack_research_price_multiplier') <= 0)
+			if ($software->level * Settings::setting('research_price_multiplier') <= 0)
 			{
 
 				return 0;
 			}
 
-			return $software->level * Settings::setting('syscrack_research_price_multiplier');
+			return $software->level * Settings::setting('research_price_multiplier');
 		}
 
 		/**

@@ -272,7 +272,7 @@
 			foreach ($computersoftware as $csoftware)
 			{
 
-				if ($csoftware['type'] == Settings::setting('syscrack_software_collector_type'))
+				if ($csoftware['type'] == Settings::setting('software_collector_type'))
 				{
 
 					if ($csoftware['installed'] == true)
@@ -332,7 +332,7 @@
 			foreach ($computersoftware as $csoftware)
 			{
 
-				if ($csoftware['type'] == Settings::setting('syscrack_software_hasher_type'))
+				if ($csoftware['type'] == Settings::setting('software_hasher_type'))
 				{
 
 					if ($csoftware['installed'] == true)
@@ -392,7 +392,7 @@
 			foreach ($computersoftware as $csoftware)
 			{
 
-				if ($csoftware['type'] == Settings::setting('syscrack_software_firewall_type'))
+				if ($csoftware['type'] == Settings::setting('software_firewall_type'))
 				{
 
 					if ($csoftware['installed'] == true)
@@ -452,7 +452,7 @@
 			foreach ($computersoftware as $csoftware)
 			{
 
-				if ($csoftware['type'] == Settings::setting('syscrack_software_cracker_type'))
+				if ($csoftware['type'] == Settings::setting('software_cracker_type'))
 				{
 
 					if ($csoftware['installed'] == true)

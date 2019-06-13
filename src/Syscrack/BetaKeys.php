@@ -88,10 +88,10 @@
 		public function keys()
 		{
 
-			if (FileSystem::exists(Settings::setting('syscrack_betakey_location')) == false)
+			if (FileSystem::exists(Settings::setting('betakey_location')) == false)
 				return null;
 
-			$this->keys = FileSystem::readJson(Settings::setting('syscrack_betakey_location'));
+			$this->keys = FileSystem::readJson(Settings::setting('betakey_location'));
 
 			return( $this->keys );
 		}
@@ -131,12 +131,12 @@
 
 			$key = "";
 
-			for ($i = 0; $i < Settings::setting('syscrack_betakey_steps'); $i++)
+			for ($i = 0; $i < Settings::setting('betakey_steps'); $i++)
 			{
 
 				$step = "";
 
-				for ($k = 0; $k < Settings::setting('syscrack_betakey_length'); $k++)
+				for ($k = 0; $k < Settings::setting('betakey_length'); $k++)
 				{
 
 					$step = $step . rand(0, 9);
@@ -185,6 +185,6 @@
 		private function save()
 		{
 
-			FileSystem::writeJson(Settings::setting('syscrack_betakey_location'), $this->keys);
+			FileSystem::writeJson(Settings::setting('betakey_location'), $this->keys);
 		}
 	}

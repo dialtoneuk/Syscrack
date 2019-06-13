@@ -45,10 +45,10 @@
 		public function get()
 		{
 
-			if (FileSystem::exists(Settings::setting("computer_types_filepath")) == false)
+			if (FileSystem::exists(Settings::setting("types_filepath")) == false)
 				$this->generate();
 
-			return (FileSystem::readJson(Settings::setting("computer_types_filepath")));
+			return (FileSystem::readJson(Settings::setting("types_filepath")));
 		}
 
 		/**
@@ -73,6 +73,6 @@
 			}
 
 			array_unique( $types );
-			FileSystem::writeJson(Settings::setting("computer_types_filepath"), array_values( $types ) );
+			FileSystem::writeJson(Settings::setting("types_filepath"), array_values( $types ) );
 		}
 	}

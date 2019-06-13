@@ -308,6 +308,6 @@
 		private function getPath()
 		{
 
-			return Settings::setting('syscrack_addresses_location');
+			return Settings::setting('addresses_location');
 		}
 	}

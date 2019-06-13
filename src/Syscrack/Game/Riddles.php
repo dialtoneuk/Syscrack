@@ -212,7 +212,7 @@
 			if ($data != null)
 			{
 
-				FileSystem::writeJson(Settings::setting('syscrack_riddle_location'), $data);
+				FileSystem::writeJson(Settings::setting('riddle_location'), $data);
 			}
 			else
 			{
@@ -248,7 +248,7 @@
 		private function riddleFileExists()
 		{
 
-			if (FileSystem::exists(Settings::setting('syscrack_riddle_location')) == false)
+			if (FileSystem::exists(Settings::setting('riddle_location')) == false)
 			{
 
 				return false;
@@ -266,6 +266,6 @@
 		private function getRiddles()
 		{
 
-			return FileSystem::readJson(Settings::setting('syscrack_riddle_location'));
+			return FileSystem::readJson(Settings::setting('riddle_location'));
 		}
 	}

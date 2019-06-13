@@ -1,5 +1,5 @@
 <?php
-	declare(strict_types=1); //Created at 2019-06-11 05:07:39 by 14624
+	declare(strict_types=1); //Created at 2019-06-13 04:06:07 by 14644
 
 	namespace Framework\Application\UtilitiesV2;
 
@@ -65,7 +65,7 @@
 	 * @property string GOOGLE_CLOUD_CREDENTIALS data/config/storage/google.json
 	 * @property string STORAGE_CONFIG_ROOT cdata/config/storage/
 	 * @property string STORAGE_SETTINGS_FILE settings.json
-	 * @property double SYSCRACK_TIME_START 1560222456.4906
+	 * @property double SYSCRACK_TIME_START 1560390179.9789
 	 * @property string FLIGHT_JQUERY_FILE jquery-3.3.1.min.js
 	 * @property boolean FLIGHT_CONTENT_OBJECT 1
 	 * @property string FLIGHT_MODEL_DEFINITION model
@@ -198,6 +198,9 @@
 	 * @property string CONTROLLER_FILEPATH src\/Views\/Pages\/
 	 * @property integer FILESYSTEM_DEFAULT_PERM 511
 	 * @property string CONTROLLER_INDEX_ROOT /
+	 * @property string GLOB_EXTENSION php
+	 * @property string CHMOD_PERM 777
+	 * @property string MAX_URL_LENGTH 4048
 
 	 */
 	class Globals

@@ -433,7 +433,7 @@
 				throw new \Error();
 
 			$this->logToComputer($message, $victimid->computerid, self::$computer->getComputer($computerid)->ipaddress);
-			$this->logToComputer($message, $computerid, Settings::setting('syscrack_log_localhost_name'));
+			$this->logToComputer($message, $computerid, Settings::setting('log_localhost_name'));
 		}
 
 		/**
@@ -555,7 +555,7 @@
 		{
 
 			if (self::$hardware->hasHardwareType($computerid, $hardwaretype) == false)
-				return TimeHelper::getSecondsInFuture(Settings::setting('syscrack_operations_default_processingtime'));
+				return TimeHelper::getSecondsInFuture(Settings::setting('operations_default_processingtime'));
 
 
 			if ($softwareid !== null)
@@ -566,11 +566,11 @@
 
 				$hardware = self::$hardware->getHardwareType($computerid, $hardwaretype);
 				$software = self::$software->getSoftware($softwareid);
-				return TimeHelper::getSecondsInFuture(floor((sqrt($software->level / $hardware['value']) * $speedness) * (Settings::setting('syscrack_operations_global_speed'))));
+				return TimeHelper::getSecondsInFuture(floor((sqrt($software->level / $hardware['value']) * $speedness) * (Settings::setting('operations_global_speed'))));
 			}
 
 			$hardware = self::$hardware->getHardwareType($computerid, $hardwaretype);
-			return TimeHelper::getSecondsInFuture(floor(sqrt($speedness / $hardware['value']) * (Settings::setting('syscrack_operations_global_speed'))));
+			return TimeHelper::getSecondsInFuture(floor(sqrt($speedness / $hardware['value']) * (Settings::setting('operations_global_speed'))));
 		}
 
 		/**
@@ -647,7 +647,7 @@
 		public function hasSpace($computerid, $needed)
 		{
 
-			$hdd = self::$hardware->getHardwareType($computerid, 'harddrive')['value'];
+			$hdd = self::$hardware->getHardwareType($computerid, Settings::setting('hardware_type_hdd') )['value'];
 			$softwares = self::$software->getSoftwareOnComputer($computerid);
 
 			if (empty($softwares))
@@ -675,15 +675,15 @@
 		{
 
 			if ($ipaddress == self::$computer->getComputer(self::$computer->computerid())->ipaddress)
-				return Settings::setting('syscrack_computers_page');
+				return Settings::setting('computer_page');
 
 			if ($local)
-				return Settings::setting('syscrack_computers_page');
+				return Settings::setting('computer_page');
 
 			if ($ipaddress)
-				return Settings::setting('syscrack_game_page') . '/' . Settings::setting('syscrack_internet_page') . '/' . $ipaddress;
+				return Settings::setting('game_page') . '/' . Settings::setting('internet_page') . '/' . $ipaddress;
 
-			return Settings::setting('syscrack_game_page');
+			return Settings::setting('game_page');
 		}
 
 		/**
@@ -693,7 +693,7 @@
 		public function safeUnset()
 		{
 
-			$unset = Settings::setting('syscrack_operations_safeunset_values');
+			$unset = Settings::setting('operations_safeunset_values');
 
 			foreach ($unset as $value)
 				if (isset($_SESSION[$value]))
@@ -756,7 +756,7 @@
 		{
 
 			if ($type == null)
-				$type = Settings::setting('syscrack_software_cracker_type');
+				$type = Settings::setting('software_cracker_type');
 
 			$software = self::$computer->getComputerSoftware($computerid);
 

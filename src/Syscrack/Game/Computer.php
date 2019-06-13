@@ -675,7 +675,7 @@
 			foreach ($software as $softwares)
 			{
 
-				if ($softwares['type'] == Settings::setting('syscrack_software_cracker_type'))
+				if ($softwares['type'] == Settings::setting('software_cracker_type'))
 				{
 
 					if ($softwares['installed'] == false)
@@ -707,7 +707,7 @@
 			foreach ($software as $softwares)
 			{
 
-				if ($softwares['type'] == Settings::setting('syscrack_software_hasher_type'))
+				if ($softwares['type'] == Settings::setting('software_hasher_type'))
 				{
 
 					if ($softwares['installed'] == false)
@@ -739,7 +739,7 @@
 			foreach ($software as $softwares)
 			{
 
-				if ($softwares['type'] == Settings::setting('syscrack_software_hasher_type'))
+				if ($softwares['type'] == Settings::setting('software_hasher_type'))
 				{
 
 					if ($softwares['installed'] == false)
@@ -771,7 +771,7 @@
 			foreach ($software as $softwares)
 			{
 
-				if ($softwares['type'] == Settings::setting('syscrack_software_collector_type'))
+				if ($softwares['type'] == Settings::setting('software_collector_type'))
 				{
 
 					if ($softwares['installed'] == false)
@@ -983,7 +983,7 @@
 		public function isBank($computerid)
 		{
 
-			if ($this->getComputerType($computerid) !== Settings::setting('syscrack_computers_bank_type'))
+			if ($this->getComputerType($computerid) !== Settings::setting('computers_type_bank'))
 			{
 
 				return false;
@@ -1003,7 +1003,7 @@
 		public function isBitcoin($computerid)
 		{
 
-			if ($this->getComputerType($computerid) !== Settings::setting('syscrack_computers_bitcoin_type'))
+			if ($this->getComputerType($computerid) !== Settings::setting('computers_type_bitcoin'))
 			{
 
 				return false;
@@ -1023,7 +1023,7 @@
 		public function isMarket($computerid)
 		{
 
-			if ($this->getComputerType($computerid) !== Settings::setting('syscrack_computers_market_type'))
+			if ($this->getComputerType($computerid) !== Settings::setting('computers_type_market'))
 			{
 
 				return false;
@@ -1043,7 +1043,7 @@
 		public function isNPC($computerid)
 		{
 
-			if ($this->getComputerType($computerid) !== Settings::setting('syscrack_computers_npc_type'))
+			if ($this->getComputerType($computerid) !== Settings::setting('computers_type_npc'))
 			{
 
 				return false;
@@ -1063,7 +1063,7 @@
 		public function isVPC($computerid)
 		{
 
-			if ($this->getComputerType($computerid) !== Settings::setting('syscrack_computers_vpc_type'))
+			if ($this->getComputerType($computerid) !== Settings::setting('computers_type_vpc'))
 			{
 
 				return false;

@@ -219,7 +219,7 @@
 		public function getActiveSessions()
 		{
 
-			return self::$database->getSessionsByLastAction(time() - Settings::setting('online_timeframe'));
+			return self::$database->getSessionsByLastAction(time() - Settings::setting('session_timeframe'));
 		}
 
 		/**

@@ -50,7 +50,7 @@
 		public function isRetailer($computerid)
 		{
 
-			if (self::$computer->getComputerType($computerid) !== Settings::setting('syscrack_computers_retailer_type'))
+			if (self::$computer->getComputerType($computerid) !== Settings::setting('computers_type_retailer'))
 				return false;
 
 			return true;
@@ -193,6 +193,6 @@
 		private function getFilePath($computerid)
 		{
 
-			return Settings::setting('syscrack_retailer_location') . $computerid . '/';
+			return Settings::setting('retailer_location') . $computerid . '/';
 		}
 	}

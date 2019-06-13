@@ -155,7 +155,7 @@
 			if (self::$viruses->isVirus($data['custom']['softwareid']) == true)
 			{
 
-				if (Settings::setting('syscrack_statistics_enabled') == true)
+				if (Settings::setting('statistics_enabled') == true)
 					self::$statistics->addStatistic('virusinstalls');
 
 				self::$addressdatabase->addVirus($data['ipaddress'], $data['custom']['softwareid'], $userid);

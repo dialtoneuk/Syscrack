@@ -179,7 +179,7 @@
 				throw new \Error();
 			}
 
-			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_download_type'), self::$software->getSoftware($softwareid)->size / 5, $softwareid);
+			return $this->calculateProcessingTime($computerid, Settings::setting('hardware_type_download'), self::$software->getSoftware($softwareid)->size / 5, $softwareid);
 		}
 
 		/**

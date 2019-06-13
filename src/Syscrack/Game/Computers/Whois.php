@@ -58,7 +58,7 @@
 			if (isset($metadata->whois))
 				$array = $metadata->whois;
 			else
-				$array = Settings::setting("syscrack_whois_default_computers");
+				$array = Settings::setting("whois_default_computers");
 
 			foreach ($array as $computerid)
 			{

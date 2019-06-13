@@ -356,19 +356,19 @@
 		{
 
 			if ($ipaddress == $this->currentAddress())
-				return Settings::setting('syscrack_computers_page');
+				return Settings::setting('computer_page');
 
 			if ($local)
-				return Settings::setting('syscrack_computers_page');
+				return Settings::setting('computer_page');
 
 			if ($ipaddress)
-				return Settings::setting('syscrack_game_page')
+				return Settings::setting('game_page')
 					. '/'
-					. Settings::setting('syscrack_internet_page')
+					. Settings::setting('internet_page')
 					. '/'
 					. $ipaddress;
 
-			return Settings::setting('syscrack_game_page');
+			return Settings::setting('game_page');
 		}
 
 		/**

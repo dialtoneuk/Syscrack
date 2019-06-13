@@ -370,7 +370,12 @@
 				throw new \Error();
 			}
 
-			return json_decode(file_get_contents(self::fileLocation()), true);
+			$result = json_decode(file_get_contents(self::fileLocation()), true);
+
+			if( json_last_error() !== JSON_ERROR_NONE )
+				throw new \Error("Json error: " . json_last_error_msg() );
+
+			return( $result );
 		}
 
 		/**

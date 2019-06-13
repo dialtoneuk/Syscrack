@@ -115,14 +115,14 @@
 			if (PostHelper::checkForRequirements(['accountnumber', 'name']) == false)
 				return false;
 
-			if (self::$computer->hasType($computerid, Settings::setting('syscrack_software_research_type'), true) == false)
+			if (self::$computer->hasType($computerid, Settings::setting('software_research_type'), true) == false)
 				return false;
 
 			if (self::$software->softwareExists($data['custom']['softwareid']) == false)
 				return false;
 
 			$software = self::$software->getSoftware($data['custom']['softwareid']);
-			$price = Settings::setting('syscrack_research_price_multiplier') * @$software->level;
+			$price = Settings::setting('research_price_multiplier') * @$software->level;
 
 			if (self::$finance->accountNumberExists(PostHelper::getPostData('accountnumber')) == false)
 				return false;
@@ -150,7 +150,7 @@
 		{
 
 			$software = self::$software->getSoftware($data['custom']['softwareid']);
-			$price = Settings::setting('syscrack_research_price_multiplier') * $software->level;
+			$price = Settings::setting('research_price_multiplier') * $software->level;
 			$account = self::$finance->getByAccountNumber($data['custom']['accountnumber']);
 
 			self::$finance->withdraw($account->computerid, $account->userid, $price);
@@ -160,8 +160,8 @@
 				$userid,
 				$computerid,
 				$data['custom']['name'],
-				$software->level + Settings::setting('syscrack_research_increase'),
-				$software->size * (int)Settings::setting('syscrack_research_size_multiplyer'),
+				$software->level + Settings::setting('research_increase'),
+				$software->size * (int)Settings::setting('research_size_multiplyer'),
 				json_decode($software->data, true)
 			);
 
@@ -218,6 +218,6 @@
 
 			$research = self::$pagehelper->getInstalledType('research');
 
-			return (TimeHelper::getSecondsInFuture(Settings::setting("syscrack_operations_research_speed") / $research['level']));
+			return (TimeHelper::getSecondsInFuture(Settings::setting("operations_research_speed") / $research['level']));
 		}
 	}

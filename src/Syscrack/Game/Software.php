@@ -542,7 +542,7 @@
 		public function getVirusesOnComputer($computerid)
 		{
 
-			return self::$database->getTypeOnComputer(Settings::setting('syscrack_software_virus_type'), $computerid);
+			return self::$database->getTypeOnComputer(Settings::setting('software_virus_type'), $computerid);
 		}
 
 		/**
@@ -1002,7 +1002,7 @@
 			if (isset($softwareclass->configuration()['icon']) == false)
 			{
 
-				return Settings::setting('syscrack_software_default_icon');
+				return Settings::setting('software_default_icon');
 			}
 
 			return $softwareclass->configuration()['icon'];
@@ -1173,7 +1173,7 @@
 		private function isCallable(Structure $software, string $method)
 		{
 
-			$requirements = Settings::setting('syscrack_software_allowedmethods');
+			$requirements = Settings::setting('software_allowedmethods');
 
 			if (isset($requirements[$method]))
 			{

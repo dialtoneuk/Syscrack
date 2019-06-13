@@ -64,7 +64,7 @@
 			if ($this->checkData($data, ['ipaddress']) == false)
 				return false;
 
-			if (self::$computer->hasType($computerid, Settings::setting('syscrack_software_cracker_type'), true) == false)
+			if (self::$computer->hasType($computerid, Settings::setting('software_cracker_type'), true) == false)
 				return false;
 
 			if (self::$internet->hasCurrentConnection())
@@ -73,8 +73,8 @@
 
 			$victimid = $this->computerAtAddress($data['ipaddress']);
 
-			if (self::$computer->hasType($victimid, Settings::setting('syscrack_software_hasher_type'), true) == true)
-				if ($this->software($victimid, Settings::setting('syscrack_software_hasher_type'))['level'] > $this->software($computerid, Settings::setting('syscrack_software_cracker_type'))['level'])
+			if (self::$computer->hasType($victimid, Settings::setting('software_hasher_type'), true) == true)
+				if ($this->software($victimid, Settings::setting('software_hasher_type'))['level'] > $this->software($computerid, Settings::setting('software_cracker_type'))['level'])
 					return false;
 
 			return true;

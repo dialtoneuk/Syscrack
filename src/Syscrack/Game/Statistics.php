@@ -101,7 +101,7 @@
 		public function saveStatistics()
 		{
 
-			FileSystem::writeJson(Settings::setting('syscrack_statistics_file'), $this->statistics);
+			FileSystem::writeJson(Settings::setting('statistics_file'), $this->statistics);
 		}
 
 		/**
@@ -113,7 +113,7 @@
 		public function hasStatistics()
 		{
 
-			if (FileSystem::exists(Settings::setting('syscrack_statistics_file')) == false)
+			if (FileSystem::exists(Settings::setting('statistics_file')) == false)
 			{
 
 				return false;
@@ -143,7 +143,7 @@
 				return $this->statistics;
 			}
 
-			$this->statistics = FileSystem::readJson(Settings::setting('syscrack_statistics_file'));
+			$this->statistics = FileSystem::readJson(Settings::setting('statistics_file'));
 
 			return $this->statistics;
 		}

@@ -157,7 +157,7 @@
 		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
 		{
 
-			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_cpu_type'), 5.5, $softwareid);
+			return $this->calculateProcessingTime($computerid, Settings::setting('hardware_type_cpu'), 5.5, $softwareid);
 		}
 
 		/**

@@ -155,7 +155,7 @@
 			if (self::$viruses->isVirus($data['softwareid']) == true)
 			{
 
-				if (Settings::setting('syscrack_statistics_enabled') == true)
+				if (Settings::setting('statistics_enabled') == true)
 					self::$statistics->addStatistic('virusinstalls');
 
 				self::$addressdatabase->addVirus($data['ipaddress'], $data['softwareid'], $userid);
@@ -190,7 +190,7 @@
 		public function getCompletionSpeed($computerid, $ipaddress, $softwareid = null)
 		{
 
-			return $this->calculateProcessingTime($computerid, Settings::setting('syscrack_hardware_cpu_type'), 1, $softwareid);
+			return $this->calculateProcessingTime($computerid, Settings::setting('hardware_type_cpu'), 1, $softwareid);
 		}
 
 		/**

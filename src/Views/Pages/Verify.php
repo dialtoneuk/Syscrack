@@ -97,20 +97,20 @@
 				}
 
 
-				if (Settings::setting('syscrack_startup_on_verification') == true)
+				if (Settings::setting('startup_verification') == true)
 				{
 
-					$computerid = self::$computer->createComputer($userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP());
+					$computerid = self::$computer->createComputer($userid, Settings::setting('startup_computer'), self::$internet->getIP());
 
 					if (empty($computerid))
 						throw new \Error();
 
-					$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
+					$class = self::$computer->getComputerClass(Settings::setting('startup_computer'));
 
 					if ($class instanceof Computer == false)
 						throw new \Error();
 
-					$class->onStartup($computerid, $userid, [], Settings::setting('syscrack_default_hardware'));
+					$class->onStartup($computerid, $userid, [], Settings::setting('default_hardware'));
 				}
 
 
@@ -158,10 +158,10 @@
 			try
 			{
 
-				if (Settings::setting('syscrack_startup_on_verification') == true)
+				if (Settings::setting('startup_verification') == true)
 				{
 
-					$computerid = self::$computer->createComputer($userid, Settings::setting('syscrack_startup_default_computer'), self::$internet->getIP());
+					$computerid = self::$computer->createComputer($userid, Settings::setting('startup_computer'), self::$internet->getIP());
 
 					if (empty($computerid))
 					{
@@ -169,7 +169,7 @@
 						throw new \Error();
 					}
 
-					$class = self::$computer->getComputerClass(Settings::setting('syscrack_startup_default_computer'));
+					$class = self::$computer->getComputerClass(Settings::setting('startup_computer'));
 
 					if ($class instanceof Computer == false)
 					{
@@ -177,7 +177,7 @@
 						throw new \Error();
 					}
 
-					$class->onStartup($computerid, $userid, [], Settings::setting('syscrack_default_hardware'));
+					$class->onStartup($computerid, $userid, [], Settings::setting('default_hardware'));
 				}
 			} catch (\Exception $error)
 			{

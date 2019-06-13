@@ -187,12 +187,12 @@
 		public function cleanupAddresses(  \Illuminate\Support\Collection $users )
 		{
 
-			$files = FileSystem::getFilesInDirectory(Settings::setting("syscrack_addresses_location"), "json");
+			$files = FileSystem::getFilesInDirectory(Settings::setting("addresses_location"), "json");
 			$exists = [];
 
 			foreach ($users as $user)
-				if( FileSystem::exists( Settings::setting("syscrack_addresses_location") . $user->userid . ".json" ) )
-					$exists[ FileSystem::getFilePath( Settings::setting("syscrack_addresses_location") . $user->userid . ".json" ) ] = $user->userid;
+				if( FileSystem::exists( Settings::setting("addresses_location") . $user->userid . ".json" ) )
+					$exists[ FileSystem::getFilePath( Settings::setting("addresses_location") . $user->userid . ".json" ) ] = $user->userid;
 
 			$total = 0;
 
@@ -248,12 +248,12 @@
 		public function cleanupAccounts(  \Illuminate\Support\Collection $users )
 		{
 
-			$files = FileSystem::getFilesInDirectory(Settings::setting("syscrack_accounts_location"), "json");
+			$files = FileSystem::getFilesInDirectory(Settings::setting("accounts_location"), "json");
 			$exists = [];
 
 			foreach ($users as $user)
-				if( FileSystem::exists( Settings::setting("syscrack_accounts_location") . $user->userid . ".json" ) )
-					$exists[ FileSystem::getFilePath( Settings::setting("syscrack_accounts_location") . $user->userid . ".json" ) ] = $user->userid;
+				if( FileSystem::exists( Settings::setting("accounts_location") . $user->userid . ".json" ) )
+					$exists[ FileSystem::getFilePath( Settings::setting("accounts_location") . $user->userid . ".json" ) ] = $user->userid;
 
 			$total = 0;
 
@@ -277,7 +277,7 @@
 		public function cleanupLogs(  \Illuminate\Support\Collection $computers )
 		{
 
-			$files = FileSystem::getDirectories(Settings::setting("syscrack_log_location"));
+			$files = FileSystem::getDirectories(Settings::setting("log_location"));
 			$exists = [];
 
 			foreach ( $computers  as $computer )
@@ -286,7 +286,7 @@
 				if( self::$user->userExists( $computer->userid ) == false )
 					continue;
 
-				if( FileSystem::exists( Settings::setting("syscrack_log_location") . $computer->computerid . '/' ) )
+				if( FileSystem::exists( Settings::setting("log_location") . $computer->computerid . '/' ) )
 					$exists[ $computer->computerid ] = $computer->computerid;
 			}
 
@@ -296,7 +296,7 @@
 				if( isset( $exists[ $file ] ) == false )
 				{
 					$total += 1;
-					FileSystem::nukeDirectory( Settings::setting("syscrack_log_location") . $file );
+					FileSystem::nukeDirectory( Settings::setting("log_location") . $file );
 				}
 
 			return( $total );
@@ -311,7 +311,7 @@
 		public function cleanupMarkets(  \Illuminate\Support\Collection $computers )
 		{
 
-			$files = FileSystem::getDirectories(Settings::setting("syscrack_market_location"));
+			$files = FileSystem::getDirectories(Settings::setting("market_location"));
 			$exists = [];
 
 			foreach ( $computers  as $computer )
@@ -320,7 +320,7 @@
 				if( self::$user->userExists( $computer->userid ) == false )
 					continue;
 
-				if( FileSystem::exists( Settings::setting("syscrack_market_location") . $computer->computerid . '/' ) )
+				if( FileSystem::exists( Settings::setting("market_location") . $computer->computerid . '/' ) )
 					$exists[ $computer->computerid ] = $computer->computerid;
 			}
 
@@ -330,7 +330,7 @@
 				if( isset( $exists[ $file ] ) == false )
 				{
 					$total += 1;
-					FileSystem::nukeDirectory( Settings::setting("syscrack_market_location") . $file );
+					FileSystem::nukeDirectory( Settings::setting("market_location") . $file );
 				}
 
 			return( $total );
