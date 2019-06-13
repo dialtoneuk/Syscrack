@@ -10,6 +10,7 @@
 	namespace Framework\Application\UtilitiesV2;
 
 	use Framework\Application;
+	use Framework\Application\Utilities\FileSystem;
 
 	/**
 	 * Class Constructor
@@ -48,17 +49,14 @@
 		public function __construct($filepath, $namespace)
 		{
 
-			if( substr( $filepath, 0, 1 ) !== "/" && substr( $filepath, 0, 1 ) !== "\\" )
-				$filepath = DIRECTORY_SEPARATOR . $filepath;
-
 			Debug::message('Constructor created with file_path ' . $filepath . ' and namespace of ' . $namespace);
 
 			$this->objects = new \stdClass();
 
-			if (file_exists(SYSCRACK_ROOT . $filepath) == false || is_dir(SYSCRACK_ROOT . $filepath) == false)
-				throw new \Error('Root filepath is invalid: ' . SYSCRACK_ROOT . $filepath );
+			if( FileSystem::directoryExists( $filepath ) == false )
+				throw new \Error("Directory does not exist: " . FileSystem::getFilePath( $filepath ) );
 
-			$this->file_path = SYSCRACK_ROOT . $filepath;
+			$this->file_path = $filepath;
 			$this->namespace = $namespace;
 		}
 
@@ -184,12 +182,6 @@
 			return $this->objects->$class_name;
 		}
 
-		public function getClassNames()
-		{
-
-
-		}
-
 		/**
 		 * @param $class_name
 		 *
@@ -242,15 +234,13 @@
 		private function crawl()
 		{
 
-			$files = glob($this->file_path . '*.php');
+			$files = FileSystem::getFilesInDirectory( $this->file_path );
+			$return = [];
 
-			foreach ($files as $key => $file)
-			{
+			foreach( $files as $file )
+				$return[] = FileSystem::getFileName( $file );
 
-				$files[$key] = $this->trim($file);
-			}
-
-			return $files;
+			return( $return );
 		}
 
 		/**
