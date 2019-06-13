@@ -12,9 +12,7 @@
 	 */
 
 	use Framework\Application;
-	use Framework\Application\Settings;
 	use Framework\Application\UtilitiesV2\Debug;
-
 
 	/**
 	 * Class FileSystem
@@ -372,6 +370,23 @@
 		}
 
 		/**
+		 * @param $filepath
+		 *
+		 * @return array
+		 */
+
+		public static function getLines( $filepath ): array
+		{
+
+			self::convertSeparators( $filepath );
+
+			if( self::exists( $filepath ) == false )
+				return [];
+
+			return( file( self::getFilePath( $filepath ) ) );
+		}
+
+		/**
 		 * Gets the file path
 		 *
 		 * @param $filepath
@@ -379,7 +394,7 @@
 		 * @return string
 		 */
 
-		public static function getFilePath($filepath)
+		public static function getFilePath($filepath): string
 		{
 
 			self::convertSeparators( $filepath );
@@ -466,11 +481,12 @@
 		{
 
 			$file = explode('.', $file);
+			array_pop( $file );
 
 			if (empty($file))
 				throw new \Error();
-			
-			return reset($file);
+
+			return implode(".", $file);
 		}
 
 		/**

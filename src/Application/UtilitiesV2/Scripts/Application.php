@@ -186,7 +186,7 @@
 				    $value = (int)$value;
 
 			    array_pop( $globals );
-			    array_push( $globals, '    ["' . addslashes( strtoupper( $global ) ) . '","' . addslashes( (string)$value ) . '"],'  );
+			    array_push( $globals, '	["' . addslashes( strtoupper( $global ) ) . '","' . addslashes( (string)$value ) . '"],'  );
 			    array_push( $globals, PHP_EOL . '] );'  );
 			    Debug::echo("Wrote '" . $global. '" with value ' . $value );
 			    $this->write( $globals );
@@ -204,13 +204,13 @@
 	    }
 
 		/**
-		 * @return array|bool
+		 * @return array
 		 */
 
-	    private function read()
+	    private function read(): array
 	    {
 
-	    	return( file( FileSystem::getFilePath( FileSystem::separate("resources","includes","globals.module") ) ) );
+	    	return( FileSystem::getLines( FileSystem::separate("resources","includes","globals.module") ) );
 	    }
 
 	    /**
