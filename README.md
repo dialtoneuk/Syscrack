@@ -1,19 +1,48 @@
 ![Image](https://i.imgur.com/UVz5BSc.png)
 
-# Whats going on here?
+# Be a hacker in a virtual internet
 
-Hello! Its been a long and quite eventful two years. I'm back on Syscrack for the foreseeable future now as I've found my self in the position again to work on this project full time. With my return comes big changes to Syscrack as a whole, as secretly in my two years of silence, I've been finetuning my skills with the PHP Language as well as getting deep into cloud hosting environments and contiunous integration environments that I'd like to take advantage of.
+Syscrack is an online hacking simulator inspired by incremental PHP based web-games such as Slavehack and
+hacker experience. A major goal of Syscrack is to allow for a moddable experience of which users with little to
+no prior programming knownledge can create new game mechanics with ease. 
 
-Bottom line is, the code which currently supports the alpha prototype is bad. Its really bad. Looking back after a few years away, trying to work with the current prototype as it is was a frustrating and quite confusing experience. Errors seemingly popped up randomly even when I made the smallest changes. This means right now development is very slow and I'm "walking on egg shells" with most of my edits.
+Another major goal of Syscrack is to be really fun. The game is an open sandbox environment based on the ip address
+and hacking into computers. Users may install viruses onto other players machines for profit. Because of the
+dynamic nature of Syscrack there is a large selection of tools and mechanics for the user to have fun with.
 
-I plan on bringing two big updates to this current prototype, these updates will tie up a few loose ends in the current engine which will allow a continuous game of Syscrack to be played out indefinately while I work on the brand new PHP 7.3 rewrite on a completely new framework written from scratch specifically for Syscrack and deals with most of the issues I came across while working on this version. 
+This project has been actively developed since 2016 by Lewis Lancaster. We use FlightPHP for our microframework
+and we also use Laravel's database components, as well as PHPMailer for our email related tasks and we also both the
+Google and Facebook SDK's from respective companies. Most of Syscrack is written from scratch over the combined efforts of
+4 years.
 
-## So, what now?
+## Installation
 
-I don't suggest attempting to host this version your self right now. Because of the state of this repo, I'm currently not even considering writing detailed installation guides for anything other than an XAMPP Windows 10 environment. Its not a clean install right now and something will most probably go wrong. 
+We currently do not support your endevour to install Syscrack before we've put out the correct tools to do so. Right now
+most of the focus is on things like testing and implementing crucial features. We will be releasing a
+detailed guide however in the future.
 
-But do not fear! I will be frequently posting patches and small fixes and you will eventually be able to drag and drop this repo into your webservers root directory and set up a new syscrack installation as normal. Bundled with one of these patches will be instructions on how to set up Syscrack for your Windows environment. But please have patience.
+For now, if you are adament on setting up your own Syscrack. You will need go to www.flightphp.com and create a
+rewrite rule for your server. Your Syscrack installation will not work otherwise as this is crucial.
 
-## More updates coming soon & our official syscrack host to follow
+Syscrack can also be launched in terminal mode by running the following command in Syscracks root directory.
 
-![Image](https://i.imgur.com/PQ000An.png)
+`
+php execute.php
+`
+
+## Join our discord
+
+We regually update you with our progress over on our discord. So if you are interested in this project and would
+even like to help test Syscrack then check out the link below.
+
+https://discord.gg/WCWutGZ
+
+Make sure to also check out the Projects tab on our github for features we'd like to implement as well as features
+we are currently working on.
+
+## Credits
+
+* Lewis Lancaster - Lead Developer & Project Founder 
+* iiTranquality - Community Manager & QA Tester
+* Cameron - Head of QA
+* To all those who helped us test Syscrack 1.0 :)
