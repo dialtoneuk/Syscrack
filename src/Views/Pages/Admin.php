@@ -227,6 +227,8 @@
 		public function usersEdit($userid)
 		{
 
+			$userid = parent::cast('int', $userid );
+
 			if ($this->isUser($userid))
 				$this->getRender('syscrack/page.admin.users.edit', ['inventory' => self::$inventory->get( $userid ),
 					'computers' => self::$computer->getUserComputers( $userid  )], true, $userid );
@@ -240,6 +242,8 @@
 
 		public function usersEditProcess($userid)
 		{
+
+			$userid = parent::cast('int', $userid );
 
 			if ($this->isUser($userid) == false)
 				$this->formError('This user does not exist', "admin/users/edit/" . $userid . "/");

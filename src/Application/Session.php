@@ -131,7 +131,7 @@
 			if (isset($this->getDatabaseSession()->userid) == false)
 				return null;
 
-			return $this->getDatabaseSession()->userid;
+			return (int)$this->getDatabaseSession()->userid;
 		}
 
 		/**
