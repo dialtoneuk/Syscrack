@@ -292,7 +292,7 @@
 		 * Loads the settings
 		 */
 
-		private static function loadSettings()
+		public static function loadSettings()
 		{
 
 			$settings = self::readSettings();

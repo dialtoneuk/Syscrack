@@ -78,7 +78,7 @@
 			    	throw new \Error("Unknown action: " . $arguments["action"] );
 		    }
 
-		    Debug::echo("\nActions complete! It is suggested you run refresh!\n");
+		    Container::get('application')->getScripts()->execute('_Refresh');
 		    return( true );
 	    }
 
@@ -223,8 +223,16 @@
 	    public function help()
 	    {
 	        return([
-	            "arguments" => $this->requiredArguments(),
-	            "help" => "Hello World"
+	            "arguments" => array_merge( $this->requiredArguments(),
+		            [
+		            	"action=global value:optional",
+			            "action=stems"
+	            	]),
+	            "help" => [
+	            	"The commands are as follows: \n",
+		            " action=globals global=MY_GLOBAL - if found will display global, if not will create it with default value if value argument not set",
+		            " action=stems - creates PHPStorm ready stems of the globals"
+	            ]
 	        ]);
 	    }
 

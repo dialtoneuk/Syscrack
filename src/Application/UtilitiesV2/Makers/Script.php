@@ -44,6 +44,6 @@
 
 		public function namespace(): string
 		{
-			return( Format::rc( Application::globals()->SCRIPTS_ROOT ) );
+			return( Format::rc( Application::globals()->SCRIPTS_NAMESPACE ) );
 		}
 	}
