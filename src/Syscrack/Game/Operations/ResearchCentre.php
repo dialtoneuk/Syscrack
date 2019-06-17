@@ -46,10 +46,7 @@
 		public function url($ipaddress = null)
 		{
 
-			if ($ipaddress == null)
-				return (parent::url($ipaddress));
-
-			return ('game/internet/' . @$ipaddress . '/remoteadmin');
+			return( parent::url($ipaddress) );
 		}
 
 		/**
@@ -64,7 +61,7 @@
 		public function onCreation($timecompleted, $computerid, $userid, $process, array $data)
 		{
 
-			if (self::$computer->hasType($computerid, 'research') == false)
+			if ( @self::$computer->hasType($computerid, 'research') == false)
 				return false;
 
 			return true;

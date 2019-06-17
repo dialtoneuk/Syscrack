@@ -6,7 +6,7 @@
 	/**
 	 * Lewis Lancaster 2017
 	 *
-	 * Class ForceInstall
+	 * Class ForceUninstall
 	 *
 	 * @package Framework\Syscrack\Game\Operations
 	 */
@@ -18,10 +18,10 @@
 	use Framework\Syscrack\Game\Viruses;
 
 	/**
-	 * Class ForceInstall
+	 * Class ForceUninstall
 	 * @package Framework\Syscrack\Game\Operations
 	 */
-	class ForceInstall extends BaseOperation
+	class ForceUninstall extends BaseOperation
 	{
 
 		/**
@@ -150,9 +150,9 @@
 			if (self::$software->softwareExists($data['custom']['softwareid']) == false)
 				return false;
 
-			self::$software->installSoftware($data['custom']['softwareid'], $userid);
-			self::$computer->installSoftware($this->computerAtAddress($data['ipaddress']), $data['custom']['softwareid']);
-			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['custom']['softwareid']), 'onInstalled', [
+			self::$software->uninstallSoftware($data['custom']['softwareid'], $userid);
+			self::$computer->uninstallSoftware($this->computerAtAddress($data['ipaddress']), $data['custom']['softwareid']);
+			self::$software->executeSoftwareMethod(self::$software->getSoftwareNameFromSoftwareID($data['custom']['softwareid']), 'onUninstalled', [
 				'softwareid' => $data['custom']['softwareid'],
 				'userid' => $userid,
 				'computerid' => $this->computerAtAddress($data['ipaddress'])

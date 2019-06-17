@@ -71,10 +71,7 @@
 		public function url($ipaddress = null)
 		{
 
-			if ($ipaddress == null)
-				return (parent::url($ipaddress));
-
-			return ('game/internet/' . @$ipaddress . '/remoteadmin');
+			return( parent::url($ipaddress) );
 		}
 
 		/**

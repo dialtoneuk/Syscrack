@@ -3,6 +3,9 @@
 
 	namespace Framework\Application;
 
+	use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\UtilitiesV2\Debug;
+
 	/**
 	 * Lewis Lancaster 2016
 	 *
@@ -44,15 +47,7 @@
 		public static function writeSettings()
 		{
 
-			$json = json_encode(self::settings(), JSON_PRETTY_PRINT);
-
-			if (empty($json))
-			{
-
-				throw new \Error();
-			}
-
-			file_put_contents(self::fileLocation(), $json);
+			FileSystem::writeJson( self::fileLocation(), self::$settings );
 		}
 
 		/**
@@ -69,10 +64,8 @@
 			unset(self::$settings[$setting_name]);
 
 			if ($save)
-			{
-
 				self::writeSettings();
-			}
+
 		}
 
 		/**
@@ -91,10 +84,8 @@
 			self::$settings[$name] = $value;
 
 			if ($save)
-			{
-
 				self::writeSettings();
-			}
+
 		}
 
 		/**
@@ -113,10 +104,8 @@
 			self::$settings[$setting_name] = $setting_value;
 
 			if ($save)
-			{
-
 				Settings::writeSettings();
-			}
+
 		}
 
 		/**
@@ -131,10 +120,8 @@
 		{
 
 			if (isset(self::$settings[$setting_name]) == false)
-			{
-
 				return false;
-			}
+
 
 			return true;
 		}
@@ -189,22 +176,14 @@
 			$settings = self::settings();
 
 			if (isset($settings[$setting]) == false)
-			{
-
 				throw new \Error('Setting does not exist: ' . $setting);
-			}
 
 			$setting = $settings[$setting];
 
 			if (is_array($setting) == false)
-			{
-
 				if (self::hasParsableData($setting))
-				{
-
 					return self::parseSetting($setting);
-				}
-			}
+
 
 			return $setting;
 		}
@@ -224,10 +203,7 @@
 				$setting = (string)$setting;
 
 			if ( @preg_match('/\<(.*?)\>/', $setting) == false)
-			{
-
 				return false;
-			}
 
 			return true;
 		}
@@ -246,11 +222,7 @@
 			preg_match("/\<php(.*?)\>/", $setting, $array);
 
 			if (empty($array))
-			{
-
 				throw new \Error();
-			}
-
 
 			return $array[1];
 		}
@@ -267,7 +239,6 @@
 		{
 
 			$match = self::getRegexMatch($setting);
-
 			$parsed = null;
 
 			if (Settings::setting('settings_php_enabled'))
@@ -311,10 +282,8 @@
 		{
 
 			foreach ($array as $value)
-			{
-
 				$setting = str_replace("<php" . $value[0] . ">", $value[1], $setting);
-			}
+
 
 			return $setting;
 		}
@@ -329,10 +298,7 @@
 			$settings = self::readSettings();
 
 			if (empty($settings))
-			{
-
 				throw new \Error();
-			}
 
 			self::$settings = $settings;
 		}
@@ -346,11 +312,9 @@
 		public static function canFindSettings()
 		{
 
-			if (file_exists(self::fileLocation()) == false)
-			{
-
+			if (file_exists(self::fileLocation('settings.json')) == false)
 				return false;
-			}
+
 
 			return true;
 		}
@@ -364,18 +328,27 @@
 		private static function readSettings()
 		{
 
-			if (file_exists(self::fileLocation()) == false)
-			{
+			if (file_exists(self::fileLocation() ) == false )
+				self::makeUserSettings();
 
-				throw new \Error();
-			}
+			return( FileSystem::readJson( self::fileLocation() ) );
+		}
 
-			$result = json_decode(file_get_contents(self::fileLocation()), true);
+		/**
+		 * Makes unique user settings
+		 */
 
-			if( json_last_error() !== JSON_ERROR_NONE )
-				throw new \Error("Json error: " . json_last_error_msg() );
+		private function makeUserSettings()
+		{
 
-			return( $result );
+			if( file_exists( self::fileLocation( "settings.json") ) == false )
+				throw new \Error("file does not exist: " . self::fileLocation( "settings.json" ) );
+
+			if( Debug::isCMD() )
+				Debug::message("created user_settings.json using default settings value " );
+
+			$data = FileSystem::read( self::fileLocation( "settings.json") );
+			FileSystem::write( self::fileLocation(), $data );
 		}
 
 		/**
@@ -384,9 +357,9 @@
 		 * @return string
 		 */
 
-		public static function fileLocation()
+		public static function fileLocation( $file="user_settings.json")
 		{
 
-			return sprintf('%s' . DIRECTORY_SEPARATOR . 'data/config' . DIRECTORY_SEPARATOR . 'settings.json', SYSCRACK_ROOT);
+			return FileSystem::separate("data", "config", "settings", $file );
 		}
 	}

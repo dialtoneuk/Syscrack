@@ -590,6 +590,38 @@
 		}
 
 		/**
+		 * @param string $type
+		 * @param $value
+		 *
+		 * @return float|int|string
+		 */
+
+		public static function cast( string $type, $value )
+		{
+
+			switch( $type )
+			{
+
+				case 'int':
+					if( is_numeric( $value ) == false )
+						throw new \Error("Value " . $value . " is not numeric");
+					else
+						return( (int) $value );
+					break;
+				case 'string':
+					if( is_array( $value ) || is_object( $value ) )
+						throw new \Error("Value is an object");
+					else
+						return( (string) $value );
+				case 'float':
+					if( is_numeric( $value ) == false  )
+						throw new \Error("Value " . $value . " is not numeric");
+					else
+						return( (float) $value );
+			}
+		}
+
+		/**
 		 * Gets the entire path in the form of an array
 		 *
 		 * @return array

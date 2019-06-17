@@ -121,6 +121,9 @@
 			$softwares = self::$database->getByComputer($computerid);
 			$results = [];
 
+			if( empty( $softwares ) )
+				return null;
+
 			foreach ($softwares as $software)
 			{
 

@@ -25,6 +25,7 @@
 	use Framework\Syscrack\Game\Themes;
 	use Framework\Syscrack\Game\Types;
 	use Framework\Views\BaseClasses\Page as BaseClass;
+	use Framework\Syscrack\Game\SoftwareTypes;
 
 	/**
 	 * Class Admin
@@ -70,6 +71,12 @@
 		protected static $inventory;
 
 		/**
+		 * @var SoftwareTypes
+		 */
+
+		protected static $softwaretypes;
+
+		/**
 		 * Admin Error constructor.
 		 */
 
@@ -93,6 +100,9 @@
 
 			if( isset( self::$inventory ) == false )
 				self::$inventory = new Inventory();
+
+			if (isset(self::$softwaretypes) == false )
+				self::$softwaretypes = new SoftwareTypes();
 
 			parent::__construct(true, true, true, false, true);
 		}
@@ -346,12 +356,18 @@
 				if (empty($softwares))
 					$softwares = [];
 
+				if( self::$user->isAdmin( self::$session->userid() ) )
+					$softwaretypes = self::$softwaretypes->get();
+				else
+					$softwaretypes = [];
+
 				$this->getRender('syscrack/page.admin.computer.edit', [
 					'computer'          => $computer,
 					'softwares'         => $softwares,
 					'localsoftwares'    => parent::$software->getSoftwareOnComputer(self::$computer->computerid()),
 					'ipaddress'         => $computer->ipaddress,
-					'tools_admin'       => $this->tools()
+					'tools_admin'       => $this->tools(),
+					'softwaretypes'     => $softwaretypes,
 				], true, self::$session->userid(), self::$computer->computerid());
 			}
 		}
@@ -363,10 +379,12 @@
 		public function computerEditorProcess($computerid)
 		{
 
+			$computerid = @self::cast('int', $computerid );
+
 			if (parent::$computer->computerExists($computerid) == false)
 				$this->formError('This computer does not exist, please try another', "admin/computer/edit/" . $computerid);
 
-			if (self::$request->empty() == false)
+			if (self::$request->empty() )
 				$this->redirect('admin/computer');
 			else
 			{
@@ -861,7 +879,7 @@
 
 				$value = @self::$request->value;
 
-				if ($this->isValidJson($value))
+				if ( $value !== false && $this->isValidJson($value))
 					$value = json_decode($value, true);
 
 				Settings::updateSetting( self::$request->setting, $value);
@@ -983,6 +1001,9 @@
 
 		private function isValidJson($data)
 		{
+
+			if( is_string( $data ) == false )
+				return false;
 
 			json_decode($data, true);
 

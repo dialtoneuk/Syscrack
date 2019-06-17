@@ -13,6 +13,7 @@ composer.phar
 /data/log/
 /data/config/errorlog.json
 /data/config/betakeys.json
+/data/config/settings/user_settings.json
 
 /data/addresses/
 /data/accounts/

@@ -762,8 +762,6 @@
 
 			if (empty($software))
 				return null;
-
-
 			$results = [];
 
 			foreach ($software as $key => $value)
@@ -772,6 +770,9 @@
 						$results[] = array_merge( $value, [
 							'level' => @self::$software->getSoftware( $value["softwareid"] )->level
 						]);
+
+			if( empty( $results ) )
+				return null;
 
 			$results = ArrayHelper::sortArray($results, 'level');
 

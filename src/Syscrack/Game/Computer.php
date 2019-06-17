@@ -386,10 +386,7 @@
 		{
 
 			if (self::$database->getComputer($computerid) == null)
-			{
-
 				return false;
-			}
 
 			return true;
 		}
