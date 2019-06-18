@@ -1,17 +1,19 @@
 <?php
-	declare(strict_types=1); //Created at %time% by %pid%
+	declare(strict_types=1); //Created at 2019-06-18 05:12:41 by 16904
 
-	namespace %namespace%;
+	namespace Framework\Application\UtilitiesV2\Makers;
 
+	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Conventions\FileData;
 	use Framework\Application\UtilitiesV2\FileOperator;
 	use Framework\Application\UtilitiesV2\Conventions\TokenData;
+	use Framework\Application\UtilitiesV2\Format;
 
 	/**
-	 * Class %classname%
-	 * @package %namespace%
+	 * Class Job
+	 * @package Framework\Application\UtilitiesV2\Makers
 	 */
-	class %classname% extends Base
+	class Job extends Base
 	{
 
 		/**
@@ -22,7 +24,7 @@
 		{
 
 			if ($template == null)
-				$template = FileOperator::pathDataInstance("resources/templates/template_" . strtolower("%classname%" ) . ".module");
+				$template = FileOperator::pathDataInstance("resources/templates/template_" . strtolower("Job" ) . ".module");
 
 			parent::before($template);
 		}
@@ -56,7 +58,7 @@
 		public function filepath(): string
 		{
 
-			return( parent::filepath() );
+			return( Application::globals()->PIPELINE_FILEPATH );
 		}
 
 		/**
@@ -66,6 +68,6 @@
 		public function namespace(): string
 		{
 
-			return( parent::namespace() );
+			return( Format::rc( Application::globals()->PIPELINE_NAMESPACE ) );
 		}
 	}

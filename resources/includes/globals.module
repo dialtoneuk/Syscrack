@@ -195,4 +195,7 @@ return( $globals = [
     ["GLOB_EXTENSION","php"],
     ["CHMOD_PERM","777"],
     ["MAX_URL_LENGTH","4048"],
+	["PIPELINE_FILEPATH","src/Application/UtilitiesV2/Jobs/"],
+	["PIPELINE_NAMESPACE","Framework\\Application\\UtilitiesV2\\Jobs\\"],
+	["PIPELINE_LOCATION","data/pipeline/pipeline"],
 ] );

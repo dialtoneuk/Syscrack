@@ -130,24 +130,24 @@
 		}
 
 		/**
-		 * @param $class_name
+		 * @param $classname
 		 *
 		 * @return mixed
 		 * @throws \Error
 		 */
 
-		public function createSingular($class_name)
+		public function createSingular($classname)
 		{
 
-			if (class_exists($this->namespace . $class_name) == false)
+			if (class_exists($this->namespace . $classname) == false)
 				throw new \Error('Class does not exist');
 
-			$namespace = $this->build($class_name);
-			$class_name = strtolower($class_name);
+			$namespace = $this->build($classname);
+			$classname = strtolower($classname);
 
-			$this->objects->$class_name = new $namespace;
+			$this->objects->$classname = new $namespace;
 
-			return $this->objects->$class_name;
+			return $this->objects->$classname;
 		}
 
 		/**
@@ -169,26 +169,26 @@
 		}
 
 		/**
-		 * @param $class_name
+		 * @param $classname
 		 *
 		 * @return mixed
 		 */
 
-		public function get($class_name)
+		public function get($classname)
 		{
 
-			$class_name = strtolower($class_name);
+			$classname = strtolower($classname);
 
-			return $this->objects->$class_name;
+			return $this->objects->$classname;
 		}
 
 		/**
-		 * @param $class_name
+		 * @param $classname
 		 *
 		 * @return bool
 		 */
 
-		public function existsInDir($class_name)
+		public function existsInDir($classname)
 		{
 
 			$files = $this->crawl();
@@ -196,7 +196,7 @@
 			foreach ($files as $file)
 			{
 
-				if (strtolower($file) == strtolower($class_name))
+				if (strtolower($file) == strtolower($classname))
 					return true;
 			}
 
@@ -204,27 +204,27 @@
 		}
 
 		/**
-		 * @param $class_name
+		 * @param $classname
 		 */
 
-		public function remove($class_name)
+		public function remove($classname)
 		{
 
-			unset($this->objects->$class_name);
+			unset($this->objects->$classname);
 		}
 
 		/**
-		 * @param string $class_name
+		 * @param string $classname
 		 *
 		 * @return bool
 		 */
 
-		public function exist(string $class_name)
+		public function exist(string $classname)
 		{
 
-			$class_name = strtolower($class_name);
+			$classname = strtolower($classname);
 
-			return (isset($this->objects->$class_name));
+			return (isset($this->objects->$classname));
 		}
 
 		/**
@@ -244,16 +244,16 @@
 		}
 
 		/**
-		 * @param array $class_names
+		 * @param array $classnames
 		 *
 		 * @return bool
 		 * @throws \Error
 		 */
 
-		private function check(array $class_names)
+		private function check(array $classnames)
 		{
 
-			foreach ($class_names as $class)
+			foreach ($classnames as $class)
 			{
 
 				if (is_string($class) == false)
@@ -267,15 +267,15 @@
 		}
 
 		/**
-		 * @param $class_name
+		 * @param $classname
 		 *
 		 * @return string
 		 */
 
-		private function build($class_name)
+		private function build($classname)
 		{
 
-			return ($this->namespace . $class_name);
+			return ($this->namespace . $classname);
 		}
 
 		/**

@@ -127,6 +127,9 @@
 					'/game/internet/', 'internetBrowser'
 				],
 				[
+					'/game/404/', 'internetNotFound'
+				],
+				[
 					'/game/addressbook/', 'addressBook'
 				],
 				[
@@ -267,7 +270,7 @@
 			if (empty($computer))
 				return 0;
 
-			return (count($computer) * (Settings::setting('vpc_purchase_price') * Settings::setting('vpc_purchase_increase')));
+			return (count($computer) * (Settings::setting('vpc_purchase_price') * Settings::setting('vpc_purchase_increase') ));
 		}
 
 		/**
@@ -317,6 +320,19 @@
 		}
 
 		/**
+		 * Not found
+		 */
+
+		public function internetNotFound()
+		{
+
+			if( self::$computer->computerExists( Settings::setting('whois_computer') ) )
+				$computer = self::$computer->getComputer(  Settings::setting('whois_computer') );
+
+			$this->getRender('syscrack/page.game.internet.notfound', ['computer' => $computer ]);
+		}
+
+		/**
 		 * Default page
 		 */
 
@@ -332,7 +348,7 @@
 				{
 
 					if ($this->validAddress() == false)
-						$this->formError('404 Not Found', $this->getRedirect() . '/internet');
+						$this->redirect( $this->getRedirect() . '/404' );
 					else
 						$this->redirect($this->getRedirect(self::$request->ipaddress));
 				}
@@ -351,7 +367,7 @@
 		{
 
 			if ($this->validAddress($ipaddress) == false)
-				$this->formError('404 Not Found', $this->getRedirect() . '/internet');
+				$this->redirect( $this->getRedirect() . '/404?ipaddress=' . strip_tags( $ipaddress ) );
 			else
 			{
 
@@ -473,7 +489,7 @@
 		{
 
 			if ($this->validAddress($ipaddress) == false)
-				$this->formError('404 Not Found', $this->getRedirect() . '/internet');
+				$this->redirect( $this->getRedirect() . '/404' );
 
 			if (self::$operations->hasProcessClass($process) == false)
 				$this->formError('Invalid action', $this->getRedirect($ipaddress));

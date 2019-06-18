@@ -39,7 +39,7 @@
 
 		/**
 		 * @param TokenData $values
-		 * @param string $class_name
+		 * @param string $classname
 		 * @param $path
 		 * @param FileData $template
 		 *
@@ -47,13 +47,13 @@
 		 * @throws \Exception
 		 */
 
-		public function process(TokenData $values, $class_name, $path, FileData $template = null)
+		public function process(TokenData $values, $classname, $path, FileData $template = null)
 		{
 
-			if ($this->exist($class_name) == false)
+			if ($this->exist($classname) == false)
 				throw new \Error("class does not exist");
 
-			$instance = $this->constructor->get($class_name);
+			$instance = $this->constructor->get($classname);
 
 			/** @var Maker $instance */
 			if ($instance instanceof Maker == false)
@@ -78,19 +78,19 @@
 		}
 
 		/**
-		 * @param $class_name
+		 * @param $classname
 		 *
 		 * @return array
 		 */
 
-		public function getRequiredTokens($class_name)
+		public function getRequiredTokens($classname)
 		{
 
 
-			if ($this->exist($class_name) == false)
+			if ($this->exist($classname) == false)
 				throw new \Error("class does not exist");
 
-			$instance = $this->constructor->get($class_name);
+			$instance = $this->constructor->get($classname);
 
 			/** @var Maker $instance */
 			if ($instance instanceof Maker == false)
@@ -100,18 +100,18 @@
 		}
 
 		/**
-		 * @param $class_name
+		 * @param $classname
 		 *
 		 * @return string
 		 */
 
-		public function getNamespace($class_name)
+		public function getNamespace($classname)
 		{
 
-			if ($this->exist($class_name) == false)
+			if ($this->exist($classname) == false)
 				throw new \Error("class does not exist");
 
-			$instance = $this->constructor->get($class_name);
+			$instance = $this->constructor->get($classname);
 
 			/** @var Maker $instance */
 			if ($instance instanceof Maker == false)
@@ -121,18 +121,18 @@
 		}
 
 		/**
-		 * @param $class_name
+		 * @param $classname
 		 *
 		 * @return string
 		 */
 
-		public function getFilepath($class_name)
+		public function getFilepath($classname)
 		{
 
-			if ($this->exist($class_name) == false)
+			if ($this->exist($classname) == false)
 				throw new \Error("class does not exist");
 
-			$instance = $this->constructor->get($class_name);
+			$instance = $this->constructor->get($classname);
 
 			/** @var Maker $instance */
 			if ($instance instanceof Maker == false)

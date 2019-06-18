@@ -1,0 +1,35 @@
+<?php
+	declare( strict_types=1 );
+
+	namespace %namespace%;
+
+	use Framework\Application\UtilitiesV2\Jobs\Base;
+
+	/**
+	 * Class %classname%
+	 * @package %namespace%
+	 */
+	class %classname% extends Base
+	{
+
+		/**
+		 * @param array $data
+		 *
+		 * @return bool
+		 */
+
+		public function execute(array $data): bool
+		{
+
+			return( parent::execute($data) );
+		}
+
+		/**
+		 * @return int
+		 */
+
+		public function frequency(): int
+		{
+			return( 0 );
+		}
+	}

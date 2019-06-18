@@ -59,6 +59,9 @@
 			} catch (\Error $error)
 			{
 
+				if( Debug::isCMD() )
+					Debug::msg("Caught error with constructor: " . $error->getMessage() . " in " . $error->getFile() . " on " . $error->getLine() );
+
 				$this->setLastError($error);
 			}
 
@@ -82,39 +85,39 @@
 		}
 
 		/**
-		 * @param $class_name
+		 * @param $classname
 		 *
 		 * @return mixed
 		 */
 
-		public final function get($class_name)
+		public final function get($classname)
 		{
 
-			return ($this->constructor->get($class_name));
+			return ($this->constructor->get($classname));
 		}
 
 		/**
 		 * Creates a single class
 		 *
-		 * @param $class_name
+		 * @param $classname
 		 */
 
-		public final function single($class_name)
+		public final function single($classname)
 		{
 
-			$this->constructor->createSingular($class_name);
+			$this->constructor->createSingular($classname);
 		}
 
 		/**
-		 * @param $class_name
+		 * @param $classname
 		 *
 		 * @return bool
 		 */
 
-		public function exist($class_name)
+		public function exist($classname)
 		{
 
-			return ($this->constructor->exist($class_name));
+			return ($this->constructor->exist($classname));
 		}
 
 		/**
@@ -138,7 +141,7 @@
 		{
 
 			if ($error !== null)
-				if ($error instanceof \Exception == false)
+				if ($error instanceof \Exception == false || $error instanceof \Error == false )
 					throw new \Error("invalid error type");
 
 			$this->last_error = $error;

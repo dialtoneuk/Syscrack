@@ -73,9 +73,9 @@
 
     if( Settings::canFindSettings() == false )
         die("Cannot find settings file! Please check the following information is correct"
-	        . "<br>Root: " . $root
+	        . "<br>Root: " . FileSystem::convertSeparators( $root )
 	        . "<br>CWD: " . getcwd()
-	        . "<br>Document Root: " . $_SERVER["DOCUMENT_ROOT"]
+	        . "<br>Document Root: " . FileSystem::convertSeparators( $_SERVER["DOCUMENT_ROOT"] )
 	        . "<br>Settings file: " . $root . Settings::fileLocation("settings.json")
 	        . "<br>If you are still struggling with this error. Please post an issue on our official github page."
 	        . "<br><br>https://github.com/dialtoneuk/syscrack"

@@ -103,7 +103,7 @@
 		public function namespace(): string
 		{
 
-			return( Application::globals()->SYSCRACK_NAMESPACE_ROOT . "Application\\Syscrack\\" );
+			return( Application::globals()->SYSCRACK_NAMESPACE_ROOT . "Application\\Syscrack" );
 		}
 
 		/**

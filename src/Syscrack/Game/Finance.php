@@ -355,14 +355,14 @@
 		 *
 		 * @param $userid
 		 *
-		 * @param int $amount
+		 * @param float $amount
 		 *
 		 * @param $computerid
 		 *
 		 * @return bool
 		 */
 
-		public function canAfford($computerid, $userid, int $amount)
+		public function canAfford($computerid, $userid, float $amount)
 		{
 
 			$cash = $this->getUserCash($computerid, $userid);

@@ -312,7 +312,7 @@
 		public static function canFindSettings()
 		{
 
-			if (file_exists(self::fileLocation('settings.json')) == false)
+			if ( Filesystem::exists( self::fileLocation('settings.json') ) == false)
 				return false;
 
 
@@ -328,7 +328,7 @@
 		private static function readSettings()
 		{
 
-			if (file_exists(self::fileLocation() ) == false )
+			if (FileSystem::exists(self::fileLocation() ) == false )
 				self::makeUserSettings();
 
 			return( FileSystem::readJson( self::fileLocation() ) );
@@ -341,7 +341,7 @@
 		private function makeUserSettings()
 		{
 
-			if( file_exists( self::fileLocation( "settings.json") ) == false )
+			if( FileSystem::exists( self::fileLocation( "settings.json") ) == false )
 				throw new \Error("file does not exist: " . self::fileLocation( "settings.json" ) );
 
 			if( Debug::isCMD() )

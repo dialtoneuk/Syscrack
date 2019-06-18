@@ -17,6 +17,7 @@
 	use Framework\Application\Utilities\Factory;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Database\Tables\Computer as Database;
+	use Framework\Syscrack\Game\Bases\BaseComputer;
 	use Framework\Syscrack\Game\Interfaces\Computer as Structure;
 
 	/**
@@ -39,6 +40,12 @@
 		protected static $database;
 
 		/**
+		 * @var Metadata
+		 */
+
+		protected static $metadata;
+
+		/**
 		 * BaseComputer constructor.
 		 */
 
@@ -47,6 +54,9 @@
 
 			if (isset(self::$database) == false)
 				self::$database = new Database();
+
+			if( isset( self::$metadata ) == false )
+				self::$metadata = new Metadata();
 
 			if (empty(self::$factory))
 				$this->loadComputers();
@@ -156,9 +166,12 @@
 		 * @return mixed
 		 */
 
-		public function onComputerStartup($name)
+		public function onComputerStartup($name, $computerid, array $software = [], array $hardware = [], array $custom = [] )
 		{
 
+			/**
+			 * @var $class BaseComputer
+			 */
 			$class = self::$factory->findClass($name);
 
 			if (empty($class))
@@ -167,7 +180,34 @@
 				throw new \Error();
 			}
 
-			return $class->onStartup();
+			return $class->onStartup( $computerid, $software, $hardware, $custom );
+		}
+
+		/**
+		 * Calls the computer start up method
+		 *
+		 * @param $name
+		 *
+		 * @return mixed
+		 */
+
+		public function onComputerReset($name, $computerid )
+		{
+
+			/**
+			 * @var $class BaseComputer
+			 */
+			$class = self::$factory->findClass($name);
+
+			if (empty($class))
+				throw new \Error();
+
+			if( self::$metadata->exists( $computerid ) == false )
+				$metadata = null;
+			else
+				$metadata = self::$metadata->get( $computerid );
+
+			return $class->onReset( $computerid, $metadata  );
 		}
 
 		/**

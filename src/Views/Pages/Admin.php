@@ -412,6 +412,8 @@
 
 						if (self::$request->compare($requirements) == false)
 							$this->formError('Incomplete Data', "admin/computer/edit/" . $computerid);
+						if(  self::$software->findSoftwareByUniqueName(  self::$request->uniquename ) == null )
+							$this->formError('Software type does not exist', "admin/computer/edit/" . $computerid);
 						else
 						{
 
@@ -663,10 +665,7 @@
 		{
 
 			if (self::$request->empty() == false)
-			{
-
 				$this->reset();
-			}
 			else
 			{
 
@@ -676,19 +675,14 @@
 					$computer = parent::$computer->getAllComputers();
 
 					foreach ($computer as $computers)
-					{
-
 						self::$internet->changeAddress($computers->computerid);
-					}
 				}
 
 				$this->resetComputer();
 
 				if (self::$request->compare(['clearfinance']) == true)
-				{
-
 					$this->cleanAccounts();
-				}
+
 
 				$this->formSuccess('admin/reset');
 			}
@@ -701,7 +695,9 @@
 		public function computerViewer()
 		{
 
-			$this->getRender('syscrack/page.admin.computer', []);
+			$this->getRender('syscrack/page.admin.computer', [
+				'computers' => self::$computer->getAllComputers()->toArray()
+			]);
 		}
 
 		/**
@@ -712,29 +708,19 @@
 		{
 
 			if (self::$request->empty() == false)
-			{
-
 				$this->computerViewer();
-			}
 			else
 			{
 
 				if (self::$request->compare(['query']) == false)
-				{
-
 					$this->formError('Please enter a search query', 'admin/computer');
-				}
 
 				$query = PostHelper::getPostData('query');
 
 				if (filter_var($query, FILTER_VALIDATE_IP))
 				{
-
 					if (self::$internet->ipExists($query) == false)
-					{
-
 						$this->formError('Address is invalid', 'admin/computer');
-					}
 
 					$this->redirect('admin/computer/' . self::$internet->computer($query)->computerid);
 				}
@@ -742,16 +728,10 @@
 				{
 
 					if (is_numeric($query) == false)
-					{
-
 						$this->formError('Invalid query', 'admin/computer');
-					}
 
 					if (parent::$computer->computerExists($query) == false)
-					{
-
-						$this->formError('BaseComputer not found', 'admin/computer');
-					}
+						$this->formError('Computer not found', 'admin/computer');
 
 					$this->redirect('admin/computer/' . parent::$computer->getComputer($query)->computerid);
 				}

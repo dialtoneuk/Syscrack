@@ -54,6 +54,8 @@
 			foreach( $values as $value )
 				if( isset( $this->data[ $value ] ) == false )
 					return false;
+				elseif( $this->data[ $value ] === null || $this->data[ $value ] === "" )
+					return false;
 
 			return true;
 		}

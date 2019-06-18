@@ -103,7 +103,7 @@
 			if (isset(self::$statistics) == false)
 				self::$statistics = new Statistics();
 
-			parent::__construct(true, true, true, false);
+			parent::__construct(true, true, true, true );
 		}
 
 		/**
@@ -185,6 +185,10 @@
 			);
 		}
 
+		/**
+		 * Commputer hardware
+		 */
+
 		public function computerHardware()
 		{
 			$computer = self::$computer->getComputer(self::$computer->computerid());
@@ -201,14 +205,17 @@
 		 * Displays the comptuer processes
 		 */
 
-
 		public function computerProcesses()
 		{
 
 			$computer = self::$computer->getComputer(self::$computer->computerid());
-			$this->getRender('syscrack/page.computer.processes', ['ipaddress' => $computer->ipaddress,
-				'tools' => $this->tools(self::$session->userid(), $computer->computerid, false),
-				'computer' => $computer],
+			$this->getRender('syscrack/page.computer.processes',
+				[
+
+					'processes' => self::$operations->getUserProcesses( self::$session->userid() ),
+					'ipaddress' => $computer->ipaddress,
+					'tools' => $this->tools(self::$session->userid(), $computer->computerid, false)
+				],
 				false,
 				self::$session->userid(),
 				$computer->computerid

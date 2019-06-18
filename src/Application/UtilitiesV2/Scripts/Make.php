@@ -55,18 +55,18 @@
 
 			if (isset($keys[0]) == false)
 				if (isset($arguments["make"]))
-					$class_name = $arguments["make"];
+					$classname = $arguments["make"];
 				else
 					throw new \Error("please include a class name");
 			else
-				$class_name = $keys[0];
+				$classname = $keys[0];
 
 			array_shift($arguments);
 
-			if (self::$makers->exist($class_name) == false)
-				throw new \Error("script does not exist: " . $class_name);
+			if (self::$makers->exist($classname) == false)
+				throw new \Error("script does not exist: " . $classname);
 
-			$required = self::$makers->getRequiredTokens($class_name);
+			$required = self::$makers->getRequiredTokens($classname);
 
 			if (empty($required) == false)
 			{
@@ -81,7 +81,7 @@
 					else
 					{
 
-						if ($keys[0] == $class_name)
+						if ($keys[0] == $classname)
 							array_shift($keys[0]);
 
 						foreach ($required as $key => $item)
@@ -91,7 +91,7 @@
 							{
 
 								if ($item == "namespace")
-									$arguments[$item] = self::$makers->getNamespace( $class_name );
+									$arguments[$item] = self::$makers->getNamespace( $classname );
 
 								if ($item == "classname")
 									$arguments[$item] = "MyClass";
@@ -111,7 +111,7 @@
 				]);
 
 			if (isset($arguments["path"]) == false)
-				$path = self::$makers->getFilepath( $class_name );
+				$path = self::$makers->getFilepath( $classname );
 			else
 				$path = $arguments["path"];
 
@@ -123,7 +123,7 @@
 			try
 			{
 
-				$result = self::$makers->process($tokens, ucfirst( $class_name ), $path);
+				$result = self::$makers->process($tokens, ucfirst( $classname ), $path);
 
 				if (empty($result) || $result == null)
 					throw new \Exception("object passed was null but file could have still been made");
