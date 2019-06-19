@@ -12,6 +12,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\UtilitiesV2\Conventions\ThemeData;
+	use Framework\Application\UtilitiesV2\Format;
 
 
 	/**
@@ -63,98 +64,73 @@
 			if ($this->currentTheme() == $theme)
 				throw new \Error("Theme already set to: " . $theme);
 
-			if ($this->requiresMVC($theme) && $this->mvcOutput() == false)
-				Settings::updateSetting("theme_mvc_output", true);
-			else if ($this->requiresMVC($theme) == false && $this->mvcOutput())
-				Settings::updateSetting("theme_mvc_output", false);
+			if( $this->hasBase() )
+				Settings::updateSetting("theme_base", "");
 
-			if ($this->requiresJson($theme) && $this->jsonOutput() == false)
-				Settings::updateSetting("theme_json_output", true);
-			else if ($this->requiresJson($theme) == false && $this->jsonOutput())
-				Settings::updateSetting("theme_json_output", false);
+			$this->processData( $theme );
 
 			Settings::updateSetting("theme_folder", $theme);
-		}
 
-		/**
-		 * @return bool
-		 */
-
-		public function mvcOutput(): bool
-		{
-
-			return ((bool)Settings::setting("theme_mvc_output"));
-		}
-
-		/**
-		 * @return bool
-		 */
-
-		public function jsonOutput(): bool
-		{
-
-			return ((bool)Settings::setting("theme_json_output"));
 		}
 
 		/**
 		 * @param $theme
-		 *
-		 * @return bool
 		 */
 
-		public function requiresMVC($theme)
+		public function processData( $theme )
 		{
 
-			$data = $this->getData($theme);
+			foreach( $this->getData( $theme ) as $key=>$value )
+				switch( strtolower( $key ) )
+				{
 
-			if (empty($data))
-				return false;
-			else if ( isset( $data["mvc"] ) == false )
-				return false;
-			else if ($data["mvc"])
-				return true;
+					case "mvc":
+						if( is_bool( $value ) == false )
+							Settings::updateSetting("theme_mvc_output", true );
+						else
+							Settings::updateSetting("theme_mvc_output", $value );
+						break;
+					case "json":
+						if( is_bool( $value ) == false )
+							Settings::updateSetting("theme_json_output", true );
+						else
+							Settings::updateSetting("theme_json_output", $value );
+						break;
+					case "array":
+						if( is_bool( $value ) == false )
+							Settings::updateSetting("theme_force_array", true );
+						else
+							Settings::updateSetting("theme_force_array", $value );
+						break;
+					case "object":
+						if( is_bool( $value ) == false )
+							Settings::updateSetting("theme_force_object", true );
+						else
+							Settings::updateSetting("theme_force_object", $value );
+						break;
+					case "base":
+						if( is_string( $value ) == false )
+							throw new \Error("Error in data: base is not a string. In theme " . $theme );
+						else
+						{
 
-			return false;
+							if( $this->themeExists( $value ) == false )
+								throw new \Error($theme . " would like to use " . $value . " as a base and you currently dont have " . $value . " installed in your theme folder" );
+
+							Settings::updateSetting("theme_base", $value );
+						}
+						break;
+				}
 		}
 
 		/**
-		 * @param $theme
-		 *
 		 * @return bool
 		 */
 
-		public function requiresJson($theme)
+		public function hasBase()
 		{
 
-			$data = $this->getData($theme);
-
-			if (empty($data))
-				return false;
-			else if ( isset( $data["json"] ) == false )
-				return false;
-			elseif( $data["json"] )
-				return true;
-
-			return false;
-		}
-
-		/**
-		 * @param $theme
-		 *
-		 * @return bool
-		 */
-
-		public function hasBase($theme)
-		{
-
-			$data = $this->getData($theme);
-
-			if (empty($data))
-				return false;
-			else if ( isset( $data["base"] ) == false )
-				return false;
-
-			return true;
+			return(  Settings::setting("theme_base") !== "" );
 		}
 
 		/**
@@ -188,15 +164,13 @@
 		}
 
 		/**
-		 * @param $theme
-		 *
-		 * @return mixed
+		 * @return ThemeData|mixed
 		 */
 
-		public function base( $theme )
+		public function base()
 		{
 
-			return( $this->getData( $theme )["base"] );
+			return( $this->getTheme( Settings::setting('theme_base') ) );
 		}
 
 		/**

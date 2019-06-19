@@ -138,20 +138,43 @@
 
 						$application->getErrorHandler()->handleFlightError( $error );
 
-						if( Settings::setting('error_display_page') )
+						try
 						{
 
-							if( $_SERVER['REQUEST_URI'] == '/' )
-								Flight::redirect('/error?redirect=/index');
-							else
-								if( isset( $_GET["redirect"] ) == false )
-									Flight::redirect('/error?redirect=' . htmlspecialchars( $_SERVER['REQUEST_URI'] ) );
-								else
-									Flight::redirect('/error?redirect=' . htmlspecialchars( $_GET["redirect"] ) );
-						}
-						else
-							Flight::redirect('/');
+							if( Settings::setting('error_display_page') )
+							{
 
+								if( $_SERVER['REQUEST_URI'] == '/' )
+									Flight::redirect('/error?redirect=/index');
+								else
+									if( isset( $_GET["redirect"] ) == false )
+										Flight::redirect('/error?redirect=' . htmlspecialchars( $_SERVER['REQUEST_URI'] ) );
+									else
+										Flight::redirect('/error?redirect=' . htmlspecialchars( $_GET["redirect"] ) );
+							}
+							else
+								Flight::redirect('/');
+						}
+						catch ( \Error $error  )
+						{
+
+							ErrorHandler::prettyPrint( $error );
+						}
+						catch ( \RuntimeException $error )
+						{
+
+							ErrorHandler::prettyPrint( $error );
+						}
+						catch ( \Exception $error )
+						{
+
+							ErrorHandler::prettyPrint( $error );
+						}
+						catch ( \ErrorException $error )
+						{
+
+							ErrorHandler::prettyPrint( $error );
+						}
 					}
 					else
 						Flight::notFound();

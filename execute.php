@@ -8,7 +8,7 @@
 	if( file_exists( "vendor/autoload.php") )
 		require_once "vendor/autoload.php";
 	else
-		die("Please install composer and run the following command in my root directory"
+		die("install https://getcomposer.org/ and run on your system "
 		. "\n composer install --profile");
 
 	/**

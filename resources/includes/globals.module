@@ -198,4 +198,5 @@ return( $globals = [
 	["PIPELINE_FILEPATH","src/Application/UtilitiesV2/Jobs/"],
 	["PIPELINE_NAMESPACE","Framework\\Application\\UtilitiesV2\\Jobs\\"],
 	["PIPELINE_LOCATION","data/pipeline/pipeline"],
+	["ERROR_RISKY", true ],
 ] );

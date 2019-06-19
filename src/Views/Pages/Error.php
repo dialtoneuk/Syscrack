@@ -11,6 +11,7 @@
 	 * @package Framework\Views\Pages
 	 */
 
+	use Framework\Application\ErrorHandler;
 	use Framework\Application\UtilitiesV2\Container;
 	use Framework\Application\Render;
 	use Framework\Application\Settings;
@@ -56,20 +57,44 @@
 		public function page()
 		{
 
-			if( Container::exist("application") == false )
-				die("Application global not set so not able to display you the error that just occured. It did just happen though, and you should check your logs ( if you are an sysadmin )");
-			else
+			try
 			{
 
-				if( Settings::setting('error_logging') == false || Settings::setting('error_display_page') == false )
-					\Flight::notFound();
+				if( Container::exist("application") == false )
+					die("Application global not set so not able to display you the error that just occured. It did just happen though, and you should check your logs ( if you are an sysadmin )");
+				else
+				{
 
-				if( Container::get('application')->getErrorHandler()->hasErrors() == false )
-					\Flight::notFound();
+					if( Settings::setting('error_logging') == false || Settings::setting('error_display_page') == false )
+						\Flight::notFound();
 
-				$error = Container::get('application')->getErrorHandler()->getLastError();
+					if( Container::get('application')->getErrorHandler()->hasErrors() == false )
+						\Flight::notFound();
 
-				Render::view('error/page.error', ['error' => $error ], $this->model() );
+					$error = Container::get('application')->getErrorHandler()->getLastError();
+
+					Render::view('error/page.error', ['error' => $error ], $this->model() );
+				}
+			}
+			catch ( \Error $error  )
+			{
+
+				ErrorHandler::prettyPrint( $error );
+			}
+			catch ( \RuntimeException $error )
+			{
+
+				ErrorHandler::prettyPrint( $error );
+			}
+			catch ( \Exception $error )
+			{
+
+				ErrorHandler::prettyPrint( $error );
+			}
+			catch ( \ErrorException $error )
+			{
+
+				ErrorHandler::prettyPrint( $error );
 			}
 		}
 	}

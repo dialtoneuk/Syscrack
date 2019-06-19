@@ -512,13 +512,14 @@
 		/**
 		 * @param $message
 		 * @param int $tabs
+		 * @param bool $forceecho
 		 */
 
-		public static function echo($message, $tabs = 0)
+		public static function echo($message, $tabs = 0, bool $forceecho=false)
 		{
 
 			//We don't want any straight up msg's to make their way onto the users HTML
-			if (Debug::isCMD() == false)
+			if (Debug::isCMD() == false && $forceecho === false )
 				return;
 
 			if (self::$supressed)
@@ -531,12 +532,12 @@
 					if (is_array($value))
 					{
 						@ob_end_flush();
-						self::echo($value);
+						@self::echo( @$value, $tabs + 1, $forceecho );
 					}
 					else
 					{
 						@ob_end_flush();
-						self::echo($key . " => " . $value, $tabs);
+						@self::echo(@$key . " => " . @$value, $tabs + 1, $forceecho );
 					}
 			else
 			{

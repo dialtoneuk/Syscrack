@@ -20,7 +20,7 @@
 	elseif( defined("PHPUNIT_ROOT") && file_exists( PHPUNIT_ROOT . "/vendor/autoload.php" ) )
 		require_once PHPUNIT_ROOT . "/vendor/autoload.php";
 	else
-		die( "Please install composer and run the following command in a terminal while in my root directory :-)"
+		die("install https://getcomposer.org/ and run on your system "
 			. "\n composer install --profile");
 
 //<editor-fold defaultstate="collapsed" desc="Application Root">

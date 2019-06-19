@@ -11,6 +11,7 @@
 
 	use Flight;
 	use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\UtilitiesV2\Interfaces\Response;
 	use Framework\Syscrack\Game\Preferences;
 	use Framework\Syscrack\Game\Themes;
@@ -121,6 +122,12 @@
 
 			self::$raw = $array;
 
+			if( Settings::setting("theme_force_object") )
+				$array = Format::toObject( $array );
+
+			if( Settings::setting("theme_force_array") )
+				$array = Format::toArray( $array );
+
 			if (Settings::setting('theme_json_output'))
 				Flight::json( $array );
 			else
@@ -219,8 +226,8 @@
 							, $file . $extension
 						)))
 							$results[$key][] = "/" .FileSystem::separate(Settings::setting("theme_location"), Settings::setting("theme_folder"), $folder, $file . $extension);
-						else if (self::$themes->hasBase(self::$themes->currentTheme()))
-							$results[$key][] = "/" . FileSystem::separate(Settings::setting("theme_location"), self::$themes->base(self::$themes->currentTheme()), $folder, $file . $extension);
+						else if ( Settings::setting("theme_base") !== "" )
+							$results[$key][] = "/" . FileSystem::separate(Settings::setting("theme_location"),  Settings::setting("theme_base"), $folder, $file . $extension);
 				}
 				else
 					foreach ($asset as $file )
@@ -240,10 +247,10 @@
 				self::$themes = new Themes();
 
 			if( self::$themes->hasAssets( self::$themes->currentTheme() ) == false )
-				if( self::$themes->hasBase( self::$themes->currentTheme() ) )
+				if( self::$themes->hasBase() )
 				{
 
-					$base = self::$themes->getTheme( self::$themes->base( self::$themes->currentTheme() ) );
+					$base = self::$themes->base();
 
 					if( isset( $base->data["assets"] ) == false )
 						return [];
@@ -265,8 +272,8 @@
 		private static function getViewFolder( $template )
 		{
 
-			if( self::$themes->hasBase( self::$themes->currentTheme() ) )
-				$base = self::$themes->base( self::$themes->currentTheme() );
+			if( self::$themes->hasBase() )
+				$base = Settings::setting("theme_base");
 			else
 				$base = null;
 
@@ -281,11 +288,11 @@
 					throw new \Error("Unable to find template at: " . FileSystem::separate(
 							Settings::setting("theme_location"), Settings::setting("theme_folder"), $template
 						));
-				elseif( FileSystem::exists( FileSystem::separate( Settings::setting("theme_location"), $base, $template) . ".php" ) )
-					return( FileSystem::separate( $base, $template ) );
+				elseif( FileSystem::exists( FileSystem::separate( Settings::setting("theme_location"), Settings::setting("theme_base"), $template) . ".php" ) )
+					return( FileSystem::separate( Settings::setting("theme_base"), $template ) );
 				else
 					throw new \Error("Unable to find template at: " . FileSystem::separate(
-							Settings::setting("theme_location"), $base, $template
+							Settings::setting("theme_location"), Settings::setting("theme_base"), $template
 						));
 			}
 			else

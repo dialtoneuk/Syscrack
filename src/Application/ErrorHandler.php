@@ -12,6 +12,7 @@
 	 */
 
 	use Error;
+	use Framework\Application;
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\Utilities\IPAddress;
 	use Framework\Application\UtilitiesV2\Debug;
@@ -124,6 +125,44 @@
 
 		/**
 		 * @param $error
+		 */
+
+		public static function prettyPrint( $error )
+		{
+
+			if( $error instanceof Error
+				|| $error instanceof \RuntimeException
+				|| $error instanceof \ErrorException
+				|| $error instanceof \Exception )
+			{
+
+				Debug::echo("<h1>Syscrack literally died</h1>", 0, true );
+				Debug::echo( "<h2>[" . $error->getFile() . "]:" . $error->getLine() . " | " . $error->getMessage() . "</h2>", 0, true );
+				Debug::echo("<pre>",0, true );
+				Debug::echo( $error->getTrace(), 0, true  );
+				Debug::echo("</pre>",0, true );
+			}
+			else
+			{
+
+				Debug::echo("<h1>Oh no! Its an error! Its also a bad one since we couldnt even work out what was thrown lol</h1>", 0, true );
+				Debug::echo( "<h2>[" . "no fucking clue" . "]:" . "420" . " | " . "you done fucked up" . "</h2>", 0, true );
+
+				if( Application::globals() !== null )
+					if( Application::globals()->ERROR_RISKY )
+					{
+
+						Debug::echo("<pre>",0, true );
+						Debug::echo( print_r( $error ), 0, true  );
+						Debug::echo("</pre>",0, true );
+					}
+			}
+
+			Debug::echo( "<h2><a href='https://github.com/dialtoneuk/syscrack/issues/new'>https://github.com/dialtoneuk/syscrack/issues/new</a></h2>", 0, true );
+		}
+
+		/**
+		 * @param $error
 		 * @param string $type
 		 */
 
@@ -156,22 +195,22 @@
 			catch ( \Error $error  )
 			{
 
-				die("<pre>" . print_r( $error ) . "</pre>" );
+				ErrorHandler::prettyPrint( $error );
 			}
 			catch ( \RuntimeException $error )
 			{
 
-				die("<pre>" . print_r( $error ) . "</pre>" );
+				ErrorHandler::prettyPrint( $error );
 			}
 			catch ( \Exception $error )
 			{
 
-				die("<pre>" . print_r( $error ) . "</pre>" );
+				ErrorHandler::prettyPrint( $error );
 			}
 			catch ( \ErrorException $error )
 			{
 
-				die("<pre>" . print_r( $error ) . "</pre>" );
+				ErrorHandler::prettyPrint( $error );
 			}
 		}
 
