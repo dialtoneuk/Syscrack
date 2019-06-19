@@ -25,16 +25,16 @@
 		 * @var array
 		 */
 
-		protected $strings;
+		protected static $strings;
 
 		/**
 		 * Help constructor.
 		 */
 
-		public function __construct()
+		public static function setup()
 		{
 
-			$this->strings = [
+			self::$strings = [
 				"How to use the frameworks command line interface" => 0,
 				" The syntax to execute a command is as follows" => 0,
 				"php -f cmd/execute.php [script] [arguments]\n" => 0,
@@ -66,7 +66,7 @@
 				" The syntax for arguments is eactly the same when in instance mode, minus php -f cmd/execute.php\n" => 0,
 			];
 
-			parent::__construct();
+			parent::setup();
 		}
 
 		/**
@@ -147,7 +147,7 @@
 				if (Debug::isCMD())
 				{
 
-					foreach ($this->strings as $message => $tab)
+					foreach (self::$strings as $message => $tab)
 						Debug::echo($message, $tab);
 				}
 			}

@@ -213,7 +213,7 @@
 					$this->runFlight();
 				}
 				else
-					Debug::echo("Flight engine halted due to CMD mode being active. Syscrack has loaded successfully!");
+					Debug::echo("syscrack loaded");
 			}
 			catch( \Error $error )
 			{
@@ -497,10 +497,10 @@
 		}
 
 		/**
-		 * @return Globals
+		 * @return Globals|null
 		 */
 
-		public static function globals(): Globals
+		public static function globals()
 		{
 
 			returN( self::$globals );

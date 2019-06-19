@@ -37,7 +37,7 @@
 		 * @throws \Error
 		 */
 
-		public function __construct()
+		public static function setup()
 		{
 
 			if( isset( self::$unpacker ) == false )
@@ -46,7 +46,7 @@
 			if( isset( self::$packer ) == false )
 				self::$packer = new ResourceCombiner();
 
-			parent::__construct();
+			parent::setup();
 		}
 
 		/**

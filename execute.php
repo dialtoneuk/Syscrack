@@ -25,9 +25,9 @@
 	//Lets block anything that we don't want
 	Application::block( true );
 
-	Debug::echo("Including index.php");
+	Debug::echo("including index.php");
 	if( file_exists("index.php") == false )
-		die("Please place me next to your syscrack compliant index.php");
+		die("cant find index.php in: " . getcwd() );
 	else
 		include_once "index.php";
 

@@ -70,7 +70,7 @@
 		 * Cleanup constructor.
 		 */
 
-		public function __construct()
+		public static function setup()
 		{
 
 			if( isset( self::$inventory ) == false )
@@ -94,7 +94,7 @@
 			if( isset( self::$user ) == false )
 				self::$user = new User();
 
-			parent::__construct();
+			parent::setup();
 		}
 
 		/**

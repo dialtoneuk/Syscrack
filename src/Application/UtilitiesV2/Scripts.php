@@ -55,7 +55,7 @@
 
 			//Unsets the file, leaving the first element the script
 			array_shift($arguments);
-			$this->script = $arguments[0];
+			$this->script = @$arguments[0];
 			$this->arguments = $arguments;
 
 			if ( Application::globals()->SCRIPTS_REQUIRE_CMD)
@@ -168,8 +168,7 @@
 			if ($quiet)
 				Debug::setSupressed();
 
-			if (Debug::isCMD())
-				Debug::echo("Getting instance of " . $name, 1);
+			Debug::message("Getting instance of " . $name);
 
 			/**
 			 * @var Script $script
@@ -179,6 +178,9 @@
 
 			if ($script instanceof Script == false)
 				throw new \Error("Script is invalid type");
+
+			Debug::message("Setting up script: " . $name );
+			$script::setup();
 
 			$arguments = $this->parseArguments();
 
@@ -201,7 +203,7 @@
 			}
 
 			if (Debug::isCMD())
-				Debug::echo("Executing script", 2);
+				Debug::echo("Executing script", 0);
 
 			Container::add("scripts", $this);
 

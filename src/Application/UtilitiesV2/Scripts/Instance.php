@@ -45,13 +45,11 @@
 		 * Instance constructor.
 		 */
 
-		public function __construct()
+		public static function setup()
 		{
 
-			//Sets the time limit to zero so you don't get booted off
 			set_time_limit(0);
-
-			parent::__construct();
+			parent::setup();
 		}
 
 		/**

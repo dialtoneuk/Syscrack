@@ -25,12 +25,17 @@
 		 * Base constructor.
 		 */
 
-		public function __construct()
+		public static function setup()
 		{
 
 			if( Debug::isCMD() == false )
+			{
+
 				if( Debug::isPHPUnitTest() == false )
 					throw new \Error("Attempted to create script class when CMD mode is in inactive");
+			}
+			else
+				Debug::message("Class setup");
 		}
 
 		/**

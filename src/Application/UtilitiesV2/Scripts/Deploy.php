@@ -22,23 +22,23 @@
 	{
 
 		/**
-		 * @var OpenSSL|null
+		 * @var OpenSSL
 		 */
 
-		protected static $openssl = null;
+		protected static $openssl;
 
 		/**
 		 * Deploy constructor.
 		 * @throws \Error
 		 */
 
-		public function __construct()
+		public static function setup()
 		{
 
-			if ($this->isEncrypted())
+			if( isset( self::$openssl ) == false )
 				self::$openssl = new OpenSSL();
 
-			parent::__construct();
+			parent::setup();
 		}
 
 		/**

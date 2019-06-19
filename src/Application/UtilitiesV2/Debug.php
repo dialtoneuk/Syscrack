@@ -120,12 +120,6 @@
 
 			$message = (string)$message;
 
-			if (Application::globals()->DEBUG_ENABLED == false)
-				return;
-
-			if (self::isInit() == false)
-				self::initialization();
-
 			if (Debug::isCMD() )
 				if( self::$verbosity > self::VERBOSITY_ERRORS )
 					Debug::echo("debug message: " . $message, 2);
@@ -133,18 +127,28 @@
 			if( Debug::isPHPUnitTest() )
 				Debug::echo("phpunit debug message: " . $message, 2);
 
-			if (isset(self::$objects->messages) == false)
-				self::$objects->messages = Debug::getMessages();
+			if( Application::globals() !== null )
+			{
 
-			if ($include_time)
-				$time = time();
-			else
-				$time = false;
+				if (Application::globals()->DEBUG_ENABLED == false)
+					return;
 
-			self::$objects->messages[] = [
-				'message' => $message,
-				'time' => $time
-			];
+				if (self::isInit() == false)
+					self::initialization();
+
+				if (isset(self::$objects->messages) == false)
+					self::$objects->messages = Debug::getMessages();
+
+				if ($include_time)
+					$time = time();
+				else
+					$time = false;
+
+				self::$objects->messages[] = [
+					'message' => $message,
+					'time' => $time
+				];
+			}
 		}
 
 		/**

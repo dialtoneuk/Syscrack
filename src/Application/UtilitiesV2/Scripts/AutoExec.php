@@ -31,13 +31,13 @@
 		 * @throws \Error
 		 */
 
-		public function __construct()
+		public static function setup()
 		{
 
 			if( isset( self::$autoexecmanager ) == false )
 				self::$autoexecmanager = new AutoExecManager(false);
 
-			parent::__construct();
+			parent::setup();
 		}
 
 		/**

@@ -31,13 +31,13 @@
 		 * Make constructor.
 		 */
 
-		public function __construct()
+		public static function setup()
 		{
 
 			if( isset( self::$makers ) == false )
 				self::$makers = new Makers();
 
-			parent::__construct();
+			parent::setup();
 		}
 
 		/**

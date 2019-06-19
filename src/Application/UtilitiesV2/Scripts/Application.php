@@ -39,13 +39,13 @@
 		 * Application constructor.
 		 */
 
-		public function __construct()
+		public static function setup()
 		{
 
 			if( isset( self::$tokenreader ) == false )
 				self::$tokenreader = new TokenReader();
 
-			parent::__construct();
+			parent::setup();
 		}
 
 		/**

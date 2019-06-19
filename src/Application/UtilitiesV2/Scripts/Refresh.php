@@ -28,7 +28,7 @@
 			if (Instance::$active_instance == false)
 				throw new \Error("Needs an active instance");
 
-			Debug::echo("Reinitializing application");
+			Debug::echo("Reinitializing application" );
 
 			//Remove the application
 			Container::remove('application');

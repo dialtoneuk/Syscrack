@@ -27,13 +27,13 @@
 		 * Theme constructor.
 		 */
 
-		public function __construct()
+		public static function setup()
 		{
 
 			if( isset( self::$themes ) == false )
 				self::$themes = new Themes( true );
 
-			parent::__construct();
+			parent::setup();
 		}
 
 		/**
