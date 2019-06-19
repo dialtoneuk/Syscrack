@@ -54,10 +54,72 @@
 		 * @param $error
 		 */
 
-		public function handleError( $error)
+		public function handleError( $error, string $type="application_error" )
 		{
 
-			$this->handleFlightError( $error, 'critical error');
+			try
+			{
+
+				if( $error instanceof Error
+					|| $error instanceof \RuntimeException
+					|| $error instanceof \ErrorException
+					|| $error instanceof \Exception )
+				{
+
+					$array = [
+						'message' => $error->getMessage(),
+						'type' => @get_class( $error ),
+						'details' => [
+							'url' => $_SERVER['REQUEST_URI'],
+							'line' => $error->getLine(),
+							'file' => $error->getFile(),
+							'trace' => $error->getTraceAsString()
+						]
+					];
+
+					Debug::message("Caught error: " . $array["message"] );
+					Debug::message( $array["type"]  );
+					Debug::message( print_r( $array["details"] )  );
+				}
+				else
+				{
+
+					Debug::message("Error is not instance of \\Errror or \\RuntimeException");
+
+					$array = [
+						'type' => $type,
+						'message' => @get_class( $error ),
+						'details' => [
+							'url' => $_SERVER['REQUEST_URI'],
+						]
+					];
+				}
+
+				$this->addToLog($array);
+
+				if (Settings::setting('error_logging') && Debug::isCMD() == false )
+					$this->saveErrors();
+			}
+			catch ( \Error $error  )
+			{
+
+				die( print_r( $error ) );
+			}
+			catch ( \RuntimeException $error )
+			{
+
+				die( print_r( $error ) );
+			}
+			catch ( \Exception $error )
+			{
+
+				die( print_r( $error) );
+			}
+			catch ( \ErrorException $error )
+			{
+
+				die( print_r( $error ) );
+			}
 		}
 
 		/**
@@ -65,10 +127,10 @@
 		 * @param string $type
 		 */
 
-		public function handleFlightError( $error, string $type="error")
+		public function handleFlightError( $error, string $type="flight_error")
 		{
 
-			if( $error instanceof Error || $error instanceof \RuntimeException || $error instanceof \ErrorException || $error instanceof \Exception )
+			try
 			{
 
 				$array = [
@@ -84,26 +146,33 @@
 
 				Debug::message("Caught error: " . $array["message"] );
 				Debug::message( $array["type"]  );
-				Debug::message( print_r( $array["details"] )  );
+				Debug::message( $array["details"] );
+
+				$this->addToLog($array);
+
+				if (Settings::setting('error_logging') && Debug::isCMD() == false )
+					$this->saveErrors();
 			}
-			else
+			catch ( \Error $error  )
 			{
 
-				Debug::message("Error occured but type thrown wasn't what I expected");
-
-				$array = [
-					'type' => $type,
-					'message' => @get_class( $error ),
-					'details' => [
-						'url' => $_SERVER['REQUEST_URI'],
-					]
-				];
+				die("<pre>" . print_r( $error ) . "</pre>" );
 			}
+			catch ( \RuntimeException $error )
+			{
 
-			$this->addToLog($array);
+				die("<pre>" . print_r( $error ) . "</pre>" );
+			}
+			catch ( \Exception $error )
+			{
 
-			if (Settings::setting('error_logging') && Debug::isCMD() == false )
-				$this->saveErrors();
+				die("<pre>" . print_r( $error ) . "</pre>" );
+			}
+			catch ( \ErrorException $error )
+			{
+
+				die("<pre>" . print_r( $error ) . "</pre>" );
+			}
 		}
 
 		/**

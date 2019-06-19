@@ -326,6 +326,9 @@
 
 			$total = 0;
 
+			if( empty( $files ) )
+				return 0;
+
 			foreach( $files as $file )
 				if( isset( $exists[ $file ] ) == false )
 				{

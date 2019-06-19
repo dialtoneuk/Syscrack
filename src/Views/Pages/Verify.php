@@ -77,47 +77,37 @@
 				$_GET['token'] = htmlspecialchars($_GET['token'], ENT_QUOTES, 'UTF-8');
 
 				if (self::$verification->getTokenUser($_GET['token']) == null)
-				{
-
 					$this->formError('Sorry, this token is invalid...');
-				}
-
-				$userid = self::$verification->getTokenUser($_GET['token']);
-
-				if ($userid == null)
+				else
 				{
 
-					$this->formError('Sorry, this token isnt tied to a user, try again?');
+					$userid = self::$verification->getTokenUser($_GET['token']);
+
+					if ($userid == null)
+						$this->formError('Sorry, this token isnt tied to a user, try again?');
+					elseif(self::$verification->verifyUser($_GET['token']) == false)
+						$this->formError('Sorry, failed to verify, try again?');
+					elseif (Settings::setting('startup_verification') == true)
+					{
+
+						$computerid = self::$computer->createComputer($userid, Settings::setting('startup_computer'), self::$internet->getIP());
+
+						if (empty($computerid))
+							throw new \Error();
+
+						$class = self::$computer->getComputerClass(Settings::setting('startup_computer'));
+
+						if ($class instanceof Computer == false)
+							throw new \Error();
+
+						$class->onStartup($computerid, $userid, [], Settings::setting('default_hardware'));
+					}
+
+					$this->formSuccess('login');
 				}
-
-				if (self::$verification->verifyUser($_GET['token']) == false)
-				{
-
-					$this->formError('Sorry, failed to verify, try again?');
-				}
-
-
-				if (Settings::setting('startup_verification') == true)
-				{
-
-					$computerid = self::$computer->createComputer($userid, Settings::setting('startup_computer'), self::$internet->getIP());
-
-					if (empty($computerid))
-						throw new \Error();
-
-					$class = self::$computer->getComputerClass(Settings::setting('startup_computer'));
-
-					if ($class instanceof Computer == false)
-						throw new \Error();
-
-					$class->onStartup($computerid, $userid, [], Settings::setting('default_hardware'));
-				}
-
-
-				$this->formSuccess('login');
 			}
 			else
-				$this->getRender('syscrack/page.verify', []);
+				$this->getRender('syscrack/page.verify', [], $this->model() );
 		}
 
 		/**

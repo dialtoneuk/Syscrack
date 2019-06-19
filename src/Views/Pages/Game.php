@@ -16,6 +16,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
 
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Syscrack\Game\Bases\BaseComputer;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Log;
@@ -282,6 +283,8 @@
 		public function switchProcess($computerid)
 		{
 
+			Format::filter( $computerid, FILTER_SANITIZE_NUMBER_INT );
+
 			if (self::$computer->computerExists($computerid) == false)
 				$this->formError('Invalid computer', 'game/computer/');
 			else
@@ -488,6 +491,8 @@
 		public function process($ipaddress, $process)
 		{
 
+			Format::filter( $process, FILTER_SANITIZE_STRING );
+
 			if ($this->validAddress($ipaddress) == false)
 				$this->redirect( $this->getRedirect() . '/404' );
 
@@ -595,6 +600,9 @@
 
 		public function processSoftware($ipaddress, $process, $softwareid)
 		{
+
+			Format::filter( $process, FILTER_SANITIZE_STRING );
+			Format::filter( $softwareid, FILTER_SANITIZE_NUMBER_INT );
 
 			if ($this->validAddress($ipaddress) == false)
 				$this->formError('404 Not Found', $this->getRedirect($ipaddress));

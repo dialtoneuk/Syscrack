@@ -15,6 +15,7 @@
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\PostHelper;
 
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Syscrack\Login\Account;
 	use Framework\Views\BaseClasses\Page as BaseClass;
 
@@ -71,7 +72,7 @@
 		public function page()
 		{
 
-			Render::view('syscrack/page.login', [], $this->model());
+			$this->getRender('syscrack/page.login', [], $this->model());
 		}
 
 		/**
@@ -81,42 +82,35 @@
 		public function process()
 		{
 
-			try
+			if (PostHelper::hasPostData() == false)
+				$this->formError('Blank Form');
+			else if (PostHelper::checkForRequirements(['username', 'password']) == false)
+				$this->formError('Missing Information');
+			else
 			{
 
-				if (PostHelper::hasPostData() == false)
-					$this->formError('Blank Form');
-				else if (PostHelper::checkForRequirements(['username', 'password']) == false)
-					$this->formError('Missing Information');
+				$username = PostHelper::getPostData('username');
+				$password = PostHelper::getPostData('password');
+
+				Format::filter( $username );
+
+				$result = @self::$login->loginAccount($username, $password);
+
+				if ($result === false)
+					/** @noinspection PhpUndefinedVariableInspection */
+					$this->formError(self::$login::$error->getMessage());
 				else
 				{
 
-					$username = PostHelper::getPostData('username');
-					$password = PostHelper::getPostData('password');
+					$userid = self::$login->getUserID($username);
 
-					$result = @self::$login->loginAccount($username, $password);
+					if (Settings::setting('login_cleanup_old_sessions') == true)
+						self::$session->cleanupSession($userid);
 
-					if ($result === false)
-						/** @noinspection PhpUndefinedVariableInspection */
-						$this->formError(self::$login::$error->getMessage());
-					else
-					{
-
-						$userid = self::$login->getUserID($username);
-
-						if (Settings::setting('login_cleanup_old_sessions') == true)
-							self::$session->cleanupSession($userid);
-
-						self::$session->insertSession($userid);
-						$this->addConnectedComputer($userid);
-						$this->formSuccess('game' );
-					}
+					self::$session->insertSession($userid);
+					$this->addConnectedComputer($userid);
+					$this->formSuccess('game' );
 				}
-			}
-			catch ( \Error $error )
-			{
-
-				$this->formError( $error->getMessage() );
 			}
 		}
 

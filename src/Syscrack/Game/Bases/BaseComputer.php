@@ -165,7 +165,7 @@
 		 * @param ComputerData $metadata
 		 */
 
-		public function reload($computerid, ComputerData $metadata)
+		private function metareload($computerid, ComputerData $metadata)
 		{
 
 			$this->addHardwares($computerid, $metadata->hardware);
@@ -258,7 +258,7 @@
 				self::$log->saveLog($computerid, []);
 
 			if ($this->metadata()->exists($computerid))
-				$this->reload($computerid, $this->metadata()->get($computerid));
+				$this->metareload($computerid, $this->metadata()->get($computerid));
 			else
 				$this->addHardwares($computerid, Settings::setting('default_hardware'));
 		}

@@ -22,6 +22,8 @@
 
 		protected $data = [];
 
+		protected $original = [];
+
 		/**
 		 * Request constructor.
 		 */
@@ -54,7 +56,7 @@
 			foreach( $values as $value )
 				if( isset( $this->data[ $value ] ) == false )
 					return false;
-				elseif( $this->data[ $value ] === null || $this->data[ $value ] === "" )
+				elseif( $this->data[ $value ] === null || $this->data[ $value ] === "" || empty( $this->data[ $value ]) )
 					return false;
 
 			return true;
@@ -94,7 +96,32 @@
 		public function __get($name)
 		{
 
+			if( isset( $this->data[ $name ] ) == false )
+				return null;
+
 			return( $this->data[ $name ] );
+		}
+
+		/**
+		 * @param $name
+		 * @param $value
+		 */
+
+		public function __set($name, $value)
+		{
+
+
+			$this->data[ $name ] = $value;
+		}
+
+		/**
+		 * @return array
+		 */
+
+		public function original()
+		{
+
+			return( $this->original );
 		}
 
 		/**
@@ -128,5 +155,7 @@
 						$this->data[ $key ] = (int)$value;
 				else
 					$this->data[ $key ] = (string)$value;
+
+			$this->original = $this->data;
 		}
 	}

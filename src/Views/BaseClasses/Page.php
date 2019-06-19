@@ -315,6 +315,7 @@
 				$this->_model->session = [
 					'active' => Container::get('session')->sessionActive(),
 					'loggedin' => false,
+					'data' => $_SESSION
 				];
 
 

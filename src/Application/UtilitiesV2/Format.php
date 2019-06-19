@@ -37,6 +37,53 @@
 		 * @return string
 		 */
 
+		public static function strip( string $string ): string
+		{
+
+			return( strip_tags( $string ) );
+		}
+
+		/**
+		 * @param string $string
+		 * @param int $filter
+		 */
+
+		public static function filter( string &$string , $filter = -1 )
+		{
+
+			if( $filter === -1 )
+				$filter = FILTER_SANITIZE_STRING;
+
+			$string = filter_var($string, $filter);
+		}
+
+		/**
+		 * @param mixed $value
+		 * @param int $filter
+		 *
+		 * @return bool
+		 */
+
+		public static function validate( $value , $filter = -1): bool
+		{
+
+			if( $filter === -1 )
+				$filter = FILTER_VALIDATE_INT;
+
+			$result = filter_var( $value, $filter);
+
+			if( $result === false )
+				return false;
+
+			return true;
+		}
+
+		/**
+		 * @param string $string
+		 *
+		 * @return string
+		 */
+
 		public static function rc( string $string ): string
 		{
 

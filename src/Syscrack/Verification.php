@@ -176,24 +176,15 @@
 		{
 
 			if ($this->isVerified($userid) == false)
-			{
-
 				throw new \Error('User is already has verification request');
-			}
 
 			$token = $this->generateToken();
 
 			if (empty($token))
-			{
-
 				throw new \Error('Verification token is empty');
-			}
 
 			if ($this->isEmail($email) == false)
-			{
-
 				throw new \Error('Email does not exist');
-			}
 
 			$array = [
 				'userid' => $userid,

@@ -115,6 +115,9 @@
 			if( is_null( $message ) )
 				throw new \Error("Message must be not null");
 
+			if( is_array( $message ) )
+				$message = implode("\n", $message );
+
 			$message = (string)$message;
 
 			if (Application::globals()->DEBUG_ENABLED == false)

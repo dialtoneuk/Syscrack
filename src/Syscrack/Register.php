@@ -13,6 +13,7 @@
 
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Hashes;
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Database\Tables\Users as Database;
 
 
@@ -22,6 +23,18 @@
 	 */
 	class Register
 	{
+
+		/**
+		 * @var string
+		 */
+
+		public static $token = "";
+
+		/**
+		 * @var \Error
+		 */
+
+		public static $error;
 
 		/**
 		 * @var Database
@@ -40,69 +53,59 @@
 		}
 
 		/**
-		 * Registers a new user and returns a verification token
-		 *
 		 * @param $username
-		 *
 		 * @param $password
-		 *
 		 * @param $email
 		 *
-		 * @return mixed
+		 * @return bool
 		 */
 
 		public function register($username, $password, $email)
 		{
 
-			if (filter_var($email, FILTER_VALIDATE_EMAIL) == false)
+			Format::filter( $username );
+			Format::filter($email, FILTER_SANITIZE_EMAIL );
+
+			try
 			{
 
-				throw new \Error('Your email is not a valid email');
-			}
+				if ( Format::validate( $email, FILTER_VALIDATE_EMAIL ) == false)
+					throw new \Error('Your email is not a valid email');
 
-			if ($this->isUsernameTaken($username))
+				if ($this->isUsernameTaken($username))
+					throw new \Error('Username is already taken');
+
+				if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $username))
+					throw new \Error('Username is invalid and must not contain any special characters');
+
+				if ($this->isEmailUnused($email))
+					throw new \Error('Email is already taken');
+
+				$data = $this->prepareArray($username, $password, $email);
+
+				if (empty($data))
+					throw new \Error('Failed to prepare array');
+
+				$userid = $this->database->insertUser($data);
+
+				if (empty($userid))
+					throw new \Error('Internal error');
+
+				$verification = new Verification();
+
+				if ($verification->hasVerificationRequest($userid))
+					self::$token = $verification->getToken($userid);
+
+				self::$token = $verification->addRequest($userid, $email);
+			}
+			catch ( \Error $error )
 			{
 
-				throw new \Error('Username is already taken');
+				self::$error = $error;
+				return( false );
 			}
 
-			if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $username))
-			{
-
-				throw new \Error('Username is invalid and must not contain any special characters');
-			}
-
-			if ($this->isEmailUnused($email))
-			{
-
-				throw new \Error('Email is already taken');
-			}
-
-			$data = $this->prepareArray($username, $password, $email);
-
-			if (empty($data))
-			{
-
-				throw new \Error('Failed to prepare array');
-			}
-
-			$userid = $this->database->insertUser($data);
-
-			if (empty($userid))
-			{
-
-				throw new \Error('Internal error');
-			}
-
-			$verification = new Verification();
-
-			if ($verification->hasVerificationRequest($userid))
-			{
-
-				return $verification->getToken($userid);
-			}
-
-			return $verification->addRequest($userid, $email);
+			return( true );
 		}
 
 		/**
@@ -117,10 +120,7 @@
 		{
 
 			if ($this->database->getByEmail($email) == null)
-			{
-
 				return false;
-			}
 
 			return true;
 		}
@@ -137,10 +137,7 @@
 		{
 
 			if ($this->database->getByUsername($username) == null)
-			{
-
 				return false;
-			}
 
 			return true;
 		}
@@ -163,23 +160,15 @@
 			$salt = $this->generateSalt();
 
 			if ($salt == null)
-			{
-
 				throw new \Error();
-			}
 
 			$password = $this->saltPassword($password, $salt);
 
 			if ($this->database->getUsers()->isEmpty() && Settings::setting('user_first_signup_admin'))
-			{
-
 				$group = Settings::setting('user_group_admin');
-			}
 			else
-			{
-
 				$group = Settings::setting('user_default_group');
-			}
+
 
 			$array = [
 				'username' => $username,

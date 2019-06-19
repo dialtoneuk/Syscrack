@@ -98,62 +98,57 @@
 			if (Container::get('session')->isLoggedIn())
 				Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . Settings::setting('controller_index_page'));
 
-			if (PostHelper::hasPostData() == false)
+			if ( self::$request->empty() )
 				$this->formError('Missing Information');
 			else if (Settings::setting('user_allow_registrations') == false)
 				$this->formError('Registration is currently disabled, sorry...');
-			else if (PostHelper::checkForRequirements(['username', 'password', 'email']) == false)
-				$this->formError('Missing Information');
-
-			$username = PostHelper::getPostData('username');
-			$password = PostHelper::getPostData('password');
-			$email = PostHelper::getPostData('email');
-
-			if (empty($username) || empty($password) || empty($email))
-				$this->formError('Missing Information');
-			else if (strlen($password) < Settings::setting('registration_password_length'))
-				$this->formError('Your password is too small, it needs to be longer than ' . Settings::setting('registration_password_length') . ' characters');
+			else if ( self::$request->compare(['username', 'password', 'email']) == false)
+				$this->formError('Failed compare');
 			else
 			{
 
-				$register = new Account();
-
-				if (Settings::setting('user_require_betakey') && PostHelper::checkForRequirements(['betakey']) == false
-					&& self::$betakeys->exists(PostHelper::getPostData('betakey')) == false)
-					$this->formError('Invalid key, please check for any white spaces or errors in the key and try again');
+				if (strlen(self::$request->password) < Settings::setting('registration_password_length'))
+					$this->formError('Your password is too small, it needs to be longer than ' . Settings::setting('registration_password_length') . ' characters');
 				else
 				{
 
-					if (Settings::setting('user_require_betakey'))
-						self::$betakeys->remove(PostHelper::getPostData('betakey'));
+					$register = new Account();
 
-					$result = @$register->register($username, $password, $email);
-
-					if ($result === false)
-						$this->formError("An error occured while trying to create your account. Its been logged and we are on it. Please try again later.");
+					if (Settings::setting('user_require_betakey') && isset( self::$request->betakey ) == false
+						&& self::$betakeys->exists( self::$request->betakey ) == false)
+						$this->formError('Invalid key, please check for any white spaces or errors in the key and try again');
 					else
 					{
 
-						if (Settings::setting('registration_verification'))
-						{
-							$this->sendEmail($email, ['token' => $result]);
-							$this->redirect('verify');
-						}
+						if (Settings::setting('user_require_betakey'))
+							self::$betakeys->remove( self::$request->betakey );
+
+						if ($register->register(self::$request->username, self::$request->password, self::$request->email ) == false)
+							$this->formError(\Framework\Syscrack\Register::$error->getMessage() );
 						else
-							$this->redirect('verify?token=' . $result);
+						{
+
+							if (Settings::setting('registration_verification'))
+							{
+								$this->email(self::$request->email, ['token' => \Framework\Syscrack\Register::$token ]);
+								$this->redirect('verify');
+							}
+							else
+								$this->redirect('verify?token=' . \Framework\Syscrack\Register::$token );
+						}
 					}
 				}
 			}
 		}
 
 		/**
-		 * @param $email
+		 * @param self::$request->email
 		 * @param array $variables
 		 *
 		 * @return bool
 		 */
 
-		private function sendEmail($email, array $variables)
+		private function email( $email, array $variables)
 		{
 
 			$body = self::$mailer->parse(self::$mailer->getTemplate('email.verify.php'), $variables);
@@ -167,9 +162,12 @@
 
 			try
 			{
-				$result = self::$mailer->send($body, 'Verify your email', $email);
-			} catch (\phpmailerException $e)
+				$result = self::$mailer->send($body, 'Verify your email', self::$request->email);
+			}
+			catch (\phpmailerException $e)
 			{
+
+				Container::get('application')->getErrorHandler()->handleError( $e );
 			}
 
 			if ($result == false)

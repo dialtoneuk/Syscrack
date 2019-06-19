@@ -54,10 +54,7 @@
 		}
 
 		/**
-		 * Logs in a user
-		 *
 		 * @param $username
-		 *
 		 * @param $password
 		 *
 		 * @return bool
@@ -70,49 +67,34 @@
 			{
 
 				if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $username))
-				{
-
 					throw new \Error('Username is invalid and must not contain any special characters');
-				}
 
 				if ($this->user->usernameExists($username) == false)
-				{
-
-					throw new \Error('Username does not exist');
-				}
+					throw new \Error('Invalid Credentials');
 
 				$userid = $this->user->findByUsername($username);
 
 				if (Settings::setting('login_admins_only') == true)
-				{
-
 					if ($this->user->isAdmin($userid) == false)
-					{
-
 						throw new \Error('Sorry, the game is currently in admin mode, please try again later');
-					}
-				}
 
 				if ($this->checkPassword($userid, $password, $this->user->getSalt($userid)) == false)
-				{
+					throw new \Error('Invalid Credentials');
 
-					throw new \Error('Password is invalid');
-				}
 
 				if ($this->verification->isVerified($userid) == false)
-				{
-
 					throw new \Error('Please verify your email');
-				}
 
 				return true;
 
-			} catch ( \Error $error)
+			}
+			catch ( \Error $error)
 			{
 
 				self::$error = $error;
-				throw $error;
 			}
+
+			return false;
 		}
 
 		/**
