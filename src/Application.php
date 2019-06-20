@@ -23,6 +23,7 @@
 	use Framework\Views\Controller;
 	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\Utilities\FileSystem;
+	use Framework\Views\ControllerV2;
 
 	/**
 	 * Class Application
@@ -438,10 +439,34 @@
 		public function runController()
 		{
 
-			if( isset( self::$controller ) == false )
-				self::$controller = $this->createController();
+			try
+			{
 
-			self::$controller->run();
+				if( isset( self::$controller ) == false )
+					self::$controller = $this->createController();
+
+				self::$controller->run();
+			}
+			catch ( \Error $error  )
+			{
+
+				ErrorHandler::prettyPrint( $error );
+			}
+			catch ( \RuntimeException $error )
+			{
+
+				ErrorHandler::prettyPrint( $error );
+			}
+			catch ( \Exception $error )
+			{
+
+				ErrorHandler::prettyPrint( $error );
+			}
+			catch ( \ErrorException $error )
+			{
+
+				ErrorHandler::prettyPrint( $error );
+			}
 		}
 
 		/**
@@ -564,7 +589,7 @@
 		private function createController()
 		{
 
-			return new Controller();
+			return new ControllerV2();
 		}
 
 		/**

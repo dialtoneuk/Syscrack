@@ -33,6 +33,14 @@
 		{
 
 			self::assertTrue( ModLoader::hasInitialized() );
-			print_r( self::$modloader->classes('base') );
+			self::assertNotEmpty( ModLoader::mods() );
+		}
+
+		public function process()
+		{
+
+			self::$modloader->process();
+			self::assertTrue( ModLoader::loaded() );
+			self::assertNotEmpty( ModLoader::include() );
 		}
 	}

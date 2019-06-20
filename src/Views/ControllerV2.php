@@ -12,9 +12,24 @@
 	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Collection;
 	use Framework\Syscrack\Game\ModLoader;
+	use Flight;
+	use Framework\Views\Structures\Page;
+	use Framework\Application\Settings;
 
 	class ControllerV2 extends Collection
 	{
+
+		/**
+		 * @var \Error
+		 */
+
+		protected static $error;
+
+		/**
+		 * @var Middlewares
+		 */
+
+		protected static $middlewares;
 
 		/**
 		 * ControllerV2 constructor.
@@ -27,10 +42,18 @@
 		public function __construct($filepath="", $namespace="", bool $auto_create = false)
 		{
 
+			if( Application::globals()->MIDDLEWARE_ENABLED )
+				if( isset( self::$middlewares ) == false )
+					self::$middlewares = new Middlewares();
+
 			parent::__construct( $filepath = Application::globals()->CONTROLLER_FILEPATH, $namespace = Application::globals()->CONTROLLER_NAMESPACE, $auto_create);
 		}
 
-		public function start()
+		/**
+		 * Runs the controller
+		 */
+
+		public function run()
 		{
 
 			if( Application::globals()->MODS_ENABLED )
@@ -40,12 +63,64 @@
 
 			$pages = array_merge( $mods, $this->namespace( $this->constructor->crawl() ) );
 
-			if( $this->compare( $pages, $this->page() ) == false )
+			if( $this->conflicts( $pages ) )
+				throw new \Error("Conflict in pages: ");
+
+			$class = $this->find( $pages, $this->page() );
+
+			if( $class === null )
 				\Flight::notFound();
 			else
 			{
 
-				//Code here
+				if( Application::globals()->MIDDLEWARE_ENABLED )
+				{
+
+					$enabled = true;
+
+					if( Settings::hasSetting("middlewares_disabled_pages") )
+						foreach( Settings::setting("middlewares_disabled_pages") as $banned_page )
+							if( strtolower( $banned_page ) == strtolower(  $this->page() ) )
+								$enabled = false;
+
+					if( $enabled )
+						if( self::$middlewares->hasMiddlewares() )
+							self::$middlewares->processMiddlewares();
+				}
+
+				if( class_exists( $class ) == false )
+					throw new \Error("Class does not exist: " . $class );
+				else
+				{
+
+					//Lets call our set up
+					forward_static_call( $class . "::setup");
+
+					//Create the class
+					$class = new $class;
+
+					//Do flight
+					$this->flight( $class );
+				}
+			}
+		}
+
+		/**
+		 * @param Page $page
+		 */
+
+		public function flight( Page $page )
+		{
+
+			$pages = $page->mapping();
+
+			foreach ($pages as $route)
+			{
+
+				if (method_exists($page, $route[1]) == false)
+					throw new \Error('Method does not exist in class: ' . $route[0] . " => " . $route[1]);
+
+				Flight::route($route[0], [$page, $route[1]]);
 			}
 		}
 
@@ -104,10 +179,10 @@
 		 * @param $classes
 		 * @param $page
 		 *
-		 * @return bool
+		 * @return null
 		 */
 
-		private function compare( $classes, $page )
+		private function find( $classes, $page )
 		{
 
 			foreach( $classes as $class )
@@ -116,15 +191,58 @@
 				$explode = explode("\\", $class );
 
 				if( empty( $explode ) )
-					return false;
+					return null;
 
 				$classname = last( $explode );
 
-				if( strtolower( $classname ) == $page );
-					return true;
+				if( strtolower( $classname ) == strtolower( $page ) )
+					return( $class );
 			}
 
-			return false;
+			return null;
+		}
+
+		/**
+		 * @param $classes
+		 *
+		 * @return bool
+		 */
+
+		private function conflicts( $classes )
+		{
+
+			try
+			{
+
+				$processed = [];
+
+				foreach( $classes as $class )
+				{
+
+					$explode = explode("\\", $class );
+
+					if( empty( $explode ) )
+						throw new \Error("invalid: " . $class );
+
+					$class = last( $explode );
+
+					if( empty( $processed ) )
+						$processed[ $class ] = true;
+					else
+						if( isset( $processed[ $class ] ) )
+							throw new \Error($class . "conflicting with other classes");
+						else
+							$processed[ $class ] = true;
+				}
+			}
+			catch ( \Error $error )
+			{
+
+				self::$error = $error;
+				return( true );
+			}
+
+			return( false );
 		}
 
 		/**
@@ -218,7 +336,12 @@
 		private function getURL()
 		{
 
-			return strip_tags($_SERVER['REQUEST_URI']);
+			$result = strip_tags($_SERVER['REQUEST_URI']);
+
+			if( $this->hasURLKey( $result ) )
+				$result = $this->removeURLKey( $result );
+
+			return( $result );
 		}
 
 		/**
