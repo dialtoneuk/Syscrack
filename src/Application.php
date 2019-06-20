@@ -23,7 +23,7 @@
 	use Framework\Views\Controller;
 	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\Utilities\FileSystem;
-	use Framework\Views\ControllerV2;
+	use Framework\Views\ControllerV3;
 
 	/**
 	 * Class Application
@@ -589,7 +589,7 @@
 		private function createController()
 		{
 
-			return new ControllerV2();
+			return new ControllerV3();
 		}
 
 		/**

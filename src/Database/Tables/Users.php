@@ -52,7 +52,7 @@
 		{
 
 			if( ModLoader::modded() && $safe !== true  )
-				throw new \Error("Mod " . ModLoader::$last["mod"] . " in class " . ModLoader::$last["class"] . " tried to do unsafe database query");
+				throw new \Error("Mod " . @ModLoader::$last["mod"] . " in class " . @ModLoader::$last["class"] . " tried to do unsafe database query");
 
 			$array = [
 				'userid' => $userid

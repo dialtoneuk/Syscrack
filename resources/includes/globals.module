@@ -203,4 +203,5 @@ return( $globals = [
 	["MODS_ENABLED", true ],
 	["MOD_NAMESPACE","Mods\\"],
 	["MIDDLEWARE_ENABLED", true ],
+	["CONTROLLER_INDEX_PAGE","index"],
 ] );

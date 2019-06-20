@@ -341,7 +341,7 @@
 				if( isset( $array["includes"] ) )
 				{
 
-					Application\UtilitiesV2\Debug::message("processing " . $mod );
+					Application\UtilitiesV2\Debug::message("initializing mod " . $mod );
 
 					try
 					{
@@ -353,7 +353,7 @@
 								foreach( $file as $include )
 								{
 
-									Application\UtilitiesV2\Debug::message("including " . $key);
+									Application\UtilitiesV2\Debug::message("including " . $mod . "/" . $key .  " > " . $include);
 									include_once $include;
 								}
 					}
@@ -386,9 +386,11 @@
 		 * @return bool
 		 */
 
-		public static function modded( string $specify="controllerv2" )
+		public static function modded( string $specify="views" )
 		{
-		
+
+
+
 			if( $specify !== "" )
 				if( empty( self::$current ) )
 					return false;
@@ -422,6 +424,22 @@
 		{
 
 			self::$current[ $type ][ $class ] = $mod;
+		}
+
+		/**
+		 * @param string $type
+		 */
+
+		public static function clear( string $type )
+		{
+
+			if( isset( self::$current[ $type ] ) == false )
+				return;
+
+			if( isset( self::$last ) )
+				self::$last = [];
+
+			self::$current[ $type ] = [];
 		}
 
 		/**
@@ -481,6 +499,23 @@
 		{
 
 			return( self::$mods );
+		}
+
+		/**
+		 * @param $namespace
+		 *
+		 * @return string
+		 */
+
+		public static function modFromNamespace( $namespace )
+		{
+
+			$explode = explode("\\", $namespace );
+
+			if( empty( $explode ) || count( $explode ) === 1 )
+				throw new \Error("Invalid mod namespace: " . $namespace );
+
+			return( strtolower( $explode[ 1 ] ) );
 		}
 
 		/**

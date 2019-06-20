@@ -173,7 +173,7 @@
 			{
 
 				if (session_status() !== PHP_SESSION_ACTIVE)
-					session_start();
+					@session_start();
 
 				if( isset( self::$session ) == false )
 					self::$session = new Session();
