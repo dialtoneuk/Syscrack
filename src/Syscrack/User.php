@@ -12,6 +12,8 @@
 	 */
 
 	use Framework\Database\Tables\Users as Database;
+	use Framework\Syscrack\Game\ModLoader;
+	use Framework\Views\ControllerV2;
 
 
 	/**
@@ -202,10 +204,8 @@
 		{
 
 			if ($this->userExists($userid) == false)
-			{
-
 				throw new \Error();
-			}
+
 
 			return $this->getUser($userid, false )->salt;
 		}
@@ -221,17 +221,16 @@
 		public function updateEmail($userid, $email)
 		{
 
-			if ($this->userExists($userid) == false)
-			{
+			if( ModLoader::modded() )
+				throw new \Error("Mod " .ModLoader::$last["mod"] . " in class " . ModLoader::$last["class"] . " tried to update user emails");
 
+			if ($this->userExists($userid) == false)
 				throw new \Error();
-			}
+
 
 			if ($this->isEmail($email) == false)
-			{
-
 				throw new \Error();
-			}
+
 
 			$array = [
 				'email' => $email
@@ -251,11 +250,11 @@
 		public function updatePassword($userid, $password)
 		{
 
-			if ($this->userExists($userid) == false)
-			{
+			if( ModLoader::modded() )
+				throw new \Error("Mod " .ModLoader::$last["mod"] . " in class " . ModLoader::$last["class"] . " tried to update user passwords");
 
+			if ($this->userExists($userid) == false)
 				throw new \Error();
-			}
 
 			$array = [
 				'password' => $password
@@ -276,10 +275,7 @@
 		{
 
 			if ($this->userExists($userid) == false)
-			{
-
 				throw new \Error();
-			}
 
 			$array = [
 				'group' => $group
@@ -299,11 +295,12 @@
 		public function updateSalt($userid, $salt)
 		{
 
-			if ($this->userExists($userid) == false)
-			{
+			if( ModLoader::modded() )
+				throw new \Error("Mod " .ModLoader::$last["mod"] . " in class " . ModLoader::$last["class"] . " tried to update user salt");
 
+			if ($this->userExists($userid) == false)
 				throw new \Error();
-			}
+
 
 			$array = [
 				'salt' => $salt

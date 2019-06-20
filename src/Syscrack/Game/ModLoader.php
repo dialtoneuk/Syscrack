@@ -31,6 +31,12 @@
 		 * @var array
 		 */
 
+		public static $last;
+
+		/**
+		 * @var array
+		 */
+
 		private static $mods;
 
 		/**
@@ -38,6 +44,13 @@
 		 */
 
 		private static $loaded_mods;
+
+
+		/**
+		 * @var array
+		 */
+
+		protected static $current;
 
 		/**
 		 * @var \Error
@@ -366,6 +379,51 @@
 					}
 				}
 		}
+
+		/**
+		 * @param string $specify
+		 *
+		 * @return bool
+		 */
+
+		public static function modded( string $specify="controllerv2" )
+		{
+		
+			if( $specify !== "" )
+				if( empty( self::$current ) )
+					return false;
+				elseif( isset( self::$current[ $specify ] ) == false )
+					return false;
+				elseif( empty( self::$current[ $specify ] ) )
+					return false;
+			else
+				if( empty( self::$current ) )
+					return false;
+
+			return true;
+		}
+
+		/**
+		 * @param array $info
+		 */
+
+		public static function last( array $info )
+		{
+
+			self::$last = $info;
+		}
+
+		/**
+		 * @param string $type
+		 * @param $mod
+		 */
+
+		public static function current( string $type, string $class, string $mod )
+		{
+
+			self::$current[ $type ][ $class ] = $mod;
+		}
+
 		/**
 		 * @param $mod
 		 *

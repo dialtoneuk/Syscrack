@@ -1,7 +1,9 @@
 <?php
 	namespace Mods\Base\Views;
 
+	use Framework\Syscrack\Game\ModLoader;
 	use Framework\Views\BaseClasses\Page;
+	use Framework\Views\ControllerV2;
 
 	class ModTest extends Page
 	{
@@ -19,7 +21,7 @@
 		public function page()
 		{
 
-			echo("If you are setting this message, then modding worked perfectly!");
+			self::$user->getUser( 1, false );
 		}
 
 		public static function setup(bool $autoload=true, bool $session=true)

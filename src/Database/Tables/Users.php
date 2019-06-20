@@ -12,6 +12,7 @@
 	 */
 
 	use Framework\Database\Table;
+	use Framework\Syscrack\Game\ModLoader;
 
 	/**
 	 * Class Users
@@ -26,10 +27,13 @@
 		 * @return \Illuminate\Support\Collection
 		 */
 
-		public function getUsers( $safe = true )
+		public function getUsers( bool $safe=true )
 		{
 
-			if( $safe )
+			if( ModLoader::modded() && $safe !== true  )
+				throw new \Error("Mod " . ModLoader::$last["mod"] . " in class " . ModLoader::$last["class"] . " tried to do unsafe database query");
+
+			if( $safe !== false )
 				$result = $this->getTable()->get(["username","userid","email","group"]);
 			else
 				$result = $this->getTable()->get();
@@ -44,14 +48,17 @@
 		 * @return mixed|null
 		 */
 
-		public function getUser($userid, $safe=true )
+		public function getUser($userid, bool $safe=true )
 		{
+
+			if( ModLoader::modded() && $safe !== true  )
+				throw new \Error("Mod " . ModLoader::$last["mod"] . " in class " . ModLoader::$last["class"] . " tried to do unsafe database query");
 
 			$array = [
 				'userid' => $userid
 			];
 
-			if( $safe )
+			if( $safe !== false )
 				$result = $this->getTable()->where($array)->get(["username","userid","email","group"]);
 			else
 				$result = $this->getTable()->where($array)->get();
@@ -77,21 +84,26 @@
 		}
 
 		/**
-		 * Gets a user by their username
-		 *
 		 * @param $username
+		 * @param bool $safe
 		 *
 		 * @return mixed|null
 		 */
 
-		public function getByUsername($username)
+		public function getByUsername($username, bool $safe=true )
 		{
+
+			if( ModLoader::modded() && $safe !== true  )
+				throw new \Error("Mod " . ModLoader::$last["mod"] . " in class " . ModLoader::$last["class"] . " tried to do unsafe database query");
 
 			$array = [
 				'username' => $username
 			];
 
-			$result = $this->getTable()->where($array)->get();
+			if( $safe !== false )
+				$result = $this->getTable()->where($array)->get(["username","userid","email","group"]);
+			else
+				$result = $this->getTable()->where($array)->get();
 
 			return ($result->isEmpty()) ? null : $result[0];
 		}
@@ -126,6 +138,9 @@
 
 		public function updateUser($userid, $values)
 		{
+
+			if( ModLoader::modded() )
+				throw new \Error("Mod " . ModLoader::$last["mod"] . " in class " . ModLoader::$last["class"] . " tried to update user settings the wrong way");
 
 			$array = [
 				'userid' => $userid

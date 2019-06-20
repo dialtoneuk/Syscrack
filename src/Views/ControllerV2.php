@@ -19,6 +19,18 @@
 	{
 
 		/**
+		 * @var bool
+		 */
+
+		public static $modded = false;
+
+		/**
+		 * @var array
+		 */
+
+		protected static $mod;
+
+		/**
 		 * @var \Error
 		 */
 
@@ -46,6 +58,22 @@
 					self::$middlewares = new Middlewares();
 
 			parent::__construct( $filepath = Application::globals()->CONTROLLER_FILEPATH, $namespace = Application::globals()->CONTROLLER_NAMESPACE, $auto_create);
+		}
+
+		/**
+		 * @param $class
+		 *
+		 * @return bool
+		 */
+
+		public function isModded( $class )
+		{
+
+			foreach( $this->mods() as $mod )
+				if( $mod == $class )
+					return true;
+
+			return false;
 		}
 
 		/**
@@ -91,6 +119,16 @@
 					throw new \Error("Class does not exist: " . $class );
 				else
 				{
+
+					if( $this->isModded( $class ) )
+					{
+
+						ModLoader::current('controllerv2', $class, $this->getMod( $class ) );
+						ModLoader::last([
+							"mod" => $this->getMod( $class ),
+							"class" => $class
+						]);
+					}
 
 					//Lets call our set up
 					forward_static_call( $class . "::setup");
@@ -172,6 +210,33 @@
 				return [];
 			else
 				return( ModLoader::factoryClasses('views') );
+		}
+
+		/**
+		 * @param string $class
+		 *
+		 * @return string
+		 */
+
+		public function getMod( string $class )
+		{
+
+			$explode = explode("\\", $class );
+
+			if( empty( $explode ) || count( $explode ) === 1 )
+				throw new \Error("Invalid mod class: " . $class );
+
+			return( strtolower( $explode[ 1 ] ) );
+		}
+
+		/**
+		 * @return mixed
+		 */
+
+		public static function mod()
+		{
+
+			return( self::$mod );
 		}
 
 		/**
