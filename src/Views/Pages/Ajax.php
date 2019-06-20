@@ -20,13 +20,13 @@
 	{
 
 		/**
-		 * Ajax constructor.
+		 * Ajax Setup
 		 */
 
-		public function __construct()
+		public static function setup( $autoload = true, $session = true )
 		{
 
-			parent::__construct(true, true );
+			parent::setup( $autoload, $session );
 		}
 
 		/**

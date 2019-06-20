@@ -11,17 +11,25 @@
 	 */
 	class Index extends BaseClass
 	{
-		
+
+		/**
+		 * Index constructor.
+		 *
+		 * @param bool $requirelogin
+		 * @param bool $update
+		 * @param bool $admin_only
+		 */
+
+		public function __construct(bool $requirelogin = false, bool $update = true, bool $admin_only = false) { parent::__construct($requirelogin, $update, $admin_only); }
+
 		/**
 		 * Index constructor.
 		 */
 
-		public function __construct()
+		public static function setup( $autoload = true, $session = true )
 		{
 
-
-
-			parent::__construct(true, true);
+			parent::setup(true, true);
 		}
 
 		/**

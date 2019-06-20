@@ -26,12 +26,22 @@
 
 		/**
 		 * Error constructor.
+		 *
+		 * @param bool $requirelogin
+		 * @param bool $update
+		 * @param bool $admin_only
 		 */
 
-		public function __construct()
+		public function __construct(bool $requirelogin = false, bool $update = true, bool $admin_only = false) { parent::__construct($requirelogin, $update, $admin_only); }
+
+		/**
+		 * Error Setup
+		 */
+
+		public static function setup( $autoload = true, $session = true )
 		{
 
-			parent::__construct(true, false);
+			parent::setup(true, false);
 		}
 
 		/**

@@ -1,5 +1,5 @@
 <?php
-	namespace Mods\Base\Softwares;
+	namespace Mods\BaseRequirement\Softwares;
 
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 

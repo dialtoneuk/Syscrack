@@ -1,4 +1,5 @@
 {
     "Framework\\Application\\Settings":"setup",
-    "Framework\\Application":"setup"
+    "Framework\\Application":"setup",
+    "Framework\\Syscrack\\Game\\ModLoader":"include"
 }

@@ -74,12 +74,21 @@
 
 		protected static $statistics;
 
-
 		/**
-		 * BaseComputer constructor.
+		 * Computer constructor.
+		 *
+		 * @param bool $requirelogin
+		 * @param bool $update
+		 * @param bool $admin_only
 		 */
 
-		public function __construct()
+		public function __construct(bool $requirelogin = true, bool $update = true, bool $admin_only = false) { parent::__construct($requirelogin, $update, $admin_only); }
+
+		/**
+		 * Computer Setup
+		 */
+
+		public static function setup( $autoload = true, $session = true )
 		{
 
 			if (isset(self::$operations) == false)
@@ -103,7 +112,7 @@
 			if (isset(self::$statistics) == false)
 				self::$statistics = new Statistics();
 
-			parent::__construct(true, true, true, true );
+			parent::setup( $autoload, $session );
 		}
 
 		/**

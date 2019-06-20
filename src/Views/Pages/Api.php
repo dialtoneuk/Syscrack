@@ -49,64 +49,10 @@
 		 * Api constructor.
 		 */
 
-		public function __construct()
+		public static function setup( $autoload = true, $session = true )
 		{
 
-			parent::__construct(false);
-
-			if (isset($this->manager) == false)
-			{
-
-				$this->manager = new Manager();
-			}
-
-			if (isset($this->computer) == false)
-			{
-
-				$this->controller = new Controller();
-			}
-
-			if (PostHelper::hasPostData())
-			{
-
-				if (PostHelper::checkForRequirements(['apikey']) == false)
-				{
-
-					Flight::json([
-						'error' => true,
-						'code' => 401,
-						'info' => [
-							'message' => 'Apikey required as post key'
-						]
-					]);
-
-					exit;
-				}
-				else
-				{
-
-					$this->apikey = PostHelper::getPostData('apikey');
-
-					if ($this->manager->hasApiKey($this->apikey) == false)
-					{
-
-						Render::redirect('/api/', 401);
-					}
-				}
-			}
-			else
-			{
-
-				Flight::json([
-					'error' => true,
-					'code' => 401,
-					'info' => [
-						'message' => 'Apikey required as post key'
-					]
-				]);
-
-				exit;
-			}
+			parent::setup(false);
 		}
 
 		/**
@@ -136,41 +82,5 @@
 		public function process($endpoint, $method = null)
 		{
 
-			$result = null;
-
-			try
-			{
-
-				if ($method == null)
-				{
-
-					$result = $this->controller->processEndpoint($endpoint, Settings::setting('api_default_method'));
-				}
-				else
-				{
-
-					$result = $this->controller->processEndpoint($endpoint, $method);
-				}
-			} catch (\Exception $error)
-			{
-
-				Flight::json([
-					'error' => true,
-					'code' => 502,
-					'info' => [
-						'message' => $error->getMessage(),
-						'line' => $error->getLine(),
-						'file' => $error->getFile()
-					]
-				]);
-			}
-
-			if (is_array($result) == false)
-			{
-
-				throw new \Error();
-			}
-
-			Flight::json($result);
 		}
 	}

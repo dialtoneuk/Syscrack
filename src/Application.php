@@ -19,6 +19,7 @@
 	use Framework\Application\UtilitiesV2\Globals;
 	use Framework\Application\UtilitiesV2\Scripts;
 	use Framework\Application\Settings;
+	use Framework\Syscrack\Game\ModLoader;
 	use Framework\Views\Controller;
 	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Application\Utilities\FileSystem;
@@ -53,6 +54,12 @@
 		 */
 
 		protected static $globals;
+
+		/**
+		 * @var ModLoader
+		 */
+
+		protected static $modloader;
 
 		/**
 		 * Application constructor.
@@ -220,6 +227,15 @@
 
 		public function go()
 		{
+
+			if( Application::globals()->MODS_ENABLED )
+			{
+
+				if( isset( self::$modloader ) == false )
+					self::$modloader = new ModLoader( "", true );
+
+				self::$modloader->process();
+			}
 
 			$this->executeLoader();
 

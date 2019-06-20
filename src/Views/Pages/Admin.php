@@ -15,6 +15,7 @@
 	use Framework\Application\Utilities\FileSystem;
 	use Framework\Application\Utilities\PostHelper;
 	use Framework\Application\UtilitiesV2\Conventions\CreatorData;
+	use Framework\Application\UtilitiesV2\Format;
 	use Framework\Syscrack\Game\BrowserPages;
 	use Framework\Syscrack\Game\Finance;
 	use Framework\Syscrack\Game\Inventory;
@@ -77,10 +78,20 @@
 		protected static $softwaretypes;
 
 		/**
-		 * Admin Error constructor.
+		 * Admin constructor.
+		 *
+		 * @param bool $requirelogin
+		 * @param bool $update
+		 * @param bool $admin_only
 		 */
 
-		public function __construct()
+		public function __construct(bool $requirelogin = true, bool $update = true, bool $admin_only = true) { parent::__construct($requirelogin, $update, $admin_only); }
+
+		/**
+		 * Admin Error setup
+		 */
+
+		public static function setup( $autoload = true, $session = true )
 		{
 
 			if (isset(self::$finance) == false)
@@ -104,7 +115,7 @@
 			if (isset(self::$softwaretypes) == false )
 				self::$softwaretypes = new SoftwareTypes();
 
-			parent::__construct(true, true, true, false, true);
+			parent::setup( $autoload, $session );
 		}
 
 		/**
@@ -227,7 +238,7 @@
 		public function usersEdit($userid)
 		{
 
-			$userid = parent::cast('int', $userid );
+			Format::cast('int', $userid );
 
 			if ($this->isUser($userid))
 				$this->getRender('syscrack/page.admin.users.edit', ['inventory' => self::$inventory->get( $userid ),
@@ -243,7 +254,7 @@
 		public function usersEditProcess($userid)
 		{
 
-			$userid = parent::cast('int', $userid );
+			Format::cast('int', $userid );
 
 			if ($this->isUser($userid) == false)
 				$this->formError('This user does not exist', "admin/users/edit/" . $userid . "/");
@@ -383,7 +394,7 @@
 		public function computerEditorProcess($computerid)
 		{
 
-			$computerid = @self::cast('int', $computerid );
+			@Format::cast('int', $computerid );
 
 			if (parent::$computer->computerExists($computerid) == false)
 				$this->formError('This computer does not exist, please try another', "admin/computer/edit/" . $computerid);

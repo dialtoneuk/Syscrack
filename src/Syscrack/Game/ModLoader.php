@@ -11,6 +11,8 @@
 
 	use Framework\Application;
 	use Framework\Application\Utilities\FileSystem;
+	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\UtilitiesV2\Format;
 
 	/**
 	 * Class ModLoader
@@ -30,6 +32,18 @@
 		 */
 
 		private static $mods;
+
+		/**
+		 * @var array
+		 */
+
+		private static $loaded_mods;
+
+		/**
+		 * @var \Error
+		 */
+
+		private static $error;
 
 		/**
 		 * ModLoader constructor.
@@ -60,14 +74,160 @@
 		}
 
 		/**
+		 * Processes the mods and adds the loaded mods to the system
+		 */
+
+		public function process()
+		{
+
+			foreach( self::$mods as $mod=>$array )
+				if( self::enabled( $mod ) == false )
+				{
+
+					if( Application\UtilitiesV2\Debug::isCMD() )
+						Application\UtilitiesV2\Debug::message($mod . " is disabled");
+				}
+				else
+				{
+
+					if( isset( $array["info"]["requirements"] ) )
+						if( $this->requirements( $array["info"]["requirements"] ) == false )
+							throw new \Error("Failed requirements: " . self::$error->getMessage() );
+
+					self::$loaded_mods[ $mod ] = [
+						'classes'   => $this->classes( $mod ),
+						'includes'  => self::$mods[ $mod ]["files"]
+					];
+				}
+		}
+
+		/**
+		 * @param array $requirements
+		 *
+		 * @return bool
+		 */
+
+		public function requirements( array $requirements )
+		{
+
+			try
+			{
+
+				foreach( $requirements as $requirement=>$version )
+					if( self::exists( $requirement ) == false )
+						throw new \Error("Mod requires " . $requirement . " but it is not installed");
+					else
+					{
+
+
+						if( $version !== "" )
+							if( substr( $version, -1 ) == "+" )
+							{
+								$version = str_replace("+", "", $version );
+
+								if( is_numeric( $version ) == false )
+									throw new \Error("Version must be numeric");
+
+								Format::cast("float", $version );
+
+								if( isset( self::$mods[ $requirement ]["info"]["version"] ) == false )
+									throw new \Error($requirement . " is broke and does not have a version");
+								elseif( (float)self::$mods[ $requirement ]["info"]["version"] > $version )
+									throw new \Error($requirement . " is too old. Mod requires versions higher than " . $version . " and this mod is version " . (float)self::$mods[ $requirement]["info"]["version"] );
+							}
+							else
+							{
+
+								if( is_numeric( $version ) == false )
+									throw new \Error("Version must be numeric");
+
+								Format::cast("float", $version );
+
+								if( isset( self::$mods[ $requirement ]["version"] ) == false )
+									throw new \Error($requirement . " is broke and does not have a version");
+								elseif( self::$mods[ $requirement]["version"] == $version )
+									throw new \Error($requirement . " is too old. The mod you are trying to load requires exact version " . $version . " and this mod is version " . self::$mods[ $requirement]["version"] );
+							}
+					}
+			}
+			catch ( \Error $error )
+			{
+
+				self::$error = $error;
+				return( false );
+			}
+
+			return( true );
+		}
+
+		/**
 		 * @param $mod
 		 */
 
 		public function classes( $mod )
 		{
 
+			$results = [];
+
 			if( empty( self::$mods ) )
 				throw new \Error("Mods not loaded");
+
+			$files = FileSystem::strip( self::$mods[ $mod ]["files"], FileSystem::separate("mods","base","src") );
+
+			foreach( $files as $file )
+			{
+
+				$data = explode(DIRECTORY_SEPARATOR, $file );
+
+				if( count( $data ) === 0 )
+					throw new \Error("Unexpected explode output on mod: " . $mod );
+				else
+				{
+
+					if( FileSystem::hasFileExtension( last( $data ) ) == false )
+						throw new \Error("Unable to get PHP class: " . $file );
+					else
+						$classname = FileSystem::removeFileExtension( last( $data ) );
+
+					array_pop( $data );
+					$namespace = implode( "\\", $data );
+
+					if( FileSystem::hasFileExtension( $classname ) )
+						throw new \Error("Failed to remove extension this is probably due to double dotting");
+
+					$results[$namespace][] = $classname;
+				}
+			}
+
+			return( $results );
+		}
+
+		/**
+		 * @param $mod
+		 * @param bool $save
+		 */
+
+		public function disable( $mod, $save = true  )
+		{
+
+			self::$mods[ $mod ]["info"]["disabled"] = true;
+
+			if( $save )
+				$this->write( $mod );
+		}
+
+		/**
+		 * @param $mod
+		 * @param bool $save
+		 */
+
+		public function enable( $mod, $save = true  )
+		{
+
+			self::$mods[ $mod ]["info"]["disabled"] = false;
+
+			if( $save )
+				$this->write( $mod );
 		}
 
 		/**
@@ -104,6 +264,107 @@
 
 		/**
 		 * @param $mod
+		 */
+
+		public function write( $mod )
+		{
+
+			FileSystem::writeJson( FileSystem::separate( $this->mods_filepath, $mod, "info.json" ), self::$mods[ $mod ]["info"] );
+		}
+
+		/**
+		 * @return bool
+		 */
+
+		public static function loaded()
+		{
+
+			return( empty( self::$loaded_mods ) == false );
+		}
+
+		/**
+		 * @param $mod
+		 *
+		 * @return mixed
+		 */
+
+		public static function modClasses( $mod )
+		{
+
+			return( self::$loaded_mods[ $mod ]["classes"] );
+		}
+
+		/**
+		 * @param $type
+		 */
+
+		public static function factoryClasses( $type )
+		{
+
+			$results = [];
+
+			foreach( self::$loaded_mods as $mod=>$array )
+				foreach( $array["classes"] as $key=>$include )
+					if( strtolower( $key ) == strtolower( $type ) )
+						foreach( $include as $file )
+							$results[] = ModLoader::getNamespace( $mod ) . $key . "\\" . $file;
+
+			return( $results );
+		}
+
+		/**
+		 * @param $mod
+		 *
+		 * @return mixed
+		 */
+
+		public static function include()
+		{
+
+			foreach( self::$loaded_mods as $mod=>$array )
+				if( isset( $array["includes"] ) )
+				{
+
+					Application\UtilitiesV2\Debug::message("processing " . $mod );
+
+					try
+					{
+
+						foreach( $array["includes"] as $key=>$file )
+							if( is_array( $file ) == false || empty( $file ) )
+								continue;
+							else
+								foreach( $file as $include )
+								{
+
+									Application\UtilitiesV2\Debug::message("including " . $key);
+									include_once $include;
+								}
+					}
+					catch ( \Error $error  )
+					{
+
+						Container::get('application')->getErrorHandler()->handleError( $error, 'mod_error');
+					}
+					catch ( \RuntimeException $error )
+					{
+
+						Container::get('application')->getErrorHandler()->handleError( $error, 'mod_error');
+					}
+					catch ( \Exception $error )
+					{
+
+						Container::get('application')->getErrorHandler()->handleError( $error, 'mod_error');
+					}
+					catch ( \ErrorException $error )
+					{
+
+						Container::get('application')->getErrorHandler()->handleError( $error, 'mod_error');
+					}
+				}
+		}
+		/**
+		 * @param $mod
 		 *
 		 * @return mixed
 		 */
@@ -127,6 +388,21 @@
 		}
 
 		/**
+		 * @param $mod
+		 *
+		 * @return mixed
+		 */
+
+		public static function enabled( $mod )
+		{
+
+			if( isset( self::$mods[ $mod ]["enabled"] ) == false )
+				return true;
+
+			return( self::$mods[ $mod ]["enabled"] );
+		}
+
+		/**
 		 * @return bool
 		 */
 
@@ -144,6 +420,18 @@
 		{
 
 			return( self::$mods );
+		}
+
+		/**
+		 * @param $mod
+		 *
+		 * @return string
+		 */
+
+		private function getNamespace( $mod )
+		{
+
+			return( Application::globals()->MOD_NAMESPACE . ucfirst( $mod ) . "\\" );
 		}
 
 		/**

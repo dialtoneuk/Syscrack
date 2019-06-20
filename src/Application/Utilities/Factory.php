@@ -12,6 +12,7 @@
 	 */
 
 	use Framework\Application\UtilitiesV2\Container;
+	use Framework\Application\UtilitiesV2\Debug;
 	use Framework\Syscrack\Game\Interfaces\Computer;
 	use Framework\Syscrack\Game\Interfaces\Software;
 	use ReflectionClass;
@@ -59,7 +60,7 @@
 		 * @return mixed
 		 */
 
-		public function createClass($class)
+		public function createClass( $class )
 		{
 
 			$classnamespace = $this->getClass($class);
@@ -84,24 +85,29 @@
 		}
 
 		/**
-		 * Returns true if a clas exists
-		 *
 		 * @param $class
+		 * @param $namespace
 		 *
-		 * @return bool
+		 * @return mixed
 		 */
 
-		public function classExists($class)
+		public function insertClass( $class, $namespace )
 		{
 
-			if (class_exists($this->namespace . ucfirst($class)))
-			{
+			$full = $namespace . $class;
 
-				return true;
-			}
+			Debug::message("adding to factory: " . $full );
 
-			return false;
+			$pageclass = new $full;
+
+			if (empty($pageclass))
+				throw new \Error('Class is Empty');
+
+			$this->classes[$class] = $pageclass;
+
+			return $pageclass;
 		}
+
 
 		/**
 		 * Returns true if the factory has this kind of class

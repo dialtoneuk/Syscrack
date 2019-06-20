@@ -32,13 +32,13 @@
 		 * Processes constructor.
 		 */
 
-		public function __construct()
+		public static function setup( $autoload = true, $session = true )
 		{
 
 			if (isset(self::$operations) == false)
 				self::$operations = new Operations();
 
-			parent::__construct(true, true, true, true);
+			parent::setup( $autoload, $session );
 		}
 
 		/**

@@ -33,15 +33,25 @@
 
 		/**
 		 * Verify constructor.
+		 *
+		 * @param bool $requirelogin
+		 * @param bool $update
+		 * @param bool $admin_only
 		 */
 
-		public function __construct()
+		public function __construct(bool $requirelogin = false, bool $update = true, bool $admin_only = false) { parent::__construct($requirelogin, $update, $admin_only); }
+
+		/**
+		 * Verify setup
+		 */
+
+		public static function setup( $autoload = true, $session = true )
 		{
 
 			if (isset(self::$verification) == false)
 				self::$verification = new Verification();
 
-			parent::__construct(true, true, false, true);
+			parent::setup( $autoload, $session );
 
 		}
 

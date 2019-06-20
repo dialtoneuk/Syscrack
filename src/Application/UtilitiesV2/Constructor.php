@@ -231,7 +231,7 @@
 		 * @return array
 		 */
 
-		private function crawl()
+		public function crawl()
 		{
 
 			$files = FileSystem::getFilesInDirectory( $this->file_path );

@@ -57,7 +57,7 @@
 		 * @var bool
 		 */
 
-		private $cleanerrors;
+		private $cleanerrors = true;
 
 		/**
 		 * @var Request
@@ -116,16 +116,48 @@
 		/**
 		 * Page constructor.
 		 *
-		 * @param bool $autoload
-		 * @param bool $session
 		 * @param bool $requirelogin
-		 * @param bool $clearerrors
+		 * @param bool $update
 		 * @param bool $admin_only
-		 * @param bool $global_model
 		 */
 
-		public function __construct(bool $autoload = true, bool $session = false, bool $requirelogin = false, bool $clearerrors = true, bool $admin_only = false, $global_model = true )
+		public function __construct( $requirelogin = true, $update = true, $admin_only = false )
 		{
+
+			if( Debug::isPHPUnitTest() == false )
+			{
+
+				if (Settings::setting('theme_mvc_output'))
+				{
+					$this->_model = new \stdClass();
+					self::$model = $this->model();
+				}
+
+				if ($requirelogin && isset( self::$session ) )
+					if ($this->isLoggedIn() == false)
+					{
+
+						Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . Settings::setting('controller_index_page'));
+						exit;
+					}
+
+				if( $update && isset( self::$session ) )
+					self::$session->updateLastAction();
+
+				if ($admin_only && isset( self::$session ) )
+					if ($this->isAdmin() == false)
+						Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . Settings::setting('controller_index_page'));
+			}
+		}
+
+		/**
+		 * @param bool $autoload
+		 * @param bool $session
+		 */
+
+		public static function setup(bool $autoload, bool $session)
+		{
+
 
 			if ($session)
 			{
@@ -167,29 +199,6 @@
 				if( isset( self::$preferences ) == false )
 					self::$preferences = new Preferences();
 			}
-
-			if (Settings::setting('theme_mvc_output'))
-				$this->_model = new \stdClass();
-
-			if( Settings::setting('theme_mvc_output') && $global_model )
-				self::$model = $this->model();
-
-			if ($requirelogin && $session)
-				if ($this->isLoggedIn() == false)
-				{
-
-					Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . Settings::setting('controller_index_page'));
-					exit;
-				}
-				else
-					self::$session->updateLastAction();
-
-			if( $clearerrors )
-				$this->cleanerrors = $clearerrors;
-
-			if ($admin_only && $session)
-				if ($this->isAdmin() == false)
-					Render::redirect(Application::globals()->CONTROLLER_INDEX_ROOT . Settings::setting('controller_index_page'));
 		}
 
 		/**
@@ -588,38 +597,6 @@
 			}
 
 			return $page[0];
-		}
-
-		/**
-		 * @param string $type
-		 * @param $value
-		 *
-		 * @return float|int|string
-		 */
-
-		public static function cast( string $type, $value )
-		{
-
-			switch( $type )
-			{
-
-				case 'int':
-					if( is_numeric( $value ) == false )
-						throw new \Error("Value " . $value . " is not numeric");
-					else
-						return( (int) $value );
-					break;
-				case 'string':
-					if( is_array( $value ) || is_object( $value ) )
-						throw new \Error("Value is an object");
-					else
-						return( (string) $value );
-				case 'float':
-					if( is_numeric( $value ) == false  )
-						throw new \Error("Value " . $value . " is not numeric");
-					else
-						return( (float) $value );
-			}
 		}
 
 		/**

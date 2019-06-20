@@ -13,6 +13,7 @@
 
 	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Debug;
+	use function Sodium\compare;
 
 	/**
 	 * Class FileSystem
@@ -221,6 +222,34 @@
 				return false;
 
 			return true;
+		}
+
+		/**
+		 * @param $filepath
+		 * @param string $folder
+		 *
+		 * @return array|mixed
+		 */
+
+		public static function strip( $filepath, $folder = "" )
+		{
+
+			$results = [];
+
+			if( is_array( $filepath ) )
+				foreach( $filepath as $path )
+					$results[] = self::strip( $path, $folder );
+			else
+				$results[] = str_replace( self::getFilePath( $folder ), "", $filepath );
+
+			foreach( $results as $key=>$result )
+				if( empty( $result ) )
+					unset( $results[ $key ] );
+
+			if( count( $results ) == 1 )
+				return( $results[0] );
+			else
+				return( $results );
 		}
 
 		/**
@@ -539,7 +568,9 @@
 		public static function hasFileExtension($filepath)
 		{
 
-			if (count(explode(".", $filepath)) === 1)
+			$info = pathinfo( self::getFilePath( $filepath ) );
+
+			if( isset( $info["extension"] ) == false || $info["extension"] == "" || $info["extension"] == null  )
 				return false;
 
 			return true;

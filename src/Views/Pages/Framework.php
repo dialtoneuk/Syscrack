@@ -23,14 +23,25 @@
 	class Framework extends BaseClass
 	{
 
+
 		/**
 		 * Framework constructor.
+		 *
+		 * @param bool $requirelogin
+		 * @param bool $update
+		 * @param bool $admin_only
 		 */
 
-		public function __construct()
+		public function __construct(bool $requirelogin = false, bool $update = true, bool $admin_only = false) { parent::__construct($requirelogin, $update, $admin_only); }
+
+		/**
+		 * Framework setup
+		 */
+
+		public static function setup( $autoload = true, $session = true )
 		{
 
-			parent::__construct(false, true);
+			parent::setup(false, true);
 		}
 
 		/**

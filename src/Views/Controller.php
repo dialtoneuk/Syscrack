@@ -16,6 +16,7 @@
 	use Framework\Application;
 	use Framework\Application\Settings;
 	use Framework\Application\Utilities\Factory;
+	use Framework\Syscrack\Game\ModLoader;
 	use Framework\Views\Structures\Page;
 
 	/**
@@ -187,13 +188,37 @@
 		private function createPage($page)
 		{
 
-			if ($this->factory->classExists($page) == false)
+			if( class_exists( Application::globals()->CONTROLLER_NAMESPACE . $page ) == false )
+				return false;
+
+			try
 			{
 
-				return;
+				Application\UtilitiesV2\Debug::message("creating setup for page " . $page );
+				forward_static_call( Application::globals()->CONTROLLER_NAMESPACE . $page . "::setup" );
+				$this->processClass($this->factory->createClass($page));
+			}
+			catch ( \Error $error  )
+			{
+
+				ErrorHandler::prettyPrint( $error );
+			}
+			catch ( \RuntimeException $error )
+			{
+
+				ErrorHandler::prettyPrint( $error );
+			}
+			catch ( \Exception $error )
+			{
+
+				ErrorHandler::prettyPrint( $error );
+			}
+			catch ( \ErrorException $error )
+			{
+
+				ErrorHandler::prettyPrint( $error );
 			}
 
-			$this->processClass($this->factory->createClass($page));
 		}
 
 
@@ -203,14 +228,11 @@
 		 * @param Page $class
 		 */
 
-		private function processClass(Page $class)
+		private function processClass($class)
 		{
 
 			if ($class instanceof Page == false)
-			{
-
 				throw new \Error('Class does not have required interface');
-			}
 
 			$this->processFlightRoutes($class, $class->mapping());
 		}

@@ -33,5 +33,6 @@
 		{
 
 			self::assertTrue( ModLoader::hasInitialized() );
+			print_r( self::$modloader->classes('base') );
 		}
 	}

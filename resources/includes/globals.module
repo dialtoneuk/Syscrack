@@ -200,5 +200,6 @@ return( $globals = [
 	["PIPELINE_LOCATION","data/pipeline/pipeline"],
 	["ERROR_RISKY", true ],
 	["MODS_FILEPATH","mods"],
-	["MODS_ENABLED", true ]
+	["MODS_ENABLED", true ],
+	["MOD_NAMESPACE","Mods\\"],
 ] );

@@ -70,12 +70,21 @@
 
 		protected static $softwaretypes;
 
-
 		/**
 		 * Game constructor.
+		 *
+		 * @param bool $requirelogin
+		 * @param bool $update
+		 * @param bool $admin_only
 		 */
 
-		public function __construct()
+		public function __construct(bool $requirelogin = true, bool $update = true, bool $admin_only = false) { parent::__construct($requirelogin, $update, $admin_only); }
+
+		/**
+		 * Game setup
+		 */
+
+		public static function setup( $autoload = true, $session = true )
 		{
 
 			if (isset(self::$operations) == false)
@@ -96,7 +105,7 @@
 			if (isset(self::$types) == false )
 				self::$types = new Types();
 
-			parent::__construct(true, true, true, false);
+			parent::setup( $autoload, $session );
 		}
 
 		/**

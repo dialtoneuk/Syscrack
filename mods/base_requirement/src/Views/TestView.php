@@ -1,5 +1,5 @@
 <?php
-	namespace Mods\Base\Views;
+	namespace Mods\BaseRequirement\Views;
 
 	use Framework\Views\BaseClasses\Page;
 

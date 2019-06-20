@@ -486,7 +486,8 @@
 		public static function setCMD()
 		{
 
-			define("CMD", true);
+			if( defined("CMD") == false )
+				define("CMD", true);
 		}
 
 		/**

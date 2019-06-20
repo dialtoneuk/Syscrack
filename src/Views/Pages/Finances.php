@@ -37,9 +37,19 @@
 
 		/**
 		 * Finances constructor.
+		 *
+		 * @param bool $requirelogin
+		 * @param bool $update
+		 * @param bool $admin_only
 		 */
 
-		public function __construct()
+		public function __construct(bool $requirelogin = true, bool $update = true, bool $admin_only = false) { parent::__construct($requirelogin, $update, $admin_only); }
+
+		/**
+		 * Finances setup
+		 */
+
+		public static function setup( $autoload = true, $session = true )
 		{
 
 			if (isset(self::$finance) == false)
@@ -51,7 +61,7 @@
 			if (isset(self::$bankdatabase) == false)
 				self::$bankdatabase = new AccountDatabase();
 
-			parent::__construct(true, true, true, true);
+			parent::setup(true, true);
 		}
 
 		/**
