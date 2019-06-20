@@ -91,12 +91,15 @@
 				{
 
 					if( isset( $array["info"]["requirements"] ) )
+					{
+
 						if( $this->requirements( $array["info"]["requirements"] ) == false )
 							throw new \Error("Failed requirements: " . self::$error->getMessage() );
+					}
 
 					self::$loaded_mods[ $mod ] = [
-						'classes'   => $this->classes( $mod ),
-						'includes'  => self::$mods[ $mod ]["files"]
+						'classes'   => @$this->classes( $mod ),
+						'includes'  => @self::$mods[ $mod ]["files"]
 					];
 				}
 		}
@@ -172,7 +175,7 @@
 			if( empty( self::$mods ) )
 				throw new \Error("Mods not loaded");
 
-			$files = FileSystem::strip( self::$mods[ $mod ]["files"], FileSystem::separate("mods","base","src") );
+			$files = FileSystem::strip( self::$mods[ $mod ]["files"], FileSystem::separate("mods", $mod,"src") );
 
 			foreach( $files as $file )
 			{

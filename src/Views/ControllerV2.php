@@ -8,7 +8,6 @@
 
 	namespace Framework\Views;
 
-
 	use Framework\Application;
 	use Framework\Application\UtilitiesV2\Collection;
 	use Framework\Syscrack\Game\ModLoader;

@@ -151,6 +151,16 @@
 		}
 
 		/**
+		 * Page
+		 */
+
+		public function page()
+		{
+
+			Debug::message("Page execution successful");
+		}
+
+		/**
 		 * @param bool $autoload
 		 * @param bool $session
 		 */

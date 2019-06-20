@@ -3,7 +3,7 @@
 
 	use Framework\Views\BaseClasses\Page;
 
-	class TestView extends Page
+	class ModTest extends Page
 	{
 
 		public function mapping()
@@ -11,7 +11,7 @@
 
 			return [
 				[
-					'/testview/', 'page'
+					'/modtest/', 'page'
 				],
 			];
 		}
@@ -19,7 +19,7 @@
 		public function page()
 		{
 
-			die("modding worked");
+			echo("If you are setting this message, then modding worked perfectly!");
 		}
 
 		public static function setup(bool $autoload=true, bool $session=true)
