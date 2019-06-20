@@ -1,0 +1,11 @@
+{
+  "name":"Base Mod",
+  "description":"A default base mod designed for testing purposes",
+  "author":"Lewis Lancaster",
+  "website":"https://github.com/dialtoneuk",
+  "version": 1.0,
+  "requirements":[],
+  "options":{
+    "theme":"theme"
+  }
+}

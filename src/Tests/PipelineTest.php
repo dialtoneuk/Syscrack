@@ -50,7 +50,5 @@
 			$result = self::$pipeline->process( true );
 
 			self::assertNotEmpty( $result );
-
-			print_r( $result );
 		}
 	}

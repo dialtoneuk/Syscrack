@@ -38,13 +38,6 @@
 			static::assertNotEmpty(self::$themes->currentTheme());
 		}
 
-		public function testRequiresMVC()
-		{
-
-			self::$themes->getThemes();
-			static::assertTrue(self::$themes->requiresMVC(self::$theme));
-		}
-
 		public function testGather()
 		{
 
@@ -59,12 +52,6 @@
 
 			self::$themes->getThemes();
 			static::assertNotEmpty(self::$themes->getTheme(self::$theme));
-		}
-
-		public function testMvcOutput()
-		{
-
-			static::assertIsBool(self::$themes->mvcOutput());
 		}
 
 		public function testGetData()

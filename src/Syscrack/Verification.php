@@ -211,7 +211,7 @@
 			if ($this->database->getToken($token) == null)
 			{
 
-				throw new \Error('token is invalid');
+				throw new \Error('token ' . $token . ' is invalid');
 			}
 
 			$userid = $this->database->getToken($token)->userid;

@@ -120,9 +120,9 @@
 			$result = self::$register->register(self::$username, self::$password, self::$email);
 
 			static::assertNotEmpty($result);
-			static::assertIsString($result);
+			static::assertIsBool($result);
 
-			self::$token = $result;
+			self::$token = self::$register::$token;
 		}
 
 		public function testVerification()

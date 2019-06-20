@@ -23,7 +23,7 @@
 	Debug::setCMD();
 
 	//Lets block anything that we don't want
-	Application::block( true );
+	@Application::block( true );
 
 	Debug::echo("including index.php");
 	if( file_exists("index.php") == false )

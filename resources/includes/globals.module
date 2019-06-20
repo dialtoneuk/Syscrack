@@ -199,4 +199,6 @@ return( $globals = [
 	["PIPELINE_NAMESPACE","Framework\\Application\\UtilitiesV2\\Jobs\\"],
 	["PIPELINE_LOCATION","data/pipeline/pipeline"],
 	["ERROR_RISKY", true ],
+	["MODS_FILEPATH","mods"],
+	["MODS_ENABLED", true ]
 ] );

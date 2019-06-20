@@ -1,20 +1,20 @@
 [
-  {
-      "classname": "test",
-      "data": {
-          "ignore": [
-              "vpc"
-          ]
-      },
-      "lastexecuted": 1560827474,
-      "nextexecution": 1560831074
-  },
-  {
-    "classname": "reset",
-    "data": {
-      "ignore": [
-        "vpc"
-      ]
+    {
+        "classname": "test",
+        "data": {
+            "ignore": [
+                "vpc"
+            ]
+        },
+        "lastexecuted": 1560988131,
+        "nextexecution": 1560991731
     },
-  }
+    {
+        "classname": "reset",
+        "data": {
+            "ignore": [
+                "vpc"
+            ]
+        }
+    }
 ]

@@ -140,7 +140,7 @@
 		 * @return array
 		 */
 
-	    public function read(): array
+	    public function read()
 	    {
 
 			if( FileSystem::exists( Application::globals()->PIPELINE_LOCATION . ".json" ) == false )

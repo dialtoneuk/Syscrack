@@ -98,7 +98,7 @@
 			if (self::exists($filepath) == false)
 			{
 
-				if (Debug::isEnabled())
+				if (Debug::isEnabled() || Debug::isPHPUnitTest() )
 					Debug::echo("file does not exist: " . self::getFilePath($filepath));
 
 				return null;

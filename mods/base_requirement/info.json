@@ -1,0 +1,11 @@
+{
+  "name":"Base Requirement Mod",
+  "description":"A default base mod designed for testing purposes",
+  "author":"Lewis Lancaster",
+  "website":"https://github.com/dialtoneuk",
+  "version": 1.0,
+  "requirements":
+  {
+    "base":"1.0+"
+  }
+}

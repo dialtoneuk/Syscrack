@@ -179,15 +179,29 @@
 		    else
 		    {
 
-		    	if( strpos( $value, ".") !== false )
-		    		throw new \Error("You cannot have dots (.) in your global, sorry.");
+		    	if( is_string( $value ) )
+			    	if( @strpos( $value, ".") !== false )
+		    		    throw new \Error("You cannot have dots (.) in your global, sorry.");
+			    	elseif( strtolower( $value ) == "true" )
+					    $value = true;
+			    	elseif( strtolower( $value ) == "false" )
+					    $value = false;
 
 		    	if( is_numeric( $value ) && is_string( $value ) )
 				    $value = (int)$value;
 
 			    array_pop( $globals );
-			    array_push( $globals, '	["' . addslashes( strtoupper( $global ) ) . '","' . addslashes( (string)$value ) . '"],'  );
-			    array_push( $globals, PHP_EOL . '] );'  );
+
+			    if( is_bool( $value ) )
+			    	if( $value )
+			            array_push( $globals, '	["' . addslashes( strtoupper( $global ) ) . '", true ],'  );
+			    	else
+					    array_push( $globals, '	["' . addslashes( strtoupper( $global ) ) . '", false ],'  );
+		        else
+			        array_push( $globals, '	["' . addslashes( strtoupper( $global ) ) . '","' . (string)$value . '"],'  );
+
+
+		        array_push( $globals, PHP_EOL . '] );'  );
 			    Debug::echo("Wrote '" . $global. '" with value ' . $value );
 			    $this->write( $globals );
 		    }

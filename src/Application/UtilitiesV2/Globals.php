@@ -1,5 +1,5 @@
 <?php
-	declare(strict_types=1); //Created at 2019-06-20 00:04:44 by 900
+	declare(strict_types=1); //Created at 2019-06-20 01:32:53 by 12732
 
 	namespace Framework\Application\UtilitiesV2;
 
@@ -65,7 +65,7 @@
 	 * @property string GOOGLE_CLOUD_CREDENTIALS data/config/storage/google.json
 	 * @property string STORAGE_CONFIG_ROOT cdata/config/storage/
 	 * @property string STORAGE_SETTINGS_FILE settings.json
-	 * @property double SYSCRACK_TIME_START 1560981880.4562
+	 * @property double SYSCRACK_TIME_START 1560987169.4794
 	 * @property string FLIGHT_JQUERY_FILE jquery-3.3.1.min.js
 	 * @property boolean FLIGHT_CONTENT_OBJECT 1
 	 * @property string FLIGHT_MODEL_DEFINITION model
@@ -204,7 +204,9 @@
 	 * @property string PIPELINE_FILEPATH src/Application/UtilitiesV2/Jobs/
 	 * @property string PIPELINE_NAMESPACE Framework\Application\UtilitiesV2\Jobs\
 	 * @property string PIPELINE_LOCATION data/pipeline/pipeline
-	 * @property string ERROR_RISKY true
+	 * @property boolean ERROR_RISKY 1
+	 * @property string MODS_FILEPATH mods/
+	 * @property string MODS_ENABLED 
 
 	 */
 	class Globals
