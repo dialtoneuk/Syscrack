@@ -24,8 +24,9 @@
 		public $base_filepath;
 		public $base_namespace;
 		public $mod_type;
+		public $mods;
 		public static $error;
-		public static $mods;
+		public static $globalmods;
 		public static $cache;
 
 		/**
@@ -36,7 +37,7 @@
 		 * @param string $mod_type
 		 */
 
-		public function __construct( $base_filepath, $base_namespace, $mod_type="views" )
+		public function __construct( $base_filepath, $base_namespace, $mod_type )
 		{
 
 			if( FileSystem::directoryExists( $base_filepath ) == false )
@@ -216,13 +217,19 @@
 			if( Application::globals()->MODS_ENABLED == false )
 				return [];
 
-			if( empty( self::$mods ) == false )
-				return( self::$mods );
+			if( $this->mod_type == "softwares" )
+				die( print_r( $this->mods ) );
 
-			$mods = ( ModLoader::factoryClasses( $this->mod_type ) );
-			self::$mods = $mods;
+			if( empty( $this->mods ) == false )
+				return( $this->mods );
 
-			return( $mods );
+			$globalmods = ( ModLoader::factoryClasses( $this->mod_type ) );
+			$this->mods[ $this->mod_type ] = $globalmods;
+
+
+			self::$globalmods[ $this->mod_type ] = $globalmods;
+
+			return( $globalmods );
 		}
 
 		/**
@@ -234,14 +241,13 @@
 		public static function modded( $class )
 		{
 
-
-
-			if( empty( self::$mods ) )
+			if( empty( self::$globalmods ) )
 				return false;
 			else
-				foreach( self::$mods as $mod )
-					if( strtolower( $class ) == strtolower( $mod ) )
-						return true;
+				foreach( self::$globalmods as $mod )
+					foreach( $mod as $classname )
+						if( strtolower( $class ) == strtolower( $classname ) )
+							return true;
 
 			return( false );
 		}

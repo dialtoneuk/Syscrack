@@ -60,12 +60,15 @@
 		 * @return mixed
 		 */
 
-		public function createClass( $class )
+		public function createClass( $class, $namespace="" )
 		{
 
 			$classnamespace = $this->getClass($class);
 
-			if ($classnamespace == $this->namespace)
+			if( $namespace == "")
+				$namespace = $this->namespace;
+
+			if ($classnamespace == $namespace)
 			{
 
 				throw new \Error('No Class Given');

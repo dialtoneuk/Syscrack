@@ -23,7 +23,6 @@
 	use Framework\Database\Tables\Software as Database;
 	use Framework\Syscrack\Game\Bases\BaseSoftware;
 	use Framework\Syscrack\Game\Interfaces\Software as Structure;
-
 	/**
 	 * Class Software
 	 * @package Framework\Syscrack\Game
@@ -47,6 +46,7 @@
 		 */
 
 		protected static $database;
+
 
 		/**
 		 * Software constructor.
@@ -102,10 +102,8 @@
 			/**
 			 * @var BaseSoftware $class
 			 */
-
 			foreach ($classes as $key => $class)
 				$tools[$key] = $class->tool();
-
 			return ($tools);
 		}
 
@@ -113,7 +111,7 @@
 		 * @param $computerid
 		 *
 		 * @return array
-		 */
+
 
 		public function getAnonDownloads($computerid)
 		{
@@ -135,7 +133,13 @@
 
 			return $results;
 		}
+		 */
 
+		public function getAnonDownloads( $computerid )
+		{
+
+
+		}
 		/**
 		 * Returns true if this softwareid exists
 		 *

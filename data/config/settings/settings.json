@@ -111,6 +111,7 @@
     "game_https_link": "https:\/\/www.syscrack.net\/",
     "game_name": "Testing",
     "game_page": "game",
+    "github_main":"https://github.com/dialtoneuk/syscrack",
     "hardware_extensions": {
         "cpu": "mhz",
         "download": "mb\/s",

@@ -325,6 +325,9 @@
 						foreach( $include as $file )
 							$results[] = ModLoader::getNamespace( $mod ) . $key . "\\" . $file;
 
+			if( $type == "softwares" )
+				die( print_r( self::$loaded_mods ) );
+
 			return( $results );
 		}
 
