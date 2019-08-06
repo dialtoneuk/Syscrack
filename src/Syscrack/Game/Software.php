@@ -107,11 +107,31 @@
 			return ($tools);
 		}
 
+
+		/**
+		 * @return array
+		 */
+
+		public function tabs( array $arguments=[] )
+		{
+
+			$tabs = [];
+			$classes = self::$factory->getAllClasses();
+
+			/**
+			 * @var BaseSoftware $class
+			 */
+			foreach ($classes as $key => $class)
+				$tabs[$key] = call_user_func_array( array( $class, "tab"), $arguments );
+
+			return ($tabs);
+		}
+
 		/**
 		 * @param $computerid
 		 *
 		 * @return array
-
+		 */
 
 		public function getAnonDownloads($computerid)
 		{
@@ -133,13 +153,7 @@
 
 			return $results;
 		}
-		 */
 
-		public function getAnonDownloads( $computerid )
-		{
-
-
-		}
 		/**
 		 * Returns true if this softwareid exists
 		 *

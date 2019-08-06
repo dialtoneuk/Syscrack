@@ -6,7 +6,7 @@
 	/**
 	 * Lewis Lancaster 2017
 	 *
-	 * Class Terminator
+	 * Class Uninstaller
 	 *
 	 * @package Framework\Syscrack\Game\Softwares
 	 */
@@ -15,10 +15,10 @@
 	use Framework\Syscrack\Game\Tool;
 
 	/**
-	 * Class Terminator
+	 * Class Uninstaller
 	 * @package Framework\Syscrack\Game\Softwares
 	 */
-	class Terminator extends BaseSoftware
+	class Uninstaller extends BaseSoftware
 	{
 
 		/**
@@ -31,9 +31,9 @@
 		{
 
 			return [
-				'uniquename' => 'terminator',
-				'extension' => '.lgout',
-				'type' => 'terminator',
+				'uniquename' => 'installer',
+				'extension' => '.msi',
+				'type' => 'installer',
 				'installable' => true,
 				'executable' => true,
 				'localexecuteonly' => true,
@@ -51,10 +51,10 @@
 		public function tool($userid = null, $sofwareid = null, $computerid = null): Tool
 		{
 
-			$tool = new Tool("Disconnect", "danger");
-			$tool->setAction('logout');
-			$tool->isConnected();
-			$tool->icon = "remove-circle";
+			$tool = new Tool("Uninstall", "success");
+			$tool->setAction("uninstall");
+			$tool->softwareAction();
+			$tool->localAllowed();
 
 			return ($tool);
 		}

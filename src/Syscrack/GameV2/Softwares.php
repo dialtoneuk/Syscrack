@@ -41,7 +41,6 @@
 			if( $base_filepath == "" )
 				$base_filepath = Application::globals()->SOFTWARE_FILEPATH;
 
-
 			if( $base_namespace == "" )
 				$base_namespace = Application::globals()->SOFTWARE_NAMESPACE;
 

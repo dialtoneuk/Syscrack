@@ -148,7 +148,8 @@
 				$this->render('operations/operations.market', ['ipaddress' => $data['ipaddress'],
 					'metadata' => self::$metadata->get($computer->computerid),
 					'items' => self::$market->getStock($computer->computerid),
-					'purchases' => self::$market->getPurchases($computer->computerid)], true);
+					'purchases' => self::$market->getPurchases($computer->computerid),
+					'computer' => self::$computer->getComputer( $computerid)], true);
 
 			return null;
 		}

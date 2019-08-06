@@ -263,6 +263,17 @@
 		}
 
 		/**
+		 *
+		 */
+
+		public function block()
+		{
+
+			$this->redirect( Application::globals()->CONTROLLER_INDEX_PAGE );
+			exit;
+		}
+
+		/**
 		 * Checks if the computer has this software by its name
 		 *
 		 * @param $softwarename

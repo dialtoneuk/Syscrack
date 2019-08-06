@@ -58,7 +58,7 @@
 		{
 
 			$this->information["render"] = [
-				"file" => $file,
+				"template" => $file,
 				"data" => $data,
 			];
 		}
