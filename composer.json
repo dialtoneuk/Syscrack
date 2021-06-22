@@ -22,7 +22,7 @@
       "facebook/graph-sdk": "*",
       "mashape/unirest-php": "3.*",
       "erusev/parsedown":"*",
-      "phpmailer/phpmailer": "~5.2",
+      "phpmailer/phpmailer": "~6.5",
       "phelium/recaptcha": "dev-master",
       "aws/aws-sdk-php":"*",
       "delight-im/file-upload":"*",
